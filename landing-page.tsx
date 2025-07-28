@@ -907,7 +907,7 @@ return (
           </p>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-4 max-w-6xl mx-auto">
+        <div className="grid gap-8 md:grid-cols-5 max-w-6xl mx-auto">
           <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
             <CardContent className="p-8 text-center">
               <div className="w-24 h-24 mx-auto mb-6 overflow-hidden rounded-full">
@@ -986,8 +986,8 @@ return (
                 <img src="/images/bender.jpg" alt="Bender"
                   className="w-full h-full object-cover" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Vibe Engineer</h3>
-              <p className="text-muted-foreground mb-4">Software Engineer</p>
+              <h3 className="text-xl font-semibold mb-2">Bender</h3>
+              <p className="text-muted-foreground mb-4">Vibe Engineer</p>
               <Link href="https://www.linkedin.com/in/dzianisv" target="_blank"
                 className="inline-flex items-center gap-2 text-sm text-emerald-600 hover:text-emerald-700 transition-colors">
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">

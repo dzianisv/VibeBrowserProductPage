@@ -10,6 +10,8 @@
 
 @layer base {
   :root {
+    --font-sans: '__GeistSans_fb8f2c', '__GeistSans_Fallback_fb8f2c';
+    --font-mono: '__GeistMono_f910ec', '__GeistMono_Fallback_f910ec';
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
     --card: 0 0% 100%;
