@@ -1022,33 +1022,33 @@ return (
               </AccordionTrigger>
               <AccordionContent>
                 <ul>
-                  <li>
+                  <li className="flex items-center gap-2">
                     <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
                     <span className="text-sm"> Runs locally — full access to your cookies, credentials, and
                       sessions.</span>
                   </li>
-                  <li>
+                  <li className="flex items-center gap-2">
                     <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
                     <span className="text-sm"> Supports Chrome extensions — even the ones cloud agents can’t run.</span>
                   </li>
-                  <li>
+                  <li className="flex items-center gap-2">
                     <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
                     <span className="text-sm"> Real-time translation — pages, videos, and audio.</span>
                   </li>
-                  <li>
+                  <li className="flex items-center gap-2">
                     <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
                     <span className="text-sm"> Smart context — ask, summarize, automate anything on any page.</span>
                   </li>
-                  <li>
+                  <li className="flex items-center gap-2">
                     <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
                     <span className="text-sm"> Automates real work — fills forms, replies in Slack, books
                       tickets.</span>
                   </li>
-                  <li>
+                  <li className="flex items-center gap-2">
                     <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
                     <span className="text-sm"> Works on mobile and desktop — your agent, always with you.</span>
                   </li>
-                  <li><span>Unlike cloud agents, Vibe is your browser — fully private, fully capable.</span></li>
+                  <li className="flex items-center gap-2"><span>Unlike cloud agents, Vibe is your browser — fully private, fully capable.</span></li>
                 </ul>
               </AccordionContent>
             </AccordionItem>
