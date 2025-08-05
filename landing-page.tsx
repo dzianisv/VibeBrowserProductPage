@@ -45,6 +45,7 @@ Target,
 Lightbulb,
 ChevronLeft,
 ChevronRight,
+Cloud,
 } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
@@ -148,16 +149,16 @@ export default function Component() {
           </Badge>
 
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-            Browse Smarter,
+            Control Your Browser
             <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent block">
-              Not Harder
+              With Natural Language
             </span>
           </h1>
 
           <p className="max-w-3xl text-lg text-muted-foreground md:text-xl leading-relaxed">
-            Vibe Browser handles the tedious work while you focus on what matters. Say goodbye to repetitive tasks
-            and hello to AI-powered browsing that understands natural language and automates complex web
-            interactions.
+            The first AI-native web browser that you control entirely by typing or talking. 
+            Simply tell Vibe what you want—book flights, fill forms, respond to messages—and 
+            watch as it navigates, clicks, and completes tasks across any website.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 mt-8">
@@ -262,6 +263,85 @@ export default function Component() {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    {/* Deployment Modes */}
+    <section className="w-full py-12 md:py-24 lg:py-32">
+      <div className="container px-4 md:px-6 mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl mb-4">
+            Two Ways to Experience Vibe
+          </h2>
+          <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
+            Choose how you want to run your AI browser agent
+          </p>
+        </div>
+
+        <div className="grid gap-8 md:grid-cols-2 max-w-5xl mx-auto">
+          {/* Embedded Mode */}
+          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
+            <CardContent className="p-8">
+              <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mb-6">
+                <Chrome className="h-6 w-6 text-white" />
+              </div>
+              <h3 className="text-2xl font-semibold mb-3">Embedded Mode</h3>
+              <p className="text-muted-foreground mb-6">
+                The agent lives inside the browser itself, giving you instant, low-latency control. 
+                Perfect for personal use with maximum privacy and speed.
+              </p>
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+                  <span className="text-sm">Zero-latency response</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+                  <span className="text-sm">Complete privacy - runs locally</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+                  <span className="text-sm">Works offline with local LLMs</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Operator Mode */}
+          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
+            <CardContent className="p-8">
+              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mb-6">
+                <Cloud className="h-6 w-6 text-white" />
+              </div>
+              <h3 className="text-2xl font-semibold mb-3">Operator Mode</h3>
+              <p className="text-muted-foreground mb-6">
+                Run the agent remotely in the cloud or on dedicated hardware. Turn any device 
+                into a chat-powered browser client.
+              </p>
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+                  <span className="text-sm">Access from any device</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+                  <span className="text-sm">24/7 background automation</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+                  <span className="text-sm">Scales to handle multiple tasks</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="text-center mt-12">
+          <p className="text-muted-foreground mb-4">
+            Vibe Browser is a Chromium fork augmented with a persistent "Agent Extension" that understands 
+            your instructions, navigates pages, and integrates with any web service.
+          </p>
         </div>
       </div>
     </section>
