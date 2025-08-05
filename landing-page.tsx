@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -41,15 +43,67 @@ ArrowRight,
 RefreshCw,
 Target,
 Lightbulb,
+ChevronLeft,
+ChevronRight,
 } from "lucide-react"
 import Link from "next/link"
+import { useState } from "react"
 
 export default function Component() {
-return (
-<div className="flex flex-col min-h-screen bg-gradient-to-br from-slate-50 to-white">
-  {/* Header */}
-  <header className="px-4 lg:px-6 h-16 flex items-center border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-    <div className="flex items-center justify-center">
+  const [currentSlide, setCurrentSlide] = useState(0)
+  
+  const screenshots = [
+    {
+      src: "/images/vibe-ai-configuration.png",
+      alt: "Vibe Browser AI Configuration showing multiple LLM providers including OpenAI, Anthropic Claude, and Google Gemini with API key management",
+      title: "Multi-LLM Configuration",
+      description: "Configure multiple AI providers with secure API key management"
+    },
+    {
+      src: "/images/vibe-chat-interface.png",
+      alt: "Vibe Browser ChatGPT-like AI interface with clean chat design and 'What is on your mind?' prompt",
+      title: "ChatGPT-like Interface",
+      description: "Modern conversational AI interface integrated into the browser"
+    },
+    {
+      src: "/images/vibe-flight-booking-analysis.png",
+      alt: "Vibe Browser AI Agent analyzing Google Flights page and providing intelligent recovery strategies",
+      title: "Intelligent Flight Booking",
+      description: "AI agent analyzes booking challenges and provides smart recovery strategies"
+    },
+    {
+      src: "/images/vibe-browser-demo-elements.webp",
+      alt: "LinkedIn page with all interactive HTML elements highlighted and indexed for AI navigation",
+      title: "Intelligent Element Detection",
+      description: "AI identifies and indexes all interactive elements for smart navigation"
+    },
+    {
+      src: "/images/vibe-browser-demo-linkedin-login.webp",
+      alt: "Vibe Browser automatically filling LinkedIn login form with provided credentials",
+      title: "Automatic Authentication",
+      description: "AI securely handles logins and authentication"
+    },
+    {
+      src: "/images/linkedin-automation-3.webp",
+      alt: "AI agent processing LinkedIn data through multiple iterations",
+      title: "Data Processing",
+      description: "Complex data extraction and formatting capabilities"
+    }
+  ]
+  
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % screenshots.length)
+  }
+  
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + screenshots.length) % screenshots.length)
+  }
+  
+  return (
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-slate-50 to-white">
+      {/* Header */}
+      <header className="px-4 lg:px-6 h-16 flex items-center border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
+        <div className="flex items-center justify-center">
       <div className="flex items-center gap-2">
         <div
           className="w-8 h-8 bg-gradient-to-br from-purple-600 to-pink-600 rounded-lg flex items-center justify-center">
@@ -134,193 +188,62 @@ return (
               </p>
             </div>
 
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {/* AI Configuration Interface */}
-              <div className="relative group lg:col-span-2">
-                <div
-                  className="relative overflow-hidden rounded-2xl shadow-2xl border border-slate-200 transition-transform group-hover:scale-[1.02]">
-                  <img src="/images/vibe-ai-configuration.png"
-                    alt="Vibe Browser AI Configuration showing multiple LLM providers including OpenAI, Anthropic Claude, and Google Gemini with API key management"
-                    className="w-full h-auto" />
-                  <div
-                    className="absolute inset-0 bg-gradient-to-t from-slate-900/20 to-transparent rounded-2xl pointer-events-none" />
-                </div>
-                <div className="mt-4 text-center">
-                  <h4 className="font-semibold text-lg mb-2">Multi-LLM Configuration</h4>
-                  <p className="text-sm text-muted-foreground">
-                    Configure multiple AI providers with secure API key management and model selection
-                  </p>
-                </div>
-              </div>
-
-              {/* ChatGPT-like Interface */}
-              <div className="relative group">
-                <div
-                  className="relative overflow-hidden rounded-2xl shadow-2xl border border-slate-200 transition-transform group-hover:scale-[1.02]">
-                  <img src="/images/vibe-chat-interface.png"
-                    alt="Vibe Browser ChatGPT-like AI interface with clean chat design and 'What is on your mind?' prompt"
-                    className="w-full h-auto" />
-                  <div
-                    className="absolute inset-0 bg-gradient-to-t from-slate-900/20 to-transparent rounded-2xl pointer-events-none" />
-                </div>
-                <div className="mt-4 text-center">
-                  <h4 className="font-semibold text-lg mb-2">ChatGPT-like Interface</h4>
-                  <p className="text-sm text-muted-foreground">
-                    Modern conversational AI interface integrated directly into the browser
-                  </p>
-                </div>
-              </div>
-
-              {/* Intelligent Flight Booking */}
-              <div className="relative group lg:col-span-2">
-                <div
-                  className="relative overflow-hidden rounded-2xl shadow-2xl border border-slate-200 transition-transform group-hover:scale-[1.02]">
-                  <img src="/images/vibe-flight-booking-analysis.png"
-                    alt="Vibe Browser AI Agent analyzing Google Flights page and providing intelligent recovery strategies for flight booking automation"
-                    className="w-full h-auto" />
-                  <div
-                    className="absolute inset-0 bg-gradient-to-t from-slate-900/20 to-transparent rounded-2xl pointer-events-none" />
-                </div>
-                <div className="mt-4 text-center">
-                  <h4 className="font-semibold text-lg mb-2">Intelligent Flight Booking</h4>
-                  <p className="text-sm text-muted-foreground">
-                    AI agent analyzes booking challenges and provides smart recovery strategies
-                  </p>
-                </div>
-              </div>
-
-              {/* Natural Language Flight Booking */}
-              <div className="relative group">
-                <div
-                  className="relative overflow-hidden rounded-2xl shadow-2xl border border-slate-200 transition-transform group-hover:scale-[1.02]">
-                  <img src="/images/vibe-natural-language-booking.png"
-                    alt="Vibe Browser processing natural language flight booking command 'Book flight sfo jfk aug1' with real-time AI agent execution"
-                    className="w-full h-auto" />
-                  <div
-                    className="absolute inset-0 bg-gradient-to-t from-slate-900/20 to-transparent rounded-2xl pointer-events-none" />
-                </div>
-                <div className="mt-4 text-center">
-                  <h4 className="font-semibold text-lg mb-2">Natural Language Booking</h4>
-                  <p className="text-sm text-muted-foreground">
-                    Simply type "Book flight sfo jfk aug1" and watch AI handle the entire process
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* LinkedIn Automation Showcase */}
-            <div className="mt-16 max-w-4xl mx-auto">
-              <div className="text-center mb-8">
-                <h3 className="text-2xl font-semibold mb-4">LinkedIn Automation in Action</h3>
-                <p className="text-muted-foreground text-lg">
-                  Watch Vibe Browser automatically log in, navigate, and extract venture capitalist contacts from
-                  your LinkedIn network
-                </p>
-              </div>
-
-              <div className="grid gap-4 md:grid-cols-2">
-                {/* Step 1: Initial Command */}
-                <div className="relative group">
-                  <div
-                    className="relative overflow-hidden rounded-2xl shadow-2xl border border-slate-200 transition-transform group-hover:scale-[1.02]">
-                    <img src="/images/linkedin-automation-4.png"
-                      alt="User requesting LinkedIn automation: 'go to linkedin, list all the vc in my network as csv' with AI agent beginning the multi-step process"
-                      className="w-full h-auto" />
-                    <div
-                      className="absolute inset-0 bg-gradient-to-t from-slate-900/20 to-transparent rounded-2xl pointer-events-none" />
-                    <div
-                      className="absolute top-4 left-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-                      Step 1
+            {/* Screenshot Carousel */}
+            <div className="relative">
+              <div className="overflow-hidden">
+                <div 
+                  className="flex transition-transform duration-500 ease-in-out"
+                  style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+                >
+                  {screenshots.map((screenshot, index) => (
+                    <div key={index} className="w-full flex-shrink-0 px-4">
+                      <div className="relative group">
+                        <div className="relative overflow-hidden rounded-2xl shadow-2xl border border-slate-200 transition-transform group-hover:scale-[1.02]">
+                          <img 
+                            src={screenshot.src} 
+                            alt={screenshot.alt}
+                            className="w-full h-auto" 
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/20 to-transparent rounded-2xl pointer-events-none" />
+                        </div>
+                        <div className="mt-4 text-center">
+                          <h4 className="font-semibold text-lg mb-2">{screenshot.title}</h4>
+                          <p className="text-sm text-muted-foreground">{screenshot.description}</p>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <div className="mt-4">
-                    <h4 className="font-semibold text-lg mb-2">Natural Language Command</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Simply tell Vibe: "Go to LinkedIn, list all the VCs in my network as CSV"
-                    </p>
-                  </div>
-                </div>
-
-                {/* Step 2: Auto Login */}
-                <div className="relative group">
-                  <div
-                    className="relative overflow-hidden rounded-2xl shadow-2xl border border-slate-200 transition-transform group-hover:scale-[1.02]">
-                    <img src="/images/linkedin-automation-2.png"
-                      alt="Vibe Browser automatically filling LinkedIn login form with provided credentials and preparing to sign in"
-                      className="w-full h-auto" />
-                    <div
-                      className="absolute inset-0 bg-gradient-to-t from-slate-900/20 to-transparent rounded-2xl pointer-events-none" />
-                    <div
-                      className="absolute top-4 left-4 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-                      Step 2
-                    </div>
-                  </div>
-                  <div className="mt-4">
-                    <h4 className="font-semibold text-lg mb-2">Automatic Login</h4>
-                    <p className="text-sm text-muted-foreground">
-                      AI securely fills credentials and handles authentication automatically
-                    </p>
-                  </div>
-                </div>
-
-                {/* Step 3: Network Analysis */}
-                <div className="relative group">
-                  <div
-                    className="relative overflow-hidden rounded-2xl shadow-2xl border border-slate-200 transition-transform group-hover:scale-[1.02]">
-                    <img src="/images/linkedin-automation-1.png"
-                      alt="AI agent analyzing LinkedIn feed and connections to identify venture capitalists, showing multi-step reasoning process"
-                      className="w-full h-auto" />
-                    <div
-                      className="absolute inset-0 bg-gradient-to-t from-slate-900/20 to-transparent rounded-2xl pointer-events-none" />
-                    <div
-                      className="absolute top-4 left-4 bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-                      Step 3
-                    </div>
-                  </div>
-                  <div className="mt-4">
-                    <h4 className="font-semibold text-lg mb-2">Intelligent Filtering</h4>
-                    <p className="text-sm text-muted-foreground">
-                      AI analyzes your network to identify and filter venture capitalists
-                    </p>
-                  </div>
-                </div>
-
-                {/* Step 4: Data Processing */}
-                <div className="relative group">
-                  <div
-                    className="relative overflow-hidden rounded-2xl shadow-2xl border border-slate-200 transition-transform group-hover:scale-[1.02]">
-                    <img src="/images/linkedin-automation-3.png"
-                      alt="AI agent processing LinkedIn data through multiple iterations, showing complex reasoning and data extraction in progress"
-                      className="w-full h-auto" />
-                    <div
-                      className="absolute inset-0 bg-gradient-to-t from-slate-900/20 to-transparent rounded-2xl pointer-events-none" />
-                    <div
-                      className="absolute top-4 left-4 bg-orange-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-                      Step 4
-                    </div>
-                  </div>
-                  <div className="mt-4">
-                    <h4 className="font-semibold text-lg mb-2">Data Extraction & CSV Export</h4>
-                    <p className="text-sm text-muted-foreground">
-                      AI processes connections and formats the data into a downloadable CSV file
-                    </p>
-                  </div>
+                  ))}
                 </div>
               </div>
-
-              <div className="flex items-center justify-center gap-8 mt-8 text-sm text-muted-foreground">
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span>Multi-Step Reasoning</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span>Secure Credential Handling</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span>Intelligent Data Processing</span>
-                </div>
+              
+              {/* Navigation Buttons */}
+              <button
+                onClick={prevSlide}
+                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white rounded-full p-2 shadow-lg hover:shadow-xl transition-shadow"
+                aria-label="Previous slide"
+              >
+                <ChevronLeft className="w-6 h-6" />
+              </button>
+              <button
+                onClick={nextSlide}
+                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white rounded-full p-2 shadow-lg hover:shadow-xl transition-shadow"
+                aria-label="Next slide"
+              >
+                <ChevronRight className="w-6 h-6" />
+              </button>
+              
+              {/* Slide Indicators */}
+              <div className="flex justify-center gap-2 mt-6">
+                {screenshots.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentSlide(index)}
+                    className={`w-2 h-2 rounded-full transition-colors ${
+                      currentSlide === index ? 'bg-purple-600' : 'bg-gray-300'
+                    }`}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
               </div>
             </div>
 
