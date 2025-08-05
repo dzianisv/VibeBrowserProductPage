@@ -54,6 +54,12 @@ export default function Component() {
   
   const screenshots = [
     {
+      src: "/images/linkedin-automation-3.webp",
+      alt: "AI agent processing LinkedIn data through multiple iterations",
+      title: "Workflow Automation",
+      description: "Automate any workflow, for example, answer to everyone on LinkedIn"
+    },
+    {
       src: "/images/vibe-ai-configuration.png",
       alt: "Vibe Browser AI Configuration showing multiple LLM providers including OpenAI, Anthropic Claude, and Google Gemini with API key management",
       title: "Multi-LLM Configuration",
@@ -82,12 +88,6 @@ export default function Component() {
       alt: "Vibe Browser automatically filling LinkedIn login form with provided credentials",
       title: "Automatic Authentication",
       description: "AI securely handles logins and authentication"
-    },
-    {
-      src: "/images/linkedin-automation-3.webp",
-      alt: "AI agent processing LinkedIn data through multiple iterations",
-      title: "Data Processing",
-      description: "Complex data extraction and formatting capabilities"
     }
   ]
   
@@ -272,8 +272,8 @@ export default function Component() {
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl mb-4">How Our AI Agent Works</h2>
           <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
-            Built on cutting-edge research from Google, our AI agent uses the ReAct pattern for intelligent
-            reasoning and action
+            Built on the LangGraph reflection pattern, our AI agent uses self-reflective reasoning
+            for intelligent task execution
           </p>
         </div>
 
@@ -286,17 +286,17 @@ export default function Component() {
             </Badge>
             <p className="text-muted-foreground">
               Based on{" "}
-              <Link href="https://arxiv.org/abs/2210.03629" target="_blank"
+              <Link href="https://langchain-ai.github.io/langgraph/tutorials/reflection/reflection/" target="_blank"
                 className="text-purple-600 hover:text-purple-700 underline">
-              ReAct: Synergizing Reasoning and Acting in Language Models
+              LangGraph Reflection Pattern
               </Link>{" "}
-              from Google Research and state-of-the-art AI agent architectures
+              for building reliable, self-correcting AI agents with robust error recovery
             </p>
           </div>
 
           {/* Core Loop Visualization */}
           <div className="bg-white rounded-2xl p-8 shadow-lg border mb-12">
-            <h3 className="text-xl font-semibold text-center mb-8">The Think-Act-Observe Loop</h3>
+            <h3 className="text-xl font-semibold text-center mb-8">The Plan-Execute-Reflect Loop</h3>
 
             <div className="flex flex-col md:flex-row items-center justify-between gap-8">
               {/* Step 1: Think */}
@@ -305,9 +305,9 @@ export default function Component() {
                   className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mb-4">
                   <Lightbulb className="h-8 w-8 text-white" />
                 </div>
-                <h4 className="font-semibold text-lg mb-2">Think</h4>
+                <h4 className="font-semibold text-lg mb-2">Plan</h4>
                 <p className="text-sm text-muted-foreground">
-                  AI reasons about the task, analyzes the current state, and plans the next action
+                  AI creates a comprehensive strategy, breaking down complex tasks into actionable steps
                 </p>
               </div>
 
@@ -319,9 +319,9 @@ export default function Component() {
                   className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mb-4">
                   <Target className="h-8 w-8 text-white" />
                 </div>
-                <h4 className="font-semibold text-lg mb-2">Act</h4>
+                <h4 className="font-semibold text-lg mb-2">Execute</h4>
                 <p className="text-sm text-muted-foreground">
-                  Executes actions using 28+ specialized tools for web interaction and automation
+                  Carries out the plan using 28+ specialized tools for web interaction and automation
                 </p>
               </div>
 
@@ -333,9 +333,9 @@ export default function Component() {
                   className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mb-4">
                   <Eye className="h-8 w-8 text-white" />
                 </div>
-                <h4 className="font-semibold text-lg mb-2">Observe</h4>
+                <h4 className="font-semibold text-lg mb-2">Reflect</h4>
                 <p className="text-sm text-muted-foreground">
-                  Analyzes results, learns from feedback, and adjusts strategy for the next iteration
+                  Self-evaluates performance, identifies improvements, and refines approach for better results
                 </p>
               </div>
 
@@ -357,9 +357,9 @@ export default function Component() {
           {/* Research Validation */}
           <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl p-8 border border-purple-100">
             <div className="text-center mb-6">
-              <h3 className="text-xl font-semibold mb-2">Research-Validated Design</h3>
+              <h3 className="text-xl font-semibold mb-2">LangGraph-Based Architecture</h3>
               <p className="text-muted-foreground">
-                Our implementation directly addresses key challenges identified in PhD-level AI agent research
+                Our implementation uses reflection patterns for building reliable, self-improving AI agents
               </p>
             </div>
 
@@ -367,7 +367,7 @@ export default function Component() {
               <div className="flex items-center gap-3">
                 <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
                 <span className="text-sm">
-                  <strong>ReAct Pattern:</strong> Thought-Action-Observation loop implementation
+                  <strong>Reflection Pattern:</strong> Self-evaluating agents with continuous improvement
                 </span>
               </div>
               <div className="flex items-center gap-3">
