@@ -5,6 +5,10 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { WaitlistDialog, ComingSoonDialog } from "./components/waitlist-dialog"
+import { CredentialManagement } from "./components/credential-management"
+import { AIReasoningEngine } from "./components/ai-reasoning-engine"
+import { ChatGPTInterface } from "./components/chatgpt-interface"
+import { AIFirstHomepage } from "./components/ai-first-homepage"
 import {
 Chrome,
 Zap,
@@ -25,9 +29,7 @@ ShoppingCart,
 Calendar,
 Search,
 Globe,
-Briefcase,
 MapPin,
-Coffee,
 Camera,
 Code,
 MousePointer,
@@ -52,6 +54,7 @@ import { useState } from "react"
 
 export default function Component() {
   const [currentSlide, setCurrentSlide] = useState(0)
+  const [activeDemo, setActiveDemo] = useState<'homepage' | 'chat' | 'reasoning' | 'credentials' | null>(null)
   
   const screenshots = [
     {
@@ -272,52 +275,63 @@ export default function Component() {
       <div className="container px-4 md:px-6 mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl mb-4">
-            Two Ways to Experience Vibe
+            Three Ways to Experience Vibe
           </h2>
           <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
-            Choose how you want to run your AI browser agent
+            Choose the deployment mode that fits your needs - from full browser to lightweight extension
           </p>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-2 max-w-5xl mx-auto">
-          {/* Embedded Mode */}
-          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
-            <CardContent className="p-8">
+        <div className="grid gap-8 md:grid-cols-3 max-w-6xl mx-auto">
+          {/* VibeBrowser - Standalone */}
+          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow relative">
+            <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+              <Badge className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-3 py-1">
+                Most Powerful
+              </Badge>
+            </div>
+            <CardContent className="p-8 pt-10">
               <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mb-6">
                 <Chrome className="h-6 w-6 text-white" />
               </div>
-              <h3 className="text-2xl font-semibold mb-3">Embedded Mode</h3>
+              <h3 className="text-2xl font-semibold mb-3">VibeBrowser</h3>
               <p className="text-muted-foreground mb-6">
-                The agent lives inside the browser itself, giving you instant, low-latency control. 
-                Perfect for personal use with maximum privacy and speed.
+                Full standalone browser with AI deeply integrated. Download and run locally for maximum control, privacy, and capabilities.
               </p>
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
                   <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                  <span className="text-sm">Zero-latency response</span>
+                  <span className="text-sm">Complete browser replacement</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                  <span className="text-sm">Complete privacy - runs locally</span>
+                  <span className="text-sm">Full access to all features</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
                   <span className="text-sm">Works offline with local LLMs</span>
                 </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+                  <span className="text-sm">Maximum privacy & security</span>
+                </div>
+              </div>
+              <div className="mt-6 pt-6 border-t">
+                <p className="text-sm font-medium mb-2">Best for:</p>
+                <p className="text-sm text-muted-foreground">Power users who want full control and all features</p>
               </div>
             </CardContent>
           </Card>
 
-          {/* Operator Mode */}
+          {/* VibeAgent Cloud */}
           <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
             <CardContent className="p-8">
               <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mb-6">
                 <Cloud className="h-6 w-6 text-white" />
               </div>
-              <h3 className="text-2xl font-semibold mb-3">Operator Mode</h3>
+              <h3 className="text-2xl font-semibold mb-3">VibeAgent Cloud</h3>
               <p className="text-muted-foreground mb-6">
-                Run the agent remotely in the cloud or on dedicated hardware. Turn any device 
-                into a chat-powered browser client.
+                Runs in the cloud like OpenAI Agent. Access from anywhere, no installation required. Perfect for automation and background tasks.
               </p>
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
@@ -330,8 +344,51 @@ export default function Component() {
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                  <span className="text-sm">Scales to handle multiple tasks</span>
+                  <span className="text-sm">No local resources needed</span>
                 </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+                  <span className="text-sm">Scales to multiple tasks</span>
+                </div>
+              </div>
+              <div className="mt-6 pt-6 border-t">
+                <p className="text-sm font-medium mb-2">Best for:</p>
+                <p className="text-sm text-muted-foreground">Teams and users who need always-on automation</p>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Extension */}
+          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
+            <CardContent className="p-8">
+              <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center mb-6">
+                <Puzzle className="h-6 w-6 text-white" />
+              </div>
+              <h3 className="text-2xl font-semibold mb-3">Extension</h3>
+              <p className="text-muted-foreground mb-6">
+                Lightweight browser extension that adds AI capabilities to your existing browser. Quick to install with essential features.
+              </p>
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+                  <span className="text-sm">Works with Chrome/Edge</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+                  <span className="text-sm">Easy one-click install</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+                  <span className="text-sm">Core AI features included</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+                  <span className="text-sm">Minimal resource usage</span>
+                </div>
+              </div>
+              <div className="mt-6 pt-6 border-t">
+                <p className="text-sm font-medium mb-2">Best for:</p>
+                <p className="text-sm text-muted-foreground">Casual users who want to try AI browsing features</p>
               </div>
             </CardContent>
           </Card>
@@ -339,8 +396,7 @@ export default function Component() {
 
         <div className="text-center mt-12">
           <p className="text-muted-foreground mb-4">
-            Vibe Browser is a Chromium fork augmented with a persistent "Agent Extension" that understands 
-            your instructions, navigates pages, and integrates with any web service.
+            All modes are powered by the same AI engine - choose based on your needs for control, convenience, and capabilities
           </p>
         </div>
       </div>
@@ -569,6 +625,71 @@ export default function Component() {
                     </div>
                   </CardContent>
                 </Card>
+
+                <Card className="border-green-200 bg-green-50">
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-3">
+                      <Key className="w-5 h-5 text-green-600" />
+                      <div>
+                        <h4 className="font-medium">Credential Management</h4>
+                        <p className="text-sm text-muted-foreground">Secure password & payment storage</p>
+                      </div>
+                      <CheckCircle className="w-4 h-4 text-green-600 ml-auto" />
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-green-200 bg-green-50">
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-3">
+                      <Brain className="w-5 h-5 text-green-600" />
+                      <div>
+                        <h4 className="font-medium">AI Reasoning Engine</h4>
+                        <p className="text-sm text-muted-foreground">LangGraph-based decision making</p>
+                      </div>
+                      <CheckCircle className="w-4 h-4 text-green-600 ml-auto" />
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-green-200 bg-green-50">
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-3">
+                      <MessageSquare className="w-5 h-5 text-green-600" />
+                      <div>
+                        <h4 className="font-medium">ChatGPT-like Interface</h4>
+                        <p className="text-sm text-muted-foreground">Modern conversational UI/UX</p>
+                      </div>
+                      <CheckCircle className="w-4 h-4 text-green-600 ml-auto" />
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-green-200 bg-green-50">
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-3">
+                      <Home className="w-5 h-5 text-green-600" />
+                      <div>
+                        <h4 className="font-medium">AI-First Homepage</h4>
+                        <p className="text-sm text-muted-foreground">AI agent as browser homepage</p>
+                      </div>
+                      <CheckCircle className="w-4 h-4 text-green-600 ml-auto" />
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-green-200 bg-green-50">
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-3">
+                      <Search className="w-5 h-5 text-green-600" />
+                      <div>
+                        <h4 className="font-medium">Tavily Search Integration</h4>
+                        <p className="text-sm text-muted-foreground">Agentic AI-powered web search</p>
+                      </div>
+                      <CheckCircle className="w-4 h-4 text-green-600 ml-auto" />
+                    </div>
+                  </CardContent>
+                </Card>
               </div>
             </div>
 
@@ -583,10 +704,10 @@ export default function Component() {
                 <Card className="border-blue-200 bg-blue-50">
                   <CardContent className="p-4">
                     <div className="flex items-center gap-3">
-                      <Key className="w-5 h-5 text-blue-600" />
+                      <Plane className="w-5 h-5 text-blue-600" />
                       <div>
-                        <h4 className="font-medium">Credential Management</h4>
-                        <p className="text-sm text-muted-foreground">Secure password & payment storage</p>
+                        <h4 className="font-medium">End-to-End Flight Booking</h4>
+                        <p className="text-sm text-muted-foreground">Complete flight search & booking</p>
                       </div>
                       <div className="w-4 h-4 border-2 border-blue-600 rounded ml-auto" />
                     </div>
@@ -596,10 +717,49 @@ export default function Component() {
                 <Card className="border-blue-200 bg-blue-50">
                   <CardContent className="p-4">
                     <div className="flex items-center gap-3">
-                      <Brain className="w-5 h-5 text-blue-600" />
+                      <Home className="w-5 h-5 text-blue-600" />
                       <div>
-                        <h4 className="font-medium">AI Reasoning Engine</h4>
-                        <p className="text-sm text-muted-foreground">Advanced decision-making capabilities</p>
+                        <h4 className="font-medium">Airbnb Booking Agent</h4>
+                        <p className="text-sm text-muted-foreground">Automated accommodation booking</p>
+                      </div>
+                      <div className="w-4 h-4 border-2 border-blue-600 rounded ml-auto" />
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-blue-200 bg-blue-50">
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-3">
+                      <Globe className="w-5 h-5 text-blue-600" />
+                      <div>
+                        <h4 className="font-medium">LinkedIn Automation</h4>
+                        <p className="text-sm text-muted-foreground">Professional networking automation</p>
+                      </div>
+                      <div className="w-4 h-4 border-2 border-blue-600 rounded ml-auto" />
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-blue-200 bg-blue-50">
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-3">
+                      <Puzzle className="w-5 h-5 text-blue-600" />
+                      <div>
+                        <h4 className="font-medium">Chromium Extension</h4>
+                        <p className="text-sm text-muted-foreground">Lightweight browser add-on</p>
+                      </div>
+                      <div className="w-4 h-4 border-2 border-blue-600 rounded ml-auto" />
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-blue-200 bg-blue-50">
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-3">
+                      <Cloud className="w-5 h-5 text-blue-600" />
+                      <div>
+                        <h4 className="font-medium">VibeAgent Cloud</h4>
+                        <p className="text-sm text-muted-foreground">Cloud-based automation service</p>
                       </div>
                       <div className="w-4 h-4 border-2 border-blue-600 rounded ml-auto" />
                     </div>
@@ -613,19 +773,6 @@ export default function Component() {
                       <div>
                         <h4 className="font-medium">Memory System</h4>
                         <p className="text-sm text-muted-foreground">Persistent context and learning</p>
-                      </div>
-                      <div className="w-4 h-4 border-2 border-blue-600 rounded ml-auto" />
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="border-blue-200 bg-blue-50">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-3">
-                      <ListTodo className="w-5 h-5 text-blue-600" />
-                      <div>
-                        <h4 className="font-medium">Planning Tools</h4>
-                        <p className="text-sm text-muted-foreground">Todo and task management</p>
                       </div>
                       <div className="w-4 h-4 border-2 border-blue-600 rounded ml-auto" />
                     </div>
@@ -645,53 +792,10 @@ export default function Component() {
                 <Card className="border-purple-200 bg-purple-50">
                   <CardContent className="p-4">
                     <div className="flex items-center gap-3">
-                      <Plane className="w-5 h-5 text-purple-600" />
+                      <ListTodo className="w-5 h-5 text-purple-600" />
                       <div>
-                        <h4 className="font-medium">End-to-End Flight Booking</h4>
-                        <p className="text-sm text-muted-foreground">
-                          Complete flight search, comparison, and booking automation
-                        </p>
-                      </div>
-                      <div className="w-4 h-4 border-2 border-purple-600 rounded ml-auto" />
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="border-purple-200 bg-purple-50">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-3">
-                      <Home className="w-5 h-5 text-purple-600" />
-                      <div>
-                        <h4 className="font-medium">Airbnb Booking Agent</h4>
-                        <p className="text-sm text-muted-foreground">Automated accommodation search and booking</p>
-                      </div>
-                      <div className="w-4 h-4 border-2 border-purple-600 rounded ml-auto" />
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="border-purple-200 bg-purple-50">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-3">
-                      <MessageSquare className="w-5 h-5 text-purple-600" />
-                      <div>
-                        <h4 className="font-medium">ChatGPT-like Interface</h4>
-                        <p className="text-sm text-muted-foreground">Modern conversational UI/UX redesign</p>
-                      </div>
-                      <div className="w-4 h-4 border-2 border-purple-600 rounded ml-auto" />
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="border-purple-200 bg-purple-50">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-3">
-                      <Chrome className="w-5 h-5 text-purple-600" />
-                      <div>
-                        <h4 className="font-medium">AI-First Homepage</h4>
-                        <p className="text-sm text-muted-foreground">
-                          Replace traditional homepage with AI agent interface
-                        </p>
+                        <h4 className="font-medium">Planning Tools</h4>
+                        <p className="text-sm text-muted-foreground">Advanced todo and task management</p>
                       </div>
                       <div className="w-4 h-4 border-2 border-purple-600 rounded ml-auto" />
                     </div>
@@ -742,102 +846,87 @@ export default function Component() {
       </div>
     </section>
 
-    {/* Use Cases by User Type */}
-    <section className="w-full py-12 md:py-24 lg:py-32 bg-slate-50">
+    {/* Live Feature Demos */}
+    <section id="demo" className="w-full py-12 md:py-24 lg:py-32 bg-slate-50">
       <div className="container px-4 md:px-6 mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl mb-4">
-            Perfect for Every Professional
-          </h2>
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl mb-4">Experience Vibe Features</h2>
           <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
-            Whether you're a busy executive, frequent traveler, or productivity enthusiast, Vibe adapts to your
-            workflow
+            Explore our implemented features with interactive demos
           </p>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-3 max-w-6xl mx-auto">
-          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
-            <CardContent className="p-8">
-              <div
-                className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-xl flex items-center justify-center mb-6">
-                <Briefcase className="h-6 w-6 text-white" />
-              </div>
-              <h3 className="text-xl font-semibold mb-3">Business Executives</h3>
-              <p className="text-muted-foreground mb-4">
-                Automate meeting scheduling, expense reporting, and travel bookings. Focus on strategy, not admin
-                work.
-              </p>
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Calendar className="w-4 h-4 text-emerald-500" />
-                  Schedule meetings across time zones
-                </div>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <CreditCard className="w-4 h-4 text-emerald-500" />
-                  Automated expense tracking
-                </div>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <FileText className="w-4 h-4 text-emerald-500" />
-                  Instant document summaries
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-wrap justify-center gap-4 mb-8">
+            <Button
+              onClick={() => setActiveDemo('homepage')}
+              variant={activeDemo === 'homepage' ? 'default' : 'outline'}
+              className={activeDemo === 'homepage' ? 'bg-purple-600 hover:bg-purple-700' : ''}
+            >
+              <Home className="w-4 h-4 mr-2" />
+              AI Homepage
+            </Button>
+            <Button
+              onClick={() => setActiveDemo('chat')}
+              variant={activeDemo === 'chat' ? 'default' : 'outline'}
+              className={activeDemo === 'chat' ? 'bg-purple-600 hover:bg-purple-700' : ''}
+            >
+              <MessageSquare className="w-4 h-4 mr-2" />
+              Chat Interface
+            </Button>
+            <Button
+              onClick={() => setActiveDemo('reasoning')}
+              variant={activeDemo === 'reasoning' ? 'default' : 'outline'}
+              className={activeDemo === 'reasoning' ? 'bg-purple-600 hover:bg-purple-700' : ''}
+            >
+              <Brain className="w-4 h-4 mr-2" />
+              AI Reasoning
+            </Button>
+            <Button
+              onClick={() => setActiveDemo('credentials')}
+              variant={activeDemo === 'credentials' ? 'default' : 'outline'}
+              className={activeDemo === 'credentials' ? 'bg-purple-600 hover:bg-purple-700' : ''}
+            >
+              <Key className="w-4 h-4 mr-2" />
+              Credentials
+            </Button>
+          </div>
 
-          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
-            <CardContent className="p-8">
-              <div
-                className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mb-6">
-                <MapPin className="h-6 w-6 text-white" />
-              </div>
-              <h3 className="text-xl font-semibold mb-3">Frequent Travelers</h3>
-              <p className="text-muted-foreground mb-4">
-                Book flights, hotels, and rentals with a single command. Compare prices and manage itineraries
-                effortlessly.
-              </p>
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Plane className="w-4 h-4 text-purple-500" />
-                  Multi-airline price comparison
-                </div>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Clock className="w-4 h-4 text-purple-500" />
-                  Real-time flight updates
-                </div>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Shield className="w-4 h-4 text-purple-500" />
-                  Secure payment processing
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          {activeDemo === 'homepage' && (
+            <div className="rounded-2xl overflow-hidden shadow-2xl border">
+              <AIFirstHomepage />
+            </div>
+          )}
 
-          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
-            <CardContent className="p-8">
-              <div
-                className="w-12 h-12 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl flex items-center justify-center mb-6">
-                <Coffee className="h-6 w-6 text-white" />
-              </div>
-              <h3 className="text-xl font-semibold mb-3">Productivity Enthusiasts</h3>
-              <p className="text-muted-foreground mb-4">
-                Streamline research, automate routine purchases, and enhance your daily digital workflows.
-              </p>
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Search className="w-4 h-4 text-orange-500" />
-                  Intelligent research assistance
-                </div>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <ShoppingCart className="w-4 h-4 text-orange-500" />
-                  Automated routine orders
-                </div>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Zap className="w-4 h-4 text-orange-500" />
-                  Custom workflow automation
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          {activeDemo === 'chat' && (
+            <div className="rounded-2xl overflow-hidden shadow-2xl border bg-white">
+              <ChatGPTInterface />
+            </div>
+          )}
+
+          {activeDemo === 'reasoning' && (
+            <div className="rounded-2xl overflow-hidden shadow-2xl border bg-white">
+              <AIReasoningEngine />
+            </div>
+          )}
+
+          {activeDemo === 'credentials' && (
+            <div className="rounded-2xl overflow-hidden shadow-2xl border bg-white">
+              <CredentialManagement />
+            </div>
+          )}
+
+          {!activeDemo && (
+            <Card className="border-0 shadow-lg">
+              <CardContent className="p-12 text-center">
+                <Sparkles className="w-12 h-12 mx-auto mb-4 text-purple-600" />
+                <h3 className="text-xl font-semibold mb-2">Select a Demo</h3>
+                <p className="text-muted-foreground">
+                  Click on any button above to explore our implemented features
+                </p>
+              </CardContent>
+            </Card>
+          )}
         </div>
       </div>
     </section>
@@ -898,7 +987,6 @@ export default function Component() {
     </section>
 
     {/* Security & Privacy */}
-
 
     {/* Team Section */}
     <section className="w-full py-12 md:py-24 lg:py-32">
@@ -982,8 +1070,6 @@ export default function Component() {
               </Link>
             </CardContent>
           </Card>
-
-          
         </div>
       </div>
     </section>
