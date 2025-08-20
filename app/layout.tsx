@@ -4,8 +4,8 @@ import { GeistMono } from 'geist/font/mono'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
+  title: 'Vibe - AI-Native Browser humanity needs',
+  description: 'The first AI-native web browser that you control entirely by typing or talking. Simply tell Vibe what you want and watch as it navigates, clicks, and completes tasks across any website.',
   generator: 'v0.dev',
 }
 
