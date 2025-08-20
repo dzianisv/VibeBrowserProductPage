@@ -4,12 +4,15 @@ import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { getWaitlistSignups, getWaitlistStats } from "../../../actions/waitlist"
+import { getWaitlistSignups, getWaitlistStats, exportWaitlistToCSV } from "../../../actions/waitlist-supabase"
 import { Users, Calendar, TrendingUp, Download } from "lucide-react"
 
 interface Signup {
-  id: number
+  id: string
   email: string
+  tier?: string
+  source?: string
+  confirmed?: boolean
   created_at: string
 }
 
@@ -17,6 +20,7 @@ interface Stats {
   total: number
   today: number
   week: number
+  tierBreakdown?: Record<string, number>
 }
 
 export default function WaitlistAdmin() {
@@ -47,21 +51,17 @@ export default function WaitlistAdmin() {
     }
   }
 
-  const exportToCSV = () => {
-    const csvContent = [
-      ["Email", "Signup Date"],
-      ...signups.map((signup) => [signup.email, new Date(signup.created_at).toLocaleDateString()]),
-    ]
-      .map((row) => row.join(","))
-      .join("\n")
-
-    const blob = new Blob([csvContent], { type: "text/csv" })
-    const url = window.URL.createObjectURL(blob)
-    const a = document.createElement("a")
-    a.href = url
-    a.download = `vibe-browser-waitlist-${new Date().toISOString().split("T")[0]}.csv`
-    a.click()
-    window.URL.revokeObjectURL(url)
+  const exportToCSV = async () => {
+    const result = await exportWaitlistToCSV()
+    if (result.success && result.data) {
+      const blob = new Blob([result.data], { type: "text/csv" })
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement("a")
+      a.href = url
+      a.download = result.filename || `vibe-browser-waitlist-${new Date().toISOString().split("T")[0]}.csv`
+      a.click()
+      window.URL.revokeObjectURL(url)
+    }
   }
 
   if (loading) {
@@ -85,7 +85,7 @@ export default function WaitlistAdmin() {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Signups</CardTitle>
@@ -115,6 +115,25 @@ export default function WaitlistAdmin() {
             <div className="text-2xl font-bold">{stats.week}</div>
           </CardContent>
         </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Tier Breakdown</CardTitle>
+            <Badge className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-sm space-y-1">
+              <div className="flex justify-between">
+                <span>Free:</span>
+                <span className="font-bold">{stats.tierBreakdown?.free || 0}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Pro:</span>
+                <span className="font-bold">{stats.tierBreakdown?.pro || 0}</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Signups List */}
@@ -141,7 +160,16 @@ export default function WaitlistAdmin() {
                       </p>
                     </div>
                   </div>
-                  <Badge variant="secondary">Waitlist</Badge>
+                  <div className="flex items-center gap-2">
+                    {signup.tier && (
+                      <Badge variant={signup.tier === 'pro' ? 'default' : 'secondary'}>
+                        {signup.tier}
+                      </Badge>
+                    )}
+                    {signup.confirmed && (
+                      <Badge variant="outline">Confirmed</Badge>
+                    )}
+                  </div>
                 </div>
               ))
             )}
