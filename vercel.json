@@ -1,0 +1,20 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "env": {
+    "SUPABASE_PROJECT_URL": {
+      "description": "Your Supabase project URL (e.g., https://xxxxx.supabase.co)",
+      "required": true
+    },
+    "SUPABASE_API_KEY": {
+      "description": "Your Supabase anon/public API key",
+      "required": true
+    },
+    "RESEND_API_KEY": {
+      "description": "Optional: Resend API key for email notifications",
+      "required": false
+    }
+  }
+}
