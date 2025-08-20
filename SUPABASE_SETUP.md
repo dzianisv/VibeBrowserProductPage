@@ -18,18 +18,18 @@
 4. **Configure Environment Variables**
    - Copy `.env.local.example` to `.env.local`
    - Add your Supabase credentials:
-     ```
+     \`\`\`
      SUPABASE_PROJECT_URL=https://your-project.supabase.co
      SUPABASE_API_KEY=your-anon-key
-     ```
+     \`\`\`
 
 5. **Optional: Configure Email Notifications**
    - If you want email notifications when someone joins the waitlist
    - Sign up for [Resend](https://resend.com)
    - Add your Resend API key to `.env.local`:
-     ```
+     \`\`\`
      RESEND_API_KEY=your-resend-api-key
-     ```
+     \`\`\`
 
 ## Table Structure
 
