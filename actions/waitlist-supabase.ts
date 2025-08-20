@@ -2,25 +2,37 @@
 
 import { createClient } from '@supabase/supabase-js'
 
-// Initialize Supabase client
-const supabase = createClient(
-  process.env.SUPABASE_PROJECT_URL!,
-  process.env.SUPABASE_API_KEY!
-)
-
-// Initialize Resend only if API key is available
-let resend: any = null
-try {
-  if (process.env.RESEND_API_KEY) {
-    const { Resend } = await import("resend")
-    resend = new Resend(process.env.RESEND_API_KEY)
+// Helper function to get Supabase client
+function getSupabaseClient() {
+  const url = process.env.SUPABASE_PROJECT_URL
+  const key = process.env.SUPABASE_API_KEY
+  
+  if (!url || !key) {
+    throw new Error('Supabase environment variables are not configured. Please check SUPABASE_PROJECT_URL and SUPABASE_API_KEY in your .env.local file.')
   }
-} catch (error) {
-  console.log("Resend not configured - email notifications disabled")
+  
+  return createClient(url, key)
+}
+
+// Helper function to get Resend client
+async function getResendClient() {
+  if (!process.env.RESEND_API_KEY) {
+    return null
+  }
+  
+  try {
+    const { Resend } = await import("resend")
+    return new Resend(process.env.RESEND_API_KEY)
+  } catch (error) {
+    console.log("Resend not configured - email notifications disabled")
+    return null
+  }
 }
 
 export async function joinWaitlist(email: string, tier: string = 'free') {
   try {
+    const supabase = getSupabaseClient()
+    
     // Check if email already exists
     const { data: existingUser, error: checkError } = await supabase
       .from('vibebrowser_waitlist')
@@ -66,7 +78,8 @@ export async function joinWaitlist(email: string, tier: string = 'free') {
     }
 
     // Send notification email to info@vibebrowser.app (only if Resend is configured)
-    if (resend && process.env.RESEND_API_KEY) {
+    const resend = await getResendClient()
+    if (resend) {
       try {
         await resend.emails.send({
           from: "Vibe Browser <noreply@vibebrowser.app>",
@@ -94,8 +107,6 @@ export async function joinWaitlist(email: string, tier: string = 'free') {
         console.error("Failed to send notification email:", emailError)
         // Don't fail the signup if email fails
       }
-    } else {
-      console.log("Email notifications disabled - RESEND_API_KEY not configured")
     }
 
     return { success: true, message: "Successfully joined the waitlist!" }
@@ -108,6 +119,7 @@ export async function joinWaitlist(email: string, tier: string = 'free') {
 // Admin function to get all waitlist signups
 export async function getWaitlistSignups() {
   try {
+    const supabase = getSupabaseClient()
     const { data: signups, error } = await supabase
       .from('vibebrowser_waitlist')
       .select('id, email, tier, source, metadata, confirmed, created_at')
@@ -128,6 +140,8 @@ export async function getWaitlistSignups() {
 // Admin function to get waitlist stats
 export async function getWaitlistStats() {
   try {
+    const supabase = getSupabaseClient()
+    
     // Get total signups
     const { count: totalCount, error: totalError } = await supabase
       .from('vibebrowser_waitlist')
@@ -187,6 +201,7 @@ export async function getWaitlistStats() {
 // Export signups to CSV
 export async function exportWaitlistToCSV() {
   try {
+    const supabase = getSupabaseClient()
     const { data: signups, error } = await supabase
       .from('vibebrowser_waitlist')
       .select('email, tier, source, confirmed, created_at')
