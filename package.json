@@ -56,7 +56,6 @@
     "next-themes": "latest",
     "path": "latest",
     "pg": "latest",
-    "pg-native": "latest",
     "react": "^19",
     "react-day-picker": "latest",
     "react-dom": "^19",
