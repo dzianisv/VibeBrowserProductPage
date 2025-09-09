@@ -9,6 +9,7 @@ import { CredentialManagement } from "./components/credential-management"
 import { AIReasoningEngine } from "./components/ai-reasoning-engine"
 import { ChatGPTInterface } from "./components/chatgpt-interface"
 import { AIFirstHomepage } from "./components/ai-first-homepage"
+import { HorizontalRoadmap } from "./components/horizontal-roadmap"
 import {
 Chrome,
 Zap,
@@ -104,21 +105,18 @@ export default function Component() {
   }
   
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-br from-slate-50 to-white">
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-slate-50 to-white overflow-x-hidden">
       {/* Header */}
-      <header className="px-4 lg:px-6 h-16 flex items-center border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="flex items-center justify-center">
-      <div className="flex items-center gap-2">
-        <div
-          className="w-8 h-8 bg-gradient-to-br from-purple-600 to-pink-600 rounded-lg flex items-center justify-center">
-          <Chrome className="h-5 w-5 text-white" />
+      <header className="w-full px-4 lg:px-6 h-16 flex items-center justify-between border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-pink-600 rounded-lg flex items-center justify-center">
+            <Chrome className="h-5 w-5 text-white" />
+          </div>
+          <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+            Vibe Browser
+          </span>
         </div>
-        <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-          Vibe Browser
-        </span>
-      </div>
-    </div>
-    <nav className="ml-auto flex gap-4 sm:gap-6">
+    <nav className="flex gap-4 sm:gap-6">
       <Link href="#features" className="text-sm font-medium hover:text-purple-600 transition-colors">
       Features
       </Link>
@@ -143,7 +141,7 @@ export default function Component() {
   <main className="flex-1">
     {/* Hero Section */}
     <section className="w-full py-12 md:py-24 lg:py-32">
-      <div className="container px-4 md:px-6 mx-auto">
+      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
         <div className="flex flex-col items-center gap-6 text-center max-w-5xl mx-auto">
           <Badge variant="secondary"
             className="px-4 py-2 text-sm font-medium bg-purple-100 text-purple-700 border-purple-200">
@@ -272,7 +270,7 @@ export default function Component() {
 
     {/* Deployment Modes */}
     <section className="w-full py-12 md:py-24 lg:py-32">
-      <div className="container px-4 md:px-6 mx-auto">
+      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl mb-4">
             Three Ways to Experience Vibe
@@ -404,7 +402,7 @@ export default function Component() {
 
     {/* How It Works - AI Agent Architecture */}
     <section id="how-it-works" className="w-full py-12 md:py-24 lg:py-32 bg-slate-50">
-      <div className="container px-4 md:px-6 mx-auto">
+      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl mb-4">How Our AI Agent Works</h2>
           <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
@@ -543,7 +541,7 @@ export default function Component() {
 
     {/* Development Roadmap */}
     <section id="roadmap" className="w-full py-12 md:py-24 lg:py-32">
-      <div className="container px-4 md:px-6 mx-auto">
+      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl mb-4">Development Roadmap</h2>
           <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
@@ -551,286 +549,9 @@ export default function Component() {
           </p>
         </div>
 
-        <div className="max-w-4xl mx-auto">
-          <div className="space-y-6">
-            {/* Completed Features */}
-            <div className="space-y-4">
-              <h3 className="text-xl font-semibold text-green-600 flex items-center gap-2">
-                <CheckCircle className="w-5 h-5" />
-                Completed Features
-              </h3>
-
-              <div className="grid gap-4 md:grid-cols-2">
-                <Card className="border-green-200 bg-green-50">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-3">
-                      <Camera className="w-5 h-5 text-green-600" />
-                      <div>
-                        <h4 className="font-medium">Screenshot Capture</h4>
-                        <p className="text-sm text-muted-foreground">Take and analyze webpage screenshots</p>
-                      </div>
-                      <CheckCircle className="w-4 h-4 text-green-600 ml-auto" />
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="border-green-200 bg-green-50">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-3">
-                      <Code className="w-5 h-5 text-green-600" />
-                      <div>
-                        <h4 className="font-medium">DOM Manipulation</h4>
-                        <p className="text-sm text-muted-foreground">Direct access to page structure</p>
-                      </div>
-                      <CheckCircle className="w-4 h-4 text-green-600 ml-auto" />
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="border-green-200 bg-green-50">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-3">
-                      <FileText className="w-5 h-5 text-green-600" />
-                      <div>
-                        <h4 className="font-medium">Markdown Conversion</h4>
-                        <p className="text-sm text-muted-foreground">Convert page content to markdown</p>
-                      </div>
-                      <CheckCircle className="w-4 h-4 text-green-600 ml-auto" />
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="border-green-200 bg-green-50">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-3">
-                      <MousePointer className="w-5 h-5 text-green-600" />
-                      <div>
-                        <h4 className="font-medium">Click Actions</h4>
-                        <p className="text-sm text-muted-foreground">Automated clicking and navigation</p>
-                      </div>
-                      <CheckCircle className="w-4 h-4 text-green-600 ml-auto" />
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="border-green-200 bg-green-50">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-3">
-                      <Edit className="w-5 h-5 text-green-600" />
-                      <div>
-                        <h4 className="font-medium">Form Filling</h4>
-                        <p className="text-sm text-muted-foreground">Intelligent form field completion</p>
-                      </div>
-                      <CheckCircle className="w-4 h-4 text-green-600 ml-auto" />
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="border-green-200 bg-green-50">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-3">
-                      <Key className="w-5 h-5 text-green-600" />
-                      <div>
-                        <h4 className="font-medium">Credential Management</h4>
-                        <p className="text-sm text-muted-foreground">Secure password & payment storage</p>
-                      </div>
-                      <CheckCircle className="w-4 h-4 text-green-600 ml-auto" />
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="border-green-200 bg-green-50">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-3">
-                      <Brain className="w-5 h-5 text-green-600" />
-                      <div>
-                        <h4 className="font-medium">AI Reasoning Engine</h4>
-                        <p className="text-sm text-muted-foreground">LangGraph-based decision making</p>
-                      </div>
-                      <CheckCircle className="w-4 h-4 text-green-600 ml-auto" />
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="border-green-200 bg-green-50">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-3">
-                      <MessageSquare className="w-5 h-5 text-green-600" />
-                      <div>
-                        <h4 className="font-medium">ChatGPT-like Interface</h4>
-                        <p className="text-sm text-muted-foreground">Modern conversational UI/UX</p>
-                      </div>
-                      <CheckCircle className="w-4 h-4 text-green-600 ml-auto" />
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="border-green-200 bg-green-50">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-3">
-                      <Home className="w-5 h-5 text-green-600" />
-                      <div>
-                        <h4 className="font-medium">AI-First Homepage</h4>
-                        <p className="text-sm text-muted-foreground">AI agent as browser homepage</p>
-                      </div>
-                      <CheckCircle className="w-4 h-4 text-green-600 ml-auto" />
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="border-green-200 bg-green-50">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-3">
-                      <Search className="w-5 h-5 text-green-600" />
-                      <div>
-                        <h4 className="font-medium">Tavily Search Integration</h4>
-                        <p className="text-sm text-muted-foreground">Agentic AI-powered web search</p>
-                      </div>
-                      <CheckCircle className="w-4 h-4 text-green-600 ml-auto" />
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-
-            {/* In Development */}
-            <div className="space-y-4">
-              <h3 className="text-xl font-semibold text-blue-600 flex items-center gap-2">
-                <Clock className="w-5 h-5" />
-                In Development
-              </h3>
-
-              <div className="grid gap-4 md:grid-cols-2">
-                <Card className="border-blue-200 bg-blue-50">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-3">
-                      <Plane className="w-5 h-5 text-blue-600" />
-                      <div>
-                        <h4 className="font-medium">End-to-End Flight Booking</h4>
-                        <p className="text-sm text-muted-foreground">Complete flight search & booking</p>
-                      </div>
-                      <div className="w-4 h-4 border-2 border-blue-600 rounded ml-auto" />
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="border-blue-200 bg-blue-50">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-3">
-                      <Home className="w-5 h-5 text-blue-600" />
-                      <div>
-                        <h4 className="font-medium">Airbnb Booking Agent</h4>
-                        <p className="text-sm text-muted-foreground">Automated accommodation booking</p>
-                      </div>
-                      <div className="w-4 h-4 border-2 border-blue-600 rounded ml-auto" />
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="border-blue-200 bg-blue-50">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-3">
-                      <Globe className="w-5 h-5 text-blue-600" />
-                      <div>
-                        <h4 className="font-medium">LinkedIn Automation</h4>
-                        <p className="text-sm text-muted-foreground">Professional networking automation</p>
-                      </div>
-                      <div className="w-4 h-4 border-2 border-blue-600 rounded ml-auto" />
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="border-blue-200 bg-blue-50">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-3">
-                      <Puzzle className="w-5 h-5 text-blue-600" />
-                      <div>
-                        <h4 className="font-medium">Chromium Extension</h4>
-                        <p className="text-sm text-muted-foreground">Lightweight browser add-on</p>
-                      </div>
-                      <div className="w-4 h-4 border-2 border-blue-600 rounded ml-auto" />
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="border-blue-200 bg-blue-50">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-3">
-                      <Cloud className="w-5 h-5 text-blue-600" />
-                      <div>
-                        <h4 className="font-medium">VibeAgent Cloud</h4>
-                        <p className="text-sm text-muted-foreground">Cloud-based automation service</p>
-                      </div>
-                      <div className="w-4 h-4 border-2 border-blue-600 rounded ml-auto" />
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="border-blue-200 bg-blue-50">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-3">
-                      <Database className="w-5 h-5 text-blue-600" />
-                      <div>
-                        <h4 className="font-medium">Memory System</h4>
-                        <p className="text-sm text-muted-foreground">Persistent context and learning</p>
-                      </div>
-                      <div className="w-4 h-4 border-2 border-blue-600 rounded ml-auto" />
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-
-            {/* Planned Features */}
-            <div className="space-y-4">
-              <h3 className="text-xl font-semibold text-purple-600 flex items-center gap-2">
-                <Sparkles className="w-5 h-5" />
-                Planned Features
-              </h3>
-
-              <div className="grid gap-4 md:grid-cols-1">
-                <Card className="border-purple-200 bg-purple-50">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-3">
-                      <ListTodo className="w-5 h-5 text-purple-600" />
-                      <div>
-                        <h4 className="font-medium">Planning Tools</h4>
-                        <p className="text-sm text-muted-foreground">Advanced todo and task management</p>
-                      </div>
-                      <div className="w-4 h-4 border-2 border-purple-600 rounded ml-auto" />
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="border-purple-200 bg-purple-50">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-3">
-                      <Puzzle className="w-5 h-5 text-purple-600" />
-                      <div>
-                        <h4 className="font-medium">MCP Server Support</h4>
-                        <p className="text-sm text-muted-foreground">Model Context Protocol integration</p>
-                      </div>
-                      <div className="w-4 h-4 border-2 border-purple-600 rounded ml-auto" />
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="border-purple-200 bg-purple-50">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-3">
-                      <Store className="w-5 h-5 text-purple-600" />
-                      <div>
-                        <h4 className="font-medium">MCP Marketplace</h4>
-                        <p className="text-sm text-muted-foreground">Extensible plugin ecosystem</p>
-                      </div>
-                      <div className="w-4 h-4 border-2 border-purple-600 rounded ml-auto" />
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-          </div>
-
+        <div className="w-full max-w-7xl mx-auto px-4">
+          <HorizontalRoadmap />
+          
           <div className="mt-12 text-center">
             <p className="text-muted-foreground mb-4">
               Want to stay updated on our progress? Join our waitlist for development updates.
@@ -848,7 +569,7 @@ export default function Component() {
 
     {/* Live Feature Demos */}
     <section id="demo" className="w-full py-12 md:py-24 lg:py-32 bg-slate-50">
-      <div className="container px-4 md:px-6 mx-auto">
+      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl mb-4">Experience Vibe Features</h2>
           <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
@@ -933,7 +654,7 @@ export default function Component() {
 
     {/* AI Features */}
     <section id="features" className="w-full py-12 md:py-24 lg:py-32">
-      <div className="container px-4 md:px-6 mx-auto">
+      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl mb-4">Built-in AI Assistant</h2>
           <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
@@ -990,7 +711,7 @@ export default function Component() {
 
     {/* Team Section */}
     <section className="w-full py-12 md:py-24 lg:py-32">
-      <div className="container px-4 md:px-6 mx-auto">
+      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl mb-4">Meet the Team</h2>
           <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
@@ -1076,7 +797,7 @@ export default function Component() {
 
     {/* FAQ Section */}
     <section className="w-full py-12 md:py-24 lg:py-32 bg-slate-50">
-      <div className="container px-4 md:px-6 mx-auto">
+      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl mb-4">
             Frequently Asked Questions
@@ -1174,7 +895,7 @@ export default function Component() {
 
     {/* CTA Section */}
     <section id="pricing" className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-r from-purple-600 to-pink-600">
-      <div className="container px-4 md:px-6 mx-auto">
+      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
         <div className="flex flex-col items-center gap-6 text-center text-white">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
             Be Among the First to Browse Smarter

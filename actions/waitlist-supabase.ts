@@ -14,19 +14,10 @@ function getSupabaseClient() {
   return createClient(url, key)
 }
 
-// Helper function to get Resend client
+// Helper function to get Resend client (disabled for now)
 async function getResendClient() {
-  if (!process.env.RESEND_API_KEY) {
-    return null
-  }
-  
-  try {
-    const { Resend } = await import("resend")
-    return new Resend(process.env.RESEND_API_KEY)
-  } catch (error) {
-    console.log("Resend not configured - email notifications disabled")
-    return null
-  }
+  // Temporarily disabled due to build issues
+  return null
 }
 
 export async function joinWaitlist(email: string, tier: string = 'free') {
