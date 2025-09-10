@@ -6,7 +6,10 @@
     "build": "next build",
     "dev": "next dev",
     "lint": "next lint",
-    "start": "next start"
+    "start": "next start",
+    "waitlist": "node scripts/get-waitlist.js",
+    "waitlist:stats": "node scripts/get-waitlist.js --stats",
+    "waitlist:csv": "node scripts/get-waitlist.js --csv"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
