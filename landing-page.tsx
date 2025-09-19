@@ -109,9 +109,7 @@ export default function Component() {
       {/* Header */}
       <header className="w-full px-4 lg:px-6 h-16 flex items-center justify-between border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-pink-600 rounded-lg flex items-center justify-center">
-            <Chrome className="h-5 w-5 text-white" />
-          </div>
+          <img src="/vibebrowser-logo.png" alt="Vibe Browser" className="w-10 h-10 object-contain" />
           <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
             Vibe Browser
           </span>
@@ -709,8 +707,8 @@ export default function Component() {
 
     {/* Security & Privacy */}
 
-    {/* Team Section */}
-    <section className="w-full py-12 md:py-24 lg:py-32">
+    {/* Team Section - temporarily commented out */}
+    {/* <section className="w-full py-12 md:py-24 lg:py-32">
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl mb-4">Meet the Team</h2>
@@ -793,7 +791,7 @@ export default function Component() {
           </Card>
         </div>
       </div>
-    </section>
+    </section> */}
 
     {/* FAQ Section */}
     <section className="w-full py-12 md:py-24 lg:py-32 bg-slate-50">
