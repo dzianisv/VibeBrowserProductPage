@@ -1,14 +1,11 @@
 "use client"
 
+import React from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { WaitlistDialog, ComingSoonDialog } from "./components/waitlist-dialog"
-import { CredentialManagement } from "./components/credential-management"
-import { AIReasoningEngine } from "./components/ai-reasoning-engine"
-import { ChatGPTInterface } from "./components/chatgpt-interface"
-import { AIFirstHomepage } from "./components/ai-first-homepage"
+import { WaitlistDialog } from "./components/waitlist-dialog"
 import { HorizontalRoadmap } from "./components/horizontal-roadmap"
 import {
 Chrome,
@@ -48,60 +45,84 @@ Target,
 Lightbulb,
 ChevronLeft,
 ChevronRight,
+BookOpen,
+TrendingUp,
+Moon,
+Palette,
 Cloud,
 } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
 
 export default function Component() {
-  const [currentSlide, setCurrentSlide] = useState(0)
-  const [activeDemo, setActiveDemo] = useState<'homepage' | 'chat' | 'reasoning' | 'credentials' | null>(null)
-  
-  const screenshots = [
+  const [currentDemo, setCurrentDemo] = useState(0)
+
+  const demos = [
     {
-      src: "/images/linkedin-automation-3.webp",
-      alt: "AI agent processing LinkedIn data through multiple iterations",
-      title: "Workflow Automation",
-      description: "Automate any workflow, for example, answer to everyone on LinkedIn"
+      id: 'morningstar',
+      title: 'Article Summarization Demo',
+      subtitle: 'AI-powered content analysis and summarization',
+      description: 'Watch our AI agent analyze and summarize a Morningstar article about "33 Undervalued Stocks to Buy in Q3 2025"',
+      task: {
+        label: 'Content Analysis Task:',
+        description: 'Summarize the key insights from Morningstar\'s article on undervalued stocks, extracting investment opportunities and market analysis.'
+      },
+      badges: ['Article Analysis', 'Content Extraction', 'Smart Summarization', 'Financial Insights'],
+      videoSrc: '/morningstar-summarization-demo',
+      icon: BookOpen,
+      iconColor: 'text-blue-600',
+      highlights: [
+        { icon: TrendingUp, title: 'Market Analysis', description: 'Extract key market trends and opportunities' },
+        { icon: FileText, title: 'Smart Summarization', description: 'Condense complex financial articles instantly' },
+        { icon: Target, title: 'Key Insights', description: 'Identify the most important investment ideas' }
+      ]
     },
     {
-      src: "/images/vibe-ai-configuration.png",
-      alt: "Vibe Browser AI Configuration showing multiple LLM providers including OpenAI, Anthropic Claude, and Google Gemini with API key management",
-      title: "Multi-LLM Configuration",
-      description: "Configure multiple AI providers with secure API key management"
+      id: 'nightmode',
+      title: 'Night Mode Browser Demo',
+      subtitle: 'Enhanced dark theme for comfortable nighttime browsing',
+      description: 'Experience our intelligent night mode that automatically adapts websites for optimal viewing in low-light conditions',
+      task: {
+        label: 'Feature Demonstration:',
+        description: 'Showcase the browser\'s night mode capabilities including automatic color inversion, blue light reduction, and contrast optimization for better readability in dark environments.'
+      },
+      badges: ['Dark Theme', 'Eye Protection', 'Smart Adaptation', 'UI Enhancement'],
+      videoSrc: '/night-mode-demo',
+      icon: Moon,
+      iconColor: 'text-indigo-600',
+      highlights: [
+        { icon: Palette, title: 'Smart Color Inversion', description: 'Intelligently inverts colors while preserving images' },
+        { icon: Eye, title: 'Eye Protection', description: 'Reduces blue light for comfortable night browsing' },
+        { icon: Sparkles, title: 'Adaptive Contrast', description: 'Automatically optimizes contrast for readability' }
+      ]
     },
     {
-      src: "/images/vibe-chat-interface.png",
-      alt: "Vibe Browser ChatGPT-like AI interface with clean chat design and 'What is on your mind?' prompt",
-      title: "ChatGPT-like Interface",
-      description: "Modern conversational AI interface integrated into the browser"
-    },
-    {
-      src: "/images/vibe-flight-booking-analysis.png",
-      alt: "Vibe Browser AI Agent analyzing Google Flights page and providing intelligent recovery strategies",
-      title: "Intelligent Flight Booking",
-      description: "AI agent analyzes booking challenges and provides smart recovery strategies"
-    },
-    {
-      src: "/images/vibe-browser-demo-elements.webp",
-      alt: "LinkedIn page with all interactive HTML elements highlighted and indexed for AI navigation",
-      title: "Intelligent Element Detection",
-      description: "AI identifies and indexes all interactive elements for smart navigation"
-    },
-    {
-      src: "/images/vibe-browser-demo-linkedin-login.webp",
-      alt: "Vibe Browser automatically filling LinkedIn login form with provided credentials",
-      title: "Automatic Authentication",
-      description: "AI securely handles logins and authentication"
+      id: 'defi',
+      title: 'DeFi Investment Research Demo',
+      subtitle: 'Complex financial analysis with risk assessment',
+      description: 'Our AI agent (powered by OpenAI GPT-5-mini) performs complex DeFi investment research',
+      task: {
+        label: 'Research Assignment:',
+        description: 'Assess risks of different pools on app.morpho.org/ethereum/earn. Pick one pool where I can invest USDC with less risk, with supply APY around 10%. I need pools with reliable collateral like ETH, BTC, USDC, USDe, USDT or wrappers. No shitcoins or risky assets.'
+      },
+      badges: ['DeFi Analysis', 'Risk Assessment', 'Real-time Research', 'GPT-5-mini Powered'],
+      videoSrc: '/vibe-extension-demo',
+      icon: Shield,
+      iconColor: 'text-green-600',
+      highlights: [
+        { icon: Search, title: 'Intelligent Navigation', description: 'Navigate complex DeFi interfaces autonomously' },
+        { icon: Shield, title: 'Risk Analysis', description: 'Evaluate collateral types and pool safety metrics' },
+        { icon: Target, title: 'Decision Making', description: 'Filter and select optimal investment options' }
+      ]
     }
   ]
-  
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % screenshots.length)
+
+  const nextDemo = () => {
+    setCurrentDemo((prev) => (prev + 1) % demos.length)
   }
-  
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + screenshots.length) % screenshots.length)
+
+  const prevDemo = () => {
+    setCurrentDemo((prev) => (prev - 1 + demos.length) % demos.length)
   }
   
   return (
@@ -168,99 +189,166 @@ export default function Component() {
                 Join Waitlist
               </Button>
             </WaitlistDialog>
-            <ComingSoonDialog>
-              <Button variant="outline" size="lg"
-                className="px-8 py-3 text-lg border-purple-200 hover:bg-purple-50 bg-transparent">
-                <Play className="w-5 h-5 mr-2" />
-                See It In Action
-              </Button>
-            </ComingSoonDialog>
+            <Button
+              variant="outline"
+              size="lg"
+              className="px-8 py-3 text-lg border-purple-200 hover:bg-purple-50 bg-transparent"
+              onClick={() => {
+                document.getElementById('demo')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
+              <Play className="w-5 h-5 mr-2" />
+              See It In Action
+            </Button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* Demo Carousel Section */}
+    <section id="demo" className="w-full py-12 md:py-24 lg:py-32 bg-slate-50">
+      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl mb-4">See Vibe Extension in Action</h2>
+          <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
+            Explore real-world demos showcasing AI-powered browsing capabilities
+          </p>
+        </div>
+
+        <div className="max-w-5xl mx-auto">
+          {/* Carousel Navigation Tabs */}
+          <div className="flex flex-col sm:flex-row justify-center gap-2 mb-8">
+            {demos.map((demo, index) => (
+              <button
+                key={demo.id}
+                onClick={() => setCurrentDemo(index)}
+                className={`px-4 py-2 rounded-lg transition-all ${
+                  currentDemo === index
+                    ? 'bg-purple-600 text-white shadow-lg'
+                    : 'bg-white text-gray-600 hover:bg-gray-100 border'
+                }`}
+              >
+                <span className="text-sm font-medium">{demo.title}</span>
+              </button>
+            ))}
           </div>
 
-          {/* Interactive Demo */}
-
-          {/* Browser Screenshot Demo */}
-          <div className="mt-12 max-w-6xl w-full">
-            <div className="text-center mb-8">
-              <h3 className="text-2xl font-semibold mb-4">See Vibe Browser in Action</h3>
-              <p className="text-muted-foreground text-lg">
-                Real screenshots showing AI-powered browsing, intelligent automation, and seamless integration
-              </p>
-            </div>
-
-            {/* Screenshot Carousel */}
-            <div className="relative">
-              <div className="overflow-hidden">
-                <div 
-                  className="flex transition-transform duration-500 ease-in-out"
-                  style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-                >
-                  {screenshots.map((screenshot, index) => (
-                    <div key={index} className="w-full flex-shrink-0 px-4">
-                      <div className="relative group">
-                        <div className="relative overflow-hidden rounded-2xl shadow-2xl border border-slate-200 transition-transform group-hover:scale-[1.02]">
-                          <img 
-                            src={screenshot.src} 
-                            alt={screenshot.alt}
-                            className="w-full h-auto" 
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/20 to-transparent rounded-2xl pointer-events-none" />
-                        </div>
-                        <div className="mt-4 text-center">
-                          <h4 className="font-semibold text-lg mb-2">{screenshot.title}</h4>
-                          <p className="text-sm text-muted-foreground">{screenshot.description}</p>
-                        </div>
-                      </div>
+          {/* Demo Content */}
+          <div className="relative">
+            {/* Demo Context Card */}
+            <Card className="border-0 shadow-lg mb-8 bg-gradient-to-r from-purple-50 to-pink-50">
+              <CardContent className="p-6">
+                <div className="flex items-start gap-4">
+                  <div className={`w-12 h-12 bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl flex items-center justify-center flex-shrink-0`}>
+                    {React.createElement(demos[currentDemo].icon, { className: "h-6 w-6 text-white" })}
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-lg mb-2">{demos[currentDemo].title}</h3>
+                    <p className="text-muted-foreground mb-3">
+                      {demos[currentDemo].description}
+                    </p>
+                    <div className="bg-white/80 rounded-lg p-4 border border-purple-200">
+                      <p className="font-medium mb-2">{demos[currentDemo].task.label}</p>
+                      <p className="text-sm text-muted-foreground italic">
+                        "{demos[currentDemo].task.description}"
+                      </p>
                     </div>
-                  ))}
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {demos[currentDemo].badges.map((badge, index) => (
+                        <Badge key={index} variant="secondary">{badge}</Badge>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Video Player with Navigation Arrows */}
+            <div className="relative">
+              <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl border bg-slate-900">
+                <div className="relative" style={{ paddingBottom: '56.25%' }}>
+                  <video
+                    key={demos[currentDemo].id}
+                    className="absolute inset-0 w-full h-full object-contain"
+                    controls
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    poster="/images/vibe-browser-demo-elements.webp"
+                  >
+                    <source src={`${demos[currentDemo].videoSrc}.webm`} type="video/webm" />
+                    <source src={`${demos[currentDemo].videoSrc}.mp4`} type="video/mp4" />
+                    Your browser does not support the video tag. Please try a different browser.
+                  </video>
                 </div>
               </div>
-              
-              {/* Navigation Buttons */}
+
+              {/* Navigation Arrows */}
               <button
-                onClick={prevSlide}
-                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white rounded-full p-2 shadow-lg hover:shadow-xl transition-shadow"
-                aria-label="Previous slide"
+                onClick={prevDemo}
+                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white rounded-full p-2 shadow-lg hover:shadow-xl transition-shadow z-10"
+                aria-label="Previous demo"
               >
                 <ChevronLeft className="w-6 h-6" />
               </button>
               <button
-                onClick={nextSlide}
-                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white rounded-full p-2 shadow-lg hover:shadow-xl transition-shadow"
-                aria-label="Next slide"
+                onClick={nextDemo}
+                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white rounded-full p-2 shadow-lg hover:shadow-xl transition-shadow z-10"
+                aria-label="Next demo"
               >
                 <ChevronRight className="w-6 h-6" />
               </button>
-              
-              {/* Slide Indicators */}
-              <div className="flex justify-center gap-2 mt-6">
-                {screenshots.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentSlide(index)}
-                    className={`w-2 h-2 rounded-full transition-colors ${
-                      currentSlide === index ? 'bg-purple-600' : 'bg-gray-300'
-                    }`}
-                    aria-label={`Go to slide ${index + 1}`}
-                  />
-                ))}
-              </div>
             </div>
 
-            <div className="flex items-center justify-center gap-8 mt-8 text-sm text-muted-foreground">
-              <div className="flex items-center gap-2">
-                <CheckCircle className="w-4 h-4 text-green-500" />
-                <span>Real-time AI Analysis</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle className="w-4 h-4 text-green-500" />
-                <span>Multi-Provider Support</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle className="w-4 h-4 text-green-500" />
-                <span>Intelligent Automation</span>
-              </div>
+            {/* What the Demo Shows */}
+            <div className="mt-8 grid gap-4 md:grid-cols-3">
+              {demos[currentDemo].highlights.map((highlight, index) => (
+                <Card key={index} className="border-0 shadow-md">
+                  <CardContent className="p-4">
+                    {React.createElement(highlight.icon, {
+                      className: `h-5 w-5 mb-2 ${
+                        index === 0 ? 'text-purple-600' :
+                        index === 1 ? 'text-green-600' :
+                        'text-blue-600'
+                      }`
+                    })}
+                    <h4 className="font-semibold text-sm mb-1">{highlight.title}</h4>
+                    <p className="text-xs text-muted-foreground">
+                      {highlight.description}
+                    </p>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
+
+            {/* Demo Indicators */}
+            <div className="flex justify-center gap-2 mt-8">
+              {demos.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentDemo(index)}
+                  className={`w-2 h-2 rounded-full transition-colors ${
+                    currentDemo === index ? 'bg-purple-600' : 'bg-gray-300'
+                  }`}
+                  aria-label={`Go to demo ${index + 1}`}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-8 text-center">
+            <p className="text-muted-foreground mb-6">
+              Experience the future of autonomous web browsing with advanced AI reasoning and real-time decision making
+            </p>
+            <WaitlistDialog>
+              <Button
+                size="lg"
+                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
+              >
+                <Play className="mr-2 h-4 w-4" /> Get Early Access
+              </Button>
+            </WaitlistDialog>
           </div>
         </div>
       </div>
@@ -561,91 +649,6 @@ export default function Component() {
               </Button>
             </WaitlistDialog>
           </div>
-        </div>
-      </div>
-    </section>
-
-    {/* Live Feature Demos */}
-    <section id="demo" className="w-full py-12 md:py-24 lg:py-32 bg-slate-50">
-      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl mb-4">Experience Vibe Features</h2>
-          <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
-            Explore our implemented features with interactive demos
-          </p>
-        </div>
-
-        <div className="max-w-6xl mx-auto">
-          <div className="flex flex-wrap justify-center gap-4 mb-8">
-            <Button
-              onClick={() => setActiveDemo('homepage')}
-              variant={activeDemo === 'homepage' ? 'default' : 'outline'}
-              className={activeDemo === 'homepage' ? 'bg-purple-600 hover:bg-purple-700' : ''}
-            >
-              <Home className="w-4 h-4 mr-2" />
-              AI Homepage
-            </Button>
-            <Button
-              onClick={() => setActiveDemo('chat')}
-              variant={activeDemo === 'chat' ? 'default' : 'outline'}
-              className={activeDemo === 'chat' ? 'bg-purple-600 hover:bg-purple-700' : ''}
-            >
-              <MessageSquare className="w-4 h-4 mr-2" />
-              Chat Interface
-            </Button>
-            <Button
-              onClick={() => setActiveDemo('reasoning')}
-              variant={activeDemo === 'reasoning' ? 'default' : 'outline'}
-              className={activeDemo === 'reasoning' ? 'bg-purple-600 hover:bg-purple-700' : ''}
-            >
-              <Brain className="w-4 h-4 mr-2" />
-              AI Reasoning
-            </Button>
-            <Button
-              onClick={() => setActiveDemo('credentials')}
-              variant={activeDemo === 'credentials' ? 'default' : 'outline'}
-              className={activeDemo === 'credentials' ? 'bg-purple-600 hover:bg-purple-700' : ''}
-            >
-              <Key className="w-4 h-4 mr-2" />
-              Credentials
-            </Button>
-          </div>
-
-          {activeDemo === 'homepage' && (
-            <div className="rounded-2xl overflow-hidden shadow-2xl border">
-              <AIFirstHomepage />
-            </div>
-          )}
-
-          {activeDemo === 'chat' && (
-            <div className="rounded-2xl overflow-hidden shadow-2xl border bg-white">
-              <ChatGPTInterface />
-            </div>
-          )}
-
-          {activeDemo === 'reasoning' && (
-            <div className="rounded-2xl overflow-hidden shadow-2xl border bg-white">
-              <AIReasoningEngine />
-            </div>
-          )}
-
-          {activeDemo === 'credentials' && (
-            <div className="rounded-2xl overflow-hidden shadow-2xl border bg-white">
-              <CredentialManagement />
-            </div>
-          )}
-
-          {!activeDemo && (
-            <Card className="border-0 shadow-lg">
-              <CardContent className="p-12 text-center">
-                <Sparkles className="w-12 h-12 mx-auto mb-4 text-purple-600" />
-                <h3 className="text-xl font-semibold mb-2">Select a Demo</h3>
-                <p className="text-muted-foreground">
-                  Click on any button above to explore our implemented features
-                </p>
-              </CardContent>
-            </Card>
-          )}
         </div>
       </div>
     </section>
