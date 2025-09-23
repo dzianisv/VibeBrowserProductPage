@@ -59,6 +59,25 @@ export default function Component() {
 
   const demos = [
     {
+      id: 'forbes-stock-pick',
+      title: 'Stock Investment Research Demo',
+      subtitle: 'Multi-page control and step-by-step reasoning',
+      description: 'Watch our AI agent perform comprehensive stock research across multiple pages',
+      task: {
+        label: 'Research Task:',
+        description: 'I ran a Vibe Browser research task: "Pick the best stock for me to invest in today." This demonstrates multi-page control and step-by-step reasoning — all using an affordable OpenAI model (GPT-5 Mini). Surprised by how well it reasons!'
+      },
+      badges: ['Stock Analysis', 'Multi-page Control', 'Step-by-step Reasoning', 'GPT-5-mini Powered'],
+      videoSrc: '/forbes-pick-a-stock-demo',
+      icon: TrendingUp,
+      iconColor: 'text-blue-600',
+      highlights: [
+        { icon: TrendingUp, title: 'Market Research', description: 'Analyze multiple sources for investment insights' },
+        { icon: Brain, title: 'Step-by-step Reasoning', description: 'Logical decision-making process' },
+        { icon: Target, title: 'Optimal Selection', description: 'Identify the best investment opportunity' }
+      ]
+    },
+    {
       id: 'morningstar',
       title: 'Article Summarization Demo',
       subtitle: 'AI-powered content analysis and summarization',
@@ -113,25 +132,6 @@ export default function Component() {
         { icon: Search, title: 'Intelligent Navigation', description: 'Navigate complex DeFi interfaces autonomously' },
         { icon: Shield, title: 'Risk Analysis', description: 'Evaluate collateral types and pool safety metrics' },
         { icon: Target, title: 'Decision Making', description: 'Filter and select optimal investment options' }
-      ]
-    },
-    {
-      id: 'forbes-stock-pick',
-      title: 'Stock Investment Research Demo',
-      subtitle: 'Multi-page control and step-by-step reasoning',
-      description: 'Watch our AI agent perform comprehensive stock research across multiple pages',
-      task: {
-        label: 'Research Task:',
-        description: 'I ran a Vibe Browser research task: "Pick the best stock for me to invest in today." This demonstrates multi-page control and step-by-step reasoning — all using an affordable OpenAI model (GPT-5 Mini). Surprised by how well it reasons!'
-      },
-      badges: ['Stock Analysis', 'Multi-page Control', 'Step-by-step Reasoning', 'GPT-5-mini Powered'],
-      videoSrc: '/forbes-pick-a-stock-demo',
-      icon: TrendingUp,
-      iconColor: 'text-blue-600',
-      highlights: [
-        { icon: TrendingUp, title: 'Market Research', description: 'Analyze multiple sources for investment insights' },
-        { icon: Brain, title: 'Step-by-step Reasoning', description: 'Logical decision-making process' },
-        { icon: Target, title: 'Optimal Selection', description: 'Identify the best investment opportunity' }
       ]
     }
   ]
