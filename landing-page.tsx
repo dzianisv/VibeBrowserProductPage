@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useRef, useEffect } from "react"
+import React from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -56,8 +56,6 @@ import { useState } from "react"
 
 export default function Component() {
   const [currentDemo, setCurrentDemo] = useState(0)
-  const [videoError, setVideoError] = useState(false)
-  const videoRef = useRef<HTMLVideoElement>(null)
 
   const demos = [
     {
@@ -138,33 +136,12 @@ export default function Component() {
     }
   ]
 
-  useEffect(() => {
-    // Reset video error state when demo changes
-    setVideoError(false)
-
-    // Load and play the new video
-    if (videoRef.current) {
-      videoRef.current.load()
-      // Small delay to ensure video is loaded before playing
-      setTimeout(() => {
-        videoRef.current?.play().catch(err => {
-          console.log('Video autoplay failed:', err)
-        })
-      }, 100)
-    }
-  }, [currentDemo])
-
   const nextDemo = () => {
     setCurrentDemo((prev) => (prev + 1) % demos.length)
   }
 
   const prevDemo = () => {
     setCurrentDemo((prev) => (prev - 1 + demos.length) % demos.length)
-  }
-
-  const handleVideoError = (e: any) => {
-    console.error('Video error:', e)
-    setVideoError(true)
   }
   
   return (
@@ -242,29 +219,19 @@ export default function Component() {
             <div className="relative">
               <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl border bg-slate-900">
                 <div className="relative" style={{ paddingBottom: '56.25%' }}>
-                  {videoError ? (
-                    <div className="absolute inset-0 flex items-center justify-center bg-slate-800">
-                      <p className="text-white text-center p-4">
-                        Unable to load video. Please try refreshing the page.
-                      </p>
-                    </div>
-                  ) : (
-                    <video
-                      ref={videoRef}
-                      key={`video-${currentDemo}`}
-                      className="absolute inset-0 w-full h-full object-contain"
-                      controls
-                      loop
-                      muted
-                      playsInline
-                      onError={handleVideoError}
-                      poster="/images/vibe-browser-demo-elements.webp"
-                    >
-                      <source src={`${demos[currentDemo].videoSrc}.webm`} type="video/webm" />
-                      <source src={`${demos[currentDemo].videoSrc}.mp4`} type="video/mp4" />
-                      Your browser does not support the video tag. Please try a different browser.
-                    </video>
-                  )}
+                  <video
+                    key={currentDemo}
+                    className="absolute inset-0 w-full h-full object-contain"
+                    controls
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                  >
+                    <source src={`${demos[currentDemo].videoSrc}.webm`} type="video/webm" />
+                    <source src={`${demos[currentDemo].videoSrc}.mp4`} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
                 </div>
               </div>
 
