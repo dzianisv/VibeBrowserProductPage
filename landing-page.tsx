@@ -136,6 +136,9 @@ export default function Component() {
           </span>
         </div>
     <nav className="flex gap-4 sm:gap-6">
+      <Link href="#demo" className="text-sm font-medium hover:text-purple-600 transition-colors">
+      Demo
+      </Link>
       <Link href="#features" className="text-sm font-medium hover:text-purple-600 transition-colors">
       Features
       </Link>
@@ -145,21 +148,12 @@ export default function Component() {
       <Link href="#roadmap" className="text-sm font-medium hover:text-purple-600 transition-colors">
       Roadmap
       </Link>
-      <Link href="#security" className="text-sm font-medium hover:text-purple-600 transition-colors">
-      Security
-      </Link>
-      <Link href="#demo" className="text-sm font-medium hover:text-purple-600 transition-colors">
-      Demo
-      </Link>
-      <Link href="#pricing" className="text-sm font-medium hover:text-purple-600 transition-colors">
-      Download
-      </Link>
     </nav>
   </header>
 
   <main className="flex-1">
-    {/* Hero Section */}
-    <section className="w-full py-12 md:py-24 lg:py-32">
+    {/* Hero Section with Integrated Demo */}
+    <section id="demo" className="w-full py-12 md:py-24 lg:py-32">
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
         <div className="flex flex-col items-center gap-6 text-center max-w-5xl mx-auto">
           <Badge variant="secondary"
@@ -175,47 +169,14 @@ export default function Component() {
             </span>
           </h1>
 
-          <p className="max-w-3xl text-lg text-muted-foreground md:text-xl leading-relaxed">
-            The first AI-native web browser that you control entirely by typing or talking. 
-            Simply tell Vibe what you want—book flights, fill forms, respond to messages—and 
+          <p className="max-w-3xl text-lg text-muted-foreground md:text-xl leading-relaxed mb-12">
+            The first AI-native web browser that you control entirely by typing or talking.
+            Simply tell Vibe what you want—book flights, fill forms, respond to messages—and
             watch as it navigates, clicks, and completes tasks across any website.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 mt-8">
-            <WaitlistDialog>
-              <Button size="lg"
-                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-3 text-lg">
-                <Download className="w-5 h-5 mr-2" />
-                Join Waitlist
-              </Button>
-            </WaitlistDialog>
-            <Button
-              variant="outline"
-              size="lg"
-              className="px-8 py-3 text-lg border-purple-200 hover:bg-purple-50 bg-transparent"
-              onClick={() => {
-                document.getElementById('demo')?.scrollIntoView({ behavior: 'smooth' });
-              }}
-            >
-              <Play className="w-5 h-5 mr-2" />
-              See It In Action
-            </Button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    {/* Demo Carousel Section */}
-    <section id="demo" className="w-full py-12 md:py-24 lg:py-32 bg-slate-50">
-      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl mb-4">See Vibe Extension in Action</h2>
-          <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
-            Explore real-world demos showcasing AI-powered browsing capabilities
-          </p>
-        </div>
-
-        <div className="max-w-5xl mx-auto">
+          {/* Demo Carousel directly after text */}
+          <div className="w-full max-w-5xl mx-auto">
           {/* Carousel Navigation Tabs */}
           <div className="flex flex-col sm:flex-row justify-center gap-2 mb-8">
             {demos.map((demo, index) => (
@@ -235,34 +196,6 @@ export default function Component() {
 
           {/* Demo Content */}
           <div className="relative">
-            {/* Demo Context Card */}
-            <Card className="border-0 shadow-lg mb-8 bg-gradient-to-r from-purple-50 to-pink-50">
-              <CardContent className="p-6">
-                <div className="flex items-start gap-4">
-                  <div className={`w-12 h-12 bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl flex items-center justify-center flex-shrink-0`}>
-                    {React.createElement(demos[currentDemo].icon, { className: "h-6 w-6 text-white" })}
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-lg mb-2">{demos[currentDemo].title}</h3>
-                    <p className="text-muted-foreground mb-3">
-                      {demos[currentDemo].description}
-                    </p>
-                    <div className="bg-white/80 rounded-lg p-4 border border-purple-200">
-                      <p className="font-medium mb-2">{demos[currentDemo].task.label}</p>
-                      <p className="text-sm text-muted-foreground italic">
-                        "{demos[currentDemo].task.description}"
-                      </p>
-                    </div>
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      {demos[currentDemo].badges.map((badge, index) => (
-                        <Badge key={index} variant="secondary">{badge}</Badge>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
             {/* Video Player with Navigation Arrows */}
             <div className="relative">
               <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl border bg-slate-900">
@@ -301,25 +234,11 @@ export default function Component() {
               </button>
             </div>
 
-            {/* What the Demo Shows */}
-            <div className="mt-8 grid gap-4 md:grid-cols-3">
-              {demos[currentDemo].highlights.map((highlight, index) => (
-                <Card key={index} className="border-0 shadow-md">
-                  <CardContent className="p-4">
-                    {React.createElement(highlight.icon, {
-                      className: `h-5 w-5 mb-2 ${
-                        index === 0 ? 'text-purple-600' :
-                        index === 1 ? 'text-green-600' :
-                        'text-blue-600'
-                      }`
-                    })}
-                    <h4 className="font-semibold text-sm mb-1">{highlight.title}</h4>
-                    <p className="text-xs text-muted-foreground">
-                      {highlight.description}
-                    </p>
-                  </CardContent>
-                </Card>
-              ))}
+            {/* Task Description - Simple text below video */}
+            <div className="mt-6 text-center">
+              <p className="text-sm text-muted-foreground italic max-w-3xl mx-auto">
+                {demos[currentDemo].task.description}
+              </p>
             </div>
 
             {/* Demo Indicators */}
@@ -336,19 +255,6 @@ export default function Component() {
               ))}
             </div>
           </div>
-
-          <div className="mt-8 text-center">
-            <p className="text-muted-foreground mb-6">
-              Experience the future of autonomous web browsing with advanced AI reasoning and real-time decision making
-            </p>
-            <WaitlistDialog>
-              <Button
-                size="lg"
-                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
-              >
-                <Play className="mr-2 h-4 w-4" /> Get Early Access
-              </Button>
-            </WaitlistDialog>
           </div>
         </div>
       </div>
