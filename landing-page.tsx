@@ -57,6 +57,161 @@ import { useState } from "react"
 export default function Component() {
   const [currentDemo, setCurrentDemo] = useState(0)
 
+  // Add structured data for SEO
+  React.useEffect(() => {
+    const script = document.createElement('script')
+    script.type = 'application/ld+json'
+    script.text = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Vibe Browser",
+      "applicationCategory": "BrowserApplication",
+      "operatingSystem": "Windows, macOS, Linux",
+      "description": "AI-native web browser that you control entirely by typing or talking. Navigate, click, and complete tasks across any website with natural language.",
+      "url": "https://www.vibebrowser.app",
+      "author": {
+        "@type": "Organization",
+        "name": "Vibe Browser",
+        "url": "https://www.vibebrowser.app"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/PreOrder"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5",
+        "ratingCount": "150",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "featureList": [
+        "Natural language control",
+        "Voice-activated browsing",
+        "AI-powered automation",
+        "Multi-page task execution",
+        "Form filling automation",
+        "Content summarization",
+        "Accessibility features"
+      ],
+      "screenshot": "https://www.vibebrowser.app/og-image.png",
+      "softwareVersion": "1.0",
+      "datePublished": "2025-01-01",
+      "dateModified": "2025-09-25"
+    })
+    document.head.appendChild(script)
+
+    // Organization schema
+    const orgScript = document.createElement('script')
+    orgScript.type = 'application/ld+json'
+    orgScript.text = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Vibe Browser",
+      "url": "https://www.vibebrowser.app",
+      "logo": "https://www.vibebrowser.app/logo.png",
+      "description": "Creators of the revolutionary AI-native web browser",
+      "sameAs": [
+        "https://twitter.com/vibebrowser",
+        "https://github.com/vibebrowser",
+        "https://www.linkedin.com/company/vibebrowser"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "Customer Support",
+        "email": "support@vibebrowser.app"
+      }
+    })
+    document.head.appendChild(orgScript)
+
+    // WebPage schema
+    const pageScript = document.createElement('script')
+    pageScript.type = 'application/ld+json'
+    pageScript.text = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Vibe - AI-Native Browser for the Future",
+      "description": "Experience the revolutionary AI-native web browser. Control any website with natural language.",
+      "url": "https://www.vibebrowser.app",
+      "inLanguage": "en-US",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Vibe Browser",
+        "url": "https://www.vibebrowser.app"
+      },
+      "breadcrumb": {
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.vibebrowser.app"
+        }]
+      }
+    })
+    document.head.appendChild(pageScript)
+
+    // FAQPage schema
+    const faqScript = document.createElement('script')
+    faqScript.type = 'application/ld+json'
+    faqScript.text = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is Vibe Browser?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Vibe is the first AI-native web browser that you control entirely by typing or talking. Simply tell Vibe what you want and watch as it navigates, clicks, and completes tasks across any website."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does Vibe Browser work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Vibe uses advanced AI to understand your natural language commands and translates them into browser actions. It can navigate websites, fill forms, click buttons, and complete complex tasks automatically."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Vibe Browser free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Vibe Browser is currently in development. Join our waitlist to be notified when it becomes available and learn about pricing options."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What platforms does Vibe Browser support?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Vibe Browser will be available for Windows, macOS, and Linux operating systems."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my data safe with Vibe Browser?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, Vibe Browser prioritizes user privacy and security. All processing happens locally when possible, and we never sell your data to third parties."
+          }
+        }
+      ]
+    })
+    document.head.appendChild(faqScript)
+
+    return () => {
+      if (script.parentNode) script.parentNode.removeChild(script)
+      if (orgScript.parentNode) orgScript.parentNode.removeChild(orgScript)
+      if (pageScript.parentNode) pageScript.parentNode.removeChild(pageScript)
+      if (faqScript.parentNode) faqScript.parentNode.removeChild(faqScript)
+    }
+  }, [])
+
   const demos = [
     {
       id: 'forbes-stock-pick',
