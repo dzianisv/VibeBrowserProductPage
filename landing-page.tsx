@@ -67,7 +67,7 @@ export default function Component() {
       "name": "Vibe Browser",
       "applicationCategory": "BrowserApplication",
       "operatingSystem": "Windows, macOS, Linux",
-      "description": "AI-native web browser that you control entirely by typing or talking. Navigate, click, and complete tasks across any website with natural language.",
+      "description": "Autonomous web agent that completes entire tasks for you. Unlike AI assistants, Vibe takes full control - researching, navigating, and executing complex workflows across multiple websites automatically.",
       "url": "https://www.vibebrowser.app",
       "author": {
         "@type": "Organization",
@@ -88,13 +88,13 @@ export default function Component() {
         "worstRating": "1"
       },
       "featureList": [
-        "Natural language control",
-        "Voice-activated browsing",
-        "AI-powered automation",
-        "Multi-page task execution",
-        "Form filling automation",
-        "Content summarization",
-        "Accessibility features"
+        "Autonomous task completion",
+        "Multi-site navigation",
+        "Decision-making AI agent",
+        "Complete workflow automation",
+        "Zero-click task execution",
+        "Self-directed research",
+        "Hands-free operation"
       ],
       "screenshot": "https://www.vibebrowser.app/og-image.png",
       "softwareVersion": "1.0",
@@ -165,7 +165,7 @@ export default function Component() {
           "name": "What is Vibe Browser?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Vibe is the first AI-native web browser that you control entirely by typing or talking. Simply tell Vibe what you want and watch as it navigates, clicks, and completes tasks across any website."
+            "text": "Vibe is an autonomous web agent that completes entire tasks for you. Unlike AI chatbots or assistants, Vibe takes full control of the browser - researching across multiple sites, making decisions, and executing complete workflows without you clicking a single button."
           }
         },
         {
@@ -173,7 +173,7 @@ export default function Component() {
           "name": "How does Vibe Browser work?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Vibe uses advanced AI to understand your natural language commands and translates them into browser actions. It can navigate websites, fill forms, click buttons, and complete complex tasks automatically."
+            "text": "Vibe uses an autonomous AI agent with Plan-Execute-Reflect architecture. You give it a goal like 'book the cheapest flight to Paris next month' and it autonomously researches options, compares prices across airlines, and completes the booking - all without your intervention."
           }
         },
         {
@@ -333,20 +333,20 @@ export default function Component() {
           <Badge variant="secondary"
             className="px-4 py-2 text-sm font-medium bg-purple-100 text-purple-700 border-purple-200">
             <Sparkles className="w-4 h-4 mr-2" />
-            AI-Native Browser • Built on Chromium
+            Autonomous Web Agent • Not Just Another AI Tool
           </Badge>
 
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-            Control Your Browser
+            The Browser That Works
             <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent block">
-              With Natural Language
+              For You, Not With You
             </span>
           </h1>
 
           <p className="max-w-3xl text-lg text-muted-foreground md:text-xl leading-relaxed mb-12">
-            The first AI-native web browser that you control entirely by typing or talking.
-            Simply tell Vibe what you want—book flights, fill forms, respond to messages—and
-            watch as it navigates, clicks, and completes tasks across any website.
+            Unlike AI chatbots that assist browsing, Vibe is an autonomous web agent that takes full control.
+            Just say "book my flight to NYC" or "find me the cheapest insurance" and watch as it researches,
+            compares, navigates multiple sites, and completes entire workflows—all on its own.
           </p>
 
           {/* Demo Carousel directly after text */}
@@ -429,6 +429,170 @@ export default function Component() {
             </div>
           </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    {/* The Difference - Clear Value Proposition */}
+    <section className="w-full py-12 bg-gradient-to-br from-purple-50 to-pink-50">
+      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-2xl font-bold text-center mb-8">
+            Stop clicking. Start commanding.
+          </h2>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Traditional AI Tools */}
+            <Card className="border-2 border-gray-200 bg-white/50">
+              <CardContent className="p-6">
+                <h3 className="text-lg font-semibold mb-4 text-gray-600">Traditional "AI Browsers"</h3>
+                <ul className="space-y-3 text-sm text-muted-foreground">
+                  <li className="flex items-start gap-2">
+                    <span className="text-gray-400 mt-0.5">❌</span>
+                    <span>You browse, AI suggests</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-gray-400 mt-0.5">❌</span>
+                    <span>Summarize what you're already looking at</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-gray-400 mt-0.5">❌</span>
+                    <span>Answer questions about current page</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-gray-400 mt-0.5">❌</span>
+                    <span>You still do all the work</span>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            {/* Vibe Browser */}
+            <Card className="border-2 border-purple-500 bg-gradient-to-br from-purple-50 to-pink-50 shadow-lg">
+              <CardContent className="p-6">
+                <h3 className="text-lg font-semibold mb-4 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                  Vibe: True Autonomous Agent
+                </h3>
+                <ul className="space-y-3 text-sm">
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-500 mt-0.5">✓</span>
+                    <span className="font-medium">AI drives, you relax</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-500 mt-0.5">✓</span>
+                    <span className="font-medium">Completes entire multi-step tasks</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-500 mt-0.5">✓</span>
+                    <span className="font-medium">Navigates across multiple sites</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-500 mt-0.5">✓</span>
+                    <span className="font-medium">Makes decisions and takes action</span>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="mt-8 text-center">
+            <p className="text-lg font-medium">
+              One command. Complete execution. Zero manual work.
+            </p>
+            <p className="text-sm text-muted-foreground mt-2">
+              "Find me the best mortgage rate" → Vibe visits 10+ lenders, compares rates, fills applications
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* Real Examples Section */}
+    <section className="w-full py-12 md:py-16">
+      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl mb-4">
+            Real Tasks. Zero Clicks. Full Automation.
+          </h2>
+          <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
+            Here's what happens when you give Vibe a command
+          </p>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
+          {/* Example 1 */}
+          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
+            <CardContent className="p-6">
+              <div className="mb-4">
+                <Badge className="bg-blue-100 text-blue-700">You say:</Badge>
+                <p className="font-semibold mt-2">"Find me the best credit card for travel rewards"</p>
+              </div>
+              <div>
+                <Badge className="bg-purple-100 text-purple-700">Vibe does:</Badge>
+                <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+                  <li>→ Visits 15+ bank websites</li>
+                  <li>→ Analyzes reward programs</li>
+                  <li>→ Compares annual fees vs benefits</li>
+                  <li>→ Creates comparison spreadsheet</li>
+                  <li>→ Fills pre-qualification forms</li>
+                  <li>→ Presents top 3 recommendations</li>
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Example 2 */}
+          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
+            <CardContent className="p-6">
+              <div className="mb-4">
+                <Badge className="bg-blue-100 text-blue-700">You say:</Badge>
+                <p className="font-semibold mt-2">"Book a rental car for my Miami trip"</p>
+              </div>
+              <div>
+                <Badge className="bg-purple-100 text-purple-700">Vibe does:</Badge>
+                <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+                  <li>→ Checks your calendar for dates</li>
+                  <li>→ Searches all major rental sites</li>
+                  <li>→ Applies discount codes</li>
+                  <li>→ Compares insurance options</li>
+                  <li>→ Selects best value deal</li>
+                  <li>→ Completes booking with your info</li>
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Example 3 */}
+          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
+            <CardContent className="p-6">
+              <div className="mb-4">
+                <Badge className="bg-blue-100 text-blue-700">You say:</Badge>
+                <p className="font-semibold mt-2">"Research and buy a good air purifier under $300"</p>
+              </div>
+              <div>
+                <Badge className="bg-purple-100 text-purple-700">Vibe does:</Badge>
+                <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+                  <li>→ Reads expert review sites</li>
+                  <li>→ Checks Reddit recommendations</li>
+                  <li>→ Compares specs & room coverage</li>
+                  <li>→ Finds best prices across stores</li>
+                  <li>→ Checks for coupons & deals</li>
+                  <li>→ Adds to cart & initiates checkout</li>
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="text-center mt-12 p-6 bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl max-w-3xl mx-auto">
+          <p className="text-lg font-semibold mb-2">
+            🎯 The Key Difference:
+          </p>
+          <p className="text-muted-foreground">
+            You don't watch Vibe work. You don't click "next" buttons. You don't copy-paste between tabs.
+            <br/>
+            <strong className="text-purple-600">You give one command and come back to completed results.</strong>
+          </p>
         </div>
       </div>
     </section>
@@ -891,38 +1055,45 @@ export default function Component() {
           <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="item-1">
               <AccordionTrigger className="text-left">
-                Why not OpenAI?
+                How is this different from ChatGPT, Claude, or "AI browsers"?
               </AccordionTrigger>
               <AccordionContent>
-                <ul>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                    <span className="text-sm"> Runs locally — full access to your cookies, credentials, and
-                      sessions.</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                    <span className="text-sm"> Supports Chrome extensions — even the ones cloud agents can’t run.</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                    <span className="text-sm"> Real-time translation — pages, videos, and audio.</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                    <span className="text-sm"> Smart context — ask, summarize, automate anything on any page.</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                    <span className="text-sm"> Automates real work — fills forms, replies in Slack, books
-                      tickets.</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                    <span className="text-sm"> Works on mobile and desktop — your agent, always with you.</span>
-                  </li>
-                  <li className="flex items-center gap-2"><span>Unlike cloud agents, Vibe is your browser — fully private, fully capable.</span></li>
-                </ul>
+                <div className="space-y-4">
+                  <p className="font-medium">The fundamental difference: Vibe is an autonomous agent, not an assistant.</p>
+
+                  <div className="space-y-2">
+                    <p className="text-sm font-medium text-muted-foreground">ChatGPT/Claude:</p>
+                    <ul className="space-y-1">
+                      <li className="text-sm">• Answer questions, give advice</li>
+                      <li className="text-sm">• You still do all the actual work</li>
+                      <li className="text-sm">• Can't interact with websites</li>
+                    </ul>
+                  </div>
+
+                  <div className="space-y-2">
+                    <p className="text-sm font-medium text-muted-foreground">AI Browsers (Arc, Brave, etc):</p>
+                    <ul className="space-y-1">
+                      <li className="text-sm">• Summarize current page</li>
+                      <li className="text-sm">• Answer questions about what you're viewing</li>
+                      <li className="text-sm">• You still navigate and click everything</li>
+                    </ul>
+                  </div>
+
+                  <div className="space-y-2">
+                    <p className="text-sm font-medium text-purple-600">Vibe (Autonomous Agent):</p>
+                    <ul className="space-y-1">
+                      <li className="text-sm">✓ Completes entire multi-step tasks independently</li>
+                      <li className="text-sm">✓ Navigates across multiple websites automatically</li>
+                      <li className="text-sm">✓ Makes decisions and takes actions for you</li>
+                      <li className="text-sm">✓ Works while you're away from computer</li>
+                    </ul>
+                  </div>
+
+                  <p className="text-sm font-medium mt-4">
+                    Think of it this way: ChatGPT tells you how to book a flight.
+                    Vibe actually books it for you.
+                  </p>
+                </div>
               </AccordionContent>
             </AccordionItem>
 
@@ -978,11 +1149,11 @@ export default function Component() {
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
         <div className="flex flex-col items-center gap-6 text-center text-white">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
-            Be Among the First to Browse Smarter
+            Stop Being Your Own Assistant
           </h2>
           <p className="max-w-2xl text-lg opacity-90">
-            Vibe Browser is launching soon. Join our waitlist to get early access and exclusive launch pricing when
-            we go live.
+            Join thousands who are tired of clicking through endless tabs. Get early access to the first browser
+            that actually does the work for you.
           </p>
 
           <div className="grid gap-6 md:grid-cols-2 max-w-2xl w-full mt-8">
