@@ -112,7 +112,7 @@ export default function Component() {
       "name": "Vibe Browser",
       "url": "https://www.vibebrowser.app",
       "logo": "https://www.vibebrowser.app/logo.png",
-      "description": "Creators of the revolutionary AI-native web browser",
+      "description": "Creators of the revolutionary AI Web Agent",
       "sameAs": [
         "https://twitter.com/vibebrowser",
         "https://github.com/vibebrowser",
@@ -132,8 +132,8 @@ export default function Component() {
     pageScript.text = JSON.stringify({
       "@context": "https://schema.org",
       "@type": "WebPage",
-      "name": "Vibe - AI-Native Browser for the Future",
-      "description": "Experience the revolutionary AI-native web browser. Control any website with natural language.",
+      "name": "Vibe Browser - AI Web Aegnt for the Future",
+      "description": "Experience the revolutionary AI Web Agent. Control any website with natural language.",
       "url": "https://www.vibebrowser.app",
       "inLanguage": "en-US",
       "isPartOf": {
@@ -337,7 +337,7 @@ export default function Component() {
           </Badge>
 
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-            The Browser That Works
+            The Agentic Browser That Works
             <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent block">
               For You, Not With You
             </span>

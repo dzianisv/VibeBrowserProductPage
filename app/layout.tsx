@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     default: 'Vibe - AI-Native Browser for the Future | Control the Web with Natural Language',
     template: '%s | Vibe Browser',
   },
-  description: 'Experience the revolutionary AI-native web browser. Control any website with natural language - just type or speak what you want. Navigate, click, fill forms, and complete tasks effortlessly. Download Vibe Browser today.',
+  description: 'Experience the revolutionary AI Web Agent. Control any website with natural language - just type or speak what you want. Navigate, click, fill forms, and complete tasks effortlessly. Download Vibe Browser today.',
   keywords: [
     'AI browser',
     'AI-native browser',
@@ -40,14 +40,14 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://www.vibebrowser.app',
     siteName: 'Vibe Browser',
-    title: 'Vibe - The AI-Native Browser That Understands You',
+    title: 'Vibe Browser - The AI-Native Browser That Understands You',
     description: 'Control any website with natural language. Just tell Vibe what you want - navigate, click, fill forms, and complete tasks effortlessly.',
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Vibe Browser - AI-Native Web Browser',
+        alt: 'Vibe Browser - AI Web Agent',
       },
     ],
   },
