@@ -52,10 +52,27 @@ Palette,
 Cloud,
 } from "lucide-react"
 import Link from "next/link"
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 
 export default function Component() {
   const [currentDemo, setCurrentDemo] = useState(0)
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  // Handle video playback when demo changes
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.load()
+      // Try to play the video after a short delay
+      const playVideo = async () => {
+        try {
+          await videoRef.current?.play()
+        } catch (error) {
+          console.log('Autoplay was blocked, user interaction required')
+        }
+      }
+      playVideo()
+    }
+  }, [currentDemo])
 
   // Add structured data for SEO
   React.useEffect(() => {
@@ -375,6 +392,7 @@ export default function Component() {
               <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl border bg-slate-900">
                 <div className="relative" style={{ paddingBottom: '56.25%' }}>
                   <video
+                    ref={videoRef}
                     key={currentDemo}
                     className="absolute inset-0 w-full h-full object-contain"
                     controls
@@ -382,9 +400,10 @@ export default function Component() {
                     loop
                     muted
                     playsInline
+                    preload="auto"
                   >
-                    <source src={`${demos[currentDemo].videoSrc}.webm`} type="video/webm" />
                     <source src={`${demos[currentDemo].videoSrc}.mp4`} type="video/mp4" />
+                    <source src={`${demos[currentDemo].videoSrc}.webm`} type="video/webm" />
                     Your browser does not support the video tag.
                   </video>
                 </div>
