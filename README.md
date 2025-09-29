@@ -29,3 +29,4 @@ Continue building your app on:
 3. Changes are automatically pushed to this repository
 4. Vercel deploys the latest version from this repository
 # Git LFS enabled for video files
+# Videos should now work with Git LFS enabled
