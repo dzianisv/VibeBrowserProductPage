@@ -52,27 +52,10 @@ Palette,
 Cloud,
 } from "lucide-react"
 import Link from "next/link"
-import { useState, useEffect, useRef } from "react"
+import { useState } from "react"
 
 export default function Component() {
   const [currentDemo, setCurrentDemo] = useState(0)
-  const videoRef = useRef<HTMLVideoElement>(null)
-
-  // Handle video playback when demo changes
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.load()
-      // Try to play the video after a short delay
-      const playVideo = async () => {
-        try {
-          await videoRef.current?.play()
-        } catch (error) {
-          console.log('Autoplay was blocked, user interaction required')
-        }
-      }
-      playVideo()
-    }
-  }, [currentDemo])
 
   // Add structured data for SEO
   React.useEffect(() => {
@@ -392,15 +375,14 @@ export default function Component() {
               <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl border bg-slate-900">
                 <div className="relative" style={{ paddingBottom: '56.25%' }}>
                   <video
-                    ref={videoRef}
                     key={currentDemo}
                     className="absolute inset-0 w-full h-full object-contain"
                     controls
-                    autoPlay
                     loop
                     muted
                     playsInline
-                    preload="auto"
+                    preload="metadata"
+                    poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080'%3E%3Crect fill='%23111827' width='1920' height='1080'/%3E%3Cg transform='translate(960,540)'%3E%3Ccircle fill='none' stroke='%23ffffff' stroke-width='4' r='80'/%3E%3Cpolygon fill='%23ffffff' points='20,-40 20,40 60,0'/%3E%3C/g%3E%3Ctext x='960' y='660' text-anchor='middle' fill='%23ffffff' font-family='sans-serif' font-size='24'%3EClick to Play Demo%3C/text%3E%3C/svg%3E"
                   >
                     <source src={`${demos[currentDemo].videoSrc}.mp4`} type="video/mp4" />
                     <source src={`${demos[currentDemo].videoSrc}.webm`} type="video/webm" />
