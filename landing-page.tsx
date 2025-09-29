@@ -223,7 +223,7 @@ export default function Component() {
         description: 'I ran a Vibe Browser research task: "Pick the best stock for me to invest in today." This demonstrates multi-page control and step-by-step reasoning — all using an affordable OpenAI model (GPT-5 Mini). Surprised by how well it reasons!'
       },
       badges: ['Stock Analysis', 'Multi-page Control', 'Step-by-step Reasoning', 'GPT-5-mini Powered'],
-      videoSrc: 'https://github.com/dzianisv/VibeBrowserProductPage/raw/main/public/forbes-pick-a-stock-demo',
+      videoSrc: '/forbes-pick-a-stock-demo',
       icon: TrendingUp,
       iconColor: 'text-blue-600',
       highlights: [
@@ -242,7 +242,7 @@ export default function Component() {
         description: 'Summarize the key insights from Morningstar\'s article on undervalued stocks, extracting investment opportunities and market analysis.'
       },
       badges: ['Article Analysis', 'Content Extraction', 'Smart Summarization', 'Financial Insights'],
-      videoSrc: 'https://github.com/dzianisv/VibeBrowserProductPage/raw/main/public/morningstar-summarization-demo',
+      videoSrc: '/morningstar-summarization-demo',
       icon: BookOpen,
       iconColor: 'text-blue-600',
       highlights: [
@@ -261,7 +261,7 @@ export default function Component() {
         description: 'Showcase the browser\'s night mode capabilities including automatic color inversion, blue light reduction, and contrast optimization for better readability in dark environments.'
       },
       badges: ['Dark Theme', 'Eye Protection', 'Smart Adaptation', 'UI Enhancement'],
-      videoSrc: 'https://github.com/dzianisv/VibeBrowserProductPage/raw/main/public/night-mode-demo',
+      videoSrc: '/night-mode-demo',
       icon: Moon,
       iconColor: 'text-indigo-600',
       highlights: [
@@ -280,7 +280,7 @@ export default function Component() {
         description: 'Assess risks of different pools on app.morpho.org/ethereum/earn. Pick one pool where I can invest USDC with less risk, with supply APY around 10%. I need pools with reliable collateral like ETH, BTC, USDC, USDe, USDT or wrappers. No shitcoins or risky assets.'
       },
       badges: ['DeFi Analysis', 'Risk Assessment', 'Real-time Research', 'GPT-5-mini Powered'],
-      videoSrc: 'https://github.com/dzianisv/VibeBrowserProductPage/raw/main/public/vibe-extension-demo',
+      videoSrc: '/vibe-extension-demo',
       icon: Shield,
       iconColor: 'text-green-600',
       highlights: [
