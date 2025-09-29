@@ -381,11 +381,9 @@ export default function Component() {
                     loop
                     muted
                     playsInline
-                    preload="metadata"
-                    poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080'%3E%3Crect fill='%23111827' width='1920' height='1080'/%3E%3Cg transform='translate(960,540)'%3E%3Ccircle fill='none' stroke='%23ffffff' stroke-width='4' r='80'/%3E%3Cpolygon fill='%23ffffff' points='20,-40 20,40 60,0'/%3E%3C/g%3E%3Ctext x='960' y='660' text-anchor='middle' fill='%23ffffff' font-family='sans-serif' font-size='24'%3EClick to Play Demo%3C/text%3E%3C/svg%3E"
+                    preload="auto"
+                    src={`${demos[currentDemo].videoSrc}.mp4`}
                   >
-                    <source src={`${demos[currentDemo].videoSrc}.mp4`} type="video/mp4" />
-                    <source src={`${demos[currentDemo].videoSrc}.webm`} type="video/webm" />
                     Your browser does not support the video tag.
                   </video>
                 </div>
