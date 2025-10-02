@@ -214,79 +214,60 @@ export default function Component() {
 
   const demos = [
     {
-      id: 'forbes-stock-pick',
-      title: 'Stock Investment Research Demo',
-      subtitle: 'Multi-page control and step-by-step reasoning',
-      description: 'Watch our AI agent perform comprehensive stock research across multiple pages',
+      id: 'google-calendar',
+      title: 'Google Calendar Integration',
+      subtitle: 'Vibe AI works seamlessly with Google Calendar',
+      description: 'Watch our AI agent interact with Google Calendar to manage your schedule',
+      task: {
+        label: 'Calendar Management:',
+        description: 'Vibe AI works with Google Calendar.'
+      },
+      badges: ['Calendar Management', 'Google Integration', 'Smart Scheduling', 'AI Assistant'],
+      videoSrc: '/google-calendar-demo',
+      icon: Calendar,
+      iconColor: 'text-blue-600',
+      highlights: [
+        { icon: Calendar, title: 'Calendar Integration', description: 'Seamlessly manage your schedule' },
+        { icon: Brain, title: 'Smart Scheduling', description: 'AI-powered calendar management' },
+        { icon: Target, title: 'Event Organization', description: 'Automatically organize and track events' }
+      ]
+    },
+    {
+      id: 'gmail-inbox',
+      title: 'Gmail Inbox Summary',
+      subtitle: 'AI-powered email analysis and summarization',
+      description: 'Watch Vibe AI Agent work with your Gmail inbox to prepare short summaries',
+      task: {
+        label: 'Email Analysis:',
+        description: 'Vibe AI Agent works with Google inbox, preparing a short summary for you.'
+      },
+      badges: ['Email Analysis', 'Smart Summarization', 'Inbox Management', 'AI Assistant'],
+      videoSrc: '/gmail-inbox-summary-demo',
+      icon: MessageSquare,
+      iconColor: 'text-red-600',
+      highlights: [
+        { icon: MessageSquare, title: 'Email Processing', description: 'Analyze and summarize email content' },
+        { icon: FileText, title: 'Smart Summaries', description: 'Get concise overviews of your inbox' },
+        { icon: Target, title: 'Priority Detection', description: 'Identify important messages instantly' }
+      ]
+    },
+    {
+      id: 'market-research',
+      title: 'Value Investing Research',
+      subtitle: 'AI-powered market research and analysis',
+      description: 'Watch Vibe AI Agent perform comprehensive market research for value investing',
       task: {
         label: 'Research Task:',
-        description: 'I ran a Vibe Browser research task: "Pick the best stock for me to invest in today." This demonstrates multi-page control and step-by-step reasoning — all using an affordable OpenAI model (GPT-5 Mini). Surprised by how well it reasons!'
+        description: 'Vibe AI Agent is doing a market research for you.'
       },
-      badges: ['Stock Analysis', 'Multi-page Control', 'Step-by-step Reasoning', 'GPT-5-mini Powered'],
-      videoSrc: '/forbes-pick-a-stock-demo',
+      badges: ['Market Research', 'Value Investing', 'Financial Analysis', 'AI Research'],
+      videoSrc: '/value-investing-research-demo',
       icon: TrendingUp,
-      iconColor: 'text-blue-600',
-      highlights: [
-        { icon: TrendingUp, title: 'Market Research', description: 'Analyze multiple sources for investment insights' },
-        { icon: Brain, title: 'Step-by-step Reasoning', description: 'Logical decision-making process' },
-        { icon: Target, title: 'Optimal Selection', description: 'Identify the best investment opportunity' }
-      ]
-    },
-    {
-      id: 'morningstar',
-      title: 'Article Summarization Demo',
-      subtitle: 'AI-powered content analysis and summarization',
-      description: 'Watch our AI agent analyze and summarize a Morningstar article about "33 Undervalued Stocks to Buy in Q3 2025"',
-      task: {
-        label: 'Content Analysis Task:',
-        description: 'Summarize the key insights from Morningstar\'s article on undervalued stocks, extracting investment opportunities and market analysis.'
-      },
-      badges: ['Article Analysis', 'Content Extraction', 'Smart Summarization', 'Financial Insights'],
-      videoSrc: '/morningstar-summarization-demo',
-      icon: BookOpen,
-      iconColor: 'text-blue-600',
-      highlights: [
-        { icon: TrendingUp, title: 'Market Analysis', description: 'Extract key market trends and opportunities' },
-        { icon: FileText, title: 'Smart Summarization', description: 'Condense complex financial articles instantly' },
-        { icon: Target, title: 'Key Insights', description: 'Identify the most important investment ideas' }
-      ]
-    },
-    {
-      id: 'nightmode',
-      title: 'Night Mode Browser Demo',
-      subtitle: 'Enhanced dark theme for comfortable nighttime browsing',
-      description: 'Experience our intelligent night mode that automatically adapts websites for optimal viewing in low-light conditions',
-      task: {
-        label: 'Feature Demonstration:',
-        description: 'Showcase the browser\'s night mode capabilities including automatic color inversion, blue light reduction, and contrast optimization for better readability in dark environments.'
-      },
-      badges: ['Dark Theme', 'Eye Protection', 'Smart Adaptation', 'UI Enhancement'],
-      videoSrc: '/night-mode-demo',
-      icon: Moon,
-      iconColor: 'text-indigo-600',
-      highlights: [
-        { icon: Palette, title: 'Smart Color Inversion', description: 'Intelligently inverts colors while preserving images' },
-        { icon: Eye, title: 'Eye Protection', description: 'Reduces blue light for comfortable night browsing' },
-        { icon: Sparkles, title: 'Adaptive Contrast', description: 'Automatically optimizes contrast for readability' }
-      ]
-    },
-    {
-      id: 'defi',
-      title: 'DeFi Investment Research Demo',
-      subtitle: 'Complex financial analysis with risk assessment',
-      description: 'Our AI agent (powered by OpenAI GPT-5-mini) performs complex DeFi investment research',
-      task: {
-        label: 'Research Assignment:',
-        description: 'Assess risks of different pools on app.morpho.org/ethereum/earn. Pick one pool where I can invest USDC with less risk, with supply APY around 10%. I need pools with reliable collateral like ETH, BTC, USDC, USDe, USDT or wrappers. No shitcoins or risky assets.'
-      },
-      badges: ['DeFi Analysis', 'Risk Assessment', 'Real-time Research', 'GPT-5-mini Powered'],
-      videoSrc: '/vibe-extension-demo',
-      icon: Shield,
       iconColor: 'text-green-600',
       highlights: [
-        { icon: Search, title: 'Intelligent Navigation', description: 'Navigate complex DeFi interfaces autonomously' },
-        { icon: Shield, title: 'Risk Analysis', description: 'Evaluate collateral types and pool safety metrics' },
-        { icon: Target, title: 'Decision Making', description: 'Filter and select optimal investment options' }
+        { icon: TrendingUp, title: 'Market Analysis', description: 'Comprehensive market research and analysis' },
+        { icon: Brain, title: 'Investment Insights', description: 'AI-powered value investing research' },
+        { icon: Target, title: 'Data-Driven Decisions', description: 'Make informed investment choices' }
       ]
     }
   ]
