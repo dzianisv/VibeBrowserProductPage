@@ -818,10 +818,10 @@ export default function Component() {
                 <CheckCircle className="w-8 h-8 text-gray-600" />
                 <div>
                   <h3 className="font-semibold text-lg mb-1">vs BrowserOS</h3>
-                  <p className="text-sm text-muted-foreground">Production-ready builds that actually work</p>
+                  <p className="text-sm text-muted-foreground">Accessibility tree limits extension support. Screenshot-based API slows execution and blocks local models</p>
                 </div>
               </div>
-              <Badge className="bg-pink-100 text-pink-700">Ready Now</Badge>
+              <Badge className="bg-pink-100 text-pink-700">Fast & Flexible</Badge>
             </CardContent>
           </Card>
         </div>
