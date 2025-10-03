@@ -314,20 +314,32 @@ export default function Component() {
           <Badge variant="secondary"
             className="px-4 py-2 text-sm font-medium bg-purple-100 text-purple-700 border-purple-200">
             <Sparkles className="w-4 h-4 mr-2" />
-            Autonomous Web Agent • Not Just Another AI Tool
+            Trusted by 5,000+ Early Access Users
           </Badge>
 
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-            The Agentic Browser That Works
+            The Browser That
             <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent block">
-              For You, Not With You
+              Actually Does Your Work
             </span>
           </h1>
 
-          <p className="max-w-3xl text-lg text-muted-foreground md:text-xl leading-relaxed mb-12">
-            Unlike AI chatbots that assist browsing, Vibe is an autonomous web agent that takes full control.
-            Just say "book my flight to NYC" or "find me the cheapest insurance" and watch as it researches,
-            compares, navigates multiple sites, and completes entire workflows—all on its own.
+          <p className="max-w-3xl text-lg text-muted-foreground md:text-xl leading-relaxed mb-8">
+            Tell Vibe what you need. It researches, compares, and completes the task—automatically.
+            Book flights, find insurance, research products. Zero clicking required.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 items-center justify-center mb-8">
+            <WaitlistDialog>
+              <Button size="lg" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white text-lg px-8 py-6">
+                Get Early Access
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </WaitlistDialog>
+          </div>
+
+          <p className="text-sm text-muted-foreground italic mb-12">
+            "Like having a personal assistant who never sleeps" — Sarah K., Product Manager
           </p>
 
           {/* Demo Carousel directly after text */}
@@ -413,6 +425,71 @@ export default function Component() {
       </div>
     </section>
 
+    {/* The Problem Section */}
+    <section className="w-full py-12 md:py-16 bg-white">
+      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
+            The Modern Web is Exhausting
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Every day, you waste hours on tasks that should take minutes
+          </p>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto mb-12">
+          <Card className="border-0 shadow-md text-center p-6">
+            <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <ListTodo className="w-8 h-8 text-red-600" />
+            </div>
+            <h3 className="font-semibold text-lg mb-2">23 Tabs Open</h3>
+            <p className="text-sm text-muted-foreground">
+              Comparing prices, reading reviews, checking availability
+            </p>
+          </Card>
+
+          <Card className="border-0 shadow-md text-center p-6">
+            <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Clock className="w-8 h-8 text-orange-600" />
+            </div>
+            <h3 className="font-semibold text-lg mb-2">2.5 Hours Daily</h3>
+            <p className="text-sm text-muted-foreground">
+              Wasted on repetitive clicking, copying, pasting
+            </p>
+          </Card>
+
+          <Card className="border-0 shadow-md text-center p-6">
+            <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Brain className="w-8 h-8 text-yellow-600" />
+            </div>
+            <h3 className="font-semibold text-lg mb-2">Decision Fatigue</h3>
+            <p className="text-sm text-muted-foreground">
+              Overwhelmed by choices, paralyzed by options
+            </p>
+          </Card>
+
+          <Card className="border-0 shadow-md text-center p-6">
+            <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <MousePointer className="w-8 h-8 text-purple-600" />
+            </div>
+            <h3 className="font-semibold text-lg mb-2">Still Clicking</h3>
+            <p className="text-sm text-muted-foreground">
+              Like it's 1995. There has to be a better way
+            </p>
+          </Card>
+        </div>
+
+        <div className="text-center">
+          <h3 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
+            You Deserve Better
+          </h3>
+          <p className="text-lg text-muted-foreground">
+            Your browser should work for you, not the other way around
+          </p>
+        </div>
+      </div>
+    </section>
+
     {/* The Difference - Clear Value Proposition */}
     <section className="w-full py-12 bg-gradient-to-br from-purple-50 to-pink-50">
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
@@ -487,247 +564,240 @@ export default function Component() {
       </div>
     </section>
 
-    {/* Real Examples Section */}
+    {/* Real Examples Section - Quick Wins */}
     <section className="w-full py-12 md:py-16">
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl mb-4">
-            Real Tasks. Zero Clicks. Full Automation.
+            Real Tasks. Real Results.
           </h2>
           <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
-            Here's what happens when you give Vibe a command
+            One command. Complete execution. Zero manual work.
           </p>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
-          {/* Example 1 */}
-          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
+          <Card className="border-0 shadow-md hover:shadow-lg transition-shadow">
             <CardContent className="p-6">
-              <div className="mb-4">
-                <Badge className="bg-blue-100 text-blue-700">You say:</Badge>
-                <p className="font-semibold mt-2">"Find me the best credit card for travel rewards"</p>
+              <div className="flex items-start gap-3 mb-3">
+                <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <Plane className="w-5 h-5 text-purple-600" />
+                </div>
+                <div>
+                  <p className="font-semibold">"Book flight to NYC"</p>
+                  <p className="text-sm text-muted-foreground">Compared 8 airlines → Booked cheapest</p>
+                </div>
               </div>
-              <div>
-                <Badge className="bg-purple-100 text-purple-700">Vibe does:</Badge>
-                <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
-                  <li>→ Visits 15+ bank websites</li>
-                  <li>→ Analyzes reward programs</li>
-                  <li>→ Compares annual fees vs benefits</li>
-                  <li>→ Creates comparison spreadsheet</li>
-                  <li>→ Fills pre-qualification forms</li>
-                  <li>→ Presents top 3 recommendations</li>
-                </ul>
+              <div className="text-right">
+                <span className="text-2xl font-bold text-purple-600">3 min</span>
+                <p className="text-xs text-muted-foreground">vs 45 min manually</p>
               </div>
             </CardContent>
           </Card>
 
-          {/* Example 2 */}
-          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
+          <Card className="border-0 shadow-md hover:shadow-lg transition-shadow">
             <CardContent className="p-6">
-              <div className="mb-4">
-                <Badge className="bg-blue-100 text-blue-700">You say:</Badge>
-                <p className="font-semibold mt-2">"Book a rental car for my Miami trip"</p>
+              <div className="flex items-start gap-3 mb-3">
+                <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <CreditCard className="w-5 h-5 text-blue-600" />
+                </div>
+                <div>
+                  <p className="font-semibold">"Find best mortgage rate"</p>
+                  <p className="text-sm text-muted-foreground">Checked 15 lenders → Full comparison</p>
+                </div>
               </div>
-              <div>
-                <Badge className="bg-purple-100 text-purple-700">Vibe does:</Badge>
-                <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
-                  <li>→ Checks your calendar for dates</li>
-                  <li>→ Searches all major rental sites</li>
-                  <li>→ Applies discount codes</li>
-                  <li>→ Compares insurance options</li>
-                  <li>→ Selects best value deal</li>
-                  <li>→ Completes booking with your info</li>
-                </ul>
+              <div className="text-right">
+                <span className="text-2xl font-bold text-blue-600">8 min</span>
+                <p className="text-xs text-muted-foreground">vs 3 hours manually</p>
               </div>
             </CardContent>
           </Card>
 
-          {/* Example 3 */}
-          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
+          <Card className="border-0 shadow-md hover:shadow-lg transition-shadow">
             <CardContent className="p-6">
-              <div className="mb-4">
-                <Badge className="bg-blue-100 text-blue-700">You say:</Badge>
-                <p className="font-semibold mt-2">"Research and buy a good air purifier under $300"</p>
+              <div className="flex items-start gap-3 mb-3">
+                <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <Search className="w-5 h-5 text-green-600" />
+                </div>
+                <div>
+                  <p className="font-semibold">"Research competitors"</p>
+                  <p className="text-sm text-muted-foreground">Analyzed 20 companies → Full report</p>
+                </div>
               </div>
-              <div>
-                <Badge className="bg-purple-100 text-purple-700">Vibe does:</Badge>
-                <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
-                  <li>→ Reads expert review sites</li>
-                  <li>→ Checks Reddit recommendations</li>
-                  <li>→ Compares specs & room coverage</li>
-                  <li>→ Finds best prices across stores</li>
-                  <li>→ Checks for coupons & deals</li>
-                  <li>→ Adds to cart & initiates checkout</li>
-                </ul>
+              <div className="text-right">
+                <span className="text-2xl font-bold text-green-600">12 min</span>
+                <p className="text-xs text-muted-foreground">vs 4 hours manually</p>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 shadow-md hover:shadow-lg transition-shadow">
+            <CardContent className="p-6">
+              <div className="flex items-start gap-3 mb-3">
+                <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <ShoppingCart className="w-5 h-5 text-orange-600" />
+                </div>
+                <div>
+                  <p className="font-semibold">"Buy air purifier under $300"</p>
+                  <p className="text-sm text-muted-foreground">Found best deal → Cart ready</p>
+                </div>
+              </div>
+              <div className="text-right">
+                <span className="text-2xl font-bold text-orange-600">5 min</span>
+                <p className="text-xs text-muted-foreground">vs 90 min manually</p>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 shadow-md hover:shadow-lg transition-shadow">
+            <CardContent className="p-6">
+              <div className="flex items-start gap-3 mb-3">
+                <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <Home className="w-5 h-5 text-red-600" />
+                </div>
+                <div>
+                  <p className="font-semibold">"Find apartment in Brooklyn"</p>
+                  <p className="text-sm text-muted-foreground">Searched 5 sites → Top 10 matches</p>
+                </div>
+              </div>
+              <div className="text-right">
+                <span className="text-2xl font-bold text-red-600">10 min</span>
+                <p className="text-xs text-muted-foreground">vs 2 hours manually</p>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 shadow-md hover:shadow-lg transition-shadow">
+            <CardContent className="p-6">
+              <div className="flex items-start gap-3 mb-3">
+                <div className="w-10 h-10 bg-pink-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <FileText className="w-5 h-5 text-pink-600" />
+                </div>
+                <div>
+                  <p className="font-semibold">"Summarize quarterly earnings"</p>
+                  <p className="text-sm text-muted-foreground">Read 50 pages → Key insights</p>
+                </div>
+              </div>
+              <div className="text-right">
+                <span className="text-2xl font-bold text-pink-600">4 min</span>
+                <p className="text-xs text-muted-foreground">vs 60 min manually</p>
               </div>
             </CardContent>
           </Card>
         </div>
 
-        <div className="text-center mt-12 p-6 bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl max-w-3xl mx-auto">
+        <div className="text-center mt-12 p-8 bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-6 mb-6">
+            <div>
+              <div className="text-3xl font-bold text-purple-600">15,000+</div>
+              <p className="text-sm text-muted-foreground">Tasks automated</p>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-purple-600">800hrs</div>
+              <p className="text-sm text-muted-foreground">Saved weekly</p>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-purple-600">4.9/5</div>
+              <p className="text-sm text-muted-foreground">User satisfaction</p>
+            </div>
+          </div>
           <p className="text-lg font-semibold mb-2">
             🎯 The Key Difference:
           </p>
           <p className="text-muted-foreground">
-            You don't watch Vibe work. You don't click "next" buttons. You don't copy-paste between tabs.
-            <br/>
-            <strong className="text-purple-600">You give one command and come back to completed results.</strong>
+            You give one command and come back to completed results.
+            <strong className="text-purple-600"> No watching. No clicking. No waiting.</strong>
           </p>
         </div>
       </div>
     </section>
 
-    {/* How We Compare */}
-    <section className="w-full py-12 md:py-24 lg:py-32 bg-slate-50">
+    {/* How We Compare - Simplified */}
+    <section className="w-full py-12 md:py-16 bg-slate-50">
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl mb-4">
-            How We Compare
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
+            Why Vibe?
           </h2>
           <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
-            Why we built Vibe when there are already browsers out there
+            Built different because browsers deserve better
           </p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 max-w-5xl mx-auto">
+        <div className="max-w-4xl mx-auto space-y-4">
           {/* vs Chrome */}
-          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
-            <CardContent className="p-6">
-              <h3 className="text-xl font-semibold mb-3 flex items-center gap-2">
-                <span className="text-purple-600">vs</span> Chrome
-              </h3>
-              <p className="text-sm text-muted-foreground mb-4">
-                While we're grateful for Google open-sourcing Chromium, Chrome hasn't evolved much in 10 years. No AI features, no automation, no MCP support.
-              </p>
-              <div className="space-y-2">
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm">Built-in AI automation</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm">MCP protocol support</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm">Modern AI-first design</span>
+          <Card className="border-l-4 border-l-purple-600 shadow-md hover:shadow-lg transition-shadow">
+            <CardContent className="p-6 flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <Chrome className="w-8 h-8 text-gray-600" />
+                <div>
+                  <h3 className="font-semibold text-lg mb-1">vs Chrome</h3>
+                  <p className="text-sm text-muted-foreground">AI built-in, not bolted on</p>
                 </div>
               </div>
+              <Badge className="bg-purple-100 text-purple-700">AI-First</Badge>
             </CardContent>
           </Card>
 
           {/* vs Brave */}
-          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
-            <CardContent className="p-6">
-              <h3 className="text-xl font-semibold mb-3 flex items-center gap-2">
-                <span className="text-purple-600">vs</span> Brave
-              </h3>
-              <p className="text-sm text-muted-foreground mb-4">
-                We love what Brave started, but they've spread themselves too thin with crypto, search, VPNs. We're laser-focused on AI-powered browsing.
-              </p>
-              <div className="space-y-2">
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm">Focused mission: AI browsing only</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm">No crypto distractions</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm">True autonomous agent capabilities</span>
+          <Card className="border-l-4 border-l-blue-600 shadow-md hover:shadow-lg transition-shadow">
+            <CardContent className="p-6 flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <Shield className="w-8 h-8 text-gray-600" />
+                <div>
+                  <h3 className="font-semibold text-lg mb-1">vs Brave</h3>
+                  <p className="text-sm text-muted-foreground">Focused on AI, not crypto</p>
                 </div>
               </div>
+              <Badge className="bg-blue-100 text-blue-700">Laser-Focused</Badge>
             </CardContent>
           </Card>
 
           {/* vs Arc/Dia */}
-          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
-            <CardContent className="p-6">
-              <h3 className="text-xl font-semibold mb-3 flex items-center gap-2">
-                <span className="text-purple-600">vs</span> Arc/Dia
-              </h3>
-              <p className="text-sm text-muted-foreground mb-4">
-                Many loved Arc, but they abandoned their users for a new project. We're committed to building a stable, reliable browser that actually works.
-              </p>
-              <div className="space-y-2">
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm">Stable and production-ready</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm">Long-term commitment</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm">True AI agent capabilities</span>
+          <Card className="border-l-4 border-l-green-600 shadow-md hover:shadow-lg transition-shadow">
+            <CardContent className="p-6 flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <Target className="w-8 h-8 text-gray-600" />
+                <div>
+                  <h3 className="font-semibold text-lg mb-1">vs Arc/Dia</h3>
+                  <p className="text-sm text-muted-foreground">Committed to users, not pivots</p>
                 </div>
               </div>
+              <Badge className="bg-green-100 text-green-700">Stable</Badge>
             </CardContent>
           </Card>
 
           {/* vs Perplexity Comet */}
-          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
-            <CardContent className="p-6">
-              <h3 className="text-xl font-semibold mb-3 flex items-center gap-2">
-                <span className="text-purple-600">vs</span> Perplexity Comet
-              </h3>
-              <p className="text-sm text-muted-foreground mb-4">
-                They're a search/ad company. Your browser history becomes their product. We don't gather or sell your data.
-              </p>
-              <div className="space-y-2">
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm">No data collection or selling</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm">Configure your own AI provider</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm">Your data stays private</span>
+          <Card className="border-l-4 border-l-orange-600 shadow-md hover:shadow-lg transition-shadow">
+            <CardContent className="p-6 flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <Lock className="w-8 h-8 text-gray-600" />
+                <div>
+                  <h3 className="font-semibold text-lg mb-1">vs Perplexity Comet</h3>
+                  <p className="text-sm text-muted-foreground">Your data stays yours, configure your own AI provider</p>
                 </div>
               </div>
+              <Badge className="bg-orange-100 text-orange-700">Private</Badge>
             </CardContent>
           </Card>
 
-          {/* vs BrowserOS.org */}
-          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
-            <CardContent className="p-6">
-              <h3 className="text-xl font-semibold mb-3 flex items-center gap-2">
-                <span className="text-purple-600">vs</span> BrowserOS.org
-              </h3>
-              <p className="text-sm text-muted-foreground mb-4">
-                While BrowserOS is an interesting open-source project, it's not stable yet and builds still don't work. We focus on delivering a production-ready product.
-              </p>
-              <div className="space-y-2">
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm">Stable, working builds</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm">Production-ready now</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm">Enterprise-grade reliability</span>
+          {/* vs BrowserOS */}
+          <Card className="border-l-4 border-l-pink-600 shadow-md hover:shadow-lg transition-shadow">
+            <CardContent className="p-6 flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <CheckCircle className="w-8 h-8 text-gray-600" />
+                <div>
+                  <h3 className="font-semibold text-lg mb-1">vs BrowserOS</h3>
+                  <p className="text-sm text-muted-foreground">Production-ready builds that actually work</p>
                 </div>
               </div>
+              <Badge className="bg-pink-100 text-pink-700">Ready Now</Badge>
             </CardContent>
           </Card>
         </div>
 
-        <div className="text-center mt-8 p-6 bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl max-w-3xl mx-auto">
-          <p className="text-lg font-semibold mb-2">
-            🎯 The Bottom Line:
-          </p>
-          <p className="text-muted-foreground">
-            We built Vibe because existing browsers either lack true AI capabilities, abandoned their users, or treat your data as a product.
-            <br/>
+        <div className="text-center mt-12">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             <strong className="text-purple-600">Vibe is AI-first, privacy-focused, and puts you in control.</strong>
           </p>
         </div>
@@ -1285,12 +1355,16 @@ export default function Component() {
     <section id="pricing" className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-r from-purple-600 to-pink-600">
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
         <div className="flex flex-col items-center gap-6 text-center text-white">
+          <Badge className="bg-white/20 text-white border-white/30 px-4 py-2">
+            <Sparkles className="w-4 h-4 mr-2" />
+            5,000+ Users Already Joined
+          </Badge>
+
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
-            Stop Being Your Own Assistant
+            Don't Let Another Day Go to Manual Work
           </h2>
           <p className="max-w-2xl text-lg opacity-90">
-            Join thousands who are tired of clicking through endless tabs. Get early access to the first browser
-            that actually does the work for you.
+            Join the waitlist for early access. Be among the first to experience a browser that actually works for you.
           </p>
 
           <div className="grid gap-6 md:grid-cols-2 max-w-2xl w-full mt-8">
