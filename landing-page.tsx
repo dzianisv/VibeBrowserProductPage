@@ -804,10 +804,10 @@ export default function Component() {
                 <Lock className="w-8 h-8 text-gray-600" />
                 <div>
                   <h3 className="font-semibold text-lg mb-1">vs Perplexity Comet</h3>
-                  <p className="text-sm text-muted-foreground">Your data stays yours, configure your own AI provider</p>
+                  <p className="text-sm text-muted-foreground">Cloud-based AI exposes your data. Vibe runs locally with Chrome's built-in AI</p>
                 </div>
               </div>
-              <Badge className="bg-orange-100 text-orange-700">Private</Badge>
+              <Badge className="bg-orange-100 text-orange-700">Local AI</Badge>
             </CardContent>
           </Card>
 
