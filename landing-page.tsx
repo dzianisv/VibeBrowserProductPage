@@ -577,6 +577,163 @@ export default function Component() {
       </div>
     </section>
 
+    {/* How We Compare */}
+    <section className="w-full py-12 md:py-24 lg:py-32 bg-slate-50">
+      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl mb-4">
+            How We Compare
+          </h2>
+          <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
+            Why we built Vibe when there are already browsers out there
+          </p>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-2 max-w-5xl mx-auto">
+          {/* vs Chrome */}
+          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
+            <CardContent className="p-6">
+              <h3 className="text-xl font-semibold mb-3 flex items-center gap-2">
+                <span className="text-purple-600">vs</span> Chrome
+              </h3>
+              <p className="text-sm text-muted-foreground mb-4">
+                While we're grateful for Google open-sourcing Chromium, Chrome hasn't evolved much in 10 years. No AI features, no automation, no MCP support.
+              </p>
+              <div className="space-y-2">
+                <div className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-sm">Built-in AI automation</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-sm">MCP protocol support</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-sm">Modern AI-first design</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* vs Brave */}
+          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
+            <CardContent className="p-6">
+              <h3 className="text-xl font-semibold mb-3 flex items-center gap-2">
+                <span className="text-purple-600">vs</span> Brave
+              </h3>
+              <p className="text-sm text-muted-foreground mb-4">
+                We love what Brave started, but they've spread themselves too thin with crypto, search, VPNs. We're laser-focused on AI-powered browsing.
+              </p>
+              <div className="space-y-2">
+                <div className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-sm">Focused mission: AI browsing only</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-sm">No crypto distractions</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-sm">True autonomous agent capabilities</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* vs Arc/Dia */}
+          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
+            <CardContent className="p-6">
+              <h3 className="text-xl font-semibold mb-3 flex items-center gap-2">
+                <span className="text-purple-600">vs</span> Arc/Dia
+              </h3>
+              <p className="text-sm text-muted-foreground mb-4">
+                Many loved Arc, but they abandoned their users for a new project. We're committed to building a stable, reliable browser that actually works.
+              </p>
+              <div className="space-y-2">
+                <div className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-sm">Stable and production-ready</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-sm">Long-term commitment</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-sm">True AI agent capabilities</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* vs Perplexity Comet */}
+          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
+            <CardContent className="p-6">
+              <h3 className="text-xl font-semibold mb-3 flex items-center gap-2">
+                <span className="text-purple-600">vs</span> Perplexity Comet
+              </h3>
+              <p className="text-sm text-muted-foreground mb-4">
+                They're a search/ad company. Your browser history becomes their product. We don't gather or sell your data.
+              </p>
+              <div className="space-y-2">
+                <div className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-sm">No data collection or selling</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-sm">Configure your own AI provider</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-sm">Your data stays private</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* vs BrowserOS.org */}
+          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
+            <CardContent className="p-6">
+              <h3 className="text-xl font-semibold mb-3 flex items-center gap-2">
+                <span className="text-purple-600">vs</span> BrowserOS.org
+              </h3>
+              <p className="text-sm text-muted-foreground mb-4">
+                While BrowserOS is an interesting open-source project, it's not stable yet and builds still don't work. We focus on delivering a production-ready product.
+              </p>
+              <div className="space-y-2">
+                <div className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-sm">Stable, working builds</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-sm">Production-ready now</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-sm">Enterprise-grade reliability</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="text-center mt-8 p-6 bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl max-w-3xl mx-auto">
+          <p className="text-lg font-semibold mb-2">
+            🎯 The Bottom Line:
+          </p>
+          <p className="text-muted-foreground">
+            We built Vibe because existing browsers either lack true AI capabilities, abandoned their users, or treat your data as a product.
+            <br/>
+            <strong className="text-purple-600">Vibe is AI-first, privacy-focused, and puts you in control.</strong>
+          </p>
+        </div>
+      </div>
+    </section>
+
     {/* Deployment Modes */}
     <section className="w-full py-12 md:py-24 lg:py-32">
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
