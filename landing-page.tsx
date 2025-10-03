@@ -314,7 +314,7 @@ export default function Component() {
           <Badge variant="secondary"
             className="px-4 py-2 text-sm font-medium bg-purple-100 text-purple-700 border-purple-200">
             <Sparkles className="w-4 h-4 mr-2" />
-            Trusted by 5,000+ Early Access Users
+            Autonomous Web Agent • AI-Powered Browser
           </Badge>
 
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
@@ -700,16 +700,16 @@ export default function Component() {
         <div className="text-center mt-12 p-8 bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl max-w-4xl mx-auto">
           <div className="grid md:grid-cols-3 gap-6 mb-6">
             <div>
-              <div className="text-3xl font-bold text-purple-600">15,000+</div>
-              <p className="text-sm text-muted-foreground">Tasks automated</p>
+              <div className="text-3xl font-bold text-purple-600">Zero</div>
+              <p className="text-sm text-muted-foreground">Manual clicking required</p>
             </div>
             <div>
-              <div className="text-3xl font-bold text-purple-600">800hrs</div>
-              <p className="text-sm text-muted-foreground">Saved weekly</p>
+              <div className="text-3xl font-bold text-purple-600">10x</div>
+              <p className="text-sm text-muted-foreground">Faster task completion</p>
             </div>
             <div>
-              <div className="text-3xl font-bold text-purple-600">4.9/5</div>
-              <p className="text-sm text-muted-foreground">User satisfaction</p>
+              <div className="text-3xl font-bold text-purple-600">100%</div>
+              <p className="text-sm text-muted-foreground">Autonomous execution</p>
             </div>
           </div>
           <p className="text-lg font-semibold mb-2">
@@ -1438,7 +1438,7 @@ export default function Component() {
         <div className="flex flex-col items-center gap-6 text-center text-white">
           <Badge className="bg-white/20 text-white border-white/30 px-4 py-2">
             <Sparkles className="w-4 h-4 mr-2" />
-            5,000+ Users Already Joined
+            Early Access Now Available
           </Badge>
 
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
