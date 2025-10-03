@@ -214,6 +214,25 @@ export default function Component() {
 
   const demos = [
     {
+      id: 'linkedin-automation',
+      title: 'LinkedIn Automation',
+      subtitle: 'AI-powered LinkedIn task automation',
+      description: 'Watch Vibe AI Agent autonomously handle LinkedIn tasks',
+      task: {
+        label: 'LinkedIn Automation:',
+        description: 'Vibe AI Agent autonomously manages LinkedIn interactions.'
+      },
+      badges: ['LinkedIn Automation', 'Professional Networking', 'AI Assistant', 'Workflow Automation'],
+      videoSrc: '/linkedin-demo',
+      icon: MessageSquare,
+      iconColor: 'text-blue-600',
+      highlights: [
+        { icon: MessageSquare, title: 'Auto-Networking', description: 'Automated connection management' },
+        { icon: Brain, title: 'Smart Engagement', description: 'AI-powered professional interactions' },
+        { icon: Target, title: 'Task Completion', description: 'End-to-end workflow automation' }
+      ]
+    },
+    {
       id: 'google-calendar',
       title: 'Google Calendar Integration',
       subtitle: 'Vibe AI works seamlessly with Google Calendar',
@@ -225,7 +244,7 @@ export default function Component() {
       badges: ['Calendar Management', 'Google Integration', 'Smart Scheduling', 'AI Assistant'],
       videoSrc: '/google-calendar-demo',
       icon: Calendar,
-      iconColor: 'text-blue-600',
+      iconColor: 'text-purple-600',
       highlights: [
         { icon: Calendar, title: 'Calendar Integration', description: 'Seamlessly manage your schedule' },
         { icon: Brain, title: 'Smart Scheduling', description: 'AI-powered calendar management' },
