@@ -318,15 +318,13 @@ export default function Component() {
           </Badge>
 
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-            The Browser That
-            <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent block">
-              Actually Does Your Work
-            </span>
+            The
+            <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent"> Agentic Browser </span>
+            That Actually Does Your Work
           </h1>
 
           <p className="max-w-3xl text-lg text-muted-foreground md:text-xl leading-relaxed mb-8">
-            Tell Vibe what you need. It researches, compares, and completes the task—automatically.
-            Book flights, find insurance, research products. Zero clicking required.
+            Vibe is an AI-powered browser that turns your words into actions. Just describe your task in plain language—it handles all the clicking, typing, and navigating for you. A privacy-focused alternative to traditional browsers, reimagined for the AI era.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 items-center justify-center mb-8">
@@ -494,9 +492,14 @@ export default function Component() {
     <section className="w-full py-12 bg-gradient-to-br from-purple-50 to-pink-50">
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl font-bold text-center mb-8">
-            Stop clicking. Start commanding.
-          </h2>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
+              What Makes Vibe an Agentic Browser?
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Unlike traditional browsers with AI assistants, Vibe has a built-in autonomous agent that acts independently
+            </p>
+          </div>
 
           <div className="grid md:grid-cols-2 gap-8">
             {/* Traditional AI Tools */}
@@ -506,11 +509,11 @@ export default function Component() {
                 <ul className="space-y-3 text-sm text-muted-foreground">
                   <li className="flex items-start gap-2">
                     <span className="text-gray-400 mt-0.5">❌</span>
-                    <span>You browse, AI suggests</span>
+                    <span>You browse, AI suggests next steps</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-gray-400 mt-0.5">❌</span>
-                    <span>Summarize what you're already looking at</span>
+                    <span>Summarize what you're already viewing</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-gray-400 mt-0.5">❌</span>
@@ -518,7 +521,11 @@ export default function Component() {
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-gray-400 mt-0.5">❌</span>
-                    <span>You still do all the work</span>
+                    <span>You click, scroll, and navigate everything</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-gray-400 mt-0.5">❌</span>
+                    <span>You make every decision manually</span>
                   </li>
                 </ul>
               </CardContent>
@@ -528,24 +535,28 @@ export default function Component() {
             <Card className="border-2 border-purple-500 bg-gradient-to-br from-purple-50 to-pink-50 shadow-lg">
               <CardContent className="p-6">
                 <h3 className="text-lg font-semibold mb-4 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                  Vibe: True Autonomous Agent
+                  Vibe: Autonomous AI Agent
                 </h3>
                 <ul className="space-y-3 text-sm">
                   <li className="flex items-start gap-2">
                     <span className="text-green-500 mt-0.5">✓</span>
-                    <span className="font-medium">AI drives, you relax</span>
+                    <span className="font-medium">Understands complex natural language commands</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-green-500 mt-0.5">✓</span>
-                    <span className="font-medium">Completes entire multi-step tasks</span>
+                    <span className="font-medium">Plans multi-step workflows autonomously</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-green-500 mt-0.5">✓</span>
-                    <span className="font-medium">Navigates across multiple sites</span>
+                    <span className="font-medium">Navigates across multiple websites automatically</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-green-500 mt-0.5">✓</span>
-                    <span className="font-medium">Makes decisions and takes action</span>
+                    <span className="font-medium">Makes intelligent decisions on your behalf</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-500 mt-0.5">✓</span>
+                    <span className="font-medium">Executes complete tasks from start to finish</span>
                   </li>
                 </ul>
               </CardContent>
@@ -554,10 +565,10 @@ export default function Component() {
 
           <div className="mt-8 text-center">
             <p className="text-lg font-medium">
-              One command. Complete execution. Zero manual work.
+              One natural language command. Complete autonomous execution. Zero manual work.
             </p>
             <p className="text-sm text-muted-foreground mt-2">
-              "Find me the best mortgage rate" → Vibe visits 10+ lenders, compares rates, fills applications
+              Say: "Find me the best mortgage rate" → Vibe autonomously visits 10+ lenders, compares rates, analyzes terms, and presents recommendations
             </p>
           </div>
         </div>
@@ -800,6 +811,76 @@ export default function Component() {
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             <strong className="text-purple-600">Vibe is AI-first, privacy-focused, and puts you in control.</strong>
           </p>
+        </div>
+      </div>
+    </section>
+
+    {/* What is Agentic Browsing */}
+    <section className="w-full py-12 md:py-16 bg-white">
+      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-12">
+            <Badge variant="outline" className="px-4 py-2 text-sm font-medium mb-4">
+              <Brain className="w-4 h-4 mr-2" />
+              Agentic AI Technology
+            </Badge>
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
+              Build Agents with Natural Language
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              Automate any task—from scraping websites to filling out forms—just by describing what you want to do in plain language. Vibe translates your words into a repeatable agent that runs locally, giving you custom automation without code.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            <Card className="border-0 shadow-md">
+              <CardContent className="p-6">
+                <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
+                  <MessageSquare className="w-6 h-6 text-purple-600" />
+                </div>
+                <h3 className="font-semibold text-lg mb-2">Natural Language Control</h3>
+                <p className="text-sm text-muted-foreground">
+                  No coding required. Just tell Vibe what you need in plain English, and it figures out how to do it.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-0 shadow-md">
+              <CardContent className="p-6">
+                <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
+                  <Brain className="w-6 h-6 text-blue-600" />
+                </div>
+                <h3 className="font-semibold text-lg mb-2">Autonomous Planning</h3>
+                <p className="text-sm text-muted-foreground">
+                  Vibe's AI agent creates a step-by-step plan, makes decisions, and adapts to changes on the fly.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-0 shadow-md">
+              <CardContent className="p-6">
+                <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4">
+                  <RefreshCw className="w-6 h-6 text-green-600" />
+                </div>
+                <h3 className="font-semibold text-lg mb-2">Self-Correcting</h3>
+                <p className="text-sm text-muted-foreground">
+                  If something doesn't work, Vibe reflects on the problem and tries a different approach automatically.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="mt-12 p-6 bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl">
+            <div className="flex items-start gap-4">
+              <Lightbulb className="w-8 h-8 text-purple-600 flex-shrink-0 mt-1" />
+              <div>
+                <h3 className="font-semibold text-lg mb-2">How It Works</h3>
+                <p className="text-sm text-muted-foreground">
+                  Traditional browsers require you to click, type, and navigate manually. Agentic browsers like Vibe understand your goal and autonomously execute all the steps to achieve it. You describe the task once, and Vibe handles everything—from researching options across multiple sites to making comparisons and completing forms.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
