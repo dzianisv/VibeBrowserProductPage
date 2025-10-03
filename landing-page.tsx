@@ -1517,22 +1517,84 @@ export default function Component() {
   </main>
 
   {/* Footer */}
-  <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t bg-white">
-    <p className="text-xs text-muted-foreground">© 2025 Vibe Browser. All rights reserved.</p>
-    <nav className="sm:ml-auto flex gap-4 sm:gap-6">
-      <Link href="#" className="text-xs hover:underline underline-offset-4 text-muted-foreground">
-      Privacy Policy
-      </Link>
-      <Link href="#" className="text-xs hover:underline underline-offset-4 text-muted-foreground">
-      Terms of Service
-      </Link>
-      <Link href="#" className="text-xs hover:underline underline-offset-4 text-muted-foreground">
-      Support
-      </Link>
-      <Link href="#" className="text-xs hover:underline underline-offset-4 text-muted-foreground">
-      Blog
-      </Link>
-    </nav>
+  <footer className="w-full border-t bg-white">
+    <div className="container max-w-7xl px-4 md:px-6 py-12 mx-auto">
+      <div className="grid gap-8 md:grid-cols-4">
+        {/* Brand */}
+        <div className="space-y-4">
+          <div className="flex items-center gap-2">
+            <img src="/vibebrowser-logo.png" alt="Vibe Browser" className="w-8 h-8 object-contain" />
+            <span className="font-bold text-lg bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+              Vibe Browser
+            </span>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            The agentic browser that turns your words into actions. AI-powered automation for the modern web.
+          </p>
+        </div>
+
+        {/* Product */}
+        <div className="space-y-4">
+          <h3 className="font-semibold text-sm">Product</h3>
+          <nav className="flex flex-col gap-2">
+            <Link href="#demo" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
+              Demo
+            </Link>
+            <Link href="#features" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
+              Features
+            </Link>
+            <Link href="#roadmap" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
+              Roadmap
+            </Link>
+            <Link href="#pricing" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
+              Pricing
+            </Link>
+          </nav>
+        </div>
+
+        {/* Legal */}
+        <div className="space-y-4">
+          <h3 className="font-semibold text-sm">Legal</h3>
+          <nav className="flex flex-col gap-2">
+            <Link href="#" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
+              Privacy Policy
+            </Link>
+            <Link href="#" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
+              Terms of Service
+            </Link>
+          </nav>
+        </div>
+
+        {/* Contact */}
+        <div className="space-y-4">
+          <h3 className="font-semibold text-sm">Contact</h3>
+          <div className="flex flex-col gap-3">
+            <Link href="mailto:info@vibebrowser.app" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors flex items-center gap-2">
+              <MessageSquare className="w-4 h-4" />
+              info@vibebrowser.app
+            </Link>
+            <Link href="https://linkedin.com/company/vibebrowser" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors flex items-center gap-2">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+              </svg>
+              LinkedIn
+            </Link>
+            <Link href="https://x.com/vibebrowserapp" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors flex items-center gap-2">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+              </svg>
+              X (Twitter)
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-12 pt-8 border-t">
+        <p className="text-xs text-center text-muted-foreground">
+          © 2025 Vibe Browser. All rights reserved.
+        </p>
+      </div>
+    </div>
   </footer>
 </div>
 )
