@@ -834,6 +834,109 @@ export default function Component() {
       </div>
     </section>
 
+    {/* Chrome Built-in AI Section */}
+    <section className="w-full py-12 md:py-16 bg-gradient-to-br from-blue-50 to-purple-50">
+      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <Badge variant="outline" className="px-4 py-2 text-sm font-medium mb-4 bg-white">
+              <Sparkles className="w-4 h-4 mr-2" />
+              Powered by Chrome Built-in AI
+            </Badge>
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
+              Completely Private. Lightning Fast.
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Vibe leverages Google Chrome's built-in AI (Gemini Nano) to run AI models directly on your device. No cloud. No data sent to servers. Just instant, private automation.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 mb-12">
+            <Card className="border-0 shadow-lg bg-white">
+              <CardContent className="p-8">
+                <div className="flex items-start gap-4 mb-6">
+                  <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <Lock className="w-6 h-6 text-green-600" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold mb-2">100% Private</h3>
+                    <p className="text-sm text-muted-foreground">
+                      All AI processing happens locally on your device. Your browsing data, commands, and tasks never leave your computer.
+                    </p>
+                  </div>
+                </div>
+                <div className="space-y-2 text-sm">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-500" />
+                    <span>No cloud API calls</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-500" />
+                    <span>Zero data collection</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-500" />
+                    <span>Works offline</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="border-0 shadow-lg bg-white">
+              <CardContent className="p-8">
+                <div className="flex items-start gap-4 mb-6">
+                  <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <Zap className="w-6 h-6 text-blue-600" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold mb-2">Lightning Fast</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Local AI means instant responses. No network latency. No waiting for cloud APIs. Your agent acts immediately.
+                    </p>
+                  </div>
+                </div>
+                <div className="space-y-2 text-sm">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4 text-blue-500" />
+                    <span>Instant AI responses</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4 text-blue-500" />
+                    <span>No network delays</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4 text-blue-500" />
+                    <span>Real-time automation</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="bg-white rounded-2xl p-8 shadow-lg border-2 border-purple-200">
+            <div className="flex items-start gap-4">
+              <Chrome className="w-8 h-8 text-purple-600 flex-shrink-0 mt-1" />
+              <div>
+                <h3 className="font-semibold text-lg mb-3">Built on Chrome's AI Foundation</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Google Chrome now ships with Gemini Nano built-in, bringing powerful AI capabilities directly to the browser. Vibe harnesses this technology in both our standalone browser and extension, giving you enterprise-grade AI without compromising privacy or speed.
+                </p>
+                <Link
+                  href="https://developer.chrome.com/docs/ai"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-purple-600 hover:text-purple-700 font-medium inline-flex items-center gap-1"
+                >
+                  Learn more about Chrome Built-in AI
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     {/* What is Agentic Browsing */}
     <section className="w-full py-12 md:py-16 bg-white">
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
