@@ -586,33 +586,6 @@ export default function Component() {
             </CardContent>
           </Card>
 
-          {/* Vision Model Support */}
-          <Card className="border-l-4 border-l-purple-600 shadow-md hover:shadow-lg transition-shadow">
-            <CardContent className="p-6 flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <Eye className="w-8 h-8 text-gray-600" />
-                <div>
-                  <h3 className="font-semibold text-lg mb-1">Vision Model Support</h3>
-                  <p className="text-sm text-muted-foreground">AI sees and understands page layouts, images, and UI elements for higher quality automation</p>
-                </div>
-              </div>
-              <Badge className="bg-purple-100 text-purple-700">Advanced AI</Badge>
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="mt-8 text-center max-w-3xl mx-auto">
-          <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
-            <div className="flex items-start gap-3">
-              <Info className="w-5 h-5 text-purple-600 flex-shrink-0 mt-0.5" />
-              <div className="text-left">
-                <p className="text-sm font-medium text-purple-900 mb-1">Vision Models: Higher Quality, Additional Cost</p>
-                <p className="text-xs text-purple-700">
-                  Vision-enabled AI provides superior accuracy by understanding visual context, but may increase processing time and API costs. Choose based on your task complexity needs.
-                </p>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </section>
