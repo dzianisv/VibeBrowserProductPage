@@ -50,12 +50,15 @@ TrendingUp,
 Moon,
 Palette,
 Cloud,
+Info,
 } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
 
 export default function Component() {
   const [currentDemo, setCurrentDemo] = useState(0)
+  const [isPlaying, setIsPlaying] = useState(true)
+  const videoRef = React.useRef<HTMLVideoElement>(null)
 
   // Add structured data for SEO
   React.useEffect(() => {
@@ -64,14 +67,14 @@ export default function Component() {
     script.text = JSON.stringify({
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
-      "name": "Vibe Browser",
+      "name": "Vibe AI Browser Co-Pilot",
       "applicationCategory": "BrowserApplication",
       "operatingSystem": "Windows, macOS, Linux",
-      "description": "Autonomous web agent that completes entire tasks for you. Unlike AI assistants, Vibe takes full control - researching, navigating, and executing complex workflows across multiple websites automatically.",
+      "description": "AI browser co-pilot extension that completes entire tasks autonomously. Agentic AI browser for research, bookings, data entry, and complex workflows across multiple websites.",
       "url": "https://www.vibebrowser.app",
       "author": {
         "@type": "Organization",
-        "name": "Vibe Browser",
+        "name": "Vibe AI Browser Co-Pilot",
         "url": "https://www.vibebrowser.app"
       },
       "offers": {
@@ -109,10 +112,10 @@ export default function Component() {
     orgScript.text = JSON.stringify({
       "@context": "https://schema.org",
       "@type": "Organization",
-      "name": "Vibe Browser",
+      "name": "Vibe AI Browser Co-Pilot",
       "url": "https://www.vibebrowser.app",
       "logo": "https://www.vibebrowser.app/logo.png",
-      "description": "Creators of the revolutionary AI Web Agent",
+      "description": "Creators of the revolutionary AI Browser Co-Pilot",
       "sameAs": [
         "https://twitter.com/vibebrowser",
         "https://github.com/vibebrowser",
@@ -132,13 +135,13 @@ export default function Component() {
     pageScript.text = JSON.stringify({
       "@context": "https://schema.org",
       "@type": "WebPage",
-      "name": "Vibe Browser - AI Web Aegnt for the Future",
-      "description": "Experience the revolutionary AI Web Agent. Control any website with natural language.",
+      "name": "Vibe AI Browser Co-Pilot - Automate Your Browsing",
+      "description": "Experience the revolutionary AI Browser Co-Pilot. Automate any web task with natural language.",
       "url": "https://www.vibebrowser.app",
       "inLanguage": "en-US",
       "isPartOf": {
         "@type": "WebSite",
-        "name": "Vibe Browser",
+        "name": "Vibe AI Browser Co-Pilot",
         "url": "https://www.vibebrowser.app"
       },
       "breadcrumb": {
@@ -162,15 +165,15 @@ export default function Component() {
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "What is Vibe Browser?",
+          "name": "What is Vibe AI Browser Co-Pilot?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Vibe is an autonomous web agent that completes entire tasks for you. Unlike AI chatbots or assistants, Vibe takes full control of the browser - researching across multiple sites, making decisions, and executing complete workflows without you clicking a single button."
+            "text": "Vibe AI Browser Co-Pilot is an autonomous browser extension that completes entire tasks for you. Unlike AI chatbots or assistants, Vibe takes full control - researching across multiple sites, making decisions, and executing complete workflows without you clicking a single button."
           }
         },
         {
           "@type": "Question",
-          "name": "How does Vibe Browser work?",
+          "name": "How does Vibe AI Browser Co-Pilot work?",
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Vibe uses an autonomous AI agent with Plan-Execute-Reflect architecture. You give it a goal like 'book the cheapest flight to Paris next month' and it autonomously researches options, compares prices across airlines, and completes the booking - all without your intervention."
@@ -178,26 +181,26 @@ export default function Component() {
         },
         {
           "@type": "Question",
-          "name": "Is Vibe Browser free?",
+          "name": "Is Vibe AI Browser Co-Pilot free?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Vibe Browser is currently in development. Join our waitlist to be notified when it becomes available and learn about pricing options."
+            "text": "Vibe AI Browser Co-Pilot is free during beta. After launch, it's $20/month. Join our waitlist to be notified when it becomes available."
           }
         },
         {
           "@type": "Question",
-          "name": "What platforms does Vibe Browser support?",
+          "name": "What platforms does Vibe AI Browser Co-Pilot support?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Vibe Browser will be available for Windows, macOS, and Linux operating systems."
+            "text": "Vibe AI Browser Co-Pilot works as a Chrome extension on Windows, macOS, and Linux."
           }
         },
         {
           "@type": "Question",
-          "name": "Is my data safe with Vibe Browser?",
+          "name": "Is my data safe with Vibe AI Browser Co-Pilot?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes, Vibe Browser prioritizes user privacy and security. All processing happens locally when possible, and we never sell your data to third parties."
+            "text": "Yes, Vibe AI Browser Co-Pilot prioritizes user privacy and security. All processing happens locally using Chrome's built-in AI (Gemini Nano), and we never sell your data to third parties."
           }
         }
       ]
@@ -298,32 +301,45 @@ export default function Component() {
   const prevDemo = () => {
     setCurrentDemo((prev) => (prev - 1 + demos.length) % demos.length)
   }
+
+  const togglePlayPause = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause()
+      } else {
+        videoRef.current.play()
+      }
+      setIsPlaying(!isPlaying)
+    }
+  }
+
+  const restartVideo = () => {
+    if (videoRef.current) {
+      videoRef.current.currentTime = 0
+      videoRef.current.play()
+      setIsPlaying(true)
+    }
+  }
   
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-slate-50 to-white overflow-x-hidden">
       {/* Header */}
       <header className="w-full px-4 lg:px-6 h-16 flex items-center justify-between border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="flex items-center gap-2">
-          <img src="/vibebrowser-logo.png" alt="Vibe Browser" className="w-10 h-10 object-contain" />
+          <img src="/vibebrowser-logo.png" alt="Vibe AI Browser Co-Pilot" className="w-10 h-10 object-contain" />
           <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-            Vibe Browser
+            Vibe AI Browser Co-Pilot
           </span>
         </div>
-    <nav className="flex gap-4 sm:gap-6">
-      <Link href="#demo" className="text-sm font-medium hover:text-purple-600 transition-colors">
-      Demo
-      </Link>
-      <Link href="#features" className="text-sm font-medium hover:text-purple-600 transition-colors">
-      Features
-      </Link>
-      <Link href="#how-it-works" className="text-sm font-medium hover:text-purple-600 transition-colors">
-      How It Works
-      </Link>
-      <Link href="#roadmap" className="text-sm font-medium hover:text-purple-600 transition-colors">
-      Roadmap
-      </Link>
-    </nav>
-  </header>
+        <nav className="flex gap-4 sm:gap-6">
+          <Link href="#demo" className="text-sm font-medium hover:text-purple-600 transition-colors">
+            Demo
+          </Link>
+          <Link href="#pricing" className="text-sm font-medium hover:text-purple-600 transition-colors">
+            Pricing
+          </Link>
+        </nav>
+      </header>
 
   <main className="flex-1">
     {/* Hero Section with Integrated Demo */}
@@ -333,7 +349,7 @@ export default function Component() {
           <Badge variant="secondary"
             className="px-4 py-2 text-sm font-medium bg-purple-100 text-purple-700 border-purple-200">
             <Sparkles className="w-4 h-4 mr-2" />
-            Autonomous Web Agent • AI-Powered Browser
+            AI Browser Co-Pilot
           </Badge>
 
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
@@ -342,8 +358,27 @@ export default function Component() {
             That Actually Does Your Work
           </h1>
 
-          <p className="max-w-3xl text-lg text-muted-foreground md:text-xl leading-relaxed mb-8">
-            Vibe is an AI-powered browser that turns your words into actions. Just describe your task in plain language—it handles all the clicking, typing, and navigating for you. A privacy-focused alternative to traditional browsers, reimagined for the AI era.
+          <p className="max-w-3xl text-lg text-muted-foreground md:text-xl leading-relaxed mb-4">
+            Stop wasting 2+ hours daily on repetitive web tasks. Vibe automates research, bookings, data entry, and more—just describe what you want done in plain language.
+          </p>
+
+          <div className="flex gap-6 justify-center items-center text-sm text-muted-foreground mb-8">
+            <div className="flex items-center gap-2">
+              <Lock className="w-4 h-4 text-green-600" />
+              <span>100% Private*</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Zap className="w-4 h-4 text-blue-600" />
+              <span>10x Faster</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle className="w-4 h-4 text-purple-600" />
+              <span>Zero Manual Work</span>
+            </div>
+          </div>
+
+          <p className="text-xs text-muted-foreground mb-6 max-w-2xl mx-auto">
+            *When using embedded Gemini Nano AI
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 items-center justify-center mb-8">
@@ -359,236 +394,224 @@ export default function Component() {
             "Like having a personal assistant who never sleeps" — Sarah K., Product Manager
           </p>
 
-          {/* Demo Carousel directly after text */}
-          <div className="w-full max-w-5xl mx-auto">
-          {/* Carousel Navigation Tabs */}
-          <div className="flex flex-col sm:flex-row justify-center gap-2 mb-8">
-            {demos.map((demo, index) => (
-              <button
-                key={demo.id}
-                onClick={() => setCurrentDemo(index)}
-                className={`px-4 py-2 rounded-lg transition-all ${
-                  currentDemo === index
-                    ? 'bg-purple-600 text-white shadow-lg'
-                    : 'bg-white text-gray-600 hover:bg-gray-100 border'
-                }`}
-              >
-                <span className="text-sm font-medium">{demo.title}</span>
-              </button>
-            ))}
-          </div>
-
-          {/* Demo Content */}
-          <div className="relative">
-            {/* Video Player with Navigation Arrows */}
+          {/* Demo Carousel - Composite Style */}
+          <div className="w-full max-w-4xl mx-auto">
+            {/* Demo Content */}
             <div className="relative">
-              <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl border bg-slate-900">
-                <div className="relative" style={{ paddingBottom: '56.25%' }}>
+              {/* Full-screen Video with Overlay */}
+              <div className="relative rounded-3xl overflow-hidden shadow-2xl">
+                <div className="relative" style={{ paddingBottom: '62.5%' }}>
                   <video
+                    ref={videoRef}
                     key={currentDemo}
-                    className="absolute inset-0 w-full h-full object-contain"
-                    controls
+                    className="absolute inset-0 w-full h-full object-cover"
+                    autoPlay
                     loop
                     muted
                     playsInline
                     preload="auto"
                     src={`${demos[currentDemo].videoSrc}.mp4`}
+                    onPlay={() => setIsPlaying(true)}
+                    onPause={() => setIsPlaying(false)}
                   >
                     Your browser does not support the video tag.
                   </video>
+
+                  {/* Gradient Overlay for text readability */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+
+                  {/* Natural Language Prompt Overlay */}
+                  <div className="absolute inset-0 flex items-center justify-center p-8">
+                    <div className="max-w-3xl w-full">
+                      <div className="bg-black/40 backdrop-blur-md rounded-2xl p-8 border border-white/20">
+                        <p className="text-white text-2xl md:text-3xl font-medium leading-relaxed">
+                          {demos[currentDemo].task.description}
+                        </p>
+
+                        {/* Action Buttons */}
+                        <div className="flex gap-4 mt-6">
+                          <button
+                            onClick={togglePlayPause}
+                            className="flex items-center gap-2 px-5 py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors border border-white/20"
+                          >
+                            {isPlaying ? (
+                              <>
+                                <div className="w-4 h-4 flex items-center justify-center">
+                                  <div className="flex gap-1">
+                                    <div className="w-1 h-4 bg-white rounded-sm"></div>
+                                    <div className="w-1 h-4 bg-white rounded-sm"></div>
+                                  </div>
+                                </div>
+                                <span className="text-sm font-medium">Pause</span>
+                              </>
+                            ) : (
+                              <>
+                                <Play className="w-4 h-4" />
+                                <span className="text-sm font-medium">Play</span>
+                              </>
+                            )}
+                          </button>
+                          <button
+                            onClick={restartVideo}
+                            className="flex items-center gap-2 px-5 py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors border border-white/20"
+                          >
+                            <RefreshCw className="w-4 h-4" />
+                            <span className="text-sm font-medium">Restart</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Navigation Arrows */}
+                  <button
+                    onClick={prevDemo}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all z-20"
+                    aria-label="Previous demo"
+                  >
+                    <ChevronLeft className="w-5 h-5 text-gray-800" />
+                  </button>
+                  <button
+                    onClick={nextDemo}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all z-20"
+                    aria-label="Next demo"
+                  >
+                    <ChevronRight className="w-5 h-5 text-gray-800" />
+                  </button>
                 </div>
               </div>
 
-              {/* Navigation Arrows */}
-              <button
-                onClick={prevDemo}
-                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white rounded-full p-2 shadow-lg hover:shadow-xl transition-shadow z-10"
-                aria-label="Previous demo"
-              >
-                <ChevronLeft className="w-6 h-6" />
-              </button>
-              <button
-                onClick={nextDemo}
-                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white rounded-full p-2 shadow-lg hover:shadow-xl transition-shadow z-10"
-                aria-label="Next demo"
-              >
-                <ChevronRight className="w-6 h-6" />
-              </button>
-            </div>
+              {/* Demo Tabs Below Video */}
+              <div className="flex flex-wrap justify-center gap-2 mt-8">
+                {demos.map((demo, index) => (
+                  <button
+                    key={demo.id}
+                    onClick={() => setCurrentDemo(index)}
+                    className={`px-4 py-2 rounded-full transition-all text-sm font-medium ${
+                      currentDemo === index
+                        ? 'bg-purple-600 text-white shadow-lg'
+                        : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
+                    }`}
+                  >
+                    {demo.title}
+                  </button>
+                ))}
+              </div>
 
-            {/* Task Description - Simple text below video */}
-            <div className="mt-6 text-center">
-              <p className="text-sm text-muted-foreground italic max-w-3xl mx-auto">
-                {demos[currentDemo].task.description}
-              </p>
+              {/* Demo Indicators */}
+              <div className="flex justify-center gap-2 mt-6">
+                {demos.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentDemo(index)}
+                    className={`h-1.5 rounded-full transition-all ${
+                      currentDemo === index ? 'w-8 bg-purple-600' : 'w-1.5 bg-gray-300'
+                    }`}
+                    aria-label={`Go to demo ${index + 1}`}
+                  />
+                ))}
+              </div>
             </div>
-
-            {/* Demo Indicators */}
-            <div className="flex justify-center gap-2 mt-8">
-              {demos.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentDemo(index)}
-                  className={`w-2 h-2 rounded-full transition-colors ${
-                    currentDemo === index ? 'bg-purple-600' : 'bg-gray-300'
-                  }`}
-                  aria-label={`Go to demo ${index + 1}`}
-                />
-              ))}
-            </div>
-          </div>
           </div>
         </div>
       </div>
     </section>
 
-    {/* The Problem Section */}
+    {/* Why Vibe - Simplified Comparison */}
     <section className="w-full py-12 md:py-16 bg-white">
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
-            The Modern Web is Exhausting
+            Why Vibe?
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Every day, you waste hours on tasks that should take minutes
+          <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
+            The only truly agentic AI browser built for autonomous task completion
           </p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto mb-12">
-          <Card className="border-0 shadow-md text-center p-6">
-            <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <ListTodo className="w-8 h-8 text-red-600" />
-            </div>
-            <h3 className="font-semibold text-lg mb-2">23 Tabs Open</h3>
-            <p className="text-sm text-muted-foreground">
-              Comparing prices, reading reviews, checking availability
-            </p>
+        <div className="max-w-4xl mx-auto space-y-4">
+          {/* vs Traditional AI Tools */}
+          <Card className="border-l-4 border-l-purple-600 shadow-md hover:shadow-lg transition-shadow">
+            <CardContent className="p-6 flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <Brain className="w-8 h-8 text-gray-600" />
+                <div>
+                  <h3 className="font-semibold text-lg mb-1">vs ChatGPT/AI Assistants</h3>
+                  <p className="text-sm text-muted-foreground">Completes tasks, not just answers questions</p>
+                </div>
+              </div>
+              <Badge className="bg-purple-100 text-purple-700">Autonomous</Badge>
+            </CardContent>
           </Card>
 
-          <Card className="border-0 shadow-md text-center p-6">
-            <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Clock className="w-8 h-8 text-orange-600" />
-            </div>
-            <h3 className="font-semibold text-lg mb-2">2.5 Hours Daily</h3>
-            <p className="text-sm text-muted-foreground">
-              Wasted on repetitive clicking, copying, pasting
-            </p>
+          {/* vs Perplexity Comet */}
+          <Card className="border-l-4 border-l-orange-600 shadow-md hover:shadow-lg transition-shadow">
+            <CardContent className="p-6 flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <Lock className="w-8 h-8 text-gray-600" />
+                <div>
+                  <h3 className="font-semibold text-lg mb-1">vs Perplexity Comet</h3>
+                  <p className="text-sm text-muted-foreground">Commercial product that monetizes your browsing data through ads and partnerships</p>
+                </div>
+              </div>
+              <Badge className="bg-orange-100 text-orange-700">Privacy-Focused</Badge>
+            </CardContent>
           </Card>
 
-          <Card className="border-0 shadow-md text-center p-6">
-            <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Brain className="w-8 h-8 text-yellow-600" />
-            </div>
-            <h3 className="font-semibold text-lg mb-2">Decision Fatigue</h3>
-            <p className="text-sm text-muted-foreground">
-              Overwhelmed by choices, paralyzed by options
-            </p>
+          {/* vs BrowserOS */}
+          <Card className="border-l-4 border-l-blue-600 shadow-md hover:shadow-lg transition-shadow">
+            <CardContent className="p-6 flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <Zap className="w-8 h-8 text-gray-600" />
+                <div>
+                  <h3 className="font-semibold text-lg mb-1">vs BrowserOS</h3>
+                  <p className="text-sm text-muted-foreground">BrowserOS still doesn't work reliably—it depends on Moonbeam API for image processing, making it slower, cloud-dependent, and unable to run with locally hosted Gemini Nano.</p>
+                </div>
+              </div>
+              <Badge className="bg-blue-100 text-blue-700">Actually Works</Badge>
+            </CardContent>
           </Card>
 
-          <Card className="border-0 shadow-md text-center p-6">
-            <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <MousePointer className="w-8 h-8 text-purple-600" />
-            </div>
-            <h3 className="font-semibold text-lg mb-2">Still Clicking</h3>
-            <p className="text-sm text-muted-foreground">
-              Like it's 1995. There has to be a better way
-            </p>
+          {/* vs Other Browsers */}
+          <Card className="border-l-4 border-l-green-600 shadow-md hover:shadow-lg transition-shadow">
+            <CardContent className="p-6 flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <Target className="w-8 h-8 text-gray-600" />
+                <div>
+                  <h3 className="font-semibold text-lg mb-1">vs Arc/Brave/Chrome</h3>
+                  <p className="text-sm text-muted-foreground">AI-first architecture, not bolted-on assistant features</p>
+                </div>
+              </div>
+              <Badge className="bg-green-100 text-green-700">Purpose-Built</Badge>
+            </CardContent>
+          </Card>
+
+          {/* Vision Model Support */}
+          <Card className="border-l-4 border-l-purple-600 shadow-md hover:shadow-lg transition-shadow">
+            <CardContent className="p-6 flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <Eye className="w-8 h-8 text-gray-600" />
+                <div>
+                  <h3 className="font-semibold text-lg mb-1">Vision Model Support</h3>
+                  <p className="text-sm text-muted-foreground">AI sees and understands page layouts, images, and UI elements for higher quality automation</p>
+                </div>
+              </div>
+              <Badge className="bg-purple-100 text-purple-700">Advanced AI</Badge>
+            </CardContent>
           </Card>
         </div>
 
-        <div className="text-center">
-          <h3 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
-            You Deserve Better
-          </h3>
-          <p className="text-lg text-muted-foreground">
-            Your browser should work for you, not the other way around
-          </p>
-        </div>
-      </div>
-    </section>
-
-    {/* The Difference - Clear Value Proposition */}
-    <section className="w-full py-12 bg-gradient-to-br from-purple-50 to-pink-50">
-      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
-              What Makes Vibe an Agentic Browser?
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Unlike traditional browsers with AI assistants, Vibe has a built-in autonomous agent that acts independently
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            {/* Traditional AI Tools */}
-            <Card className="border-2 border-gray-200 bg-white/50">
-              <CardContent className="p-6">
-                <h3 className="text-lg font-semibold mb-4 text-gray-600">Traditional "AI Browsers"</h3>
-                <ul className="space-y-3 text-sm text-muted-foreground">
-                  <li className="flex items-start gap-2">
-                    <span className="text-gray-400 mt-0.5">❌</span>
-                    <span>You browse, AI suggests next steps</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-gray-400 mt-0.5">❌</span>
-                    <span>Summarize what you're already viewing</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-gray-400 mt-0.5">❌</span>
-                    <span>Answer questions about current page</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-gray-400 mt-0.5">❌</span>
-                    <span>You click, scroll, and navigate everything</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-gray-400 mt-0.5">❌</span>
-                    <span>You make every decision manually</span>
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
-
-            {/* Vibe Browser */}
-            <Card className="border-2 border-purple-500 bg-gradient-to-br from-purple-50 to-pink-50 shadow-lg">
-              <CardContent className="p-6">
-                <h3 className="text-lg font-semibold mb-4 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                  Vibe: Autonomous AI Agent
-                </h3>
-                <ul className="space-y-3 text-sm">
-                  <li className="flex items-start gap-2">
-                    <span className="text-green-500 mt-0.5">✓</span>
-                    <span className="font-medium">Understands complex natural language commands</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-green-500 mt-0.5">✓</span>
-                    <span className="font-medium">Plans multi-step workflows autonomously</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-green-500 mt-0.5">✓</span>
-                    <span className="font-medium">Navigates across multiple websites automatically</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-green-500 mt-0.5">✓</span>
-                    <span className="font-medium">Makes intelligent decisions on your behalf</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-green-500 mt-0.5">✓</span>
-                    <span className="font-medium">Executes complete tasks from start to finish</span>
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
-          </div>
-
-          <div className="mt-8 text-center">
-            <p className="text-lg font-medium">
-              One natural language command. Complete autonomous execution. Zero manual work.
-            </p>
-            <p className="text-sm text-muted-foreground mt-2">
-              Say: "Find me the best mortgage rate" → Vibe autonomously visits 10+ lenders, compares rates, analyzes terms, and presents recommendations
-            </p>
+        <div className="mt-8 text-center max-w-3xl mx-auto">
+          <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
+            <div className="flex items-start gap-3">
+              <Info className="w-5 h-5 text-purple-600 flex-shrink-0 mt-0.5" />
+              <div className="text-left">
+                <p className="text-sm font-medium text-purple-900 mb-1">Vision Models: Higher Quality, Additional Cost</p>
+                <p className="text-xs text-purple-700">
+                  Vision-enabled AI provides superior accuracy by understanding visual context, but may increase processing time and API costs. Choose based on your task complexity needs.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -606,25 +629,7 @@ export default function Component() {
           </p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
-          <Card className="border-0 shadow-md hover:shadow-lg transition-shadow">
-            <CardContent className="p-6">
-              <div className="flex items-start gap-3 mb-3">
-                <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Plane className="w-5 h-5 text-purple-600" />
-                </div>
-                <div>
-                  <p className="font-semibold">"Book flight to NYC"</p>
-                  <p className="text-sm text-muted-foreground">Compared 8 airlines → Booked cheapest</p>
-                </div>
-              </div>
-              <div className="text-right">
-                <span className="text-2xl font-bold text-purple-600">3 min</span>
-                <p className="text-xs text-muted-foreground">vs 45 min manually</p>
-              </div>
-            </CardContent>
-          </Card>
-
+        <div className="grid gap-6 md:grid-cols-3 max-w-5xl mx-auto">
           <Card className="border-0 shadow-md hover:shadow-lg transition-shadow">
             <CardContent className="p-6">
               <div className="flex items-start gap-3 mb-3">
@@ -664,53 +669,17 @@ export default function Component() {
           <Card className="border-0 shadow-md hover:shadow-lg transition-shadow">
             <CardContent className="p-6">
               <div className="flex items-start gap-3 mb-3">
-                <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <ShoppingCart className="w-5 h-5 text-orange-600" />
+                <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <Plane className="w-5 h-5 text-purple-600" />
                 </div>
                 <div>
-                  <p className="font-semibold">"Buy air purifier under $300"</p>
-                  <p className="text-sm text-muted-foreground">Found best deal → Cart ready</p>
+                  <p className="font-semibold">"Book flight to NYC"</p>
+                  <p className="text-sm text-muted-foreground">Compared 8 airlines → Booked cheapest</p>
                 </div>
               </div>
               <div className="text-right">
-                <span className="text-2xl font-bold text-orange-600">5 min</span>
-                <p className="text-xs text-muted-foreground">vs 90 min manually</p>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-0 shadow-md hover:shadow-lg transition-shadow">
-            <CardContent className="p-6">
-              <div className="flex items-start gap-3 mb-3">
-                <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Home className="w-5 h-5 text-red-600" />
-                </div>
-                <div>
-                  <p className="font-semibold">"Find apartment in Brooklyn"</p>
-                  <p className="text-sm text-muted-foreground">Searched 5 sites → Top 10 matches</p>
-                </div>
-              </div>
-              <div className="text-right">
-                <span className="text-2xl font-bold text-red-600">10 min</span>
-                <p className="text-xs text-muted-foreground">vs 2 hours manually</p>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-0 shadow-md hover:shadow-lg transition-shadow">
-            <CardContent className="p-6">
-              <div className="flex items-start gap-3 mb-3">
-                <div className="w-10 h-10 bg-pink-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <FileText className="w-5 h-5 text-pink-600" />
-                </div>
-                <div>
-                  <p className="font-semibold">"Summarize quarterly earnings"</p>
-                  <p className="text-sm text-muted-foreground">Read 50 pages → Key insights</p>
-                </div>
-              </div>
-              <div className="text-right">
-                <span className="text-2xl font-bold text-pink-600">4 min</span>
-                <p className="text-xs text-muted-foreground">vs 60 min manually</p>
+                <span className="text-2xl font-bold text-purple-600">3 min</span>
+                <p className="text-xs text-muted-foreground">vs 45 min manually</p>
               </div>
             </CardContent>
           </Card>
@@ -742,628 +711,83 @@ export default function Component() {
       </div>
     </section>
 
-    {/* How We Compare - Simplified */}
-    <section className="w-full py-12 md:py-16 bg-slate-50">
+    {/* How It Works - Simplified */}
+    <section id="how-it-works" className="w-full py-12 md:py-16 bg-slate-50">
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
-            Why Vibe?
-          </h2>
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">How It Works</h2>
           <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
-            Built different because browsers deserve better
+            Three simple steps. Complete automation.
           </p>
         </div>
 
-        <div className="max-w-4xl mx-auto space-y-4">
-          {/* vs Chrome */}
-          <Card className="border-l-4 border-l-purple-600 shadow-md hover:shadow-lg transition-shadow">
-            <CardContent className="p-6 flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <Chrome className="w-8 h-8 text-gray-600" />
-                <div>
-                  <h3 className="font-semibold text-lg mb-1">vs Chrome</h3>
-                  <p className="text-sm text-muted-foreground">AI built-in, not bolted on</p>
-                </div>
-              </div>
-              <Badge className="bg-purple-100 text-purple-700">AI-First</Badge>
-            </CardContent>
-          </Card>
-
-          {/* vs Brave */}
-          <Card className="border-l-4 border-l-blue-600 shadow-md hover:shadow-lg transition-shadow">
-            <CardContent className="p-6 flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <Shield className="w-8 h-8 text-gray-600" />
-                <div>
-                  <h3 className="font-semibold text-lg mb-1">vs Brave</h3>
-                  <p className="text-sm text-muted-foreground">Focused on AI, not crypto</p>
-                </div>
-              </div>
-              <Badge className="bg-blue-100 text-blue-700">Laser-Focused</Badge>
-            </CardContent>
-          </Card>
-
-          {/* vs Arc/Dia */}
-          <Card className="border-l-4 border-l-green-600 shadow-md hover:shadow-lg transition-shadow">
-            <CardContent className="p-6 flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <Target className="w-8 h-8 text-gray-600" />
-                <div>
-                  <h3 className="font-semibold text-lg mb-1">vs Arc/Dia</h3>
-                  <p className="text-sm text-muted-foreground">Committed to users, not pivots</p>
-                </div>
-              </div>
-              <Badge className="bg-green-100 text-green-700">Stable</Badge>
-            </CardContent>
-          </Card>
-
-          {/* vs Perplexity Comet */}
-          <Card className="border-l-4 border-l-orange-600 shadow-md hover:shadow-lg transition-shadow">
-            <CardContent className="p-6 flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <Lock className="w-8 h-8 text-gray-600" />
-                <div>
-                  <h3 className="font-semibold text-lg mb-1">vs Perplexity Comet</h3>
-                  <p className="text-sm text-muted-foreground">Cloud-based AI exposes your data. Vibe runs locally with Chrome's built-in AI</p>
-                </div>
-              </div>
-              <Badge className="bg-orange-100 text-orange-700">Local AI</Badge>
-            </CardContent>
-          </Card>
-
-          {/* vs BrowserOS */}
-          <Card className="border-l-4 border-l-pink-600 shadow-md hover:shadow-lg transition-shadow">
-            <CardContent className="p-6 flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <CheckCircle className="w-8 h-8 text-gray-600" />
-                <div>
-                  <h3 className="font-semibold text-lg mb-1">vs BrowserOS</h3>
-                  <p className="text-sm text-muted-foreground">Accessibility tree limits extension support. Screenshot-based API slows execution and blocks local models</p>
-                </div>
-              </div>
-              <Badge className="bg-pink-100 text-pink-700">Fast & Flexible</Badge>
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="text-center mt-12">
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            <strong className="text-purple-600">Vibe is AI-first, privacy-focused, and puts you in control.</strong>
-          </p>
-        </div>
-      </div>
-    </section>
-
-    {/* Chrome Built-in AI Section */}
-    <section className="w-full py-12 md:py-16 bg-gradient-to-br from-blue-50 to-purple-50">
-      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <Badge variant="outline" className="px-4 py-2 text-sm font-medium mb-4 bg-white">
-              <Sparkles className="w-4 h-4 mr-2" />
-              Powered by Chrome Built-in AI
-            </Badge>
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
-              Completely Private. Lightning Fast.
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Vibe leverages Google Chrome's built-in AI (Gemini Nano) to run AI models directly on your device. No cloud. No data sent to servers. Just instant, private automation.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8 mb-12">
-            <Card className="border-0 shadow-lg bg-white">
-              <CardContent className="p-8">
-                <div className="flex items-start gap-4 mb-6">
-                  <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Lock className="w-6 h-6 text-green-600" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold mb-2">100% Private</h3>
-                    <p className="text-sm text-muted-foreground">
-                      All AI processing happens locally on your device. Your browsing data, commands, and tasks never leave your computer.
-                    </p>
-                  </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Step 1 */}
+            <Card className="border-0 shadow-lg bg-white relative">
+              <div className="absolute -top-4 left-6">
+                <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold">
+                  1
                 </div>
-                <div className="space-y-2 text-sm">
-                  <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-500" />
-                    <span>No cloud API calls</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-500" />
-                    <span>Zero data collection</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-500" />
-                    <span>Works offline</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 shadow-lg bg-white">
-              <CardContent className="p-8">
-                <div className="flex items-start gap-4 mb-6">
-                  <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Zap className="w-6 h-6 text-blue-600" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold mb-2">Lightning Fast</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Local AI means instant responses. No network latency. No waiting for cloud APIs. Your agent acts immediately.
-                    </p>
-                  </div>
-                </div>
-                <div className="space-y-2 text-sm">
-                  <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-blue-500" />
-                    <span>Instant AI responses</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-blue-500" />
-                    <span>No network delays</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-blue-500" />
-                    <span>Real-time automation</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          <div className="bg-white rounded-2xl p-8 shadow-lg border-2 border-purple-200">
-            <div className="flex items-start gap-4">
-              <Chrome className="w-8 h-8 text-purple-600 flex-shrink-0 mt-1" />
-              <div>
-                <h3 className="font-semibold text-lg mb-3">Built on Chrome's AI Foundation</h3>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Google Chrome now ships with Gemini Nano built-in, bringing powerful AI capabilities directly to the browser. Vibe harnesses this technology in both our standalone browser and extension, giving you enterprise-grade AI without compromising privacy or speed.
-                </p>
-                <Link
-                  href="https://developer.chrome.com/docs/ai"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-purple-600 hover:text-purple-700 font-medium inline-flex items-center gap-1"
-                >
-                  Learn more about Chrome Built-in AI
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    {/* What is Agentic Browsing */}
-    <section className="w-full py-12 md:py-16 bg-white">
-      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <Badge variant="outline" className="px-4 py-2 text-sm font-medium mb-4">
-              <Brain className="w-4 h-4 mr-2" />
-              Agentic AI Technology
-            </Badge>
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
-              Build Agents with Natural Language
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              Automate any task—from scraping websites to filling out forms—just by describing what you want to do in plain language. Vibe translates your words into a repeatable agent that runs locally, giving you custom automation without code.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            <Card className="border-0 shadow-md">
-              <CardContent className="p-6">
+              <CardContent className="p-8 pt-10">
                 <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
                   <MessageSquare className="w-6 h-6 text-purple-600" />
                 </div>
-                <h3 className="font-semibold text-lg mb-2">Natural Language Control</h3>
+                <h3 className="font-semibold text-lg mb-2">Tell Vibe What You Want</h3>
                 <p className="text-sm text-muted-foreground">
-                  No coding required. Just tell Vibe what you need in plain English, and it figures out how to do it.
+                  Describe your task in plain language. No coding, no complex commands—just natural conversation.
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="border-0 shadow-md">
-              <CardContent className="p-6">
+            {/* Step 2 */}
+            <Card className="border-0 shadow-lg bg-white relative">
+              <div className="absolute -top-4 left-6">
+                <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">
+                  2
+                </div>
+              </div>
+              <CardContent className="p-8 pt-10">
                 <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
                   <Brain className="w-6 h-6 text-blue-600" />
                 </div>
-                <h3 className="font-semibold text-lg mb-2">Autonomous Planning</h3>
+                <h3 className="font-semibold text-lg mb-2">AI Auto-Pilot Takes Over</h3>
                 <p className="text-sm text-muted-foreground">
-                  Vibe's AI agent creates a step-by-step plan, makes decisions, and adapts to changes on the fly.
+                  Vibe breaks down your task, navigates websites, compares options, and makes intelligent decisions autonomously.
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="border-0 shadow-md">
-              <CardContent className="p-6">
+            {/* Step 3 */}
+            <Card className="border-0 shadow-lg bg-white relative">
+              <div className="absolute -top-4 left-6">
+                <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white font-bold">
+                  3
+                </div>
+              </div>
+              <CardContent className="p-8 pt-10">
                 <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4">
-                  <RefreshCw className="w-6 h-6 text-green-600" />
+                  <CheckCircle className="w-6 h-6 text-green-600" />
                 </div>
-                <h3 className="font-semibold text-lg mb-2">Self-Correcting</h3>
+                <h3 className="font-semibold text-lg mb-2">Get Results</h3>
                 <p className="text-sm text-muted-foreground">
-                  If something doesn't work, Vibe reflects on the problem and tries a different approach automatically.
+                  Review completed tasks, summarized research, or ready-to-submit forms—all done while you focused on what matters.
                 </p>
               </CardContent>
             </Card>
           </div>
 
-          <div className="mt-12 p-6 bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl">
-            <div className="flex items-start gap-4">
-              <Lightbulb className="w-8 h-8 text-purple-600 flex-shrink-0 mt-1" />
-              <div>
-                <h3 className="font-semibold text-lg mb-2">How It Works</h3>
-                <p className="text-sm text-muted-foreground">
-                  Traditional browsers require you to click, type, and navigate manually. Agentic browsers like Vibe understand your goal and autonomously execute all the steps to achieve it. You describe the task once, and Vibe handles everything—from researching options across multiple sites to making comparisons and completing forms.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    {/* Deployment Modes */}
-    <section className="w-full py-12 md:py-24 lg:py-32">
-      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl mb-4">
-            Three Ways to Experience Vibe
-          </h2>
-          <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
-            Choose the deployment mode that fits your needs - from full browser to lightweight extension
-          </p>
-        </div>
-
-        <div className="grid gap-8 md:grid-cols-3 max-w-6xl mx-auto">
-          {/* VibeBrowser - Standalone */}
-          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow relative">
-            <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-              <Badge className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-3 py-1">
-                Most Powerful
-              </Badge>
-            </div>
-            <CardContent className="p-8 pt-10">
-              <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mb-6">
-                <Chrome className="h-6 w-6 text-white" />
-              </div>
-              <h3 className="text-2xl font-semibold mb-3">VibeBrowser</h3>
-              <p className="text-muted-foreground mb-6">
-                Full standalone browser with AI deeply integrated. Download and run locally for maximum control, privacy, and capabilities.
-              </p>
-              <div className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                  <span className="text-sm">Complete browser replacement</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                  <span className="text-sm">Full access to all features</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                  <span className="text-sm">Works offline with local LLMs</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                  <span className="text-sm">Maximum privacy & security</span>
-                </div>
-              </div>
-              <div className="mt-6 pt-6 border-t">
-                <p className="text-sm font-medium mb-2">Best for:</p>
-                <p className="text-sm text-muted-foreground">Power users who want full control and all features</p>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* VibeAgent Cloud */}
-          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
-            <CardContent className="p-8">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mb-6">
-                <Cloud className="h-6 w-6 text-white" />
-              </div>
-              <h3 className="text-2xl font-semibold mb-3">VibeAgent Cloud</h3>
-              <p className="text-muted-foreground mb-6">
-                Runs in the cloud like OpenAI Agent. Access from anywhere, no installation required. Perfect for automation and background tasks.
-              </p>
-              <div className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                  <span className="text-sm">Access from any device</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                  <span className="text-sm">24/7 background automation</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                  <span className="text-sm">No local resources needed</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                  <span className="text-sm">Scales to multiple tasks</span>
-                </div>
-              </div>
-              <div className="mt-6 pt-6 border-t">
-                <p className="text-sm font-medium mb-2">Best for:</p>
-                <p className="text-sm text-muted-foreground">Teams and users who need always-on automation</p>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Extension */}
-          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
-            <CardContent className="p-8">
-              <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center mb-6">
-                <Puzzle className="h-6 w-6 text-white" />
-              </div>
-              <h3 className="text-2xl font-semibold mb-3">Extension</h3>
-              <p className="text-muted-foreground mb-6">
-                Lightweight browser extension that adds AI capabilities to your existing browser. Quick to install with essential features.
-              </p>
-              <div className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                  <span className="text-sm">Works with Chrome/Edge</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                  <span className="text-sm">Easy one-click install</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                  <span className="text-sm">Core AI features included</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                  <span className="text-sm">Minimal resource usage</span>
-                </div>
-              </div>
-              <div className="mt-6 pt-6 border-t">
-                <p className="text-sm font-medium mb-2">Best for:</p>
-                <p className="text-sm text-muted-foreground">Casual users who want to try AI browsing features</p>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="text-center mt-12">
-          <p className="text-muted-foreground mb-4">
-            All modes are powered by the same AI engine - choose based on your needs for control, convenience, and capabilities
-          </p>
-        </div>
-      </div>
-    </section>
-
-    {/* How It Works - AI Agent Architecture */}
-    <section id="how-it-works" className="w-full py-12 md:py-24 lg:py-32 bg-slate-50">
-      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl mb-4">How Our AI Agent Works</h2>
-          <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
-            Built on the LangGraph reflection pattern, our AI agent uses self-reflective reasoning
-            for intelligent task execution
-          </p>
-        </div>
-
-        <div className="max-w-4xl mx-auto">
-          {/* Research Foundation */}
-          <div className="text-center mb-12">
-            <Badge variant="outline" className="px-4 py-2 text-sm font-medium mb-4">
-              <Brain className="w-4 h-4 mr-2" />
-              Research-Backed Architecture
-            </Badge>
+          <div className="mt-12 text-center p-6 bg-white rounded-2xl shadow-md max-w-3xl mx-auto">
             <p className="text-muted-foreground">
-              Based on{" "}
-              <Link href="https://langchain-ai.github.io/langgraph/tutorials/reflection/reflection/" target="_blank"
-                className="text-purple-600 hover:text-purple-700 underline">
-              LangGraph Reflection Pattern
-              </Link>{" "}
-              for building reliable, self-correcting AI agents with robust error recovery
+              <strong className="text-purple-600">That's it.</strong> One command, zero clicks, complete results.
             </p>
           </div>
-
-          {/* Core Loop Visualization */}
-          <div className="bg-white rounded-2xl p-8 shadow-lg border mb-12">
-            <h3 className="text-xl font-semibold text-center mb-8">The Plan-Execute-Reflect Loop</h3>
-
-            <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-              {/* Step 1: Think */}
-              <div className="flex flex-col items-center text-center flex-1">
-                <div
-                  className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mb-4">
-                  <Lightbulb className="h-8 w-8 text-white" />
-                </div>
-                <h4 className="font-semibold text-lg mb-2">Plan</h4>
-                <p className="text-sm text-muted-foreground">
-                  AI creates a comprehensive strategy, breaking down complex tasks into actionable steps
-                </p>
-              </div>
-
-              <ArrowRight className="w-6 h-6 text-muted-foreground hidden md:block" />
-
-              {/* Step 2: Act */}
-              <div className="flex flex-col items-center text-center flex-1">
-                <div
-                  className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mb-4">
-                  <Target className="h-8 w-8 text-white" />
-                </div>
-                <h4 className="font-semibold text-lg mb-2">Execute</h4>
-                <p className="text-sm text-muted-foreground">
-                  Carries out the plan using 28+ specialized tools for web interaction and automation
-                </p>
-              </div>
-
-              <ArrowRight className="w-6 h-6 text-muted-foreground hidden md:block" />
-
-              {/* Step 3: Observe */}
-              <div className="flex flex-col items-center text-center flex-1">
-                <div
-                  className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mb-4">
-                  <Eye className="h-8 w-8 text-white" />
-                </div>
-                <h4 className="font-semibold text-lg mb-2">Reflect</h4>
-                <p className="text-sm text-muted-foreground">
-                  Self-evaluates performance, identifies improvements, and refines approach for better results
-                </p>
-              </div>
-
-              <div className="flex items-center justify-center md:hidden mt-4">
-                <RefreshCw className="w-6 h-6 text-muted-foreground" />
-              </div>
-            </div>
-
-            <div className="hidden md:flex items-center justify-center mt-8">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <RefreshCw className="w-4 h-4" />
-                <span>Continuous loop until task completion</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Key Capabilities */}
-
-          {/* Research Validation */}
-          <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl p-8 border border-purple-100">
-            <div className="text-center mb-6">
-              <h3 className="text-xl font-semibold mb-2">LangGraph-Based Architecture</h3>
-              <p className="text-muted-foreground">
-                Our implementation uses reflection patterns for building reliable, self-improving AI agents
-              </p>
-            </div>
-
-            <div className="grid gap-4 md:grid-cols-2">
-              <div className="flex items-center gap-3">
-                <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                <span className="text-sm">
-                  <strong>Reflection Pattern:</strong> Self-evaluating agents with continuous improvement
-                </span>
-              </div>
-              <div className="flex items-center gap-3">
-                <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                <span className="text-sm">
-                  <strong>Self-Correction:</strong> Memory system enables plan adjustment
-                </span>
-              </div>
-              <div className="flex items-center gap-3">
-                <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                <span className="text-sm">
-                  <strong>Interpretability:</strong> Clear reasoning traces for debugging
-                </span>
-              </div>
-              <div className="flex items-center gap-3">
-                <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                <span className="text-sm">
-                  <strong>Robust Design:</strong> Elegant solution prevents failure modes
-                </span>
-              </div>
-            </div>
-
-            <div className="mt-6 p-4 bg-white/50 rounded-lg border border-purple-200">
-              <p className="text-sm text-muted-foreground italic">
-                "Successful goal execution by agents is contingent upon proper planning and self-correction. Without
-                the ability to self-evaluate and create effective plans, single agents may get stuck in an endless
-                execution loop."
-              </p>
-              <p className="text-xs text-muted-foreground mt-2">
-                — Research finding directly addressed by our architecture
-              </p>
-            </div>
-          </div>
         </div>
       </div>
     </section>
 
-    {/* Development Roadmap */}
-    <section id="roadmap" className="w-full py-12 md:py-24 lg:py-32">
-      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl mb-4">Development Roadmap</h2>
-          <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
-            Track our progress as we build the future of AI-native browsing
-          </p>
-        </div>
-
-        <div className="w-full max-w-7xl mx-auto px-4">
-          <HorizontalRoadmap />
-          
-          <div className="mt-12 text-center">
-            <p className="text-muted-foreground mb-4">
-              Want to stay updated on our progress? Join our waitlist for development updates.
-            </p>
-            <WaitlistDialog>
-              <Button
-                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white">
-                Get Development Updates
-              </Button>
-            </WaitlistDialog>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    {/* AI Features */}
-    <section id="features" className="w-full py-12 md:py-24 lg:py-32">
-      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl mb-4">Built-in AI Assistant</h2>
-          <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
-            Every page, video, and document becomes interactive with embedded AI capabilities
-          </p>
-        </div>
-
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto">
-          <Card className="border-0 shadow-md hover:shadow-lg transition-shadow group">
-            <CardContent className="p-6 text-center">
-              <MessageSquare
-                className="h-8 w-8 mx-auto mb-4 text-purple-600 group-hover:scale-110 transition-transform" />
-              <h3 className="font-semibold mb-2">Ask Page</h3>
-              <p className="text-sm text-muted-foreground">
-                Get instant answers about any webpage content without reading everything
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="border-0 shadow-md hover:shadow-lg transition-shadow group">
-            <CardContent className="p-6 text-center">
-              <Youtube className="h-8 w-8 mx-auto mb-4 text-red-600 group-hover:scale-110 transition-transform" />
-              <h3 className="font-semibold mb-2">Ask Video</h3>
-              <p className="text-sm text-muted-foreground">
-                Query YouTube videos and get timestamped answers without watching
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="border-0 shadow-md hover:shadow-lg transition-shadow group">
-            <CardContent className="p-6 text-center">
-              <FileText className="h-8 w-8 mx-auto mb-4 text-emerald-600 group-hover:scale-110 transition-transform" />
-              <h3 className="font-semibold mb-2">Smart Summarize</h3>
-              <p className="text-sm text-muted-foreground">
-                Get concise summaries of articles, documents, and research papers
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="border-0 shadow-md hover:shadow-lg transition-shadow group">
-            <CardContent className="p-6 text-center">
-              <Globe className="h-8 w-8 mx-auto mb-4 text-orange-600 group-hover:scale-110 transition-transform" />
-              <h3 className="font-semibold mb-2">Real-time Translation</h3>
-              <p className="text-sm text-muted-foreground">
-                Translate and explain complex content in any language instantly
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    </section>
-
-    {/* Security & Privacy */}
-
-    {/* Team Section - temporarily commented out */}
+    {/* FAQ Section */}
     {/* <section className="w-full py-12 md:py-24 lg:py-32">
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
         <div className="text-center mb-16">
@@ -1450,14 +874,14 @@ export default function Component() {
     </section> */}
 
     {/* FAQ Section */}
-    <section className="w-full py-12 md:py-24 lg:py-32 bg-slate-50">
+    <section className="w-full py-12 md:py-16 bg-slate-50">
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl mb-4">
-            Frequently Asked Questions
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
+            FAQ
           </h2>
           <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
-            Everything you need to know about Vibe Browser
+            Common questions about Vibe Browser
           </p>
         </div>
 
@@ -1465,88 +889,45 @@ export default function Component() {
           <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="item-1">
               <AccordionTrigger className="text-left">
-                How is this different from ChatGPT, Claude, or "AI browsers"?
+                How is this different from ChatGPT or other AI browsers?
               </AccordionTrigger>
               <AccordionContent>
-                <div className="space-y-4">
-                  <p className="font-medium">The fundamental difference: Vibe is an autonomous agent, not an assistant.</p>
-
-                  <div className="space-y-2">
-                    <p className="text-sm font-medium text-muted-foreground">ChatGPT/Claude:</p>
-                    <ul className="space-y-1">
-                      <li className="text-sm">• Answer questions, give advice</li>
-                      <li className="text-sm">• You still do all the actual work</li>
-                      <li className="text-sm">• Can't interact with websites</li>
-                    </ul>
-                  </div>
-
-                  <div className="space-y-2">
-                    <p className="text-sm font-medium text-muted-foreground">AI Browsers (Arc, Brave, etc):</p>
-                    <ul className="space-y-1">
-                      <li className="text-sm">• Summarize current page</li>
-                      <li className="text-sm">• Answer questions about what you're viewing</li>
-                      <li className="text-sm">• You still navigate and click everything</li>
-                    </ul>
-                  </div>
-
-                  <div className="space-y-2">
-                    <p className="text-sm font-medium text-purple-600">Vibe (Autonomous Agent):</p>
-                    <ul className="space-y-1">
-                      <li className="text-sm">✓ Completes entire multi-step tasks independently</li>
-                      <li className="text-sm">✓ Navigates across multiple websites automatically</li>
-                      <li className="text-sm">✓ Makes decisions and takes actions for you</li>
-                      <li className="text-sm">✓ Works while you're away from computer</li>
-                    </ul>
-                  </div>
-
-                  <p className="text-sm font-medium mt-4">
-                    Think of it this way: ChatGPT tells you how to book a flight.
-                    Vibe actually books it for you.
-                  </p>
-                </div>
+                <p className="mb-3">Vibe is an <strong>autonomous agent</strong>, not an assistant. ChatGPT and other AI browsers answer questions and give advice—you still do all the work.</p>
+                <p className="font-medium text-purple-600">Vibe completes entire tasks for you:</p>
+                <ul className="mt-2 space-y-1 text-sm">
+                  <li>✓ Navigates across multiple websites automatically</li>
+                  <li>✓ Makes decisions on your behalf</li>
+                  <li>✓ Executes complete multi-step workflows</li>
+                  <li>✓ Works while you're away from your computer</li>
+                </ul>
+                <p className="text-sm mt-3 text-muted-foreground italic">Think: ChatGPT tells you how to book a flight. Vibe actually books it.</p>
               </AccordionContent>
             </AccordionItem>
 
             <AccordionItem value="item-2">
               <AccordionTrigger className="text-left">
-                Can I use Vibe Browser with my existing bookmarks and extensions?
+                Is my data safe?
               </AccordionTrigger>
               <AccordionContent>
-                Yes! Since Vibe is built on Chromium, you can easily import your bookmarks, passwords, and most
-                Chrome extensions. The transition is seamless and takes just a few minutes.
+                Yes. Vibe uses Chrome's built-in AI (Gemini Nano) which runs 100% locally on your device. Your browsing data never leaves your computer. For tasks that need confirmation (like purchases), Vibe always asks before proceeding.
               </AccordionContent>
             </AccordionItem>
 
             <AccordionItem value="item-3">
               <AccordionTrigger className="text-left">
-                What happens if the AI makes a mistake during automation?
+                How much does it cost?
               </AccordionTrigger>
               <AccordionContent>
-                Vibe always asks for confirmation before completing any purchase or important action. You can review
-                all details before proceeding, and you can cancel or modify any automated task at any time. We also
-                provide detailed logs of all actions taken.
-              </AccordionContent>
-            </AccordionItem>
-
-            <AccordionItem value="item-4">
-              <AccordionTrigger className="text-left">
-                What are the pricing plans for Vibe Browser?
-              </AccordionTrigger>
-              <AccordionContent>
-                Vibe Browser offers a free tier with 30 AI queries per day and basic automation features. Our Pro
-                plan ($20/month) includes unlimited AI queries, advanced automation, and priority support. We're
-                currently in private beta - join our waitlist for early access and launch pricing.
-              </AccordionContent>
-            </AccordionItem>
-
-            <AccordionItem value="item-5">
-              <AccordionTrigger className="text-left">
-                How does AI processing work in Vibe Browser?
-              </AccordionTrigger>
-              <AccordionContent>
-                Vibe Browser connects to leading LLM providers like OpenAI, Anthropic, and Google Gemini to deliver
-                powerful AI capabilities. For users who prefer complete privacy, we also support locally-hosted LLM
-                models that run entirely on your device without any external connections.
+                <p className="mb-3"><strong>Vibe is free forever</strong> when using:</p>
+                <ul className="space-y-1 text-sm ml-4 mb-3">
+                  <li>• <strong>Gemini Nano</strong> (Chrome's built-in AI)</li>
+                  <li>• <strong>Bring Your Own Model</strong> (BYOM)</li>
+                </ul>
+                <p className="mb-2">For cloud AI models (GPT-4, Claude, Gemini):</p>
+                <ul className="space-y-1 text-sm ml-4">
+                  <li>• <strong>$20/month</strong> includes 1,000 queries</li>
+                  <li>• Additional usage: $3 per 1M tokens</li>
+                </ul>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
@@ -1564,74 +945,106 @@ export default function Component() {
           </Badge>
 
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
-            Don't Let Another Day Go to Manual Work
+            Simple, Transparent Pricing
           </h2>
-          <p className="max-w-2xl text-lg opacity-90">
-            Join the waitlist for early access. Be among the first to experience a browser that actually works for you.
+          <p className="max-w-2xl text-lg opacity-90 mb-2">
+            Pay only for what you use. Or use it completely free.
           </p>
 
-          <div className="grid gap-6 md:grid-cols-2 max-w-2xl w-full mt-8">
-            <Card className="bg-white/10 border-white/20 text-white">
-              <CardContent className="p-6 text-center">
-                <h3 className="text-xl font-semibold mb-2">Free</h3>
-                <p className="text-3xl font-bold mb-4">
-                  $0<span className="text-lg font-normal">/month</span>
-                </p>
-                <ul className="space-y-2 text-sm mb-6">
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4" />
-                    30 AI queries per day
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4" />
-                    Basic automation features
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4" />
-                    Community support
-                  </li>
-                </ul>
-                <WaitlistDialog tier="free">
-                  <Button variant="secondary" className="w-full bg-white text-purple-600 hover:bg-slate-100">
-                    Join Free Waitlist
-                  </Button>
-                </WaitlistDialog>
-              </CardContent>
-            </Card>
+          {/* Pricing Cards */}
+          <div className="grid md:grid-cols-2 gap-6 max-w-4xl w-full mt-8 mb-6">
+            {/* Free Tier */}
+            <div className="bg-white/10 backdrop-blur-sm border-2 border-white/30 rounded-2xl p-8 text-left">
+              <div className="text-center mb-6">
+                <h3 className="text-2xl font-bold mb-2">Free Forever</h3>
+                <p className="text-sm opacity-90">No credit card required</p>
+              </div>
 
-            <Card className="bg-white text-purple-600 border-2 border-white">
-              <CardContent className="p-6 text-center">
-                <div className="flex items-center justify-center gap-2 mb-2">
-                  <h3 className="text-xl font-semibold">Pro</h3>
-                  <Badge className="bg-purple-600 text-white">Popular</Badge>
+              <div className="space-y-3 mb-6">
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                  <div className="text-sm">
+                    <strong>Gemini Nano</strong> (Chrome built-in AI)
+                  </div>
                 </div>
-                <p className="text-3xl font-bold mb-4">
-                  $100<span className="text-lg font-normal">/month</span>
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                  <div className="text-sm">
+                    <strong>Bring Your Own Model</strong> (BYOM)
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                  <div className="text-sm">
+                    100% local processing
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                  <div className="text-sm">
+                    All core features
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-4 border-t border-white/20">
+                <p className="text-xs opacity-75">
+                  💡 Perfect for privacy-conscious users
                 </p>
-                <ul className="space-y-2 text-sm mb-6">
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-500" />
-                    Unlimited AI queries
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-500" />
-                    Advanced automation
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-500" />
+              </div>
+            </div>
+
+            {/* Paid Tier */}
+            <div className="bg-white/10 backdrop-blur-sm border-2 border-white/30 rounded-2xl p-8 text-left">
+              <div className="text-center mb-6">
+                <h3 className="text-2xl font-bold mb-2">$20/month</h3>
+                <p className="text-sm opacity-90">Cloud AI models included</p>
+              </div>
+
+              <div className="space-y-3 mb-6">
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                  <div className="text-sm">
+                    <strong>1,000 queries included</strong> monthly
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                  <div className="text-sm">
+                    <strong>Additional usage:</strong> $3 per 1M tokens
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                  <div className="text-sm">
+                    GPT-5, Claude, Gemini, and other OpenRouter-hosted models access
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                  <div className="text-sm">
                     Priority support
-                  </li>
-                </ul>
-                <WaitlistDialog tier="pro">
-                  <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">Join Pro Waitlist</Button>
-                </WaitlistDialog>
-              </CardContent>
-            </Card>
-            
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-4 border-t border-white/20">
+                <p className="text-xs opacity-75">
+                  💡 Average: ~500 queries/month
+                </p>
+              </div>
+            </div>
           </div>
 
-          <p className="text-sm opacity-70 mt-4">
-            Early access • Launch discount • Be first to experience AI browsing
+          <WaitlistDialog>
+            <Button size="lg" className="bg-white text-purple-600 hover:bg-slate-100 text-lg px-12 py-6 font-semibold">
+              Join Waitlist
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </WaitlistDialog>
+
+          <p className="text-sm opacity-70 mt-6">
+            Early access available now • Free with Gemini Nano or BYOM forever
           </p>
         </div>
       </div>
@@ -1645,13 +1058,13 @@ export default function Component() {
         {/* Brand */}
         <div className="space-y-4">
           <div className="flex items-center gap-2">
-            <img src="/vibebrowser-logo.png" alt="Vibe Browser" className="w-8 h-8 object-contain" />
+            <img src="/vibebrowser-logo.png" alt="Vibe AI Browser Co-Pilot" className="w-8 h-8 object-contain" />
             <span className="font-bold text-lg bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-              Vibe Browser
+              Vibe AI Browser Co-Pilot
             </span>
           </div>
           <p className="text-sm text-muted-foreground">
-            The agentic browser that turns your words into actions. AI-powered automation for the modern web.
+            The AI browser co-pilot that turns your words into actions. Autonomous automation for the modern web.
           </p>
         </div>
 
@@ -1713,7 +1126,7 @@ export default function Component() {
 
       <div className="mt-12 pt-8 border-t">
         <p className="text-xs text-center text-muted-foreground">
-          © 2025 Vibe Browser. All rights reserved.
+          © 2025 Vibe AI Browser Co-Pilot. All rights reserved.
         </p>
       </div>
     </div>
