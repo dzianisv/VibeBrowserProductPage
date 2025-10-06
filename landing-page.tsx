@@ -417,52 +417,6 @@ export default function Component() {
                     Your browser does not support the video tag.
                   </video>
 
-                  {/* Gradient Overlay for text readability */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-
-                  {/* Natural Language Prompt Overlay */}
-                  <div className="absolute inset-0 flex items-center justify-center p-8">
-                    <div className="max-w-3xl w-full">
-                      <div className="bg-black/40 backdrop-blur-md rounded-2xl p-8 border border-white/20">
-                        <p className="text-white text-2xl md:text-3xl font-medium leading-relaxed">
-                          {demos[currentDemo].task.description}
-                        </p>
-
-                        {/* Action Buttons */}
-                        <div className="flex gap-4 mt-6">
-                          <button
-                            onClick={togglePlayPause}
-                            className="flex items-center gap-2 px-5 py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors border border-white/20"
-                          >
-                            {isPlaying ? (
-                              <>
-                                <div className="w-4 h-4 flex items-center justify-center">
-                                  <div className="flex gap-1">
-                                    <div className="w-1 h-4 bg-white rounded-sm"></div>
-                                    <div className="w-1 h-4 bg-white rounded-sm"></div>
-                                  </div>
-                                </div>
-                                <span className="text-sm font-medium">Pause</span>
-                              </>
-                            ) : (
-                              <>
-                                <Play className="w-4 h-4" />
-                                <span className="text-sm font-medium">Play</span>
-                              </>
-                            )}
-                          </button>
-                          <button
-                            onClick={restartVideo}
-                            className="flex items-center gap-2 px-5 py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors border border-white/20"
-                          >
-                            <RefreshCw className="w-4 h-4" />
-                            <span className="text-sm font-medium">Restart</span>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
                   {/* Navigation Arrows */}
                   <button
                     onClick={prevDemo}
