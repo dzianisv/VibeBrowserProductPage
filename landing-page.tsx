@@ -335,6 +335,9 @@ export default function Component() {
           <Link href="#demo" className="text-sm font-medium hover:text-purple-600 transition-colors">
             Demo
           </Link>
+          <Link href="#use-cases" className="text-sm font-medium hover:text-purple-600 transition-colors">
+            Use Cases
+          </Link>
           <Link href="#pricing" className="text-sm font-medium hover:text-purple-600 transition-colors">
             Pricing
           </Link>
@@ -342,43 +345,23 @@ export default function Component() {
       </header>
 
   <main className="flex-1">
-    {/* Hero Section with Integrated Demo */}
+    {/* Hero Section with Hook */}
     <section id="demo" className="w-full py-12 md:py-24 lg:py-32">
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
         <div className="flex flex-col items-center gap-6 text-center max-w-5xl mx-auto">
           <Badge variant="secondary"
             className="px-4 py-2 text-sm font-medium bg-purple-100 text-purple-700 border-purple-200">
             <Sparkles className="w-4 h-4 mr-2" />
-            AI Browser Co-Pilot
+            AI Browser That Acts
           </Badge>
 
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-            The
-            <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent"> Agentic Browser </span>
-            That Actually Does Your Work
+            The AI Browser That
+            <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent"> Acts, Not Just Answers</span>
           </h1>
 
-          <p className="max-w-3xl text-lg text-muted-foreground md:text-xl leading-relaxed mb-4">
-            Stop wasting 2+ hours daily on repetitive web tasks. Vibe automates research, bookings, data entry, and more—just describe what you want done in plain language.
-          </p>
-
-          <div className="flex gap-6 justify-center items-center text-sm text-muted-foreground mb-8">
-            <div className="flex items-center gap-2">
-              <Lock className="w-4 h-4 text-green-600" />
-              <span>100% Private*</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Zap className="w-4 h-4 text-blue-600" />
-              <span>10x Faster</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 text-purple-600" />
-              <span>Zero Manual Work</span>
-            </div>
-          </div>
-
-          <p className="text-xs text-muted-foreground mb-6 max-w-2xl mx-auto">
-            *When using embedded Gemini Nano AI
+          <p className="max-w-3xl text-lg text-muted-foreground md:text-xl leading-relaxed mb-8">
+            Tell Vibe what you need. It researches, compares, and completes tasks autonomously—across multiple sites, with zero clicks from you.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 items-center justify-center mb-8">
@@ -390,15 +373,62 @@ export default function Component() {
             </WaitlistDialog>
           </div>
 
-          <p className="text-sm text-muted-foreground italic mb-12">
-            "Like having a personal assistant who never sleeps" — Sarah K., Product Manager
-          </p>
+          <div className="flex gap-6 justify-center items-center text-sm text-muted-foreground mb-12">
+            <div className="flex items-center gap-2">
+              <Lock className="w-4 h-4 text-green-600" />
+              <span>Private*</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Zap className="w-4 h-4 text-blue-600" />
+              <span>10x Faster</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle className="w-4 h-4 text-purple-600" />
+              <span>Zero Clicks</span>
+            </div>
+          </div>
 
-          {/* Demo Carousel - Composite Style */}
+          {/* Quick Benefits */}
+          <div className="w-full max-w-4xl mx-auto mb-12">
+            <div className="grid md:grid-cols-3 gap-6">
+              <Card className="border-0 shadow-lg bg-white">
+                <CardContent className="p-6 text-center">
+                  <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                    <CreditCard className="w-6 h-6 text-blue-600" />
+                  </div>
+                  <p className="font-semibold mb-1">"Find best mortgage rate"</p>
+                  <p className="text-2xl font-bold text-blue-600 mb-1">8 min</p>
+                  <p className="text-xs text-muted-foreground">Checked 15 lenders vs 3 hours manually</p>
+                </CardContent>
+              </Card>
+
+              <Card className="border-0 shadow-lg bg-white">
+                <CardContent className="p-6 text-center">
+                  <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                    <Search className="w-6 h-6 text-green-600" />
+                  </div>
+                  <p className="font-semibold mb-1">"Research competitors"</p>
+                  <p className="text-2xl font-bold text-green-600 mb-1">12 min</p>
+                  <p className="text-xs text-muted-foreground">Analyzed 20 companies vs 4 hours manually</p>
+                </CardContent>
+              </Card>
+
+              <Card className="border-0 shadow-lg bg-white">
+                <CardContent className="p-6 text-center">
+                  <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                    <Plane className="w-6 h-6 text-purple-600" />
+                  </div>
+                  <p className="font-semibold mb-1">"Book flight to NYC"</p>
+                  <p className="text-2xl font-bold text-purple-600 mb-1">3 min</p>
+                  <p className="text-xs text-muted-foreground">Compared 8 airlines vs 45 min manually</p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+
+          {/* Demo Carousel */}
           <div className="w-full max-w-4xl mx-auto">
-            {/* Demo Content */}
             <div className="relative">
-              {/* Full-screen Video with Overlay */}
               <div className="relative rounded-3xl overflow-hidden shadow-2xl">
                 <div className="relative" style={{ paddingBottom: '62.5%' }}>
                   <video
@@ -417,7 +447,6 @@ export default function Component() {
                     Your browser does not support the video tag.
                   </video>
 
-                  {/* Navigation Arrows */}
                   <button
                     onClick={prevDemo}
                     className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all z-20"
@@ -435,7 +464,6 @@ export default function Component() {
                 </div>
               </div>
 
-              {/* Demo Tabs Below Video */}
               <div className="flex flex-wrap justify-center gap-2 mt-8">
                 {demos.map((demo, index) => (
                   <button
@@ -452,7 +480,6 @@ export default function Component() {
                 ))}
               </div>
 
-              {/* Demo Indicators */}
               <div className="flex justify-center gap-2 mt-6">
                 {demos.map((_, index) => (
                   <button
@@ -467,11 +494,15 @@ export default function Component() {
               </div>
             </div>
           </div>
+
+          <p className="text-xs text-muted-foreground mt-8 max-w-2xl mx-auto">
+            *Private when using embedded Gemini Nano AI
+          </p>
         </div>
       </div>
     </section>
 
-    {/* Why Vibe - Simplified Comparison */}
+    {/* Why Vibe - Comparison Table */}
     <section className="w-full py-12 md:py-16 bg-white">
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
         <div className="text-center mb-12">
@@ -479,164 +510,371 @@ export default function Component() {
             Why Vibe?
           </h2>
           <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
-            The only truly agentic AI browser built for autonomous task completion
+            The only truly private, model-agnostic autonomous browser
           </p>
         </div>
 
-        <div className="max-w-4xl mx-auto space-y-4">
-          {/* vs Traditional AI Tools */}
-          <Card className="border-l-4 border-l-purple-600 shadow-md hover:shadow-lg transition-shadow">
-            <CardContent className="p-6 flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <Brain className="w-8 h-8 text-gray-600" />
-                <div>
-                  <h3 className="font-semibold text-lg mb-1">vs ChatGPT/AI Assistants</h3>
-                  <p className="text-sm text-muted-foreground">Completes tasks, not just answers questions</p>
-                </div>
-              </div>
-              <Badge className="bg-purple-100 text-purple-700">Autonomous</Badge>
-            </CardContent>
-          </Card>
+        <div className="max-w-6xl mx-auto overflow-x-auto">
+          <div className="bg-white rounded-xl shadow-lg border border-gray-200">
+            <table className="w-full">
+              <thead className="bg-gradient-to-r from-purple-50 to-pink-50">
+                <tr>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Feature</th>
+                  <th className="px-6 py-4 text-center text-sm font-semibold text-purple-600">
+                    <div className="flex items-center justify-center gap-2">
+                      <span>Vibe</span>
+                      <Badge className="bg-purple-600 text-white">You</Badge>
+                    </div>
+                  </th>
+                  <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">OpenAI Atlas</th>
+                  <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">Strawberry</th>
+                  <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">Comet</th>
+                  <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">BrowserOS</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200">
+                <tr className="hover:bg-gray-50">
+                  <td className="px-6 py-4 text-sm font-medium text-gray-900">Autonomous Tasks</td>
+                  <td className="px-6 py-4 text-center">
+                    <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <span className="text-xs text-gray-500">Limited</span>
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
+                  </td>
+                </tr>
+                <tr className="hover:bg-gray-50 bg-purple-50/30">
+                  <td className="px-6 py-4 text-sm font-medium text-gray-900">Local/Private AI</td>
+                  <td className="px-6 py-4 text-center">
+                    <div className="flex flex-col items-center">
+                      <CheckCircle className="w-5 h-5 text-green-600" />
+                      <span className="text-xs text-gray-600 mt-1">Gemini Nano</span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <span className="text-red-600 text-xl">×</span>
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <span className="text-red-600 text-xl">×</span>
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <span className="text-red-600 text-xl">×</span>
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <span className="text-xs text-gray-500">Broken</span>
+                  </td>
+                </tr>
+                <tr className="hover:bg-gray-50">
+                  <td className="px-6 py-4 text-sm font-medium text-gray-900">Model Choice</td>
+                  <td className="px-6 py-4 text-center">
+                    <div className="flex flex-col items-center">
+                      <CheckCircle className="w-5 h-5 text-green-600" />
+                      <span className="text-xs text-gray-600 mt-1">Any model</span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <span className="text-xs text-gray-500">OpenAI only</span>
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <span className="text-xs text-gray-500">Limited</span>
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <span className="text-red-600 text-xl">×</span>
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
+                  </td>
+                </tr>
+                <tr className="hover:bg-gray-50 bg-purple-50/30">
+                  <td className="px-6 py-4 text-sm font-medium text-gray-900">Free Tier</td>
+                  <td className="px-6 py-4 text-center">
+                    <div className="flex flex-col items-center">
+                      <CheckCircle className="w-5 h-5 text-green-600" />
+                      <span className="text-xs text-gray-600 mt-1">Unlimited</span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <div className="flex flex-col items-center">
+                      <span className="text-red-600 text-xl">×</span>
+                      <span className="text-xs text-gray-500 mt-1">$20/mo req.</span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <span className="text-xs text-gray-500">Limited credits</span>
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <span className="text-xs text-gray-500">Ad-supported</span>
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <span className="text-red-600 text-xl">×</span>
+                  </td>
+                </tr>
+                <tr className="hover:bg-gray-50">
+                  <td className="px-6 py-4 text-sm font-medium text-gray-900">Available Now</td>
+                  <td className="px-6 py-4 text-center">
+                    <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <span className="text-xs text-gray-500">Waitlist</span>
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
+                  </td>
+                </tr>
+                <tr className="hover:bg-gray-50 bg-purple-50/30">
+                  <td className="px-6 py-4 text-sm font-medium text-gray-900">Works as Extension</td>
+                  <td className="px-6 py-4 text-center">
+                    <div className="flex flex-col items-center">
+                      <CheckCircle className="w-5 h-5 text-green-600" />
+                      <span className="text-xs text-gray-600 mt-1">In any Chrome</span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <div className="flex flex-col items-center">
+                      <span className="text-red-600 text-xl">×</span>
+                      <span className="text-xs text-gray-500 mt-1">Fork only</span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <div className="flex flex-col items-center">
+                      <span className="text-red-600 text-xl">×</span>
+                      <span className="text-xs text-gray-500 mt-1">Fork only</span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <div className="flex flex-col items-center">
+                      <span className="text-red-600 text-xl">×</span>
+                      <span className="text-xs text-gray-500 mt-1">Fork only</span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <div className="flex flex-col items-center">
+                      <span className="text-red-600 text-xl">×</span>
+                      <span className="text-xs text-gray-500 mt-1">Fork only</span>
+                    </div>
+                  </td>
+                </tr>
+                <tr className="hover:bg-gray-50">
+                  <td className="px-6 py-4 text-sm font-medium text-gray-900">Own Browser Available</td>
+                  <td className="px-6 py-4 text-center">
+                    <div className="flex flex-col items-center">
+                      <CheckCircle className="w-5 h-5 text-green-600" />
+                      <span className="text-xs text-gray-600 mt-1">Both options</span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-          {/* vs Perplexity Comet */}
-          <Card className="border-l-4 border-l-orange-600 shadow-md hover:shadow-lg transition-shadow">
-            <CardContent className="p-6 flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <Lock className="w-8 h-8 text-gray-600" />
-                <div>
-                  <h3 className="font-semibold text-lg mb-1">vs Perplexity Comet</h3>
-                  <p className="text-sm text-muted-foreground">Commercial product that monetizes your browsing data through ads and partnerships</p>
-                </div>
-              </div>
-              <Badge className="bg-orange-100 text-orange-700">Privacy-Focused</Badge>
-            </CardContent>
-          </Card>
-
-          {/* vs BrowserOS */}
-          <Card className="border-l-4 border-l-blue-600 shadow-md hover:shadow-lg transition-shadow">
-            <CardContent className="p-6 flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <Zap className="w-8 h-8 text-gray-600" />
-                <div>
-                  <h3 className="font-semibold text-lg mb-1">vs BrowserOS</h3>
-                  <p className="text-sm text-muted-foreground">BrowserOS still doesn't work reliably—it depends on Moonbeam API for image processing, making it slower, cloud-dependent, and unable to run with locally hosted Gemini Nano.</p>
-                </div>
-              </div>
-              <Badge className="bg-blue-100 text-blue-700">Actually Works</Badge>
-            </CardContent>
-          </Card>
-
-          {/* vs Other Browsers */}
-          <Card className="border-l-4 border-l-green-600 shadow-md hover:shadow-lg transition-shadow">
-            <CardContent className="p-6 flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <Target className="w-8 h-8 text-gray-600" />
-                <div>
-                  <h3 className="font-semibold text-lg mb-1">vs Arc/Brave/Chrome</h3>
-                  <p className="text-sm text-muted-foreground">AI-first architecture, not bolted-on assistant features</p>
-                </div>
-              </div>
-              <Badge className="bg-green-100 text-green-700">Purpose-Built</Badge>
-            </CardContent>
-          </Card>
-
+          <div className="mt-8 text-center">
+            <p className="text-sm text-muted-foreground">
+              * Comparison based on publicly available information as of November 2025
+            </p>
+          </div>
         </div>
       </div>
     </section>
 
-    {/* Real Examples Section - Quick Wins */}
-    <section className="w-full py-12 md:py-16">
+    {/* Inspirational Quote */}
+    <section className="w-full py-12 md:py-16 bg-gradient-to-r from-slate-900 to-purple-900">
+      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
+        <div className="max-w-4xl mx-auto text-center">
+          <blockquote className="text-2xl md:text-3xl font-light text-white leading-relaxed mb-6">
+            "The future is already here — it's just not evenly distributed."
+          </blockquote>
+          <p className="text-white/80 text-lg">
+            — William Gibson, Cyberpunk Philosopher & Author
+          </p>
+        </div>
+      </div>
+    </section>
+
+    {/* Core Features */}
+    <section className="w-full py-12 md:py-16 bg-white">
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl mb-4">
-            Real Tasks. Real Results.
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
+            Features That Work
           </h2>
           <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
-            One command. Complete execution. Zero manual work.
+            Everything you need for autonomous web automation
           </p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-3 max-w-5xl mx-auto">
-          <Card className="border-0 shadow-md hover:shadow-lg transition-shadow">
+        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          <Card className="border-0 shadow-lg bg-gradient-to-br from-purple-50 to-white">
             <CardContent className="p-6">
-              <div className="flex items-start gap-3 mb-3">
-                <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <CreditCard className="w-5 h-5 text-blue-600" />
-                </div>
-                <div>
-                  <p className="font-semibold">"Find best mortgage rate"</p>
-                  <p className="text-sm text-muted-foreground">Checked 15 lenders → Full comparison</p>
-                </div>
+              <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
+                <Brain className="w-6 h-6 text-purple-600" />
               </div>
-              <div className="text-right">
-                <span className="text-2xl font-bold text-blue-600">8 min</span>
-                <p className="text-xs text-muted-foreground">vs 3 hours manually</p>
-              </div>
+              <h3 className="text-xl font-bold mb-2">Autonomous Decision Making</h3>
+              <p className="text-sm text-muted-foreground">
+                Plans, executes, and adjusts—making smart decisions without your input
+              </p>
             </CardContent>
           </Card>
 
-          <Card className="border-0 shadow-md hover:shadow-lg transition-shadow">
+          <Card className="border-0 shadow-lg bg-gradient-to-br from-blue-50 to-white">
             <CardContent className="p-6">
-              <div className="flex items-start gap-3 mb-3">
-                <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Search className="w-5 h-5 text-green-600" />
-                </div>
-                <div>
-                  <p className="font-semibold">"Research competitors"</p>
-                  <p className="text-sm text-muted-foreground">Analyzed 20 companies → Full report</p>
-                </div>
+              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
+                <Globe className="w-6 h-6 text-blue-600" />
               </div>
-              <div className="text-right">
-                <span className="text-2xl font-bold text-green-600">12 min</span>
-                <p className="text-xs text-muted-foreground">vs 4 hours manually</p>
-              </div>
+              <h3 className="text-xl font-bold mb-2">Multi-Site Navigation</h3>
+              <p className="text-sm text-muted-foreground">
+                Seamlessly works across any website—no API limits or restrictions
+              </p>
             </CardContent>
           </Card>
 
-          <Card className="border-0 shadow-md hover:shadow-lg transition-shadow">
+          <Card className="border-0 shadow-lg bg-gradient-to-br from-green-50 to-white">
             <CardContent className="p-6">
-              <div className="flex items-start gap-3 mb-3">
-                <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Plane className="w-5 h-5 text-purple-600" />
-                </div>
-                <div>
-                  <p className="font-semibold">"Book flight to NYC"</p>
-                  <p className="text-sm text-muted-foreground">Compared 8 airlines → Booked cheapest</p>
-                </div>
+              <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4">
+                <Lock className="w-6 h-6 text-green-600" />
               </div>
-              <div className="text-right">
-                <span className="text-2xl font-bold text-purple-600">3 min</span>
-                <p className="text-xs text-muted-foreground">vs 45 min manually</p>
+              <h3 className="text-xl font-bold mb-2">Privacy First</h3>
+              <p className="text-sm text-muted-foreground">
+                100% local processing with Gemini Nano—your data never leaves your device
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 shadow-lg bg-gradient-to-br from-orange-50 to-white">
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mb-4">
+                <MessageSquare className="w-6 h-6 text-orange-600" />
               </div>
+              <h3 className="text-xl font-bold mb-2">Natural Language</h3>
+              <p className="text-sm text-muted-foreground">
+                Just describe what you need in plain English—no scripts or commands
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 shadow-lg bg-gradient-to-br from-pink-50 to-white">
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center mb-4">
+                <Zap className="w-6 h-6 text-pink-600" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Background Execution</h3>
+              <p className="text-sm text-muted-foreground">
+                Runs tasks while you work on something else—come back to results
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 shadow-lg bg-gradient-to-br from-indigo-50 to-white">
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mb-4">
+                <Target className="w-6 h-6 text-indigo-600" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Smart Verification</h3>
+              <p className="text-sm text-muted-foreground">
+                Reviews and confirms actions before critical tasks like purchases
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </section>
+
+    {/* Use Cases Section - Simplified */}
+    <section id="use-cases" className="w-full py-12 md:py-16 bg-white">
+      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
+            Works for Every Role
+          </h2>
+          <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
+            One AI browser, infinite workflows
+          </p>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 max-w-7xl mx-auto">
+          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-gradient-to-br from-blue-50 to-white">
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-3">
+                <Target className="w-6 h-6 text-blue-600" />
+              </div>
+              <h3 className="text-lg font-bold mb-2">Sales Teams</h3>
+              <p className="text-sm text-muted-foreground">
+                Lead research, CRM updates, prospect analysis
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-gradient-to-br from-purple-50 to-white">
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-3">
+                <Search className="w-6 h-6 text-purple-600" />
+              </div>
+              <h3 className="text-lg font-bold mb-2">Recruiters</h3>
+              <p className="text-sm text-muted-foreground">
+                Candidate sourcing, screening, outreach automation
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-gradient-to-br from-green-50 to-white">
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-3">
+                <TrendingUp className="w-6 h-6 text-green-600" />
+              </div>
+              <h3 className="text-lg font-bold mb-2">Researchers</h3>
+              <p className="text-sm text-muted-foreground">
+                Market analysis, competitor tracking, data collection
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-gradient-to-br from-orange-50 to-white">
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mb-3">
+                <Database className="w-6 h-6 text-orange-600" />
+              </div>
+              <h3 className="text-lg font-bold mb-2">Data Teams</h3>
+              <p className="text-sm text-muted-foreground">
+                Web scraping, data enrichment, validation
+              </p>
             </CardContent>
           </Card>
         </div>
 
-        <div className="text-center mt-12 p-8 bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl max-w-4xl mx-auto">
-          <div className="grid md:grid-cols-3 gap-6 mb-6">
-            <div>
-              <div className="text-3xl font-bold text-purple-600">Zero</div>
-              <p className="text-sm text-muted-foreground">Manual clicking required</p>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-purple-600">10x</div>
-              <p className="text-sm text-muted-foreground">Faster task completion</p>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-purple-600">100%</div>
-              <p className="text-sm text-muted-foreground">Autonomous execution</p>
-            </div>
-          </div>
-          <p className="text-lg font-semibold mb-2">
-            🎯 The Key Difference:
-          </p>
+        <div className="text-center mt-12 p-6 bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl max-w-3xl mx-auto">
           <p className="text-muted-foreground">
-            You give one command and come back to completed results.
-            <strong className="text-purple-600"> No watching. No clicking. No waiting.</strong>
+            <strong className="text-purple-600">Any workflow. Any role. Any task.</strong> Vibe adapts to your needs.
           </p>
         </div>
       </div>
     </section>
+
+
 
     {/* How It Works - Simplified */}
     <section id="how-it-works" className="w-full py-12 md:py-16 bg-slate-50">
@@ -644,70 +882,67 @@ export default function Component() {
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">How It Works</h2>
           <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
-            Three simple steps. Complete automation.
+            Three steps. Zero clicks.
           </p>
         </div>
 
-        <div className="max-w-5xl mx-auto">
-          <div className="grid md:grid-cols-3 gap-8">
-            {/* Step 1 */}
+        <div className="max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-6">
             <Card className="border-0 shadow-lg bg-white relative">
-              <div className="absolute -top-4 left-6">
+              <div className="absolute -top-3 left-6">
                 <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold">
                   1
                 </div>
               </div>
-              <CardContent className="p-8 pt-10">
-                <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
-                  <MessageSquare className="w-6 h-6 text-purple-600" />
+              <CardContent className="p-6 pt-8">
+                <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mb-3">
+                  <MessageSquare className="w-5 h-5 text-purple-600" />
                 </div>
-                <h3 className="font-semibold text-lg mb-2">Tell Vibe What You Want</h3>
+                <h3 className="font-semibold mb-2">Describe Your Task</h3>
                 <p className="text-sm text-muted-foreground">
-                  Describe your task in plain language. No coding, no complex commands—just natural conversation.
+                  "Find 10 SaaS companies hiring engineers" or "Book cheapest flight to NYC"
                 </p>
               </CardContent>
             </Card>
 
-            {/* Step 2 */}
             <Card className="border-0 shadow-lg bg-white relative">
-              <div className="absolute -top-4 left-6">
+              <div className="absolute -top-3 left-6">
                 <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">
                   2
                 </div>
               </div>
-              <CardContent className="p-8 pt-10">
-                <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
-                  <Brain className="w-6 h-6 text-blue-600" />
+              <CardContent className="p-6 pt-8">
+                <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mb-3">
+                  <Brain className="w-5 h-5 text-blue-600" />
                 </div>
-                <h3 className="font-semibold text-lg mb-2">AI Auto-Pilot Takes Over</h3>
+                <h3 className="font-semibold mb-2">Vibe Executes</h3>
                 <p className="text-sm text-muted-foreground">
-                  Vibe breaks down your task, navigates websites, compares options, and makes intelligent decisions autonomously.
+                  Autonomously navigates, researches, compares, and completes your task
                 </p>
               </CardContent>
             </Card>
 
-            {/* Step 3 */}
             <Card className="border-0 shadow-lg bg-white relative">
-              <div className="absolute -top-4 left-6">
+              <div className="absolute -top-3 left-6">
                 <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white font-bold">
                   3
                 </div>
               </div>
-              <CardContent className="p-8 pt-10">
-                <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4">
-                  <CheckCircle className="w-6 h-6 text-green-600" />
+              <CardContent className="p-6 pt-8">
+                <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mb-3">
+                  <CheckCircle className="w-5 h-5 text-green-600" />
                 </div>
-                <h3 className="font-semibold text-lg mb-2">Get Results</h3>
+                <h3 className="font-semibold mb-2">Review Results</h3>
                 <p className="text-sm text-muted-foreground">
-                  Review completed tasks, summarized research, or ready-to-submit forms—all done while you focused on what matters.
+                  Get complete research, bookings, or data—ready when you are
                 </p>
               </CardContent>
             </Card>
           </div>
 
-          <div className="mt-12 text-center p-6 bg-white rounded-2xl shadow-md max-w-3xl mx-auto">
+          <div className="mt-8 text-center p-6 bg-white rounded-xl shadow-md">
             <p className="text-muted-foreground">
-              <strong className="text-purple-600">That's it.</strong> One command, zero clicks, complete results.
+              <strong className="text-purple-600">That's it.</strong> One command → Complete results.
             </p>
           </div>
         </div>
@@ -801,59 +1036,56 @@ export default function Component() {
     </section> */}
 
     {/* FAQ Section */}
-    <section className="w-full py-12 md:py-16 bg-slate-50">
+    <section className="w-full py-12 md:py-16 bg-white">
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
-            FAQ
+            Common Questions
           </h2>
-          <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
-            Common questions about Vibe Browser
-          </p>
         </div>
 
         <div className="max-w-3xl mx-auto">
           <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="item-1">
               <AccordionTrigger className="text-left">
-                How is this different from ChatGPT or other AI browsers?
+                Is my data safe?
               </AccordionTrigger>
               <AccordionContent>
-                <p className="mb-3">Vibe is an <strong>autonomous agent</strong>, not an assistant. ChatGPT and other AI browsers answer questions and give advice—you still do all the work.</p>
-                <p className="font-medium text-purple-600">Vibe completes entire tasks for you:</p>
-                <ul className="mt-2 space-y-1 text-sm">
-                  <li>✓ Navigates across multiple websites automatically</li>
-                  <li>✓ Makes decisions on your behalf</li>
-                  <li>✓ Executes complete multi-step workflows</li>
-                  <li>✓ Works while you're away from your computer</li>
-                </ul>
-                <p className="text-sm mt-3 text-muted-foreground italic">Think: ChatGPT tells you how to book a flight. Vibe actually books it.</p>
+                Yes. With Gemini Nano (Chrome's built-in AI), everything runs locally on your device. Your data never leaves your computer.
               </AccordionContent>
             </AccordionItem>
 
             <AccordionItem value="item-2">
               <AccordionTrigger className="text-left">
-                Is my data safe?
+                How much does it cost?
               </AccordionTrigger>
               <AccordionContent>
-                Yes. Vibe uses Chrome's built-in AI (Gemini Nano) which runs 100% locally on your device. Your browsing data never leaves your computer. For tasks that need confirmation (like purchases), Vibe always asks before proceeding.
+                <p className="mb-2"><strong>Free forever</strong> with Gemini Nano or BYOM.</p>
+                <p className="text-sm text-muted-foreground">
+                  Cloud AI (GPT-4, Claude): $20/month includes 1,000 queries
+                </p>
               </AccordionContent>
             </AccordionItem>
 
             <AccordionItem value="item-3">
               <AccordionTrigger className="text-left">
-                How much does it cost?
+                What makes Vibe different from OpenAI Atlas and other AI tools?
               </AccordionTrigger>
               <AccordionContent>
-                <p className="mb-3"><strong>Vibe is free forever</strong> when using:</p>
-                <ul className="space-y-1 text-sm ml-4 mb-3">
-                  <li>• <strong>Gemini Nano</strong> (Chrome's built-in AI)</li>
-                  <li>• <strong>Bring Your Own Model</strong> (BYOM)</li>
-                </ul>
-                <p className="mb-2">For cloud AI models (GPT-4, Claude, Gemini):</p>
-                <ul className="space-y-1 text-sm ml-4">
-                  <li>• <strong>$20/month</strong> includes 1,000 queries</li>
-                  <li>• Additional usage: $3 per 1M tokens</li>
+                <p className="mb-3">While Atlas can complete tasks, Vibe offers critical advantages:</p>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                    <span><strong>Privacy:</strong> Run 100% locally with Gemini Nano (Atlas sends everything to OpenAI)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                    <span><strong>Model Choice:</strong> Use any AI model (GPT, Claude, Gemini, local models) vs. Atlas (OpenAI only)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                    <span><strong>Free Option:</strong> Unlimited usage with local AI (Atlas requires $20/month ChatGPT Plus)</span>
+                  </li>
                 </ul>
               </AccordionContent>
             </AccordionItem>
@@ -862,117 +1094,79 @@ export default function Component() {
       </div>
     </section>
 
-    {/* CTA Section */}
-    <section id="pricing" className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-r from-purple-600 to-pink-600">
+    {/* Final CTA */}
+    <section id="pricing" className="w-full py-16 md:py-24 bg-gradient-to-r from-purple-600 to-pink-600">
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
-        <div className="flex flex-col items-center gap-6 text-center text-white">
+        <div className="flex flex-col items-center gap-8 text-center text-white">
           <Badge className="bg-white/20 text-white border-white/30 px-4 py-2">
             <Sparkles className="w-4 h-4 mr-2" />
-            Early Access Now Available
+            Available Now
           </Badge>
 
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
-            Simple, Transparent Pricing
+          <h2 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl max-w-4xl">
+            Stop Clicking. Start Automating.
           </h2>
-          <p className="max-w-2xl text-lg opacity-90 mb-2">
-            Pay only for what you use. Or use it completely free.
+          
+          <p className="max-w-2xl text-xl opacity-90 mb-4">
+            Join thousands using Vibe to automate their web workflows
           </p>
 
-          {/* Pricing Cards */}
-          <div className="grid md:grid-cols-2 gap-6 max-w-4xl w-full mt-8 mb-6">
-            {/* Free Tier */}
-            <div className="bg-white/10 backdrop-blur-sm border-2 border-white/30 rounded-2xl p-8 text-left">
-              <div className="text-center mb-6">
-                <h3 className="text-2xl font-bold mb-2">Free Forever</h3>
-                <p className="text-sm opacity-90">No credit card required</p>
-              </div>
-
-              <div className="space-y-3 mb-6">
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                  <div className="text-sm">
-                    <strong>Gemini Nano</strong> (Chrome built-in AI)
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                  <div className="text-sm">
-                    <strong>Bring Your Own Model</strong> (BYOM)
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                  <div className="text-sm">
-                    100% local processing
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                  <div className="text-sm">
-                    All core features
-                  </div>
-                </div>
-              </div>
-
-              <div className="pt-4 border-t border-white/20">
-                <p className="text-xs opacity-75">
-                  💡 Perfect for privacy-conscious users
-                </p>
-              </div>
-            </div>
-
-            {/* Paid Tier */}
-            <div className="bg-white/10 backdrop-blur-sm border-2 border-white/30 rounded-2xl p-8 text-left">
-              <div className="text-center mb-6">
-                <h3 className="text-2xl font-bold mb-2">$20/month</h3>
-                <p className="text-sm opacity-90">Cloud AI models included</p>
-              </div>
-
-              <div className="space-y-3 mb-6">
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                  <div className="text-sm">
-                    <strong>1,000 queries included</strong> monthly
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                  <div className="text-sm">
-                    <strong>Additional usage:</strong> $3 per 1M tokens
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                  <div className="text-sm">
-                    GPT-5, Claude, Gemini, and other OpenRouter-hosted models access
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                  <div className="text-sm">
-                    Priority support
-                  </div>
-                </div>
-              </div>
-
-              <div className="pt-4 border-t border-white/20">
-                <p className="text-xs opacity-75">
-                  💡 Average: ~500 queries/month
-                </p>
-              </div>
-            </div>
-          </div>
-
           <WaitlistDialog>
-            <Button size="lg" className="bg-white text-purple-600 hover:bg-slate-100 text-lg px-12 py-6 font-semibold">
-              Join Waitlist
-              <ArrowRight className="ml-2 h-5 w-5" />
+            <Button size="lg" className="bg-white text-purple-600 hover:bg-slate-100 text-xl px-12 py-8 font-bold shadow-2xl">
+              Get Early Access
+              <ArrowRight className="ml-2 h-6 w-6" />
             </Button>
           </WaitlistDialog>
 
-          <p className="text-sm opacity-70 mt-6">
-            Early access available now • Free with Gemini Nano or BYOM forever
-          </p>
+          <div className="flex flex-col md:flex-row gap-8 items-center justify-center mt-8">
+            <div className="flex items-center gap-2">
+              <CheckCircle className="w-5 h-5" />
+              <span className="text-sm">Free forever with local AI</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle className="w-5 h-5" />
+              <span className="text-sm">No credit card required</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle className="w-5 h-5" />
+              <span className="text-sm">Setup in 60 seconds</span>
+            </div>
+          </div>
+
+          <div className="mt-12 pt-8 border-t border-white/20 w-full max-w-4xl">
+            <h3 className="text-2xl font-bold mb-6">Simple Pricing</h3>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-left">
+                <h4 className="text-xl font-bold mb-2">Free</h4>
+                <p className="text-sm opacity-90 mb-4">With Gemini Nano or BYOM</p>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                    <span>Unlimited local AI usage</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                    <span>All core features</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-left">
+                <h4 className="text-xl font-bold mb-2">$20/month</h4>
+                <p className="text-sm opacity-90 mb-4">Cloud AI (GPT-4, Claude, Gemini)</p>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                    <span>1,000 queries included</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                    <span>$3 per 1M additional tokens</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
