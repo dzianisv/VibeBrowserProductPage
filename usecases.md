@@ -1,0 +1,2 @@
+Use cases
+Let's improve our product page. Lets add use cases such as https://strawberrybrowser.com/use-case/sales-sally, https://strawberrybrowser.com/use-case/recruiter-ryan, https://strawberrybrowser.com/use-case/extractor-ella and https://strawberrybrowser.com/use-case/competition-camilla and present them in a easy readable way on our product / landing page.

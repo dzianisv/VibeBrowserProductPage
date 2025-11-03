@@ -361,7 +361,7 @@ export default function Component() {
           </h1>
 
           <p className="max-w-3xl text-lg text-muted-foreground md:text-xl leading-relaxed mb-8">
-            Tell Vibe what you need. It researches, compares, and completes tasks autonomously—across multiple sites, with zero clicks from you.
+            Tell Vibe what you need. It researches, compares, and executes tasks across multiple sites—automating workflows that typically require manual effort.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 items-center justify-center mb-8">
@@ -380,11 +380,11 @@ export default function Component() {
             </div>
             <div className="flex items-center gap-2">
               <Zap className="w-4 h-4 text-blue-600" />
-              <span>10x Faster</span>
+              <span>Faster**</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle className="w-4 h-4 text-purple-600" />
-              <span>Zero Clicks</span>
+              <span>Minimal Clicks</span>
             </div>
           </div>
 
@@ -495,9 +495,10 @@ export default function Component() {
             </div>
           </div>
 
-          <p className="text-xs text-muted-foreground mt-8 max-w-2xl mx-auto">
-            *Private when using embedded Gemini Nano AI
-          </p>
+          <div className="text-xs text-muted-foreground mt-8 max-w-2xl mx-auto space-y-1">
+            <p>*Private when using local models (Gemini Nano, BYOM). Cloud models send data to their respective APIs.</p>
+            <p>**Performance varies by task complexity and website structure. Times shown are example scenarios.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -510,7 +511,7 @@ export default function Component() {
             Why Vibe?
           </h2>
           <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
-            The only truly private, model-agnostic autonomous browser
+            Privacy-first, model-agnostic autonomous browser with local AI support
           </p>
         </div>
 
@@ -594,6 +595,33 @@ export default function Component() {
                   </td>
                 </tr>
                 <tr className="hover:bg-gray-50 bg-purple-50/30">
+                  <td className="px-6 py-4 text-sm font-medium text-gray-900">Multi-Tab Agent</td>
+                  <td className="px-6 py-4 text-center">
+                    <div className="flex flex-col items-center">
+                      <CheckCircle className="w-5 h-5 text-green-600" />
+                      <span className="text-xs text-gray-600 mt-1">Full support</span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <div className="flex flex-col items-center">
+                      <span className="text-red-600 text-xl">×</span>
+                      <span className="text-xs text-gray-500 mt-1">Single browser</span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <div className="flex flex-col items-center">
+                      <span className="text-red-600 text-xl">×</span>
+                      <span className="text-xs text-gray-500 mt-1">Single browser</span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <span className="text-xs text-gray-500">Unknown</span>
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
+                  </td>
+                </tr>
+                <tr className="hover:bg-gray-50">
                   <td className="px-6 py-4 text-sm font-medium text-gray-900">Free Tier</td>
                   <td className="px-6 py-4 text-center">
                     <div className="flex flex-col items-center">
@@ -693,9 +721,12 @@ export default function Component() {
             </table>
           </div>
 
-          <div className="mt-8 text-center">
+          <div className="mt-8 text-center space-y-2">
             <p className="text-sm text-muted-foreground">
               * Comparison based on publicly available information as of November 2025
+            </p>
+            <p className="text-xs text-muted-foreground">
+              ** AI browser capabilities evolve rapidly. Features and performance may vary based on specific use cases. We recommend testing multiple options for your workflow.
             </p>
           </div>
         </div>
@@ -1051,7 +1082,7 @@ export default function Component() {
                 Is my data safe?
               </AccordionTrigger>
               <AccordionContent>
-                Yes. With Gemini Nano (Chrome's built-in AI), everything runs locally on your device. Your data never leaves your computer.
+                Yes. When using Gemini Nano (Chrome's built-in AI) or local models, everything runs on your device—your data never leaves your computer. When using cloud models (GPT-4, Claude), data is sent to their respective APIs. You control which model to use.
               </AccordionContent>
             </AccordionItem>
 
@@ -1069,24 +1100,29 @@ export default function Component() {
 
             <AccordionItem value="item-3">
               <AccordionTrigger className="text-left">
-                What makes Vibe different from OpenAI Atlas and other AI tools?
+                What makes Vibe different from OpenAI Atlas and other AI browsers?
               </AccordionTrigger>
               <AccordionContent>
-                <p className="mb-3">While Atlas can complete tasks, Vibe offers critical advantages:</p>
+                <p className="mb-3">Vibe focuses on key differentiators in the evolving AI browser space:</p>
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                    <span><strong>Privacy:</strong> Run 100% locally with Gemini Nano (Atlas sends everything to OpenAI)</span>
+                    <span><strong>Privacy Options:</strong> Choice to run 100% locally with Gemini Nano, or use cloud models when needed</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                    <span><strong>Model Choice:</strong> Use any AI model (GPT, Claude, Gemini, local models) vs. Atlas (OpenAI only)</span>
+                    <span><strong>Model Flexibility:</strong> Bring your own model (BYOM) or switch between GPT, Claude, Gemini, and local models</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                    <span><strong>Free Option:</strong> Unlimited usage with local AI (Atlas requires $20/month ChatGPT Plus)</span>
+                    <span><strong>Multi-Tab Coordination:</strong> Agent can manage multiple tabs in a single task (unlike some competitors)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                    <span><strong>True Free Tier:</strong> Unlimited usage with local models, no subscription required</span>
                   </li>
                 </ul>
+                <p className="mt-3 text-xs text-muted-foreground">Note: AI browser capabilities are rapidly evolving. We recommend testing with your specific workflows to determine the best fit.</p>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
