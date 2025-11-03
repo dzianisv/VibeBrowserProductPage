@@ -633,6 +633,7 @@ export default function Component() {
                     <div className="flex flex-col items-center">
                       <span className="text-red-600 text-xl">×</span>
                       <span className="text-xs text-gray-500 mt-1">$20/mo req.</span>
+                      <span className="text-xs text-red-600 mt-1">Agent quota may be limited — users may see "You've reached your monthly limit for agent mode".</span>
                     </div>
                   </td>
                   <td className="px-6 py-4 text-center">
