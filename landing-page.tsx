@@ -388,39 +388,63 @@ export default function Component() {
             </div>
           </div>
 
-          {/* Quick Benefits */}
-          <div className="w-full max-w-4xl mx-auto mb-12">
-            <div className="grid md:grid-cols-3 gap-6">
-              <Card className="border-0 shadow-lg bg-white">
-                <CardContent className="p-6 text-center">
-                  <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-3">
-                    <CreditCard className="w-6 h-6 text-blue-600" />
+          {/* Use Cases - inline */}
+          <div className="w-full max-w-5xl mx-auto mb-12">
+            <div className="text-center mb-6">
+              <h2 className="text-2xl font-bold tracking-tight sm:text-3xl mb-2">
+                Works for Every Role
+              </h2>
+              <p className="text-muted-foreground">
+                One AI browser, infinite workflows
+              </p>
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+              <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-gradient-to-br from-blue-50 to-white">
+                <CardContent className="p-5 text-center">
+                  <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center mb-2 mx-auto">
+                    <Target className="w-5 h-5 text-blue-600" />
                   </div>
-                  <p className="font-semibold mb-1">"Find best mortgage rate"</p>
-                  <p className="text-2xl font-bold text-blue-600 mb-1">8 min</p>
-                  <p className="text-xs text-muted-foreground">Checked 15 lenders vs 3 hours manually</p>
+                  <h3 className="font-bold mb-1">Sales Teams</h3>
+                  <p className="text-xs text-muted-foreground">
+                    Lead research, CRM updates, prospect analysis
+                  </p>
                 </CardContent>
               </Card>
 
-              <Card className="border-0 shadow-lg bg-white">
-                <CardContent className="p-6 text-center">
-                  <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-3">
-                    <Search className="w-6 h-6 text-green-600" />
+              <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-gradient-to-br from-purple-50 to-white">
+                <CardContent className="p-5 text-center">
+                  <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center mb-2 mx-auto">
+                    <Search className="w-5 h-5 text-purple-600" />
                   </div>
-                  <p className="font-semibold mb-1">"Research competitors"</p>
-                  <p className="text-2xl font-bold text-green-600 mb-1">12 min</p>
-                  <p className="text-xs text-muted-foreground">Analyzed 20 companies vs 4 hours manually</p>
+                  <h3 className="font-bold mb-1">Recruiters</h3>
+                  <p className="text-xs text-muted-foreground">
+                    Candidate sourcing, screening, outreach automation
+                  </p>
                 </CardContent>
               </Card>
 
-              <Card className="border-0 shadow-lg bg-white">
-                <CardContent className="p-6 text-center">
-                  <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-3">
-                    <Plane className="w-6 h-6 text-purple-600" />
+              <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-gradient-to-br from-green-50 to-white">
+                <CardContent className="p-5 text-center">
+                  <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center mb-2 mx-auto">
+                    <TrendingUp className="w-5 h-5 text-green-600" />
                   </div>
-                  <p className="font-semibold mb-1">"Book flight to NYC"</p>
-                  <p className="text-2xl font-bold text-purple-600 mb-1">3 min</p>
-                  <p className="text-xs text-muted-foreground">Compared 8 airlines vs 45 min manually</p>
+                  <h3 className="font-bold mb-1">Researchers</h3>
+                  <p className="text-xs text-muted-foreground">
+                    Market analysis, competitor tracking, data collection
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-gradient-to-br from-orange-50 to-white">
+                <CardContent className="p-5 text-center">
+                  <div className="w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center mb-2 mx-auto">
+                    <Database className="w-5 h-5 text-orange-600" />
+                  </div>
+                  <h3 className="font-bold mb-1">Data Teams</h3>
+                  <p className="text-xs text-muted-foreground">
+                    Web scraping, data enrichment, validation
+                  </p>
                 </CardContent>
               </Card>
             </div>
@@ -504,7 +528,7 @@ export default function Component() {
     </section>
 
     {/* Why Vibe - Comparison Table */}
-    <section className="w-full py-12 md:py-16 bg-white">
+    <section className="w-full py-12 md:py-16 bg-slate-50">
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
@@ -835,78 +859,6 @@ export default function Component() {
         </div>
       </div>
     </section>
-
-    {/* Use Cases Section - Simplified */}
-    <section id="use-cases" className="w-full py-12 md:py-16 bg-white">
-      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
-            Works for Every Role
-          </h2>
-          <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
-            One AI browser, infinite workflows
-          </p>
-        </div>
-
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 max-w-7xl mx-auto">
-          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-gradient-to-br from-blue-50 to-white">
-            <CardContent className="p-6">
-              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-3">
-                <Target className="w-6 h-6 text-blue-600" />
-              </div>
-              <h3 className="text-lg font-bold mb-2">Sales Teams</h3>
-              <p className="text-sm text-muted-foreground">
-                Lead research, CRM updates, prospect analysis
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-gradient-to-br from-purple-50 to-white">
-            <CardContent className="p-6">
-              <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-3">
-                <Search className="w-6 h-6 text-purple-600" />
-              </div>
-              <h3 className="text-lg font-bold mb-2">Recruiters</h3>
-              <p className="text-sm text-muted-foreground">
-                Candidate sourcing, screening, outreach automation
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-gradient-to-br from-green-50 to-white">
-            <CardContent className="p-6">
-              <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-3">
-                <TrendingUp className="w-6 h-6 text-green-600" />
-              </div>
-              <h3 className="text-lg font-bold mb-2">Researchers</h3>
-              <p className="text-sm text-muted-foreground">
-                Market analysis, competitor tracking, data collection
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-gradient-to-br from-orange-50 to-white">
-            <CardContent className="p-6">
-              <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mb-3">
-                <Database className="w-6 h-6 text-orange-600" />
-              </div>
-              <h3 className="text-lg font-bold mb-2">Data Teams</h3>
-              <p className="text-sm text-muted-foreground">
-                Web scraping, data enrichment, validation
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="text-center mt-12 p-6 bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl max-w-3xl mx-auto">
-          <p className="text-muted-foreground">
-            <strong className="text-purple-600">Any workflow. Any role. Any task.</strong> Vibe adapts to your needs.
-          </p>
-        </div>
-      </div>
-    </section>
-
-
 
     {/* How It Works - Simplified */}
     <section id="how-it-works" className="w-full py-12 md:py-16 bg-slate-50">
