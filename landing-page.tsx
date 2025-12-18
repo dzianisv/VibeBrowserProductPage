@@ -361,7 +361,7 @@ export default function Component() {
           </h1>
 
           <p className="max-w-3xl text-lg text-muted-foreground md:text-xl leading-relaxed mb-8">
-            Tell Vibe what you need. It researches, compares, and executes tasks across multiple sites—automating workflows that typically require manual effort.
+            Tell Vibe what you need. It researches, compares, and executes tasks across multiple sites - automating workflows that typically require manual effort.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 items-center justify-center mb-8">
@@ -633,7 +633,7 @@ export default function Component() {
                     <div className="flex flex-col items-center">
                       <span className="text-red-600 text-xl">×</span>
                       <span className="text-xs text-gray-500 mt-1">$20/mo req.</span>
-                      <span className="text-xs text-red-600 mt-1">Agent quota may be limited — users may see "You've reached your monthly limit for agent mode".</span>
+                      <span className="text-xs text-red-600 mt-1">Agent quota may be limited: users may see "You've reached your monthly limit for agent mode".</span>
                     </div>
                   </td>
                   <td className="px-6 py-4 text-center">
@@ -742,7 +742,7 @@ export default function Component() {
             "The future is already here — it's just not evenly distributed."
           </blockquote>
           <p className="text-white/80 text-lg">
-            — William Gibson, Cyberpunk Philosopher & Author
+            William Gibson, Cyberpunk Philosopher & Author
           </p>
         </div>
       </div>
@@ -768,7 +768,7 @@ export default function Component() {
               </div>
               <h3 className="text-xl font-bold mb-2">Autonomous Decision Making</h3>
               <p className="text-sm text-muted-foreground">
-                Plans, executes, and adjusts—making smart decisions without your input
+                Plans, executes, and adjusts. Makes smart decisions without your input
               </p>
             </CardContent>
           </Card>
@@ -792,7 +792,7 @@ export default function Component() {
               </div>
               <h3 className="text-xl font-bold mb-2">Privacy First</h3>
               <p className="text-sm text-muted-foreground">
-                100% local processing with Gemini Nano—your data never leaves your device
+                100% local processing with Gemini Nano. Your data never leaves your device
               </p>
             </CardContent>
           </Card>
@@ -804,7 +804,7 @@ export default function Component() {
               </div>
               <h3 className="text-xl font-bold mb-2">Natural Language</h3>
               <p className="text-sm text-muted-foreground">
-                Just describe what you need in plain English—no scripts or commands
+                Just describe what you need in plain English. No scripts or commands.
               </p>
             </CardContent>
           </Card>
@@ -816,7 +816,7 @@ export default function Component() {
               </div>
               <h3 className="text-xl font-bold mb-2">Background Execution</h3>
               <p className="text-sm text-muted-foreground">
-                Runs tasks while you work on something else—come back to results
+                Runs tasks while you work on something else. Come back to results
               </p>
             </CardContent>
           </Card>
@@ -966,7 +966,7 @@ export default function Component() {
                 </div>
                 <h3 className="font-semibold mb-2">Review Results</h3>
                 <p className="text-sm text-muted-foreground">
-                  Get complete research, bookings, or data—ready when you are
+                  Get complete research, bookings, or data. Ready when you are
                 </p>
               </CardContent>
             </Card>
@@ -1083,7 +1083,7 @@ export default function Component() {
                 Is my data safe?
               </AccordionTrigger>
               <AccordionContent>
-                Yes. When using Gemini Nano (Chrome's built-in AI) or local models, everything runs on your device—your data never leaves your computer. When using cloud models (GPT-4, Claude), data is sent to their respective APIs. You control which model to use.
+                Yes. When using Gemini Nano (Chrome's built-in AI) or local models, everything runs on your device. Your data never leaves your computer. When using cloud models (GPT-4, Claude), data is sent to their respective APIs. You control which model to use.
               </AccordionContent>
             </AccordionItem>
 
