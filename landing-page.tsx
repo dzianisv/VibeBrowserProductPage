@@ -1201,7 +1201,7 @@ export default function Component() {
         <div className="space-y-4">
           <h3 className="font-semibold text-sm">Legal</h3>
           <nav className="flex flex-col gap-2">
-            <Link href="#" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
+            <Link href="/privacy" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
               Privacy Policy
             </Link>
             <Link href="#" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
