@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "prebuild": "git lfs pull",
+    "prebuild": "git lfs pull || true",
     "build": "next build",
     "dev": "next dev",
     "lint": "next lint",
@@ -53,7 +53,7 @@
     "geist": "latest",
     "input-otp": "latest",
     "lucide-react": "^0.454.0",
-    "next": "15.2.4",
+    "next": "^16.1.1",
     "next-themes": "latest",
     "pg": "latest",
     "react": "^19",
