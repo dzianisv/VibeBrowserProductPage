@@ -212,6 +212,69 @@ export default function PrivacyPolicy() {
               </div>
             </section>
 
+            {/* Data Collection Categories */}
+            <section className="bg-white rounded-xl p-6 shadow-sm border">
+              <h2 className="text-xl font-semibold mb-4">Data Collection Categories</h2>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b">
+                      <th className="text-left py-2 px-3 font-semibold">Category</th>
+                      <th className="text-left py-2 px-3 font-semibold">Collected?</th>
+                      <th className="text-left py-2 px-3 font-semibold">Details</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="border-b">
+                      <td className="py-2 px-3">Personally identifiable information</td>
+                      <td className="py-2 px-3 text-green-600 font-medium">YES</td>
+                      <td className="py-2 px-3 text-muted-foreground">Email address when you sign into Vibe account for subscription management</td>
+                    </tr>
+                    <tr className="border-b">
+                      <td className="py-2 px-3">Health information</td>
+                      <td className="py-2 px-3 text-red-600 font-medium">NO</td>
+                      <td className="py-2 px-3 text-muted-foreground">Not collected</td>
+                    </tr>
+                    <tr className="border-b">
+                      <td className="py-2 px-3">Financial and payment information</td>
+                      <td className="py-2 px-3 text-red-600 font-medium">NO</td>
+                      <td className="py-2 px-3 text-muted-foreground">Payments handled by Stripe externally; no financial data stored</td>
+                    </tr>
+                    <tr className="border-b">
+                      <td className="py-2 px-3">Authentication information</td>
+                      <td className="py-2 px-3 text-green-600 font-medium">YES</td>
+                      <td className="py-2 px-3 text-muted-foreground">API keys and OAuth tokens stored locally for AI provider access</td>
+                    </tr>
+                    <tr className="border-b">
+                      <td className="py-2 px-3">Personal communications</td>
+                      <td className="py-2 px-3 text-red-600 font-medium">NO</td>
+                      <td className="py-2 px-3 text-muted-foreground">Agent may read emails during tasks but content is processed transiently, not stored</td>
+                    </tr>
+                    <tr className="border-b">
+                      <td className="py-2 px-3">Location</td>
+                      <td className="py-2 px-3 text-red-600 font-medium">NO</td>
+                      <td className="py-2 px-3 text-muted-foreground">Not collected</td>
+                    </tr>
+                    <tr className="border-b">
+                      <td className="py-2 px-3">Web history</td>
+                      <td className="py-2 px-3 text-green-600 font-medium">YES</td>
+                      <td className="py-2 px-3 text-muted-foreground">Used to search previously visited pages for suggestions</td>
+                    </tr>
+                    <tr className="border-b">
+                      <td className="py-2 px-3">User activity</td>
+                      <td className="py-2 px-3 text-green-600 font-medium">YES</td>
+                      <td className="py-2 px-3 text-muted-foreground">Chat history stores user queries and agent actions for session continuity</td>
+                    </tr>
+                    <tr>
+                      <td className="py-2 px-3">Website content</td>
+                      <td className="py-2 px-3 text-green-600 font-medium">YES</td>
+                      <td className="py-2 px-3 text-muted-foreground">Page content extracted during task execution for AI analysis</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
             {/* Updates */}
             <section className="text-center text-sm text-muted-foreground pt-8 border-t">
               <p>
