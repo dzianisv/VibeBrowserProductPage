@@ -1046,7 +1046,7 @@ export default function Component() {
               <AccordionContent>
                 <p className="mb-2"><strong>Free forever</strong> with Gemini Nano, BYOM, GPT-5-mini, or GPT-OSS-120B.</p>
                 <p className="text-sm text-muted-foreground mb-2">
-                  <strong>Pro ($25/month):</strong> GPT-5.1, Grok-4-fast (non-reasoning), DeepSeek-V3.2
+                  <strong>Pro ($99/month):</strong> GPT-5.1, Grok-4-fast (non-reasoning), DeepSeek-V3.2
                 </p>
                 <p className="text-sm text-muted-foreground">
                   <strong>Pro+ ($50/month):</strong> GPT-5.2, Grok-4, Grok-4-fast-reasoning, DeepSeek-R1
@@ -1224,7 +1224,7 @@ export default function Component() {
                   <h4 className="text-xl font-bold">Pro</h4>
                   <Badge className="bg-white/20 text-white border-white/30">Popular</Badge>
                 </div>
-                <p className="text-sm opacity-90 mb-1"><span className="text-2xl font-bold">$25</span>/month</p>
+                <p className="text-sm opacity-90 mb-1"><span className="text-2xl font-bold">$99</span>/month</p>
                 <p className="text-xs opacity-75 mb-4">Advanced AI models</p>
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-start gap-2">
