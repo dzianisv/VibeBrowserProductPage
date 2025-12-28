@@ -1046,10 +1046,10 @@ export default function Component() {
               <AccordionContent>
                 <p className="mb-2"><strong>Free forever</strong> with Gemini Nano, BYOM, GPT-5-mini, or GPT-OSS-120B.</p>
                 <p className="text-sm text-muted-foreground mb-2">
-                  <strong>Pro ($25/month):</strong> GPT-5.1, Grok-4-fast (non-reasoning)
+                  <strong>Pro ($25/month):</strong> GPT-5.1, Grok-4-fast (non-reasoning), DeepSeek-V3.2
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  <strong>Pro+ ($50/month):</strong> GPT-5.2, Grok-4, Grok-4-fast-reasoning
+                  <strong>Pro+ ($50/month):</strong> GPT-5.2, Grok-4, Grok-4-fast-reasoning, DeepSeek-R1
                 </p>
               </AccordionContent>
             </AccordionItem>
@@ -1241,6 +1241,10 @@ export default function Component() {
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                    <span>DeepSeek-V3.2</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
                     <span>Priority support</span>
                   </li>
                 </ul>
@@ -1266,6 +1270,10 @@ export default function Component() {
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
                     <span>Grok-4-fast-reasoning</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                    <span>DeepSeek-R1</span>
                   </li>
                 </ul>
               </div>
