@@ -1044,9 +1044,12 @@ export default function Component() {
                 How much does it cost?
               </AccordionTrigger>
               <AccordionContent>
-                <p className="mb-2"><strong>Free forever</strong> with Gemini Nano or BYOM.</p>
+                <p className="mb-2"><strong>Free forever</strong> with Gemini Nano, BYOM, GPT-5-mini, or GPT-OSS-120B.</p>
+                <p className="text-sm text-muted-foreground mb-2">
+                  <strong>Pro ($25/month):</strong> GPT-5.1, Grok-4-fast (non-reasoning)
+                </p>
                 <p className="text-sm text-muted-foreground">
-                  Cloud AI (GPT-4, Claude): $20/month includes 1,000 queries
+                  <strong>Pro+ ($50/month):</strong> GPT-5.2, Grok-4, Grok-4-fast-reasoning
                 </p>
               </AccordionContent>
             </AccordionItem>
@@ -1178,7 +1181,7 @@ export default function Component() {
           <div className="flex flex-col md:flex-row gap-8 items-center justify-center mt-8">
             <div className="flex items-center gap-2">
               <CheckCircle className="w-5 h-5" />
-              <span className="text-sm">Free forever with local AI</span>
+              <span className="text-sm">Free tier with cloud AI</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle className="w-5 h-5" />
@@ -1190,16 +1193,24 @@ export default function Component() {
             </div>
           </div>
 
-          <div className="mt-12 pt-8 border-t border-white/20 w-full max-w-4xl">
+          <div className="mt-12 pt-8 border-t border-white/20 w-full max-w-6xl">
             <h3 className="text-2xl font-bold mb-6">Simple Pricing</h3>
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid md:grid-cols-3 gap-6">
               <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-left">
                 <h4 className="text-xl font-bold mb-2">Free</h4>
-                <p className="text-sm opacity-90 mb-4">With Gemini Nano or BYOM</p>
+                <p className="text-sm opacity-90 mb-4">Perfect for getting started</p>
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                    <span>Unlimited local AI usage</span>
+                    <span>Unlimited local AI (Gemini Nano or BYOM)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                    <span>GPT-5-mini (quick model)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                    <span>GPT-OSS-120B (quick model)</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
@@ -1208,17 +1219,53 @@ export default function Component() {
                 </ul>
               </div>
 
-              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-left">
-                <h4 className="text-xl font-bold mb-2">$20/month</h4>
-                <p className="text-sm opacity-90 mb-4">Cloud AI (GPT-4, Claude, Gemini)</p>
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-left border-2 border-white/30">
+                <div className="flex items-center justify-between mb-2">
+                  <h4 className="text-xl font-bold">Pro</h4>
+                  <Badge className="bg-white/20 text-white border-white/30">Popular</Badge>
+                </div>
+                <p className="text-sm opacity-90 mb-1"><span className="text-2xl font-bold">$25</span>/month</p>
+                <p className="text-xs opacity-75 mb-4">Advanced AI models</p>
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                    <span>1,000 queries included</span>
+                    <span>Everything in Free</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                    <span>$3 per 1M additional tokens</span>
+                    <span>GPT-5.1</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                    <span>Grok-4-fast (non-reasoning)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                    <span>Priority support</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-left">
+                <h4 className="text-xl font-bold mb-2">Pro+</h4>
+                <p className="text-sm opacity-90 mb-1"><span className="text-2xl font-bold">$50</span>/month</p>
+                <p className="text-xs opacity-75 mb-4">Premium AI with reasoning</p>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                    <span>Everything in Pro</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                    <span>GPT-5.2 (latest)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                    <span>Grok-4 (full reasoning)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                    <span>Grok-4-fast-reasoning</span>
                   </li>
                 </ul>
               </div>
