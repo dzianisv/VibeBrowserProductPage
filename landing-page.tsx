@@ -375,12 +375,12 @@ export default function Component() {
               </Button>
             </WaitlistDialog>
             <div className="flex flex-col gap-2">
-              <Button variant="outline" size="lg" className="px-8 py-6 text-lg border-2" onClick={() => window.open('https://github.com/VibeTechnologies/VibeWebAgent/releases/latest/download/vibe-ai-copilot-latest.crx', '_blank')}>
+              <Button variant="outline" size="lg" className="px-8 py-6 text-lg border-2" onClick={() => window.open('https://github.com/VibeTechnologies/VibeWebAgent/releases/latest', '_blank')}>
                 <Download className="mr-2 h-5 w-5" />
-                Download CRX
+                Download Extension
               </Button>
-              <a href="https://github.com/VibeTechnologies/VibeWebAgent/releases/latest/download/vibe-ai-copilot-latest.zip" className="text-xs text-muted-foreground hover:text-purple-600 text-center">
-                Or download as ZIP
+              <a href="https://docs.vibebrowser.app/getting-started/extension" className="text-xs text-muted-foreground hover:text-purple-600 text-center">
+                View installation instructions
               </a>
             </div>
           </div>
