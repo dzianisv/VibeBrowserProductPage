@@ -386,18 +386,18 @@ export function AIFirstHomepage() {
         <div className="grid gap-4 md:grid-cols-4 mt-8">
           <Card className="border-0 shadow-md bg-white/80 backdrop-blur hover:shadow-lg transition-shadow cursor-pointer">
             <CardContent className="p-4 text-center">
-              <a href="https://github.com/VibeTechnologies/VibeWebAgent/releases/latest/download/vibe-ai-copilot-latest.zip" target="_blank" rel="noopener noreferrer">
+              <a href="https://github.com/VibeTechnologies/VibeWebAgent/releases/latest" target="_blank" rel="noopener noreferrer">
                 <Bookmark className="w-6 h-6 mx-auto mb-2 text-yellow-600" />
-                <p className="text-sm font-medium">Download ZIP</p>
+                <p className="text-sm font-medium">Download Extension</p>
               </a>
             </CardContent>
           </Card>
           
           <Card className="border-0 shadow-md bg-white/80 backdrop-blur hover:shadow-lg transition-shadow cursor-pointer">
             <CardContent className="p-4 text-center">
-              <a href="https://github.com/VibeTechnologies/VibeWebAgent/releases/latest/download/vibe-ai-copilot-latest.crx" target="_blank" rel="noopener noreferrer">
-                <Users className="w-6 h-6 mx-auto mb-2 text-blue-600" />
-                <p className="text-sm font-medium">Download CRX</p>
+              <a href="https://docs.vibebrowser.app/getting-started/extension" target="_blank" rel="noopener noreferrer">
+                <BookOpen className="w-6 h-6 mx-auto mb-2 text-purple-600" />
+                <p className="text-sm font-medium">Installation Guide</p>
               </a>
             </CardContent>
           </Card>
