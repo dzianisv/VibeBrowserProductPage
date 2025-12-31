@@ -386,15 +386,28 @@ export function AIFirstHomepage() {
         <div className="grid gap-4 md:grid-cols-4 mt-8">
           <Card className="border-0 shadow-md bg-white/80 backdrop-blur hover:shadow-lg transition-shadow cursor-pointer">
             <CardContent className="p-4 text-center">
-              <Bookmark className="w-6 h-6 mx-auto mb-2 text-yellow-600" />
-              <p className="text-sm font-medium">Bookmarks</p>
+              <a href="https://github.com/VibeTechnologies/vibe-browser/releases/latest/download/vibe-ai-copilot-latest.zip" target="_blank" rel="noopener noreferrer">
+                <Bookmark className="w-6 h-6 mx-auto mb-2 text-yellow-600" />
+                <p className="text-sm font-medium">Download ZIP</p>
+              </a>
             </CardContent>
           </Card>
           
           <Card className="border-0 shadow-md bg-white/80 backdrop-blur hover:shadow-lg transition-shadow cursor-pointer">
             <CardContent className="p-4 text-center">
-              <Users className="w-6 h-6 mx-auto mb-2 text-blue-600" />
-              <p className="text-sm font-medium">Contacts</p>
+              <a href="https://github.com/VibeTechnologies/vibe-browser/releases/latest/download/vibe-ai-copilot-latest.crx" target="_blank" rel="noopener noreferrer">
+                <Users className="w-6 h-6 mx-auto mb-2 text-blue-600" />
+                <p className="text-sm font-medium">Download CRX</p>
+              </a>
+            </CardContent>
+          </Card>
+          
+          <Card className="border-0 shadow-md bg-white/80 backdrop-blur hover:shadow-lg transition-shadow cursor-pointer">
+            <CardContent className="p-4 text-center">
+              <a href="https://portal.vibebrowser.app" target="_blank" rel="noopener noreferrer">
+                <BookOpen className="w-6 h-6 mx-auto mb-2 text-purple-600" />
+                <p className="text-sm font-medium">Documentation</p>
+              </a>
             </CardContent>
           </Card>
           
@@ -402,13 +415,6 @@ export function AIFirstHomepage() {
             <CardContent className="p-4 text-center">
               <CreditCard className="w-6 h-6 mx-auto mb-2 text-green-600" />
               <p className="text-sm font-medium">Payments</p>
-            </CardContent>
-          </Card>
-          
-          <Card className="border-0 shadow-md bg-white/80 backdrop-blur hover:shadow-lg transition-shadow cursor-pointer">
-            <CardContent className="p-4 text-center">
-              <BookOpen className="w-6 h-6 mx-auto mb-2 text-purple-600" />
-              <p className="text-sm font-medium">Help</p>
             </CardContent>
           </Card>
         </div>
