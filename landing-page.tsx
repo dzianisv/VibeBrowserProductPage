@@ -341,6 +341,9 @@ export default function Component() {
           <Link href="#pricing" className="text-sm font-medium hover:text-purple-600 transition-colors">
             Pricing
           </Link>
+          <Link href="https://docs.vibebrowser.app" className="text-sm font-medium hover:text-purple-600 transition-colors">
+            Docs
+          </Link>
         </nav>
       </header>
 
@@ -371,6 +374,15 @@ export default function Component() {
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </WaitlistDialog>
+            <div className="flex flex-col gap-2">
+              <Button variant="outline" size="lg" className="px-8 py-6 text-lg border-2" onClick={() => window.open('https://github.com/VibeTechnologies/VibeWebAgent/releases/latest/download/vibe-ai-copilot-latest.crx', '_blank')}>
+                <Download className="mr-2 h-5 w-5" />
+                Download CRX
+              </Button>
+              <a href="https://github.com/VibeTechnologies/VibeWebAgent/releases/latest/download/vibe-ai-copilot-latest.zip" className="text-xs text-muted-foreground hover:text-purple-600 text-center">
+                Or download as ZIP
+              </a>
+            </div>
           </div>
 
           <div className="flex gap-6 justify-center items-center text-sm text-muted-foreground mb-12">
