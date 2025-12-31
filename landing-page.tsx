@@ -369,20 +369,15 @@ export default function Component() {
 
           <div className="flex flex-col sm:flex-row gap-4 items-center justify-center mb-8">
             <WaitlistDialog>
-              <Button size="lg" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white text-lg px-8 py-6">
+              <Button size="lg" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white text-lg px-8 py-6 h-auto">
                 Get Early Access
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </WaitlistDialog>
-            <div className="flex flex-col gap-2">
-              <Button variant="outline" size="lg" className="px-8 py-6 text-lg border-2" onClick={() => window.open('https://vibeextensioncdn.blob.core.windows.net/extensions/vibe-ai-copilot-latest.crx', '_blank')}>
-                <Download className="mr-2 h-5 w-5" />
-                Download CRX
-              </Button>
-              <a href="https://vibeextensioncdn.blob.core.windows.net/extensions/vibe-ai-copilot-latest.zip" className="text-xs text-muted-foreground hover:text-purple-600 text-center">
-                Or download as ZIP
-              </a>
-            </div>
+            <Button variant="outline" size="lg" className="px-8 py-6 text-lg border-2 h-auto" onClick={() => window.open('https://vibeextensioncdn.blob.core.windows.net/extensions/vibe-ai-copilot-latest.zip', '_blank')}>
+              <Download className="mr-2 h-5 w-5" />
+              Download Chrome Extension
+            </Button>
           </div>
 
           <div className="flex gap-6 justify-center items-center text-sm text-muted-foreground mb-12">
