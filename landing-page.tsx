@@ -364,7 +364,7 @@ export default function Component() {
           </h1>
 
           <p className="max-w-3xl text-lg text-muted-foreground md:text-xl leading-relaxed mb-8">
-            Tell Vibe what you need. It researches, compares, and executes tasks across multiple sites - automating workflows that typically require manual effort.
+            Autonomous browser automation that works with <strong>any AI model</strong>, runs <strong>fully private</strong> on your device, and breaks free from vendor lock-in. Tell Vibe what you need—it researches, compares, and executes complex workflows across multiple sites.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 items-center justify-center mb-8">
@@ -383,15 +383,15 @@ export default function Component() {
           <div className="flex gap-6 justify-center items-center text-sm text-muted-foreground mb-12">
             <div className="flex items-center gap-2">
               <Lock className="w-4 h-4 text-green-600" />
-              <span>Private*</span>
+              <span>100% Private*</span>
             </div>
             <div className="flex items-center gap-2">
               <Zap className="w-4 h-4 text-blue-600" />
-              <span>Faster**</span>
+              <span>Any LLM**</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle className="w-4 h-4 text-purple-600" />
-              <span>Minimal Clicks</span>
+              <span>No Lock-in</span>
             </div>
           </div>
 
@@ -788,6 +788,91 @@ export default function Component() {
       </div>
     </section>
 
+    {/* Freedom & Control Section */}
+    <section className="w-full py-12 md:py-16 bg-gradient-to-br from-slate-50 to-blue-50">
+      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
+            Your Data, Your Rules
+          </h2>
+          <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
+            Complete control over privacy, models, and your data—no vendor lock-in
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          <Card className="border-0 shadow-lg bg-white">
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4">
+                <Shield className="w-6 h-6 text-green-600" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Full Privacy Control</h3>
+              <ul className="text-sm text-muted-foreground space-y-2">
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                  <span>100% local with Gemini Nano</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                  <span>Enterprise-grade security</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                  <span>No data collection</span>
+                </li>
+              </ul>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 shadow-lg bg-white">
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
+                <Puzzle className="w-6 h-6 text-purple-600" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Model Freedom (BYOM)</h3>
+              <ul className="text-sm text-muted-foreground space-y-2">
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-purple-600 mt-0.5 flex-shrink-0" />
+                  <span>Switch any LLM anytime</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-purple-600 mt-0.5 flex-shrink-0" />
+                  <span>Use cheaper or better models</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-purple-600 mt-0.5 flex-shrink-0" />
+                  <span>Not locked to one provider</span>
+                </li>
+              </ul>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 shadow-lg bg-white">
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mb-4">
+                <Key className="w-6 h-6 text-orange-600" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Zero Vendor Lock-in</h3>
+              <ul className="text-sm text-muted-foreground space-y-2">
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-orange-600 mt-0.5 flex-shrink-0" />
+                  <span>Works with any Chrome</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-orange-600 mt-0.5 flex-shrink-0" />
+                  <span>Export workflows anytime</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-orange-600 mt-0.5 flex-shrink-0" />
+                  <span>Independent of platform</span>
+                </li>
+              </ul>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </section>
+
     {/* Inspirational Quote */}
     <section className="w-full py-12 md:py-16 bg-gradient-to-r from-slate-900 to-purple-900">
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
@@ -875,17 +960,17 @@ export default function Component() {
             </CardContent>
           </Card>
 
-          <Card className="border-0 shadow-lg bg-gradient-to-br from-indigo-50 to-white">
-            <CardContent className="p-6">
-              <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mb-4">
-                <Target className="w-6 h-6 text-indigo-600" />
-              </div>
-              <h3 className="text-xl font-bold mb-2">Smart Verification</h3>
-              <p className="text-sm text-muted-foreground">
-                Reviews and confirms actions before critical tasks like purchases
-              </p>
-            </CardContent>
-          </Card>
+           <Card className="border-0 shadow-lg bg-gradient-to-br from-indigo-50 to-white">
+             <CardContent className="p-6">
+               <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mb-4">
+                 <Code className="w-6 h-6 text-indigo-600" />
+               </div>
+               <h3 className="text-xl font-bold mb-2">Model Flexibility (BYOM)</h3>
+               <p className="text-sm text-muted-foreground">
+                 Use any LLM: GPT-5, Claude, Gemini, Grok, DeepSeek. Not locked to one vendor
+               </p>
+             </CardContent>
+           </Card>
         </div>
       </div>
     </section>
