@@ -559,7 +559,7 @@ export default function Component() {
                     </div>
                   </th>
                   <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">OpenAI Atlas</th>
-                  <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">Perplexity</th>
+                  <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">Manus Browser</th>
                   <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">Comet</th>
                   <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">BrowserOS</th>
                 </tr>
@@ -574,9 +574,7 @@ export default function Component() {
                     <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
                   </td>
                   <td className="px-6 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <span className="text-xs text-gray-500">Research only</span>
-                    </div>
+                    <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
                   </td>
                   <td className="px-6 py-4 text-center">
                     <span className="text-xs text-gray-500">Limited</span>
@@ -619,7 +617,7 @@ export default function Component() {
                   </td>
                   <td className="px-6 py-4 text-center">
                     <div className="flex flex-col items-center">
-                      <span className="text-xs text-gray-500">Perplexity only</span>
+                      <span className="text-xs text-gray-500">Manus only</span>
                     </div>
                   </td>
                   <td className="px-6 py-4 text-center">
@@ -652,8 +650,20 @@ export default function Component() {
                   <td className="px-6 py-4 text-center">
                     <div className="flex flex-col items-center">
                       <span className="text-red-600 text-xl">×</span>
-                      <span className="text-xs text-gray-500 mt-1">Single context</span>
+                      <span className="text-xs text-gray-500 mt-1">Single browser</span>
                     </div>
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <div className="flex flex-col items-center">
+                      <CheckCircle className="w-5 h-5 text-green-600" />
+                      <span className="text-xs text-gray-600 mt-1">Full support</span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <span className="text-xs text-gray-500">Unknown</span>
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
                   </td>
                   <td className="px-6 py-4 text-center">
                     <span className="text-xs text-gray-500">Unknown</span>
@@ -678,7 +688,10 @@ export default function Component() {
                     </div>
                   </td>
                   <td className="px-6 py-4 text-center">
-                    <span className="text-xs text-gray-500">Limited credits</span>
+                    <div className="flex flex-col items-center">
+                      <span className="text-red-600 text-xl">×</span>
+                      <span className="text-xs text-gray-500 mt-1">$20/mo req.</span>
+                    </div>
                   </td>
                   <td className="px-6 py-4 text-center">
                     <span className="text-xs text-gray-500">Ad-supported</span>
@@ -727,8 +740,8 @@ export default function Component() {
                   </td>
                   <td className="px-6 py-4 text-center">
                     <div className="flex flex-col items-center">
-                      <span className="text-red-600 text-xl">×</span>
-                      <span className="text-xs text-gray-500 mt-1">Web platform</span>
+                      <CheckCircle className="w-5 h-5 text-green-600" />
+                      <span className="text-xs text-gray-600 mt-1">Chrome ext</span>
                     </div>
                   </td>
                   <td className="px-6 py-4 text-center">
