@@ -217,6 +217,25 @@ export default function Component() {
 
   const demos = [
     {
+      id: 'linkedin-warm-outreach',
+      title: 'LinkedIn Warm Outreach',
+      subtitle: 'AI-powered personalized outreach automation',
+      description: 'Watch Vibe AI Agent craft and send personalized LinkedIn messages based on profile analysis',
+      task: {
+        label: 'Warm Outreach:',
+        description: 'Vibe AI Agent analyzes profiles and sends personalized connection messages.'
+      },
+      badges: ['LinkedIn Outreach', 'Personalization', 'AI Networking', 'Sales Automation'],
+      videoSrc: '/linkedin-warm-outreach-demo',
+      icon: MessageSquare,
+      iconColor: 'text-blue-600',
+      highlights: [
+        { icon: MessageSquare, title: 'Personalized Messages', description: 'AI crafts tailored outreach messages' },
+        { icon: Brain, title: 'Profile Analysis', description: 'Understands context before reaching out' },
+        { icon: Target, title: 'Higher Response Rates', description: 'Warm, relevant connection requests' }
+      ]
+    },
+    {
       id: 'linkedin-automation',
       title: 'LinkedIn Automation',
       subtitle: 'AI-powered LinkedIn task automation',
