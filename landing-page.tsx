@@ -558,9 +558,9 @@ export default function Component() {
                       <Badge className="bg-purple-600 text-white">You</Badge>
                     </div>
                   </th>
-                  <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">OpenAI Atlas</th>
-                  <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">Manus Browser</th>
-                  <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">Comet</th>
+                  <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">OpenAI Operator</th>
+                  <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">Manus</th>
+                  <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">Composite</th>
                   <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">BrowserOS</th>
                 </tr>
               </thead>
@@ -577,7 +577,7 @@ export default function Component() {
                     <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
                   </td>
                   <td className="px-6 py-4 text-center">
-                    <span className="text-xs text-gray-500">Limited</span>
+                    <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
                   </td>
                   <td className="px-6 py-4 text-center">
                     <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
@@ -616,63 +616,16 @@ export default function Component() {
                     <span className="text-xs text-gray-500">OpenAI only</span>
                   </td>
                   <td className="px-6 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <span className="text-xs text-gray-500">Manus only</span>
-                    </div>
+                    <span className="text-xs text-gray-500">Manus only</span>
                   </td>
                   <td className="px-6 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
+                    <span className="text-xs text-gray-500">Claude only</span>
                   </td>
                   <td className="px-6 py-4 text-center">
                     <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
                   </td>
                 </tr>
                 <tr className="hover:bg-gray-50 bg-purple-50/30">
-                  <td className="px-6 py-4 text-sm font-medium text-gray-900">Multi-Tab Agent</td>
-                  <td className="px-6 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Full support</span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <span className="text-red-600 text-xl">×</span>
-                      <span className="text-xs text-gray-500 mt-1">Single browser</span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <span className="text-red-600 text-xl">×</span>
-                      <span className="text-xs text-gray-500 mt-1">Single browser</span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <span className="text-red-600 text-xl">×</span>
-                      <span className="text-xs text-gray-500 mt-1">Single browser</span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Full support</span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 text-center">
-                    <span className="text-xs text-gray-500">Unknown</span>
-                  </td>
-                  <td className="px-6 py-4 text-center">
-                    <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
-                  </td>
-                  <td className="px-6 py-4 text-center">
-                    <span className="text-xs text-gray-500">Unknown</span>
-                  </td>
-                  <td className="px-6 py-4 text-center">
-                    <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
-                  </td>
-                </tr>
-                <tr className="hover:bg-gray-50">
                   <td className="px-6 py-4 text-sm font-medium text-gray-900">Free Tier</td>
                   <td className="px-6 py-4 text-center">
                     <div className="flex flex-col items-center">
@@ -684,17 +637,19 @@ export default function Component() {
                     <div className="flex flex-col items-center">
                       <span className="text-red-600 text-xl">×</span>
                       <span className="text-xs text-gray-500 mt-1">$20/mo req.</span>
-                      <span className="text-xs text-red-600 mt-1">Agent quota may be limited: users may see "You've reached your monthly limit for agent mode".</span>
                     </div>
                   </td>
                   <td className="px-6 py-4 text-center">
                     <div className="flex flex-col items-center">
-                      <span className="text-red-600 text-xl">×</span>
-                      <span className="text-xs text-gray-500 mt-1">$20/mo req.</span>
+                      <CheckCircle className="w-5 h-5 text-green-600" />
+                      <span className="text-xs text-gray-600 mt-1">Limited</span>
                     </div>
                   </td>
                   <td className="px-6 py-4 text-center">
-                    <span className="text-xs text-gray-500">Ad-supported</span>
+                    <div className="flex flex-col items-center">
+                      <CheckCircle className="w-5 h-5 text-green-600" />
+                      <span className="text-xs text-gray-600 mt-1">Limited</span>
+                    </div>
                   </td>
                   <td className="px-6 py-4 text-center">
                     <span className="text-red-600 text-xl">×</span>
@@ -734,8 +689,8 @@ export default function Component() {
                   </td>
                   <td className="px-6 py-4 text-center">
                     <div className="flex flex-col items-center">
-                      <span className="text-red-600 text-xl">×</span>
-                      <span className="text-xs text-gray-500 mt-1">Fork only</span>
+                      <CheckCircle className="w-5 h-5 text-green-600" />
+                      <span className="text-xs text-gray-600 mt-1">Chrome ext</span>
                     </div>
                   </td>
                   <td className="px-6 py-4 text-center">
@@ -763,7 +718,7 @@ export default function Component() {
                     <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
                   </td>
                   <td className="px-6 py-4 text-center">
-                    <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
+                    <span className="text-red-600 text-xl">×</span>
                   </td>
                   <td className="px-6 py-4 text-center">
                     <span className="text-red-600 text-xl">×</span>
@@ -1186,10 +1141,6 @@ export default function Component() {
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                    <span><strong>Multi-Tab Coordination:</strong> Agent can manage multiple tabs in a single task (unlike some competitors)</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
                     <span><strong>True Free Tier:</strong> Unlimited usage with local models, no subscription required</span>
                   </li>
                 </ul>
@@ -1255,14 +1206,14 @@ export default function Component() {
 
             <AccordionItem value="item-6">
               <AccordionTrigger className="text-left">
-                How does Vibe compare to Manus Browser and other competitors on vendor lock-in?
+                How does Vibe compare to Manus and other competitors on vendor lock-in?
               </AccordionTrigger>
               <AccordionContent>
                 <p className="mb-3">Key differences on independence and flexibility:</p>
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                    <span><strong>Manus Browser:</strong> Proprietary AI provider ($20/mo minimum), Chrome extension fork, vendor lock-in by design</span>
+                    <span><strong>Manus:</strong> Proprietary AI provider, Chrome extension + web platform, vendor lock-in by design</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
