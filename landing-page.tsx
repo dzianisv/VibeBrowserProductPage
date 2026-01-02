@@ -220,7 +220,7 @@ export default function Component() {
       id: 'linkedin-warm-outreach',
       title: 'LinkedIn Warm Outreach',
       subtitle: 'AI-powered personalized outreach automation',
-      description: 'Watch Vibe AI Agent craft and send personalized LinkedIn messages based on profile analysis',
+      description: 'Vibe Browser finds leads, reads profiles, and drafts personalized outreach — across the real web, not APIs. Works on LinkedIn, Twitter, Reddit, Gmail. Tell it who to reach. It handles the rest.',
       task: {
         label: 'Warm Outreach:',
         description: 'Vibe AI Agent analyzes profiles and sends personalized connection messages.'
@@ -351,11 +351,11 @@ export default function Component() {
           </span>
         </div>
         <nav className="flex gap-4 sm:gap-6">
+          <Link href="#how-it-works" className="text-sm font-medium hover:text-purple-600 transition-colors">
+            How It Works
+          </Link>
           <Link href="#demo" className="text-sm font-medium hover:text-purple-600 transition-colors">
             Demo
-          </Link>
-          <Link href="#use-cases" className="text-sm font-medium hover:text-purple-600 transition-colors">
-            Use Cases
           </Link>
           <Link href="#pricing" className="text-sm font-medium hover:text-purple-600 transition-colors">
             Pricing
@@ -374,7 +374,7 @@ export default function Component() {
           <Badge variant="secondary"
             className="px-4 py-2 text-sm font-medium bg-purple-100 text-purple-700 border-purple-200">
             <Sparkles className="w-4 h-4 mr-2" />
-            AI Browser That Acts
+            Agentic Browser
           </Badge>
 
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
@@ -389,28 +389,28 @@ export default function Component() {
           <div className="flex flex-col sm:flex-row gap-4 items-center justify-center mb-8">
             <WaitlistDialog>
               <Button size="lg" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white text-lg px-8 py-6 h-auto">
-                Get Early Access
+                Subscribe to Early Access
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </WaitlistDialog>
-            <Button variant="outline" size="lg" className="px-8 py-6 text-lg border-2 h-auto" onClick={() => window.open('https://vibeextensioncdn.blob.core.windows.net/extensions/vibe-ai-copilot-latest.zip', '_blank')}>
+            <Button variant="outline" size="lg" className="px-8 py-6 text-lg border-2 h-auto" onClick={() => window.open('https://docs.vibebrowser.app/getting-started/extension', '_blank')}>
               <Download className="mr-2 h-5 w-5" />
-              Download Chrome Extension
+              Download Extension
             </Button>
           </div>
 
-          <div className="flex gap-6 justify-center items-center text-sm text-muted-foreground mb-12">
+          <div className="flex flex-wrap gap-4 md:gap-6 justify-center items-center text-sm text-muted-foreground mb-12">
             <div className="flex items-center gap-2">
-              <Lock className="w-4 h-4 text-green-600" />
-              <span>100% Private*</span>
+              <Globe className="w-4 h-4 text-blue-600" />
+              <span>No APIs needed</span>
             </div>
             <div className="flex items-center gap-2">
-              <Zap className="w-4 h-4 text-blue-600" />
-              <span>Any LLM**</span>
+              <Lock className="w-4 h-4 text-green-600" />
+              <span>Runs locally</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle className="w-4 h-4 text-purple-600" />
-              <span>No Lock-in</span>
+              <span>You stay in control</span>
             </div>
           </div>
 
@@ -418,59 +418,95 @@ export default function Component() {
           <div className="w-full max-w-5xl mx-auto mb-12">
             <div className="text-center mb-6">
               <h2 className="text-2xl font-bold tracking-tight sm:text-3xl mb-2">
-                Works for Every Role
+                Three Ways Vibe Works for You
               </h2>
               <p className="text-muted-foreground">
-                One AI browser, infinite workflows
+                From outreach to research to automation
               </p>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-              <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-gradient-to-br from-blue-50 to-white">
-                <CardContent className="p-5 text-center">
-                  <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center mb-2 mx-auto">
-                    <Target className="w-5 h-5 text-blue-600" />
+            <div className="grid gap-4 md:grid-cols-3">
+              {/* Primary Use Case: Outreach */}
+              <Card className="border-2 border-purple-200 shadow-xl hover:shadow-2xl transition-shadow bg-gradient-to-br from-purple-50 to-white relative overflow-hidden">
+                <div className="absolute top-2 right-2">
+                  <Badge className="bg-purple-600 text-white text-xs">Most Popular</Badge>
+                </div>
+                <CardContent className="p-6 text-center">
+                  <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-3 mx-auto">
+                    <Target className="w-6 h-6 text-purple-600" />
                   </div>
-                  <h3 className="font-bold mb-1">Sales Teams</h3>
-                  <p className="text-xs text-muted-foreground">
-                    Lead research, CRM updates, prospect analysis
+                  <h3 className="font-bold text-lg mb-2">Outreach & Lead Gen</h3>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    Turn intent into action across the real web
                   </p>
+                  <ul className="text-xs text-left space-y-1 text-muted-foreground">
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="w-3 h-3 text-purple-600 mt-0.5 flex-shrink-0" />
+                      <span>LinkedIn, Twitter, Reddit outreach</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="w-3 h-3 text-purple-600 mt-0.5 flex-shrink-0" />
+                      <span>Profile analysis & personalization</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="w-3 h-3 text-purple-600 mt-0.5 flex-shrink-0" />
+                      <span>Draft messages you approve</span>
+                    </li>
+                  </ul>
                 </CardContent>
               </Card>
 
-              <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-gradient-to-br from-purple-50 to-white">
-                <CardContent className="p-5 text-center">
-                  <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center mb-2 mx-auto">
-                    <Search className="w-5 h-5 text-purple-600" />
-                  </div>
-                  <h3 className="font-bold mb-1">Recruiters</h3>
-                  <p className="text-xs text-muted-foreground">
-                    Candidate sourcing, screening, outreach automation
-                  </p>
-                </CardContent>
-              </Card>
-
+              {/* Use Case 2: Research */}
               <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-gradient-to-br from-green-50 to-white">
-                <CardContent className="p-5 text-center">
-                  <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center mb-2 mx-auto">
-                    <TrendingUp className="w-5 h-5 text-green-600" />
+                <CardContent className="p-6 text-center">
+                  <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-3 mx-auto">
+                    <TrendingUp className="w-6 h-6 text-green-600" />
                   </div>
-                  <h3 className="font-bold mb-1">Researchers</h3>
-                  <p className="text-xs text-muted-foreground">
-                    Market analysis, competitor tracking, data collection
+                  <h3 className="font-bold text-lg mb-2">Deep Research</h3>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    From tabs to conclusions
                   </p>
+                  <ul className="text-xs text-left space-y-1 text-muted-foreground">
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="w-3 h-3 text-green-600 mt-0.5 flex-shrink-0" />
+                      <span>Reads across dozens of sources</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="w-3 h-3 text-green-600 mt-0.5 flex-shrink-0" />
+                      <span>Synthesizes into recommendations</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="w-3 h-3 text-green-600 mt-0.5 flex-shrink-0" />
+                      <span>Outputs tables & next steps</span>
+                    </li>
+                  </ul>
                 </CardContent>
               </Card>
 
-              <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-gradient-to-br from-orange-50 to-white">
-                <CardContent className="p-5 text-center">
-                  <div className="w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center mb-2 mx-auto">
-                    <Database className="w-5 h-5 text-orange-600" />
+              {/* Use Case 3: Transactions */}
+              <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-gradient-to-br from-blue-50 to-white">
+                <CardContent className="p-6 text-center">
+                  <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-3 mx-auto">
+                    <ShoppingCart className="w-6 h-6 text-blue-600" />
                   </div>
-                  <h3 className="font-bold mb-1">Data Teams</h3>
-                  <p className="text-xs text-muted-foreground">
-                    Web scraping, data enrichment, validation
+                  <h3 className="font-bold text-lg mb-2">Web Automation</h3>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    Delegate the boring parts
                   </p>
+                  <ul className="text-xs text-left space-y-1 text-muted-foreground">
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="w-3 h-3 text-blue-600 mt-0.5 flex-shrink-0" />
+                      <span>Navigate legacy sites</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="w-3 h-3 text-blue-600 mt-0.5 flex-shrink-0" />
+                      <span>Handle forms, filters, carts</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="w-3 h-3 text-blue-600 mt-0.5 flex-shrink-0" />
+                      <span>Stops before payment — you decide</span>
+                    </li>
+                  </ul>
                 </CardContent>
               </Card>
             </div>
@@ -546,8 +582,7 @@ export default function Component() {
           </div>
 
           <div className="text-xs text-muted-foreground mt-8 max-w-2xl mx-auto space-y-1">
-            <p>*Private when using local models (Gemini Nano, BYOM). Cloud models send data to their respective APIs.</p>
-            <p>**Performance varies by task complexity and website structure. Times shown are example scenarios.</p>
+            <p>Works on any website — LinkedIn, Twitter, Reddit, Gmail, and more. No APIs needed.</p>
           </div>
         </div>
       </div>
@@ -624,10 +659,13 @@ export default function Component() {
                     <span className="text-xs text-gray-500">Manus only</span>
                   </td>
                   <td className="px-4 py-4 text-center">
-                    <span className="text-xs text-gray-500">Claude only</span>
+                    <span className="text-xs text-gray-500">Limited</span>
                   </td>
                   <td className="px-4 py-4 text-center">
-                    <span className="text-xs text-gray-500">Perplexity only</span>
+                    <div className="flex flex-col items-center">
+                      <CheckCircle className="w-5 h-5 text-green-600" />
+                      <span className="text-xs text-gray-600 mt-1">Multiple</span>
+                    </div>
                   </td>
                   <td className="px-4 py-4 text-center">
                     <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
@@ -726,7 +764,7 @@ export default function Component() {
                     <span className="text-red-600 text-xl">×</span>
                   </td>
                   <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
+                    <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
                   </td>
                   <td className="px-4 py-4 text-center">
                     <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
@@ -744,105 +782,6 @@ export default function Component() {
               ** AI browser capabilities evolve rapidly. Features and performance may vary based on specific use cases. We recommend testing multiple options for your workflow.
             </p>
           </div>
-        </div>
-      </div>
-    </section>
-
-    {/* Freedom & Control Section */}
-    <section className="w-full py-12 md:py-16 bg-gradient-to-br from-slate-50 to-blue-50">
-      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
-            Your Data, Your Rules
-          </h2>
-          <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
-            Complete control over privacy, models, and your data—no vendor lock-in
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-          <Card className="border-0 shadow-lg bg-white">
-            <CardContent className="p-6">
-              <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4">
-                <Shield className="w-6 h-6 text-green-600" />
-              </div>
-              <h3 className="text-xl font-bold mb-2">Full Privacy Control</h3>
-              <ul className="text-sm text-muted-foreground space-y-2">
-                <li className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                  <span>100% local with Gemini Nano</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                  <span>Enterprise-grade security</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                  <span>No data collection</span>
-                </li>
-              </ul>
-            </CardContent>
-          </Card>
-
-          <Card className="border-0 shadow-lg bg-white">
-            <CardContent className="p-6">
-              <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
-                <Puzzle className="w-6 h-6 text-purple-600" />
-              </div>
-              <h3 className="text-xl font-bold mb-2">Model Freedom (BYOM)</h3>
-              <ul className="text-sm text-muted-foreground space-y-2">
-                <li className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-purple-600 mt-0.5 flex-shrink-0" />
-                  <span>Switch any LLM anytime</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-purple-600 mt-0.5 flex-shrink-0" />
-                  <span>Use cheaper or better models</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-purple-600 mt-0.5 flex-shrink-0" />
-                  <span>Not locked to one provider</span>
-                </li>
-              </ul>
-            </CardContent>
-          </Card>
-
-          <Card className="border-0 shadow-lg bg-white">
-            <CardContent className="p-6">
-              <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mb-4">
-                <Key className="w-6 h-6 text-orange-600" />
-              </div>
-              <h3 className="text-xl font-bold mb-2">Zero Vendor Lock-in</h3>
-              <ul className="text-sm text-muted-foreground space-y-2">
-                <li className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-orange-600 mt-0.5 flex-shrink-0" />
-                  <span>Works with any Chrome</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-orange-600 mt-0.5 flex-shrink-0" />
-                  <span>Export workflows anytime</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-orange-600 mt-0.5 flex-shrink-0" />
-                  <span>Independent of platform</span>
-                </li>
-              </ul>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    </section>
-
-    {/* Inspirational Quote */}
-    <section className="w-full py-12 md:py-16 bg-gradient-to-r from-slate-900 to-purple-900">
-      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
-        <div className="max-w-4xl mx-auto text-center">
-          <blockquote className="text-2xl md:text-3xl font-light text-white leading-relaxed mb-6">
-            "The future is already here — it's just not evenly distributed."
-          </blockquote>
-          <p className="text-white/80 text-lg">
-            William Gibson, Cyberpunk Philosopher & Author
-          </p>
         </div>
       </div>
     </section>
@@ -877,9 +816,9 @@ export default function Component() {
               <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
                 <Globe className="w-6 h-6 text-blue-600" />
               </div>
-              <h3 className="text-xl font-bold mb-2">Multi-Site Navigation</h3>
+              <h3 className="text-xl font-bold mb-2">Works on Any Site</h3>
               <p className="text-sm text-muted-foreground">
-                Seamlessly works across any website—no API limits or restrictions
+                LinkedIn, Twitter, Reddit, Gmail — anywhere you browse. No APIs needed, no brittle automations
               </p>
             </CardContent>
           </Card>
@@ -891,7 +830,7 @@ export default function Component() {
               </div>
               <h3 className="text-xl font-bold mb-2">Privacy First</h3>
               <p className="text-sm text-muted-foreground">
-                100% local processing with Gemini Nano. Your data never leaves your device
+                100% local with Gemini Nano. Your data never leaves your device. TEE coming soon for enterprise security
               </p>
             </CardContent>
           </Card>
@@ -903,7 +842,7 @@ export default function Component() {
               </div>
               <h3 className="text-xl font-bold mb-2">Natural Language</h3>
               <p className="text-sm text-muted-foreground">
-                Just describe what you need in plain English. No scripts or commands.
+                Just describe what you need in plain English. No scripts or commands required
               </p>
             </CardContent>
           </Card>
@@ -911,11 +850,11 @@ export default function Component() {
           <Card className="border-0 shadow-lg bg-gradient-to-br from-pink-50 to-white">
             <CardContent className="p-6">
               <div className="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center mb-4">
-                <Zap className="w-6 h-6 text-pink-600" />
+                <Eye className="w-6 h-6 text-pink-600" />
               </div>
-              <h3 className="text-xl font-bold mb-2">Background Execution</h3>
+              <h3 className="text-xl font-bold mb-2">You Stay in Control</h3>
               <p className="text-sm text-muted-foreground">
-                Runs tasks while you work on something else. Come back to results
+                Review and approve every action. Nothing is sent without your confirmation
               </p>
             </CardContent>
           </Card>
@@ -925,9 +864,9 @@ export default function Component() {
                <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mb-4">
                  <Code className="w-6 h-6 text-indigo-600" />
                </div>
-               <h3 className="text-xl font-bold mb-2">Model Flexibility (BYOM)</h3>
+               <h3 className="text-xl font-bold mb-2">Any LLM, No Lock-in</h3>
                <p className="text-sm text-muted-foreground">
-                 Use any LLM: GPT-5, Claude, Gemini, Grok, DeepSeek. Not locked to one vendor
+                 Use GPT, Claude, Gemini, Grok, DeepSeek. Switch anytime. Works with any Chrome browser
                </p>
              </CardContent>
            </Card>
@@ -935,13 +874,13 @@ export default function Component() {
       </div>
     </section>
 
-    {/* How It Works - Simplified */}
+    {/* How It Works - Outreach Focused */}
     <section id="how-it-works" className="w-full py-12 md:py-16 bg-slate-50">
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">How It Works</h2>
           <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
-            Three steps. Zero clicks.
+            Three steps. Nothing sent without your approval.
           </p>
         </div>
 
@@ -957,9 +896,9 @@ export default function Component() {
                 <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mb-3">
                   <MessageSquare className="w-5 h-5 text-purple-600" />
                 </div>
-                <h3 className="font-semibold mb-2">Describe Your Task</h3>
+                <h3 className="font-semibold mb-2">Tell Vibe Your Goal</h3>
                 <p className="text-sm text-muted-foreground">
-                  "Find 10 SaaS companies hiring engineers" or "Book cheapest flight to NYC"
+                  "Find 20 SaaS founders hiring engineers" or "Research competitors in the AI space"
                 </p>
               </CardContent>
             </Card>
@@ -972,11 +911,11 @@ export default function Component() {
               </div>
               <CardContent className="p-6 pt-8">
                 <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mb-3">
-                  <Brain className="w-5 h-5 text-blue-600" />
+                  <Globe className="w-5 h-5 text-blue-600" />
                 </div>
-                <h3 className="font-semibold mb-2">Vibe Executes</h3>
+                <h3 className="font-semibold mb-2">Vibe Operates the Web</h3>
                 <p className="text-sm text-muted-foreground">
-                  Autonomously navigates, researches, compares, and completes your task
+                  Searches LinkedIn, Twitter, Reddit. Opens profiles. Understands context. Drafts messages.
                 </p>
               </CardContent>
             </Card>
@@ -991,18 +930,33 @@ export default function Component() {
                 <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mb-3">
                   <CheckCircle className="w-5 h-5 text-green-600" />
                 </div>
-                <h3 className="font-semibold mb-2">Review Results</h3>
+                <h3 className="font-semibold mb-2">You Approve</h3>
                 <p className="text-sm text-muted-foreground">
-                  Get complete research, bookings, or data. Ready when you are
+                  Nothing is sent without your confirmation. Review, edit, and decide what goes out.
                 </p>
               </CardContent>
             </Card>
           </div>
 
-          <div className="mt-8 text-center p-6 bg-white rounded-xl shadow-md">
-            <p className="text-muted-foreground">
-              <strong className="text-purple-600">That's it.</strong> One command → Complete results.
-            </p>
+          {/* Demo Prompt Showcase */}
+          <div className="mt-12 bg-gradient-to-br from-slate-900 to-purple-900 rounded-2xl p-8 text-white">
+            <div className="text-center mb-6">
+              <h3 className="text-xl font-bold mb-2">Try This Prompt</h3>
+              <p className="text-white/70 text-sm">Copy and paste into Vibe Browser</p>
+            </div>
+            <div className="bg-black/30 rounded-xl p-6 font-mono text-sm leading-relaxed border border-white/10">
+              <p className="text-purple-300">Find 15 B2B SaaS founders in the US who posted in the last week.</p>
+              <p className="text-blue-300 mt-2">Draft a personalized message referencing their latest post.</p>
+              <p className="text-green-300 mt-2">Save everything to a Google Sheet.</p>
+            </div>
+            <div className="text-center mt-6">
+              <WaitlistDialog>
+                <Button size="lg" className="bg-white text-purple-900 hover:bg-slate-100 font-semibold">
+                  Run this in Vibe Browser
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </WaitlistDialog>
+            </div>
           </div>
         </div>
       </div>
@@ -1312,7 +1266,7 @@ export default function Component() {
         <div className="flex flex-col items-center gap-8 text-center text-white">
           <Badge className="bg-white/20 text-white border-white/30 px-4 py-2">
             <Sparkles className="w-4 h-4 mr-2" />
-            Available Now
+            Replace 5 Tools with One Browser
           </Badge>
 
           <h2 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl max-w-4xl">
@@ -1323,12 +1277,10 @@ export default function Component() {
             Join thousands using Vibe to automate their web workflows
           </p>
 
-          <WaitlistDialog>
-            <Button size="lg" className="bg-white text-purple-600 hover:bg-slate-100 text-xl px-12 py-8 font-bold shadow-2xl">
-              Get Early Access
-              <ArrowRight className="ml-2 h-6 w-6" />
-            </Button>
-          </WaitlistDialog>
+          <Button size="lg" className="bg-white text-purple-600 hover:bg-slate-100 text-xl px-12 py-8 font-bold shadow-2xl" onClick={() => window.open('https://docs.vibebrowser.app/getting-started/extension', '_blank')}>
+            Get Started
+            <ArrowRight className="ml-2 h-6 w-6" />
+          </Button>
 
           <div className="flex flex-col md:flex-row gap-8 items-center justify-center mt-8">
             <div className="flex items-center gap-2">
@@ -1449,7 +1401,7 @@ export default function Component() {
             </span>
           </div>
           <p className="text-sm text-muted-foreground">
-            The AI browser co-pilot that turns your words into actions. Autonomous automation for the modern web.
+            The agentic browser that doesn't just answer — it operates the web for you.
           </p>
         </div>
 
@@ -1479,7 +1431,7 @@ export default function Component() {
             <Link href="/privacy" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
               Privacy Policy
             </Link>
-            <Link href="#" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
+            <Link href="/terms" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
               Terms of Service
             </Link>
           </nav>
