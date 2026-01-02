@@ -1196,7 +1196,88 @@ export default function Component() {
                 <p className="mt-3 text-xs text-muted-foreground">Note: AI browser capabilities are rapidly evolving. We recommend testing with your specific workflows to determine the best fit.</p>
               </AccordionContent>
             </AccordionItem>
-          </Accordion>
+
+            <AccordionItem value="item-4">
+              <AccordionTrigger className="text-left">
+                Are we locked into Vibe? Can we switch to other tools later?
+              </AccordionTrigger>
+              <AccordionContent>
+                <p className="mb-3">No, you're never locked into Vibe. We believe in true independence:</p>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                    <span><strong>Switch LLM Providers Anytime:</strong> Use Gemini Nano today, GPT-5 tomorrow, Claude next month. You control which AI powers your agent</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                    <span><strong>Export Workflows:</strong> Your automation scripts and workflows are yours to keep and use elsewhere</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                    <span><strong>Works with Any Chrome:</strong> Not a fork—just a standard Chrome extension that works on vanilla Chrome, Chromium, and Edge</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                    <span><strong>No Data Lock-in:</strong> Your task history and results are accessible; we don't hold your data hostage</span>
+                  </li>
+                </ul>
+                <p className="mt-3 text-xs text-muted-foreground">This philosophy sets us apart from platforms like Manus that lock you into their proprietary AI and payment model.</p>
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-5">
+              <AccordionTrigger className="text-left">
+                Is Vibe suitable for enterprises with strict privacy requirements?
+              </AccordionTrigger>
+              <AccordionContent>
+                <p className="mb-3">Yes. Vibe is built for enterprise privacy from the ground up:</p>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                    <span><strong>100% Local Processing:</strong> Use Gemini Nano to run AI agents entirely on your device—zero data leaves your network</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                    <span><strong>No Telemetry:</strong> We don't log, track, or analyze your web browsing or task execution</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                    <span><strong>Self-Hosted Options:</strong> Deploy on your own infrastructure if needed</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                    <span><strong>Compliance Ready:</strong> Built to support enterprise security policies and data governance requirements</span>
+                  </li>
+                </ul>
+                <p className="mt-3 text-xs text-muted-foreground">For enterprises handling sensitive data, Vibe's local-first architecture provides the privacy guarantees you need without relying on external cloud services.</p>
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-6">
+              <AccordionTrigger className="text-left">
+                How does Vibe compare to Manus Browser and other competitors on vendor lock-in?
+              </AccordionTrigger>
+              <AccordionContent>
+                <p className="mb-3">Key differences on independence and flexibility:</p>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                    <span><strong>Manus Browser:</strong> Proprietary AI provider ($20/mo minimum), Chrome extension fork, vendor lock-in by design</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                    <span><strong>OpenAI Atlas:</strong> Locked to OpenAI models, requires fork of Chromium, subscription-only</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                    <span><strong>Vibe:</strong> Any LLM provider, native Chrome extension, free tier with local AI, true model independence</span>
+                  </li>
+                </ul>
+                <p className="mt-3 mb-2 text-sm"><strong>The difference matters:</strong></p>
+                <p className="text-xs text-muted-foreground">With Vibe, if a cheaper or better AI model launches, you can switch immediately. You're not locked into expensive subscription tiers or proprietary AI that doesn't improve. Your workflows stay with you, regardless of where you host the AI.</p>
+              </AccordionContent>
+            </AccordionItem>
+           </Accordion>
         </div>
       </div>
     </section>
