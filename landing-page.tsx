@@ -559,8 +559,8 @@ export default function Component() {
                     </div>
                   </th>
                   <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">OpenAI Atlas</th>
-                  <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">Manus</th>
-                  <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">Composite</th>
+                  <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">Perplexity</th>
+                  <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">Comet</th>
                   <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">BrowserOS</th>
                 </tr>
               </thead>
@@ -575,15 +575,11 @@ export default function Component() {
                   </td>
                   <td className="px-6 py-4 text-center">
                     <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-500 mt-1">Limited scope</span>
+                      <span className="text-xs text-gray-500">Research only</span>
                     </div>
                   </td>
                   <td className="px-6 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-500 mt-1">Limited scope</span>
-                    </div>
+                    <span className="text-xs text-gray-500">Limited</span>
                   </td>
                   <td className="px-6 py-4 text-center">
                     <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
@@ -623,15 +619,11 @@ export default function Component() {
                   </td>
                   <td className="px-6 py-4 text-center">
                     <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Multiple</span>
+                      <span className="text-xs text-gray-500">Perplexity only</span>
                     </div>
                   </td>
                   <td className="px-6 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Multiple</span>
-                    </div>
+                    <span className="text-red-600 text-xl">×</span>
                   </td>
                   <td className="px-6 py-4 text-center">
                     <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
@@ -654,7 +646,7 @@ export default function Component() {
                   <td className="px-6 py-4 text-center">
                     <div className="flex flex-col items-center">
                       <span className="text-red-600 text-xl">×</span>
-                      <span className="text-xs text-gray-500 mt-1">Single context</span>
+                      <span className="text-xs text-gray-500 mt-1">Single browser</span>
                     </div>
                   </td>
                   <td className="px-6 py-4 text-center">
@@ -662,6 +654,9 @@ export default function Component() {
                       <span className="text-red-600 text-xl">×</span>
                       <span className="text-xs text-gray-500 mt-1">Single context</span>
                     </div>
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <span className="text-xs text-gray-500">Unknown</span>
                   </td>
                   <td className="px-6 py-4 text-center">
                     <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
@@ -686,7 +681,7 @@ export default function Component() {
                     <span className="text-xs text-gray-500">Limited credits</span>
                   </td>
                   <td className="px-6 py-4 text-center">
-                    <span className="text-xs text-gray-500">Limited credits</span>
+                    <span className="text-xs text-gray-500">Ad-supported</span>
                   </td>
                   <td className="px-6 py-4 text-center">
                     <span className="text-red-600 text-xl">×</span>
@@ -727,7 +722,7 @@ export default function Component() {
                   <td className="px-6 py-4 text-center">
                     <div className="flex flex-col items-center">
                       <span className="text-red-600 text-xl">×</span>
-                      <span className="text-xs text-gray-500 mt-1">Web platform</span>
+                      <span className="text-xs text-gray-500 mt-1">Fork only</span>
                     </div>
                   </td>
                   <td className="px-6 py-4 text-center">
@@ -755,7 +750,7 @@ export default function Component() {
                     <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
                   </td>
                   <td className="px-6 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
+                    <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
                   </td>
                   <td className="px-6 py-4 text-center">
                     <span className="text-red-600 text-xl">×</span>
