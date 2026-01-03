@@ -346,11 +346,14 @@ export default function Component() {
       <header className="w-full px-4 lg:px-6 h-16 flex items-center justify-between border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="flex items-center gap-2">
           <img src="/vibebrowser-logo.png" alt="Vibe AI Browser Co-Pilot" className="w-10 h-10 object-contain" />
-          <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+          <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent hidden sm:inline">
             Vibe AI Browser Co-Pilot
           </span>
+          <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent sm:hidden">
+            Vibe
+          </span>
         </div>
-        <nav className="flex gap-4 sm:gap-6">
+        <nav className="hidden md:flex gap-6">
           <Link href="#how-it-works" className="text-sm font-medium hover:text-purple-600 transition-colors">
             How It Works
           </Link>
@@ -361,6 +364,18 @@ export default function Component() {
             Pricing
           </Link>
           <Link href="https://docs.vibebrowser.app" className="text-sm font-medium hover:text-purple-600 transition-colors">
+            Docs
+          </Link>
+        </nav>
+        {/* Mobile navigation */}
+        <nav className="flex md:hidden gap-3">
+          <Link href="#demo" className="text-xs font-medium hover:text-purple-600 transition-colors">
+            Demo
+          </Link>
+          <Link href="#pricing" className="text-xs font-medium hover:text-purple-600 transition-colors">
+            Pricing
+          </Link>
+          <Link href="https://docs.vibebrowser.app" className="text-xs font-medium hover:text-purple-600 transition-colors">
             Docs
           </Link>
         </nav>
@@ -388,12 +403,12 @@ export default function Component() {
 
           <div className="flex flex-col sm:flex-row gap-4 items-center justify-center mb-8">
             <WaitlistDialog>
-              <Button size="lg" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white text-lg px-8 py-6 h-auto">
-                Subscribe to Early Access
+              <Button size="lg" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white text-lg px-8 py-6 h-auto w-64">
+                Subscribe!
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </WaitlistDialog>
-            <Button variant="outline" size="lg" className="px-8 py-6 text-lg border-2 h-auto" onClick={() => window.open('https://docs.vibebrowser.app/getting-started/extension', '_blank')}>
+            <Button variant="outline" size="lg" className="px-8 py-6 text-lg border-2 h-auto w-64" onClick={() => window.open('https://docs.vibebrowser.app/getting-started/extension', '_blank')}>
               <Download className="mr-2 h-5 w-5" />
               Download Extension
             </Button>
