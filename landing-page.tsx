@@ -1292,8 +1292,8 @@ export default function Component() {
             Join thousands using Vibe to automate their web workflows
           </p>
 
-          <Button size="lg" className="bg-white text-purple-600 hover:bg-slate-100 text-xl px-12 py-8 font-bold shadow-2xl" onClick={() => window.open('https://docs.vibebrowser.app/getting-started/extension', '_blank')}>
-            Get Started
+          <Button size="lg" className="bg-white text-purple-600 hover:bg-slate-100 text-xl px-12 py-8 font-bold shadow-2xl" onClick={() => window.open('https://billing.stripe.com/p/login/9B6bJ06iPcwL9VUa4yabK00', '_blank')}>
+            Manage Subscription
             <ArrowRight className="ml-2 h-6 w-6" />
           </Button>
 
