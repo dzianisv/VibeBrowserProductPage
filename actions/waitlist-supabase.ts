@@ -15,12 +15,24 @@ function getSupabaseClient() {
 }
 
 // Helper function to get Resend client (disabled for now)
-async function getResendClient() {
+async function getResendClient(): Promise<{ emails: { send: (data: unknown) => Promise<unknown> } } | null> {
   // Temporarily disabled due to build issues
   return null
 }
 
-export async function joinWaitlist(email: string, tier: string = 'free') {
+interface ReferralData {
+  referral_source?: string
+  utm_source?: string
+  utm_medium?: string
+  utm_campaign?: string
+  landing_page?: string
+}
+
+export async function joinWaitlist(
+  email: string, 
+  tier: string = 'free',
+  referralData?: ReferralData
+) {
   try {
     const supabase = getSupabaseClient()
     
@@ -35,7 +47,7 @@ export async function joinWaitlist(email: string, tier: string = 'free') {
       return { success: false, message: "Email already registered on waitlist." }
     }
 
-    // Insert email into waitlist
+    // Insert email into waitlist with referral tracking
     const { data, error } = await supabase
       .from('vibebrowser_waitlist')
       .insert([
@@ -43,9 +55,15 @@ export async function joinWaitlist(email: string, tier: string = 'free') {
           email: email.toLowerCase(),
           tier,
           source: 'website',
+          referral_source: referralData?.referral_source || null,
+          utm_source: referralData?.utm_source || null,
+          utm_medium: referralData?.utm_medium || null,
+          utm_campaign: referralData?.utm_campaign || null,
+          landing_page: referralData?.landing_page || null,
           metadata: {
             timestamp: new Date().toISOString(),
-            userAgent: 'web'
+            userAgent: 'web',
+            ...referralData
           },
           confirmed: false
         }
@@ -84,6 +102,10 @@ export async function joinWaitlist(email: string, tier: string = 'free') {
                 <p><strong>Email:</strong> ${email}</p>
                 <p><strong>Tier:</strong> ${tier}</p>
                 <p><strong>Signup Time:</strong> ${new Date().toLocaleString()}</p>
+                ${referralData?.referral_source ? `<p><strong>Referral Source:</strong> ${referralData.referral_source}</p>` : ''}
+                ${referralData?.utm_source ? `<p><strong>UTM Source:</strong> ${referralData.utm_source}</p>` : ''}
+                ${referralData?.utm_medium ? `<p><strong>UTM Medium:</strong> ${referralData.utm_medium}</p>` : ''}
+                ${referralData?.utm_campaign ? `<p><strong>UTM Campaign:</strong> ${referralData.utm_campaign}</p>` : ''}
               </div>
               <p>You can view all waitlist signups in your admin dashboard.</p>
               <hr style="margin: 30px 0; border: none; border-top: 1px solid #e5e7eb;">
@@ -113,7 +135,7 @@ export async function getWaitlistSignups() {
     const supabase = getSupabaseClient()
     const { data: signups, error } = await supabase
       .from('vibebrowser_waitlist')
-      .select('id, email, tier, source, metadata, confirmed, created_at')
+      .select('id, email, tier, source, referral_source, utm_source, utm_medium, utm_campaign, landing_page, metadata, confirmed, created_at')
       .order('created_at', { ascending: false })
 
     if (error) {
@@ -174,13 +196,27 @@ export async function getWaitlistStats() {
       return acc
     }, {}) || { free: 0, pro: 0 }
 
+    // Get referral source breakdown
+    const { data: referralData, error: referralError } = await supabase
+      .from('vibebrowser_waitlist')
+      .select('referral_source, utm_source')
+
+    if (referralError) throw referralError
+
+    const referralBreakdown = referralData?.reduce((acc: Record<string, number>, item) => {
+      const source = item.referral_source || item.utm_source || 'direct'
+      acc[source] = (acc[source] || 0) + 1
+      return acc
+    }, {}) || {}
+
     return {
       success: true,
       data: {
         total: totalCount || 0,
         today: todayCount || 0,
         week: weekCount || 0,
-        tierBreakdown
+        tierBreakdown,
+        referralBreakdown
       },
     }
   } catch (error) {
@@ -195,7 +231,7 @@ export async function exportWaitlistToCSV() {
     const supabase = getSupabaseClient()
     const { data: signups, error } = await supabase
       .from('vibebrowser_waitlist')
-      .select('email, tier, source, confirmed, created_at')
+      .select('email, tier, source, referral_source, utm_source, utm_medium, utm_campaign, confirmed, created_at')
       .order('created_at', { ascending: false })
 
     if (error) throw error
@@ -204,12 +240,16 @@ export async function exportWaitlistToCSV() {
       return { success: false, message: "No signups to export." }
     }
 
-    // Create CSV content
-    const headers = ['Email', 'Tier', 'Source', 'Confirmed', 'Signup Date']
+    // Create CSV content with referral tracking
+    const headers = ['Email', 'Tier', 'Source', 'Referral Source', 'UTM Source', 'UTM Medium', 'UTM Campaign', 'Confirmed', 'Signup Date']
     const rows = signups.map(signup => [
       signup.email,
       signup.tier || 'free',
       signup.source || 'website',
+      signup.referral_source || '',
+      signup.utm_source || '',
+      signup.utm_medium || '',
+      signup.utm_campaign || '',
       signup.confirmed ? 'Yes' : 'No',
       new Date(signup.created_at).toLocaleString()
     ])

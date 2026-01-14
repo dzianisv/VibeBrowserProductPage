@@ -1,5 +1,9 @@
 # VibeBrowser Landing Page - Developer Guide
 
+## Important References
+
+- **Testing Checklist**: See @docs/testing.md for complete manual and automated testing procedures after any modifications.
+
 ## Quick Deploy & Test
 
 ### 1. Deploy to Vercel

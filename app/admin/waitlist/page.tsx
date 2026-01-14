@@ -5,13 +5,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { getWaitlistSignups, getWaitlistStats, exportWaitlistToCSV } from "../../../actions/waitlist-supabase"
-import { Users, Calendar, TrendingUp, Download } from "lucide-react"
+import { Users, Calendar, TrendingUp, Download, Globe, Share2 } from "lucide-react"
 
 interface Signup {
   id: string
   email: string
   tier?: string
   source?: string
+  referral_source?: string
+  utm_source?: string
+  utm_medium?: string
+  utm_campaign?: string
   confirmed?: boolean
   created_at: string
 }
@@ -21,6 +25,42 @@ interface Stats {
   today: number
   week: number
   tierBreakdown?: Record<string, number>
+  referralBreakdown?: Record<string, number>
+}
+
+// Map of source names to display-friendly labels
+const SOURCE_LABELS: Record<string, string> = {
+  linkedin: 'LinkedIn',
+  twitter: 'Twitter/X',
+  google: 'Google Search',
+  facebook: 'Facebook',
+  reddit: 'Reddit',
+  hackernews: 'Hacker News',
+  youtube: 'YouTube',
+  github: 'GitHub',
+  producthunt: 'Product Hunt',
+  direct: 'Direct',
+  bing: 'Bing',
+}
+
+function getSourceLabel(source: string): string {
+  return SOURCE_LABELS[source.toLowerCase()] || source
+}
+
+function getSourceColor(source: string): string {
+  const colors: Record<string, string> = {
+    linkedin: 'bg-blue-100 text-blue-800',
+    twitter: 'bg-sky-100 text-sky-800',
+    google: 'bg-red-100 text-red-800',
+    facebook: 'bg-indigo-100 text-indigo-800',
+    reddit: 'bg-orange-100 text-orange-800',
+    hackernews: 'bg-orange-100 text-orange-800',
+    youtube: 'bg-red-100 text-red-800',
+    github: 'bg-gray-100 text-gray-800',
+    producthunt: 'bg-orange-100 text-orange-800',
+    direct: 'bg-green-100 text-green-800',
+  }
+  return colors[source.toLowerCase()] || 'bg-gray-100 text-gray-800'
 }
 
 export default function WaitlistAdmin() {
@@ -73,6 +113,11 @@ export default function WaitlistAdmin() {
       </div>
     )
   }
+
+  // Sort referral breakdown by count
+  const sortedReferrals = stats.referralBreakdown 
+    ? Object.entries(stats.referralBreakdown).sort((a, b) => b[1] - a[1])
+    : []
 
   return (
     <div className="container mx-auto p-6 space-y-6">
@@ -136,6 +181,64 @@ export default function WaitlistAdmin() {
         </Card>
       </div>
 
+      {/* Referral Sources */}
+      <div className="grid gap-4 md:grid-cols-2">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Traffic Sources</CardTitle>
+            <Globe className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            {sortedReferrals.length === 0 ? (
+              <p className="text-muted-foreground text-sm">No referral data yet</p>
+            ) : (
+              <div className="space-y-3">
+                {sortedReferrals.slice(0, 8).map(([source, count]) => (
+                  <div key={source} className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Share2 className="h-3 w-3 text-muted-foreground" />
+                      <span className="text-sm">{getSourceLabel(source)}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-20 h-2 bg-gray-100 rounded-full overflow-hidden">
+                        <div 
+                          className="h-full bg-purple-500 rounded-full"
+                          style={{ width: `${(count / stats.total) * 100}%` }}
+                        />
+                      </div>
+                      <span className="text-sm font-medium w-8 text-right">{count}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-sm font-medium">Top Referral Channels</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {sortedReferrals.length === 0 ? (
+              <p className="text-muted-foreground text-sm">No referral data yet</p>
+            ) : (
+              <div className="flex flex-wrap gap-2">
+                {sortedReferrals.slice(0, 10).map(([source, count]) => (
+                  <Badge 
+                    key={source} 
+                    variant="secondary"
+                    className={getSourceColor(source)}
+                  >
+                    {getSourceLabel(source)}: {count}
+                  </Badge>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+
       {/* Signups List */}
       <Card>
         <CardHeader>
@@ -161,6 +264,14 @@ export default function WaitlistAdmin() {
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
+                    {(signup.referral_source || signup.utm_source) && (
+                      <Badge 
+                        variant="outline"
+                        className={getSourceColor(signup.referral_source || signup.utm_source || '')}
+                      >
+                        {getSourceLabel(signup.referral_source || signup.utm_source || '')}
+                      </Badge>
+                    )}
                     {signup.tier && (
                       <Badge variant={signup.tier === 'pro' ? 'default' : 'secondary'}>
                         {signup.tier}

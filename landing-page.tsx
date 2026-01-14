@@ -45,6 +45,7 @@ Target,
 Lightbulb,
 ChevronLeft,
 ChevronRight,
+ChevronDown,
 BookOpen,
 TrendingUp,
 Moon,
@@ -53,12 +54,31 @@ Cloud,
 Info,
 } from "lucide-react"
 import Link from "next/link"
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 
 export default function Component() {
   const [currentDemo, setCurrentDemo] = useState(0)
   const [isPlaying, setIsPlaying] = useState(true)
+  const [installDropdownOpen, setInstallDropdownOpen] = useState(false)
   const videoRef = React.useRef<HTMLVideoElement>(null)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setInstallDropdownOpen(false)
+      }
+    }
+    
+    if (installDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+    }
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [installDropdownOpen])
 
   // Add structured data for SEO
   React.useEffect(() => {
@@ -402,16 +422,61 @@ export default function Component() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 items-center justify-center mb-8">
+            <div className="relative" ref={dropdownRef}>
+              <div className="flex">
+                <Button 
+                  size="lg" 
+                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white text-lg px-8 py-6 h-auto rounded-r-none" 
+                  onClick={() => window.open('https://chromewebstore.google.com/detail/vibe-ai-browser-co-pilot/djodpgokbmobeclicaicnnidccoinado', '_blank')}
+                >
+                  <Chrome className="mr-2 h-5 w-5" />
+                  Install Extension
+                </Button>
+                <Button
+                  size="lg"
+                  className="bg-gradient-to-r from-pink-600 to-pink-700 hover:from-pink-700 hover:to-pink-800 text-white px-3 py-6 h-auto rounded-l-none border-l border-white/20"
+                  onClick={() => setInstallDropdownOpen(!installDropdownOpen)}
+                >
+                  <ChevronDown className={`h-5 w-5 transition-transform ${installDropdownOpen ? 'rotate-180' : ''}`} />
+                </Button>
+              </div>
+              {installDropdownOpen && (
+                <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-xl border border-gray-200 overflow-hidden z-50">
+                  <button
+                    className="w-full px-4 py-3 text-left text-sm hover:bg-gray-50 flex items-center gap-3 border-b border-gray-100"
+                    onClick={() => {
+                      window.open('https://chromewebstore.google.com/detail/vibe-ai-browser-co-pilot/djodpgokbmobeclicaicnnidccoinado', '_blank')
+                      setInstallDropdownOpen(false)
+                    }}
+                  >
+                    <Chrome className="h-4 w-4 text-purple-600" />
+                    <div>
+                      <div className="font-medium text-gray-900">Chrome Web Store</div>
+                      <div className="text-xs text-gray-500">Stable release</div>
+                    </div>
+                  </button>
+                  <button
+                    className="w-full px-4 py-3 text-left text-sm hover:bg-gray-50 flex items-center gap-3"
+                    onClick={() => {
+                      window.open('https://docs.vibebrowser.app/getting-started/extension', '_blank')
+                      setInstallDropdownOpen(false)
+                    }}
+                  >
+                    <Code className="h-4 w-4 text-orange-600" />
+                    <div>
+                      <div className="font-medium text-gray-900">Developer Version</div>
+                      <div className="text-xs text-gray-500">Latest features, manual install</div>
+                    </div>
+                  </button>
+                </div>
+              )}
+            </div>
             <WaitlistDialog>
-              <Button size="lg" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white text-lg px-8 py-6 h-auto w-64">
+              <Button variant="outline" size="lg" className="px-8 py-6 text-lg border-2 h-auto w-64 bg-white hover:bg-slate-50 text-gray-900">
                 Subscribe!
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </WaitlistDialog>
-            <Button variant="outline" size="lg" className="px-8 py-6 text-lg border-2 h-auto w-64" onClick={() => window.open('https://docs.vibebrowser.app/getting-started/extension', '_blank')}>
-              <Download className="mr-2 h-5 w-5" />
-              Download Extension
-            </Button>
           </div>
 
           <div className="flex flex-wrap gap-4 md:gap-6 justify-center items-center text-sm text-muted-foreground mb-12">
@@ -1435,6 +1500,19 @@ export default function Component() {
             </Link>
             <Link href="#pricing" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
               Pricing
+            </Link>
+          </nav>
+        </div>
+
+        {/* Resources */}
+        <div className="space-y-4">
+          <h3 className="font-semibold text-sm">Resources</h3>
+          <nav className="flex flex-col gap-2">
+            <Link href="https://docs.vibebrowser.app" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
+              Documentation
+            </Link>
+            <Link href="https://docs.vibebrowser.app/getting-started/extension" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
+              Developer Install
             </Link>
           </nav>
         </div>

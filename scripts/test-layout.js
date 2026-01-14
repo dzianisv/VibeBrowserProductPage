@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer');
 const fs = require('fs');
 const path = require('path');
 
-async function testLayout() {
+async function testLayout(baseUrl = 'https://www.vibebrowser.app') {
   console.log('🧪 Testing VibeBrowser Layout...\n');
   
   // Create screenshots directory
@@ -31,7 +31,7 @@ async function testLayout() {
       await page.setViewport(viewport);
       
       // Load the page
-      await page.goto('https://www.vibebrowser.app', { 
+      await page.goto(baseUrl, { 
         waitUntil: 'networkidle2',
         timeout: 30000 
       });
@@ -113,13 +113,13 @@ async function testLayout() {
     console.log('Testing waitlist dialog...');
     const page2 = await browser.newPage();
     await page2.setViewport({ width: 1920, height: 1080 });
-    await page2.goto('https://www.vibebrowser.app', { waitUntil: 'networkidle2' });
+    await page2.goto(baseUrl, { waitUntil: 'networkidle2' });
     
     // Click waitlist button
     const waitlistButton = await page2.$('button[aria-haspopup="dialog"]');
     if (waitlistButton) {
       await waitlistButton.click();
-      await page2.waitForTimeout(1000);
+      await new Promise(resolve => setTimeout(resolve, 1000));
       
       // Check if dialog opened
       const dialogVisible = await page2.evaluate(() => {
@@ -147,5 +147,9 @@ async function testLayout() {
   }
 }
 
+// Get URL from command line args or default to production
+const testUrl = process.argv[2] || 'https://www.vibebrowser.app';
+console.log(`\n🌐 Testing URL: ${testUrl}\n`);
+
 // Run the test
-testLayout().catch(console.error);
+testLayout(testUrl).catch(console.error);
