@@ -1,4 +1,10 @@
-# VibeBrowser Landing Page - Developer Guide
+# VibeBrowser Product
+
+@./ - product next.js webapp
+@./product/docs - marketing/product documentation about the Vibe AI Browser Co-Pilot
+@./product/webstore - documentation and assets for publishing to webstore
+
+# Product Page
 
 ## Important References
 
@@ -105,3 +111,6 @@ vercel --prod && node scripts/test-layout.js
 1. Run: `node scripts/test-layout.js`
 2. Check screenshots in `screenshots/` folder
 3. Validate responsive: Test at 375px, 768px, 1920px widths
+
+
+
