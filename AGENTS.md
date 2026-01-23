@@ -112,5 +112,79 @@ vercel --prod && node scripts/test-layout.js
 2. Check screenshots in `screenshots/` folder
 3. Validate responsive: Test at 375px, 768px, 1920px widths
 
+## Playwriter Browser Automation Best Practices
+
+When using the Playwriter MCP tool for browser automation:
+
+### Do:
+- **Single operations per call** - Execute one action at a time, don't chain multiple awaits
+- **Use `page.evaluate()` for bulk DOM operations** - More reliable than multiple Playwright locator calls
+- **Use short timeouts (5000ms)** for simple operations, longer (15000-20000ms) only for navigation
+- **Check page state after each action** - Verify the action succeeded before proceeding
+- **Use `{ force: true }` for stubborn clicks** - Some elements need forced clicks
+
+### Don't:
+- **Don't chain multiple `await locator.click()` calls** in one execute block - if one times out, all fail
+- **Don't use aggressive timeouts** on complex forms - they cause cascading failures
+- **Don't assume page context survives navigation** - Re-check URL and state after form submissions
+
+### Example - Bad Pattern:
+```javascript
+// DON'T DO THIS - if any step times out, all fail
+await page.locator('input1').fill('value1');
+await page.locator('input2').fill('value2');
+await page.locator('button').click();
+```
+
+### Example - Good Pattern:
+```javascript
+// DO THIS - use page.evaluate for multiple DOM operations
+await page.evaluate(() => {
+  document.querySelector('input1').value = 'value1';
+  document.querySelector('input2').value = 'value2';
+  document.querySelector('button').click();
+});
+```
+
+### Handling Disconnections:
+- If you get "No browser tabs are connected", ask user to click Playwriter extension icon
+- **CRITICAL: NEVER call `playwriter_reset` when already disconnected** - it will NOT reconnect and wastes time
+- **ONLY call `playwriter_reset`** when you have an active connection but need to refresh page/context state
+- Disconnections usually happen from timeouts or page navigation, not from the tool itself
+- When disconnected, STOP and ask user to reconnect - do NOT attempt any playwriter commands
+
+### Avoiding Timeouts That Cause Disconnects:
+- **NEVER use `page.waitForTimeout()`** - this is the #1 cause of disconnections
+- **NEVER use long waits after form submissions** - if the page navigates during the wait, connection drops
+- **Instead of waiting, immediately check state** - run `console.log('url:', page.url())` right after actions
+- **Use `waitForPageLoad` sparingly** - only for initial navigation, not after button clicks
+
+### Form Submissions That Redirect - CRITICAL:
+- **Clicking submit buttons that cause page redirects WILL disconnect Playwriter**
+- This is a fundamental limitation - the page context changes and connection is lost
+- **For forms that redirect after submit**: Fill all fields, then ASK USER to click submit manually
+- **After user submits manually**: Ask them to reconnect Playwriter, then continue
+- Signs a form will redirect: signup forms, login forms, payment forms, multi-step wizards
+
+### Embedded Forms (iframes) - CRITICAL:
+- **NEVER navigate directly to iframe URLs** - Always interact through `page.frameLocator()` on the parent page
+- **Embedded forms may silently redirect** - Pardot, HubSpot, Typeform iframes can redirect based on cookies/sessions
+- **Always verify URL after filling fields** - Run `console.log('url:', page.url())` to confirm you're still on the expected page
+- **Check for unexpected redirects** - If `page.evaluate()` returns data that doesn't match expected form structure, the page likely redirected
+
+### Cross-Domain Navigation:
+- **Avoid navigating between different domains** in the same tab - can break Playwriter connection
+- **Open new tabs for different domain forms** instead of navigating away from current page
+- **After any cross-domain navigation**, immediately check `page.url()` and page state
+- **If a form redirects to unexpected domain**, do NOT try to navigate back - reset and start fresh on a new tab
+
+### URL Verification Pattern:
+```javascript
+// ALWAYS do this after navigation or form interactions
+console.log('url:', page.url());
+// Verify URL matches expected before continuing
+// If URL changed unexpectedly, STOP and reassess
+```
+
 
 

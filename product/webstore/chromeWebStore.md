@@ -1,5 +1,7 @@
-/Users/engineer/workspace/vibebrowser/src/chrome/browser/resources/vibe
-https://www.youtube.com/watch?v=nkJa4WdfdVU
+Web Store Item: https://chrome.google.com/webstore/devconsole/78a01466-aa05-4a18-9da9-c92a12009581/djodpgokbmobeclicaicnnidccoinado/edit
+
+
+About video: https://www.youtube.com/watch?v=nkJa4WdfdVU
 
 # Chrome Web Store Publishing Guide
 

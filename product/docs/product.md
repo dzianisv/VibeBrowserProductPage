@@ -27,6 +27,7 @@
 - GitHub Organization: https://github.com/VibeTechnologies
 - Founder Video: https://youtube.com/shorts/q8PmvmbAifE?feature=share
 - Demo Video (LinkedIn Warm Outreach): https://www.vibebrowser.app/linkedin-warm-outreach-demo.mp4
+- Pitch Deck (PDF): https://pitch.vibebrowser.app/pitch.pdf
 
 ## Revenue & Funding
 
@@ -35,6 +36,9 @@
 
 ## Short Description (75 chars max)
 AI browser agent that automates web tasks using natural language commands
+
+## Short Pitch
+Vibe Browser is an AI-powered browser co-pilot that automates the way users navigate, automate, and interact with the web using natural language. Complete autopilot for a web.
 
 ## What We Do In Detail (Detailed Description)
 
@@ -115,5 +119,8 @@ $5-10k
 | Free Tier | Unlimited | $20/mo | Limited |
 | Works as Extension | Any Chrome | Fork only | Chrome ext |
 
-## Pitch deck
-https://pitch.vibebrowser.app/pitch.pdf
+## Pitch Deck
+
+- **URL**: https://pitch.vibebrowser.app/pitch.pdf
+- **Format**: PDF
+- **Use for**: Accelerator applications, investor meetings, partnership discussions

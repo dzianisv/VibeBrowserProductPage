@@ -32,12 +32,10 @@ We're building an autonomous browser co-pilot that doesn't just answer questions
 
 The insight came from watching engineers spend hours on repetitive web tasks that required human judgment but not human clicking. The solution needed to be private (enterprise data), flexible (different AI providers), and work everywhere (any website).
 
-**Team composition:**
-- Dzianis (Founder): Full-stack, 10+ years, ex-Coinbase/BitTorrent
+**Team:**
+- Dzianis Vashchuk (Founder): Full-stack, 10+ years, ex-Coinbase/BitTorrent
 - Dzmitry Dalenka (ML Engineer): Model optimization, fine-tuning
 - Dzmitry Kastsenich (Software Engineer): Extension architecture
-
-All three work full-time on Vibe. We've known each other for years and have shipped production software together before.
 
 ---
 
