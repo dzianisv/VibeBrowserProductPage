@@ -692,7 +692,7 @@ export default function Component() {
                       <Badge className="bg-purple-600 text-white">You</Badge>
                     </div>
                   </th>
-                  <th className="px-4 py-4 text-center text-sm font-semibold text-gray-900">OpenAI Operator</th>
+                  <th className="px-4 py-4 text-center text-sm font-semibold text-gray-900">OpenAI Atlas</th>
                   <th className="px-4 py-4 text-center text-sm font-semibold text-gray-900">Manus</th>
                   <th className="px-4 py-4 text-center text-sm font-semibold text-gray-900">Composite</th>
                   <th className="px-4 py-4 text-center text-sm font-semibold text-gray-900">Comet</th>
@@ -721,7 +721,10 @@ export default function Component() {
                     <span className="text-red-600 text-xl">×</span>
                   </td>
                   <td className="px-4 py-4 text-center">
-                    <span className="text-xs text-gray-500">Broken</span>
+                    <div className="flex flex-col items-center">
+                      <CheckCircle className="w-5 h-5 text-green-600" />
+                      <span className="text-xs text-gray-600 mt-1">Ollama</span>
+                    </div>
                   </td>
                 </tr>
                 <tr className="hover:bg-gray-50">
@@ -761,8 +764,8 @@ export default function Component() {
                   </td>
                   <td className="px-4 py-4 text-center">
                     <div className="flex flex-col items-center">
-                      <span className="text-red-600 text-xl">×</span>
-                      <span className="text-xs text-gray-500 mt-1">$20/mo</span>
+                      <span className="text-yellow-600 text-xl">~</span>
+                      <span className="text-xs text-gray-500 mt-1">Limited</span>
                     </div>
                   </td>
                   <td className="px-4 py-4 text-center">
@@ -784,7 +787,10 @@ export default function Component() {
                     </div>
                   </td>
                   <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
+                    <div className="flex flex-col items-center">
+                      <CheckCircle className="w-5 h-5 text-green-600" />
+                      <span className="text-xs text-gray-600 mt-1">Open Source</span>
+                    </div>
                   </td>
                 </tr>
                 <tr className="hover:bg-gray-50">
@@ -848,6 +854,123 @@ export default function Component() {
                   </td>
                   <td className="px-4 py-4 text-center">
                     <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
+                  </td>
+                </tr>
+                <tr className="hover:bg-gray-50">
+                  <td className="px-4 py-4 text-sm font-medium text-gray-900">Google Workspace</td>
+                  <td className="px-4 py-4 text-center">
+                    <div className="flex flex-col items-center">
+                      <CheckCircle className="w-5 h-5 text-green-600" />
+                      <span className="text-xs text-gray-600 mt-1">Native API</span>
+                    </div>
+                  </td>
+                  <td className="px-4 py-4 text-center">
+                    <div className="flex flex-col items-center">
+                      <span className="text-yellow-600 text-xl">~</span>
+                      <span className="text-xs text-gray-500 mt-1">Agent mode</span>
+                    </div>
+                  </td>
+                  <td className="px-4 py-4 text-center">
+                    <div className="flex flex-col items-center">
+                      <CheckCircle className="w-5 h-5 text-green-600" />
+                      <span className="text-xs text-gray-600 mt-1">MCP Connectors</span>
+                    </div>
+                  </td>
+                  <td className="px-4 py-4 text-center">
+                    <span className="text-red-600 text-xl">×</span>
+                  </td>
+                  <td className="px-4 py-4 text-center">
+                    <div className="flex flex-col items-center">
+                      <CheckCircle className="w-5 h-5 text-green-600" />
+                      <span className="text-xs text-gray-600 mt-1">Native</span>
+                    </div>
+                  </td>
+                  <td className="px-4 py-4 text-center">
+                    <div className="flex flex-col items-center">
+                      <CheckCircle className="w-5 h-5 text-green-600" />
+                      <span className="text-xs text-gray-600 mt-1">MCP</span>
+                    </div>
+                  </td>
+                </tr>
+                <tr className="hover:bg-gray-50 bg-purple-50/30">
+                  <td className="px-4 py-4 text-sm font-medium text-gray-900">Skills Standard</td>
+                  <td className="px-4 py-4 text-center">
+                    <div className="flex flex-col items-center">
+                      <CheckCircle className="w-5 h-5 text-green-600" />
+                      <span className="text-xs text-gray-600 mt-1">agentskills.io</span>
+                    </div>
+                  </td>
+                  <td className="px-4 py-4 text-center">
+                    <span className="text-red-600 text-xl">×</span>
+                  </td>
+                  <td className="px-4 py-4 text-center">
+                    <span className="text-red-600 text-xl">×</span>
+                  </td>
+                  <td className="px-4 py-4 text-center">
+                    <span className="text-red-600 text-xl">×</span>
+                  </td>
+                  <td className="px-4 py-4 text-center">
+                    <span className="text-red-600 text-xl">×</span>
+                  </td>
+                  <td className="px-4 py-4 text-center">
+                    <span className="text-red-600 text-xl">×</span>
+                  </td>
+                </tr>
+                <tr className="hover:bg-gray-50">
+                  <td className="px-4 py-4 text-sm font-medium text-gray-900">MCP Server</td>
+                  <td className="px-4 py-4 text-center">
+                    <div className="flex flex-col items-center">
+                      <CheckCircle className="w-5 h-5 text-green-600" />
+                      <span className="text-xs text-gray-600 mt-1">Multi-agent</span>
+                    </div>
+                  </td>
+                  <td className="px-4 py-4 text-center">
+                    <span className="text-red-600 text-xl">×</span>
+                  </td>
+                  <td className="px-4 py-4 text-center">
+                    <span className="text-red-600 text-xl">×</span>
+                  </td>
+                  <td className="px-4 py-4 text-center">
+                    <span className="text-red-600 text-xl">×</span>
+                  </td>
+                  <td className="px-4 py-4 text-center">
+                    <span className="text-red-600 text-xl">×</span>
+                  </td>
+                  <td className="px-4 py-4 text-center">
+                    <div className="flex flex-col items-center">
+                      <CheckCircle className="w-5 h-5 text-green-600" />
+                      <span className="text-xs text-gray-600 mt-1">31 tools</span>
+                    </div>
+                  </td>
+                </tr>
+                <tr className="hover:bg-gray-50 bg-purple-50/30">
+                  <td className="px-4 py-4 text-sm font-medium text-gray-900">MCP Client</td>
+                  <td className="px-4 py-4 text-center">
+                    <div className="flex flex-col items-center">
+                      <CheckCircle className="w-5 h-5 text-green-600" />
+                      <span className="text-xs text-gray-600 mt-1">External tools</span>
+                    </div>
+                  </td>
+                  <td className="px-4 py-4 text-center">
+                    <span className="text-red-600 text-xl">×</span>
+                  </td>
+                  <td className="px-4 py-4 text-center">
+                    <div className="flex flex-col items-center">
+                      <CheckCircle className="w-5 h-5 text-green-600" />
+                      <span className="text-xs text-gray-600 mt-1">Connectors</span>
+                    </div>
+                  </td>
+                  <td className="px-4 py-4 text-center">
+                    <span className="text-red-600 text-xl">×</span>
+                  </td>
+                  <td className="px-4 py-4 text-center">
+                    <span className="text-red-600 text-xl">×</span>
+                  </td>
+                  <td className="px-4 py-4 text-center">
+                    <div className="flex flex-col items-center">
+                      <CheckCircle className="w-5 h-5 text-green-600" />
+                      <span className="text-xs text-gray-600 mt-1">Pre-installed</span>
+                    </div>
                   </td>
                 </tr>
               </tbody>
