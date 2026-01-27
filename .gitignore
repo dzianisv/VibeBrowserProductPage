@@ -26,3 +26,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .*
+!.opencode/
+!.opencode/agent/
+!.opencode/skills/
