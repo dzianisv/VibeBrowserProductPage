@@ -1033,7 +1033,11 @@ export default function Component() {
               </div>
               <h3 className="text-xl font-bold mb-2">Privacy First</h3>
               <p className="text-sm text-muted-foreground">
-                100% local with Gemini Nano. Your data never leaves your device. TEE coming soon for enterprise security
+                100% local with Gemini Nano. Your data never leaves your device.{' '}
+                <Link href="/tee" className="text-green-600 hover:text-green-700 underline">
+                  TEE research
+                </Link>{' '}
+                for enterprise security
               </p>
             </CardContent>
           </Card>
@@ -1668,6 +1672,9 @@ export default function Component() {
             </Link>
             <Link href="https://docs.vibebrowser.app/getting-started/extension" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
               Developer Install
+            </Link>
+            <Link href="/tee" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
+              TEE Research Paper
             </Link>
           </nav>
         </div>
