@@ -89,6 +89,19 @@ Show you've done the work:
 
 ---
 
+## Founder Contact Information
+
+Use this information when filling out accelerator applications:
+
+- **Full Name**: Dzianis Vashchuk
+- **Email**: dzianis@vibebrowser.app
+- **LinkedIn**: https://www.linkedin.com/in/dzianisv/
+- **Phone**: +1 (425) 547-2947
+- **Location**: Seattle, WA (San Francisco Bay Area for application forms)
+- **Role**: Founder/CEO (writes code)
+
+---
+
 ## Vibe Browser - Application Content
 
 ### One-sentence description

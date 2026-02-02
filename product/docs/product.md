@@ -13,6 +13,7 @@
 
 ### Dzianis Vashchuk - Founder
 - LinkedIn: https://www.linkedin.com/in/dzianisv/
+- Ex-Coinbase: Built LLM tooling for production systems at scale
 - Technical founder with 10+ years software engineering experience building AI agent systems
 
 ### Dzmitry Dalenka - ML Engineer
@@ -60,6 +61,9 @@ The AI browser that acts, not just answers. Autonomous browser automation that w
 - Multi-site workflows: Handles complex tasks across LinkedIn, Twitter, Gmail, Reddit, and any website
 - Privacy-first: Supports local AI (Gemini Nano) so data never leaves the device
 - Model agnostic: Works with GPT, Claude, Gemini, Grok, DeepSeek - switch anytime
+- MCP multi-agent support: Control multiple AI agents simultaneously via Model Context Protocol
+- Skills system: Reusable automation workflows that can be shared and customized
+- Parallel execution: Run multiple web automation tasks simultaneously
 - User stays in control: Review and approve every action, nothing sent without confirmation
 
 ## What's Different/Interesting About Vibe Browser
@@ -67,13 +71,15 @@ The AI browser that acts, not just answers. Autonomous browser automation that w
 **The only AI browser with:**
 1. **True local AI** - Gemini Nano runs 100% on-device, data never leaves your machine
 2. **Any LLM support** - No vendor lock-in, use GPT, Claude, Gemini, Grok, DeepSeek
-3. **Universal website compatibility** - Works on LinkedIn, Twitter, Reddit, Gmail, any site. No APIs needed, no brittle automations
-4. **Privacy-first architecture** - TEE (Trusted Execution Environment) coming for enterprise security
-5. **Works as extension** - Install on any Chrome browser, no special browser fork required
+3. **MCP multi-agent support** - Control multiple AI agents simultaneously via Model Context Protocol (unique competitive advantage)
+4. **Skills system** - Reusable automation workflows with parallel execution capabilities
+5. **Universal website compatibility** - Works on LinkedIn, Twitter, Reddit, Gmail, any site. No APIs needed, no brittle automations
+6. **Privacy-first architecture** - TEE (Trusted Execution Environment) coming for enterprise security
+7. **Works as extension** - Install on any Chrome browser, no special browser fork required
 
 **vs Competition:**
-- OpenAI Operator: OpenAI only, no local AI, $20/mo minimum
-- Manus: Manus model only, limited model choice
+- OpenAI Operator: OpenAI only, no local AI, $20/mo minimum, no multi-agent support
+- Manus: Manus model only, limited model choice (acquired by Meta for $2B - validates market demand)
 - Others: Require browser forks, limited model support, no true local AI option
 
 ## Market Size
@@ -124,3 +130,32 @@ $5-10k
 - **URL**: https://pitch.vibebrowser.app/pitch.pdf
 - **Format**: PDF
 - **Use for**: Accelerator applications, investor meetings, partnership discussions
+
+## Fundraising & Investor Outreach
+
+### Target Investors
+
+**SV Angel** (Top Priority)
+- **Firm**: Top-tier seed investor (Portfolio: OpenAI, Stripe, Coinbase, Notion, Hugging Face)
+- **Check Size**: ~$200k typical seed investment
+- **Investment Thesis**: "Inflection point" companies, founder-first approach
+- **Target Partners**:
+  - **Topher Conway** (Primary) - Works with OpenAI, Stripe, technical founders
+  - Mike Sho Liu - linkedin.com/in/mike-sho-liu-399b5823/
+  - Andrea Wang - linkedin.com/in/andreashuyuwang/
+  - Ronny Conway - linkedin.com/in/ronny-conway-a4a38815/
+
+### Value Proposition for Investors
+
+**Why Vibe Browser is an Inflection Point Company:**
+1. **Ex-Coinbase founder** with production-scale LLM experience
+2. **Privacy-first positioning** in a market moving toward data sovereignty
+3. **Model-agnostic architecture** prevents vendor lock-in (unlike OpenAI Operator)
+4. **Market validation**: Manus $2B Meta acquisition proves browser automation demand
+5. **Live product with paying customers** (not just prototype)
+6. **Unique MCP multi-agent support** - no competitor has this
+
+### Outreach Status
+
+- **Topher Conway (SV Angel)**: Connection request sent via LinkedIn (Jan 26, 2026)
+- Next: Follow up with other SV Angel partners
