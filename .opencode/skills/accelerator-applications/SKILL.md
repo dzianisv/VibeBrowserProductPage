@@ -94,7 +94,7 @@ Show you've done the work:
 Use this information when filling out accelerator applications:
 
 - **Full Name**: Dzianis Vashchuk
-- **Email**: dzianis@vibebrowser.app
+- **Email**: dzianisvv@gmail.com
 - **LinkedIn**: https://www.linkedin.com/in/dzianisv/
 - **Phone**: +1 (425) 547-2947
 - **Location**: Seattle, WA (San Francisco Bay Area for application forms)
