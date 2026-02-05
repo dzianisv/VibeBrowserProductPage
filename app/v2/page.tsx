@@ -50,7 +50,7 @@ export default function EnterpriseProductPage() {
         </nav>
         <div className="flex gap-3 items-center">
           <Link href="/" className="text-sm text-[#9aa0a6] hover:text-[#e8eaed] transition-colors hidden sm:block">
-            Consumer →
+            Consumer & Teams →
           </Link>
           <WaitlistDialogIncognito>
             <Button size="sm" className="bg-[#8ab4f8] hover:bg-[#aecbfa] text-[#202124] font-medium rounded-full">
