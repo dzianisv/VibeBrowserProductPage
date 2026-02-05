@@ -37,9 +37,7 @@ export default function EnterpriseProductPage() {
       {/* Header */}
       <header className="w-full px-4 lg:px-6 h-16 flex items-center justify-between border-b border-[#3c4043] bg-[#202124]/95 backdrop-blur-sm sticky top-0 z-50">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 bg-[#3c4043] rounded-full flex items-center justify-center">
-            <Shield className="w-4 h-4 text-[#8ab4f8]" />
-          </div>
+          <img src="/vibebrowser-logo.png" alt="Vibe AI Browser" className="w-9 h-9 object-contain" />
           <span className="text-lg font-medium text-[#e8eaed]">
             Vibe AI Browser<span className="text-[#9aa0a6]"> · Private Enterprise</span>
           </span>
@@ -67,10 +65,8 @@ export default function EnterpriseProductPage() {
         <section className="w-full py-20 md:py-28 lg:py-36">
           <div className="container max-w-5xl px-4 md:px-6 mx-auto">
             <div className="flex flex-col items-center gap-8 text-center">
-              {/* Shield Icon */}
-              <div className="w-20 h-20 bg-[#3c4043] rounded-full flex items-center justify-center">
-                <Shield className="w-10 h-10 text-[#8ab4f8]" />
-              </div>
+              {/* Logo */}
+              <img src="/vibebrowser-logo.png" alt="Vibe AI Browser" className="w-20 h-20 object-contain" />
 
               <div className="space-y-4">
                 <h1 className="text-4xl font-normal tracking-tight sm:text-5xl md:text-6xl text-[#e8eaed]">
@@ -732,7 +728,7 @@ export default function EnterpriseProductPage() {
         <div className="container max-w-5xl px-4 md:px-6 py-8 mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-[#9aa0a6]">
             <div className="flex items-center gap-2">
-              <Shield className="w-4 h-4 text-[#8ab4f8]" />
+              <img src="/vibebrowser-logo.png" alt="Vibe AI Browser" className="w-6 h-6 object-contain" />
               <span>Vibe Technologies</span>
             </div>
             <div className="flex gap-6">
