@@ -3,7 +3,6 @@
 import React from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import { 
   ArrowLeft, 
   FileText, 
@@ -11,27 +10,30 @@ import {
   Lock, 
   Download,
   ExternalLink,
-  Github
+  Github,
+  EyeOff,
+  Cpu,
+  Server,
+  CheckCircle,
 } from "lucide-react"
 
 export default function TeePage() {
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-br from-slate-50 to-white">
-      {/* Header */}
-      <header className="w-full px-4 lg:px-6 h-16 flex items-center justify-between border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="flex items-center gap-2">
-          <img src="/vibebrowser-logo.png" alt="Vibe AI Browser Co-Pilot" className="w-10 h-10 object-contain" />
-          <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent hidden sm:inline">
-            Vibe AI Browser Co-Pilot
-          </span>
-          <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent sm:hidden">
-            Vibe
+    <div className="flex flex-col min-h-screen bg-[#202124] text-[#e8eaed]">
+      {/* Header - Incognito style */}
+      <header className="w-full px-4 lg:px-6 h-16 flex items-center justify-between border-b border-[#3c4043] bg-[#202124]/95 backdrop-blur-sm sticky top-0 z-50">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 bg-[#3c4043] rounded-full flex items-center justify-center">
+            <EyeOff className="w-4 h-4 text-[#9aa0a6]" />
+          </div>
+          <span className="text-lg font-medium text-[#e8eaed]">
+            Vibe<span className="text-[#9aa0a6]">Incognito</span>
           </span>
         </div>
-        <nav className="flex gap-4">
-          <Link href="/" className="text-sm font-medium hover:text-purple-600 transition-colors flex items-center gap-1">
+        <nav className="flex gap-4 items-center">
+          <Link href="/v2" className="text-sm text-[#9aa0a6] hover:text-[#e8eaed] transition-colors flex items-center gap-1">
             <ArrowLeft className="w-4 h-4" />
-            Back to Home
+            Back to Incognito
           </Link>
         </nav>
       </header>
@@ -41,32 +43,32 @@ export default function TeePage() {
         <section className="w-full py-12 md:py-16">
           <div className="container max-w-5xl px-4 md:px-6 mx-auto">
             <div className="text-center mb-8">
-              <Badge variant="secondary" className="px-4 py-2 text-sm font-medium bg-green-100 text-green-700 border-green-200 mb-6">
-                <Shield className="w-4 h-4 mr-2" />
-                Research Paper
-              </Badge>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#3c4043] text-[#81c995] text-sm font-medium mb-6">
+                <Shield className="w-4 h-4" />
+                Security Whitepaper
+              </div>
               
-              <h1 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl mb-4">
+              <h1 className="text-3xl font-normal tracking-tight sm:text-4xl md:text-5xl mb-4 text-[#e8eaed]">
                 Privacy-Preserving LLM Inference with
-                <span className="bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent"> Hardware-Attested TEEs</span>
+                <span className="text-[#8ab4f8]"> Hardware-Attested TEEs</span>
               </h1>
               
-              <p className="max-w-3xl mx-auto text-lg text-muted-foreground mb-6">
+              <p className="max-w-3xl mx-auto text-lg text-[#9aa0a6] mb-6">
                 Our research on deploying Large Language Model inference within Trusted Execution Environments 
                 with cryptographic remote attestation. Running DeepSeek models on Azure Confidential VMs with Intel TDX.
               </p>
               
-              <div className="flex flex-wrap gap-4 justify-center mb-8">
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Lock className="w-4 h-4 text-green-600" />
+              <div className="flex flex-wrap gap-6 justify-center mb-8">
+                <div className="flex items-center gap-2 text-sm text-[#9aa0a6]">
+                  <Lock className="w-4 h-4 text-[#81c995]" />
                   <span>Hardware-enforced encryption</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Shield className="w-4 h-4 text-blue-600" />
+                <div className="flex items-center gap-2 text-sm text-[#9aa0a6]">
+                  <Shield className="w-4 h-4 text-[#8ab4f8]" />
                   <span>Remote attestation API</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <FileText className="w-4 h-4 text-purple-600" />
+                <div className="flex items-center gap-2 text-sm text-[#9aa0a6]">
+                  <FileText className="w-4 h-4 text-[#f28b82]" />
                   <span>Open-source infrastructure</span>
                 </div>
               </div>
@@ -74,7 +76,7 @@ export default function TeePage() {
               <div className="flex flex-wrap gap-4 justify-center">
                 <Button 
                   size="lg" 
-                  className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700"
+                  className="bg-[#8ab4f8] hover:bg-[#aecbfa] text-[#202124] font-medium rounded-full"
                   onClick={() => window.open('/tee-research-paper.pdf', '_blank')}
                 >
                   <Download className="mr-2 h-5 w-5" />
@@ -83,7 +85,8 @@ export default function TeePage() {
                 <Button 
                   size="lg" 
                   variant="outline"
-                  onClick={() => window.open('https://github.com/VibeTechnologies/TrustedGenAi', '_blank')}
+                  className="rounded-full border-[#5f6368] bg-transparent hover:bg-[#3c4043] text-[#e8eaed]"
+                  onClick={() => window.open('https://github.com/AiAgenteq/TrustedGenAi', '_blank')}
                 >
                   <Github className="mr-2 h-5 w-5" />
                   View on GitHub
@@ -96,22 +99,23 @@ export default function TeePage() {
         {/* PDF Viewer */}
         <section className="w-full pb-12 md:pb-24">
           <div className="container max-w-6xl px-4 md:px-6 mx-auto">
-            <div className="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
-              <div className="bg-gradient-to-r from-slate-800 to-slate-900 px-6 py-4 flex items-center justify-between">
+            <div className="bg-[#292a2d] rounded-lg border border-[#3c4043] overflow-hidden">
+              <div className="bg-[#3c4043] px-6 py-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <FileText className="w-5 h-5 text-white" />
-                  <span className="text-white font-medium">TEE Research Paper</span>
+                  <FileText className="w-5 h-5 text-[#9aa0a6]" />
+                  <span className="text-[#e8eaed] font-medium">TEE Security Whitepaper</span>
                 </div>
                 <Button 
                   size="sm" 
                   variant="secondary"
+                  className="bg-[#5f6368] hover:bg-[#80868b] text-[#e8eaed] border-0"
                   onClick={() => window.open('/tee-research-paper.pdf', '_blank')}
                 >
                   <ExternalLink className="mr-2 h-4 w-4" />
                   Open in New Tab
                 </Button>
               </div>
-              <div className="w-full" style={{ height: '80vh' }}>
+              <div className="w-full bg-[#1a1a1a]" style={{ height: '80vh' }}>
                 <iframe 
                   src="/tee-research-paper.pdf" 
                   className="w-full h-full border-0"
@@ -123,88 +127,88 @@ export default function TeePage() {
         </section>
 
         {/* Paper Abstract/Summary */}
-        <section className="w-full py-12 md:py-16 bg-slate-50">
+        <section className="w-full py-12 md:py-16 border-t border-[#3c4043] bg-[#292a2d]">
           <div className="container max-w-4xl px-4 md:px-6 mx-auto">
-            <h2 className="text-2xl font-bold mb-6">Abstract</h2>
-            <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-200">
-              <p className="text-muted-foreground leading-relaxed mb-4">
+            <h2 className="text-2xl font-normal text-[#e8eaed] mb-6">Abstract</h2>
+            <div className="bg-[#202124] rounded-lg p-6 border border-[#3c4043]">
+              <p className="text-[#9aa0a6] leading-relaxed mb-4">
                 We present an open-source infrastructure for deploying Large Language Model (LLM) inference 
                 within Trusted Execution Environments (TEEs) with cryptographic remote attestation. Our 
                 implementation runs self-hosted DeepSeek models on Azure Confidential VMs with Intel TDX, 
                 providing hardware-enforced memory encryption and verifiable privacy guarantees.
               </p>
-              <p className="text-muted-foreground leading-relaxed mb-4">
+              <p className="text-[#9aa0a6] leading-relaxed mb-4">
                 We introduce a remote attestation API that enables clients to cryptographically verify TEE 
                 execution before submitting sensitive prompts. Our production deployment demonstrates practical 
-                feasibility with <strong>12 tokens/second on CPU TEE</strong> and projects <strong>150+ tokens/second 
+                feasibility with <strong className="text-[#e8eaed]">12 tokens/second on CPU TEE</strong> and projects <strong className="text-[#e8eaed]">150+ tokens/second 
                 on GPU TEE</strong> with NVIDIA H100 Confidential Computing.
               </p>
-              <p className="text-muted-foreground leading-relaxed">
+              <p className="text-[#9aa0a6] leading-relaxed">
                 The complete infrastructure, including Terraform configurations and attestation services, 
                 is available at{' '}
                 <a 
-                  href="https://github.com/VibeTechnologies/TrustedGenAi" 
+                  href="https://github.com/AiAgenteq/TrustedGenAi" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="text-purple-600 hover:text-purple-700 underline"
+                  className="text-[#8ab4f8] hover:underline"
                 >
-                  github.com/VibeTechnologies/TrustedGenAi
+                  github.com/AiAgenteq/TrustedGenAi
                 </a>.
               </p>
             </div>
             
-            <h3 className="text-xl font-bold mt-8 mb-4">Key Contributions</h3>
+            <h3 className="text-xl font-normal text-[#e8eaed] mt-10 mb-6">Key Contributions</h3>
             <div className="grid md:grid-cols-2 gap-4">
-              <div className="bg-white rounded-xl p-5 shadow-lg border border-gray-200">
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <span className="text-green-600 font-bold text-sm">1</span>
+              <div className="bg-[#202124] rounded-lg p-5 border border-[#3c4043]">
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 bg-[#81c995]/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Server className="w-5 h-5 text-[#81c995]" />
                   </div>
                   <div>
-                    <h4 className="font-semibold mb-1">Production TEE-LLM Infrastructure</h4>
-                    <p className="text-sm text-muted-foreground">
+                    <h4 className="font-medium text-[#e8eaed] mb-1">Production TEE-LLM Infrastructure</h4>
+                    <p className="text-sm text-[#9aa0a6]">
                       End-to-end LLM inference on Azure Confidential VMs with Intel TDX
                     </p>
                   </div>
                 </div>
               </div>
               
-              <div className="bg-white rounded-xl p-5 shadow-lg border border-gray-200">
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <span className="text-blue-600 font-bold text-sm">2</span>
+              <div className="bg-[#202124] rounded-lg p-5 border border-[#3c4043]">
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 bg-[#8ab4f8]/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Shield className="w-5 h-5 text-[#8ab4f8]" />
                   </div>
                   <div>
-                    <h4 className="font-semibold mb-1">Remote Attestation API</h4>
-                    <p className="text-sm text-muted-foreground">
+                    <h4 className="font-medium text-[#e8eaed] mb-1">Remote Attestation API</h4>
+                    <p className="text-sm text-[#9aa0a6]">
                       Cryptographic proof of TEE execution for client verification
                     </p>
                   </div>
                 </div>
               </div>
               
-              <div className="bg-white rounded-xl p-5 shadow-lg border border-gray-200">
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <span className="text-purple-600 font-bold text-sm">3</span>
+              <div className="bg-[#202124] rounded-lg p-5 border border-[#3c4043]">
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 bg-[#c58af9]/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Github className="w-5 h-5 text-[#c58af9]" />
                   </div>
                   <div>
-                    <h4 className="font-semibold mb-1">Open-Source Implementation</h4>
-                    <p className="text-sm text-muted-foreground">
+                    <h4 className="font-medium text-[#e8eaed] mb-1">Open-Source Implementation</h4>
+                    <p className="text-sm text-[#9aa0a6]">
                       Complete Terraform configs, attestation services, and examples
                     </p>
                   </div>
                 </div>
               </div>
               
-              <div className="bg-white rounded-xl p-5 shadow-lg border border-gray-200">
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <span className="text-orange-600 font-bold text-sm">4</span>
+              <div className="bg-[#202124] rounded-lg p-5 border border-[#3c4043]">
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 bg-[#fdd663]/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Cpu className="w-5 h-5 text-[#fdd663]" />
                   </div>
                   <div>
-                    <h4 className="font-semibold mb-1">Performance Benchmarks</h4>
-                    <p className="text-sm text-muted-foreground">
+                    <h4 className="font-medium text-[#e8eaed] mb-1">Performance Benchmarks</h4>
+                    <p className="text-sm text-[#9aa0a6]">
                       Empirical measurements on CPU TEE and GPU TEE projections
                     </p>
                   </div>
@@ -213,28 +217,100 @@ export default function TeePage() {
             </div>
           </div>
         </section>
+
+        {/* Why TEE Section */}
+        <section className="w-full py-12 md:py-16 border-t border-[#3c4043]">
+          <div className="container max-w-4xl px-4 md:px-6 mx-auto">
+            <h2 className="text-2xl font-normal text-[#e8eaed] mb-6">Why Trusted Execution Environments?</h2>
+            
+            <div className="space-y-4">
+              <div className="flex items-start gap-4 p-4 bg-[#292a2d] rounded-lg border border-[#3c4043]">
+                <CheckCircle className="w-5 h-5 text-[#81c995] mt-0.5 flex-shrink-0" />
+                <div>
+                  <h4 className="font-medium text-[#e8eaed] mb-1">Hardware-Level Isolation</h4>
+                  <p className="text-sm text-[#9aa0a6]">
+                    TEEs create isolated memory regions that even the cloud provider cannot access. Your prompts and model outputs remain encrypted in memory.
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-4 p-4 bg-[#292a2d] rounded-lg border border-[#3c4043]">
+                <CheckCircle className="w-5 h-5 text-[#81c995] mt-0.5 flex-shrink-0" />
+                <div>
+                  <h4 className="font-medium text-[#e8eaed] mb-1">Cryptographic Verification</h4>
+                  <p className="text-sm text-[#9aa0a6]">
+                    Remote attestation allows clients to verify the exact code running inside the TEE before sending sensitive data.
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-4 p-4 bg-[#292a2d] rounded-lg border border-[#3c4043]">
+                <CheckCircle className="w-5 h-5 text-[#81c995] mt-0.5 flex-shrink-0" />
+                <div>
+                  <h4 className="font-medium text-[#e8eaed] mb-1">Regulatory Compliance</h4>
+                  <p className="text-sm text-[#9aa0a6]">
+                    Meet SEC, FINRA, HIPAA, and GDPR requirements for data protection while still leveraging powerful cloud AI.
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-4 p-4 bg-[#292a2d] rounded-lg border border-[#3c4043]">
+                <CheckCircle className="w-5 h-5 text-[#81c995] mt-0.5 flex-shrink-0" />
+                <div>
+                  <h4 className="font-medium text-[#e8eaed] mb-1">Zero Trust Architecture</h4>
+                  <p className="text-sm text-[#9aa0a6]">
+                    Trust is established through cryptographic proofs, not contractual promises. The math guarantees privacy.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA */}
+        <section className="w-full py-16 border-t border-[#3c4043] bg-[#292a2d]">
+          <div className="container max-w-3xl px-4 md:px-6 mx-auto text-center">
+            <h2 className="text-2xl font-normal text-[#e8eaed] mb-4">
+              Ready to deploy privacy-preserving AI?
+            </h2>
+            <p className="text-[#9aa0a6] mb-8">
+              Contact us about enterprise TEE deployment for your organization.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/v2">
+                <Button size="lg" className="bg-[#8ab4f8] hover:bg-[#aecbfa] text-[#202124] font-medium px-8 py-6 h-auto rounded-full">
+                  Explore Vibe Incognito
+                </Button>
+              </Link>
+              <Button 
+                size="lg" 
+                variant="outline"
+                className="px-8 py-6 h-auto rounded-full border-[#5f6368] bg-transparent hover:bg-[#3c4043] text-[#e8eaed]"
+                onClick={() => window.open('https://github.com/AiAgenteq/TrustedGenAi', '_blank')}
+              >
+                <Github className="mr-2 h-5 w-5" />
+                View Source Code
+              </Button>
+            </div>
+          </div>
+        </section>
       </main>
 
       {/* Footer */}
-      <footer className="w-full border-t bg-white">
-        <div className="container max-w-7xl px-4 md:px-6 py-8 mx-auto">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+      <footer className="w-full border-t border-[#3c4043] bg-[#202124]">
+        <div className="container max-w-5xl px-4 md:px-6 py-8 mx-auto">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-[#9aa0a6]">
             <div className="flex items-center gap-2">
-              <img src="/vibebrowser-logo.png" alt="Vibe AI Browser Co-Pilot" className="w-8 h-8 object-contain" />
-              <span className="font-bold text-lg bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                Vibe AI Browser Co-Pilot
-              </span>
+              <EyeOff className="w-4 h-4" />
+              <span>Vibe Technologies</span>
             </div>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-[#5f6368]">
               © 2026 Vibe Technologies, LLC. All rights reserved.
             </p>
-            <div className="flex gap-4">
-              <Link href="/privacy" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
-                Privacy Policy
-              </Link>
-              <Link href="/terms" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
-                Terms of Service
-              </Link>
+            <div className="flex gap-6">
+              <Link href="/privacy" className="hover:text-[#e8eaed] transition-colors">Privacy</Link>
+              <Link href="/terms" className="hover:text-[#e8eaed] transition-colors">Terms</Link>
+              <Link href="/v2" className="hover:text-[#e8eaed] transition-colors">Incognito</Link>
             </div>
           </div>
         </div>
