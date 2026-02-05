@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { useState, useEffect, useCallback } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -31,7 +31,60 @@ import {
   Receipt,
 } from "lucide-react"
 
+// Rotating words for the hero animation
+const ROTATING_WORDS = [
+  "Financial",
+  "Investment",
+  "Legal",
+  "Healthcare",
+  "Insurance",
+  "Accounting",
+  "Tax",
+  "Compliance",
+]
+
+// Typewriter hook with delete and retype animation
+function useTypewriter(words: string[], typingSpeed = 80, deletingSpeed = 50, pauseTime = 2000) {
+  const [displayText, setDisplayText] = useState(words[0])
+  const [wordIndex, setWordIndex] = useState(0)
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [isPaused, setIsPaused] = useState(true)
+
+  useEffect(() => {
+    const currentWord = words[wordIndex]
+    
+    const timeout = setTimeout(() => {
+      if (isPaused) {
+        setIsPaused(false)
+        setIsDeleting(true)
+        return
+      }
+
+      if (isDeleting) {
+        if (displayText === "") {
+          setIsDeleting(false)
+          setWordIndex((prev) => (prev + 1) % words.length)
+        } else {
+          setDisplayText(displayText.slice(0, -1))
+        }
+      } else {
+        const nextWord = words[wordIndex]
+        if (displayText === nextWord) {
+          setIsPaused(true)
+        } else {
+          setDisplayText(nextWord.slice(0, displayText.length + 1))
+        }
+      }
+    }, isPaused ? pauseTime : isDeleting ? deletingSpeed : typingSpeed)
+
+    return () => clearTimeout(timeout)
+  }, [displayText, wordIndex, isDeleting, isPaused, words, typingSpeed, deletingSpeed, pauseTime])
+
+  return displayText
+}
+
 export default function EnterpriseProductPage() {
+  const rotatingWord = useTypewriter(ROTATING_WORDS, 100, 60, 2500)
   return (
     <div className="flex flex-col min-h-screen bg-[#202124] text-[#e8eaed] overflow-x-hidden">
       {/* Header */}
@@ -65,12 +118,15 @@ export default function EnterpriseProductPage() {
         <section className="w-full py-20 md:py-28 lg:py-36">
           <div className="container max-w-5xl px-4 md:px-6 mx-auto">
             <div className="flex flex-col items-center gap-8 text-center">
-              {/* Logo */}
-              <img src="/vibebrowser-logo.png" alt="Vibe AI Browser" className="w-20 h-20 object-contain" />
-
               <div className="space-y-4">
                 <h1 className="text-4xl font-normal tracking-tight sm:text-5xl md:text-6xl text-[#e8eaed]">
-                  Private AI for Financial Professionals
+                  Private AI for{" "}
+                  <span className="inline-block min-w-[180px] sm:min-w-[220px] md:min-w-[280px] text-left">
+                    <span className="text-[#8ab4f8]">{rotatingWord}</span>
+                    <span className="animate-pulse text-[#8ab4f8]">|</span>
+                  </span>
+                  <br className="hidden sm:block" />
+                  Professionals
                 </h1>
                 <p className="text-xl text-[#9aa0a6]">
                   AI browser automation that never sees your client data
@@ -78,7 +134,7 @@ export default function EnterpriseProductPage() {
               </div>
 
               <p className="max-w-2xl text-[#9aa0a6] leading-relaxed">
-                Built for <strong className="text-[#e8eaed]">traders</strong>, <strong className="text-[#e8eaed]">wealth managers</strong>, and <strong className="text-[#e8eaed]">RIAs</strong> who need AI automation without compliance risk. Run models locally, self-host on your infrastructure, or use TEE-protected cloud inference.
+                Built for professionals in <strong className="text-[#e8eaed]">finance</strong>, <strong className="text-[#e8eaed]">law</strong>, <strong className="text-[#e8eaed]">healthcare</strong>, and other regulated industries who need AI automation without compliance risk. Run models locally, self-host on your infrastructure, or use TEE-protected cloud inference.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 mt-4">
