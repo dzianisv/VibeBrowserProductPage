@@ -11,7 +11,7 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://incognito.vibebrowser.app'),
+  metadataBase: new URL('https://enterprise.vibebrowser.app'),
   title: 'Vibe AI Browser · Private Enterprise | Secure AI for Financial Professionals',
   description: 'Private AI browser automation for financial professionals. SOC2 compliant, on-premise deployment, TEE-ready. AI that never sees your client data. Built for traders, wealth managers, and regulated industries.',
   keywords: [
@@ -73,7 +73,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://incognito.vibebrowser.app',
+    url: 'https://enterprise.vibebrowser.app',
     siteName: 'Vibe AI Browser · Private Enterprise',
     title: 'Private AI for Financial Professionals | Vibe AI Browser',
     description: 'AI browser automation that never sees your client data. SOC2 compliant, on-premise deployment, TEE-ready. Built for traders, wealth managers, and regulated industries.',
@@ -105,7 +105,7 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: 'https://incognito.vibebrowser.app',
+    canonical: 'https://enterprise.vibebrowser.app',
   },
   category: 'technology',
   classification: 'Business Software',
@@ -119,7 +119,7 @@ const jsonLd = {
   applicationCategory: 'BusinessApplication',
   operatingSystem: 'Chrome',
   description: 'Private AI browser automation for financial professionals. SOC2 compliant, on-premise deployment, TEE-ready.',
-  url: 'https://incognito.vibebrowser.app',
+  url: 'https://enterprise.vibebrowser.app',
   author: {
     '@type': 'Organization',
     name: 'Vibe Technologies',
@@ -162,10 +162,10 @@ const jsonLd = {
     'Self-Hosted LLM Support',
     'Complete Audit Logging',
   ],
-  screenshot: 'https://incognito.vibebrowser.app/screenshot-enterprise.png',
+  screenshot: 'https://enterprise.vibebrowser.app/screenshot-enterprise.png',
   softwareHelp: {
     '@type': 'CreativeWork',
-    url: 'https://incognito.vibebrowser.app/tee',
+    url: 'https://enterprise.vibebrowser.app/tee',
   },
   aggregateRating: {
     '@type': 'AggregateRating',

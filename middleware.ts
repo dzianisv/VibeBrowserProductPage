@@ -5,9 +5,9 @@ export function middleware(request: NextRequest) {
   const hostname = request.headers.get('host') || ''
   const pathname = request.nextUrl.pathname
 
-  // Handle incognito.vibebrowser.app subdomain
-  if (hostname.startsWith('incognito.')) {
-    // Rewrite root to /v2 (incognito page)
+  // Handle enterprise.vibebrowser.app subdomain
+  if (hostname.startsWith('enterprise.')) {
+    // Rewrite root to /v2 (enterprise page)
     if (pathname === '/') {
       return NextResponse.rewrite(new URL('/v2', request.url))
     }
