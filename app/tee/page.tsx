@@ -86,7 +86,7 @@ export default function TeePage() {
                   size="lg" 
                   variant="outline"
                   className="rounded-full border-[#5f6368] bg-transparent hover:bg-[#3c4043] text-[#e8eaed]"
-                  onClick={() => window.open('https://github.com/AiAgenteq/TrustedGenAi', '_blank')}
+                  onClick={() => window.open('https://github.com/VibeTechnologies/TrustedGenAi', '_blank')}
                 >
                   <Github className="mr-2 h-5 w-5" />
                   View on GitHub
@@ -147,7 +147,7 @@ export default function TeePage() {
                 The complete infrastructure, including Terraform configurations and attestation services, 
                 is available at{' '}
                 <a 
-                  href="https://github.com/AiAgenteq/TrustedGenAi" 
+                  href="https://github.com/VibeTechnologies/TrustedGenAi" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="text-[#8ab4f8] hover:underline"
@@ -286,7 +286,7 @@ export default function TeePage() {
                 size="lg" 
                 variant="outline"
                 className="px-8 py-6 h-auto rounded-full border-[#5f6368] bg-transparent hover:bg-[#3c4043] text-[#e8eaed]"
-                onClick={() => window.open('https://github.com/AiAgenteq/TrustedGenAi', '_blank')}
+                onClick={() => window.open('https://github.com/VibeTechnologies/TrustedGenAi', '_blank')}
               >
                 <Github className="mr-2 h-5 w-5" />
                 View Source Code
