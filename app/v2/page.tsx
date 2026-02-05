@@ -120,13 +120,13 @@ export default function EnterpriseProductPage() {
             <div className="flex flex-col items-center gap-8 text-center">
               <div className="space-y-4">
                 <h1 className="text-4xl font-normal tracking-tight sm:text-5xl md:text-6xl text-[#e8eaed]">
-                  Private AI for{" "}
+                  Private AI Co-Pilot for{" "}
+                  <br className="hidden sm:block" />
                   <span className="inline-block min-w-[180px] sm:min-w-[220px] md:min-w-[280px] text-left">
                     <span className="text-[#8ab4f8]">{rotatingWord}</span>
                     <span className="animate-pulse text-[#8ab4f8]">|</span>
                   </span>
-                  <br className="hidden sm:block" />
-                  Professionals
+                  {" "}Professionals
                 </h1>
                 <p className="text-xl text-[#9aa0a6]">
                   AI browser automation that never sees your client data
