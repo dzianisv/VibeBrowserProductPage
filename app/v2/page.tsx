@@ -143,7 +143,7 @@ export default function EnterpriseProductPage() {
                     Request Enterprise Access
                   </Button>
                 </WaitlistDialogIncognito>
-                <a href="https://docs.vibebrowser.app/getting-started/installation" target="_blank" rel="noopener noreferrer">
+                <a href="https://docs.vibebrowser.app/getting-started/extension" target="_blank" rel="noopener noreferrer">
                   <Button size="lg" className="bg-[#81c995] hover:bg-[#a8dab5] text-[#202124] font-medium px-8 py-6 h-auto rounded-full flex items-center gap-2">
                     <Download className="w-5 h-5" />
                     Try Dev Build
