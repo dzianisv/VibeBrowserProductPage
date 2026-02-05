@@ -4,7 +4,7 @@ import React from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { WaitlistDialog } from "@/components/waitlist-dialog"
+import { WaitlistDialogIncognito } from "@/components/waitlist-dialog-incognito"
 import {
   Accordion,
   AccordionContent,
@@ -66,11 +66,11 @@ export default function IncognitoProductPage() {
           <Link href="/" className="text-sm text-[#9aa0a6] hover:text-[#e8eaed] transition-colors hidden sm:block">
             Consumer →
           </Link>
-          <WaitlistDialog>
+          <WaitlistDialogIncognito>
             <Button size="sm" className="bg-[#8ab4f8] hover:bg-[#aecbfa] text-[#202124] font-medium rounded-full">
               Get Access
             </Button>
-          </WaitlistDialog>
+          </WaitlistDialogIncognito>
         </div>
       </header>
 
@@ -98,11 +98,11 @@ export default function IncognitoProductPage() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 mt-4">
-                <WaitlistDialog>
+                <WaitlistDialogIncognito>
                   <Button size="lg" className="bg-[#8ab4f8] hover:bg-[#aecbfa] text-[#202124] font-medium px-8 py-6 h-auto rounded-full">
                     Request Enterprise Access
                   </Button>
-                </WaitlistDialog>
+                </WaitlistDialogIncognito>
                 <Link href="/tee">
                   <Button variant="outline" size="lg" className="px-8 py-6 h-auto rounded-full border-[#5f6368] bg-transparent hover:bg-[#3c4043] text-[#8ab4f8]">
                     Read Security Whitepaper
@@ -599,11 +599,11 @@ export default function IncognitoProductPage() {
                       Priority support
                     </li>
                   </ul>
-                  <WaitlistDialog>
+                  <WaitlistDialogIncognito>
                     <Button className="w-full bg-[#8ab4f8] hover:bg-[#aecbfa] text-[#202124]">
                       Get Started
                     </Button>
-                  </WaitlistDialog>
+                  </WaitlistDialogIncognito>
                 </CardContent>
               </Card>
 
@@ -639,11 +639,11 @@ export default function IncognitoProductPage() {
                       Dedicated account manager
                     </li>
                   </ul>
-                  <WaitlistDialog>
+                  <WaitlistDialogIncognito>
                     <Button variant="outline" className="w-full border-[#5f6368] bg-transparent hover:bg-[#3c4043] text-[#e8eaed]">
                       Contact Sales
                     </Button>
-                  </WaitlistDialog>
+                  </WaitlistDialogIncognito>
                 </CardContent>
               </Card>
             </div>
@@ -725,12 +725,12 @@ export default function IncognitoProductPage() {
               Join professionals at top law firms, RIAs, and accounting practices who trust Vibe with their most sensitive client work.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <WaitlistDialog>
+              <WaitlistDialogIncognito>
                 <Button size="lg" className="bg-[#8ab4f8] hover:bg-[#aecbfa] text-[#202124] font-medium px-8 py-6 h-auto rounded-full">
                   Request Enterprise Access
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
-              </WaitlistDialog>
+              </WaitlistDialogIncognito>
             </div>
             <p className="text-xs text-[#5f6368] mt-8">
               Questions? <a href="mailto:enterprise@vibebrowser.app" className="text-[#8ab4f8] hover:underline">enterprise@vibebrowser.app</a>
