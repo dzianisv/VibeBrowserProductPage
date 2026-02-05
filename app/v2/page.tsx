@@ -14,46 +14,34 @@ import {
 import {
   Shield,
   Lock,
-  Eye,
-  EyeOff,
   CheckCircle,
   XCircle,
-  Building2,
-  Scale,
-  Calculator,
   Server,
   ArrowRight,
-  TrendingUp,
   HardDrive,
-  FileText,
   ChevronRight,
   Download,
   Brain,
   Zap,
-  Clock,
-  DollarSign,
-  Users,
   AlertTriangle,
   ShieldCheck,
   FileCheck,
-  Briefcase,
   LineChart,
   Gavel,
   Receipt,
-  BadgeCheck,
 } from "lucide-react"
 
-export default function IncognitoProductPage() {
+export default function EnterpriseProductPage() {
   return (
     <div className="flex flex-col min-h-screen bg-[#202124] text-[#e8eaed] overflow-x-hidden">
       {/* Header */}
       <header className="w-full px-4 lg:px-6 h-16 flex items-center justify-between border-b border-[#3c4043] bg-[#202124]/95 backdrop-blur-sm sticky top-0 z-50">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 bg-[#3c4043] rounded-full flex items-center justify-center">
-            <EyeOff className="w-4 h-4 text-[#9aa0a6]" />
+            <Shield className="w-4 h-4 text-[#8ab4f8]" />
           </div>
           <span className="text-lg font-medium text-[#e8eaed]">
-            Vibe<span className="text-[#9aa0a6]">Incognito</span>
+            Vibe AI Browser<span className="text-[#9aa0a6]"> · Private Enterprise</span>
           </span>
         </div>
         <nav className="hidden md:flex gap-6 items-center text-sm">
@@ -79,22 +67,22 @@ export default function IncognitoProductPage() {
         <section className="w-full py-20 md:py-28 lg:py-36">
           <div className="container max-w-5xl px-4 md:px-6 mx-auto">
             <div className="flex flex-col items-center gap-8 text-center">
-              {/* Incognito Icon */}
+              {/* Shield Icon */}
               <div className="w-20 h-20 bg-[#3c4043] rounded-full flex items-center justify-center">
-                <EyeOff className="w-10 h-10 text-[#9aa0a6]" />
+                <Shield className="w-10 h-10 text-[#8ab4f8]" />
               </div>
 
               <div className="space-y-4">
                 <h1 className="text-4xl font-normal tracking-tight sm:text-5xl md:text-6xl text-[#e8eaed]">
-                  You've gone incognito
+                  Private AI for Financial Professionals
                 </h1>
                 <p className="text-xl text-[#9aa0a6]">
-                  AI browser automation that keeps client data private
+                  AI browser automation that never sees your client data
                 </p>
               </div>
 
               <p className="max-w-2xl text-[#9aa0a6] leading-relaxed">
-                Built for <strong className="text-[#e8eaed]">traders</strong>, <strong className="text-[#e8eaed]">tax professionals</strong>, and <strong className="text-[#e8eaed]">attorneys</strong> who can't afford to send sensitive data to third-party AI servers. Run models locally, self-host on your infrastructure, or use TEE-protected cloud inference.
+                Built for <strong className="text-[#e8eaed]">traders</strong>, <strong className="text-[#e8eaed]">wealth managers</strong>, and <strong className="text-[#e8eaed]">RIAs</strong> who need AI automation without compliance risk. Run models locally, self-host on your infrastructure, or use TEE-protected cloud inference.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 mt-4">
@@ -110,23 +98,23 @@ export default function IncognitoProductPage() {
                 </Link>
               </div>
 
-              {/* Trust indicators */}
+              {/* Trust indicators - Updated */}
               <div className="flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm text-[#9aa0a6] mt-8 pt-8 border-t border-[#3c4043]">
                 <span className="flex items-center gap-2">
-                  <Lock className="w-4 h-4" />
-                  Zero data retention
-                </span>
-                <span className="flex items-center gap-2">
-                  <Server className="w-4 h-4" />
-                  Self-hosted option
-                </span>
-                <span className="flex items-center gap-2">
-                  <Shield className="w-4 h-4" />
+                  <ShieldCheck className="w-4 h-4 text-[#81c995]" />
                   SOC 2 Type II
                 </span>
                 <span className="flex items-center gap-2">
+                  <Server className="w-4 h-4" />
+                  On-Premise Ready
+                </span>
+                <span className="flex items-center gap-2">
+                  <Lock className="w-4 h-4" />
+                  TEE-Protected
+                </span>
+                <span className="flex items-center gap-2">
                   <FileCheck className="w-4 h-4" />
-                  FINRA compliant
+                  FINRA Compliant
                 </span>
               </div>
             </div>
@@ -183,7 +171,7 @@ export default function IncognitoProductPage() {
                 <CardContent className="p-6">
                   <div className="flex items-center gap-3 mb-4">
                     <ShieldCheck className="w-5 h-5 text-[#81c995]" />
-                    <h3 className="font-medium text-[#e8eaed]">Vibe Incognito guarantees</h3>
+                    <h3 className="font-medium text-[#e8eaed]">Vibe AI Browser guarantees</h3>
                   </div>
                   <ul className="space-y-3">
                     <li className="flex items-start gap-3 text-[#9aa0a6]">
@@ -264,7 +252,7 @@ export default function IncognitoProductPage() {
                   <div className="w-3 h-3 rounded-full bg-[#5f6368]" />
                   <div className="w-3 h-3 rounded-full bg-[#5f6368]" />
                   <div className="w-3 h-3 rounded-full bg-[#5f6368]" />
-                  <span className="text-xs text-[#9aa0a6] ml-2">vibe-incognito</span>
+                  <span className="text-xs text-[#9aa0a6] ml-2">vibe-private-ai</span>
                 </div>
                 <div className="p-4 font-mono text-sm space-y-3">
                   <div className="text-[#9aa0a6]">
@@ -663,7 +651,7 @@ export default function IncognitoProductPage() {
                   How does local AI work without sending data to the cloud?
                 </AccordionTrigger>
                 <AccordionContent className="text-[#9aa0a6]">
-                  Vibe Incognito uses Gemini Nano, a small language model that runs entirely in your Chrome browser. The model weights are downloaded once and all inference happens on your device. No prompts, documents, or responses ever leave your machine.
+                  Vibe AI Browser uses Gemini Nano, a small language model that runs entirely in your Chrome browser. The model weights are downloaded once and all inference happens on your device. No prompts, documents, or responses ever leave your machine.
                 </AccordionContent>
               </AccordionItem>
 
@@ -699,7 +687,7 @@ export default function IncognitoProductPage() {
                   Does using AI waive attorney-client privilege?
                 </AccordionTrigger>
                 <AccordionContent className="text-[#9aa0a6]">
-                  With traditional cloud AI, sharing privileged information with a third party can potentially waive privilege. Vibe Incognito's local and self-hosted modes process everything within your own environment, avoiding third-party disclosure. For cloud TEE, the cryptographic isolation means no third party can access the data.
+                  With traditional cloud AI, sharing privileged information with a third party can potentially waive privilege. Vibe AI Browser's local and self-hosted modes process everything within your own environment, avoiding third-party disclosure. For cloud TEE, the cryptographic isolation means no third party can access the data.
                 </AccordionContent>
               </AccordionItem>
 
@@ -719,7 +707,7 @@ export default function IncognitoProductPage() {
         <section className="w-full py-20 border-t border-[#3c4043] bg-[#292a2d]">
           <div className="container max-w-3xl px-4 md:px-6 mx-auto text-center">
             <h2 className="text-2xl md:text-3xl font-normal text-[#e8eaed] mb-4">
-              Ready to go incognito?
+              Ready to get started?
             </h2>
             <p className="text-[#9aa0a6] mb-8 max-w-xl mx-auto">
               Join professionals at top law firms, RIAs, and accounting practices who trust Vibe with their most sensitive client work.
@@ -744,7 +732,7 @@ export default function IncognitoProductPage() {
         <div className="container max-w-5xl px-4 md:px-6 py-8 mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-[#9aa0a6]">
             <div className="flex items-center gap-2">
-              <EyeOff className="w-4 h-4" />
+              <Shield className="w-4 h-4 text-[#8ab4f8]" />
               <span>Vibe Technologies</span>
             </div>
             <div className="flex gap-6">

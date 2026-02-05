@@ -133,12 +133,12 @@ export function WaitlistDialogIncognito({ children, tier = "enterprise" }: Waitl
         <DialogHeader>
           <div className="flex justify-center mb-4">
             <div className="w-12 h-12 bg-[#3c4043] rounded-full flex items-center justify-center">
-              <EyeOff className="w-6 h-6 text-[#9aa0a6]" />
+              <Shield className="w-6 h-6 text-[#8ab4f8]" />
             </div>
           </div>
           <DialogTitle className="text-center text-[#e8eaed]">Request Enterprise Access</DialogTitle>
           <DialogDescription className="text-center text-[#9aa0a6]">
-            Get early access to Vibe Incognito for your organization
+            Get early access to Vibe AI Browser · Private Enterprise
           </DialogDescription>
         </DialogHeader>
 
