@@ -91,11 +91,11 @@ function useTypewriter(words: string[], typingSpeed = 80, deletingSpeed = 50, pa
 // ----- Data -----
 
 const COMPATIBLE_AGENTS = [
-  { name: "Claude Desktop", icon: "anthropic" },
-  { name: "Cursor", icon: "cursor" },
-  { name: "VS Code", icon: "vscode" },
   { name: "Claude Code", icon: "claudecode" },
   { name: "OpenCode", icon: "opencode" },
+  { name: "Cursor", icon: "cursor" },
+  { name: "Claude Desktop", icon: "anthropic" },
+  { name: "VS Code", icon: "vscode" },
   { name: "Windsurf", icon: "windsurf" },
   { name: "Gemini CLI", icon: "gemini" },
   { name: "Codex", icon: "codex" },
@@ -304,12 +304,13 @@ const SETUP_CONFIGS: SetupConfig[] = [
     }
   }
 }`,
+    note: "Or: gemini mcp add vibe -- npx -y @vibebrowser/mcp",
   },
   {
     agent: "Codex",
     file: "CLI",
-    config: `codex --mcp-config '{"vibe":{"command":"npx","args":["-y","@vibebrowser/mcp"]}}'`,
-    note: "Or add to ~/.codex/config.json under mcpServers",
+    config: `codex mcp add vibe -- npx -y @vibebrowser/mcp`,
+    note: "Or add to ~/.codex/config.toml: [mcp_servers.vibe] command = \"npx\" args = [\"-y\", \"@vibebrowser/mcp\"]",
   },
 ]
 
