@@ -4,6 +4,15 @@
 @./product/docs - marketing/product documentation about the Vibe AI Browser Co-Pilot
 @./product/webstore - documentation and assets for publishing to webstore
 
+## Git Identity
+
+Before making any commits, configure git to use the repository owner's identity so that Vercel deployment checks pass (Vercel rejects commits from unrecognized emails):
+
+```bash
+git config user.name "Den"
+git config user.email "2119348+dzianisv@users.noreply.github.com"
+```
+
 # Product Page
 
 ## Important References
