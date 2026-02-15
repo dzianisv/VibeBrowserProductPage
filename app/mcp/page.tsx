@@ -1,11 +1,10 @@
 "use client"
 
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { WaitlistDialog } from "@/components/waitlist-dialog"
 import {
   Accordion,
   AccordionContent,
@@ -24,7 +23,6 @@ import {
   Layers,
   Eye,
   Mail,
-  Calendar,
   Lock,
   Zap,
   GitBranch,
@@ -34,9 +32,9 @@ import {
   ScrollText,
   Search,
   Shield,
-  ExternalLink,
-  ChevronRight,
+  ChevronDown,
   Cpu,
+  Chrome,
 } from "lucide-react"
 
 // Rotating agent names for the hero typewriter animation
@@ -302,6 +300,12 @@ const SETUP_CONFIGS: SetupConfig[] = [
   }
 }`,
   },
+  {
+    agent: "Codex",
+    file: "CLI",
+    config: `codex --mcp-config '{"vibe":{"command":"npx","args":["-y","@vibebrowser/mcp"]}}'`,
+    note: "Or add to ~/.codex/config.json under mcpServers",
+  },
 ]
 
 // ----- Components -----
@@ -354,8 +358,21 @@ function AgentIcon({ icon }: { icon: string }) {
 
 export default function McpPage() {
   const [activeAgent, setActiveAgent] = useState(0)
-  const installCmd = "npx @vibebrowser/mcp"
+  const [heroAgent, setHeroAgent] = useState(0) // index into SETUP_CONFIGS for hero split button
+  const [agentDropdownOpen, setAgentDropdownOpen] = useState(false)
+  const agentDropdownRef = useRef<HTMLDivElement>(null)
   const rotatingAgent = useTypewriter(ROTATING_AGENTS, 100, 60, 2500)
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (agentDropdownRef.current && !agentDropdownRef.current.contains(event.target as Node)) {
+        setAgentDropdownOpen(false)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [])
 
   return (
     <div className="flex flex-col min-h-screen bg-[#0a0a0a] text-[#e8eaed] overflow-x-hidden">
@@ -408,33 +425,86 @@ export default function McpPage() {
                 </p>
               </div>
 
-              {/* Install command */}
-              <div className="w-full max-w-lg">
-                <div className="bg-[#1a1a1a] rounded-lg border border-[#2a2a2a] overflow-hidden">
-                  <div className="flex items-center justify-between px-4 py-3">
-                    <div className="flex items-center gap-3">
-                      <Terminal className="w-4 h-4 text-[#9aa0a6]" />
-                      <code className="text-[#81c995] text-sm sm:text-base font-mono">{installCmd}</code>
-                    </div>
-                    <CopyButton text={installCmd} />
+              {/* Hero buttons: Install in Chrome + Install in [Agent] */}
+              <div className="flex flex-col sm:flex-row gap-4 mt-2 items-center">
+                <Link href="https://docs.vibebrowser.app/getting-started/extension#option-2-developer-version-advanced" target="_blank">
+                  <Button size="lg" className="bg-[#8ab4f8] hover:bg-[#aecbfa] text-[#0a0a0a] font-medium px-8 py-6 h-auto rounded-full">
+                    <Chrome className="mr-2 h-5 w-5" />
+                    Install in Chrome
+                  </Button>
+                </Link>
+
+                {/* Split button: Install in [Agent] + chevron dropdown */}
+                <div className="relative" ref={agentDropdownRef}>
+                  <div className="flex">
+                    <Button
+                      size="lg"
+                      variant="outline"
+                      className="px-6 py-6 h-auto rounded-full rounded-r-none border-[#2a2a2a] bg-transparent hover:bg-[#1a1a1a] text-[#8ab4f8] border-r-0"
+                      onClick={() => {
+                        const cfg = SETUP_CONFIGS[heroAgent]
+                        navigator.clipboard.writeText(cfg.config)
+                      }}
+                    >
+                      <Terminal className="mr-2 h-4 w-4" />
+                      Install in {SETUP_CONFIGS[heroAgent].agent}
+                    </Button>
+                    <Button
+                      size="lg"
+                      variant="outline"
+                      className="px-3 py-6 h-auto rounded-full rounded-l-none border-[#2a2a2a] bg-transparent hover:bg-[#1a1a1a] text-[#8ab4f8] border-l-[#3a3a3a]"
+                      onClick={() => setAgentDropdownOpen(!agentDropdownOpen)}
+                    >
+                      <ChevronDown className={`h-4 w-4 transition-transform ${agentDropdownOpen ? "rotate-180" : ""}`} />
+                    </Button>
                   </div>
+                  {agentDropdownOpen && (
+                    <div className="absolute top-full left-0 right-0 mt-2 bg-[#1a1a1a] rounded-lg shadow-xl border border-[#2a2a2a] overflow-hidden z-50 min-w-[240px]">
+                      {SETUP_CONFIGS.map((cfg, i) => (
+                        <button
+                          key={cfg.agent}
+                          className={`w-full px-4 py-3 text-left text-sm hover:bg-[#2a2a2a] flex items-center gap-3 transition-colors ${
+                            i < SETUP_CONFIGS.length - 1 ? "border-b border-[#2a2a2a]" : ""
+                          } ${heroAgent === i ? "bg-[#8ab4f8]/10" : ""}`}
+                          onClick={() => {
+                            setHeroAgent(i)
+                            setActiveAgent(i) // also sync the setup section below
+                            setAgentDropdownOpen(false)
+                          }}
+                        >
+                          <Terminal className="h-4 w-4 text-[#8ab4f8] flex-shrink-0" />
+                          <div>
+                            <div className="font-medium text-[#e8eaed]">{cfg.agent}</div>
+                            <div className="text-xs text-[#5f6368]">{cfg.file}</div>
+                          </div>
+                          {heroAgent === i && <Check className="h-4 w-4 text-[#81c995] ml-auto" />}
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
-                <p className="text-xs text-[#5f6368] mt-2">Requires Node.js and the <Link href="https://docs.vibebrowser.app/getting-started/extension" target="_blank" className="text-[#8ab4f8] hover:underline">Vibe Browser extension</Link></p>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4 mt-2">
-                <Link href="https://docs.vibebrowser.app/getting-started/extension" target="_blank">
-                  <Button size="lg" className="bg-[#8ab4f8] hover:bg-[#aecbfa] text-[#0a0a0a] font-medium px-8 py-6 h-auto rounded-full">
-                    Install Extension
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                </Link>
-                <Link href="https://docs.vibebrowser.app/mcp-integration" target="_blank">
-                  <Button variant="outline" size="lg" className="px-8 py-6 h-auto rounded-full border-[#2a2a2a] bg-transparent hover:bg-[#1a1a1a] text-[#8ab4f8]">
-                    Documentation
-                    <ExternalLink className="ml-2 h-4 w-4" />
-                  </Button>
-                </Link>
+              {/* Selected agent config preview */}
+              <div className="w-full max-w-lg">
+                <div className="bg-[#1a1a1a] rounded-lg border border-[#2a2a2a] overflow-hidden">
+                  <div className="flex items-center justify-between px-4 py-2 bg-[#111111] border-b border-[#2a2a2a]">
+                    <div className="flex items-center gap-2">
+                      <ScrollText className="w-3.5 h-3.5 text-[#5f6368]" />
+                      <span className="text-xs text-[#9aa0a6] font-mono">{SETUP_CONFIGS[heroAgent].file}</span>
+                    </div>
+                    <CopyButton text={SETUP_CONFIGS[heroAgent].config} />
+                  </div>
+                  <pre className="px-4 py-3 text-sm font-mono text-[#e8eaed] overflow-x-auto max-h-40 overflow-y-auto">
+                    <code>{SETUP_CONFIGS[heroAgent].config}</code>
+                  </pre>
+                  {SETUP_CONFIGS[heroAgent].note && (
+                    <div className="px-4 py-2 border-t border-[#2a2a2a] text-xs text-[#5f6368]">
+                      {SETUP_CONFIGS[heroAgent].note}
+                    </div>
+                  )}
+                </div>
+                <p className="text-xs text-[#5f6368] mt-2">Requires Node.js and the <Link href="https://docs.vibebrowser.app/getting-started/extension" target="_blank" className="text-[#8ab4f8] hover:underline">Vibe Browser extension</Link></p>
               </div>
 
               {/* Trust indicators */}
@@ -669,32 +739,23 @@ export default function McpPage() {
               </h2>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-12 max-w-3xl mx-auto">
               <div className="text-center">
                 <div className="w-14 h-14 rounded-full bg-[#8ab4f8]/10 border border-[#8ab4f8]/20 flex items-center justify-center mx-auto mb-4">
                   <span className="text-[#8ab4f8] font-mono text-lg font-bold">1</span>
                 </div>
                 <h3 className="font-medium text-[#e8eaed] mb-2">Install Extension</h3>
                 <p className="text-sm text-[#9aa0a6]">
-                  Install the Vibe AI Browser extension and enable MCP External Control in Settings.
-                </p>
-              </div>
-              <div className="text-center">
-                <div className="w-14 h-14 rounded-full bg-[#8ab4f8]/10 border border-[#8ab4f8]/20 flex items-center justify-center mx-auto mb-4">
-                  <span className="text-[#8ab4f8] font-mono text-lg font-bold">2</span>
-                </div>
-                <h3 className="font-medium text-[#e8eaed] mb-2">Add Config</h3>
-                <p className="text-sm text-[#9aa0a6]">
-                  Add the MCP server JSON to your AI client config. One block, same for all agents.
+                  Install the <Link href="https://docs.vibebrowser.app/getting-started/extension#option-2-developer-version-advanced" target="_blank" className="text-[#8ab4f8] hover:underline">Vibe AI Browser extension</Link> and enable MCP External Control in Settings.
                 </p>
               </div>
               <div className="text-center">
                 <div className="w-14 h-14 rounded-full bg-[#81c995]/10 border border-[#81c995]/20 flex items-center justify-center mx-auto mb-4">
-                  <span className="text-[#81c995] font-mono text-lg font-bold">3</span>
+                  <span className="text-[#81c995] font-mono text-lg font-bold">2</span>
                 </div>
-                <h3 className="font-medium text-[#e8eaed] mb-2">Start Using</h3>
+                <h3 className="font-medium text-[#e8eaed] mb-2">Configure Your Agent</h3>
                 <p className="text-sm text-[#9aa0a6]">
-                  Ask your AI agent to navigate, click, fill forms, search Gmail, or take screenshots.
+                  Add the MCP server config to your AI agent. <a href="#setup" className="text-[#8ab4f8] hover:underline">Pick your agent below</a> — copy, paste, done.
                 </p>
               </div>
             </div>
@@ -935,31 +996,19 @@ MCP server for browser automation.
               Install the extension, add one config block, and start automating. Free, with an open source MCP server.
             </p>
 
-            {/* Install command */}
-            <div className="w-full max-w-md mx-auto mb-8">
-              <div className="bg-[#111111] rounded-lg border border-[#2a2a2a] overflow-hidden">
-                <div className="flex items-center justify-between px-4 py-3">
-                  <div className="flex items-center gap-3">
-                    <Terminal className="w-4 h-4 text-[#5f6368]" />
-                    <code className="text-[#81c995] text-sm font-mono">{installCmd}</code>
-                  </div>
-                  <CopyButton text={installCmd} />
-                </div>
-              </div>
-            </div>
-
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="https://docs.vibebrowser.app/getting-started/extension" target="_blank">
+              <Link href="https://docs.vibebrowser.app/getting-started/extension#option-2-developer-version-advanced" target="_blank">
                 <Button size="lg" className="bg-[#8ab4f8] hover:bg-[#aecbfa] text-[#0a0a0a] font-medium px-8 py-6 h-auto rounded-full">
-                  Install Extension
-                  <ArrowRight className="ml-2 h-5 w-5" />
+                  <Chrome className="mr-2 h-5 w-5" />
+                  Install in Chrome
                 </Button>
               </Link>
-              <WaitlistDialog>
-                <Button size="lg" variant="outline" className="px-8 py-6 h-auto rounded-full border-[#2a2a2a] bg-transparent hover:bg-[#111111] text-[#e8eaed]">
-                  Join Waitlist
+              <a href="#setup">
+                <Button size="lg" variant="outline" className="px-8 py-6 h-auto rounded-full border-[#2a2a2a] bg-transparent hover:bg-[#111111] text-[#8ab4f8]">
+                  Configure Your Agent
+                  <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
-              </WaitlistDialog>
+              </a>
             </div>
             <p className="text-xs text-[#5f6368] mt-8">
               Questions? <a href="mailto:info@vibebrowser.app" className="text-[#8ab4f8] hover:underline">info@vibebrowser.app</a> · <Link href="https://github.com/VibeTechnologies/vibe-mcp" target="_blank" className="text-[#8ab4f8] hover:underline">GitHub</Link> · <Link href="https://www.npmjs.com/package/@vibebrowser/mcp" target="_blank" className="text-[#8ab4f8] hover:underline">npm</Link>
