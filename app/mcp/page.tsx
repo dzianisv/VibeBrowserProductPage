@@ -51,16 +51,34 @@ const COMPATIBLE_AGENTS = [
   { name: "Gemini CLI", icon: "gemini" },
 ]
 
-const COMPARISON_ROWS = [
-  { feature: "Multi-agent support", vibe: true, browser: false, detail: "Multiple AI agents control the same browser simultaneously via relay daemon" },
-  { feature: "Total tools", vibe: "25+", browser: "~12", detail: "" },
-  { feature: "Chrome debug permissions", vibe: "Not required", browser: "Required", vibeGood: true, browserBad: true, detail: "--remote-debugging-port opens your browser to security risks" },
-  { feature: "Google Workspace integration", vibe: true, browser: false, detail: "Gmail search/send/draft, Calendar view/create — 7 native tools" },
-  { feature: "Credential vault", vibe: true, browser: false, detail: "Secure password manager that never exposes secrets to the LLM" },
-  { feature: "Sub-agent orchestration", vibe: true, browser: false, detail: "Spawn sub-agents with isolated context and parallel tool execution" },
-  { feature: "Standalone AI browser", vibe: true, browser: false, detail: "Works as both MCP server AND as a standalone AI co-pilot in-browser" },
-  { feature: "Page content format", vibe: "Markdown + [index:score]", browser: "Accessibility tree", detail: "Indexed markdown drastically reduces token usage vs raw trees" },
-  { feature: "Open source extension", vibe: true, browser: false, detail: "Vibe extension is open source; BrowserMCP's monorepo can't be built standalone" },
+interface ComparisonRow {
+  feature: string
+  vibe: boolean | string
+  playwright: boolean | string
+  devtools: boolean | string
+  browsermcp: boolean | string
+  detail: string
+}
+
+const COMPARISON_ROWS: ComparisonRow[] = [
+  { feature: "Uses your logged-in browser", vibe: true, playwright: "Extension only", devtools: false, browsermcp: true, detail: "Playwright defaults to launching a separate browser. Extension mode connects to existing tabs but requires manual token setup and approval dialogs" },
+  { feature: "No debug port required", vibe: true, playwright: "Extension only", devtools: false, browsermcp: true, detail: "Playwright's default mode requires --remote-debugging-port. Extension mode avoids this but adds complexity (token auth, limited to Chrome)" },
+  { feature: "Multi-agent support", vibe: true, playwright: false, devtools: false, browsermcp: false, detail: "Multiple AI agents control the same browser simultaneously via relay daemon" },
+  { feature: "Total tools", vibe: "25+", playwright: "23 core / 69 total", devtools: "~26", browsermcp: "~13", detail: "Playwright has 23 always-on core tools + 46 opt-in tools behind capability flags (vision, testing, pdf, network, devtools, storage). Many are QA/testing-focused, not browsing productivity" },
+  { feature: "Google Workspace integration", vibe: true, playwright: false, devtools: false, browsermcp: false, detail: "Gmail search/send/draft, Calendar view/create — 7 native tools" },
+  { feature: "Credential vault", vibe: true, playwright: false, devtools: false, browsermcp: false, detail: "Secure password manager that never exposes secrets to the LLM. Playwright only has basic secret masking in typed text" },
+  { feature: "Sub-agent orchestration", vibe: true, playwright: false, devtools: false, browsermcp: false, detail: "Spawn sub-agents with isolated context and parallel tool execution" },
+  { feature: "Standalone AI browser", vibe: true, playwright: false, devtools: false, browsermcp: false, detail: "Also works as a standalone AI co-pilot directly in your browser" },
+  { feature: "Page content format", vibe: "Markdown [index:score]", playwright: "Accessibility tree", devtools: "Accessibility tree", browsermcp: "Accessibility tree", detail: "Indexed markdown reduces token usage 3-5x vs raw trees. Playwright supports incremental snapshots but still uses verbose a11y format" },
+  { feature: "Open source", vibe: true, playwright: true, devtools: true, browsermcp: "Partial", detail: "BrowserMCP's extension is closed-source; their MCP server can't be built standalone" },
+  { feature: "Telemetry to vendor", vibe: false, playwright: false, devtools: true, browsermcp: false, detail: "Chrome DevTools MCP sends usage statistics and CrUX API calls to Google by default" },
+]
+
+const COMPETITOR_COLS = [
+  { key: "vibe" as const, label: "Vibe MCP", color: "text-[#8ab4f8]" },
+  { key: "playwright" as const, label: "Playwright MCP", color: "text-[#9aa0a6]" },
+  { key: "devtools" as const, label: "DevTools MCP", color: "text-[#9aa0a6]" },
+  { key: "browsermcp" as const, label: "Browser MCP", color: "text-[#9aa0a6]" },
 ]
 
 interface ToolDef {
@@ -298,7 +316,7 @@ export default function McpPage() {
           </span>
         </div>
         <nav className="hidden md:flex gap-6 items-center text-sm">
-          <a href="#compare" className="text-[#9aa0a6] hover:text-[#e8eaed] transition-colors">vs BrowserMCP</a>
+          <a href="#compare" className="text-[#9aa0a6] hover:text-[#e8eaed] transition-colors">Compare</a>
           <a href="#tools" className="text-[#9aa0a6] hover:text-[#e8eaed] transition-colors">Tools</a>
           <a href="#setup" className="text-[#9aa0a6] hover:text-[#e8eaed] transition-colors">Setup</a>
           <a href="#faq" className="text-[#9aa0a6] hover:text-[#e8eaed] transition-colors">FAQ</a>
@@ -332,8 +350,8 @@ export default function McpPage() {
                   <span className="text-[#8ab4f8]"> Any AI Agent</span>
                 </h1>
                 <p className="text-xl text-[#9aa0a6] max-w-2xl mx-auto">
-                  Connect Claude, Cursor, VS Code, and more to your real browser.
-                  Multi-agent, 25+ tools, zero debug permissions.
+                  Connect Claude, Cursor, VS Code, and more to your real browser — with all your sessions, cookies, and extensions intact.
+                  Multi-agent ready, 25+ tools, open source.
                 </p>
               </div>
 
@@ -358,7 +376,7 @@ export default function McpPage() {
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </Link>
-                <Link href="https://docs.vibebrowser.app/mcp" target="_blank">
+                <Link href="https://docs.vibebrowser.app/mcp-integration" target="_blank">
                   <Button variant="outline" size="lg" className="px-8 py-6 h-auto rounded-full border-[#2a2a2a] bg-transparent hover:bg-[#1a1a1a] text-[#8ab4f8]">
                     Documentation
                     <ExternalLink className="ml-2 h-4 w-4" />
@@ -404,15 +422,15 @@ export default function McpPage() {
           </div>
         </section>
 
-        {/* Why Vibe MCP > Browser MCP */}
+        {/* Why Vibe MCP */}
         <section id="compare" className="w-full py-16 md:py-24 border-t border-[#1e1e1e] bg-[#111111]">
-          <div className="container max-w-5xl px-4 md:px-6 mx-auto">
+          <div className="container max-w-6xl px-4 md:px-6 mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-2xl md:text-3xl font-normal text-[#e8eaed] mb-4">
-                Why teams switch from Browser MCP
+                How Vibe MCP compares
               </h2>
               <p className="text-[#9aa0a6] max-w-2xl mx-auto">
-                Vibe MCP is a drop-in replacement with more tools, better architecture, and features Browser MCP doesn't have.
+                Vibe MCP is the only browser MCP that uses your real browser with all your logged-in sessions — no debug ports, no separate browser instance.
               </p>
             </div>
 
@@ -421,36 +439,53 @@ export default function McpPage() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-[#2a2a2a]">
-                    <th className="text-left py-4 px-4 text-[#9aa0a6] font-medium">Feature</th>
-                    <th className="text-center py-4 px-4 text-[#8ab4f8] font-medium min-w-[140px]">Vibe MCP</th>
-                    <th className="text-center py-4 px-4 text-[#9aa0a6] font-medium min-w-[140px]">Browser MCP</th>
+                    <th className="text-left py-4 px-3 text-[#9aa0a6] font-medium">Feature</th>
+                    {COMPETITOR_COLS.map((col) => (
+                      <th key={col.key} className={`text-center py-4 px-3 ${col.color} font-medium min-w-[110px]`}>
+                        {col.label}
+                      </th>
+                    ))}
                   </tr>
                 </thead>
                 <tbody>
                   {COMPARISON_ROWS.map((row, i) => (
                     <tr key={i} className="border-b border-[#1e1e1e] hover:bg-[#1a1a1a] transition-colors">
-                      <td className="py-3 px-4">
+                      <td className="py-3 px-3">
                         <span className="text-[#e8eaed]">{row.feature}</span>
                         {row.detail && <p className="text-xs text-[#5f6368] mt-0.5">{row.detail}</p>}
                       </td>
-                      <td className="py-3 px-4 text-center">
-                        {typeof row.vibe === "boolean" ? (
-                          row.vibe ? <CheckCircle className="w-5 h-5 text-[#81c995] mx-auto" /> : <XCircle className="w-5 h-5 text-[#f28b82] mx-auto" />
-                        ) : (
-                          <span className={row.vibeGood ? "text-[#81c995] font-medium" : "text-[#e8eaed] font-medium"}>{row.vibe}</span>
-                        )}
-                      </td>
-                      <td className="py-3 px-4 text-center">
-                        {typeof row.browser === "boolean" ? (
-                          row.browser ? <CheckCircle className="w-5 h-5 text-[#81c995] mx-auto" /> : <XCircle className="w-5 h-5 text-[#f28b82] mx-auto" />
-                        ) : (
-                          <span className={row.browserBad ? "text-[#f28b82] font-medium" : "text-[#9aa0a6]"}>{row.browser}</span>
-                        )}
-                      </td>
+                      {COMPETITOR_COLS.map((col) => {
+                        const val = row[col.key]
+                        return (
+                          <td key={col.key} className="py-3 px-3 text-center">
+                            {typeof val === "boolean" ? (
+                              val ? <CheckCircle className="w-5 h-5 text-[#81c995] mx-auto" /> : <XCircle className="w-5 h-5 text-[#f28b82] mx-auto" />
+                            ) : (
+                              <span className={col.key === "vibe" ? "text-[#81c995] font-medium" : "text-[#9aa0a6]"}>{val}</span>
+                            )}
+                          </td>
+                        )
+                      })}
                     </tr>
                   ))}
                 </tbody>
               </table>
+            </div>
+
+            {/* Competitor context */}
+            <div className="grid md:grid-cols-3 gap-4 mt-10 text-xs text-[#5f6368]">
+              <div className="bg-[#0a0a0a] rounded-lg border border-[#2a2a2a] p-4">
+                <h4 className="text-[#9aa0a6] font-medium mb-1">Playwright MCP <span className="text-[#5f6368]">(Microsoft)</span></h4>
+                <p>Launches a separate Playwright-managed browser. Requires CDP for existing browser connection. 27k GitHub stars.</p>
+              </div>
+              <div className="bg-[#0a0a0a] rounded-lg border border-[#2a2a2a] p-4">
+                <h4 className="text-[#9aa0a6] font-medium mb-1">Chrome DevTools MCP <span className="text-[#5f6368]">(Google)</span></h4>
+                <p>Developer debugging tool using Puppeteer + CDP. Launches separate Chrome instance. Sends telemetry to Google by default. 25k GitHub stars.</p>
+              </div>
+              <div className="bg-[#0a0a0a] rounded-lg border border-[#2a2a2a] p-4">
+                <h4 className="text-[#9aa0a6] font-medium mb-1">Browser MCP <span className="text-[#5f6368]">(Namu)</span></h4>
+                <p>Chrome extension-based like Vibe. Single agent only. Extension is closed-source. 5.8k GitHub stars.</p>
+              </div>
             </div>
           </div>
         </section>
@@ -751,10 +786,14 @@ MCP server for browser automation.
             <Accordion type="single" collapsible className="space-y-2">
               <AccordionItem value="item-1" className="border-[#2a2a2a] bg-[#0a0a0a] rounded-lg px-4">
                 <AccordionTrigger className="text-[#e8eaed] hover:no-underline">
-                  How is Vibe MCP different from Browser MCP?
+                  How is Vibe MCP different from Playwright MCP, Chrome DevTools MCP, and BrowserMCP?
                 </AccordionTrigger>
                 <AccordionContent className="text-[#9aa0a6]">
-                  Vibe MCP supports multiple AI agents controlling the same browser simultaneously via a relay daemon, offers 25+ tools (vs ~12), includes native Google Workspace integration (7 tools for Gmail and Calendar), provides a secure credential vault that never exposes passwords to the LLM, and uses markdown-indexed page content instead of raw accessibility trees for lower token usage. It also does not require Chrome debug permissions — it uses the Chrome Extensions API directly.
+                  <strong className="text-[#e8eaed]">vs Playwright MCP &amp; Chrome DevTools MCP:</strong> Both launch a separate browser instance — you lose all logged-in sessions, cookies, and extensions. They require <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">--remote-debugging-port</code> for existing browser connections, which is a security risk. Neither supports multi-agent control, Google Workspace tools, or credential vault. Chrome DevTools MCP also sends telemetry to Google by default.
+                  <br /><br />
+                  <strong className="text-[#e8eaed]">vs BrowserMCP:</strong> Like Vibe, BrowserMCP is a Chrome extension that uses your real browser. However, it only supports a single agent at a time (new connections kill the previous one), has ~13 tools vs Vibe's 25+, lacks Google Workspace integration, credential vault, and sub-agent orchestration. Its extension is also closed-source.
+                  <br /><br />
+                  <strong className="text-[#e8eaed]">Unique to Vibe:</strong> Multi-agent relay daemon, 25+ tools, native Gmail/Calendar integration, secure credential vault (<code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">typein_secret</code>), sub-agent orchestration, and markdown-indexed page content for 3-5x lower token usage.
                 </AccordionContent>
               </AccordionItem>
 
@@ -772,7 +811,7 @@ MCP server for browser automation.
                   Does Vibe MCP require Chrome debug permissions?
                 </AccordionTrigger>
                 <AccordionContent className="text-[#9aa0a6]">
-                  No. Unlike Browser MCP which is adapted from Playwright and requires <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">--remote-debugging-port</code>, Vibe MCP uses content scripts and the Chrome Extensions API to interact with pages. It works with your normal browser profile without any special launch flags or security downgrades.
+                  No. Vibe MCP uses content scripts and the Chrome Extensions API to interact with pages — no <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">--remote-debugging-port</code> or CDP required. This is a key advantage over Playwright MCP and Chrome DevTools MCP, which both require debug ports to connect to an existing browser. Vibe works with your normal browser profile without any special launch flags or security downgrades.
                 </AccordionContent>
               </AccordionItem>
 
@@ -799,7 +838,7 @@ MCP server for browser automation.
                   Is Vibe MCP open source?
                 </AccordionTrigger>
                 <AccordionContent className="text-[#9aa0a6]">
-                  Yes. The Vibe Browser extension is open source on GitHub. The MCP server package (<code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">@vibebrowser/mcp</code>) is published on npm. Browser MCP's monorepo can't be built standalone due to internal dependencies.
+                  Yes. The Vibe Browser extension and MCP server are both open source on GitHub. The MCP server package (<code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">@vibebrowser/mcp</code>) is published on npm. Playwright MCP (Microsoft) and Chrome DevTools MCP (Google) are also open source under Apache-2.0. BrowserMCP's MCP server is open source, but its Chrome extension is closed-source and the monorepo cannot be built standalone.
                 </AccordionContent>
               </AccordionItem>
 
@@ -818,6 +857,15 @@ MCP server for browser automation.
                 </AccordionTrigger>
                 <AccordionContent className="text-[#9aa0a6]">
                   Yes. Unlike Browser MCP which is MCP-only, Vibe also functions as a standalone AI co-pilot directly in your browser. Click the extension icon to chat, automate tasks, and get AI assistance — no external agent required. MCP mode is an additional capability on top of the full in-browser experience.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-9" className="border-[#2a2a2a] bg-[#0a0a0a] rounded-lg px-4">
+                <AccordionTrigger className="text-[#e8eaed] hover:no-underline">
+                  Why does it matter that Vibe uses my real browser?
+                </AccordionTrigger>
+                <AccordionContent className="text-[#9aa0a6]">
+                  Playwright MCP and Chrome DevTools MCP launch a fresh, separate browser instance by default. That means you start with no logged-in sessions, no cookies, no extensions, and no saved passwords — your AI agent can't access any authenticated sites. Vibe MCP connects directly to the browser you're already using, so your agent can interact with Gmail, Slack, GitHub, Jira, or any site you're logged into without re-authenticating. This is critical for real-world automation workflows.
                 </AccordionContent>
               </AccordionItem>
             </Accordion>

@@ -13,7 +13,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.vibebrowser.app'),
   title: 'Vibe MCP Server - Control Your Browser from Claude, Cursor, VS Code & More',
-  description: 'Connect AI coding agents to your real browser via Model Context Protocol. Multi-agent support, 25+ tools, Google Workspace integration, credential vault, zero debug permissions required. The best Browser MCP alternative.',
+  description: 'Connect AI coding agents to your real browser via Model Context Protocol. Multi-agent support, 25+ tools, Google Workspace integration, credential vault. The best alternative to Playwright MCP, Chrome DevTools MCP, and BrowserMCP.',
   keywords: [
     // Primary MCP keywords
     'browser mcp server',
@@ -28,6 +28,12 @@ export const metadata: Metadata = {
     'browsermcp alternative',
     'browsermcp.io alternative',
     'playwright mcp alternative',
+    'chrome devtools mcp alternative',
+    'playwright mcp vs vibe mcp',
+    'chrome devtools mcp vs vibe mcp',
+    'playwright mcp vs browser mcp',
+    'best browser mcp server',
+    'mcp server for chrome',
 
     // Agent-specific keywords
     'claude browser control',
@@ -152,7 +158,7 @@ const jsonLd = {
   softwareRequirements: 'Chrome browser, Node.js',
   softwareHelp: {
     '@type': 'CreativeWork',
-    url: 'https://docs.vibebrowser.app/mcp',
+    url: 'https://docs.vibebrowser.app/mcp-integration',
   },
 }
 
@@ -181,10 +187,10 @@ const faqJsonLd = {
   mainEntity: [
     {
       '@type': 'Question',
-      name: 'How is Vibe MCP different from Browser MCP?',
+      name: 'How is Vibe MCP different from Playwright MCP, Chrome DevTools MCP, and BrowserMCP?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Vibe MCP supports multiple AI agents controlling the same browser simultaneously via a relay daemon, offers 25+ tools (vs ~12), includes native Google Workspace integration, provides a secure credential vault, and uses markdown-indexed page content instead of raw accessibility trees for lower token usage. It also does not require Chrome debug permissions.',
+        text: 'Playwright MCP and Chrome DevTools MCP launch a separate browser — you lose all sessions, cookies, and extensions. They require --remote-debugging-port for existing browser connections. BrowserMCP is a Chrome extension like Vibe but only supports a single agent, has ~13 tools, and its extension is closed-source. Vibe MCP supports multiple agents simultaneously, offers 25+ tools, includes Google Workspace integration, a credential vault, sub-agent orchestration, and uses markdown-indexed page content for 3-5x lower token usage.',
       },
     },
     {
@@ -200,7 +206,7 @@ const faqJsonLd = {
       name: 'Does Vibe MCP require Chrome debug permissions?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'No. Vibe MCP uses content scripts and the Chrome Extensions API to interact with pages. It does not require --remote-debugging-port or any special Chrome launch flags. This means it works with your normal browser profile without security downgrades.',
+        text: 'No. Vibe MCP uses content scripts and the Chrome Extensions API to interact with pages — no --remote-debugging-port or CDP required. This is a key advantage over Playwright MCP and Chrome DevTools MCP, which both require debug ports to connect to an existing browser.',
       },
     },
     {
@@ -217,6 +223,14 @@ const faqJsonLd = {
       acceptedAnswer: {
         '@type': 'Answer',
         text: 'Instead of sending raw DOM or accessibility tree snapshots, Vibe extracts page content as clean markdown with interactive elements labeled as [index:score]. Agents use these indices to click, fill, and interact with elements. This drastically reduces token usage and context pollution compared to full page snapshots.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Why does it matter that Vibe uses my real browser?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Playwright MCP and Chrome DevTools MCP launch a fresh, separate browser instance with no sessions, cookies, or extensions. Your AI agent cannot access authenticated sites. Vibe MCP connects to the browser you are already using, so agents can interact with Gmail, Slack, GitHub, Jira, or any logged-in site without re-authenticating.',
       },
     },
   ],
