@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -38,6 +38,57 @@ import {
   ChevronRight,
   Cpu,
 } from "lucide-react"
+
+// Rotating agent names for the hero typewriter animation
+const ROTATING_AGENTS = [
+  "Any AI Agent",
+  "OpenCode",
+  "Claude Code",
+  "Gemini CLI",
+  "Claude Desktop",
+  "Codex",
+  "Cursor",
+  "GitHub Copilot",
+  "Windsurf",
+]
+
+// Typewriter hook with delete and retype animation
+function useTypewriter(words: string[], typingSpeed = 80, deletingSpeed = 50, pauseTime = 2000) {
+  const [displayText, setDisplayText] = useState(words[0])
+  const [wordIndex, setWordIndex] = useState(0)
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [isPaused, setIsPaused] = useState(true)
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (isPaused) {
+        setIsPaused(false)
+        setIsDeleting(true)
+        return
+      }
+
+      if (isDeleting) {
+        if (displayText === "") {
+          setIsDeleting(false)
+          setWordIndex((prev) => (prev + 1) % words.length)
+        } else {
+          setDisplayText(displayText.slice(0, -1))
+        }
+      } else {
+        const nextWord = words[wordIndex]
+        if (displayText === nextWord) {
+          setIsPaused(true)
+        } else {
+          setDisplayText(nextWord.slice(0, displayText.length + 1))
+        }
+      }
+    }, isPaused ? pauseTime : isDeleting ? deletingSpeed : typingSpeed)
+
+    return () => clearTimeout(timeout)
+  }, [displayText, wordIndex, isDeleting, isPaused, words, typingSpeed, deletingSpeed, pauseTime])
+
+  return displayText
+}
 
 // ----- Data -----
 
@@ -304,6 +355,7 @@ function AgentIcon({ icon }: { icon: string }) {
 export default function McpPage() {
   const [activeAgent, setActiveAgent] = useState(0)
   const installCmd = "npx @vibebrowser/mcp"
+  const rotatingAgent = useTypewriter(ROTATING_AGENTS, 100, 60, 2500)
 
   return (
     <div className="flex flex-col min-h-screen bg-[#0a0a0a] text-[#e8eaed] overflow-x-hidden">
@@ -347,7 +399,8 @@ export default function McpPage() {
                 <h1 className="text-4xl font-normal tracking-tight sm:text-5xl md:text-6xl text-[#e8eaed]">
                   Control Your Browser from
                   <br className="hidden sm:block" />
-                  <span className="text-[#8ab4f8]"> Any AI Agent</span>
+                  <span className="text-[#8ab4f8]"> {rotatingAgent}</span>
+                  <span className="animate-pulse text-[#8ab4f8]">|</span>
                 </h1>
                 <p className="text-xl text-[#9aa0a6] max-w-2xl mx-auto">
                   Connect Claude, Cursor, VS Code, and more to your real browser — with all your sessions, cookies, and extensions intact.
