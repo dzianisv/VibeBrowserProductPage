@@ -98,6 +98,7 @@ const COMPATIBLE_AGENTS = [
   { name: "OpenCode", icon: "opencode" },
   { name: "Windsurf", icon: "windsurf" },
   { name: "Gemini CLI", icon: "gemini" },
+  { name: "Codex", icon: "codex" },
 ]
 
 interface ComparisonRow {
@@ -337,6 +338,7 @@ function AgentIcon({ icon }: { icon: string }) {
     opencode: "OpenCode",
     windsurf: "Windsurf",
     gemini: "Gemini",
+    codex: "Codex",
   }
   const colors: Record<string, string> = {
     anthropic: "bg-[#d4a574]",
@@ -346,6 +348,7 @@ function AgentIcon({ icon }: { icon: string }) {
     opencode: "bg-[#81c995]",
     windsurf: "bg-[#a8c7fa]",
     gemini: "bg-[#f28b82]",
+    codex: "bg-[#a8dab5]",
   }
   return (
     <div className={`w-10 h-10 rounded-lg ${colors[icon] || "bg-[#5f6368]"} flex items-center justify-center`}>
