@@ -222,17 +222,28 @@ interface SetupConfig {
 
 const SETUP_CONFIGS: SetupConfig[] = [
   {
-    agent: "Claude Desktop",
-    file: "~/Library/Application Support/Claude/claude_desktop_config.json",
+    agent: "Claude Code",
+    file: "CLI",
+    config: `claude mcp add --transport stdio vibe -- npx -y @vibebrowser/mcp`,
+    note: "Or add to project-level .mcp.json",
+  },
+  {
+    agent: "OpenCode",
+    file: "opencode.json",
     config: `{
-  "mcpServers": {
+  "mcp": {
     "vibe": {
-      "command": "npx",
-      "args": ["-y", "@vibebrowser/mcp"]
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@vibebrowser/mcp"
+      ],
+      "enabled": true
     }
   }
 }`,
-    note: "Restart Claude Desktop after saving.",
+    note: "Or: opencode mcp add vibe -- npx -y @vibebrowser/mcp",
   },
   {
     agent: "Cursor",
@@ -246,6 +257,19 @@ const SETUP_CONFIGS: SetupConfig[] = [
     note: "Or: Settings > Features > MCP Servers > Add Server",
   },
   {
+    agent: "Claude Desktop",
+    file: "~/Library/Application Support/Claude/claude_desktop_config.json",
+    config: `{
+  "mcpServers": {
+    "vibe": {
+      "command": "npx",
+      "args": ["-y", "@vibebrowser/mcp"]
+    }
+  }
+}`,
+    note: "Restart Claude Desktop after saving.",
+  },
+  {
     agent: "VS Code",
     file: "settings.json",
     config: `{
@@ -256,26 +280,6 @@ const SETUP_CONFIGS: SetupConfig[] = [
     }
   }
 }`,
-  },
-  {
-    agent: "OpenCode",
-    file: "opencode.json",
-    config: `{
-  "mcp": {
-    "vibe": {
-      "type": "local",
-      "command": ["npx", "-y", "@vibebrowser/mcp"],
-      "enabled": true
-    }
-  }
-}`,
-    note: "Or: opencode mcp add vibe -- npx -y @vibebrowser/mcp",
-  },
-  {
-    agent: "Claude Code",
-    file: "CLI",
-    config: `claude mcp add --transport stdio vibe -- npx -y @vibebrowser/mcp`,
-    note: "Or add to project-level .mcp.json",
   },
   {
     agent: "Windsurf",
@@ -498,7 +502,7 @@ export default function McpPage() {
                     </div>
                     <CopyButton text={SETUP_CONFIGS[heroAgent].config} />
                   </div>
-                  <pre className="px-4 py-3 text-sm font-mono text-[#e8eaed] overflow-x-auto max-h-40 overflow-y-auto">
+                  <pre className="px-4 py-3 text-sm font-mono text-[#e8eaed] text-left overflow-x-auto max-h-40 overflow-y-auto">
                     <code>{SETUP_CONFIGS[heroAgent].config}</code>
                   </pre>
                   {SETUP_CONFIGS[heroAgent].note && (
@@ -803,7 +807,7 @@ export default function McpPage() {
                 </div>
                 <CopyButton text={SETUP_CONFIGS[activeAgent].config} />
               </div>
-              <pre className="p-4 text-sm font-mono text-[#e8eaed] overflow-x-auto">
+              <pre className="p-4 text-sm font-mono text-[#e8eaed] text-left overflow-x-auto">
                 <code>{SETUP_CONFIGS[activeAgent].config}</code>
               </pre>
               {SETUP_CONFIGS[activeAgent].note && (
