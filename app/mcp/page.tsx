@@ -70,7 +70,7 @@ const COMPARISON_ROWS: ComparisonRow[] = [
   { feature: "Sub-agent orchestration", vibe: true, playwright: false, devtools: false, browsermcp: false, detail: "Spawn sub-agents with isolated context and parallel tool execution" },
   { feature: "Standalone AI browser", vibe: true, playwright: false, devtools: false, browsermcp: false, detail: "Also works as a standalone AI co-pilot directly in your browser" },
   { feature: "Page content format", vibe: "Markdown [index:score]", playwright: "Accessibility tree", devtools: "Accessibility tree", browsermcp: "Accessibility tree", detail: "Indexed markdown reduces token usage 3-5x vs raw trees. Playwright supports incremental snapshots but still uses verbose a11y format" },
-  { feature: "Open source", vibe: true, playwright: true, devtools: true, browsermcp: "Partial", detail: "BrowserMCP's extension is closed-source; their MCP server can't be built standalone" },
+  { feature: "Open source", vibe: "Partial", playwright: true, devtools: true, browsermcp: "Partial", detail: "Vibe's MCP server (@vibebrowser/mcp) is open source; the browser extension is not. BrowserMCP is similar — MCP server open, extension closed-source and can't be built standalone" },
   { feature: "Telemetry to vendor", vibe: false, playwright: false, devtools: true, browsermcp: false, detail: "Chrome DevTools MCP sends usage statistics and CrUX API calls to Google by default" },
 ]
 
@@ -351,7 +351,7 @@ export default function McpPage() {
                 </h1>
                 <p className="text-xl text-[#9aa0a6] max-w-2xl mx-auto">
                   Connect Claude, Cursor, VS Code, and more to your real browser — with all your sessions, cookies, and extensions intact.
-                  Multi-agent ready, 25+ tools, open source.
+                   Multi-agent ready, 25+ tools, open source MCP server.
                 </p>
               </div>
 
@@ -400,7 +400,7 @@ export default function McpPage() {
                 </span>
                 <span className="flex items-center gap-2">
                   <Code2 className="w-4 h-4" />
-                  Open source
+                   Open source MCP
                 </span>
               </div>
             </div>
@@ -838,7 +838,7 @@ MCP server for browser automation.
                   Is Vibe MCP open source?
                 </AccordionTrigger>
                 <AccordionContent className="text-[#9aa0a6]">
-                  Yes. The Vibe Browser extension and MCP server are both open source on GitHub. The MCP server package (<code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">@vibebrowser/mcp</code>) is published on npm. Playwright MCP (Microsoft) and Chrome DevTools MCP (Google) are also open source under Apache-2.0. BrowserMCP's MCP server is open source, but its Chrome extension is closed-source and the monorepo cannot be built standalone.
+                  Partially. The MCP server package (<code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">@vibebrowser/mcp</code>) is open source on GitHub and published on npm. The Vibe Browser extension itself is not open source. Playwright MCP (Microsoft) and Chrome DevTools MCP (Google) are fully open source under Apache-2.0. BrowserMCP is in a similar position to Vibe — their MCP server is open source, but the Chrome extension is closed-source and the monorepo cannot be built standalone.
                 </AccordionContent>
               </AccordionItem>
 
@@ -879,7 +879,7 @@ MCP server for browser automation.
               Ready to connect your AI agent to your browser?
             </h2>
             <p className="text-[#9aa0a6] mb-8 max-w-xl mx-auto">
-              Install the extension, add one config block, and start automating. Free and open source.
+              Install the extension, add one config block, and start automating. Free, with an open source MCP server.
             </p>
 
             {/* Install command */}

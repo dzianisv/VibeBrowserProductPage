@@ -87,20 +87,11 @@ export const metadata: Metadata = {
     siteName: 'Vibe AI Browser Co-Pilot',
     title: 'Vibe MCP Server - Control Your Browser from Any AI Agent',
     description: 'Multi-agent browser automation via MCP. 25+ tools, Google Workspace, credential vault, no debug permissions. Works with Claude, Cursor, VS Code, Windsurf, OpenCode, Gemini CLI.',
-    images: [
-      {
-        url: '/og-mcp.png',
-        width: 1200,
-        height: 630,
-        alt: 'Vibe MCP Server - Browser Automation for AI Agents',
-      },
-    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Vibe MCP Server - Control Your Browser from Any AI Agent',
     description: 'Multi-agent browser automation via MCP. 25+ tools, Google Workspace, credential vault. Works with Claude, Cursor, VS Code & more.',
-    images: ['/twitter-mcp.png'],
     creator: '@vibebrowserapp',
   },
   robots: {
@@ -190,7 +181,7 @@ const faqJsonLd = {
       name: 'How is Vibe MCP different from Playwright MCP, Chrome DevTools MCP, and BrowserMCP?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Playwright MCP and Chrome DevTools MCP launch a separate browser — you lose all sessions, cookies, and extensions. They require --remote-debugging-port for existing browser connections. BrowserMCP is a Chrome extension like Vibe but only supports a single agent, has ~13 tools, and its extension is closed-source. Vibe MCP supports multiple agents simultaneously, offers 25+ tools, includes Google Workspace integration, a credential vault, sub-agent orchestration, and uses markdown-indexed page content for 3-5x lower token usage.',
+        text: 'Playwright MCP and Chrome DevTools MCP launch a separate browser by default. Playwright now offers a Chrome extension mode to connect to your existing browser, but it still lacks multi-agent support, Google Workspace tools, credential vault, and sub-agent orchestration. Chrome DevTools MCP requires --remote-debugging-port and sends telemetry to Google. BrowserMCP is a Chrome extension like Vibe but only supports a single agent, has ~13 tools, and its extension is closed-source. Vibe MCP supports multiple agents simultaneously, offers 25+ tools, includes Google Workspace integration, a credential vault, sub-agent orchestration, and uses markdown-indexed page content for 3-5x lower token usage.',
       },
     },
     {
@@ -206,7 +197,7 @@ const faqJsonLd = {
       name: 'Does Vibe MCP require Chrome debug permissions?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'No. Vibe MCP uses content scripts and the Chrome Extensions API to interact with pages — no --remote-debugging-port or CDP required. This is a key advantage over Playwright MCP and Chrome DevTools MCP, which both require debug ports to connect to an existing browser.',
+        text: 'No. Vibe MCP uses content scripts and the Chrome Extensions API — no --remote-debugging-port or CDP required. Playwright MCP\'s extension mode also avoids debug ports, but its default mode still launches a separate browser. Chrome DevTools MCP requires debug ports. Vibe works with your normal browser profile without any special launch flags.',
       },
     },
     {
@@ -230,7 +221,7 @@ const faqJsonLd = {
       name: 'Why does it matter that Vibe uses my real browser?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Playwright MCP and Chrome DevTools MCP launch a fresh, separate browser instance with no sessions, cookies, or extensions. Your AI agent cannot access authenticated sites. Vibe MCP connects to the browser you are already using, so agents can interact with Gmail, Slack, GitHub, Jira, or any logged-in site without re-authenticating.',
+        text: 'Playwright MCP and Chrome DevTools MCP launch a fresh, separate browser by default with no sessions, cookies, or extensions. Playwright now offers a Chrome extension mode that can connect to your existing browser, but setup requires token-based auth and it still lacks multi-agent support. Vibe MCP connects directly to the browser you are already using with zero configuration, so agents can interact with Gmail, Slack, GitHub, Jira, or any logged-in site without re-authenticating.',
       },
     },
   ],
