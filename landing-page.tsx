@@ -1673,6 +1673,9 @@ export default function Component() {
             <Link href="https://docs.vibebrowser.app" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
               Documentation
             </Link>
+            <Link href="/mcp" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
+              MCP Server
+            </Link>
             <Link href="https://docs.vibebrowser.app/getting-started/extension" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
               Developer Install
             </Link>
