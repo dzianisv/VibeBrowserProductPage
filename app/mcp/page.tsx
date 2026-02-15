@@ -789,7 +789,7 @@ MCP server for browser automation.
                   How is Vibe MCP different from Playwright MCP, Chrome DevTools MCP, and BrowserMCP?
                 </AccordionTrigger>
                 <AccordionContent className="text-[#9aa0a6]">
-                  <strong className="text-[#e8eaed]">vs Playwright MCP &amp; Chrome DevTools MCP:</strong> Both launch a separate browser instance — you lose all logged-in sessions, cookies, and extensions. They require <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">--remote-debugging-port</code> for existing browser connections, which is a security risk. Neither supports multi-agent control, Google Workspace tools, or credential vault. Chrome DevTools MCP also sends telemetry to Google by default.
+                  <strong className="text-[#e8eaed]">vs Playwright MCP &amp; Chrome DevTools MCP:</strong> By default both launch a separate browser instance — you lose all logged-in sessions, cookies, and extensions. Playwright MCP now offers a Chrome extension mode that can connect to your existing browser, but it still lacks multi-agent control, Google Workspace tools, credential vault, and sub-agent orchestration. Chrome DevTools MCP requires <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">--remote-debugging-port</code> for existing browser connections and sends telemetry to Google by default.
                   <br /><br />
                   <strong className="text-[#e8eaed]">vs BrowserMCP:</strong> Like Vibe, BrowserMCP is a Chrome extension that uses your real browser. However, it only supports a single agent at a time (new connections kill the previous one), has ~13 tools vs Vibe's 25+, lacks Google Workspace integration, credential vault, and sub-agent orchestration. Its extension is also closed-source.
                   <br /><br />
@@ -811,7 +811,7 @@ MCP server for browser automation.
                   Does Vibe MCP require Chrome debug permissions?
                 </AccordionTrigger>
                 <AccordionContent className="text-[#9aa0a6]">
-                  No. Vibe MCP uses content scripts and the Chrome Extensions API to interact with pages — no <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">--remote-debugging-port</code> or CDP required. This is a key advantage over Playwright MCP and Chrome DevTools MCP, which both require debug ports to connect to an existing browser. Vibe works with your normal browser profile without any special launch flags or security downgrades.
+                  No. Vibe MCP uses content scripts and the Chrome Extensions API to interact with pages — no <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">--remote-debugging-port</code> or CDP required. Playwright MCP's extension mode also avoids debug ports, but its default mode still launches a separate browser via Playwright's protocol. Chrome DevTools MCP requires debug ports. Vibe works with your normal browser profile without any special launch flags or security downgrades.
                 </AccordionContent>
               </AccordionItem>
 
@@ -865,7 +865,7 @@ MCP server for browser automation.
                   Why does it matter that Vibe uses my real browser?
                 </AccordionTrigger>
                 <AccordionContent className="text-[#9aa0a6]">
-                  Playwright MCP and Chrome DevTools MCP launch a fresh, separate browser instance by default. That means you start with no logged-in sessions, no cookies, no extensions, and no saved passwords — your AI agent can't access any authenticated sites. Vibe MCP connects directly to the browser you're already using, so your agent can interact with Gmail, Slack, GitHub, Jira, or any site you're logged into without re-authenticating. This is critical for real-world automation workflows.
+                  Playwright MCP and Chrome DevTools MCP launch a fresh, separate browser instance by default. That means you start with no logged-in sessions, no cookies, no extensions, and no saved passwords. Playwright MCP now offers a Chrome extension mode that can connect to your existing browser, but setup requires a token-based auth flow and it still lacks multi-agent support. Vibe MCP connects directly to the browser you're already using with zero configuration — your agent can interact with Gmail, Slack, GitHub, Jira, or any site you're logged into without re-authenticating. This is critical for real-world automation workflows.
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
