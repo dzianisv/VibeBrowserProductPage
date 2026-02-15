@@ -386,6 +386,12 @@ export default function Component() {
           <Link href="https://docs.vibebrowser.app" className="text-sm font-medium hover:text-purple-600 transition-colors">
             Docs
           </Link>
+          <Link href="/teams" className="text-sm font-medium hover:text-purple-600 transition-colors">
+            Teams
+          </Link>
+          <Link href="/mcp" className="text-sm font-medium hover:text-purple-600 transition-colors">
+            MCP
+          </Link>
           <Link href="https://enterprise.vibebrowser.app" className="text-sm font-medium text-purple-600 hover:text-purple-700 transition-colors">
             Enterprise →
           </Link>
@@ -397,6 +403,12 @@ export default function Component() {
           </Link>
           <Link href="#pricing" className="text-xs font-medium hover:text-purple-600 transition-colors">
             Pricing
+          </Link>
+          <Link href="/teams" className="text-xs font-medium hover:text-purple-600 transition-colors">
+            Teams
+          </Link>
+          <Link href="/mcp" className="text-xs font-medium hover:text-purple-600 transition-colors">
+            MCP
           </Link>
           <Link href="https://enterprise.vibebrowser.app" className="text-xs font-medium text-purple-600 hover:text-purple-700 transition-colors">
             Enterprise
