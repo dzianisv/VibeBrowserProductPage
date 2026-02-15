@@ -21,6 +21,18 @@ export function middleware(request: NextRequest) {
     }
   }
 
+  // Handle teams.vibebrowser.app subdomain
+  if (hostname.startsWith('teams.')) {
+    // Rewrite root to /teams (teams page)
+    if (pathname === '/') {
+      return NextResponse.rewrite(new URL('/teams', request.url))
+    }
+    // /privacy and /terms stay the same
+    if (pathname === '/privacy' || pathname === '/terms') {
+      return NextResponse.next()
+    }
+  }
+
   return NextResponse.next()
 }
 
