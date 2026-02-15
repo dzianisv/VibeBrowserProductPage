@@ -605,9 +605,11 @@ export default function EnterpriseProductPage() {
                       Community support
                     </li>
                   </ul>
-                  <Button variant="outline" className="w-full border-[#5f6368] bg-transparent hover:bg-[#3c4043] text-[#e8eaed]">
-                    Download
-                  </Button>
+                  <Link href="https://chromewebstore.google.com/detail/vibe-ai-browser-co-pilot/djodpgokbmobeclicaicnnidccoinado" target="_blank">
+                    <Button variant="outline" className="w-full border-[#5f6368] bg-transparent hover:bg-[#3c4043] text-[#e8eaed]">
+                      Download
+                    </Button>
+                  </Link>
                 </CardContent>
               </Card>
 

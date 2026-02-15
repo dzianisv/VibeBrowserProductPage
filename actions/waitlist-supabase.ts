@@ -14,10 +14,27 @@ function getSupabaseClient() {
   return createClient(url, key)
 }
 
-// Helper function to get Resend client (disabled for now)
+let resendClient: { emails: { send: (data: unknown) => Promise<unknown> } } | null = null
+
+// Helper function to get Resend client
 async function getResendClient(): Promise<{ emails: { send: (data: unknown) => Promise<unknown> } } | null> {
-  // Temporarily disabled due to build issues
-  return null
+  if (resendClient) {
+    return resendClient
+  }
+
+  const apiKey = process.env.RESEND_API_KEY
+  if (!apiKey) {
+    return null
+  }
+
+  try {
+    const { Resend } = await import("resend")
+    resendClient = new Resend(apiKey)
+    return resendClient
+  } catch (error) {
+    console.log("Resend not configured - email notifications disabled")
+    return null
+  }
 }
 
 interface ReferralData {
