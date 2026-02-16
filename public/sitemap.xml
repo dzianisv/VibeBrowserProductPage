@@ -77,8 +77,8 @@
 
   <!-- Enterprise -->
   <url>
-    <loc>https://enterprise.vibebrowser.app/</loc>
-    <lastmod>2026-02-15</lastmod>
+    <loc>https://www.vibebrowser.app/enterprise</loc>
+    <lastmod>2025-09-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -105,14 +105,6 @@
     <lastmod>2025-09-25</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
-  </url>
-
-  <!-- Enterprise entry point -->
-  <url>
-    <loc>https://www.vibebrowser.app/v2</loc>
-    <lastmod>2026-02-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
   </url>
 
   <!-- About Us page -->

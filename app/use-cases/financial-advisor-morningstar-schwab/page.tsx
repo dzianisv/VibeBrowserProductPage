@@ -1,11 +1,20 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
+import { SiteNav } from '@/components/site-nav'
 
 export const metadata: Metadata = {
   title: 'Morningstar Schwab research automation for financial advisors | Vibe',
   description:
     'Automate Morningstar research inside Schwab. Vibe AI Browser Co-Pilot extracts fund data, builds comparison tables, and drafts advisor-ready recommendations.',
+  keywords: [
+    'Morningstar research automation',
+    'Schwab AI automation',
+    'financial advisor AI',
+    'fund comparison automation',
+    'AI browser financial research',
+    'Vibe Browser financial advisor',
+  ],
   alternates: {
     canonical:
       'https://www.vibebrowser.app/use-cases/financial-advisor-morningstar-schwab',
@@ -30,6 +39,7 @@ export const metadata: Metadata = {
     description:
       'Vibe automates Morningstar research inside Schwab, builds fund comparison tables, and drafts client-ready recommendations.',
     images: ['/og/home.svg'],
+    creator: '@vibebrowserapp',
   },
 }
 
@@ -48,6 +58,8 @@ const storyJsonLd = {
     '@type': 'Organization',
     name: 'Vibe Technologies',
   },
+  datePublished: '2025-06-01',
+  dateModified: '2025-09-25',
 }
 
 const howToSteps = [
@@ -127,6 +139,7 @@ const breadcrumbJsonLd = {
 export default function FinancialAdvisorUseCase() {
   return (
     <div className="min-h-screen bg-white">
+      <SiteNav />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(storyJsonLd) }}

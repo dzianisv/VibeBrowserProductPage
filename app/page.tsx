@@ -51,13 +51,6 @@ const jsonLd = {
     priceCurrency: 'USD',
     availability: 'https://schema.org/PreOrder',
   },
-  aggregateRating: {
-    '@type': 'AggregateRating',
-    ratingValue: '5',
-    ratingCount: '150',
-    bestRating: '5',
-    worstRating: '1',
-  },
   featureList: [
     'Autonomous task completion',
     'Multi-site navigation',
@@ -81,7 +74,7 @@ const organizationJsonLd = {
   logo: 'https://www.vibebrowser.app/logo.png',
   description: 'Creators of the revolutionary AI Browser Co-Pilot',
   sameAs: [
-    'https://twitter.com/vibebrowser',
+    'https://x.com/vibebrowserapp',
     'https://github.com/vibebrowser',
     'https://www.linkedin.com/company/vibebrowser',
   ],

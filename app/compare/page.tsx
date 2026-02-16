@@ -2,11 +2,26 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { CheckCircle } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
+import { SiteNav } from '@/components/site-nav'
 
 export const metadata: Metadata = {
   title: 'Vibe vs Atlas, Comet, Composite, Strawberry - AI Browser Comparison',
   description:
     'Compare Vibe AI Browser Co-Pilot to OpenAI Atlas, Perplexity Comet, Composite, and Strawberry Browser. Privacy, workflows, and automation depth side by side.',
+  keywords: [
+    'AI browser comparison',
+    'Vibe vs Atlas',
+    'Vibe vs Comet',
+    'Vibe vs Composite',
+    'Vibe vs Strawberry Browser',
+    'OpenAI Atlas alternative',
+    'Perplexity Comet alternative',
+    'best AI browser',
+    'AI browser extension comparison',
+    'autonomous browser agent',
+    'browser automation AI',
+    'AI co-pilot browser',
+  ],
   alternates: {
     canonical: 'https://www.vibebrowser.app/compare',
   },
@@ -30,6 +45,7 @@ export const metadata: Metadata = {
     description:
       'Compare Vibe to leading AI browsers across privacy, workflows, and automation.',
     images: ['/og/home.svg'],
+    creator: '@vibebrowserapp',
   },
 }
 
@@ -168,6 +184,7 @@ const rows = [
 export default function ComparePage() {
   return (
     <div className="min-h-screen bg-white">
+      <SiteNav />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}

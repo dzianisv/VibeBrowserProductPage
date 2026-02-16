@@ -1,11 +1,20 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
+import { SiteNav } from '@/components/site-nav'
 
 export const metadata: Metadata = {
   title: 'Private legal research automation in a self-hosted CRM | Vibe',
   description:
     'Run private legal research inside a self-hosted case database. Vibe keeps data on-prem, extracts precedent notes, and drafts redaction-safe summaries.',
+  keywords: [
+    'private legal research AI',
+    'self-hosted CRM automation',
+    'on-premise legal AI',
+    'legal research automation',
+    'AI for law firms',
+    'Vibe Browser legal research',
+  ],
   alternates: {
     canonical: 'https://www.vibebrowser.app/use-cases/privacy-first-legal-research',
   },
@@ -29,6 +38,7 @@ export const metadata: Metadata = {
     description:
       'Vibe runs on-prem inside a private case system, keeps data local, and drafts redaction-safe summaries.',
     images: ['/og/tee.svg'],
+    creator: '@vibebrowserapp',
   },
 }
 
@@ -47,6 +57,8 @@ const storyJsonLd = {
     '@type': 'Organization',
     name: 'Vibe Technologies',
   },
+  datePublished: '2025-06-01',
+  dateModified: '2025-09-25',
 }
 
 const howToSteps = [
@@ -104,9 +116,29 @@ const faqJsonLd = {
   })),
 }
 
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Use Cases',
+      item: 'https://www.vibebrowser.app/use-cases',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Private legal research automation in a self-hosted CRM',
+      item: 'https://www.vibebrowser.app/use-cases/privacy-first-legal-research',
+    },
+  ],
+}
+
 export default function LegalResearchUseCase() {
   return (
     <div className="min-h-screen bg-white">
+      <SiteNav />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(storyJsonLd) }}
@@ -118,6 +150,10 @@ export default function LegalResearchUseCase() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       <header className="border-b border-slate-200">
         <div className="container mx-auto px-6 py-10">
