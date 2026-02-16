@@ -58,5 +58,24 @@ Disallow: /
 User-agent: MJ12bot
 Disallow: /
 
+# AI search bots — allow for citation and discovery
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
 # Sitemap location
 Sitemap: https://www.vibebrowser.app/sitemap.xml

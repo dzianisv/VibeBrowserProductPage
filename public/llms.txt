@@ -11,6 +11,7 @@
 - [Enterprise](https://www.vibebrowser.app/v2): Enterprise-grade AI browser with TEE-based security, SOC 2 compliance, and self-hosted deployment.
 - [Use Cases](https://www.vibebrowser.app/use-cases): Real-world automation stories including financial research, legal research, and recruiter workflows.
 - [Compare](https://www.vibebrowser.app/compare): Feature comparison between Vibe Browser and alternatives.
+- [TEE Whitepaper](https://www.vibebrowser.app/tee): Open-source research on privacy-preserving LLM inference within Trusted Execution Environments (TEEs) with Intel TDX and cryptographic remote attestation. Runs DeepSeek models on Azure Confidential VMs.
 
 ## Agentic Team
 
