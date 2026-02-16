@@ -21,18 +21,18 @@ export default function TeePage() {
   return (
     <div className="flex flex-col min-h-screen bg-[#202124] text-[#e8eaed]">
       {/* Header - Incognito style */}
-      <header className="w-full px-4 lg:px-6 h-16 flex items-center justify-between border-b border-[#3c4043] bg-[#202124]/95 backdrop-blur-sm sticky top-0 z-50">
+      <header className="w-full px-4 lg:px-6 h-16 flex items-center justify-between border-b border-[#3c4043] bg-[#202124]/95 backdrop-blur-sm sticky top-0 z-50" role="banner">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 bg-[#3c4043] rounded-full flex items-center justify-center">
+          <div className="w-9 h-9 bg-[#3c4043] rounded-full flex items-center justify-center" aria-hidden="true">
             <EyeOff className="w-4 h-4 text-[#9aa0a6]" />
           </div>
           <span className="text-lg font-medium text-[#e8eaed]">
             Vibe<span className="text-[#9aa0a6]">Incognito</span>
           </span>
         </div>
-        <nav className="flex gap-4 items-center">
+        <nav className="flex gap-4 items-center" aria-label="TEE page navigation">
           <Link href="/v2" className="text-sm text-[#9aa0a6] hover:text-[#e8eaed] transition-colors flex items-center gap-1">
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="w-4 h-4" aria-hidden="true" />
             Back to Incognito
           </Link>
         </nav>
@@ -40,11 +40,11 @@ export default function TeePage() {
 
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="w-full py-12 md:py-16">
+        <section className="w-full py-12 md:py-16" aria-label="TEE whitepaper overview">
           <div className="container max-w-5xl px-4 md:px-6 mx-auto">
             <div className="text-center mb-8">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#3c4043] text-[#81c995] text-sm font-medium mb-6">
-                <Shield className="w-4 h-4" />
+                <Shield className="w-4 h-4" aria-hidden="true" />
                 Security Whitepaper
               </div>
               
@@ -58,17 +58,17 @@ export default function TeePage() {
                 with cryptographic remote attestation. Running DeepSeek models on Azure Confidential VMs with Intel TDX.
               </p>
               
-              <div className="flex flex-wrap gap-6 justify-center mb-8">
-                <div className="flex items-center gap-2 text-sm text-[#9aa0a6]">
-                  <Lock className="w-4 h-4 text-[#81c995]" />
+              <div className="flex flex-wrap gap-6 justify-center mb-8" role="list" aria-label="Key features">
+                <div className="flex items-center gap-2 text-sm text-[#9aa0a6]" role="listitem">
+                  <Lock className="w-4 h-4 text-[#81c995]" aria-hidden="true" />
                   <span>Hardware-enforced encryption</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-[#9aa0a6]">
-                  <Shield className="w-4 h-4 text-[#8ab4f8]" />
+                <div className="flex items-center gap-2 text-sm text-[#9aa0a6]" role="listitem">
+                  <Shield className="w-4 h-4 text-[#8ab4f8]" aria-hidden="true" />
                   <span>Remote attestation API</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-[#9aa0a6]">
-                  <FileText className="w-4 h-4 text-[#f28b82]" />
+                <div className="flex items-center gap-2 text-sm text-[#9aa0a6]" role="listitem">
+                  <FileText className="w-4 h-4 text-[#f28b82]" aria-hidden="true" />
                   <span>Open-source infrastructure</span>
                 </div>
               </div>
@@ -119,7 +119,7 @@ export default function TeePage() {
                 <iframe 
                   src="/tee-research-paper.pdf" 
                   className="w-full h-full border-0"
-                  title="TEE Research Paper"
+                  title="Privacy-Preserving LLM Inference with Hardware-Attested TEEs — Full Research Paper PDF"
                 />
               </div>
             </div>
@@ -127,7 +127,7 @@ export default function TeePage() {
         </section>
 
         {/* Paper Abstract/Summary */}
-        <section className="w-full py-12 md:py-16 border-t border-[#3c4043] bg-[#292a2d]">
+        <section className="w-full py-12 md:py-16 border-t border-[#3c4043] bg-[#292a2d]" aria-label="Paper abstract and key contributions">
           <div className="container max-w-4xl px-4 md:px-6 mx-auto">
             <h2 className="text-2xl font-normal text-[#e8eaed] mb-6">Abstract</h2>
             <div className="bg-[#202124] rounded-lg p-6 border border-[#3c4043]">
@@ -219,7 +219,7 @@ export default function TeePage() {
         </section>
 
         {/* Why TEE Section */}
-        <section className="w-full py-12 md:py-16 border-t border-[#3c4043]">
+        <section className="w-full py-12 md:py-16 border-t border-[#3c4043]" aria-label="Benefits of Trusted Execution Environments">
           <div className="container max-w-4xl px-4 md:px-6 mx-auto">
             <h2 className="text-2xl font-normal text-[#e8eaed] mb-6">Why Trusted Execution Environments?</h2>
             
@@ -268,7 +268,7 @@ export default function TeePage() {
         </section>
 
         {/* CTA */}
-        <section className="w-full py-16 border-t border-[#3c4043] bg-[#292a2d]">
+        <section className="w-full py-16 border-t border-[#3c4043] bg-[#292a2d]" aria-label="Call to action">
           <div className="container max-w-3xl px-4 md:px-6 mx-auto text-center">
             <h2 className="text-2xl font-normal text-[#e8eaed] mb-4">
               Ready to deploy privacy-preserving AI?
@@ -297,17 +297,18 @@ export default function TeePage() {
       </main>
 
       {/* Footer */}
-      <footer className="w-full border-t border-[#3c4043] bg-[#202124]">
+      <footer className="w-full border-t border-[#3c4043] bg-[#202124]" role="contentinfo">
         <div className="container max-w-5xl px-4 md:px-6 py-8 mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-[#9aa0a6]">
             <div className="flex items-center gap-2">
-              <EyeOff className="w-4 h-4" />
+              <EyeOff className="w-4 h-4" aria-hidden="true" />
               <span>Vibe Technologies</span>
             </div>
             <p className="text-[#5f6368]">
               © 2026 Vibe Technologies, LLC. All rights reserved.
             </p>
             <div className="flex gap-6">
+              <Link href="/agentic-team" className="hover:text-[#e8eaed] transition-colors">Agentic Team</Link>
               <Link href="/privacy" className="hover:text-[#e8eaed] transition-colors">Privacy</Link>
               <Link href="/terms" className="hover:text-[#e8eaed] transition-colors">Terms</Link>
               <Link href="/v2" className="hover:text-[#e8eaed] transition-colors">Incognito</Link>

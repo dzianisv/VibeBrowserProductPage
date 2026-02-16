@@ -796,6 +796,7 @@ export default function EnterpriseProductPage() {
             </div>
             <div className="flex gap-6">
               <Link href="/mcp" className="hover:text-[#e8eaed] transition-colors">MCP</Link>
+              <Link href="/agentic-team" className="hover:text-[#e8eaed] transition-colors">Agentic Team</Link>
               <Link href="/privacy" className="hover:text-[#e8eaed] transition-colors">Privacy</Link>
               <Link href="/terms" className="hover:text-[#e8eaed] transition-colors">Terms</Link>
               <Link href="/tee" className="hover:text-[#e8eaed] transition-colors">Security</Link>

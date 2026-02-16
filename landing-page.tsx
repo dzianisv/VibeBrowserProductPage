@@ -221,12 +221,6 @@ export default function Component() {
           </span>
         </div>
         <nav className="hidden md:flex gap-6">
-          <Link href="#how-it-works" className="text-sm font-medium hover:text-purple-600 transition-colors">
-            How It Works
-          </Link>
-          <Link href="#demo" className="text-sm font-medium hover:text-purple-600 transition-colors">
-            Demo
-          </Link>
           <Link href="#pricing" className="text-sm font-medium hover:text-purple-600 transition-colors">
             Pricing
           </Link>
@@ -245,9 +239,6 @@ export default function Component() {
         </nav>
         {/* Mobile navigation */}
         <nav className="flex md:hidden gap-3">
-          <Link href="#demo" className="text-xs font-medium hover:text-purple-600 transition-colors">
-            Demo
-          </Link>
           <Link href="#pricing" className="text-xs font-medium hover:text-purple-600 transition-colors">
             Pricing
           </Link>
@@ -712,94 +703,6 @@ export default function Component() {
       </div>
     </section>
 
-    {/* How It Works - Outreach Focused */}
-    <section id="how-it-works" className="w-full py-12 md:py-16 bg-slate-50">
-      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">How It Works</h2>
-          <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
-            Three steps. Nothing sent without your approval.
-          </p>
-        </div>
-
-        <div className="max-w-4xl mx-auto">
-          <div className="grid md:grid-cols-3 gap-6">
-            <Card className="border-0 shadow-lg bg-white relative">
-              <div className="absolute -top-3 left-6">
-                <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold">
-                  1
-                </div>
-              </div>
-              <CardContent className="p-6 pt-8">
-                <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mb-3">
-                  <MessageSquare className="w-5 h-5 text-purple-600" />
-                </div>
-                <h3 className="font-semibold mb-2">Tell Vibe Your Goal</h3>
-                <p className="text-sm text-muted-foreground">
-                  "Find 20 SaaS founders hiring engineers" or "Research competitors in the AI space"
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 shadow-lg bg-white relative">
-              <div className="absolute -top-3 left-6">
-                <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">
-                  2
-                </div>
-              </div>
-              <CardContent className="p-6 pt-8">
-                <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mb-3">
-                  <Globe className="w-5 h-5 text-blue-600" />
-                </div>
-                <h3 className="font-semibold mb-2">Vibe Operates the Web</h3>
-                <p className="text-sm text-muted-foreground">
-                  Searches LinkedIn, Twitter, Reddit. Opens profiles. Understands context. Drafts messages.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 shadow-lg bg-white relative">
-              <div className="absolute -top-3 left-6">
-                <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white font-bold">
-                  3
-                </div>
-              </div>
-              <CardContent className="p-6 pt-8">
-                <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mb-3">
-                  <CheckCircle className="w-5 h-5 text-green-600" />
-                </div>
-                <h3 className="font-semibold mb-2">You Approve</h3>
-                <p className="text-sm text-muted-foreground">
-                  Nothing is sent without your confirmation. Review, edit, and decide what goes out.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Demo Prompt Showcase */}
-          <div className="mt-12 bg-gradient-to-br from-slate-900 to-purple-900 rounded-2xl p-8 text-white">
-            <div className="text-center mb-6">
-              <h3 className="text-xl font-bold mb-2">Try This Prompt</h3>
-              <p className="text-white/70 text-sm">Copy and paste into Vibe Browser</p>
-            </div>
-            <div className="bg-black/30 rounded-xl p-6 font-mono text-sm leading-relaxed border border-white/10">
-              <p className="text-purple-300">Find 15 B2B SaaS founders in the US who posted in the last week.</p>
-              <p className="text-blue-300 mt-2">Draft a personalized message referencing their latest post.</p>
-              <p className="text-green-300 mt-2">Save everything to a Google Sheet.</p>
-            </div>
-            <div className="text-center mt-6">
-              <WaitlistDialog>
-                <Button size="lg" className="bg-white text-purple-900 hover:bg-slate-100 font-semibold">
-                  Run this in Vibe Browser
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </WaitlistDialog>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
     {/* FAQ Section */}
     {/* <section className="w-full py-12 md:py-24 lg:py-32">
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
@@ -1030,74 +933,6 @@ export default function Component() {
       </div>
     </section>
 
-    {/* Team Section */}
-    <section className="w-full py-12 md:py-24 lg:py-32 bg-slate-50">
-      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl mb-4">Meet the Team</h2>
-          <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
-            Experienced engineers building the future of AI-native browsing
-          </p>
-        </div>
-
-        <div className="grid gap-8 md:grid-cols-3 max-w-4xl mx-auto">
-          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
-            <CardContent className="p-8 text-center">
-              <div className="w-24 h-24 mx-auto mb-6 overflow-hidden rounded-full">
-                <img src="/images/dennis-vashchuk.jpg" alt="Dzianis Vashchuk" className="w-full h-full object-cover" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Dzianis Vashchuk</h3>
-              <p className="text-muted-foreground mb-4">Founder</p>
-              <Link href="https://www.linkedin.com/in/dzianisv/" target="_blank"
-                className="inline-flex items-center gap-2 text-sm text-purple-600 hover:text-purple-700 transition-colors">
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                <path
-                  d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-              </svg>
-              LinkedIn Profile
-              </Link>
-            </CardContent>
-          </Card>
-          
-          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
-            <CardContent className="p-8 text-center">
-              <div className="w-24 h-24 mx-auto mb-6 overflow-hidden rounded-full">
-                <img src="/images/dzmitry-dalenka.jpg" alt="Dzmitry Dalenka" className="w-full h-full object-cover" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Dzmitry Dalenka</h3>
-              <p className="text-muted-foreground mb-4">ML Engineer</p>
-              <Link href="https://www.linkedin.com/in/dzmitry-dalenka/" target="_blank"
-                className="inline-flex items-center gap-2 text-sm text-blue-600 hover:text-blue-700 transition-colors">
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                <path
-                  d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-              </svg>
-              LinkedIn Profile
-              </Link>
-            </CardContent>
-          </Card>
-
-          <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
-            <CardContent className="p-8 text-center">
-              <div className="w-24 h-24 mx-auto mb-6 overflow-hidden rounded-full">
-                <img src="/images/dima-kostenich.jpg" alt="Dzmitry Kastsenich" className="w-full h-full object-cover" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Dzmitry Kastsenich</h3>
-              <p className="text-muted-foreground mb-4 whitespace-nowrap">Software Engineer</p>
-              <Link href="https://www.linkedin.com/in/dima-kostenich/" target="_blank"
-                className="inline-flex items-center gap-2 text-sm text-orange-600 hover:text-orange-700 transition-colors">
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                <path
-                  d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-              </svg>
-              LinkedIn Profile
-              </Link>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    </section>
-
     {/* Final CTA */}
     <section id="pricing" className="w-full py-16 md:py-24 bg-gradient-to-r from-purple-600 to-pink-600">
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
@@ -1247,14 +1082,8 @@ export default function Component() {
         <div className="space-y-4">
           <h3 className="font-semibold text-sm">Product</h3>
           <nav className="flex flex-col gap-2">
-            <Link href="#demo" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
-              Demo
-            </Link>
             <Link href="#features" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
               Features
-            </Link>
-            <Link href="#roadmap" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
-              Roadmap
             </Link>
             <Link href="#pricing" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
               Pricing
@@ -1271,6 +1100,9 @@ export default function Component() {
             </Link>
             <Link href="/mcp" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
               MCP Server
+            </Link>
+            <Link href="/agentic-team" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
+              Agentic Team
             </Link>
             <Link href="https://docs.vibebrowser.app/getting-started/extension" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
               Developer Install
