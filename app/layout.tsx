@@ -122,6 +122,73 @@ export const viewport = {
 }
 
 
+// JSON-LD Structured Data for homepage
+const websiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Vibe AI Browser Co-Pilot',
+  url: 'https://www.vibebrowser.app',
+  description: 'The first agentic AI browser extension that automates research, bookings, data entry, and more. Just describe what you want done.',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: 'https://www.vibebrowser.app/use-cases?q={search_term_string}',
+    'query-input': 'required name=search_term_string',
+  },
+}
+
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Vibe Technologies',
+  url: 'https://www.vibebrowser.app',
+  logo: 'https://www.vibebrowser.app/vibebrowser-logo.png',
+  description: 'Building AI-powered browser automation tools that work inside your real browser sessions.',
+  contactPoint: {
+    '@type': 'ContactPoint',
+    email: 'info@vibebrowser.app',
+    contactType: 'customer support',
+    availableLanguage: 'English',
+  },
+  sameAs: [
+    'https://twitter.com/vibebrowserapp',
+    'https://linkedin.com/company/vibebrowser',
+    'https://github.com/VibeTechnologies',
+  ],
+}
+
+const softwareJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Vibe AI Browser Co-Pilot',
+  applicationCategory: 'BrowserApplication',
+  operatingSystem: 'Chrome',
+  description: 'AI browser co-pilot that automates browsing tasks autonomously. Research, data entry, bookings, and more — just describe what you want done.',
+  url: 'https://www.vibebrowser.app',
+  author: {
+    '@type': 'Organization',
+    name: 'Vibe Technologies',
+    url: 'https://www.vibebrowser.app',
+  },
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+    description: 'Free AI browser co-pilot extension',
+  },
+  featureList: [
+    'Autonomous browser task execution',
+    'Natural language task description',
+    'Research automation',
+    'Data entry automation',
+    'Booking automation',
+    'Human-in-the-loop approvals',
+    'Privacy-first architecture',
+    'Model-agnostic AI support',
+    'MCP server integration',
+    'Enterprise and team workflows',
+  ],
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -132,6 +199,18 @@ export default function RootLayout({
       <body>
         <GoogleAnalytics />
         <ReferralTracker />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareJsonLd) }}
+        />
         {children}
       </body>
     </html>

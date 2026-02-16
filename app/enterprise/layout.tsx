@@ -8,7 +8,7 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://enterprise.vibebrowser.app'),
+  metadataBase: new URL('https://www.vibebrowser.app'),
   title: 'Vibe AI Browser · Private Enterprise | Secure AI for Financial Professionals',
   description: 'Private AI browser automation for financial professionals. SOC2 compliant, on-premise deployment, TEE-ready. AI that never sees your client data. Built for traders, wealth managers, and regulated industries.',
   keywords: [
@@ -70,8 +70,8 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://enterprise.vibebrowser.app',
-    siteName: 'Vibe AI Browser · Private Enterprise',
+    url: 'https://www.vibebrowser.app/enterprise',
+    siteName: 'Vibe AI Browser Co-Pilot',
     title: 'Private AI for Financial Professionals | Vibe AI Browser',
     description: 'AI browser automation that never sees your client data. SOC2 compliant, on-premise deployment, TEE-ready. Built for traders, wealth managers, and regulated industries.',
     images: [
@@ -102,7 +102,7 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: 'https://enterprise.vibebrowser.app',
+    canonical: 'https://www.vibebrowser.app/enterprise',
   },
   category: 'technology',
   classification: 'Business Software',
@@ -116,7 +116,7 @@ const jsonLd = {
   applicationCategory: 'BusinessApplication',
   operatingSystem: 'Chrome',
   description: 'Private AI browser automation for financial professionals. SOC2 compliant, on-premise deployment, TEE-ready.',
-  url: 'https://enterprise.vibebrowser.app',
+  url: 'https://www.vibebrowser.app/enterprise',
   author: {
     '@type': 'Organization',
     name: 'Vibe Technologies',
@@ -159,17 +159,10 @@ const jsonLd = {
     'Self-Hosted LLM Support',
     'Complete Audit Logging',
   ],
-  screenshot: 'https://enterprise.vibebrowser.app/screenshot-enterprise.png',
+  screenshot: 'https://www.vibebrowser.app/screenshot-enterprise.png',
   softwareHelp: {
     '@type': 'CreativeWork',
-    url: 'https://enterprise.vibebrowser.app/tee',
-  },
-  aggregateRating: {
-    '@type': 'AggregateRating',
-    ratingValue: '4.9',
-    ratingCount: '127',
-    bestRating: '5',
-    worstRating: '1',
+    url: 'https://www.vibebrowser.app/tee',
   },
 }
 
@@ -188,6 +181,7 @@ const organizationJsonLd = {
   sameAs: [
     'https://twitter.com/vibebrowserapp',
     'https://linkedin.com/company/vibebrowser',
+    'https://github.com/VibeTechnologies',
   ],
 }
 

@@ -1,11 +1,20 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
+import { SiteNav } from '@/components/site-nav'
 
 export const metadata: Metadata = {
   title: 'LinkedIn recruiter automation with skills-based messaging | Vibe',
   description:
     'Automate LinkedIn recruiting with skills-based outreach. Vibe AI Browser Co-Pilot finds candidates, drafts messages, and updates your CRM.',
+  keywords: [
+    'LinkedIn recruiter automation',
+    'AI recruiting tool',
+    'LinkedIn outreach automation',
+    'skills-based recruiting AI',
+    'CRM recruiter automation',
+    'Vibe Browser recruiter',
+  ],
   alternates: {
     canonical:
       'https://www.vibebrowser.app/use-cases/recruiter-linkedin-automation',
@@ -30,6 +39,7 @@ export const metadata: Metadata = {
     description:
       'Vibe finds candidates, matches skills, drafts outreach, and logs activity into your CRM.',
     images: ['/og/teams.svg'],
+    creator: '@vibebrowserapp',
   },
 }
 
@@ -48,6 +58,8 @@ const storyJsonLd = {
     '@type': 'Organization',
     name: 'Vibe Technologies',
   },
+  datePublished: '2025-06-01',
+  dateModified: '2025-09-25',
 }
 
 const howToSteps = [
@@ -105,9 +117,29 @@ const faqJsonLd = {
   })),
 }
 
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Use Cases',
+      item: 'https://www.vibebrowser.app/use-cases',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'LinkedIn recruiter automation with skills-based messaging',
+      item: 'https://www.vibebrowser.app/use-cases/recruiter-linkedin-automation',
+    },
+  ],
+}
+
 export default function RecruiterLinkedInUseCase() {
   return (
     <div className="min-h-screen bg-white">
+      <SiteNav />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(storyJsonLd) }}
@@ -119,6 +151,10 @@ export default function RecruiterLinkedInUseCase() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       <header className="border-b border-slate-200">
         <div className="container mx-auto px-6 py-10">
