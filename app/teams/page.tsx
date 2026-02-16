@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { WaitlistDialog } from "@/components/waitlist-dialog"
+import { SlackDemo, SlackMessage, SlackAgent } from "@/components/slack-demo"
 import {
   Accordion,
   AccordionContent,
@@ -21,9 +22,7 @@ import {
   XCircle,
   ArrowRight,
   Shield,
-  Brain,
   Target,
-  Layers,
   UserPlus,
   FolderSync,
   Activity,
@@ -31,6 +30,120 @@ import {
   Sparkles,
   ChevronRight,
 } from "lucide-react"
+
+// ----- Teams Slack Demo Data -----
+
+const TEAMS_AGENTS: SlackAgent[] = [
+  { role: "Sales Lead", handle: "@sarah.chen", initial: "SC", color: "#f28b82" },
+  { role: "Recruiter", handle: "@mike.johnson", initial: "MJ", color: "#81c995" },
+  { role: "Support Manager", handle: "@lisa.park", initial: "LP", color: "#c58af9" },
+  { role: "Team Lead", handle: "@alex.rivera", initial: "AR", color: "#8ab4f8" },
+]
+
+const TEAMS_CONVERSATION: SlackMessage[] = [
+  {
+    agent: "@sarah.chen",
+    role: "Sales Lead",
+    agentColor: "#f28b82",
+    agentInitial: "SC",
+    timestamp: "9:15 AM",
+    content: (
+      <>
+        Just shared a new skill: <strong>&quot;LinkedIn Prospect Research&quot;</strong> — it pulls company info, recent posts, and mutual connections into a summary before outreach. Saved me 20 min per lead yesterday.
+      </>
+    ),
+    reactions: [{ emoji: "fire", count: 3 }],
+  },
+  {
+    agent: "@mike.johnson",
+    role: "Recruiter",
+    agentColor: "#81c995",
+    agentInitial: "MJ",
+    timestamp: "9:17 AM",
+    content: (
+      <>
+        Nice! I adapted your approach for recruiting. Built a <strong>&quot;Candidate Pipeline Tracker&quot;</strong> — Vibe Browser scans job boards, cross-references LinkedIn profiles, and flags top matches. Ran it on 3 roles this morning.
+      </>
+    ),
+  },
+  {
+    agent: "@mike.johnson",
+    role: "Recruiter",
+    agentColor: "#81c995",
+    agentInitial: "MJ",
+    timestamp: "9:17 AM",
+    content: (
+      <div>
+        <p style={{ marginBottom: 8 }}>Results from the engineering manager search:</p>
+        <div style={{
+          backgroundColor: "#1a1a2e",
+          border: "1px solid #2a2a3a",
+          borderLeft: "3px solid #81c995",
+          borderRadius: 4,
+          padding: "8px 12px",
+          fontFamily: "'SFMono-Regular', 'Consolas', 'Liberation Mono', 'Menlo', monospace",
+          fontSize: 13,
+          lineHeight: 1.6,
+          color: "#d1d5db",
+          marginTop: 4,
+        }}>
+          Profiles scanned: <span style={{ color: "#8ab4f8" }}>47</span>{"\n"}
+          Strong matches: <span style={{ color: "#81c995" }}>8</span>{"\n"}
+          Already contacted: <span style={{ color: "#fdd663" }}>2</span>{"\n"}
+          Ready for outreach: <span style={{ color: "#81c995" }}>6 candidates</span>
+        </div>
+      </div>
+    ),
+    reactions: [{ emoji: "chart_with_upwards_trend", count: 2 }, { emoji: "muscle", count: 1 }],
+  },
+  {
+    agent: "@lisa.park",
+    role: "Support Manager",
+    agentColor: "#c58af9",
+    agentInitial: "LP",
+    timestamp: "9:19 AM",
+    content: (
+      <>
+        This is great. I set up a <strong>&quot;Competitor Pricing Monitor&quot;</strong> that checks competitor sites daily and alerts us to changes. <span style={{ color: "#f28b82", backgroundColor: "#f28b8215", padding: "0 3px", borderRadius: 3, fontWeight: 500 }}>@sarah.chen</span> your sales team might want this too.
+      </>
+    ),
+    reactions: [{ emoji: "bulb", count: 2 }],
+  },
+  {
+    agent: "@alex.rivera",
+    role: "Team Lead",
+    agentColor: "#8ab4f8",
+    agentInitial: "AR",
+    timestamp: "9:21 AM",
+    content: (
+      <>
+        Love seeing the team share these. Quick update: the shared skills library now has <strong>23 automations</strong> across Sales, Recruiting, and Support. Usage is up 40% this week.
+      </>
+    ),
+    reactions: [{ emoji: "rocket", count: 3 }, { emoji: "100", count: 2 }],
+  },
+  {
+    agent: "@sarah.chen",
+    role: "Sales Lead",
+    agentColor: "#f28b82",
+    agentInitial: "SC",
+    timestamp: "9:22 AM",
+    content: (
+      <>
+        Absolutely want that pricing monitor. Just subscribed to it. This is why shared skills are a game-changer — one person builds it, the whole team benefits.
+      </>
+    ),
+    reactions: [{ emoji: "handshake", count: 3 }, { emoji: "sparkles", count: 2 }],
+    threadReplies: 4,
+  },
+]
+
+const TEAMS_CHANNELS = [
+  { name: "team-automations", active: true },
+  { name: "sales-ops", active: false },
+  { name: "recruiting", active: false },
+  { name: "general", active: false },
+]
 
 // Rotating words for the hero animation
 const ROTATING_WORDS = [
@@ -171,6 +284,36 @@ export default function TeamsPage() {
                 </span>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* Live Team Demo */}
+        <section className="w-full py-16 md:py-24 bg-slate-950">
+          <div className="container max-w-5xl px-4 md:px-6 mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
+                See how teams share browser automations
+              </h2>
+              <p className="text-slate-400 max-w-2xl mx-auto">
+                Your team members build skills once and share them instantly.
+                Sales, recruiting, support &mdash; everyone benefits from each other&apos;s automations.
+              </p>
+            </div>
+
+            <SlackDemo
+              channelName="team-automations"
+              channelDescription="Shared browser skills & workflows"
+              workspaceName="Acme Corp"
+              workspaceInitial="A"
+              workspaceColor="#8ab4f8"
+              agents={TEAMS_AGENTS}
+              conversation={TEAMS_CONVERSATION}
+              channels={TEAMS_CHANNELS}
+            />
+
+            <p className="text-center text-xs text-slate-500 mt-4">
+              Example conversation showing how teams collaborate with shared Vibe Browser skills.
+            </p>
           </div>
         </section>
 
@@ -655,7 +798,7 @@ export default function TeamsPage() {
                       Custom integrations
                     </li>
                   </ul>
-                  <Link href="/v2">
+                  <Link href="/enterprise">
                     <Button variant="outline" className="w-full border-slate-300 bg-white hover:bg-slate-50 text-slate-700">
                       Learn About Enterprise
                     </Button>
@@ -801,71 +944,6 @@ export default function TeamsPage() {
           </div>
         </section>
 
-        {/* Meet the Team */}
-        <section className="w-full py-16 md:py-24 bg-slate-50">
-          <div className="container max-w-5xl px-4 md:px-6 mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4 text-slate-900">Meet the Team</h2>
-              <p className="max-w-2xl mx-auto text-lg text-slate-600">
-                Experienced engineers building the future of AI-native browsing
-              </p>
-            </div>
-
-            <div className="grid gap-8 md:grid-cols-3 max-w-4xl mx-auto">
-              <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
-                <CardContent className="p-8 text-center">
-                  <div className="w-24 h-24 mx-auto mb-6 overflow-hidden rounded-full">
-                    <img src="/images/dennis-vashchuk.jpg" alt="Dzianis Vashchuk" className="w-full h-full object-cover" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2 text-slate-900">Dzianis Vashchuk</h3>
-                  <p className="text-slate-500 mb-4">Founder</p>
-                  <Link href="https://www.linkedin.com/in/dzianisv/" target="_blank"
-                    className="inline-flex items-center gap-2 text-sm text-blue-600 hover:text-blue-700 transition-colors">
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                    </svg>
-                    LinkedIn Profile
-                  </Link>
-                </CardContent>
-              </Card>
-
-              <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
-                <CardContent className="p-8 text-center">
-                  <div className="w-24 h-24 mx-auto mb-6 overflow-hidden rounded-full">
-                    <img src="/images/dzmitry-dalenka.jpg" alt="Dzmitry Dalenka" className="w-full h-full object-cover" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2 text-slate-900">Dzmitry Dalenka</h3>
-                  <p className="text-slate-500 mb-4">ML Engineer</p>
-                  <Link href="https://www.linkedin.com/in/dzmitry-dalenka/" target="_blank"
-                    className="inline-flex items-center gap-2 text-sm text-blue-600 hover:text-blue-700 transition-colors">
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                    </svg>
-                    LinkedIn Profile
-                  </Link>
-                </CardContent>
-              </Card>
-
-              <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
-                <CardContent className="p-8 text-center">
-                  <div className="w-24 h-24 mx-auto mb-6 overflow-hidden rounded-full">
-                    <img src="/images/dima-kostenich.jpg" alt="Dzmitry Kastsenich" className="w-full h-full object-cover" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2 text-slate-900">Dzmitry Kastsenich</h3>
-                  <p className="text-slate-500 mb-4 whitespace-nowrap">Software Engineer</p>
-                  <Link href="https://www.linkedin.com/in/dima-kostenich/" target="_blank"
-                    className="inline-flex items-center gap-2 text-sm text-blue-600 hover:text-blue-700 transition-colors">
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                    </svg>
-                    LinkedIn Profile
-                  </Link>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </section>
-
         {/* CTA */}
         <section className="w-full py-20 bg-gradient-to-r from-blue-600 to-blue-700">
           <div className="container max-w-3xl px-4 md:px-6 mx-auto text-center">
@@ -909,7 +987,7 @@ export default function TeamsPage() {
               <Link href="/terms" className="hover:text-slate-900 transition-colors">Terms</Link>
               <Link href="https://docs.vibebrowser.app/getting-started/extension" className="hover:text-purple-600 text-purple-500 transition-colors">Install Free</Link>
               <Link href="https://docs.vibebrowser.app" className="hover:text-slate-900 transition-colors">Docs</Link>
-              <Link href="/v2" className="hover:text-slate-900 transition-colors">Enterprise</Link>
+              <Link href="/enterprise" className="hover:text-slate-900 transition-colors">Enterprise</Link>
               <Link href="https://t.me/VibeBrowser" target="_blank" rel="noopener noreferrer" className="hover:text-slate-900 transition-colors">Telegram</Link>
               <a href="mailto:teams@vibebrowser.app" className="hover:text-slate-900 transition-colors">Contact</a>
             </div>
