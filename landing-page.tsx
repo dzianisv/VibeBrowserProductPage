@@ -354,16 +354,16 @@ export default function Component() {
             </div>
           </div>
 
-          {/* Use Cases - inline */}
-          <div className="w-full max-w-5xl mx-auto mb-12">
-            <div className="text-center mb-6">
-              <h2 className="text-2xl font-bold tracking-tight sm:text-3xl mb-2">
-                Three Ways Vibe Works for You
-              </h2>
-              <p className="text-muted-foreground">
-                From outreach to research to automation
-              </p>
-            </div>
+            {/* Use Cases - inline */}
+            <div className="w-full max-w-5xl mx-auto mb-12">
+              <div className="text-center mb-6">
+                <h2 className="text-2xl font-bold tracking-tight sm:text-3xl mb-2">
+                  Use Cases: real workflows in production
+                </h2>
+                <p className="text-muted-foreground">
+                  Financial advisors, legal teams, and recruiters rely on Vibe every day
+                </p>
+              </div>
 
             <div className="grid gap-4 md:grid-cols-3">
               {/* Primary Use Case: Outreach */}
@@ -375,24 +375,30 @@ export default function Component() {
                   <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-3 mx-auto">
                     <Target className="w-6 h-6 text-purple-600" />
                   </div>
-                  <h3 className="font-bold text-lg mb-2">Outreach & Lead Gen</h3>
+                  <h3 className="font-bold text-lg mb-2">Recruiter Automation</h3>
                   <p className="text-sm text-muted-foreground mb-3">
-                    Turn intent into action across the real web
+                    Skills-based LinkedIn outreach you approve
                   </p>
                   <ul className="text-xs text-left space-y-1 text-muted-foreground">
                     <li className="flex items-start gap-2">
                       <CheckCircle className="w-3 h-3 text-purple-600 mt-0.5 flex-shrink-0" />
-                      <span>LinkedIn, Twitter, Reddit outreach</span>
+                      <span>Skill-matched candidate sourcing</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="w-3 h-3 text-purple-600 mt-0.5 flex-shrink-0" />
-                      <span>Profile analysis & personalization</span>
+                      <span>Personalized messages with context</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="w-3 h-3 text-purple-600 mt-0.5 flex-shrink-0" />
-                      <span>Draft messages you approve</span>
+                      <span>CRM updates and follow-ups</span>
                     </li>
                   </ul>
+                  <Link
+                    href="/use-cases/recruiter-linkedin-automation"
+                    className="mt-4 inline-flex text-xs font-semibold text-purple-700 hover:text-purple-800"
+                  >
+                    Read recruiter story →
+                  </Link>
                 </CardContent>
               </Card>
 
@@ -402,24 +408,30 @@ export default function Component() {
                   <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-3 mx-auto">
                     <TrendingUp className="w-6 h-6 text-green-600" />
                   </div>
-                  <h3 className="font-bold text-lg mb-2">Deep Research</h3>
+                  <h3 className="font-bold text-lg mb-2">Advisor Research</h3>
                   <p className="text-sm text-muted-foreground mb-3">
-                    From tabs to conclusions
+                    Morningstar data inside Schwab, summarized
                   </p>
                   <ul className="text-xs text-left space-y-1 text-muted-foreground">
                     <li className="flex items-start gap-2">
                       <CheckCircle className="w-3 h-3 text-green-600 mt-0.5 flex-shrink-0" />
-                      <span>Reads across dozens of sources</span>
+                      <span>Morningstar fee + risk extraction</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="w-3 h-3 text-green-600 mt-0.5 flex-shrink-0" />
-                      <span>Synthesizes into recommendations</span>
+                      <span>Comparison tables for clients</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="w-3 h-3 text-green-600 mt-0.5 flex-shrink-0" />
-                      <span>Outputs tables & next steps</span>
+                      <span>Advisor-ready recommendation memos</span>
                     </li>
                   </ul>
+                  <Link
+                    href="/use-cases/financial-advisor-morningstar-schwab"
+                    className="mt-4 inline-flex text-xs font-semibold text-green-700 hover:text-green-800"
+                  >
+                    Read advisor story →
+                  </Link>
                 </CardContent>
               </Card>
 
@@ -429,26 +441,37 @@ export default function Component() {
                   <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-3 mx-auto">
                     <ShoppingCart className="w-6 h-6 text-blue-600" />
                   </div>
-                  <h3 className="font-bold text-lg mb-2">Web Automation</h3>
+                  <h3 className="font-bold text-lg mb-2">Private Legal Research</h3>
                   <p className="text-sm text-muted-foreground mb-3">
-                    Delegate the boring parts
+                    On-prem CRM workflows with redaction
                   </p>
                   <ul className="text-xs text-left space-y-1 text-muted-foreground">
                     <li className="flex items-start gap-2">
                       <CheckCircle className="w-3 h-3 text-blue-600 mt-0.5 flex-shrink-0" />
-                      <span>Navigate legacy sites</span>
+                      <span>Search self-hosted case databases</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="w-3 h-3 text-blue-600 mt-0.5 flex-shrink-0" />
-                      <span>Handle forms, filters, carts</span>
+                      <span>Summarize precedent with citations</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="w-3 h-3 text-blue-600 mt-0.5 flex-shrink-0" />
-                      <span>Stops before payment — you decide</span>
+                      <span>Keep data private and auditable</span>
                     </li>
                   </ul>
+                  <Link
+                    href="/use-cases/privacy-first-legal-research"
+                    className="mt-4 inline-flex text-xs font-semibold text-blue-700 hover:text-blue-800"
+                  >
+                    Read legal story →
+                  </Link>
                 </CardContent>
               </Card>
+            </div>
+            <div className="mt-6 text-center">
+              <Link href="/use-cases" className="text-sm font-semibold text-purple-700 hover:text-purple-800">
+                Explore all use cases →
+              </Link>
             </div>
           </div>
 

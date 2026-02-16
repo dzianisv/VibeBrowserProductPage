@@ -31,6 +31,34 @@
     <priority>0.8</priority>
   </url>
 
+  <!-- Use cases hub -->
+  <url>
+    <loc>https://www.vibebrowser.app/use-cases</loc>
+    <lastmod>2026-02-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Use case stories -->
+  <url>
+    <loc>https://www.vibebrowser.app/use-cases/financial-advisor-morningstar-schwab</loc>
+    <lastmod>2026-02-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.vibebrowser.app/use-cases/privacy-first-legal-research</loc>
+    <lastmod>2026-02-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.vibebrowser.app/use-cases/recruiter-linkedin-automation</loc>
+    <lastmod>2026-02-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
   <!-- Enterprise -->
   <url>
     <loc>https://enterprise.vibebrowser.app/</loc>

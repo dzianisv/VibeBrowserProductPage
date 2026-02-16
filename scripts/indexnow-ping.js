@@ -7,6 +7,10 @@ const defaultPaths = [
   "/mcp",
   "/v2",
   "/tee",
+  "/use-cases",
+  "/use-cases/financial-advisor-morningstar-schwab",
+  "/use-cases/privacy-first-legal-research",
+  "/use-cases/recruiter-linkedin-automation",
   "/privacy",
   "/terms",
 ]

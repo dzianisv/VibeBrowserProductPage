@@ -449,62 +449,70 @@ export default function TeamsPage() {
             </div>
 
             <div className="grid md:grid-cols-3 gap-6">
-              {/* Sales */}
               <Card className="bg-white border-slate-200 shadow-sm">
                 <CardContent className="p-6">
                   <div className="flex items-center gap-3 mb-4">
                     <Target className="w-8 h-8 text-blue-600" />
-                    <h3 className="font-bold text-lg text-slate-900">Sales Teams</h3>
+                    <h3 className="font-bold text-lg text-slate-900">Financial Advisors</h3>
                   </div>
                   <p className="text-sm text-slate-600 mb-4">
-                    Share your best prospecting workflows. Personalized outreach at scale.
+                    Automate Morningstar research inside Schwab with advisor-ready summaries.
                   </p>
                   <ul className="text-xs space-y-1 text-slate-500">
-                    <li>• LinkedIn profile research</li>
-                    <li>• Personalized connection requests</li>
-                    <li>• Follow-up sequence drafting</li>
-                    <li>• CRM data entry automation</li>
+                    <li>• Fund comparison tables</li>
+                    <li>• Risk and fee analysis</li>
+                    <li>• Client-ready memos</li>
                   </ul>
+                  <Link href="/use-cases/financial-advisor-morningstar-schwab" className="mt-4 inline-flex text-xs font-semibold text-blue-700 hover:text-blue-800">
+                    Read finance story →
+                  </Link>
                 </CardContent>
               </Card>
 
-              {/* Research */}
               <Card className="bg-white border-slate-200 shadow-sm">
                 <CardContent className="p-6">
                   <div className="flex items-center gap-3 mb-4">
-                    <Brain className="w-8 h-8 text-green-600" />
-                    <h3 className="font-bold text-lg text-slate-900">Research Teams</h3>
+                    <Shield className="w-8 h-8 text-slate-600" />
+                    <h3 className="font-bold text-lg text-slate-900">Legal Teams</h3>
                   </div>
                   <p className="text-sm text-slate-600 mb-4">
-                    Standardize research workflows. Consistent analysis across the team.
+                    Keep research private inside self-hosted case databases.
                   </p>
                   <ul className="text-xs space-y-1 text-slate-500">
-                    <li>• Competitive intelligence gathering</li>
-                    <li>• Market research synthesis</li>
-                    <li>• News monitoring & alerts</li>
-                    <li>• Data extraction & formatting</li>
+                    <li>• Redaction-safe summaries</li>
+                    <li>• On-prem data controls</li>
+                    <li>• Audit-ready workflows</li>
                   </ul>
+                  <Link href="/use-cases/privacy-first-legal-research" className="mt-4 inline-flex text-xs font-semibold text-slate-700 hover:text-slate-800">
+                    Read legal story →
+                  </Link>
                 </CardContent>
               </Card>
 
-              {/* Operations */}
               <Card className="bg-white border-slate-200 shadow-sm">
                 <CardContent className="p-6">
                   <div className="flex items-center gap-3 mb-4">
-                    <Layers className="w-8 h-8 text-purple-600" />
-                    <h3 className="font-bold text-lg text-slate-900">Operations Teams</h3>
+                    <Users className="w-8 h-8 text-purple-600" />
+                    <h3 className="font-bold text-lg text-slate-900">Recruiting Teams</h3>
                   </div>
                   <p className="text-sm text-slate-600 mb-4">
-                    Automate repetitive web tasks. Free up time for strategic work.
+                    Automate LinkedIn sourcing with skills-based messaging.
                   </p>
                   <ul className="text-xs space-y-1 text-slate-500">
-                    <li>• Form filling & data entry</li>
-                    <li>• Report generation</li>
-                    <li>• Vendor portal management</li>
-                    <li>• Invoice processing</li>
+                    <li>• Candidate matching</li>
+                    <li>• Personalized outreach</li>
+                    <li>• CRM status updates</li>
                   </ul>
+                  <Link href="/use-cases/recruiter-linkedin-automation" className="mt-4 inline-flex text-xs font-semibold text-purple-700 hover:text-purple-800">
+                    Read recruiting story →
+                  </Link>
                 </CardContent>
               </Card>
+            </div>
+            <div className="mt-8 text-center">
+              <Link href="/use-cases" className="text-sm font-semibold text-blue-700 hover:text-blue-800">
+                Explore all use cases →
+              </Link>
             </div>
           </div>
         </section>
