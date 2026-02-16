@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { WaitlistDialog } from "./components/waitlist-dialog"
+import { MailingListSubscribe } from "./components/mailing-list-subscribe"
 import { HorizontalRoadmap } from "./components/horizontal-roadmap"
 import {
 Chrome,
@@ -1225,7 +1226,7 @@ export default function Component() {
   {/* Footer */}
   <footer className="w-full border-t bg-white">
     <div className="container max-w-7xl px-4 md:px-6 py-12 mx-auto">
-      <div className="grid gap-8 md:grid-cols-4">
+      <div className="grid gap-8 md:grid-cols-3 lg:grid-cols-5">
         {/* Brand */}
         <div className="space-y-4">
           <div className="flex items-center gap-2">
@@ -1317,6 +1318,11 @@ export default function Component() {
               Telegram Community
             </Link>
           </div>
+        </div>
+
+        {/* Dev Mailing List */}
+        <div className="space-y-4 md:col-span-2 lg:col-span-1">
+          <MailingListSubscribe />
         </div>
       </div>
 
