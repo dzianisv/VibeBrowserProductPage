@@ -4,10 +4,7 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#202124' },
-    { media: '(prefers-color-scheme: dark)', color: '#202124' },
-  ],
+  themeColor: '#202124',
 }
 
 export const metadata: Metadata = {
@@ -79,7 +76,7 @@ export const metadata: Metadata = {
     description: 'AI browser automation that never sees your client data. SOC2 compliant, on-premise deployment, TEE-ready. Built for traders, wealth managers, and regulated industries.',
     images: [
       {
-        url: '/og-enterprise.png',
+        url: '/og/enterprise.svg',
         width: 1200,
         height: 630,
         alt: 'Vibe AI Browser - Private Enterprise Edition',
@@ -90,7 +87,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Private AI for Financial Professionals | Vibe AI Browser',
     description: 'AI browser automation that never sees your client data. SOC2 compliant, on-premise, TEE-ready.',
-    images: ['/twitter-enterprise.png'],
+    images: ['/og/enterprise.svg'],
     creator: '@vibebrowserapp',
   },
   robots: {

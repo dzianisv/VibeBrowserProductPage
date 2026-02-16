@@ -80,161 +80,6 @@ export default function Component() {
     }
   }, [installDropdownOpen])
 
-  // Add structured data for SEO
-  React.useEffect(() => {
-    const script = document.createElement('script')
-    script.type = 'application/ld+json'
-    script.text = JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "Vibe AI Browser Co-Pilot",
-      "applicationCategory": "BrowserApplication",
-      "operatingSystem": "Windows, macOS, Linux",
-      "description": "AI browser co-pilot extension that completes entire tasks autonomously. Agentic AI browser for research, bookings, data entry, and complex workflows across multiple websites.",
-      "url": "https://www.vibebrowser.app",
-      "author": {
-        "@type": "Organization",
-        "name": "Vibe AI Browser Co-Pilot",
-        "url": "https://www.vibebrowser.app"
-      },
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD",
-        "availability": "https://schema.org/PreOrder"
-      },
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "5",
-        "ratingCount": "150",
-        "bestRating": "5",
-        "worstRating": "1"
-      },
-      "featureList": [
-        "Autonomous task completion",
-        "Multi-site navigation",
-        "Decision-making AI agent",
-        "Complete workflow automation",
-        "Zero-click task execution",
-        "Self-directed research",
-        "Hands-free operation"
-      ],
-      "screenshot": "https://www.vibebrowser.app/og-image.png",
-      "softwareVersion": "1.0",
-      "datePublished": "2025-01-01",
-      "dateModified": "2025-09-25"
-    })
-    document.head.appendChild(script)
-
-    // Organization schema
-    const orgScript = document.createElement('script')
-    orgScript.type = 'application/ld+json'
-    orgScript.text = JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Vibe AI Browser Co-Pilot",
-      "url": "https://www.vibebrowser.app",
-      "logo": "https://www.vibebrowser.app/logo.png",
-      "description": "Creators of the revolutionary AI Browser Co-Pilot",
-      "sameAs": [
-        "https://twitter.com/vibebrowser",
-        "https://github.com/vibebrowser",
-        "https://www.linkedin.com/company/vibebrowser"
-      ],
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "contactType": "Customer Support",
-        "email": "support@vibebrowser.app"
-      }
-    })
-    document.head.appendChild(orgScript)
-
-    // WebPage schema
-    const pageScript = document.createElement('script')
-    pageScript.type = 'application/ld+json'
-    pageScript.text = JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "WebPage",
-      "name": "Vibe AI Browser Co-Pilot - Automate Your Browsing",
-      "description": "Experience the revolutionary AI Browser Co-Pilot. Automate any web task with natural language.",
-      "url": "https://www.vibebrowser.app",
-      "inLanguage": "en-US",
-      "isPartOf": {
-        "@type": "WebSite",
-        "name": "Vibe AI Browser Co-Pilot",
-        "url": "https://www.vibebrowser.app"
-      },
-      "breadcrumb": {
-        "@type": "BreadcrumbList",
-        "itemListElement": [{
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://www.vibebrowser.app"
-        }]
-      }
-    })
-    document.head.appendChild(pageScript)
-
-    // FAQPage schema
-    const faqScript = document.createElement('script')
-    faqScript.type = 'application/ld+json'
-    faqScript.text = JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What is Vibe AI Browser Co-Pilot?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Vibe AI Browser Co-Pilot is an autonomous browser extension that completes entire tasks for you. Unlike AI chatbots or assistants, Vibe takes full control - researching across multiple sites, making decisions, and executing complete workflows without you clicking a single button."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How does Vibe AI Browser Co-Pilot work?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Vibe uses an autonomous AI agent with Plan-Execute-Reflect architecture. You give it a goal like 'book the cheapest flight to Paris next month' and it autonomously researches options, compares prices across airlines, and completes the booking - all without your intervention."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Is Vibe AI Browser Co-Pilot free?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Vibe AI Browser Co-Pilot is free during beta. After launch, it's $20/month. Join our waitlist to be notified when it becomes available."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What platforms does Vibe AI Browser Co-Pilot support?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Vibe AI Browser Co-Pilot works as a Chrome extension on Windows, macOS, and Linux."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Is my data safe with Vibe AI Browser Co-Pilot?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes, Vibe AI Browser Co-Pilot prioritizes user privacy and security. All processing happens locally using Chrome's built-in AI (Gemini Nano), and we never sell your data to third parties."
-          }
-        }
-      ]
-    })
-    document.head.appendChild(faqScript)
-
-    return () => {
-      if (script.parentNode) script.parentNode.removeChild(script)
-      if (orgScript.parentNode) orgScript.parentNode.removeChild(orgScript)
-      if (pageScript.parentNode) pageScript.parentNode.removeChild(pageScript)
-      if (faqScript.parentNode) faqScript.parentNode.removeChild(faqScript)
-    }
-  }, [])
-
   const demos = [
     {
       id: 'linkedin-warm-outreach',
@@ -509,16 +354,16 @@ export default function Component() {
             </div>
           </div>
 
-          {/* Use Cases - inline */}
-          <div className="w-full max-w-5xl mx-auto mb-12">
-            <div className="text-center mb-6">
-              <h2 className="text-2xl font-bold tracking-tight sm:text-3xl mb-2">
-                Three Ways Vibe Works for You
-              </h2>
-              <p className="text-muted-foreground">
-                From outreach to research to automation
-              </p>
-            </div>
+            {/* Use Cases - inline */}
+            <div className="w-full max-w-5xl mx-auto mb-12">
+              <div className="text-center mb-6">
+                <h2 className="text-2xl font-bold tracking-tight sm:text-3xl mb-2">
+                  Use Cases: real workflows in production
+                </h2>
+                <p className="text-muted-foreground">
+                  Financial advisors, legal teams, and recruiters rely on Vibe every day
+                </p>
+              </div>
 
             <div className="grid gap-4 md:grid-cols-3">
               {/* Primary Use Case: Outreach */}
@@ -530,24 +375,30 @@ export default function Component() {
                   <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-3 mx-auto">
                     <Target className="w-6 h-6 text-purple-600" />
                   </div>
-                  <h3 className="font-bold text-lg mb-2">Outreach & Lead Gen</h3>
+                  <h3 className="font-bold text-lg mb-2">Recruiter Automation</h3>
                   <p className="text-sm text-muted-foreground mb-3">
-                    Turn intent into action across the real web
+                    Skills-based LinkedIn outreach you approve
                   </p>
                   <ul className="text-xs text-left space-y-1 text-muted-foreground">
                     <li className="flex items-start gap-2">
                       <CheckCircle className="w-3 h-3 text-purple-600 mt-0.5 flex-shrink-0" />
-                      <span>LinkedIn, Twitter, Reddit outreach</span>
+                      <span>Skill-matched candidate sourcing</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="w-3 h-3 text-purple-600 mt-0.5 flex-shrink-0" />
-                      <span>Profile analysis & personalization</span>
+                      <span>Personalized messages with context</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="w-3 h-3 text-purple-600 mt-0.5 flex-shrink-0" />
-                      <span>Draft messages you approve</span>
+                      <span>CRM updates and follow-ups</span>
                     </li>
                   </ul>
+                  <Link
+                    href="/use-cases/recruiter-linkedin-automation"
+                    className="mt-4 inline-flex text-xs font-semibold text-purple-700 hover:text-purple-800"
+                  >
+                    Read recruiter story →
+                  </Link>
                 </CardContent>
               </Card>
 
@@ -557,24 +408,30 @@ export default function Component() {
                   <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-3 mx-auto">
                     <TrendingUp className="w-6 h-6 text-green-600" />
                   </div>
-                  <h3 className="font-bold text-lg mb-2">Deep Research</h3>
+                  <h3 className="font-bold text-lg mb-2">Advisor Research</h3>
                   <p className="text-sm text-muted-foreground mb-3">
-                    From tabs to conclusions
+                    Morningstar data inside Schwab, summarized
                   </p>
                   <ul className="text-xs text-left space-y-1 text-muted-foreground">
                     <li className="flex items-start gap-2">
                       <CheckCircle className="w-3 h-3 text-green-600 mt-0.5 flex-shrink-0" />
-                      <span>Reads across dozens of sources</span>
+                      <span>Morningstar fee + risk extraction</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="w-3 h-3 text-green-600 mt-0.5 flex-shrink-0" />
-                      <span>Synthesizes into recommendations</span>
+                      <span>Comparison tables for clients</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="w-3 h-3 text-green-600 mt-0.5 flex-shrink-0" />
-                      <span>Outputs tables & next steps</span>
+                      <span>Advisor-ready recommendation memos</span>
                     </li>
                   </ul>
+                  <Link
+                    href="/use-cases/financial-advisor-morningstar-schwab"
+                    className="mt-4 inline-flex text-xs font-semibold text-green-700 hover:text-green-800"
+                  >
+                    Read advisor story →
+                  </Link>
                 </CardContent>
               </Card>
 
@@ -584,26 +441,37 @@ export default function Component() {
                   <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-3 mx-auto">
                     <ShoppingCart className="w-6 h-6 text-blue-600" />
                   </div>
-                  <h3 className="font-bold text-lg mb-2">Web Automation</h3>
+                  <h3 className="font-bold text-lg mb-2">Private Legal Research</h3>
                   <p className="text-sm text-muted-foreground mb-3">
-                    Delegate the boring parts
+                    On-prem CRM workflows with redaction
                   </p>
                   <ul className="text-xs text-left space-y-1 text-muted-foreground">
                     <li className="flex items-start gap-2">
                       <CheckCircle className="w-3 h-3 text-blue-600 mt-0.5 flex-shrink-0" />
-                      <span>Navigate legacy sites</span>
+                      <span>Search self-hosted case databases</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="w-3 h-3 text-blue-600 mt-0.5 flex-shrink-0" />
-                      <span>Handle forms, filters, carts</span>
+                      <span>Summarize precedent with citations</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="w-3 h-3 text-blue-600 mt-0.5 flex-shrink-0" />
-                      <span>Stops before payment — you decide</span>
+                      <span>Keep data private and auditable</span>
                     </li>
                   </ul>
+                  <Link
+                    href="/use-cases/privacy-first-legal-research"
+                    className="mt-4 inline-flex text-xs font-semibold text-blue-700 hover:text-blue-800"
+                  >
+                    Read legal story →
+                  </Link>
                 </CardContent>
               </Card>
+            </div>
+            <div className="mt-6 text-center">
+              <Link href="/use-cases" className="text-sm font-semibold text-purple-700 hover:text-purple-800">
+                Explore all use cases →
+              </Link>
             </div>
           </div>
 
@@ -683,322 +551,34 @@ export default function Component() {
       </div>
     </section>
 
-    {/* Why Vibe - Comparison Table */}
+    {/* Why Vibe - Comparison CTA */}
     <section className="w-full py-12 md:py-16 bg-slate-50">
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
-        <div className="text-center mb-12">
+        <div className="text-center mb-10">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
             Why Vibe?
           </h2>
           <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
-            Privacy-first, model-agnostic autonomous browser with local AI support
+            See how Vibe stacks up on privacy, model choice, and agentic browser workflows.
           </p>
         </div>
-
-        <div className="max-w-6xl mx-auto overflow-x-auto">
-          <div className="bg-white rounded-xl shadow-lg border border-gray-200">
-            <table className="w-full">
-               <thead className="bg-gradient-to-r from-purple-50 to-pink-50">
-                <tr>
-                  <th className="px-4 py-4 text-left text-sm font-semibold text-gray-900">Feature</th>
-                  <th className="px-4 py-4 text-center text-sm font-semibold text-purple-600">
-                    <div className="flex items-center justify-center gap-2">
-                      <span>Vibe</span>
-                      <Badge className="bg-purple-600 text-white">You</Badge>
-                    </div>
-                  </th>
-                  <th className="px-4 py-4 text-center text-sm font-semibold text-gray-900">OpenAI Atlas</th>
-                  <th className="px-4 py-4 text-center text-sm font-semibold text-gray-900">Manus</th>
-                  <th className="px-4 py-4 text-center text-sm font-semibold text-gray-900">Composite</th>
-                  <th className="px-4 py-4 text-center text-sm font-semibold text-gray-900">Comet</th>
-                  <th className="px-4 py-4 text-center text-sm font-semibold text-gray-900">BrowserOS</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200">
-                <tr className="hover:bg-gray-50 bg-purple-50/30">
-                  <td className="px-4 py-4 text-sm font-medium text-gray-900">Local/Private AI</td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Gemini Nano</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Ollama</span>
-                    </div>
-                  </td>
-                </tr>
-                <tr className="hover:bg-gray-50">
-                  <td className="px-4 py-4 text-sm font-medium text-gray-900">Model Choice</td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Any model</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-xs text-gray-500">OpenAI only</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-xs text-gray-500">Manus only</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-xs text-gray-500">Limited</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Multiple</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
-                  </td>
-                </tr>
-                <tr className="hover:bg-gray-50 bg-purple-50/30">
-                  <td className="px-4 py-4 text-sm font-medium text-gray-900">Free Tier</td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Unlimited</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <span className="text-yellow-600 text-xl">~</span>
-                      <span className="text-xs text-gray-500 mt-1">Limited</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Limited</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Limited</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Limited</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Open Source</span>
-                    </div>
-                  </td>
-                </tr>
-                <tr className="hover:bg-gray-50">
-                  <td className="px-4 py-4 text-sm font-medium text-gray-900">Works as Extension</td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Any Chrome</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <span className="text-red-600 text-xl">×</span>
-                      <span className="text-xs text-gray-500 mt-1">Fork only</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Chrome ext</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Chrome ext</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <span className="text-red-600 text-xl">×</span>
-                      <span className="text-xs text-gray-500 mt-1">Web only</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <span className="text-red-600 text-xl">×</span>
-                      <span className="text-xs text-gray-500 mt-1">Fork only</span>
-                    </div>
-                  </td>
-                </tr>
-                <tr className="hover:bg-gray-50 bg-purple-50/30">
-                  <td className="px-4 py-4 text-sm font-medium text-gray-900">Own Browser</td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Both options</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
-                  </td>
-                </tr>
-                <tr className="hover:bg-gray-50">
-                  <td className="px-4 py-4 text-sm font-medium text-gray-900">Google Workspace</td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Native API</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <span className="text-yellow-600 text-xl">~</span>
-                      <span className="text-xs text-gray-500 mt-1">Agent mode</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">MCP Connectors</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Native</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">MCP</span>
-                    </div>
-                  </td>
-                </tr>
-                <tr className="hover:bg-gray-50 bg-purple-50/30">
-                  <td className="px-4 py-4 text-sm font-medium text-gray-900">Skills Standard</td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">agentskills.io</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                </tr>
-                <tr className="hover:bg-gray-50">
-                  <td className="px-4 py-4 text-sm font-medium text-gray-900">MCP Server</td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Multi-agent</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">31 tools</span>
-                    </div>
-                  </td>
-                </tr>
-                <tr className="hover:bg-gray-50 bg-purple-50/30">
-                  <td className="px-4 py-4 text-sm font-medium text-gray-900">MCP Client</td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">External tools</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Connectors</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Pre-installed</span>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div className="mt-8 text-center space-y-2">
-            <p className="text-sm text-muted-foreground">
-              * Comparison based on publicly available information as of January 2026
-            </p>
-            <p className="text-xs text-muted-foreground">
-              ** AI browser capabilities evolve rapidly. Features and performance may vary based on specific use cases. We recommend testing multiple options for your workflow.
-            </p>
+        <div className="max-w-4xl mx-auto">
+          <div className="rounded-2xl border border-purple-100 bg-white shadow-lg p-8 md:p-10 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div>
+              <div className="flex items-center gap-2 text-sm font-semibold text-purple-700">
+                <Badge className="bg-purple-600 text-white">Updated</Badge>
+                <span>Full competitive analysis</span>
+              </div>
+              <p className="mt-3 text-base text-muted-foreground">
+                Compare Vibe against Atlas, Comet, Composite, Strawberry, and more on the features teams care about.
+              </p>
+            </div>
+            <Link href="/compare" className="w-full md:w-auto">
+              <Button size="lg" className="w-full md:w-auto bg-purple-600 hover:bg-purple-700 text-white">
+                View comparison
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
@@ -1729,6 +1309,12 @@ export default function Component() {
                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
               </svg>
               X (Twitter)
+            </Link>
+            <Link href="https://t.me/VibeBrowser" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors flex items-center gap-2">
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M9.6 15.6 9.2 19.2c.6 0 .9-.2 1.2-.6l2.9-2.7 6 4.4c1.1.6 1.9.3 2.2-1l4-18.7c.4-1.7-.6-2.4-1.7-2l-23.5 9c-1.6.6-1.6 1.5-.3 1.9l6 1.9 13.8-8.7c.7-.4 1.3-.2.8.2" />
+              </svg>
+              Telegram Community
             </Link>
           </div>
         </div>

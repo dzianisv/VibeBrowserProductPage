@@ -1021,6 +1021,20 @@ MCP server for browser automation.
             <p className="text-xs text-[#5f6368] mt-8">
               Questions? <a href="mailto:info@vibebrowser.app" className="text-[#8ab4f8] hover:underline">info@vibebrowser.app</a> · <Link href="https://github.com/VibeTechnologies/vibe-mcp" target="_blank" className="text-[#8ab4f8] hover:underline">GitHub</Link> · <Link href="https://www.npmjs.com/package/@vibebrowser/mcp" target="_blank" className="text-[#8ab4f8] hover:underline">npm</Link>
             </p>
+            <div className="mt-6 flex flex-wrap justify-center gap-3 text-xs">
+              <Link href="/use-cases/financial-advisor-morningstar-schwab" className="text-[#8ab4f8] hover:underline">
+                Morningstar Schwab research automation
+              </Link>
+              <Link href="/use-cases/privacy-first-legal-research" className="text-[#8ab4f8] hover:underline">
+                Private legal research automation
+              </Link>
+              <Link href="/use-cases/recruiter-linkedin-automation" className="text-[#8ab4f8] hover:underline">
+                LinkedIn recruiter automation
+              </Link>
+              <Link href="/use-cases" className="text-[#8ab4f8] hover:underline">
+                All use cases
+              </Link>
+            </div>
           </div>
         </section>
       </main>
@@ -1041,6 +1055,7 @@ MCP server for browser automation.
               <Link href="/privacy" className="hover:text-[#9aa0a6] transition-colors">Privacy</Link>
               <Link href="/terms" className="hover:text-[#9aa0a6] transition-colors">Terms</Link>
               <Link href="https://github.com/VibeTechnologies/vibe-mcp" target="_blank" className="hover:text-[#9aa0a6] transition-colors">GitHub</Link>
+              <Link href="https://t.me/VibeBrowser" target="_blank" rel="noopener noreferrer" className="hover:text-[#9aa0a6] transition-colors">Telegram</Link>
             </div>
           </div>
         </div>

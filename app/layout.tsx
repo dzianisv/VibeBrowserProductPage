@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     description: 'The first agentic AI browser extension that automates research, bookings, data entry, and more. Just describe what you want done.',
     images: [
       {
-        url: '/og-image.png',
+        url: '/og/home.svg',
         width: 1200,
         height: 630,
         alt: 'Vibe Browser - AI Browser Co-Pilot',
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Vibe AI Browser Co-Pilot',
     description: 'Your AI browser co-pilot that handles browsing tasks autonomously. Research, bookings, data entry - just describe what you want done.',
-    images: ['/twitter-image.png'],
+    images: ['/og/home.svg'],
     creator: '@vibebrowserapp',
   },
   robots: {
@@ -79,20 +79,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.vibebrowser.app',
   },
-  viewport: 'width=device-width, initial-scale=1, maximum-scale=5',
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-    { media: '(prefers-color-scheme: dark)', color: '#000000' },
-  ],
   verification: {
-    google: 'google-site-verification-code',
-    yandex: 'yandex-verification-code',
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || '',
+    yandex: process.env.NEXT_PUBLIC_YANDEX_SITE_VERIFICATION || '',
     other: {
-      'msvalidate.01': 'bing-verification-code',
+      'msvalidate.01': process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION || '',
     },
   },
   icons: {
-    icon: '/favicon.ico',
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico', sizes: '32x32' },
+    ],
     shortcut: '/favicon.ico',
     apple: '/apple-touch-icon.png',
     other: [
@@ -108,9 +106,21 @@ export const metadata: Metadata = {
         sizes: '512x512',
         url: '/icon-512.png',
       },
+      {
+        rel: 'manifest',
+        url: '/site.webmanifest',
+      },
     ],
   },
 }
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: '#ffffff',
+}
+
 
 export default function RootLayout({
   children,

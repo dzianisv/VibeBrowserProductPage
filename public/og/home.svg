@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Vibe AI Browser Co-Pilot">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="50%" stop-color="#6d28d9" />
+      <stop offset="100%" stop-color="#f472b6" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <rect x="80" y="80" width="1040" height="470" rx="36" fill="rgba(15, 23, 42, 0.65)" />
+  <text x="140" y="220" fill="#ffffff" font-size="54" font-family="Inter, Arial, sans-serif" font-weight="700">
+    Vibe AI Browser Co-Pilot
+  </text>
+  <text x="140" y="290" fill="#e2e8f0" font-size="28" font-family="Inter, Arial, sans-serif" font-weight="500">
+    The AI browser that acts, not just answers
+  </text>
+  <text x="140" y="360" fill="#cbd5f5" font-size="22" font-family="Inter, Arial, sans-serif">
+    Autonomous research, data entry, booking, and multi-site workflows
+  </text>
+  <text x="140" y="420" fill="#f8fafc" font-size="20" font-family="Inter, Arial, sans-serif">
+    vibebrowser.app
+  </text>
+</svg>

@@ -29,3 +29,7 @@ next-env.d.ts
 !.opencode/
 !.opencode/agent/
 !.opencode/skills/
+.env
+.env.*
+!.env.example
+!.env.prod

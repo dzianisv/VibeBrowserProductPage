@@ -4,10 +4,7 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#0a0a0a' },
-    { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' },
-  ],
+  themeColor: '#0a0a0a',
 }
 
 export const metadata: Metadata = {
@@ -87,11 +84,20 @@ export const metadata: Metadata = {
     siteName: 'Vibe AI Browser Co-Pilot',
     title: 'Vibe MCP Server - Control Your Browser from Any AI Agent',
     description: 'Multi-agent browser automation via MCP. 25+ tools, Google Workspace, credential vault, no debug permissions. Works with Claude, Cursor, VS Code, Windsurf, OpenCode, Gemini CLI.',
+    images: [
+      {
+        url: '/og/mcp.svg',
+        width: 1200,
+        height: 630,
+        alt: 'Vibe MCP Server',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Vibe MCP Server - Control Your Browser from Any AI Agent',
     description: 'Multi-agent browser automation via MCP. 25+ tools, Google Workspace, credential vault. Works with Claude, Cursor, VS Code & more.',
+    images: ['/og/mcp.svg'],
     creator: '@vibebrowserapp',
   },
   robots: {
