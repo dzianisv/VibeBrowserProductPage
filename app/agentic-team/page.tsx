@@ -999,43 +999,178 @@ export default function AgenticTeamPage() {
               </p>
             </div>
 
-            <div className="bg-[#0a0a0a] rounded-lg border border-[#2a2a2a] overflow-hidden max-w-3xl mx-auto mb-10">
+            <div className="bg-[#0a0a0a] rounded-xl border border-[#2a2a2a] overflow-hidden max-w-4xl mx-auto mb-10">
               <div className="flex items-center gap-2 px-4 py-3 bg-[#1a1a1a] border-b border-[#2a2a2a]">
                 <div className="w-3 h-3 rounded-full bg-[#f28b82]" />
                 <div className="w-3 h-3 rounded-full bg-[#fdd663]" />
                 <div className="w-3 h-3 rounded-full bg-[#81c995]" />
-                <span className="text-xs text-[#5f6368] ml-2">agent coordination flow</span>
+                <span className="text-xs text-[#5f6368] ml-2 font-mono">agent coordination flow</span>
               </div>
-              <pre className="p-6 text-sm font-mono text-[#9aa0a6] overflow-x-auto leading-relaxed">
-{`  Customer Report          Sentry Alert          Scheduled Task
-        │                      │                       │
-        ▼                      ▼                       ▼
-  ┌──────────────────────────────────────────────────────────┐
-  │                    Slack Workspace                        │
-  │                                                          │
-  │   #support          #ops-production       #releases      │
-  │       │                    │                    │         │
-  │       ▼                    ▼                    ▼         │
-  │  @SupportEngineer    @ReleaseEngineer    @ProductManager  │
-  │   (OpenHands)         (OpenClaw)          (OpenClaw)      │
-  │       │                    │                    │         │
-  │       └──── @mentions ─────┤                    │         │
-  │                            │                    │         │
-  │                   @SoftwareEngineer              │         │
-  │                    (OpenHands)                   │         │
-  │                            │                    │         │
-  │                            └──── resolved ──────┘         │
-  │                                                          │
-  │                                   @MarketingManager       │
-  │                                    (OpenClaw)             │
-  │                                        │                 │
-  │                                   announcement           │
-  └──────────────────────────────────────────────────────────┘
-                           │
-                    ┌──────┴──────┐
-                    │   Gateway   │  ← Slack Event Router
-                    └─────────────┘`}
-              </pre>
+              <div className="p-6 md:p-8">
+                {/* Triggers Row */}
+                <div className="grid grid-cols-3 gap-4 md:gap-6 mb-4">
+                  <div className="flex flex-col items-center">
+                    <div className="bg-[#f28b82]/10 border border-[#f28b82]/30 rounded-lg px-3 py-2 text-center">
+                      <AlertTriangle className="w-4 h-4 text-[#f28b82] mx-auto mb-1" />
+                      <span className="text-xs text-[#f28b82] font-medium">Customer Report</span>
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <div className="bg-[#fdd663]/10 border border-[#fdd663]/30 rounded-lg px-3 py-2 text-center">
+                      <AlertTriangle className="w-4 h-4 text-[#fdd663] mx-auto mb-1" />
+                      <span className="text-xs text-[#fdd663] font-medium">Sentry Alert</span>
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <div className="bg-[#8ab4f8]/10 border border-[#8ab4f8]/30 rounded-lg px-3 py-2 text-center">
+                      <Clock className="w-4 h-4 text-[#8ab4f8] mx-auto mb-1" />
+                      <span className="text-xs text-[#8ab4f8] font-medium">Scheduled Task</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Connector arrows down */}
+                <div className="grid grid-cols-3 gap-4 md:gap-6 mb-4">
+                  {[0, 1, 2].map(i => (
+                    <div key={i} className="flex justify-center">
+                      <div className="w-px h-6 bg-[#3c4043]" />
+                    </div>
+                  ))}
+                </div>
+
+                {/* Slack Workspace Container */}
+                <div className="border border-[#3c4043] rounded-xl bg-[#111111] p-4 md:p-6 relative">
+                  <div className="absolute -top-3 left-4 bg-[#111111] px-2">
+                    <span className="text-xs text-[#5f6368] font-mono flex items-center gap-1.5">
+                      <Hash className="w-3 h-3" /> Slack Workspace
+                    </span>
+                  </div>
+
+                  {/* Channels Row */}
+                  <div className="grid grid-cols-3 gap-3 md:gap-6 mt-2 mb-4">
+                    <div className="text-center">
+                      <span className="text-xs font-mono text-[#81c995] bg-[#81c995]/10 px-2 py-0.5 rounded">#support</span>
+                    </div>
+                    <div className="text-center">
+                      <span className="text-xs font-mono text-[#f28b82] bg-[#f28b82]/10 px-2 py-0.5 rounded">#ops-production</span>
+                    </div>
+                    <div className="text-center">
+                      <span className="text-xs font-mono text-[#8ab4f8] bg-[#8ab4f8]/10 px-2 py-0.5 rounded">#releases</span>
+                    </div>
+                  </div>
+
+                  {/* Connector arrows */}
+                  <div className="grid grid-cols-3 gap-3 md:gap-6 mb-4">
+                    {[0, 1, 2].map(i => (
+                      <div key={i} className="flex justify-center">
+                        <div className="w-px h-4 bg-[#3c4043]" />
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Primary Agents Row */}
+                  <div className="grid grid-cols-3 gap-3 md:gap-6 mb-3">
+                    <div className="flex flex-col items-center">
+                      <div className="bg-[#1a1a1a] border border-[#81c995]/30 rounded-lg p-3 text-center w-full hover:border-[#81c995]/60 transition-colors">
+                        <div className="w-8 h-8 rounded-full bg-[#81c995]/20 flex items-center justify-center mx-auto mb-2">
+                          <Headphones className="w-4 h-4 text-[#81c995]" />
+                        </div>
+                        <p className="text-xs font-semibold text-[#e8eaed] leading-tight">@SupportEngineer</p>
+                        <p className="text-[10px] text-[#81c995] mt-0.5">OpenHands</p>
+                      </div>
+                    </div>
+                    <div className="flex flex-col items-center">
+                      <div className="bg-[#1a1a1a] border border-[#f28b82]/30 rounded-lg p-3 text-center w-full hover:border-[#f28b82]/60 transition-colors">
+                        <div className="w-8 h-8 rounded-full bg-[#f28b82]/20 flex items-center justify-center mx-auto mb-2">
+                          <Rocket className="w-4 h-4 text-[#f28b82]" />
+                        </div>
+                        <p className="text-xs font-semibold text-[#e8eaed] leading-tight">@ReleaseEngineer</p>
+                        <p className="text-[10px] text-[#f28b82] mt-0.5">OpenClaw</p>
+                      </div>
+                    </div>
+                    <div className="flex flex-col items-center">
+                      <div className="bg-[#1a1a1a] border border-[#8ab4f8]/30 rounded-lg p-3 text-center w-full hover:border-[#8ab4f8]/60 transition-colors">
+                        <div className="w-8 h-8 rounded-full bg-[#8ab4f8]/20 flex items-center justify-center mx-auto mb-2">
+                          <ClipboardList className="w-4 h-4 text-[#8ab4f8]" />
+                        </div>
+                        <p className="text-xs font-semibold text-[#e8eaed] leading-tight">@ProductManager</p>
+                        <p className="text-[10px] text-[#8ab4f8] mt-0.5">OpenClaw</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* @mentions flow - left and center converge */}
+                  <div className="flex items-center justify-center gap-2 mb-3">
+                    <div className="flex-1 flex justify-end">
+                      <div className="h-px w-1/2 bg-gradient-to-r from-transparent to-[#fdd663]/50" />
+                    </div>
+                    <span className="text-[10px] font-mono text-[#fdd663] bg-[#fdd663]/10 px-2 py-0.5 rounded-full whitespace-nowrap">@mentions</span>
+                    <div className="flex-1 flex justify-start">
+                      <div className="h-px w-1/2 bg-gradient-to-l from-transparent to-[#fdd663]/50" />
+                    </div>
+                  </div>
+
+                  {/* Software Engineer - center */}
+                  <div className="flex justify-center mb-3">
+                    <div className="bg-[#1a1a1a] border border-[#fdd663]/30 rounded-lg p-3 text-center w-full max-w-[200px] hover:border-[#fdd663]/60 transition-colors">
+                      <div className="w-8 h-8 rounded-full bg-[#fdd663]/20 flex items-center justify-center mx-auto mb-2">
+                        <Code2 className="w-4 h-4 text-[#fdd663]" />
+                      </div>
+                      <p className="text-xs font-semibold text-[#e8eaed]">@SoftwareEngineer</p>
+                      <p className="text-[10px] text-[#fdd663] mt-0.5">OpenHands</p>
+                    </div>
+                  </div>
+
+                  {/* Resolved flow - center to right */}
+                  <div className="flex items-center justify-center gap-2 mb-3">
+                    <div className="flex-1 flex justify-end">
+                      <div className="h-px w-1/3 bg-gradient-to-r from-transparent to-[#81c995]/50" />
+                    </div>
+                    <span className="text-[10px] font-mono text-[#81c995] bg-[#81c995]/10 px-2 py-0.5 rounded-full whitespace-nowrap flex items-center gap-1">
+                      <CheckCircle className="w-3 h-3" /> resolved
+                    </span>
+                    <div className="flex-1 flex justify-start">
+                      <div className="h-px w-1/3 bg-gradient-to-l from-transparent to-[#81c995]/50" />
+                    </div>
+                  </div>
+
+                  {/* Marketing Manager */}
+                  <div className="flex justify-center mb-3">
+                    <div className="bg-[#1a1a1a] border border-[#c58af9]/30 rounded-lg p-3 text-center w-full max-w-[200px] hover:border-[#c58af9]/60 transition-colors">
+                      <div className="w-8 h-8 rounded-full bg-[#c58af9]/20 flex items-center justify-center mx-auto mb-2">
+                        <Megaphone className="w-4 h-4 text-[#c58af9]" />
+                      </div>
+                      <p className="text-xs font-semibold text-[#e8eaed]">@MarketingManager</p>
+                      <p className="text-[10px] text-[#c58af9] mt-0.5">OpenClaw</p>
+                    </div>
+                  </div>
+
+                  {/* Announcement output */}
+                  <div className="flex justify-center">
+                    <div className="flex items-center gap-2 text-[10px] text-[#9aa0a6]">
+                      <div className="h-px w-8 bg-[#3c4043]" />
+                      <span className="font-mono bg-[#1a1a1a] border border-[#2a2a2a] px-2 py-0.5 rounded">announcement</span>
+                      <div className="h-px w-8 bg-[#3c4043]" />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Connector down to Gateway */}
+                <div className="flex justify-center my-4">
+                  <div className="w-px h-6 bg-[#3c4043]" />
+                </div>
+
+                {/* Gateway */}
+                <div className="flex justify-center">
+                  <div className="bg-[#1a1a1a] border border-[#3c4043] rounded-lg px-6 py-3 flex items-center gap-3">
+                    <Settings className="w-4 h-4 text-[#9aa0a6] animate-[spin_8s_linear_infinite]" />
+                    <div>
+                      <p className="text-xs font-semibold text-[#e8eaed]">Gateway</p>
+                      <p className="text-[10px] text-[#5f6368]">Slack Event Router</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div className="grid md:grid-cols-4 gap-6 max-w-4xl mx-auto">
