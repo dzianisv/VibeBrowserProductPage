@@ -225,5 +225,94 @@ Note: 403 from LinkedIn, OpenAI, npm, and Perplexity is expected (bot blocking).
 
 1. **Before shipping a new page**: Run through sections 1-6 for that page
 2. **Before a release**: Run through all sections for the entire site
-3. **Monthly maintenance**: Re-run link verification (section 6) and Lighthouse (section 7)
-4. **After any layout/component change**: Re-run build check (section 9) and spot-check navigation (section 4)
+3. **After deployment**: Run post-deploy verification (section 12)
+4. **Monthly maintenance**: Re-run link verification (section 6) and Lighthouse (section 7)
+5. **After any layout/component change**: Re-run build check (section 9) and spot-check navigation (section 4)
+
+---
+
+## 12. Post-Deploy Production Verification
+
+After every production deployment, verify SEO assets and page availability are intact.
+
+### Quick smoke test (all pages return 200)
+```bash
+#!/bin/bash
+# Save as scripts/post-deploy-check.sh
+# Usage: ./scripts/post-deploy-check.sh https://www.yourdomain.com
+
+BASE_URL="${1:-https://www.vibebrowser.app}"
+pages=(
+  /
+  /mcp
+  /tee
+  /enterprise
+  /teams
+  /aboutus
+  /agentic-team
+  /compare
+  /use-cases
+  /use-cases/financial-advisor-morningstar-schwab
+  /use-cases/privacy-first-legal-research
+  /use-cases/recruiter-linkedin-automation
+  /privacy
+  /terms
+)
+
+echo "Checking ${#pages[@]} pages on $BASE_URL..."
+failed=0
+for page in "${pages[@]}"; do
+  code=$(curl -o /dev/null -s -w "%{http_code}" -L --max-time 15 "$BASE_URL$page")
+  if [ "$code" -ge 400 ]; then
+    echo "FAIL $code $page"
+    failed=$((failed + 1))
+  else
+    echo "OK   $code $page"
+  fi
+done
+
+# Check SEO files
+for file in /sitemap.xml /robots.txt; do
+  code=$(curl -o /dev/null -s -w "%{http_code}" -L --max-time 10 "$BASE_URL$file")
+  echo "SEO  $code $file"
+done
+
+echo ""
+echo "Done. $failed page failures out of ${#pages[@]}."
+```
+
+### SEO spot checks
+```bash
+BASE_URL="https://www.vibebrowser.app"
+
+# Count JSON-LD blocks on homepage (should be > 0)
+curl -s "$BASE_URL/" | grep -c 'application/ld+json'
+
+# Verify no fake aggregateRating in JSON-LD
+curl -s "$BASE_URL/" | grep -o 'aggregateRating' | wc -l
+# Expected: 0
+
+# Verify OG tags on a key page
+curl -s "$BASE_URL/privacy" | grep -E 'og:title|og:description|twitter:card' | head -5
+
+# Verify canonical URL on enterprise page
+curl -s "$BASE_URL/enterprise" | grep 'canonical'
+# Should contain: www.vibebrowser.app/enterprise
+
+# Verify sitemap has no stale routes
+curl -s "$BASE_URL/sitemap.xml" | grep -E '/v2|enterprise\.vibebrowser' | wc -l
+# Expected: 0
+
+# Check robots.txt for Cloudflare-injected rules
+curl -s "$BASE_URL/robots.txt" | head -20
+# Watch for Cloudflare rules that override your custom Allow/Disallow
+```
+
+### What to check after deploy
+- [ ] All pages return 200 (run smoke test above)
+- [ ] `sitemap.xml` returns 200 with correct URL count
+- [ ] `robots.txt` returns 200 and references sitemap
+- [ ] JSON-LD blocks present on homepage (no aggregateRating)
+- [ ] OG/Twitter meta tags render on social share preview (test at https://www.opengraph.xyz/)
+- [ ] Canonical URLs point to `https://www.` domain (not subdomains)
+- [ ] No Cloudflare robots.txt conflicts blocking desired bots
