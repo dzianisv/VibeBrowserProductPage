@@ -5,9 +5,11 @@
   "scripts": {
     "prebuild": "git lfs pull || true",
     "build": "next build",
+    "postbuild": "node scripts/indexnow-ping.js",
     "dev": "next dev",
     "lint": "next lint",
     "start": "next start",
+    "indexnow:ping": "node scripts/indexnow-ping.js",
     "waitlist": "node scripts/get-waitlist.js",
     "waitlist:stats": "node scripts/get-waitlist.js --stats",
     "waitlist:csv": "node scripts/get-waitlist.js --csv"
