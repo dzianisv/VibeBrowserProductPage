@@ -794,9 +794,15 @@ export default function EnterpriseProductPage() {
               <img src="/vibebrowser-logo.png" alt="Vibe AI Browser" className="w-6 h-6 object-contain" />
               <span>Vibe Technologies</span>
             </div>
-            <div className="flex gap-6">
-              <Link href="/mcp" className="hover:text-[#e8eaed] transition-colors">MCP</Link>
+            <p className="text-[#5f6368]">
+              &copy; 2025 Vibe Technologies, LLC. All rights reserved.
+            </p>
+            <div className="flex flex-wrap gap-6 justify-center">
+              <Link href="/" className="hover:text-[#e8eaed] transition-colors">Browser</Link>
               <Link href="/agentic-team" className="hover:text-[#e8eaed] transition-colors">Agentic Team</Link>
+              <Link href="/teams" className="hover:text-[#e8eaed] transition-colors">Team</Link>
+              <Link href="/mcp" className="hover:text-[#e8eaed] transition-colors">MCP</Link>
+              <Link href="/enterprise" className="hover:text-[#e8eaed] transition-colors">Enterprise</Link>
               <Link href="/privacy" className="hover:text-[#e8eaed] transition-colors">Privacy</Link>
               <Link href="/terms" className="hover:text-[#e8eaed] transition-colors">Terms</Link>
               <Link href="/tee" className="hover:text-[#e8eaed] transition-colors">Security</Link>

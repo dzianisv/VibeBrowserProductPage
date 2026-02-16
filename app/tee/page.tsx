@@ -31,7 +31,7 @@ export default function TeePage() {
           </span>
         </div>
         <nav className="flex gap-4 items-center" aria-label="TEE page navigation">
-          <Link href="/v2" className="text-sm text-[#9aa0a6] hover:text-[#e8eaed] transition-colors flex items-center gap-1">
+          <Link href="/enterprise" className="text-sm text-[#9aa0a6] hover:text-[#e8eaed] transition-colors flex items-center gap-1">
             <ArrowLeft className="w-4 h-4" aria-hidden="true" />
             Back to Incognito
           </Link>
@@ -277,7 +277,7 @@ export default function TeePage() {
               Contact us about enterprise TEE deployment for your organization.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/v2">
+              <Link href="/enterprise">
                 <Button size="lg" className="bg-[#8ab4f8] hover:bg-[#aecbfa] text-[#202124] font-medium px-8 py-6 h-auto rounded-full">
                   Explore Vibe Incognito
                 </Button>
@@ -311,7 +311,7 @@ export default function TeePage() {
               <Link href="/agentic-team" className="hover:text-[#e8eaed] transition-colors">Agentic Team</Link>
               <Link href="/privacy" className="hover:text-[#e8eaed] transition-colors">Privacy</Link>
               <Link href="/terms" className="hover:text-[#e8eaed] transition-colors">Terms</Link>
-              <Link href="/v2" className="hover:text-[#e8eaed] transition-colors">Incognito</Link>
+              <Link href="/enterprise" className="hover:text-[#e8eaed] transition-colors">Incognito</Link>
               <Link href="https://t.me/VibeBrowser" target="_blank" rel="noopener noreferrer" className="hover:text-[#e8eaed] transition-colors">Telegram</Link>
             </div>
           </div>

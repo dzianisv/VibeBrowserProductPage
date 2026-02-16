@@ -227,11 +227,10 @@ export default function Component() {
           <Link href="https://docs.vibebrowser.app" className="text-sm font-medium hover:text-purple-600 transition-colors">
             Docs
           </Link>
-          <span className="text-sm font-medium text-slate-500">Products</span>
           <Link href="/teams" className="text-sm font-medium hover:text-purple-600 transition-colors">
             Co-Pilot for Teams
           </Link>
-          <Link href="https://enterprise.vibebrowser.app" className="text-sm font-medium hover:text-purple-600 transition-colors">
+          <Link href="/enterprise" className="text-sm font-medium hover:text-purple-600 transition-colors">
             Co-Pilot for Enterprise
           </Link>
           <Link href="/mcp" className="text-sm font-medium hover:text-purple-600 transition-colors">
@@ -243,22 +242,21 @@ export default function Component() {
           </Link>
         </nav>
         {/* Mobile navigation */}
-        <nav className="flex md:hidden gap-3">
-          <Link href="#pricing" className="text-xs font-medium hover:text-purple-600 transition-colors">
+        <nav className="flex md:hidden flex-wrap items-center justify-end gap-x-3 gap-y-1 text-[11px]">
+          <Link href="#pricing" className="font-medium hover:text-purple-600 transition-colors whitespace-nowrap">
             Pricing
           </Link>
-          <span className="text-xs font-medium text-slate-500">Products</span>
-          <Link href="/teams" className="text-xs font-medium hover:text-purple-600 transition-colors">
-            Teams
+          <Link href="/teams" className="font-medium hover:text-purple-600 transition-colors whitespace-nowrap">
+            Co-Pilot for Teams
           </Link>
-          <Link href="https://enterprise.vibebrowser.app" className="text-xs font-medium hover:text-purple-600 transition-colors">
-            Enterprise
+          <Link href="/enterprise" className="font-medium hover:text-purple-600 transition-colors whitespace-nowrap">
+            Co-Pilot for Enterprise
           </Link>
-          <Link href="/mcp" className="text-xs font-medium hover:text-purple-600 transition-colors">
+          <Link href="/mcp" className="font-medium hover:text-purple-600 transition-colors whitespace-nowrap">
             MCP
           </Link>
           <span className="text-slate-300">|</span>
-          <Link href="/aboutus" className="text-xs font-medium hover:text-purple-600 transition-colors">
+          <Link href="/aboutus" className="font-medium hover:text-purple-600 transition-colors whitespace-nowrap">
             About Us
           </Link>
         </nav>

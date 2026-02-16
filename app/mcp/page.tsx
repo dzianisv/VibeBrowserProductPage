@@ -1070,7 +1070,7 @@ MCP server for browser automation.
               <Link href="/" className="hover:text-[#9aa0a6] transition-colors">Product</Link>
               <Link href="/agentic-team" className="hover:text-[#9aa0a6] transition-colors">Agentic Team</Link>
               <Link href="/teams" className="hover:text-[#9aa0a6] transition-colors">Teams</Link>
-              <Link href="/v2" className="hover:text-[#9aa0a6] transition-colors">Enterprise</Link>
+              <Link href="/enterprise" className="hover:text-[#9aa0a6] transition-colors">Enterprise</Link>
               <Link href="https://docs.vibebrowser.app" target="_blank" className="hover:text-[#9aa0a6] transition-colors">Docs</Link>
               <Link href="/privacy" className="hover:text-[#9aa0a6] transition-colors">Privacy</Link>
               <Link href="/terms" className="hover:text-[#9aa0a6] transition-colors">Terms</Link>

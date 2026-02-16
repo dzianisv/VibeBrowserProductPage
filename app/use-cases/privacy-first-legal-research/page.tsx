@@ -246,7 +246,7 @@ export default function LegalResearchUseCase() {
             <Link href="/use-cases/recruiter-linkedin-automation" className="text-purple-600 hover:text-purple-700">
               LinkedIn recruiter automation with skills-based outreach
             </Link>
-            <Link href="/v2" className="text-purple-600 hover:text-purple-700">
+            <Link href="/enterprise" className="text-purple-600 hover:text-purple-700">
               Explore enterprise privacy controls
             </Link>
             <Link href="/teams" className="text-purple-600 hover:text-purple-700">

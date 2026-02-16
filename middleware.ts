@@ -5,11 +5,15 @@ export function middleware(request: NextRequest) {
   const hostname = request.headers.get('host') || ''
   const pathname = request.nextUrl.pathname
 
+  if (pathname === '/v2') {
+    return NextResponse.redirect(new URL('/enterprise', request.url))
+  }
+
   // Handle enterprise.vibebrowser.app subdomain
   if (hostname.startsWith('enterprise.')) {
-    // Rewrite root to /v2 (enterprise page)
+    // Rewrite root to /enterprise (enterprise page)
     if (pathname === '/') {
-      return NextResponse.rewrite(new URL('/v2', request.url))
+      return NextResponse.rewrite(new URL('/enterprise', request.url))
     }
     // /tee stays as /tee (security whitepaper)
     if (pathname === '/tee') {
