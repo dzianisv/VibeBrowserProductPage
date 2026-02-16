@@ -105,6 +105,25 @@ const faqJsonLd = {
   })),
 }
 
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Use Cases',
+      item: 'https://www.vibebrowser.app/use-cases',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Morningstar Schwab research automation for financial advisors',
+      item: 'https://www.vibebrowser.app/use-cases/financial-advisor-morningstar-schwab',
+    },
+  ],
+}
+
 export default function FinancialAdvisorUseCase() {
   return (
     <div className="min-h-screen bg-white">
@@ -119,6 +138,10 @@ export default function FinancialAdvisorUseCase() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       <header className="border-b border-slate-200">
         <div className="container mx-auto px-6 py-10">

@@ -170,6 +170,11 @@ const websiteJsonLd = {
   '@type': 'WebSite',
   name: 'Vibe AI Browser Co-Pilot',
   url: 'https://www.vibebrowser.app',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: 'https://www.vibebrowser.app/use-cases?query={search_term_string}',
+    'query-input': 'required name=search_term_string',
+  },
 }
 
 export default function Page() {

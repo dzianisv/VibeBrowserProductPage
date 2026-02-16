@@ -551,322 +551,34 @@ export default function Component() {
       </div>
     </section>
 
-    {/* Why Vibe - Comparison Table */}
+    {/* Why Vibe - Comparison CTA */}
     <section className="w-full py-12 md:py-16 bg-slate-50">
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
-        <div className="text-center mb-12">
+        <div className="text-center mb-10">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
             Why Vibe?
           </h2>
           <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
-            Privacy-first, model-agnostic autonomous browser with local AI support
+            See how Vibe stacks up on privacy, model choice, and agentic browser workflows.
           </p>
         </div>
-
-        <div className="max-w-6xl mx-auto overflow-x-auto">
-          <div className="bg-white rounded-xl shadow-lg border border-gray-200">
-            <table className="w-full">
-               <thead className="bg-gradient-to-r from-purple-50 to-pink-50">
-                <tr>
-                  <th className="px-4 py-4 text-left text-sm font-semibold text-gray-900">Feature</th>
-                  <th className="px-4 py-4 text-center text-sm font-semibold text-purple-600">
-                    <div className="flex items-center justify-center gap-2">
-                      <span>Vibe</span>
-                      <Badge className="bg-purple-600 text-white">You</Badge>
-                    </div>
-                  </th>
-                  <th className="px-4 py-4 text-center text-sm font-semibold text-gray-900">OpenAI Atlas</th>
-                  <th className="px-4 py-4 text-center text-sm font-semibold text-gray-900">Manus</th>
-                  <th className="px-4 py-4 text-center text-sm font-semibold text-gray-900">Composite</th>
-                  <th className="px-4 py-4 text-center text-sm font-semibold text-gray-900">Comet</th>
-                  <th className="px-4 py-4 text-center text-sm font-semibold text-gray-900">BrowserOS</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200">
-                <tr className="hover:bg-gray-50 bg-purple-50/30">
-                  <td className="px-4 py-4 text-sm font-medium text-gray-900">Local/Private AI</td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Gemini Nano</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Ollama</span>
-                    </div>
-                  </td>
-                </tr>
-                <tr className="hover:bg-gray-50">
-                  <td className="px-4 py-4 text-sm font-medium text-gray-900">Model Choice</td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Any model</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-xs text-gray-500">OpenAI only</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-xs text-gray-500">Manus only</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-xs text-gray-500">Limited</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Multiple</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
-                  </td>
-                </tr>
-                <tr className="hover:bg-gray-50 bg-purple-50/30">
-                  <td className="px-4 py-4 text-sm font-medium text-gray-900">Free Tier</td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Unlimited</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <span className="text-yellow-600 text-xl">~</span>
-                      <span className="text-xs text-gray-500 mt-1">Limited</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Limited</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Limited</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Limited</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Open Source</span>
-                    </div>
-                  </td>
-                </tr>
-                <tr className="hover:bg-gray-50">
-                  <td className="px-4 py-4 text-sm font-medium text-gray-900">Works as Extension</td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Any Chrome</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <span className="text-red-600 text-xl">×</span>
-                      <span className="text-xs text-gray-500 mt-1">Fork only</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Chrome ext</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Chrome ext</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <span className="text-red-600 text-xl">×</span>
-                      <span className="text-xs text-gray-500 mt-1">Web only</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <span className="text-red-600 text-xl">×</span>
-                      <span className="text-xs text-gray-500 mt-1">Fork only</span>
-                    </div>
-                  </td>
-                </tr>
-                <tr className="hover:bg-gray-50 bg-purple-50/30">
-                  <td className="px-4 py-4 text-sm font-medium text-gray-900">Own Browser</td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Both options</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <CheckCircle className="w-5 h-5 text-green-600 mx-auto" />
-                  </td>
-                </tr>
-                <tr className="hover:bg-gray-50">
-                  <td className="px-4 py-4 text-sm font-medium text-gray-900">Google Workspace</td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Native API</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <span className="text-yellow-600 text-xl">~</span>
-                      <span className="text-xs text-gray-500 mt-1">Agent mode</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">MCP Connectors</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Native</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">MCP</span>
-                    </div>
-                  </td>
-                </tr>
-                <tr className="hover:bg-gray-50 bg-purple-50/30">
-                  <td className="px-4 py-4 text-sm font-medium text-gray-900">Skills Standard</td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">agentskills.io</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                </tr>
-                <tr className="hover:bg-gray-50">
-                  <td className="px-4 py-4 text-sm font-medium text-gray-900">MCP Server</td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Multi-agent</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">31 tools</span>
-                    </div>
-                  </td>
-                </tr>
-                <tr className="hover:bg-gray-50 bg-purple-50/30">
-                  <td className="px-4 py-4 text-sm font-medium text-gray-900">MCP Client</td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">External tools</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Connectors</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <span className="text-red-600 text-xl">×</span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="flex flex-col items-center">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-xs text-gray-600 mt-1">Pre-installed</span>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div className="mt-8 text-center space-y-2">
-            <p className="text-sm text-muted-foreground">
-              * Comparison based on publicly available information as of January 2026
-            </p>
-            <p className="text-xs text-muted-foreground">
-              ** AI browser capabilities evolve rapidly. Features and performance may vary based on specific use cases. We recommend testing multiple options for your workflow.
-            </p>
+        <div className="max-w-4xl mx-auto">
+          <div className="rounded-2xl border border-purple-100 bg-white shadow-lg p-8 md:p-10 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div>
+              <div className="flex items-center gap-2 text-sm font-semibold text-purple-700">
+                <Badge className="bg-purple-600 text-white">Updated</Badge>
+                <span>Full competitive analysis</span>
+              </div>
+              <p className="mt-3 text-base text-muted-foreground">
+                Compare Vibe against Atlas, Comet, Composite, Strawberry, and more on the features teams care about.
+              </p>
+            </div>
+            <Link href="/compare" className="w-full md:w-auto">
+              <Button size="lg" className="w-full md:w-auto bg-purple-600 hover:bg-purple-700 text-white">
+                View comparison
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
           </div>
         </div>
       </div>

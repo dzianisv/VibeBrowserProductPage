@@ -39,6 +39,14 @@
     <priority>0.8</priority>
   </url>
 
+  <!-- Comparison -->
+  <url>
+    <loc>https://www.vibebrowser.app/compare</loc>
+    <lastmod>2026-02-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
   <!-- Use case stories -->
   <url>
     <loc>https://www.vibebrowser.app/use-cases/financial-advisor-morningstar-schwab</loc>
