@@ -1055,6 +1055,7 @@ MCP server for browser automation.
               <Link href="/privacy" className="hover:text-[#9aa0a6] transition-colors">Privacy</Link>
               <Link href="/terms" className="hover:text-[#9aa0a6] transition-colors">Terms</Link>
               <Link href="https://github.com/VibeTechnologies/vibe-mcp" target="_blank" className="hover:text-[#9aa0a6] transition-colors">GitHub</Link>
+              <Link href="https://t.me/VibeBrowser" target="_blank" rel="noopener noreferrer" className="hover:text-[#9aa0a6] transition-colors">Telegram</Link>
             </div>
           </div>
         </div>

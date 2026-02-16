@@ -844,6 +844,7 @@ export default function TeamsPage() {
               <Link href="https://docs.vibebrowser.app/getting-started/extension" className="hover:text-purple-600 text-purple-500 transition-colors">Install Free</Link>
               <Link href="https://docs.vibebrowser.app" className="hover:text-slate-900 transition-colors">Docs</Link>
               <Link href="/v2" className="hover:text-slate-900 transition-colors">Enterprise</Link>
+              <Link href="https://t.me/VibeBrowser" target="_blank" rel="noopener noreferrer" className="hover:text-slate-900 transition-colors">Telegram</Link>
               <a href="mailto:teams@vibebrowser.app" className="hover:text-slate-900 transition-colors">Contact</a>
             </div>
           </div>

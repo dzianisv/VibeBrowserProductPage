@@ -799,6 +799,7 @@ export default function EnterpriseProductPage() {
               <Link href="/privacy" className="hover:text-[#e8eaed] transition-colors">Privacy</Link>
               <Link href="/terms" className="hover:text-[#e8eaed] transition-colors">Terms</Link>
               <Link href="/tee" className="hover:text-[#e8eaed] transition-colors">Security</Link>
+              <Link href="https://t.me/VibeBrowser" target="_blank" rel="noopener noreferrer" className="hover:text-[#e8eaed] transition-colors">Telegram</Link>
               <a href="mailto:enterprise@vibebrowser.app" className="hover:text-[#e8eaed] transition-colors">Contact</a>
             </div>
           </div>

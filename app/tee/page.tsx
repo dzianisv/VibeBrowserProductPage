@@ -311,6 +311,7 @@ export default function TeePage() {
               <Link href="/privacy" className="hover:text-[#e8eaed] transition-colors">Privacy</Link>
               <Link href="/terms" className="hover:text-[#e8eaed] transition-colors">Terms</Link>
               <Link href="/v2" className="hover:text-[#e8eaed] transition-colors">Incognito</Link>
+              <Link href="https://t.me/VibeBrowser" target="_blank" rel="noopener noreferrer" className="hover:text-[#e8eaed] transition-colors">Telegram</Link>
             </div>
           </div>
         </div>

@@ -1310,6 +1310,12 @@ export default function Component() {
               </svg>
               X (Twitter)
             </Link>
+            <Link href="https://t.me/VibeBrowser" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors flex items-center gap-2">
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M9.6 15.6 9.2 19.2c.6 0 .9-.2 1.2-.6l2.9-2.7 6 4.4c1.1.6 1.9.3 2.2-1l4-18.7c.4-1.7-.6-2.4-1.7-2l-23.5 9c-1.6.6-1.6 1.5-.3 1.9l6 1.9 13.8-8.7c.7-.4 1.3-.2.8.2" />
+              </svg>
+              Telegram Community
+            </Link>
           </div>
         </div>
       </div>

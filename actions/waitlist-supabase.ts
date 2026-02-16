@@ -37,6 +37,44 @@ async function getResendClient(): Promise<{ emails: { send: (data: unknown) => P
   }
 }
 
+// Helper function to add contact to Brevo mailing list
+async function addToBrevo(email: string, attributes?: Record<string, string | null>) {
+  const apiKey = process.env.BREVO_API_KEY
+  const listId = process.env.BREVO_LIST_ID
+
+  if (!apiKey || !listId) {
+    console.log("Brevo not configured - skipping mailing list sync")
+    return
+  }
+
+  try {
+    const res = await fetch("https://api.brevo.com/v3/contacts", {
+      method: "POST",
+      headers: {
+        "accept": "application/json",
+        "content-type": "application/json",
+        "api-key": apiKey,
+      },
+      body: JSON.stringify({
+        email: email.toLowerCase(),
+        listIds: [Number(listId)],
+        updateEnabled: true,
+        attributes: attributes || {},
+      }),
+    })
+
+    if (!res.ok) {
+      const body = await res.text()
+      console.error("Brevo API error:", res.status, body)
+    } else {
+      console.log("Brevo: contact added/updated", email)
+    }
+  } catch (err) {
+    console.error("Brevo sync failed:", err)
+    // Don't fail the signup if Brevo fails
+  }
+}
+
 interface ReferralData {
   referral_source?: string
   utm_source?: string
@@ -102,6 +140,15 @@ export async function joinWaitlist(
         message: 'Failed to join waitlist. Please try again.' 
       }
     }
+
+    // Sync contact to Brevo mailing list (non-blocking)
+    addToBrevo(email, {
+      TIER: tier,
+      SOURCE: referralData?.referral_source || null,
+      UTM_SOURCE: referralData?.utm_source || null,
+      UTM_MEDIUM: referralData?.utm_medium || null,
+      UTM_CAMPAIGN: referralData?.utm_campaign || null,
+    })
 
     // Send notification email to info@vibebrowser.app (only if Resend is configured)
     const resend = await getResendClient()
