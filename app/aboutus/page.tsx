@@ -234,14 +234,15 @@ export default function AboutUsPage() {
                     </div>
                     <div>
                       <h3 className="text-xl font-bold text-[#e8eaed]">Vibe AI Browser Co-Pilot</h3>
-                      <span className="text-xs text-[#8ab4f8] bg-[#8ab4f8]/10 px-2 py-0.5 rounded-full">Flagship</span>
+                      <span className="text-xs text-[#8ab4f8] bg-[#8ab4f8]/10 px-2 py-0.5 rounded-full">Web Agent</span>
                     </div>
                   </div>
                   <p className="text-[#9aa0a6] mb-6 leading-relaxed">
-                    Chrome extension that autonomously operates the web. Tell it what you need in plain English &mdash; it navigates sites, fills forms, drafts messages, and researches across dozens of tabs. Supports any LLM including fully local AI via Gemini Nano.
+                    Available as a Chrome extension and a standalone Chromium-fork browser with AI built in. Tell it what you need in plain English &mdash; it navigates sites, fills forms, drafts messages, and researches across dozens of tabs. Supports any LLM including fully local AI via Gemini Nano.
                   </p>
                   <div className="flex flex-wrap gap-2 mb-6">
-                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">LinkedIn Outreach</span>
+                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">Chrome Extension</span>
+                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">Chromium Fork</span>
                     <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">Deep Research</span>
                     <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">Web Automation</span>
                     <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">Any LLM</span>
