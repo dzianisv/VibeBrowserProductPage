@@ -15,6 +15,7 @@ import {
   ArrowRight,
   CheckCircle,
   XCircle,
+  MinusCircle,
   Copy,
   Check,
   Terminal,
@@ -103,27 +104,27 @@ const COMPATIBLE_AGENTS = [
   { name: "OpenClaw", icon: "openclaw" },
 ]
 
+type CellValue = true | false | "partial" | string
+
 interface ComparisonRow {
   feature: string
-  vibe: boolean | string
-  playwright: boolean | string
-  devtools: boolean | string
-  browsermcp: boolean | string
+  vibe: CellValue
+  playwright: CellValue
+  devtools: CellValue
+  browsermcp: CellValue
   detail: string
 }
 
 const COMPARISON_ROWS: ComparisonRow[] = [
-  { feature: "Uses your logged-in browser", vibe: true, playwright: "Extension only", devtools: false, browsermcp: true, detail: "Playwright defaults to launching a separate browser. Extension mode connects to existing tabs but requires manual token setup and approval dialogs" },
-  { feature: "No debug port required", vibe: true, playwright: "Extension only", devtools: false, browsermcp: true, detail: "Playwright's default mode requires --remote-debugging-port. Extension mode avoids this but adds complexity (token auth, limited to Chrome)" },
+  { feature: "Uses your logged-in browser", vibe: true, playwright: "partial", devtools: false, browsermcp: true, detail: "Playwright supports this via its extension mode, but defaults to launching a separate browser instance" },
+  { feature: "No debug port required", vibe: true, playwright: "partial", devtools: false, browsermcp: true, detail: "Playwright's default mode requires --remote-debugging-port; extension mode avoids this but adds token auth setup" },
   { feature: "Multi-agent support", vibe: true, playwright: false, devtools: false, browsermcp: false, detail: "Multiple AI agents control the same browser simultaneously via relay daemon" },
-  { feature: "Internet-exposed relay", vibe: true, playwright: false, devtools: false, browsermcp: false, detail: "Expose your relay to the internet so remote agents like OpenClaw can connect to your local browser from anywhere" },
-  { feature: "Total tools", vibe: "25+", playwright: "23 core / 69 total", devtools: "~26", browsermcp: "~13", detail: "Playwright has 23 always-on core tools + 46 opt-in tools behind capability flags (vision, testing, pdf, network, devtools, storage). Many are QA/testing-focused, not browsing productivity" },
+  { feature: "Internet-exposed relay", vibe: true, playwright: false, devtools: false, browsermcp: false, detail: "Expose your relay to the internet so remote agents can connect to your local browser from anywhere" },
   { feature: "Google Workspace integration", vibe: true, playwright: false, devtools: false, browsermcp: false, detail: "Gmail search/send/draft, Calendar view/create — 7 native tools" },
-  { feature: "Credential vault", vibe: true, playwright: false, devtools: false, browsermcp: false, detail: "Secure password manager that never exposes secrets to the LLM. Playwright only has basic secret masking in typed text" },
+  { feature: "Credential vault", vibe: true, playwright: false, devtools: false, browsermcp: false, detail: "Secure password manager that never exposes secrets to the LLM" },
   { feature: "Sub-agent orchestration", vibe: true, playwright: false, devtools: false, browsermcp: false, detail: "Spawn sub-agents with isolated context and parallel tool execution" },
   { feature: "Standalone AI browser", vibe: true, playwright: false, devtools: false, browsermcp: false, detail: "Also works as a standalone AI co-pilot directly in your browser" },
-  { feature: "Page content format", vibe: "Markdown [index:score]", playwright: "Accessibility tree", devtools: "Accessibility tree", browsermcp: "Accessibility tree", detail: "Indexed markdown reduces token usage 3-5x vs raw trees. Playwright supports incremental snapshots but still uses verbose a11y format" },
-  { feature: "Open source", vibe: "Partial", playwright: true, devtools: true, browsermcp: "Partial", detail: "Vibe's MCP server (@vibebrowser/mcp) is open source; the browser extension is not. BrowserMCP is similar — MCP server open, extension closed-source and can't be built standalone" },
+  { feature: "Open source", vibe: "partial", playwright: true, devtools: true, browsermcp: "partial", detail: "Vibe's MCP server (@vibebrowser/mcp) is open source; the browser extension is not. BrowserMCP is similar" },
   { feature: "Telemetry to vendor", vibe: false, playwright: false, devtools: true, browsermcp: false, detail: "Chrome DevTools MCP sends usage statistics and CrUX API calls to Google by default" },
 ]
 
@@ -598,10 +599,14 @@ export default function McpPage() {
                         const val = row[col.key]
                         return (
                           <td key={col.key} className="py-3 px-3 text-center">
-                            {typeof val === "boolean" ? (
-                              val ? <CheckCircle className="w-5 h-5 text-[#81c995] mx-auto" /> : <XCircle className="w-5 h-5 text-[#f28b82] mx-auto" />
+                            {val === true ? (
+                              <CheckCircle className="w-5 h-5 text-[#81c995] mx-auto" />
+                            ) : val === false ? (
+                              <XCircle className="w-5 h-5 text-[#f28b82] mx-auto" />
+                            ) : val === "partial" ? (
+                              <MinusCircle className="w-5 h-5 text-[#fdd663] mx-auto" />
                             ) : (
-                              <span className={col.key === "vibe" ? "text-[#81c995] font-medium" : "text-[#9aa0a6]"}>{val}</span>
+                              <span className="text-[#9aa0a6]">{val}</span>
                             )}
                           </td>
                         )
