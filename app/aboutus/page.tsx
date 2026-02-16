@@ -1,10 +1,55 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { ArrowRight, Globe, Bot, Building2, MessageCircle, Users, Zap, Shield, Linkedin, Code2, Cpu, Wrench, Lightbulb } from "lucide-react"
 import Image from "next/image"
+
+const ROTATING_WORDS = [
+  "write code",
+  "design AI systems",
+  "ship products",
+  "create AI agents",
+]
+
+function useTypewriter(words: string[], typingSpeed = 80, deletingSpeed = 50, pauseTime = 2000) {
+  const [displayText, setDisplayText] = useState(words[0])
+  const [wordIndex, setWordIndex] = useState(0)
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [isPaused, setIsPaused] = useState(true)
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (isPaused) {
+        setIsPaused(false)
+        setIsDeleting(true)
+        return
+      }
+
+      if (isDeleting) {
+        if (displayText === "") {
+          setIsDeleting(false)
+          setWordIndex((prev) => (prev + 1) % words.length)
+        } else {
+          setDisplayText(displayText.slice(0, -1))
+        }
+      } else {
+        const nextWord = words[wordIndex]
+        if (displayText === nextWord) {
+          setIsPaused(true)
+        } else {
+          setDisplayText(nextWord.slice(0, displayText.length + 1))
+        }
+      }
+    }, isPaused ? pauseTime : isDeleting ? deletingSpeed : typingSpeed)
+
+    return () => clearTimeout(timeout)
+  }, [displayText, wordIndex, isDeleting, isPaused, words, typingSpeed, deletingSpeed, pauseTime])
+
+  return displayText
+}
 
 const teamMembers = [
   {
@@ -42,6 +87,8 @@ const teamMembers = [
 ]
 
 export default function AboutUsPage() {
+  const rotatingWord = useTypewriter(ROTATING_WORDS, 100, 60, 2500)
+
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-[#e8eaed]">
       {/* Header */}
@@ -90,9 +137,9 @@ export default function AboutUsPage() {
               <span className="text-sm text-[#8ab4f8]">About Us</span>
             </div>
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
-              We <span className="text-[#8ab4f8]">write code</span>,{" "}
-              <span className="text-[#81c995]">design systems</span>,{" "}
-              and <span className="text-[#fdd663]">ship products</span>
+              We{" "}
+              <span className="text-[#8ab4f8]">{rotatingWord}</span>
+              <span className="animate-pulse text-[#8ab4f8]">|</span>
             </h1>
             <p className="max-w-2xl mx-auto text-lg md:text-xl text-[#9aa0a6] mb-10">
               A small team of engineers building AI tools that actually do the work. We automate the boring stuff so you can focus on what matters.
