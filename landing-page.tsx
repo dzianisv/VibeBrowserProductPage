@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { WaitlistDialog } from "./components/waitlist-dialog"
+import { TypewriterEffect } from "./components/typewriter-effect"
 import { MailingListSubscribe } from "./components/mailing-list-subscribe"
 import { HorizontalRoadmap } from "./components/horizontal-roadmap"
 import {
@@ -275,7 +276,9 @@ export default function Component() {
 
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
             The AI Browser That
-            <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent"> Acts, Not Just Answers</span>
+            <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent"> <TypewriterEffect words={["Acts", "Researches", "Automates", "Invests", "Recruits", "Outreaches"]} typingSpeed={90} deletingSpeed={50} pauseDuration={2200} /></span>
+            <br />
+            <span className="text-muted-foreground text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-normal">Not Just Answers</span>
           </h1>
 
           <p className="max-w-3xl text-lg text-muted-foreground md:text-xl leading-relaxed mb-8">
