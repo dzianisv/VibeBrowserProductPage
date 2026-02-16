@@ -308,6 +308,7 @@ export default function TeePage() {
               © 2026 Vibe Technologies, LLC. All rights reserved.
             </p>
             <div className="flex gap-6">
+              <Link href="/agentic-team" className="hover:text-[#e8eaed] transition-colors">Agentic Team</Link>
               <Link href="/privacy" className="hover:text-[#e8eaed] transition-colors">Privacy</Link>
               <Link href="/terms" className="hover:text-[#e8eaed] transition-colors">Terms</Link>
               <Link href="/v2" className="hover:text-[#e8eaed] transition-colors">Incognito</Link>

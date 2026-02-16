@@ -1049,6 +1049,7 @@ MCP server for browser automation.
             </div>
             <div className="flex flex-wrap gap-6 justify-center">
               <Link href="/" className="hover:text-[#9aa0a6] transition-colors">Product</Link>
+              <Link href="/agentic-team" className="hover:text-[#9aa0a6] transition-colors">Agentic Team</Link>
               <Link href="/teams" className="hover:text-[#9aa0a6] transition-colors">Teams</Link>
               <Link href="/v2" className="hover:text-[#9aa0a6] transition-colors">Enterprise</Link>
               <Link href="https://docs.vibebrowser.app" target="_blank" className="hover:text-[#9aa0a6] transition-colors">Docs</Link>
