@@ -107,7 +107,7 @@ export default function AboutUsPage() {
             <Link href="/agentic-team" className="text-sm font-medium text-[#9aa0a6] hover:text-[#e8eaed] transition-colors">
               Agentic Team
             </Link>
-            <Link href="/v2" className="text-sm font-medium text-[#9aa0a6] hover:text-[#e8eaed] transition-colors">
+            <Link href="/enterprise" className="text-sm font-medium text-[#9aa0a6] hover:text-[#e8eaed] transition-colors">
               Enterprise
             </Link>
             <Link href="/teams" className="text-sm font-medium text-[#9aa0a6] hover:text-[#e8eaed] transition-colors">
@@ -121,7 +121,7 @@ export default function AboutUsPage() {
             <Link href="/agentic-team" className="text-xs font-medium text-[#9aa0a6] hover:text-[#e8eaed] transition-colors">
               Agentic
             </Link>
-            <Link href="/v2" className="text-xs font-medium text-[#9aa0a6] hover:text-[#e8eaed] transition-colors">
+            <Link href="/enterprise" className="text-xs font-medium text-[#9aa0a6] hover:text-[#e8eaed] transition-colors">
               Enterprise
             </Link>
           </nav>
@@ -306,7 +306,7 @@ export default function AboutUsPage() {
                     <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">SSO</span>
                     <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">Audit Logs</span>
                   </div>
-                  <Link href="/v2">
+                  <Link href="/enterprise">
                     <Button variant="outline" className="border-[#3c4043] bg-transparent hover:bg-[#2a2a2a] text-[#f6aea9] w-full">
                       Learn More <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
@@ -447,10 +447,12 @@ export default function AboutUsPage() {
             <p className="text-[#5f6368]">
               &copy; 2025 Vibe Technologies, LLC. All rights reserved.
             </p>
-            <div className="flex gap-6">
+            <div className="flex flex-wrap gap-6 justify-center">
               <Link href="/" className="hover:text-[#e8eaed] transition-colors">Browser</Link>
               <Link href="/agentic-team" className="hover:text-[#e8eaed] transition-colors">Agentic Team</Link>
               <Link href="/teams" className="hover:text-[#e8eaed] transition-colors">Team</Link>
+              <Link href="/mcp" className="hover:text-[#e8eaed] transition-colors">MCP</Link>
+              <Link href="/enterprise" className="hover:text-[#e8eaed] transition-colors">Enterprise</Link>
               <Link href="/privacy" className="hover:text-[#e8eaed] transition-colors">Privacy</Link>
               <Link href="/terms" className="hover:text-[#e8eaed] transition-colors">Terms</Link>
               <Link href="https://t.me/VibeBrowser" target="_blank" rel="noopener noreferrer" className="hover:text-[#e8eaed] transition-colors">Telegram</Link>

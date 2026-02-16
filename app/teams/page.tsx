@@ -981,13 +981,17 @@ export default function TeamsPage() {
               <img src="/vibebrowser-logo.png" alt="Vibe AI Browser" className="w-6 h-6 object-contain" />
               <span>Vibe Technologies</span>
             </div>
-            <div className="flex gap-6">
+            <p className="text-slate-400">
+              &copy; 2025 Vibe Technologies, LLC. All rights reserved.
+            </p>
+            <div className="flex flex-wrap gap-6 justify-center">
+              <Link href="/" className="hover:text-slate-900 transition-colors">Browser</Link>
               <Link href="/agentic-team" className="hover:text-slate-900 transition-colors">Agentic Team</Link>
+              <Link href="/teams" className="hover:text-slate-900 transition-colors">Team</Link>
+              <Link href="/mcp" className="hover:text-slate-900 transition-colors">MCP</Link>
+              <Link href="/enterprise" className="hover:text-slate-900 transition-colors">Enterprise</Link>
               <Link href="/privacy" className="hover:text-slate-900 transition-colors">Privacy</Link>
               <Link href="/terms" className="hover:text-slate-900 transition-colors">Terms</Link>
-              <Link href="https://docs.vibebrowser.app/getting-started/extension" className="hover:text-purple-600 text-purple-500 transition-colors">Install Free</Link>
-              <Link href="https://docs.vibebrowser.app" className="hover:text-slate-900 transition-colors">Docs</Link>
-              <Link href="/enterprise" className="hover:text-slate-900 transition-colors">Enterprise</Link>
               <Link href="https://t.me/VibeBrowser" target="_blank" rel="noopener noreferrer" className="hover:text-slate-900 transition-colors">Telegram</Link>
               <a href="mailto:teams@vibebrowser.app" className="hover:text-slate-900 transition-colors">Contact</a>
             </div>
