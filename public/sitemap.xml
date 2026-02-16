@@ -115,9 +115,9 @@
     <priority>0.8</priority>
   </url>
 
-  <!-- Vibe Technologies company page -->
+  <!-- About Us page -->
   <url>
-    <loc>https://www.vibebrowser.app/vibetechnologies</loc>
+    <loc>https://www.vibebrowser.app/aboutus</loc>
     <lastmod>2026-02-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

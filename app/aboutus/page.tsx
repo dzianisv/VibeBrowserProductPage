@@ -3,15 +3,51 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { ArrowRight, Globe, Bot, Building2, MessageCircle, Users, Zap, Shield } from "lucide-react"
+import { ArrowRight, Globe, Bot, Building2, MessageCircle, Users, Zap, Shield, Linkedin, Code2, Cpu, Wrench, Lightbulb } from "lucide-react"
+import Image from "next/image"
 
-export default function VibeTechnologiesPage() {
+const teamMembers = [
+  {
+    name: "Dzianis Vashchuk",
+    role: "Founder",
+    photo: "/images/dennis-vashchuk.jpg",
+    linkedin: "https://www.linkedin.com/in/dzianisv/",
+    icon: Code2,
+    color: "#8ab4f8",
+  },
+  {
+    name: "Dzmitry Dalenka",
+    role: "ML Engineer",
+    photo: "/images/dzmitry-dalenka.jpg",
+    linkedin: "https://www.linkedin.com/in/dzmitry-dalenka/",
+    icon: Cpu,
+    color: "#81c995",
+  },
+  {
+    name: "Dzmitry Kastsenich",
+    role: "Software Engineer",
+    photo: "/images/dima-kostenich.jpg",
+    linkedin: "https://www.linkedin.com/in/dima-kostenich/",
+    icon: Wrench,
+    color: "#f6aea9",
+  },
+  {
+    name: "Alexander Dzerakh",
+    role: "Product Consultant",
+    photo: "/images/alexander-dzerakh.jpg",
+    linkedin: "https://www.linkedin.com/in/alexander-dzerakh",
+    icon: Lightbulb,
+    color: "#fdd663",
+  },
+]
+
+export default function AboutUsPage() {
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-[#e8eaed]">
       {/* Header */}
       <header className="sticky top-0 z-50 w-full border-b border-[#3c4043] bg-[#0a0a0a]/95 backdrop-blur supports-[backdrop-filter]:bg-[#0a0a0a]/60">
         <div className="container max-w-6xl mx-auto flex h-16 items-center justify-between px-4 md:px-6">
-          <Link href="/vibetechnologies" className="flex items-center gap-3">
+          <Link href="/aboutus" className="flex items-center gap-3">
             <img src="/vibebrowser-logo.png" alt="Vibe Technologies" className="w-10 h-10 object-contain" />
             <span className="text-xl font-bold text-[#e8eaed]">
               Vibe Technologies
@@ -50,15 +86,16 @@ export default function VibeTechnologiesPage() {
         <section className="w-full py-20 md:py-32">
           <div className="container max-w-5xl px-4 md:px-6 mx-auto text-center">
             <div className="inline-flex items-center gap-2 bg-[#8ab4f8]/10 border border-[#8ab4f8]/20 rounded-full px-4 py-1.5 mb-8">
-              <Zap className="w-4 h-4 text-[#8ab4f8]" />
-              <span className="text-sm text-[#8ab4f8]">Seattle, WA</span>
+              <Users className="w-4 h-4 text-[#8ab4f8]" />
+              <span className="text-sm text-[#8ab4f8]">About Us</span>
             </div>
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
-              AI agents that{" "}
-              <span className="text-[#8ab4f8]">act</span>, not just answer
+              We <span className="text-[#8ab4f8]">write code</span>,{" "}
+              <span className="text-[#81c995]">design systems</span>,{" "}
+              and <span className="text-[#fdd663]">ship products</span>
             </h1>
             <p className="max-w-2xl mx-auto text-lg md:text-xl text-[#9aa0a6] mb-10">
-              Vibe Technologies builds autonomous AI agents that operate the web, automate ops, and handle enterprise workflows. Private. Model-agnostic. Human-in-the-loop.
+              A small team of engineers building AI tools that actually do the work. We automate the boring stuff so you can focus on what matters.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/">
@@ -83,6 +120,50 @@ export default function VibeTechnologiesPage() {
             <p className="text-lg text-[#9aa0a6] leading-relaxed max-w-3xl mx-auto">
               Knowledge workers spend 28% of their workweek on repetitive browser tasks (McKinsey). We build AI agents that take over that work &mdash; browsing, clicking, filling forms, drafting messages &mdash; so humans focus on decisions, not mechanics. Every agent we ship keeps the human in control: nothing is sent, submitted, or purchased without your explicit approval.
             </p>
+          </div>
+        </section>
+
+        {/* Meet the Team */}
+        <section className="w-full py-16 md:py-24 border-t border-[#1e1e1e]">
+          <div className="container max-w-5xl px-4 md:px-6 mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">Meet the Team</h2>
+              <p className="text-lg text-[#9aa0a6] max-w-2xl mx-auto">
+                The humans behind the agents
+              </p>
+            </div>
+
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+              {teamMembers.map((member) => {
+                const IconComponent = member.icon
+                return (
+                  <div key={member.name} className="group text-center">
+                    <div className="relative w-36 h-36 mx-auto mb-5 rounded-2xl overflow-hidden border-2 border-[#2a2a2a] group-hover:border-[#8ab4f8]/40 transition-all duration-300">
+                      <Image
+                        src={member.photo}
+                        alt={member.name}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    <h3 className="text-lg font-semibold text-[#e8eaed] mb-1">{member.name}</h3>
+                    <div className="flex items-center justify-center gap-1.5 mb-3">
+                      <IconComponent className="w-3.5 h-3.5" style={{ color: member.color }} />
+                      <span className="text-sm" style={{ color: member.color }}>{member.role}</span>
+                    </div>
+                    <a
+                      href={member.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-xs text-[#9aa0a6] hover:text-[#8ab4f8] transition-colors"
+                    >
+                      <Linkedin className="w-3.5 h-3.5" />
+                      LinkedIn
+                    </a>
+                  </div>
+                )
+              })}
+            </div>
           </div>
         </section>
 
