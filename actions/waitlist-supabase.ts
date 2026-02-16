@@ -143,8 +143,8 @@ export async function joinWaitlist(
       }
     }
 
-    // Sync contact to Brevo mailing list (non-blocking)
-    addToBrevo(email, {
+    // Sync contact to Brevo mailing list
+    await addToBrevo(email, {
       TIER: tier,
       SOURCE: referralData?.referral_source || null,
       UTM_SOURCE: referralData?.utm_source || null,
