@@ -1,6 +1,6 @@
 const INDEXNOW_ENDPOINT = "https://api.indexnow.org/indexnow"
 
-const defaultHosts = ["vibebrowser.app", "enterprise.vibebrowser.app"]
+const defaultHosts = ["www.vibebrowser.app"]
 const defaultPaths = [
   "/",
   "/teams",
