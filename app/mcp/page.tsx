@@ -48,6 +48,7 @@ const ROTATING_AGENTS = [
   "Cursor",
   "GitHub Copilot",
   "Windsurf",
+  "OpenClaw",
 ]
 
 // Typewriter hook with delete and retype animation
@@ -99,6 +100,7 @@ const COMPATIBLE_AGENTS = [
   { name: "Windsurf", icon: "windsurf" },
   { name: "Gemini CLI", icon: "gemini" },
   { name: "Codex", icon: "codex" },
+  { name: "OpenClaw", icon: "openclaw" },
 ]
 
 interface ComparisonRow {
@@ -114,6 +116,7 @@ const COMPARISON_ROWS: ComparisonRow[] = [
   { feature: "Uses your logged-in browser", vibe: true, playwright: "Extension only", devtools: false, browsermcp: true, detail: "Playwright defaults to launching a separate browser. Extension mode connects to existing tabs but requires manual token setup and approval dialogs" },
   { feature: "No debug port required", vibe: true, playwright: "Extension only", devtools: false, browsermcp: true, detail: "Playwright's default mode requires --remote-debugging-port. Extension mode avoids this but adds complexity (token auth, limited to Chrome)" },
   { feature: "Multi-agent support", vibe: true, playwright: false, devtools: false, browsermcp: false, detail: "Multiple AI agents control the same browser simultaneously via relay daemon" },
+  { feature: "Internet-exposed relay", vibe: true, playwright: false, devtools: false, browsermcp: false, detail: "Expose your relay to the internet so remote agents like OpenClaw can connect to your local browser from anywhere" },
   { feature: "Total tools", vibe: "25+", playwright: "23 core / 69 total", devtools: "~26", browsermcp: "~13", detail: "Playwright has 23 always-on core tools + 46 opt-in tools behind capability flags (vision, testing, pdf, network, devtools, storage). Many are QA/testing-focused, not browsing productivity" },
   { feature: "Google Workspace integration", vibe: true, playwright: false, devtools: false, browsermcp: false, detail: "Gmail search/send/draft, Calendar view/create — 7 native tools" },
   { feature: "Credential vault", vibe: true, playwright: false, devtools: false, browsermcp: false, detail: "Secure password manager that never exposes secrets to the LLM. Playwright only has basic secret masking in typed text" },
@@ -344,6 +347,7 @@ function AgentIcon({ icon }: { icon: string }) {
     windsurf: "Windsurf",
     gemini: "Gemini",
     codex: "Codex",
+    openclaw: "OpenClaw",
   }
   const colors: Record<string, string> = {
     anthropic: "bg-[#d4a574]",
@@ -354,6 +358,7 @@ function AgentIcon({ icon }: { icon: string }) {
     windsurf: "bg-[#a8c7fa]",
     gemini: "bg-[#f28b82]",
     codex: "bg-[#a8dab5]",
+    openclaw: "bg-[#f0b27a]",
   }
   return (
     <div className={`w-10 h-10 rounded-lg ${colors[icon] || "bg-[#5f6368]"} flex items-center justify-center`}>
@@ -429,7 +434,7 @@ export default function McpPage() {
                 </h1>
                 <p className="text-xl text-[#9aa0a6] max-w-2xl mx-auto">
                   Connect Claude, Cursor, VS Code, and more to your real browser — with all your sessions, cookies, and extensions intact.
-                   Multi-agent ready, 25+ tools, open source MCP server.
+                   Multi-agent ready, internet-exposed relay, 25+ tools, open source MCP server. Connect any agent on the internet — including <a href="https://openclaw.com" target="_blank" rel="noopener noreferrer" className="text-[#8ab4f8] hover:underline">OpenClaw</a> — to your local browser.
                 </p>
               </div>
 
@@ -524,6 +529,10 @@ export default function McpPage() {
                 <span className="flex items-center gap-2">
                   <GitBranch className="w-4 h-4" />
                   Multi-agent relay
+                </span>
+                <span className="flex items-center gap-2">
+                  <Globe className="w-4 h-4" />
+                  Internet-exposed relay
                 </span>
                 <span className="flex items-center gap-2">
                   <Shield className="w-4 h-4" />
@@ -629,7 +638,7 @@ export default function McpPage() {
                 Multi-agent relay architecture
               </h2>
               <p className="text-[#9aa0a6] max-w-2xl mx-auto">
-                Multiple AI agents connect to your browser simultaneously through a shared relay daemon. No conflicts, no debug ports.
+                Multiple AI agents connect to your browser simultaneously through a shared relay daemon — locally or over the internet. Remote agents like OpenClaw can connect to your browser from anywhere.
               </p>
             </div>
 
@@ -641,19 +650,20 @@ export default function McpPage() {
                 <span className="text-xs text-[#5f6368] ml-2">architecture</span>
               </div>
               <pre className="p-6 text-sm font-mono text-[#9aa0a6] overflow-x-auto leading-relaxed">
-{`  Claude Desktop       Cursor           VS Code
-       │                  │                 │
-       ▼                  ▼                 ▼
-   [vibe-mcp]         [vibe-mcp]        [vibe-mcp]      ← stdio MCP bridges
-       │                  │                 │
-       └──────────────────┼─────────────────┘
-                          │
-                   WebSocket :19888
-                          │
-                          ▼
-                   ┌─────────────┐
-                   │ Relay Daemon │  ← auto-spawned by first vibe-mcp
-                   └─────────────┘
+{`  Claude Desktop       Cursor           VS Code          OpenClaw (remote)
+       │                  │                 │                  │
+       ▼                  ▼                 ▼                  │
+   [vibe-mcp]         [vibe-mcp]        [vibe-mcp]             │  ← local stdio
+       │                  │                 │                  │     MCP bridges
+       └──────────────────┼─────────────────┘                  │
+                          │                                    │
+                   WebSocket :19888                   Internet (HTTPS/WSS)
+                          │                                    │
+                          ▼                                    ▼
+                   ┌──────────────────────────────────────────────┐
+                   │              Relay Daemon                     │
+                   │   ← auto-spawned, local + internet-exposed → │
+                   └──────────────────────────────────────────────┘
                           │
                    WebSocket :19889
                           │
@@ -682,10 +692,10 @@ export default function McpPage() {
               </div>
               <div className="text-center">
                 <div className="w-12 h-12 rounded-lg bg-[#81c995]/10 flex items-center justify-center mx-auto mb-3">
-                  <Shield className="w-6 h-6 text-[#81c995]" />
+                  <Globe className="w-6 h-6 text-[#81c995]" />
                 </div>
-                <h4 className="font-medium text-[#e8eaed] mb-1">Local Only</h4>
-                <p className="text-xs text-[#9aa0a6]">WebSocket binds to 127.0.0.1 — no remote access</p>
+                <h4 className="font-medium text-[#e8eaed] mb-1">Internet-Exposed</h4>
+                <p className="text-xs text-[#9aa0a6]">Expose your relay to the internet — let remote agents like OpenClaw connect to your browser</p>
               </div>
               <div className="text-center">
                 <div className="w-12 h-12 rounded-lg bg-[#fdd663]/10 flex items-center justify-center mx-auto mb-3">
@@ -921,6 +931,15 @@ MCP server for browser automation.
 
               <AccordionItem value="item-2" className="border-[#2a2a2a] bg-[#0a0a0a] rounded-lg px-4">
                 <AccordionTrigger className="text-[#e8eaed] hover:no-underline">
+                  Can remote agents on the internet connect to my browser?
+                </AccordionTrigger>
+                <AccordionContent className="text-[#9aa0a6]">
+                  Yes. Vibe MCP now supports exposing your relay daemon to the internet, so any remote AI agent — such as <a href="https://openclaw.com" target="_blank" rel="noopener noreferrer" className="text-[#8ab4f8] hover:underline">OpenClaw</a> — can connect to your local browser extension from anywhere. This means you can use cloud-hosted agents and AI platforms to automate tasks in your real browser with all your sessions intact, without needing to be on the same machine.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-3" className="border-[#2a2a2a] bg-[#0a0a0a] rounded-lg px-4">
+                <AccordionTrigger className="text-[#e8eaed] hover:no-underline">
                   Can multiple AI agents control the browser at the same time?
                 </AccordionTrigger>
                 <AccordionContent className="text-[#9aa0a6]">
@@ -928,7 +947,7 @@ MCP server for browser automation.
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="item-3" className="border-[#2a2a2a] bg-[#0a0a0a] rounded-lg px-4">
+              <AccordionItem value="item-4" className="border-[#2a2a2a] bg-[#0a0a0a] rounded-lg px-4">
                 <AccordionTrigger className="text-[#e8eaed] hover:no-underline">
                   Does Vibe MCP require Chrome debug permissions?
                 </AccordionTrigger>
@@ -937,16 +956,16 @@ MCP server for browser automation.
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="item-4" className="border-[#2a2a2a] bg-[#0a0a0a] rounded-lg px-4">
+              <AccordionItem value="item-5" className="border-[#2a2a2a] bg-[#0a0a0a] rounded-lg px-4">
                 <AccordionTrigger className="text-[#e8eaed] hover:no-underline">
                   What AI agents work with Vibe MCP?
                 </AccordionTrigger>
                 <AccordionContent className="text-[#9aa0a6]">
-                  Any MCP-compatible AI client. We provide setup configs for Claude Desktop, Cursor, VS Code (GitHub Copilot), OpenCode, Claude Code, Windsurf, and Gemini CLI. Setup is one JSON block per agent.
+                  Any MCP-compatible AI client — local or remote. We provide setup configs for Claude Desktop, Cursor, VS Code (GitHub Copilot), OpenCode, Claude Code, Windsurf, and Gemini CLI. Remote agents like <a href="https://openclaw.com" target="_blank" rel="noopener noreferrer" className="text-[#8ab4f8] hover:underline">OpenClaw</a> can also connect to your browser over the internet. Setup is one JSON block per agent.
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="item-5" className="border-[#2a2a2a] bg-[#0a0a0a] rounded-lg px-4">
+              <AccordionItem value="item-6" className="border-[#2a2a2a] bg-[#0a0a0a] rounded-lg px-4">
                 <AccordionTrigger className="text-[#e8eaed] hover:no-underline">
                   How does the credential vault work?
                 </AccordionTrigger>
@@ -955,7 +974,7 @@ MCP server for browser automation.
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="item-6" className="border-[#2a2a2a] bg-[#0a0a0a] rounded-lg px-4">
+              <AccordionItem value="item-7" className="border-[#2a2a2a] bg-[#0a0a0a] rounded-lg px-4">
                 <AccordionTrigger className="text-[#e8eaed] hover:no-underline">
                   Is Vibe MCP open source?
                 </AccordionTrigger>
@@ -964,7 +983,7 @@ MCP server for browser automation.
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="item-7" className="border-[#2a2a2a] bg-[#0a0a0a] rounded-lg px-4">
+              <AccordionItem value="item-8" className="border-[#2a2a2a] bg-[#0a0a0a] rounded-lg px-4">
                 <AccordionTrigger className="text-[#e8eaed] hover:no-underline">
                   What is the markdown-indexed page content?
                 </AccordionTrigger>
@@ -973,7 +992,7 @@ MCP server for browser automation.
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="item-8" className="border-[#2a2a2a] bg-[#0a0a0a] rounded-lg px-4">
+              <AccordionItem value="item-9" className="border-[#2a2a2a] bg-[#0a0a0a] rounded-lg px-4">
                 <AccordionTrigger className="text-[#e8eaed] hover:no-underline">
                   Can Vibe MCP also work as a standalone browser?
                 </AccordionTrigger>
@@ -982,7 +1001,7 @@ MCP server for browser automation.
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="item-9" className="border-[#2a2a2a] bg-[#0a0a0a] rounded-lg px-4">
+              <AccordionItem value="item-10" className="border-[#2a2a2a] bg-[#0a0a0a] rounded-lg px-4">
                 <AccordionTrigger className="text-[#e8eaed] hover:no-underline">
                   Why does it matter that Vibe uses my real browser?
                 </AccordionTrigger>
