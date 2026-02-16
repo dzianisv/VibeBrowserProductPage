@@ -640,50 +640,132 @@ export default function McpPage() {
           <div className="container max-w-5xl px-4 md:px-6 mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-2xl md:text-3xl font-normal text-[#e8eaed] mb-4">
-                Multi-agent relay architecture
+                Two ways to connect: local or remote
               </h2>
               <p className="text-[#9aa0a6] max-w-2xl mx-auto">
-                Multiple AI agents connect to your browser simultaneously through a shared relay daemon — locally or over the internet. Remote agents like OpenClaw can connect to your browser from anywhere.
+                Run agents on your machine with the local relay, or connect any agent on the internet to your browser through our public relay server. Both support multiple agents simultaneously.
               </p>
             </div>
 
-            <div className="bg-[#111111] rounded-lg border border-[#2a2a2a] overflow-hidden max-w-3xl mx-auto">
-              <div className="flex items-center gap-2 px-4 py-3 bg-[#1a1a1a] border-b border-[#2a2a2a]">
-                <div className="w-3 h-3 rounded-full bg-[#f28b82]" />
-                <div className="w-3 h-3 rounded-full bg-[#fdd663]" />
-                <div className="w-3 h-3 rounded-full bg-[#81c995]" />
-                <span className="text-xs text-[#5f6368] ml-2">architecture</span>
+            {/* Local mode diagram */}
+            <div className="mb-8">
+              <h3 className="text-lg font-medium text-[#e8eaed] mb-3 flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-[#81c995]" />
+                Local mode <span className="text-sm text-[#5f6368] font-normal">— agents on your machine</span>
+              </h3>
+              <div className="bg-[#111111] rounded-lg border border-[#2a2a2a] overflow-hidden max-w-3xl mx-auto">
+                <div className="flex items-center gap-2 px-4 py-3 bg-[#1a1a1a] border-b border-[#2a2a2a]">
+                  <div className="w-3 h-3 rounded-full bg-[#f28b82]" />
+                  <div className="w-3 h-3 rounded-full bg-[#fdd663]" />
+                  <div className="w-3 h-3 rounded-full bg-[#81c995]" />
+                  <span className="text-xs text-[#5f6368] ml-2">npx @vibebrowser/mcp</span>
+                </div>
+                <pre className="p-6 text-sm font-mono text-[#9aa0a6] overflow-x-auto leading-relaxed">
+{`  Claude Code          Cursor           OpenCode
+       │                  │                 │
+       ▼                  ▼                 ▼
+   [vibe-mcp]         [vibe-mcp]        [vibe-mcp]     ← stdio MCP bridges
+       │                  │                 │
+       └──────────────────┼─────────────────┘
+                          │
+                   ws://localhost:19888
+                          │
+                          ▼
+                 ┌──────────────────┐
+                 │   Local Relay    │  ← auto-spawned daemon
+                 │  (localhost only) │
+                 └──────────────────┘
+                          │
+                   ws://localhost:19889
+                          │
+                          ▼
+                 ┌──────────────────┐
+                 │  Vibe Extension  │  ← your real Chrome browser
+                 └──────────────────┘`}
+                </pre>
               </div>
-              <pre className="p-6 text-sm font-mono text-[#9aa0a6] overflow-x-auto leading-relaxed">
-{`  Claude Desktop       Cursor           VS Code          OpenClaw (remote)
-       │                  │                 │                  │
-       ▼                  ▼                 ▼                  │
-   [vibe-mcp]         [vibe-mcp]        [vibe-mcp]             │  ← local stdio
-       │                  │                 │                  │     MCP bridges
-       └──────────────────┼─────────────────┘                  │
-                          │                                    │
-                   WebSocket :19888                   Internet (HTTPS/WSS)
-                          │                                    │
-                          ▼                                    ▼
-                   ┌──────────────────────────────────────────────┐
-                   │              Relay Daemon                     │
-                   │   ← auto-spawned, local + internet-exposed → │
-                   └──────────────────────────────────────────────┘
-                          │
-                   WebSocket :19889
-                          │
-                          ▼
-                   ┌──────────────┐
-                   │Vibe Extension│  ← Chrome Extensions API
-                   └──────────────┘
-                          │
-                    Content Scripts
-                          │
-                          ▼
-                    ┌────────────┐
-                    │ Chrome Tabs │
-                    └────────────┘`}
-              </pre>
+            </div>
+
+            {/* Remote mode diagram */}
+            <div className="mb-10">
+              <h3 className="text-lg font-medium text-[#e8eaed] mb-3 flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-[#8ab4f8]" />
+                Remote mode <Badge variant="secondary" className="ml-1 px-2 py-0.5 text-xs bg-[#8ab4f8]/10 text-[#8ab4f8] border-[#8ab4f8]/20">New</Badge> <span className="text-sm text-[#5f6368] font-normal">— agents anywhere on the internet</span>
+              </h3>
+              <div className="bg-[#111111] rounded-lg border border-[#8ab4f8]/30 overflow-hidden max-w-3xl mx-auto">
+                <div className="flex items-center gap-2 px-4 py-3 bg-[#1a1a1a] border-b border-[#2a2a2a]">
+                  <div className="w-3 h-3 rounded-full bg-[#f28b82]" />
+                  <div className="w-3 h-3 rounded-full bg-[#fdd663]" />
+                  <div className="w-3 h-3 rounded-full bg-[#81c995]" />
+                  <span className="text-xs text-[#5f6368] ml-2">npx @vibebrowser/mcp --remote &lt;uuid&gt;</span>
+                </div>
+                <pre className="p-6 text-sm font-mono text-[#9aa0a6] overflow-x-auto leading-relaxed">
+{`  OpenClaw (cloud)     Claude Code (laptop)     Cursor (office)
+       │                      │                       │
+       ▼                      ▼                       ▼
+   [vibe-mcp               [vibe-mcp               [vibe-mcp
+    --remote <uuid>]         --remote <uuid>]         --remote <uuid>]
+       │                      │                       │
+       └──────────────────────┼───────────────────────┘
+                              │
+                    wss://relay.vibebrowser.app/<uuid>
+                              │
+                              ▼
+                 ┌────────────────────────┐
+                 │    Public Relay Server  │  ← hosted by Vibe
+                 │  relay.vibebrowser.app  │     UUID-authenticated
+                 └────────────────────────┘
+                              │
+                    wss://relay.vibebrowser.app
+                              │
+                              ▼
+                 ┌──────────────────┐
+                 │  Vibe Extension  │  ← your real Chrome browser
+                 │   (at home)      │     connects on "Remote" toggle
+                 └──────────────────┘`}
+                </pre>
+              </div>
+            </div>
+
+            {/* Remote mode setup instructions */}
+            <div className="bg-[#111111] rounded-lg border border-[#2a2a2a] p-6 max-w-3xl mx-auto mb-10">
+              <h4 className="font-medium text-[#e8eaed] mb-4 flex items-center gap-2">
+                <Terminal className="w-5 h-5 text-[#8ab4f8]" />
+                Remote mode setup
+              </h4>
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <span className="text-[#8ab4f8] font-mono text-sm font-bold mt-0.5 flex-shrink-0">1.</span>
+                  <div>
+                    <p className="text-sm text-[#e8eaed]">In the Vibe extension, go to Settings and enable MCP External Control in <strong>Remote</strong> mode</p>
+                    <p className="text-xs text-[#5f6368] mt-1">This connects your browser to relay.vibebrowser.app and generates a unique UUID</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="text-[#8ab4f8] font-mono text-sm font-bold mt-0.5 flex-shrink-0">2.</span>
+                  <div>
+                    <p className="text-sm text-[#e8eaed]">Copy your UUID from the extension settings page</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="text-[#8ab4f8] font-mono text-sm font-bold mt-0.5 flex-shrink-0">3.</span>
+                  <div>
+                    <p className="text-sm text-[#e8eaed] mb-2">Configure your agent with the <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1.5 py-0.5 rounded">--remote</code> flag:</p>
+                    <div className="bg-[#0a0a0a] rounded border border-[#2a2a2a] overflow-hidden">
+                      <div className="flex items-center justify-between px-3 py-1.5 bg-[#1a1a1a] border-b border-[#2a2a2a]">
+                        <span className="text-xs text-[#5f6368] font-mono">CLI</span>
+                        <CopyButton text="npx -y @vibebrowser/mcp --remote YOUR_UUID" />
+                      </div>
+                      <pre className="px-3 py-2 text-sm font-mono text-[#e8eaed] overflow-x-auto">
+                        <code>npx -y @vibebrowser/mcp --remote YOUR_UUID</code>
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <p className="text-xs text-[#5f6368] mt-4">
+                Share your UUID with any MCP-compatible agent on the internet. They connect to your browser through the relay — no port forwarding, no VPN, no firewall changes needed.
+              </p>
             </div>
 
             {/* Architecture highlights */}
@@ -693,21 +775,21 @@ export default function McpPage() {
                   <GitBranch className="w-6 h-6 text-[#8ab4f8]" />
                 </div>
                 <h4 className="font-medium text-[#e8eaed] mb-1">Multi-Agent</h4>
-                <p className="text-xs text-[#9aa0a6]">Each agent gets its own stdio bridge — no conflicts</p>
+                <p className="text-xs text-[#9aa0a6]">Multiple agents connect simultaneously — local or remote, no conflicts</p>
               </div>
               <div className="text-center">
                 <div className="w-12 h-12 rounded-lg bg-[#81c995]/10 flex items-center justify-center mx-auto mb-3">
                   <Globe className="w-6 h-6 text-[#81c995]" />
                 </div>
-                <h4 className="font-medium text-[#e8eaed] mb-1">Internet-Exposed</h4>
-                <p className="text-xs text-[#9aa0a6]">Expose your relay to the internet — let remote agents like OpenClaw connect to your browser</p>
+                <h4 className="font-medium text-[#e8eaed] mb-1">Connect from Anywhere</h4>
+                <p className="text-xs text-[#9aa0a6]">Any agent on the internet can control your browser — just share your UUID</p>
               </div>
               <div className="text-center">
                 <div className="w-12 h-12 rounded-lg bg-[#fdd663]/10 flex items-center justify-center mx-auto mb-3">
-                  <Zap className="w-6 h-6 text-[#fdd663]" />
+                  <Shield className="w-6 h-6 text-[#fdd663]" />
                 </div>
-                <h4 className="font-medium text-[#e8eaed] mb-1">Auto-Spawned</h4>
-                <p className="text-xs text-[#9aa0a6]">Relay daemon starts automatically on first connection</p>
+                <h4 className="font-medium text-[#e8eaed] mb-1">Authenticated</h4>
+                <p className="text-xs text-[#9aa0a6]">UUID + secret authentication — only you control who connects</p>
               </div>
             </div>
           </div>
