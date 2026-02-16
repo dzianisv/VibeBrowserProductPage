@@ -1,0 +1,46 @@
+# Vibe Browser - AI Web Agent & Agentic Operations
+
+> Vibe Browser is an AI-powered browser co-pilot that lets users control any website with natural language. It also offers Agentic Team, a multi-agent AI system for autonomous SaaS operations.
+
+## Pages
+
+- [Home](https://www.vibebrowser.app/): Vibe Browser product page. AI web agent that automates browser tasks using natural language.
+- [Teams](https://www.vibebrowser.app/teams): Vibe Browser for Teams. Shared AI automation with workflow sharing, admin controls, and unified billing.
+- [Agentic Team](https://www.vibebrowser.app/agentic-team): Deploy 5 specialized AI agents (Support, Engineering, Release, Product, Marketing) that coordinate autonomously over Slack to run SaaS operations 24/7. Powered by OpenClaw.
+- [MCP](https://www.vibebrowser.app/mcp): Model Context Protocol integration. Connect Vibe Browser to AI coding agents like Claude, Cursor, and Windsurf.
+- [Enterprise](https://www.vibebrowser.app/v2): Enterprise-grade AI browser with TEE-based security, SOC 2 compliance, and self-hosted deployment.
+- [Use Cases](https://www.vibebrowser.app/use-cases): Real-world automation stories including financial research, legal research, and recruiter workflows.
+- [Compare](https://www.vibebrowser.app/compare): Feature comparison between Vibe Browser and alternatives.
+
+## Agentic Team
+
+Vibe Agentic Team is a multi-agent AI system that deploys 5 specialized agents to autonomously run SaaS operations through natural Slack communication.
+
+### The 5 Agents
+
+1. **Grace (Support Engineer)** — Customer communication, Sentry monitoring, issue triage, email triage.
+2. **Alex (Software Engineer)** — Bug fixes, feature implementation, code review, testing.
+3. **Einstein (Release Engineer)** — Deployments, CI/CD, infrastructure, incident response.
+4. **Jordan (Product Manager)** — Backlog management, PRDs, roadmap, stakeholder communication.
+5. **Sam (Marketing Manager)** — Public announcements, social media, content creation.
+
+### How It Works
+
+Agents coordinate through Slack using a Thread-Based Subscription Model (TBSM). When one agent mentions another using @RoleName, the mentioned agent automatically subscribes to the thread and responds. This creates natural, traceable conversations that human teams can observe and intervene in.
+
+### Key Capabilities
+
+- Autonomous incident response and deployment
+- Customer support triage and resolution
+- Automated code review, testing, and deployment
+- Product backlog management and PRDs
+- Marketing content creation and announcements
+- Kubernetes-native deployment
+- Powered by OpenClaw agent framework
+
+## Contact
+
+- Website: https://www.vibebrowser.app
+- Agentic Team demos: agenticteam@vibebrowser.app
+- Twitter: https://twitter.com/vibebrowserapp
+- Telegram: https://t.me/VibeBrowser
