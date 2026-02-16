@@ -8,6 +8,8 @@ const defaultPaths = [
   "/v2",
   "/tee",
   "/compare",
+  "/agentic-team",
+  "/vibetechnologies",
   "/use-cases",
   "/use-cases/financial-advisor-morningstar-schwab",
   "/use-cases/privacy-first-legal-research",
