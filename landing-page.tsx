@@ -233,6 +233,9 @@ export default function Component() {
           <Link href="/mcp" className="text-sm font-medium hover:text-purple-600 transition-colors">
             MCP
           </Link>
+          <Link href="/aboutus" className="text-sm font-medium hover:text-purple-600 transition-colors">
+            About Us
+          </Link>
           <Link href="https://enterprise.vibebrowser.app" className="text-sm font-medium text-purple-600 hover:text-purple-700 transition-colors">
             Enterprise →
           </Link>
@@ -247,6 +250,9 @@ export default function Component() {
           </Link>
           <Link href="/mcp" className="text-xs font-medium hover:text-purple-600 transition-colors">
             MCP
+          </Link>
+          <Link href="/aboutus" className="text-xs font-medium hover:text-purple-600 transition-colors">
+            About Us
           </Link>
           <Link href="https://enterprise.vibebrowser.app" className="text-xs font-medium text-purple-600 hover:text-purple-700 transition-colors">
             Enterprise
@@ -1109,6 +1115,9 @@ export default function Component() {
             </Link>
             <Link href="/tee" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
               TEE Research Paper
+            </Link>
+            <Link href="/aboutus" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
+              About Us
             </Link>
           </nav>
         </div>
