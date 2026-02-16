@@ -8,10 +8,13 @@
 - [Teams](https://www.vibebrowser.app/teams): Vibe Browser for Teams. Shared AI automation with workflow sharing, admin controls, and unified billing.
 - [Agentic Team](https://www.vibebrowser.app/agentic-team): Deploy 5 specialized AI agents (Support, Engineering, Release, Product, Marketing) that coordinate autonomously over Slack to run SaaS operations 24/7. Powered by OpenClaw.
 - [MCP](https://www.vibebrowser.app/mcp): Model Context Protocol integration. Connect Vibe Browser to AI coding agents like Claude, Cursor, and Windsurf.
-- [Enterprise](https://www.vibebrowser.app/v2): Enterprise-grade AI browser with TEE-based security, SOC 2 compliance, and self-hosted deployment.
+- [Enterprise](https://www.vibebrowser.app/enterprise): Enterprise-grade AI browser with TEE-based security, SOC 2 compliance, and self-hosted deployment.
 - [Use Cases](https://www.vibebrowser.app/use-cases): Real-world automation stories including financial research, legal research, and recruiter workflows.
-- [Compare](https://www.vibebrowser.app/compare): Feature comparison between Vibe Browser and alternatives.
+- [Compare](https://www.vibebrowser.app/compare): Feature comparison between Vibe Browser and alternatives like ChatGPT Atlas, Perplexity Comet, Composite, and Strawberry Browser.
 - [TEE Whitepaper](https://www.vibebrowser.app/tee): Open-source research on privacy-preserving LLM inference within Trusted Execution Environments (TEEs) with Intel TDX and cryptographic remote attestation. Runs DeepSeek models on Azure Confidential VMs.
+- [About Us](https://www.vibebrowser.app/aboutus): Meet the Vibe Technologies team building the AI browser co-pilot.
+- [Privacy Policy](https://www.vibebrowser.app/privacy): Vibe Browser privacy policy and data handling practices.
+- [Terms of Service](https://www.vibebrowser.app/terms): Vibe Browser terms of service and usage agreement.
 
 ## Agentic Team
 
@@ -43,5 +46,5 @@ Agents coordinate through Slack using a Thread-Based Subscription Model (TBSM). 
 
 - Website: https://www.vibebrowser.app
 - Agentic Team demos: agenticteam@vibebrowser.app
-- Twitter: https://twitter.com/vibebrowserapp
+- Twitter: https://x.com/vibebrowserapp
 - Telegram: https://t.me/VibeBrowser

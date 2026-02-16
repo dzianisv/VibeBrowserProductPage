@@ -4,15 +4,22 @@ import { neon } from "@neondatabase/serverless"
 
 const sql = neon(process.env.DATABASE_URL!)
 
-// Initialize Resend only if API key is available
-let resend: any = null
-try {
-  if (process.env.RESEND_API_KEY) {
-    const { Resend } = await import("resend")
-    resend = new Resend(process.env.RESEND_API_KEY)
+// Lazy-initialize Resend to avoid top-level await
+let resendInstance: any = null
+let resendInitialized = false
+
+async function getResend() {
+  if (resendInitialized) return resendInstance
+  resendInitialized = true
+  try {
+    if (process.env.RESEND_API_KEY) {
+      const { Resend } = await import("resend")
+      resendInstance = new Resend(process.env.RESEND_API_KEY)
+    }
+  } catch {
+    console.log("Resend not configured - email notifications disabled")
   }
-} catch (error) {
-  console.log("Resend not configured - email notifications disabled")
+  return resendInstance
 }
 
 export async function joinWaitlist(email: string) {
@@ -42,7 +49,8 @@ export async function joinWaitlist(email: string) {
     `
 
     // Send notification email to info@vibebrowser.app (only if Resend is configured)
-    if (resend && process.env.RESEND_API_KEY) {
+    const resend = await getResend()
+    if (resend) {
       try {
         await resend.emails.send({
           from: "Vibe Browser <noreply@vibebrowser.app>",
