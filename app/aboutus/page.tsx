@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { ArrowRight, Globe, Bot, Building2, MessageCircle, Users, Zap, Shield, Linkedin, Code2, Cpu, Wrench, Lightbulb } from "lucide-react"
+import { ArrowRight, Globe, Bot, Building2, MessageCircle, Users, Zap, Shield, Linkedin, Code2, Cpu, Wrench, Lightbulb, Plug } from "lucide-react"
 import Image from "next/image"
 
 const ROTATING_WORDS = [
@@ -151,11 +151,11 @@ export default function AboutUsPage() {
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
-              <Link href="mailto:info@vibebrowser.app">
-                <Button size="lg" variant="outline" className="border-[#3c4043] bg-transparent hover:bg-[#1a1a1a] text-[#e8eaed] font-medium px-8 py-6 h-auto rounded-full">
+              <Button asChild size="lg" variant="outline" className="border-[#3c4043] bg-transparent hover:bg-[#1a1a1a] text-[#e8eaed] font-medium px-8 py-6 h-auto rounded-full">
+                <a href="mailto:info@vibebrowser.app">
                   Contact Us
-                </Button>
-              </Link>
+                </a>
+              </Button>
             </div>
           </div>
         </section>
@@ -338,6 +338,37 @@ export default function AboutUsPage() {
                   <Link href="https://oclawbox.com" target="_blank" rel="noopener noreferrer">
                     <Button variant="outline" className="border-[#3c4043] bg-transparent hover:bg-[#2a2a2a] text-[#fdd663] w-full">
                       Visit oclawbox.com <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+
+              {/* Vibe MCP Server */}
+              <Card className="bg-[#1a1a1a] border-[#2a2a2a] hover:border-[#c58af9]/30 transition-all duration-300 group">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-12 h-12 bg-[#c58af9]/10 rounded-xl flex items-center justify-center">
+                      <Plug className="w-6 h-6 text-[#c58af9]" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-[#e8eaed]">Vibe MCP Server</h3>
+                      <span className="text-xs text-[#c58af9] bg-[#c58af9]/10 px-2 py-0.5 rounded-full">Open Source</span>
+                    </div>
+                  </div>
+                  <p className="text-[#9aa0a6] mb-6 leading-relaxed">
+                    Open-source MCP server with 25+ tools that connects AI coding agents to your real browser. Control Chrome, automate workflows, access Google Workspace, and manage credentials &mdash; all from Claude, Cursor, or VS Code.
+                  </p>
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">Open Source</span>
+                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">25+ Tools</span>
+                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">Multi-Agent</span>
+                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">Claude</span>
+                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">Cursor</span>
+                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">VS Code</span>
+                  </div>
+                  <Link href="/mcp">
+                    <Button variant="outline" className="border-[#3c4043] bg-transparent hover:bg-[#2a2a2a] text-[#c58af9] w-full">
+                      Learn More <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
                   </Link>
                 </CardContent>
