@@ -14,10 +14,12 @@ function getSupabaseClient() {
   return createClient(url, key)
 }
 
-let resendClient: { emails: { send: (data: unknown) => Promise<unknown> } } | null = null
+type ResendLike = { emails: { send: (data: unknown) => Promise<unknown> } }
+
+let resendClient: ResendLike | null = null
 
 // Helper function to get Resend client
-async function getResendClient(): Promise<{ emails: { send: (data: unknown) => Promise<unknown> } } | null> {
+async function getResendClient(): Promise<ResendLike | null> {
   if (resendClient) {
     return resendClient
   }
@@ -29,7 +31,7 @@ async function getResendClient(): Promise<{ emails: { send: (data: unknown) => P
 
   try {
     const { Resend } = await import("resend")
-    resendClient = new Resend(apiKey)
+    resendClient = new Resend(apiKey) as unknown as ResendLike
     return resendClient
   } catch (error) {
     console.log("Resend not configured - email notifications disabled")
@@ -286,6 +288,21 @@ export async function getWaitlistStats() {
   } catch (error) {
     console.error("Error fetching waitlist stats:", error)
     return { success: false, message: "Failed to fetch stats." }
+  }
+}
+
+// Subscribe to dev mailing list (Brevo only, no Supabase insert)
+export async function subscribeToMailingList(email: string) {
+  if (!email || !email.includes("@")) {
+    return { success: false, message: "Please enter a valid email address." }
+  }
+
+  try {
+    await addToBrevo(email.toLowerCase(), { SOURCE: "mailing_list" })
+    return { success: true, message: "You're subscribed! Check your inbox." }
+  } catch (error) {
+    console.error("Mailing list subscribe error:", error)
+    return { success: false, message: "Failed to subscribe. Please try again." }
   }
 }
 
