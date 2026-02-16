@@ -227,17 +227,19 @@ export default function Component() {
           <Link href="https://docs.vibebrowser.app" className="text-sm font-medium hover:text-purple-600 transition-colors">
             Docs
           </Link>
+          <span className="text-sm font-medium text-slate-500">Products</span>
           <Link href="/teams" className="text-sm font-medium hover:text-purple-600 transition-colors">
-            Teams
+            Co-Pilot for Teams
+          </Link>
+          <Link href="https://enterprise.vibebrowser.app" className="text-sm font-medium hover:text-purple-600 transition-colors">
+            Co-Pilot for Enterprise
           </Link>
           <Link href="/mcp" className="text-sm font-medium hover:text-purple-600 transition-colors">
             MCP
           </Link>
+          <span className="text-slate-300">|</span>
           <Link href="/aboutus" className="text-sm font-medium hover:text-purple-600 transition-colors">
             About Us
-          </Link>
-          <Link href="https://enterprise.vibebrowser.app" className="text-sm font-medium text-purple-600 hover:text-purple-700 transition-colors">
-            Enterprise →
           </Link>
         </nav>
         {/* Mobile navigation */}
@@ -245,17 +247,19 @@ export default function Component() {
           <Link href="#pricing" className="text-xs font-medium hover:text-purple-600 transition-colors">
             Pricing
           </Link>
+          <span className="text-xs font-medium text-slate-500">Products</span>
           <Link href="/teams" className="text-xs font-medium hover:text-purple-600 transition-colors">
             Teams
+          </Link>
+          <Link href="https://enterprise.vibebrowser.app" className="text-xs font-medium hover:text-purple-600 transition-colors">
+            Enterprise
           </Link>
           <Link href="/mcp" className="text-xs font-medium hover:text-purple-600 transition-colors">
             MCP
           </Link>
+          <span className="text-slate-300">|</span>
           <Link href="/aboutus" className="text-xs font-medium hover:text-purple-600 transition-colors">
             About Us
-          </Link>
-          <Link href="https://enterprise.vibebrowser.app" className="text-xs font-medium text-purple-600 hover:text-purple-700 transition-colors">
-            Enterprise
           </Link>
         </nav>
       </header>
