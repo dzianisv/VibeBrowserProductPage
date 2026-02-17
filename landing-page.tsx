@@ -214,19 +214,13 @@ export default function Component() {
         <div className="flex items-center gap-2">
           <img src="/vibebrowser-logo.png" alt="Vibe AI Browser Co-Pilot" className="w-10 h-10 object-contain" />
           <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent hidden sm:inline">
-            Vibe AI Browser Co-Pilot
+            Browser AI Co-Pilot
           </span>
           <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent sm:hidden">
             Vibe
           </span>
         </div>
         <nav className="hidden md:flex gap-6">
-          <Link href="#pricing" className="text-sm font-medium hover:text-purple-600 transition-colors">
-            Pricing
-          </Link>
-          <Link href="https://docs.vibebrowser.app" className="text-sm font-medium hover:text-purple-600 transition-colors">
-            Docs
-          </Link>
           <Link href="/teams" className="text-sm font-medium hover:text-purple-600 transition-colors">
             Co-Pilot for Teams
           </Link>
@@ -237,15 +231,19 @@ export default function Component() {
             MCP
           </Link>
           <span className="text-slate-300">|</span>
+          <Link href="#pricing" className="text-sm font-medium hover:text-purple-600 transition-colors">
+            Pricing
+          </Link>
+          <Link href="https://docs.vibebrowser.app" className="text-sm font-medium hover:text-purple-600 transition-colors">
+            Docs
+          </Link>
           <Link href="/aboutus" className="text-sm font-medium hover:text-purple-600 transition-colors">
             About Us
           </Link>
         </nav>
         {/* Mobile navigation */}
         <nav className="flex md:hidden flex-wrap items-center justify-end gap-x-3 gap-y-1 text-[11px]">
-          <Link href="#pricing" className="font-medium hover:text-purple-600 transition-colors whitespace-nowrap">
-            Pricing
-          </Link>
+   
           <Link href="/teams" className="font-medium hover:text-purple-600 transition-colors whitespace-nowrap">
             Co-Pilot for Teams
           </Link>
@@ -256,6 +254,9 @@ export default function Component() {
             MCP
           </Link>
           <span className="text-slate-300">|</span>
+          <Link href="#pricing" className="font-medium hover:text-purple-600 transition-colors whitespace-nowrap">
+            Pricing
+          </Link>
           <Link href="/aboutus" className="font-medium hover:text-purple-600 transition-colors whitespace-nowrap">
             About Us
           </Link>
@@ -274,7 +275,7 @@ export default function Component() {
           </Badge>
 
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-            The AI Browser That
+            The Web Agent That
             <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent"> <TypewriterEffect words={["Acts", "Researches", "Automates", "Invests", "Recruits", "Outreaches"]} typingSpeed={90} deletingSpeed={50} pauseDuration={2200} /></span>
             <br />
             <span className="text-muted-foreground text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-normal">Not Just Answers</span>
@@ -1078,7 +1079,7 @@ export default function Component() {
           <div className="flex items-center gap-2">
             <img src="/vibebrowser-logo.png" alt="Vibe AI Browser Co-Pilot" className="w-8 h-8 object-contain" />
             <span className="font-bold text-lg bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-              Vibe AI Browser Co-Pilot
+              Browser AI Co-Pilot
             </span>
           </div>
           <p className="text-sm text-muted-foreground">
