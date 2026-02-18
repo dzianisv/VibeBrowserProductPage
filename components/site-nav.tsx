@@ -55,9 +55,10 @@ export function SiteNav() {
           <div className="relative">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="flex items-center gap-1 text-sm font-medium text-slate-500 hover:text-purple-600 transition-colors"
+              className="flex items-center gap-1 text-xl font-bold text-slate-500 hover:text-purple-600 transition-colors"
             >
-              <span>{currentPage.label}</span>
+              <span>for</span>
+              <span className="text-slate-700">{currentPage.label}</span>
               <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
             </button>
             
