@@ -16,7 +16,7 @@ const cryptoConfig: ProfessionConfig = {
   ctaText: 'Get Started',
   ctaLink: '/waitlist',
   ctaIsWaitlist: true,
-  showDownload: true,
+  showDownloadButtons: true,
   features: [
     { icon: 'Search', title: 'DeFi Research', description: 'Research DeFi protocols, compare yields, and find the best opportunities across chains.' },
     { icon: 'TrendingUp', title: 'APY Comparison', description: 'Compare APY across different pools and protocols. Find the highest yields with acceptable risk.' },

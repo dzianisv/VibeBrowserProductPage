@@ -13,9 +13,10 @@ const recruitersConfig: ProfessionConfig = {
   accentBg: 'bg-blue-100 text-blue-800',
   rotatingWords: ['Tech Recruiting', 'Sales', 'Executive Search', 'Healthcare', 'Finance', 'Engineering', 'Marketing', 'HR'],
   description: 'Find the right candidates faster. Vibe searches LinkedIn, matches skills, drafts personalized outreach, and manages your CRM.',
-  ctaText: 'Contact Sales',
-  ctaLink: 'mailto:sales@vibebrowser.app',
-  ctaIsMailto: true,
+  ctaText: 'Get Started',
+  ctaLink: '/waitlist',
+  ctaIsWaitlist: true,
+  showDownloadButtons: true,
   features: [
     { icon: 'Search', title: 'Skills-Based Sourcing', description: 'Define a skills rubric and Vibe finds matching candidates.' },
     { icon: 'MessageSquare', title: 'Personalized Outreach', description: 'Draft messages referencing specific projects and experience.' },

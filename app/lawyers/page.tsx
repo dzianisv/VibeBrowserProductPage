@@ -15,6 +15,7 @@ const lawyersConfig: ProfessionConfig = {
   description: 'Automate case research while keeping client data in your secure environment. TEE and on-premise deployments protect attorney-client privilege.',
   ctaText: 'Explore Enterprise',
   ctaLink: '/enterprise',
+  showDownloadButtons: true,
   features: [
     { icon: 'Shield', title: 'TEE Privacy', description: 'Run AI in Trusted Execution Environment with cryptographic isolation.' },
     { icon: 'Lock', title: 'Privilege Protected', description: 'On-premise and TEE deployments maintain attorney-client privilege.' },

@@ -17,6 +17,7 @@ const investorsConfig: ProfessionConfig = {
   ctaLink: '/waitlist',
   ctaIsWaitlist: true,
   showDownload: true,
+  showDownloadButtons: true,
   features: [
     { icon: 'Search', title: 'Stock Research', description: 'Research any stock with natural language. Get analysis, compare to competitors, and find undervalued opportunities.' },
     { icon: 'Download', title: 'Morningstar Reports', description: 'Download and analyze Morningstar reports. Extract key insights and compare metrics across companies.' },

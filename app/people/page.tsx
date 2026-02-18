@@ -16,7 +16,7 @@ const peopleConfig: ProfessionConfig = {
   ctaText: 'Get Started',
   ctaLink: '/waitlist',
   ctaIsWaitlist: true,
-  showDownload: true,
+  showDownloadButtons: true,
   features: [
     { icon: 'Mail', title: 'Email Management', description: 'Auto-reply to emails, highlight important messages, draft responses based on your style.' },
     { icon: 'Calendar', title: 'Smart Scheduling', description: 'Find time for appointments, meetings, and personal tasks. Book services with natural language.' },

@@ -13,9 +13,10 @@ const researchersConfig: ProfessionConfig = {
   accentBg: 'bg-teal-100 text-teal-800',
   rotatingWords: ['Academic Research', 'Literature Review', 'Market Analysis', 'Competitive Intel', 'Due Diligence', 'Data Synthesis', 'Paper Analysis', 'Trend Research'],
   description: 'Search academic databases, summarize papers, and synthesize findings. Vibe handles the research legwork so you can focus on insights.',
-  ctaText: 'Contact Sales',
-  ctaLink: 'mailto:sales@vibebrowser.app',
-  ctaIsMailto: true,
+  ctaText: 'Get Started',
+  ctaLink: '/waitlist',
+  ctaIsWaitlist: true,
+  showDownloadButtons: true,
   features: [
     { icon: 'Search', title: 'Multi-Source Search', description: 'Search arXiv, PubMed, Google Scholar, and more from one interface.' },
     { icon: 'FileText', title: 'Smart Summarization', description: 'Get AI summaries of papers, articles, and reports.' },

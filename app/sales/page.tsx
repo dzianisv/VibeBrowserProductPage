@@ -13,9 +13,10 @@ const salesConfig: ProfessionConfig = {
   accentBg: 'bg-green-100 text-green-800',
   rotatingWords: ['Outreach', 'Research', 'Follow-ups', 'Demo Prep', 'CRM Updates', 'Lead Gen', 'Pipeline', 'Closing'],
   description: 'Automate your sales workflow with Gmail, CRM, and lead research. Find prospects, draft emails, and close more deals.',
-  ctaText: 'Contact Sales',
-  ctaLink: 'mailto:sales@vibebrowser.app',
-  ctaIsMailto: true,
+  ctaText: 'Get Started',
+  ctaLink: '/waitlist',
+  ctaIsWaitlist: true,
+  showDownloadButtons: true,
   features: [
     { icon: 'Mail', title: 'Gmail Integration', description: 'Send emails, schedule follow-ups, and manage inbox from Vibe.' },
     { icon: 'Building2', title: 'CRM Automation', description: 'Update Salesforce, HubSpot automatically. No more manual entry.' },

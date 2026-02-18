@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { WaitlistDialog } from "./components/waitlist-dialog"
 import { TypewriterEffect } from "./components/typewriter-effect"
-import { MailingListSubscribe } from "./components/mailing-list-subscribe"
+import { SiteFooter } from '@/components/site-footer'
 import { HorizontalRoadmap } from "./components/horizontal-roadmap"
 import {
 Chrome,
@@ -1070,143 +1070,8 @@ export default function Component() {
     </section>
   </main>
 
-  {/* Footer */}
-  <footer className="w-full border-t bg-white">
-    <div className="container max-w-7xl px-4 md:px-6 py-12 mx-auto">
-      <div className="grid gap-8 md:grid-cols-3 lg:grid-cols-5">
-        {/* Brand */}
-        <div className="space-y-4">
-          <div className="flex items-center gap-2">
-            <img src="/vibebrowser-logo.png" alt="Vibe Co-Pilot" className="w-8 h-8 object-contain" />
-            <span className="font-bold text-lg bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-              Vibe Co-Pilot
-            </span>
-          </div>
-          <p className="text-sm text-muted-foreground">
-            The agentic browser that doesn't just answer — it operates the web for you.
-          </p>
-        </div>
-
-        {/* Vibe Co-Pilot for */}
-        <div className="space-y-4">
-          <h3 className="font-semibold text-sm">Vibe Co-Pilot for</h3>
-          <nav className="flex flex-col gap-2">
-            <Link href="/people" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
-              People
-            </Link>
-            <Link href="/teams" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
-              Teams
-            </Link>
-            <Link href="/enterprise" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
-              Enterprise
-            </Link>
-            <Link href="/lawyers" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
-              Lawyers
-            </Link>
-            <Link href="/recruiters" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
-              Recruiters
-            </Link>
-            <Link href="/sales" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
-              Sales
-            </Link>
-            <Link href="/researchers" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
-              Researchers
-            </Link>
-            <Link href="/developers" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
-              Developers
-            </Link>
-            <Link href="/investors" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
-              Investors
-            </Link>
-            <Link href="/crypto" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
-              Crypto & DeFi
-            </Link>
-            <Link href="/tax" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
-              Tax
-            </Link>
-          </nav>
-        </div>
-
-        {/* Resources */}
-        <div className="space-y-4">
-          <h3 className="font-semibold text-sm">Resources</h3>
-          <nav className="flex flex-col gap-2">
-            <Link href="https://docs.vibebrowser.app" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
-              Documentation
-            </Link>
-            <Link href="/mcp" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
-              MCP Server
-            </Link>
-            <Link href="/agentic-team" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
-              Agentic Team
-            </Link>
-            <Link href="https://docs.vibebrowser.app/getting-started/extension" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
-              Developer Install
-            </Link>
-            <Link href="/tee" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
-              TEE Research Paper
-            </Link>
-            <Link href="/aboutus" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
-              About Us
-            </Link>
-          </nav>
-        </div>
-
-        {/* Legal */}
-        <div className="space-y-4">
-          <h3 className="font-semibold text-sm">Legal</h3>
-          <nav className="flex flex-col gap-2">
-            <Link href="/privacy" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
-              Privacy Policy
-            </Link>
-            <Link href="/terms" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
-              Terms of Service
-            </Link>
-          </nav>
-        </div>
-
-        {/* Contact */}
-        <div className="space-y-4">
-          <h3 className="font-semibold text-sm">Contact</h3>
-          <div className="flex flex-col gap-3">
-            <Link href="mailto:info@vibebrowser.app" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors flex items-center gap-2">
-              <MessageSquare className="w-4 h-4" />
-              info@vibebrowser.app
-            </Link>
-            <Link href="https://linkedin.com/company/vibebrowser" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors flex items-center gap-2">
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-              </svg>
-              LinkedIn
-            </Link>
-            <Link href="https://x.com/vibebrowserapp" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors flex items-center gap-2">
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-              </svg>
-              X (Twitter)
-            </Link>
-            <Link href="https://t.me/VibeBrowser" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors flex items-center gap-2">
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M9.6 15.6 9.2 19.2c.6 0 .9-.2 1.2-.6l2.9-2.7 6 4.4c1.1.6 1.9.3 2.2-1l4-18.7c.4-1.7-.6-2.4-1.7-2l-23.5 9c-1.6.6-1.6 1.5-.3 1.9l6 1.9 13.8-8.7c.7-.4 1.3-.2.8.2" />
-              </svg>
-              Telegram Community
-            </Link>
-          </div>
-        </div>
-
-        {/* Dev Mailing List */}
-        <div className="space-y-4 md:col-span-2 lg:col-span-1">
-          <MailingListSubscribe />
-        </div>
-      </div>
-
-      <div className="mt-12 pt-8 border-t">
-        <p className="text-xs text-center text-muted-foreground">
-          © 2026 Vibe Co-Pilot. All rights reserved.
-        </p>
-      </div>
-    </div>
-  </footer>
+  {/* Shared Footer */}
+  <SiteFooter />
 </div>
 )
 }

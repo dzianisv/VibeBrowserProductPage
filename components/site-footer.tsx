@@ -1,12 +1,13 @@
 "use client"
 
 import Link from 'next/link'
+import { MailingListSubscribe } from './mailing-list-subscribe'
 
 export function SiteFooter() {
   return (
     <footer className="w-full border-t bg-white">
       <div className="container max-w-7xl px-4 md:px-6 py-12 mx-auto">
-        <div className="grid gap-8 md:grid-cols-3 lg:grid-cols-5">
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-6">
           {/* Brand */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
@@ -115,6 +116,11 @@ export function SiteFooter() {
                 Telegram Community
               </Link>
             </div>
+          </div>
+
+          {/* Dev Mailing List */}
+          <div className="space-y-4">
+            <MailingListSubscribe />
           </div>
         </div>
 
