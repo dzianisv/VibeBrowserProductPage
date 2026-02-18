@@ -311,7 +311,7 @@ export default function AgenticTeamPage() {
         </nav>
         <div className="flex gap-3 items-center">
           <Link href="/" className="text-sm text-[#9aa0a6] hover:text-[#e8eaed] transition-colors hidden sm:block">
-            Product Page
+            Vibe Co-Pilot
           </Link>
           <Button asChild size="sm" className="bg-[#8ab4f8] hover:bg-[#aecbfa] text-[#0a0a0a] font-medium rounded-full">
             <a href="mailto:agenticteam@vibebrowser.app">

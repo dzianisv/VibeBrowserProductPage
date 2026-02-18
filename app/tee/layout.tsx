@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     description:
       'Open-source infrastructure for deploying LLM inference in hardware-attested TEEs with Intel TDX and cryptographic remote attestation.',
     url: 'https://www.vibebrowser.app/tee',
-    siteName: 'Vibe AI Browser Co-Pilot',
+    siteName: 'Vibe Co-Pilot',
     locale: 'en_US',
     type: 'article',
     images: [

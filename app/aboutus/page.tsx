@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { ArrowRight, Globe, Bot, Building2, MessageCircle, Users, Zap, Shield, Linkedin, Code2, Cpu, Wrench, Lightbulb, Plug } from "lucide-react"
+import { ArrowRight, Globe, Bot, Building2, MessageCircle, Users, Zap, Shield, Linkedin, Code2, Cpu, Wrench, Lightbulb, Plug, Mail, Briefcase } from "lucide-react"
 import Image from "next/image"
 
 const ROTATING_WORDS = [
@@ -225,7 +225,7 @@ export default function AboutUsPage() {
             </div>
 
             <div className="grid gap-8 md:grid-cols-2">
-              {/* Vibe AI Browser Co-Pilot */}
+              {/* Vibe Co-Pilot */}
               <Card className="bg-[#1a1a1a] border-[#2a2a2a] hover:border-[#8ab4f8]/40 transition-all duration-300">
                 <CardContent className="p-8">
                   <div className="flex items-center gap-3 mb-6">
@@ -233,7 +233,7 @@ export default function AboutUsPage() {
                       <Globe className="w-6 h-6 text-[#8ab4f8]" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-[#e8eaed]">Vibe AI Browser Co-Pilot</h3>
+                      <h3 className="text-xl font-bold text-[#e8eaed]">Vibe Co-Pilot</h3>
                       <span className="text-xs text-[#8ab4f8] bg-[#8ab4f8]/10 px-2 py-0.5 rounded-full">Web Agent</span>
                     </div>
                   </div>
@@ -415,22 +415,37 @@ export default function AboutUsPage() {
 
         {/* Contact CTA */}
         <section className="w-full py-16 md:py-24 border-t border-[#1e1e1e]">
-          <div className="container max-w-3xl px-4 md:px-6 mx-auto text-center">
+          <div className="container max-w-4xl px-4 md:px-6 mx-auto text-center">
             <h2 className="text-2xl md:text-3xl font-bold mb-4">Get in Touch</h2>
-            <p className="text-[#9aa0a6] mb-8 max-w-xl mx-auto">
-              Building something that needs AI agents? Want to partner, invest, or just chat about the future of web automation?
+            <p className="text-[#9aa0a6] mb-10 max-w-xl mx-auto">
+              Have questions? We'd love to hear from you.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="mailto:info@vibebrowser.app">
-                <Button size="lg" className="bg-[#8ab4f8] text-[#0a0a0a] hover:bg-[#aecbfa] font-medium px-8 py-6 h-auto rounded-full">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
+              <Button asChild size="lg" className="bg-[#8ab4f8] text-[#0a0a0a] hover:bg-[#aecbfa] font-medium px-8 py-6 h-auto rounded-full">
+                <a href="mailto:info@vibebrowser.app">
+                  <Mail className="mr-2 h-5 w-5" />
                   info@vibebrowser.app
-                </Button>
-              </Link>
-              <Link href="https://t.me/VibeBrowser" target="_blank" rel="noopener noreferrer">
-                <Button size="lg" variant="outline" className="border-[#3c4043] bg-transparent hover:bg-[#1a1a1a] text-[#e8eaed] font-medium px-8 py-6 h-auto rounded-full">
-                  Telegram Community
-                </Button>
-              </Link>
+                </a>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="border-[#3c4043] bg-transparent hover:bg-[#1a1a1a] text-[#e8eaed] font-medium px-8 py-6 h-auto rounded-full">
+                <a href="mailto:sales@vibebrowser.app">
+                  <Briefcase className="mr-2 h-5 w-5" />
+                  sales@vibebrowser.app
+                </a>
+              </Button>
+            </div>
+            <div className="flex flex-wrap justify-center gap-6">
+              <a href="https://linkedin.com/company/vibebrowser" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[#9aa0a6] hover:text-[#8ab4f8] transition-colors">
+                <Linkedin className="w-5 h-5" />
+                LinkedIn
+              </a>
+              <a href="https://x.com/vibebrowserapp" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[#9aa0a6] hover:text-[#8ab4f8] transition-colors">
+                X
+              </a>
+              <a href="https://t.me/VibeBrowser" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[#9aa0a6] hover:text-[#8ab4f8] transition-colors">
+                <MessageCircle className="w-5 h-5" />
+                Telegram
+              </a>
             </div>
           </div>
         </section>
@@ -448,14 +463,11 @@ export default function AboutUsPage() {
               &copy; 2025 Vibe Technologies, LLC. All rights reserved.
             </p>
             <div className="flex flex-wrap gap-6 justify-center">
-              <Link href="/" className="hover:text-[#e8eaed] transition-colors">Browser</Link>
-              <Link href="/agentic-team" className="hover:text-[#e8eaed] transition-colors">Agentic Team</Link>
-              <Link href="/teams" className="hover:text-[#e8eaed] transition-colors">Team</Link>
-              <Link href="/mcp" className="hover:text-[#e8eaed] transition-colors">MCP</Link>
-              <Link href="/enterprise" className="hover:text-[#e8eaed] transition-colors">Enterprise</Link>
+              <Link href="https://linkedin.com/company/vibebrowser" target="_blank" rel="noopener noreferrer" className="hover:text-[#e8eaed] transition-colors">LinkedIn</Link>
+              <Link href="https://x.com/vibebrowserapp" target="_blank" rel="noopener noreferrer" className="hover:text-[#e8eaed] transition-colors">X</Link>
+              <Link href="mailto:info@vibebrowser.app" className="hover:text-[#e8eaed] transition-colors">Contact Us</Link>
               <Link href="/privacy" className="hover:text-[#e8eaed] transition-colors">Privacy</Link>
               <Link href="/terms" className="hover:text-[#e8eaed] transition-colors">Terms</Link>
-              <Link href="https://t.me/VibeBrowser" target="_blank" rel="noopener noreferrer" className="hover:text-[#e8eaed] transition-colors">Telegram</Link>
             </div>
           </div>
         </div>

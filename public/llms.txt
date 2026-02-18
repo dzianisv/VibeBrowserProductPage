@@ -6,45 +6,25 @@
 
 - [Home](https://www.vibebrowser.app/): Vibe Browser product page. AI web agent that automates browser tasks using natural language.
 - [Teams](https://www.vibebrowser.app/teams): Vibe Browser for Teams. Shared AI automation with workflow sharing, admin controls, and unified billing.
-- [Agentic Team](https://www.vibebrowser.app/agentic-team): Deploy 5 specialized AI agents (Support, Engineering, Release, Product, Marketing) that coordinate autonomously over Slack to run SaaS operations 24/7. Powered by OpenClaw.
-- [MCP](https://www.vibebrowser.app/mcp): Model Context Protocol integration. Connect Vibe Browser to AI coding agents like Claude, Cursor, and Windsurf.
+- [People](https://www.vibebrowser.app/people): Personal AI assistant for everyday tasks. Email management, scheduling, bill tracking, job applications.
 - [Enterprise](https://www.vibebrowser.app/enterprise): Enterprise-grade AI browser with TEE-based security, SOC 2 compliance, and self-hosted deployment.
-- [Use Cases](https://www.vibebrowser.app/use-cases): Real-world automation stories including financial research, legal research, and recruiter workflows.
-- [Compare](https://www.vibebrowser.app/compare): Feature comparison between Vibe Browser and alternatives like ChatGPT Atlas, Perplexity Comet, Composite, and Strawberry Browser.
-- [TEE Whitepaper](https://www.vibebrowser.app/tee): Open-source research on privacy-preserving LLM inference within Trusted Execution Environments (TEEs) with Intel TDX and cryptographic remote attestation. Runs DeepSeek models on Azure Confidential VMs.
-- [About Us](https://www.vibebrowser.app/aboutus): Meet the Vibe Technologies team building the AI browser co-pilot.
-- [Privacy Policy](https://www.vibebrowser.app/privacy): Vibe Browser privacy policy and data handling practices.
-- [Terms of Service](https://www.vibebrowser.app/terms): Vibe Browser terms of service and usage agreement.
-
-## Agentic Team
-
-Vibe Agentic Team is a multi-agent AI system that deploys 5 specialized agents to autonomously run SaaS operations through natural Slack communication.
-
-### The 5 Agents
-
-1. **Grace (Support Engineer)** — Customer communication, Sentry monitoring, issue triage, email triage.
-2. **Alex (Software Engineer)** — Bug fixes, feature implementation, code review, testing.
-3. **Einstein (Release Engineer)** — Deployments, CI/CD, infrastructure, incident response.
-4. **Jordan (Product Manager)** — Backlog management, PRDs, roadmap, stakeholder communication.
-5. **Sam (Marketing Manager)** — Public announcements, social media, content creation.
-
-### How It Works
-
-Agents coordinate through Slack using a Thread-Based Subscription Model (TBSM). When one agent mentions another using @RoleName, the mentioned agent automatically subscribes to the thread and responds. This creates natural, traceable conversations that human teams can observe and intervene in.
-
-### Key Capabilities
-
-- Autonomous incident response and deployment
-- Customer support triage and resolution
-- Automated code review, testing, and deployment
-- Product backlog management and PRDs
-- Marketing content creation and announcements
-- Kubernetes-native deployment
-- Powered by OpenClaw agent framework
+- [Lawyers](https://www.vibebrowser.app/lawyers): AI for legal professionals. TEE-protected legal research, case management automation.
+- [Recruiters](https://www.vibebrowser.app/recruiters): AI for recruiting. LinkedIn automation, skills-based sourcing, CRM integration.
+- [Sales](https://www.vibebrowser.app/sales): AI for sales teams. Gmail integration, CRM automation, outreach automation.
+- [Researchers](https://www.vibebrowser.app/researchers): AI for academic and market research. Database search, paper analysis, citation management.
+- [Developers](https://www.vibebrowser.app/developers): Browser automation with MCP. Connect to Claude, Cursor, or any AI coding agent.
+- [Investors](https://www.vibebrowser.app/investors): AI for investors. Stock research, Morningstar reports, portfolio analysis.
+- [Crypto](https://www.vibebrowser.app/crypto): AI for crypto. DeFi research, APY comparison, portfolio rebalancing.
+- [MCP](https://www.vibebrowser.app/mcp): Model Context Protocol integration. Connect Vibe Browser to AI coding agents.
+- [Compare](https://www.vibebrowser.app/compare): Feature comparison between Vibe Browser and alternatives.
+- [About Us](https://www.vibebrowser.app/aboutus): Meet the Vibe Technologies team.
+- [Privacy Policy](https://www.vibebrowser.app/privacy): Vibe Browser privacy policy.
+- [Terms of Service](https://www.vibebrowser.app/terms): Vibe Browser terms of service.
 
 ## Contact
 
 - Website: https://www.vibebrowser.app
-- Agentic Team demos: agenticteam@vibebrowser.app
+- Email: info@vibebrowser.app
+- Sales: sales@vibebrowser.app
 - Twitter: https://x.com/vibebrowserapp
 - Telegram: https://t.me/VibeBrowser

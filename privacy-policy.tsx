@@ -10,9 +10,9 @@ export default function PrivacyPolicy() {
       {/* Header */}
       <header className="w-full px-4 lg:px-6 h-16 flex items-center justify-between border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="flex items-center gap-2">
-          <img src="/vibebrowser-logo.png" alt="Vibe AI Browser Co-Pilot" className="w-10 h-10 object-contain" />
+          <img src="/vibebrowser-logo.png" alt="Vibe Co-Pilot" className="w-10 h-10 object-contain" />
           <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-            Vibe AI Browser Co-Pilot
+            Vibe Co-Pilot
           </span>
         </div>
         <nav className="flex gap-4 sm:gap-6">
@@ -41,7 +41,7 @@ export default function PrivacyPolicy() {
                 <div>
                   <h2 className="text-xl font-semibold mb-3">Our Commitment to Privacy</h2>
                   <p className="text-muted-foreground">
-                    Vibe AI Browser Co-Pilot is designed with privacy as a core principle. This Privacy Policy describes how Vibe Technologies, LLC collects, uses, and protects information when you use our Extension. By using Vibe, you consent to the data practices described in this policy.
+                    Vibe Co-Pilot is designed with privacy as a core principle. This Privacy Policy describes how Vibe Technologies, LLC collects, uses, and protects information when you use our Extension. By using Vibe, you consent to the data practices described in this policy.
                   </p>
                 </div>
               </div>

@@ -81,7 +81,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: 'https://www.vibebrowser.app/mcp',
-    siteName: 'Vibe AI Browser Co-Pilot',
+    siteName: 'Vibe Co-Pilot',
     title: 'Vibe MCP Server - Control Your Browser from Any AI Agent',
     description: 'Multi-agent browser automation via MCP. 25+ tools, Google Workspace, credential vault, no debug permissions. Works with Claude, Cursor, VS Code, Windsurf, OpenCode, Gemini CLI.',
     images: [

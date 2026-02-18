@@ -71,7 +71,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: 'https://www.vibebrowser.app/enterprise',
-    siteName: 'Vibe AI Browser Co-Pilot',
+    siteName: 'Vibe Co-Pilot',
     title: 'Private AI for Financial Professionals | Vibe AI Browser',
     description: 'AI browser automation that never sees your client data. SOC2 compliant, on-premise deployment, TEE-ready. Built for traders, wealth managers, and regulated industries.',
     images: [

@@ -2,14 +2,14 @@ import type { Metadata } from 'next'
 import Component from '../landing-page'
 
 export const metadata: Metadata = {
-  title: 'Vibe AI Browser Co-Pilot - Automate Your Browsing',
+  title: 'Vibe Co-Pilot - Automate Your Browsing',
   description:
-    'Vibe AI Browser Co-Pilot automates browsing tasks autonomously. Research, data entry, bookings, and more - just describe what you want done. The first truly agentic AI browser extension.',
+    'Vibe Co-Pilot automates browsing tasks autonomously. Research, data entry, bookings, and more - just describe what you want done. The first truly agentic AI browser extension.',
   alternates: {
     canonical: 'https://www.vibebrowser.app',
   },
   openGraph: {
-    title: 'Vibe AI Browser Co-Pilot',
+    title: 'Vibe Co-Pilot',
     description:
       'The first agentic AI browser extension that automates research, bookings, data entry, and more. Just describe what you want done.',
     url: 'https://www.vibebrowser.app',
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Vibe AI Browser Co-Pilot',
+    title: 'Vibe Co-Pilot',
     description:
       'Your AI browser co-pilot that handles browsing tasks autonomously. Research, bookings, data entry - just describe what you want done.',
     images: ['/og/home.svg'],
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
-  name: 'Vibe AI Browser Co-Pilot',
+  name: 'Vibe Co-Pilot',
   applicationCategory: 'BrowserApplication',
   operatingSystem: 'Windows, macOS, Linux',
   description:
@@ -42,7 +42,7 @@ const jsonLd = {
   url: 'https://www.vibebrowser.app',
   author: {
     '@type': 'Organization',
-    name: 'Vibe AI Browser Co-Pilot',
+    name: 'Vibe Co-Pilot',
     url: 'https://www.vibebrowser.app',
   },
   offers: {
@@ -69,7 +69,7 @@ const jsonLd = {
 const organizationJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: 'Vibe AI Browser Co-Pilot',
+  name: 'Vibe Co-Pilot',
   url: 'https://www.vibebrowser.app',
   logo: 'https://www.vibebrowser.app/logo.png',
   description: 'Creators of the revolutionary AI Browser Co-Pilot',
@@ -88,14 +88,14 @@ const organizationJsonLd = {
 const pageJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
-  name: 'Vibe AI Browser Co-Pilot - Automate Your Browsing',
+  name: 'Vibe Co-Pilot - Automate Your Browsing',
   description:
     'Experience the revolutionary AI Browser Co-Pilot. Automate any web task with natural language.',
   url: 'https://www.vibebrowser.app',
   inLanguage: 'en-US',
   isPartOf: {
     '@type': 'WebSite',
-    name: 'Vibe AI Browser Co-Pilot',
+    name: 'Vibe Co-Pilot',
     url: 'https://www.vibebrowser.app',
   },
   breadcrumb: {
@@ -117,15 +117,15 @@ const faqJsonLd = {
   mainEntity: [
     {
       '@type': 'Question',
-      name: 'What is Vibe AI Browser Co-Pilot?',
+      name: 'What is Vibe Co-Pilot?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Vibe AI Browser Co-Pilot is an autonomous browser extension that completes entire tasks for you. Unlike AI chatbots or assistants, Vibe takes full control - researching across multiple sites, making decisions, and executing complete workflows without you clicking a single button.',
+        text: 'Vibe Co-Pilot is an autonomous browser extension that completes entire tasks for you. Unlike AI chatbots or assistants, Vibe takes full control - researching across multiple sites, making decisions, and executing complete workflows without you clicking a single button.',
       },
     },
     {
       '@type': 'Question',
-      name: 'How does Vibe AI Browser Co-Pilot work?',
+      name: 'How does Vibe Co-Pilot work?',
       acceptedAnswer: {
         '@type': 'Answer',
         text: "Vibe uses an autonomous AI agent with Plan-Execute-Reflect architecture. You give it a goal like 'book the cheapest flight to Paris next month' and it autonomously researches options, compares prices across airlines, and completes the booking - all without your intervention.",
@@ -133,26 +133,26 @@ const faqJsonLd = {
     },
     {
       '@type': 'Question',
-      name: 'Is Vibe AI Browser Co-Pilot free?',
+      name: 'Is Vibe Co-Pilot free?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: "Vibe AI Browser Co-Pilot is free during beta. After launch, it's $20/month. Join our waitlist to be notified when it becomes available.",
+        text: "Vibe Co-Pilot is free during beta. After launch, it's $20/month. Join our waitlist to be notified when it becomes available.",
       },
     },
     {
       '@type': 'Question',
-      name: 'What platforms does Vibe AI Browser Co-Pilot support?',
+      name: 'What platforms does Vibe Co-Pilot support?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Vibe AI Browser Co-Pilot works as a Chrome extension on Windows, macOS, and Linux.',
+        text: 'Vibe Co-Pilot works as a Chrome extension on Windows, macOS, and Linux.',
       },
     },
     {
       '@type': 'Question',
-      name: 'Is my data safe with Vibe AI Browser Co-Pilot?',
+      name: 'Is my data safe with Vibe Co-Pilot?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: "Yes, Vibe AI Browser Co-Pilot prioritizes user privacy and security. All processing happens locally using Chrome's built-in AI (Gemini Nano), and we never sell your data to third parties.",
+        text: "Yes, Vibe Co-Pilot prioritizes user privacy and security. All processing happens locally using Chrome's built-in AI (Gemini Nano), and we never sell your data to third parties.",
       },
     },
   ],
@@ -161,7 +161,7 @@ const faqJsonLd = {
 const websiteJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  name: 'Vibe AI Browser Co-Pilot',
+  name: 'Vibe Co-Pilot',
   url: 'https://www.vibebrowser.app',
   potentialAction: {
     '@type': 'SearchAction',

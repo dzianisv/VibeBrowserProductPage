@@ -10,9 +10,9 @@ export default function TermsOfService() {
       {/* Header */}
       <header className="w-full px-4 lg:px-6 h-16 flex items-center justify-between border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="flex items-center gap-2">
-          <img src="/vibebrowser-logo.png" alt="Vibe AI Browser Co-Pilot" className="w-10 h-10 object-contain" />
+          <img src="/vibebrowser-logo.png" alt="Vibe Co-Pilot" className="w-10 h-10 object-contain" />
           <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-            Vibe AI Browser Co-Pilot
+            Vibe Co-Pilot
           </span>
         </div>
         <nav className="flex gap-4 sm:gap-6">
@@ -41,7 +41,7 @@ export default function TermsOfService() {
                 <div>
                   <h2 className="text-xl font-semibold mb-3">Acceptance of Terms</h2>
                   <p className="text-muted-foreground">
-                    By installing, accessing, or using Vibe AI Browser Co-Pilot ("Extension"), a product of Vibe Technologies, LLC ("we", "us", "our", "Company"), you ("User", "you", "your") agree to be bound by these Terms of Service ("Terms", "Agreement"). If you do not agree to these Terms, do not install or use the Extension.
+                    By installing, accessing, or using Vibe Co-Pilot ("Extension"), a product of Vibe Technologies, LLC ("we", "us", "our", "Company"), you ("User", "you", "your") agree to be bound by these Terms of Service ("Terms", "Agreement"). If you do not agree to these Terms, do not install or use the Extension.
                   </p>
                 </div>
               </div>
@@ -56,7 +56,7 @@ export default function TermsOfService() {
                 <div>
                   <h2 className="text-xl font-semibold mb-3">Description of Service</h2>
                   <p className="text-muted-foreground">
-                    Vibe AI Browser Co-Pilot is a browser extension that provides AI-powered browser automation and natural language processing capabilities. The Extension interacts with third-party AI services and may access web pages, browser tabs, and user data as permitted by your browser and configured settings.
+                    Vibe Co-Pilot is a browser extension that provides AI-powered browser automation and natural language processing capabilities. The Extension interacts with third-party AI services and may access web pages, browser tabs, and user data as permitted by your browser and configured settings.
                   </p>
                 </div>
               </div>

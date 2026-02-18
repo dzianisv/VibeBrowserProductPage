@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     title: "About Us - Vibe Technologies",
     description: "A small team of engineers building AI tools that actually do the work. Meet the humans behind the agents.",
     url: "https://www.vibebrowser.app/aboutus",
-    siteName: "Vibe AI Browser Co-Pilot",
+    siteName: "Vibe Co-Pilot",
     type: "website",
     images: [
       {

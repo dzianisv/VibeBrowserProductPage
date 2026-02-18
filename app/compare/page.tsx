@@ -7,7 +7,7 @@ import { SiteNav } from '@/components/site-nav'
 export const metadata: Metadata = {
   title: 'Vibe vs Atlas, Comet, Composite, Strawberry - AI Browser Comparison',
   description:
-    'Compare Vibe AI Browser Co-Pilot to OpenAI Atlas, Perplexity Comet, Composite, and Strawberry Browser. Privacy, workflows, and automation depth side by side.',
+    'Compare Vibe Co-Pilot to OpenAI Atlas, Perplexity Comet, Composite, and Strawberry Browser. Privacy, workflows, and automation depth side by side.',
   keywords: [
     'AI browser comparison',
     'Vibe vs Atlas',
@@ -248,8 +248,8 @@ export default function ComparePage() {
           <div className="rounded-2xl border border-slate-200 p-6">
             <h2 className="text-lg font-semibold text-slate-900">Next steps</h2>
             <div className="mt-3 flex flex-col gap-2 text-sm">
-              <Link href="/use-cases" className="text-purple-600 hover:text-purple-700">
-                Explore use cases →
+              <Link href="/people" className="text-purple-600 hover:text-purple-700">
+                Personal automation →
               </Link>
               <Link href="/teams" className="text-purple-600 hover:text-purple-700">
                 Vibe for Teams →

@@ -406,7 +406,7 @@ export default function McpPage() {
         </nav>
         <div className="flex gap-3 items-center">
           <Link href="/" className="text-sm text-[#9aa0a6] hover:text-[#e8eaed] transition-colors hidden sm:block">
-            Product Page →
+            Vibe Co-Pilot →
           </Link>
           <Link href="https://docs.vibebrowser.app/getting-started/extension" target="_blank">
             <Button size="sm" className="bg-[#8ab4f8] hover:bg-[#aecbfa] text-[#0a0a0a] font-medium rounded-full">
@@ -1128,17 +1128,17 @@ MCP server for browser automation.
               Questions? <a href="mailto:info@vibebrowser.app" className="text-[#8ab4f8] hover:underline">info@vibebrowser.app</a> · <Link href="https://github.com/VibeTechnologies/vibe-mcp" target="_blank" className="text-[#8ab4f8] hover:underline">GitHub</Link> · <Link href="https://www.npmjs.com/package/@vibebrowser/mcp" target="_blank" className="text-[#8ab4f8] hover:underline">npm</Link>
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-3 text-xs">
-              <Link href="/use-cases/financial-advisor-morningstar-schwab" className="text-[#8ab4f8] hover:underline">
-                Morningstar Schwab research automation
+              <Link href="/people" className="text-[#8ab4f8] hover:underline">
+                Personal automation
               </Link>
-              <Link href="/use-cases/privacy-first-legal-research" className="text-[#8ab4f8] hover:underline">
-                Private legal research automation
+              <Link href="/lawyers" className="text-[#8ab4f8] hover:underline">
+                Legal research automation
               </Link>
-              <Link href="/use-cases/recruiter-linkedin-automation" className="text-[#8ab4f8] hover:underline">
+              <Link href="/recruiters" className="text-[#8ab4f8] hover:underline">
                 LinkedIn recruiter automation
               </Link>
-              <Link href="/use-cases" className="text-[#8ab4f8] hover:underline">
-                All use cases
+              <Link href="/researchers" className="text-[#8ab4f8] hover:underline">
+                Academic research automation
               </Link>
             </div>
           </div>

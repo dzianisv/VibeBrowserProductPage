@@ -8,10 +8,10 @@ import './globals.css'
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.vibebrowser.app'),
   title: {
-    default: 'Vibe AI Browser Co-Pilot - Automate Your Browsing',
-    template: '%s | Vibe AI Browser Co-Pilot',
+    default: 'Vibe Co-Pilot - Automate Your Browsing',
+    template: '%s | Vibe Co-Pilot',
   },
-  description: 'Vibe AI Browser Co-Pilot automates browsing tasks autonomously. Research, data entry, bookings, and more - just describe what you want done. The first truly agentic AI browser extension.',
+  description: 'Vibe Co-Pilot automates browsing tasks autonomously. Research, data entry, bookings, and more - just describe what you want done. The first truly agentic AI browser extension.',
   keywords: [
     'AI browser co-pilot',
     'AI browser auto-pilot',
@@ -34,9 +34,9 @@ export const metadata: Metadata = {
     'natural language browser',
     'Vibe browser'
   ],
-  authors: [{ name: 'Vibe AI Browser Co-Pilot Team' }],
-  creator: 'Vibe AI Browser Co-Pilot',
-  publisher: 'Vibe AI Browser Co-Pilot',
+  authors: [{ name: 'Vibe Co-Pilot Team' }],
+  creator: 'Vibe Co-Pilot',
+  publisher: 'Vibe Co-Pilot',
   formatDetection: {
     email: false,
     address: false,
@@ -46,8 +46,8 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: 'https://www.vibebrowser.app',
-    siteName: 'Vibe AI Browser Co-Pilot',
-    title: 'Vibe AI Browser Co-Pilot',
+    siteName: 'Vibe Co-Pilot',
+    title: 'Vibe Co-Pilot',
     description: 'The first agentic AI browser extension that automates research, bookings, data entry, and more. Just describe what you want done.',
     images: [
       {
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Vibe AI Browser Co-Pilot',
+    title: 'Vibe Co-Pilot',
     description: 'Your AI browser co-pilot that handles browsing tasks autonomously. Research, bookings, data entry - just describe what you want done.',
     images: ['/og/home.svg'],
     creator: '@vibebrowserapp',
@@ -126,7 +126,7 @@ export const viewport = {
 const websiteJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  name: 'Vibe AI Browser Co-Pilot',
+  name: 'Vibe Co-Pilot',
   url: 'https://www.vibebrowser.app',
   description: 'The first agentic AI browser extension that automates research, bookings, data entry, and more. Just describe what you want done.',
   potentialAction: {
@@ -159,7 +159,7 @@ const organizationJsonLd = {
 const softwareJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
-  name: 'Vibe AI Browser Co-Pilot',
+  name: 'Vibe Co-Pilot',
   applicationCategory: 'BrowserApplication',
   operatingSystem: 'Chrome',
   description: 'AI browser co-pilot that automates browsing tasks autonomously. Research, data entry, bookings, and more — just describe what you want done.',

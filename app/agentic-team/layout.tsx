@@ -71,7 +71,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: 'https://www.vibebrowser.app/agentic-team',
-    siteName: 'Vibe AI Browser Co-Pilot',
+    siteName: 'Vibe Co-Pilot',
     title: 'Agentic Team - Your Autonomous AI Ops Team',
     description: '5 specialized AI agents coordinate over Slack to run your SaaS operations autonomously. Support, Engineering, Release, Product, Marketing — powered by OpenHands + OpenClaw.',
     images: [

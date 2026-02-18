@@ -212,9 +212,9 @@ export default function Component() {
       {/* Header */}
       <header className="w-full px-4 lg:px-6 h-16 flex items-center justify-between border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="flex items-center gap-2">
-          <img src="/vibebrowser-logo.png" alt="Vibe AI Browser Co-Pilot" className="w-10 h-10 object-contain" />
+          <img src="/vibebrowser-logo.png" alt="Vibe Co-Pilot" className="w-10 h-10 object-contain" />
           <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent hidden sm:inline">
-            Browser AI Co-Pilot
+            Vibe Co-Pilot
           </span>
           <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent sm:hidden">
             Vibe
@@ -398,7 +398,7 @@ export default function Component() {
                     </li>
                   </ul>
                   <Link
-                    href="/use-cases/recruiter-linkedin-automation"
+                    href="/lawyers"
                     className="mt-4 inline-flex text-xs font-semibold text-purple-700 hover:text-purple-800"
                   >
                     Read recruiter story →
@@ -431,7 +431,7 @@ export default function Component() {
                     </li>
                   </ul>
                   <Link
-                    href="/use-cases/financial-advisor-morningstar-schwab"
+                    href="/people"
                     className="mt-4 inline-flex text-xs font-semibold text-green-700 hover:text-green-800"
                   >
                     Read advisor story →
@@ -464,7 +464,7 @@ export default function Component() {
                     </li>
                   </ul>
                   <Link
-                    href="/use-cases/privacy-first-legal-research"
+                    href="/recruiters"
                     className="mt-4 inline-flex text-xs font-semibold text-blue-700 hover:text-blue-800"
                   >
                     Read legal story →
@@ -473,7 +473,7 @@ export default function Component() {
               </Card>
             </div>
             <div className="mt-6 text-center">
-              <Link href="/use-cases" className="text-sm font-semibold text-purple-700 hover:text-purple-800">
+              <Link href="/lawyers" className="text-sm font-semibold text-purple-700 hover:text-purple-800">
                 Explore all use cases →
               </Link>
             </div>
@@ -1077,9 +1077,9 @@ export default function Component() {
         {/* Brand */}
         <div className="space-y-4">
           <div className="flex items-center gap-2">
-            <img src="/vibebrowser-logo.png" alt="Vibe AI Browser Co-Pilot" className="w-8 h-8 object-contain" />
+            <img src="/vibebrowser-logo.png" alt="Vibe Co-Pilot" className="w-8 h-8 object-contain" />
             <span className="font-bold text-lg bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-              Browser AI Co-Pilot
+              Vibe Co-Pilot
             </span>
           </div>
           <p className="text-sm text-muted-foreground">
@@ -1087,15 +1087,39 @@ export default function Component() {
           </p>
         </div>
 
-        {/* Product */}
+        {/* Vibe Co-Pilot for */}
         <div className="space-y-4">
-          <h3 className="font-semibold text-sm">Product</h3>
+          <h3 className="font-semibold text-sm">Vibe Co-Pilot for</h3>
           <nav className="flex flex-col gap-2">
-            <Link href="#features" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
-              Features
+            <Link href="/people" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
+              People
             </Link>
-            <Link href="#pricing" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
-              Pricing
+            <Link href="/teams" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
+              Teams
+            </Link>
+            <Link href="/enterprise" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
+              Enterprise
+            </Link>
+            <Link href="/lawyers" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
+              Lawyers
+            </Link>
+            <Link href="/recruiters" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
+              Recruiters
+            </Link>
+            <Link href="/sales" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
+              Sales
+            </Link>
+            <Link href="/researchers" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
+              Researchers
+            </Link>
+            <Link href="/developers" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
+              Developers
+            </Link>
+            <Link href="/investors" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
+              Investors
+            </Link>
+            <Link href="/crypto" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
+              Crypto
             </Link>
           </nav>
         </div>
@@ -1175,7 +1199,7 @@ export default function Component() {
 
       <div className="mt-12 pt-8 border-t">
         <p className="text-xs text-center text-muted-foreground">
-          © 2025 Vibe AI Browser Co-Pilot. All rights reserved.
+          © 2025 Vibe Co-Pilot. All rights reserved.
         </p>
       </div>
     </div>
