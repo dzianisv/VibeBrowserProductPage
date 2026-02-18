@@ -34,18 +34,29 @@ const forPages = [
   { href: '/tax', label: 'Tax' },
 ]
 
+const darkPages = ['/teams', '/enterprise']
+
 export function SiteNav() {
   const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
 
   const currentPage = forPages.find(p => p.href === pathname)
+  const isDark = darkPages.includes(pathname)
 
   return (
-    <nav className="w-full px-4 lg:px-6 h-16 flex items-center justify-between border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
+    <nav className={`w-full px-4 lg:px-6 h-16 flex items-center justify-between border-b sticky top-0 z-50 ${
+      isDark 
+        ? 'bg-[#202124]/95 backdrop-blur-sm border-[#3c4043]' 
+        : 'bg-white/80 backdrop-blur-sm border-slate-200'
+    }`}>
       <div className="flex items-center gap-1">
         <img src="/vibebrowser-logo.png" alt="Vibe Co-Pilot" className="w-10 h-10 object-contain" />
         <Link href="/">
-          <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+          <span className={`text-xl font-bold bg-clip-text text-transparent ${
+            isDark 
+              ? 'bg-gradient-to-r from-purple-400 to-pink-400' 
+              : 'bg-gradient-to-r from-purple-600 to-pink-600'
+          }`}>
             Vibe Co-Pilot
           </span>
         </Link>
@@ -55,24 +66,32 @@ export function SiteNav() {
           <div className="relative">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="flex items-center gap-1 text-xl font-bold text-slate-500 hover:text-purple-600 transition-colors"
+              className={`flex items-center gap-1 text-xl font-bold transition-colors ${
+                isDark 
+                  ? 'text-[#9aa0a6] hover:text-[#e8eaed]' 
+                  : 'text-slate-500 hover:text-purple-600'
+              }`}
             >
               <span>for</span>
-              <span className="text-slate-700">{currentPage.label}</span>
+              <span className={isDark ? 'text-[#e8eaed]' : 'text-slate-700'}>{currentPage.label}</span>
               <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
             </button>
             
             {isOpen && (
               <>
                 <div className="fixed inset-0" onClick={() => setIsOpen(false)} />
-                <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 w-48 bg-white rounded-lg shadow-lg border py-2 z-50">
+                <div className={`absolute top-full mt-2 left-1/2 -translate-x-1/2 w-48 rounded-lg shadow-lg border py-2 z-50 ${
+                  isDark ? 'bg-[#202124] border-[#3c4043]' : 'bg-white border-slate-200'
+                }`}>
                   {forPages.map((page) => (
                     <Link
                       key={page.href}
                       href={page.href}
                       onClick={() => setIsOpen(false)}
-                      className={`block px-4 py-2 text-sm hover:bg-slate-100 transition-colors ${
-                        pathname === page.href ? 'text-purple-600 font-medium' : 'text-slate-600'
+                      className={`block px-4 py-2 text-sm transition-colors ${
+                        pathname === page.href 
+                          ? (isDark ? 'text-purple-400 font-medium' : 'text-purple-600 font-medium')
+                          : (isDark ? 'text-[#9aa0a6] hover:text-[#e8eaed] hover:bg-[#3c4043]' : 'text-slate-600 hover:bg-slate-100')
                       }`}
                     >
                       {page.label}
@@ -86,13 +105,17 @@ export function SiteNav() {
       </div>
 
       <div className="hidden md:flex gap-6">
-        <Link href="/aboutus" className="text-sm font-medium hover:text-purple-600 transition-colors">
+        <Link href="/aboutus" className={`text-sm font-medium transition-colors ${
+          isDark ? 'text-[#9aa0a6] hover:text-[#e8eaed]' : 'hover:text-purple-600'
+        }`}>
           About Us
         </Link>
       </div>
       {/* Mobile navigation */}
       <div className="flex md:hidden">
-        <Link href="/aboutus" className="text-[11px] font-medium hover:text-purple-600 transition-colors whitespace-nowrap">
+        <Link href="/aboutus" className={`text-[11px] font-medium transition-colors whitespace-nowrap ${
+          isDark ? 'text-[#9aa0a6] hover:text-[#e8eaed]' : 'hover:text-purple-600'
+        }`}>
           About Us
         </Link>
       </div>
