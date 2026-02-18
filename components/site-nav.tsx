@@ -5,6 +5,17 @@ import { usePathname } from 'next/navigation'
 
 const pageNames: Record<string, string> = {
   '/aboutus': '',
+  '/people': 'for People',
+  '/teams': 'for Teams',
+  '/enterprise': 'for Enterprise',
+  '/lawyers': 'for Lawyers',
+  '/recruiters': 'for Recruiters',
+  '/sales': 'for Sales',
+  '/researchers': 'for Researchers',
+  '/developers': 'for Developers',
+  '/investors': 'for Investors',
+  '/crypto': 'for Crypto & DeFi',
+  '/tax': 'for Tax',
 }
 
 export function SiteNav() {

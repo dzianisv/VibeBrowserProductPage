@@ -924,15 +924,13 @@ export default function EnterpriseTemplate({ config }: EnterpriseTemplateProps) 
               <span>Vibe Technologies</span>
             </div>
             <p className="text-[#5f6368]">
-              &copy; 2025 Vibe Technologies, LLC. All rights reserved.
+              &copy; 2026 Vibe Technologies, LLC. All rights reserved.
             </p>
             <div className="flex flex-wrap gap-6 justify-center">
-              <Link href="/" className="hover:text-[#e8eaed] transition-colors">Browser</Link>
-              <Link href="/teams" className="hover:text-[#e8eaed] transition-colors">Team</Link>
-              <Link href="/enterprise" className="hover:text-[#e8eaed] transition-colors">Enterprise</Link>
+              <Link href="/" className="hover:text-[#e8eaed] transition-colors">Vibe Co-Pilot</Link>
+              <Link href="/aboutus" className="hover:text-[#e8eaed] transition-colors">About Us</Link>
               <Link href="/privacy" className="hover:text-[#e8eaed] transition-colors">Privacy</Link>
               <Link href="/terms" className="hover:text-[#e8eaed] transition-colors">Terms</Link>
-              <a href="mailto:sales@vibebrowser.app" className="hover:text-[#e8eaed] transition-colors">Contact</a>
             </div>
           </div>
         </div>

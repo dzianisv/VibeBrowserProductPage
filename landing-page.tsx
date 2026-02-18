@@ -1119,7 +1119,10 @@ export default function Component() {
               Investors
             </Link>
             <Link href="/crypto" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
-              Crypto
+              Crypto & DeFi
+            </Link>
+            <Link href="/tax" className="text-sm text-muted-foreground hover:text-purple-600 transition-colors">
+              Tax
             </Link>
           </nav>
         </div>
@@ -1199,7 +1202,7 @@ export default function Component() {
 
       <div className="mt-12 pt-8 border-t">
         <p className="text-xs text-center text-muted-foreground">
-          © 2025 Vibe Co-Pilot. All rights reserved.
+          © 2026 Vibe Co-Pilot. All rights reserved.
         </p>
       </div>
     </div>

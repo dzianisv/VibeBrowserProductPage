@@ -13,7 +13,7 @@ const teamsConfig: EnterpriseConfig = {
   heroSubtitle: 'Build workflows once, share with your team',
   heroDescription: 'Gmail, CRM, and more—powered by secure AI that keeps your data private. Build skills once, share with the whole team. Centralized control with admin dashboard, usage tracking, and unified billing.',
   rotatingWords: ['Marketing', 'Sales', 'Recruiting', 'Operations', 'Support', 'Research'],
-  ctaText: 'Request Access',
+  ctaText: 'Contact Sales',
   ctaLink: 'mailto:sales@vibebrowser.app',
   ctaIsMailto: true,
   contactEmail: 'sales@vibebrowser.app',

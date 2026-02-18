@@ -14,7 +14,8 @@
 - [Researchers](https://www.vibebrowser.app/researchers): AI for academic and market research. Database search, paper analysis, citation management.
 - [Developers](https://www.vibebrowser.app/developers): Browser automation with MCP. Connect to Claude, Cursor, or any AI coding agent.
 - [Investors](https://www.vibebrowser.app/investors): AI for investors. Stock research, Morningstar reports, portfolio analysis.
-- [Crypto](https://www.vibebrowser.app/crypto): AI for crypto. DeFi research, APY comparison, portfolio rebalancing.
+- [Crypto & DeFi](https://www.vibebrowser.app/crypto): AI for crypto. DeFi research, APY comparison, portfolio rebalancing.
+- [Tax](https://www.vibebrowser.app/tax): AI tax preparation. Automated form downloads, tax estimation, return filing assistance.
 - [MCP](https://www.vibebrowser.app/mcp): Model Context Protocol integration. Connect Vibe Browser to AI coding agents.
 - [Compare](https://www.vibebrowser.app/compare): Feature comparison between Vibe Browser and alternatives.
 - [About Us](https://www.vibebrowser.app/aboutus): Meet the Vibe Technologies team.

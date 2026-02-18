@@ -2,7 +2,7 @@ import ProfessionTemplate, { ProfessionConfig } from '@/components/profession-te
 
 const cryptoConfig: ProfessionConfig = {
   slug: 'crypto',
-  name: 'Crypto',
+  name: 'Crypto & DeFi',
   title: 'DeFi Portfolio Management',
   subtitle: 'Your AI assistant for crypto and DeFi',
   gradient: 'from-purple-700 via-violet-600 to-purple-700',

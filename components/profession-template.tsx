@@ -7,10 +7,10 @@ import { SiteNav } from '@/components/site-nav'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { WaitlistDialogIncognito } from '@/components/waitlist-dialog-incognito'
-import { ArrowRight, CheckCircle, Shield, Lock, FileText, Scale, Eye, Server, Building2, Clock, Globe, Mail, Calendar, Search, Database, BookOpen, Bookmark, TrendingUp, Users, UserPlus, Target, Bell, Code, Terminal, Plug, Cloud, Workflow, DollarSign, Microscope, Library, Zap, MessageSquare, Linkedin, ShoppingCart, Briefcase, Plane, UserMinus, Phone, Stethoscope, Headphones, Building, RefreshCw, Wallet, Download, Smartphone, Chrome } from 'lucide-react'
+import { ArrowRight, CheckCircle, Shield, Lock, FileText, Scale, Eye, Server, Building2, Clock, Globe, Mail, Calendar, Search, Database, BookOpen, Bookmark, TrendingUp, Users, UserPlus, Target, Bell, Code, Terminal, Plug, Cloud, Workflow, DollarSign, Microscope, Library, Zap, MessageSquare, Linkedin, ShoppingCart, Briefcase, Plane, UserMinus, Phone, Stethoscope, Headphones, Building, RefreshCw, Wallet, Download, Smartphone, Chrome, Calculator } from 'lucide-react'
 
 const iconMap: Record<string, React.ElementType> = {
-  Shield, Lock, FileText, Scale, Eye, Server, Building2, Clock, Globe, Mail, Calendar, Search, Database, BookOpen, Bookmark, TrendingUp, Users, UserPlus, Target, Bell, Code, Terminal, Plug, Cloud, Workflow, DollarSign, Microscope, Library, Zap, MessageSquare, Linkedin, ShoppingCart, Briefcase, Plane, UserMinus, Phone, Stethoscope, Headphones, Building, RefreshCw, Wallet, Download, Smartphone, Chrome
+  Shield, Lock, FileText, Scale, Eye, Server, Building2, Clock, Globe, Mail, Calendar, Search, Database, BookOpen, Bookmark, TrendingUp, Users, UserPlus, Target, Bell, Code, Terminal, Plug, Cloud, Workflow, DollarSign, Microscope, Library, Zap, MessageSquare, Linkedin, ShoppingCart, Briefcase, Plane, UserMinus, Phone, Stethoscope, Headphones, Building, RefreshCw, Wallet, Download, Smartphone, Chrome, Calculator
 }
 
 export interface ProfessionFeature {
@@ -48,6 +48,7 @@ export interface ProfessionConfig {
   ctaIsMailto?: boolean
   ctaIsWaitlist?: boolean
   showDownload?: boolean
+  showDownloadButtons?: boolean
   contactEmail?: string
   features: ProfessionFeature[]
   workflows?: string[]
@@ -124,7 +125,22 @@ export default function ProfessionTemplate({ config }: ProfessionTemplateProps) 
               {config.description}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              {config.ctaIsMailto ? (
+              {config.showDownloadButtons ? (
+                <>
+                  <Button size="lg" className={`${config.gradientFrom.replace('from-', 'bg-')} hover:opacity-90 text-white rounded-full px-8 font-semibold`}>
+                    <a href="https://chromewebstore.google.com/detail/vibe-ai-browser-co-pilot/djodpgokbmobeclicaicnnidccoinado" target="_blank" className="flex items-center">
+                      <Chrome className="mr-2 h-5 w-5" />
+                      Chrome Extension
+                    </a>
+                  </Button>
+                  <WaitlistDialogIncognito tier="mobile">
+                    <Button size="lg" variant="outline" className={`border-2 rounded-full px-8 font-semibold ${config.accentColor.replace('text-', 'border-').replace('300', '500')} ${config.accentColor} hover:opacity-80`}>
+                      <Smartphone className="mr-2 h-5 w-5" />
+                      Mobile App
+                    </Button>
+                  </WaitlistDialogIncognito>
+                </>
+              ) : config.ctaIsMailto ? (
                 <Button size="lg" className={`${config.gradientFrom.replace('from-', 'bg-')} hover:opacity-90 text-white rounded-full px-8 font-semibold`}>
                   <a href={config.ctaLink}>
                     {config.ctaText} <ArrowRight className="ml-2 h-5 w-5" />

@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Vibe Co-Pilot for Crypto - DeFi Portfolio Management',
+  title: 'Vibe Co-Pilot for Crypto & DeFi - DeFi Portfolio Management',
   description: 'Your AI crypto assistant. Research DeFi pools, compare APY, rebalance portfolio, track yields across chains.',
 }
 

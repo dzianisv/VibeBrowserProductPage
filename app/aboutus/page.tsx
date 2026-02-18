@@ -417,24 +417,18 @@ export default function AboutUsPage() {
         <section className="w-full py-16 md:py-24 border-t border-[#1e1e1e]">
           <div className="container max-w-4xl px-4 md:px-6 mx-auto text-center">
             <h2 className="text-2xl md:text-3xl font-bold mb-4">Get in Touch</h2>
-            <p className="text-[#9aa0a6] mb-10 max-w-xl mx-auto">
+            <p className="text-[#9aa0a6] mb-8 max-w-xl mx-auto">
               Have questions? We'd love to hear from you.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
-              <Button asChild size="lg" className="bg-[#8ab4f8] text-[#0a0a0a] hover:bg-[#aecbfa] font-medium px-8 py-6 h-auto rounded-full">
-                <a href="mailto:info@vibebrowser.app">
-                  <Mail className="mr-2 h-5 w-5" />
-                  info@vibebrowser.app
-                </a>
-              </Button>
-              <Button asChild size="lg" variant="outline" className="border-[#3c4043] bg-transparent hover:bg-[#1a1a1a] text-[#e8eaed] font-medium px-8 py-6 h-auto rounded-full">
-                <a href="mailto:sales@vibebrowser.app">
-                  <Briefcase className="mr-2 h-5 w-5" />
-                  sales@vibebrowser.app
-                </a>
-              </Button>
-            </div>
             <div className="flex flex-wrap justify-center gap-6">
+              <a href="mailto:info@vibebrowser.app" className="flex items-center gap-2 text-[#9aa0a6] hover:text-[#8ab4f8] transition-colors">
+                <Mail className="w-5 h-5" />
+                info@vibebrowser.app
+              </a>
+              <a href="mailto:sales@vibebrowser.app" className="flex items-center gap-2 text-[#9aa0a6] hover:text-[#8ab4f8] transition-colors">
+                <Briefcase className="w-5 h-5" />
+                sales@vibebrowser.app
+              </a>
               <a href="https://linkedin.com/company/vibebrowser" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[#9aa0a6] hover:text-[#8ab4f8] transition-colors">
                 <Linkedin className="w-5 h-5" />
                 LinkedIn
@@ -460,7 +454,7 @@ export default function AboutUsPage() {
               <span>Vibe Technologies</span>
             </div>
             <p className="text-[#5f6368]">
-              &copy; 2025 Vibe Technologies, LLC. All rights reserved.
+              &copy; 2026 Vibe Technologies, LLC. All rights reserved.
             </p>
             <div className="flex flex-wrap gap-6 justify-center">
               <Link href="https://linkedin.com/company/vibebrowser" target="_blank" rel="noopener noreferrer" className="hover:text-[#e8eaed] transition-colors">LinkedIn</Link>

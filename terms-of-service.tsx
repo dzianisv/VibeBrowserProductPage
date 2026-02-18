@@ -27,7 +27,7 @@ export default function TermsOfService() {
         <div className="container max-w-4xl px-4 md:px-6 mx-auto">
           <div className="mb-12">
             <h1 className="text-4xl font-bold tracking-tight mb-4">Terms of Service</h1>
-            <p className="text-muted-foreground">Last updated: October 6, 2025 | Provider: Vibe Technologies, LLC</p>
+            <p className="text-muted-foreground">Last updated: February 6, 2026 | Provider: Vibe Technologies, LLC</p>
           </div>
 
           <div className="prose prose-slate max-w-none space-y-8">
@@ -298,7 +298,7 @@ export default function TermsOfService() {
       <footer className="w-full border-t bg-white py-8">
         <div className="container max-w-4xl px-4 md:px-6 mx-auto text-center">
           <p className="text-sm text-muted-foreground">
-            © 2025 Vibe Technologies, LLC. All rights reserved.
+            © 2026 Vibe Technologies, LLC. All rights reserved.
           </p>
         </div>
       </footer>
