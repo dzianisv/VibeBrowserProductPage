@@ -155,44 +155,7 @@ export default function EnterpriseTemplate({ config }: EnterpriseTemplateProps) 
   return (
     <div className="flex flex-col min-h-screen bg-[#202124] text-[#e8eaed] overflow-x-hidden">
       {/* Header */}
-      <header className="w-full px-4 lg:px-6 h-16 flex items-center justify-between border-b border-[#3c4043] bg-[#202124]/95 backdrop-blur-sm sticky top-0 z-50">
-        <div className="flex items-center gap-3">
-          <img src="/vibebrowser-logo.png" alt="Vibe Co-Pilot" className="w-9 h-9 object-contain" />
-          <span className="text-lg font-medium text-[#e8eaed]">
-            Vibe Co-Pilot<span className="text-[#9aa0a6]"> · {config.name}</span>
-          </span>
-        </div>
-        <nav className="hidden md:flex gap-6 items-center text-sm">
-          <a href="#features" className="text-[#9aa0a6] hover:text-[#e8eaed] transition-colors">Features</a>
-          <a href="#security" className="text-[#9aa0a6] hover:text-[#e8eaed] transition-colors">Security</a>
-          {config.showPricing && (
-            <a href="#pricing" className="text-[#9aa0a6] hover:text-[#e8eaed] transition-colors">Pricing</a>
-          )}
-          <a href="#faq" className="text-[#9aa0a6] hover:text-[#e8eaed] transition-colors">FAQ</a>
-        </nav>
-        <div className="flex gap-3 items-center">
-          <Link href="/" className="text-sm text-[#9aa0a6] hover:text-[#e8eaed] transition-colors hidden sm:block">
-            Consumer →
-          </Link>
-          {config.ctaIsMailto ? (
-            <Button size="sm" className="bg-[#8ab4f8] hover:bg-[#aecbfa] text-[#202124] font-medium rounded-full">
-              <a href={config.ctaLink}>{config.ctaText}</a>
-            </Button>
-          ) : config.ctaIsWaitlist ? (
-            <WaitlistDialogIncognito>
-              <Button size="sm" className="bg-[#8ab4f8] hover:bg-[#aecbfa] text-[#202124] font-medium rounded-full">
-                {config.ctaText}
-              </Button>
-            </WaitlistDialogIncognito>
-          ) : (
-            <WaitlistDialogIncognito>
-              <Button size="sm" className="bg-[#8ab4f8] hover:bg-[#aecbfa] text-[#202124] font-medium rounded-full">
-                {config.ctaText}
-              </Button>
-            </WaitlistDialogIncognito>
-          )}
-        </div>
-      </header>
+      <SiteNav />
 
       <main className="flex-1">
         {/* Hero Section */}
@@ -917,26 +880,8 @@ export default function EnterpriseTemplate({ config }: EnterpriseTemplateProps) 
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="w-full border-t border-[#3c4043] bg-[#202124]">
-        <div className="container max-w-5xl px-4 md:px-6 py-8 mx-auto">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-[#9aa0a6]">
-            <div className="flex items-center gap-2">
-              <img src="/vibebrowser-logo.png" alt="Vibe Co-Pilot" className="w-6 h-6 object-contain" />
-              <span>Vibe Technologies</span>
-            </div>
-            <p className="text-[#5f6368]">
-              &copy; 2026 Vibe Technologies, LLC. All rights reserved.
-            </p>
-            <div className="flex flex-wrap gap-6 justify-center">
-              <Link href="/" className="hover:text-[#e8eaed] transition-colors">Vibe Co-Pilot</Link>
-              <Link href="/aboutus" className="hover:text-[#e8eaed] transition-colors">About Us</Link>
-              <Link href="/privacy" className="hover:text-[#e8eaed] transition-colors">Privacy</Link>
-              <Link href="/terms" className="hover:text-[#e8eaed] transition-colors">Terms</Link>
-            </div>
-          </div>
-        </div>
-      </footer>
+      {/* Shared Footer */}
+      <SiteFooter />
     </div>
   )
 }
