@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
 import { SiteNav } from '@/components/site-nav'
@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { WaitlistDialogIncognito } from '@/components/waitlist-dialog-incognito'
 import { SiteFooter } from '@/components/site-footer'
-import { ArrowRight, CheckCircle, Shield, Lock, FileText, Scale, Eye, Server, Building2, Clock, Globe, Mail, Calendar, Search, Database, BookOpen, Bookmark, TrendingUp, Users, UserPlus, Target, Bell, Code, Terminal, Plug, Cloud, Workflow, DollarSign, Microscope, Library, Zap, MessageSquare, Linkedin, ShoppingCart, Briefcase, Plane, UserMinus, Phone, Stethoscope, Headphones, Building, RefreshCw, Wallet, Download, Smartphone, Chrome, Calculator } from 'lucide-react'
+import { ArrowRight, CheckCircle, Shield, Lock, FileText, Scale, Eye, Server, Building2, Clock, Globe, Mail, Calendar, Search, Database, BookOpen, Bookmark, TrendingUp, Users, UserPlus, Target, Bell, Code, Terminal, Plug, Cloud, Workflow, DollarSign, Microscope, Library, Zap, MessageSquare, Linkedin, ShoppingCart, Briefcase, Plane, UserMinus, Phone, Stethoscope, Headphones, Building, RefreshCw, Wallet, Download, Smartphone, Chrome, Calculator, ChevronLeft, ChevronRight } from 'lucide-react'
 
 const iconMap: Record<string, React.ElementType> = {
   Shield, Lock, FileText, Scale, Eye, Server, Building2, Clock, Globe, Mail, Calendar, Search, Database, BookOpen, Bookmark, TrendingUp, Users, UserPlus, Target, Bell, Code, Terminal, Plug, Cloud, Workflow, DollarSign, Microscope, Library, Zap, MessageSquare, Linkedin, ShoppingCart, Briefcase, Plane, UserMinus, Phone, Stethoscope, Headphones, Building, RefreshCw, Wallet, Download, Smartphone, Chrome, Calculator
@@ -29,6 +29,15 @@ export interface ProfessionTestimonial {
 export interface ProfessionFAQ {
   question: string
   answer: string
+}
+
+export interface ProfessionDemo {
+  id: string
+  title: string
+  subtitle: string
+  description: string
+  badges: string[]
+  videoSrc: string
 }
 
 export interface ProfessionConfig {
@@ -57,6 +66,7 @@ export interface ProfessionConfig {
   stats?: { value: string; label: string }[]
   testimonials?: ProfessionTestimonial[]
   faqs?: ProfessionFAQ[]
+  demos?: ProfessionDemo[]
 }
 
 interface ProfessionTemplateProps {
@@ -107,6 +117,26 @@ function Icon({ name, className }: { name: string; className?: string }) {
 
 export default function ProfessionTemplate({ config }: ProfessionTemplateProps) {
   const rotatingWord = useTypewriter(config.rotatingWords, 100, 60, 2500)
+  const [currentDemo, setCurrentDemo] = useState(0)
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  const nextDemo = () => {
+    if (config.demos) {
+      setCurrentDemo((prev) => (prev + 1) % config.demos!.length)
+    }
+  }
+
+  const prevDemo = () => {
+    if (config.demos) {
+      setCurrentDemo((prev) => (prev - 1 + config.demos!.length) % config.demos!.length)
+    }
+  }
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.play()
+    }
+  }, [currentDemo])
 
   return (
     <div className="min-h-screen bg-white">
@@ -279,6 +309,71 @@ export default function ProfessionTemplate({ config }: ProfessionTemplateProps) 
         </section>
       )}
 
+      {/* Demo Carousel */}
+      {config.demos && config.demos.length > 0 && (
+        <section className="py-16 md:py-24">
+          <div className="container mx-auto px-6">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-slate-900 mb-4">
+                See Vibe in Action
+              </h2>
+            </div>
+            <div className="w-full max-w-4xl mx-auto">
+              <div className="relative">
+                <div className="relative rounded-3xl overflow-hidden shadow-2xl">
+                  <div className="relative" style={{ paddingBottom: '62.5%' }}>
+                    <video
+                      ref={videoRef}
+                      key={currentDemo}
+                      className="absolute inset-0 w-full h-full object-cover"
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      preload="auto"
+                      src={`${config.demos[currentDemo].videoSrc}.mp4`}
+                    >
+                      Your browser does not support the video tag.
+                    </video>
+
+                    <button
+                      onClick={prevDemo}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all z-20"
+                      aria-label="Previous demo"
+                    >
+                      <ChevronLeft className="w-5 h-5 text-gray-800" />
+                    </button>
+                    <button
+                      onClick={nextDemo}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all z-20"
+                      aria-label="Next demo"
+                    >
+                      <ChevronRight className="w-5 h-5 text-gray-800" />
+                    </button>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap justify-center gap-2 mt-8">
+                  {config.demos.map((demo, index) => (
+                    <button
+                      key={demo.id}
+                      onClick={() => setCurrentDemo(index)}
+                      className={`px-4 py-2 rounded-full transition-all text-sm font-medium ${
+                        currentDemo === index
+                          ? `${config.gradientFrom.replace('from-', 'bg-')} text-white shadow-lg`
+                          : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
+                      }`}
+                    >
+                      {demo.title}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Testimonials */}
       {config.testimonials && config.testimonials.length > 0 && (
         <section className="py-16 md:py-24 bg-slate-50">
@@ -323,38 +418,6 @@ export default function ProfessionTemplate({ config }: ProfessionTemplateProps) 
       )}
 
       {/* CTA */}
-      <section className={`py-16 md:py-24 ${config.gradient}`}>
-        <div className="container mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">
-            Ready to automate your {config.name.toLowerCase()} work?
-          </h2>
-          <p className="opacity-80 mb-8 max-w-xl mx-auto">
-            Join {config.name.toLowerCase()} professionals using Vibe Co-Pilot.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            {config.ctaIsMailto ? (
-              <Button size="lg" className={`bg-white hover:bg-slate-100 rounded-full px-8 ${config.gradientFrom.replace('from-', 'text-')}`}>
-                <a href={config.ctaLink}>
-                  {config.ctaText} <ArrowRight className="ml-2 h-5 w-5" />
-                </a>
-              </Button>
-              ) : config.ctaIsWaitlist ? (
-                <WaitlistDialogIncognito>
-                  <Button size="lg" className="bg-white hover:bg-slate-100 text-slate-900 hover:text-slate-700 rounded-full px-8 font-semibold cursor-pointer">
-                    {config.ctaText || 'Get Started'} <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                </WaitlistDialogIncognito>
-              ) : config.ctaLink ? (
-                <Button asChild size="lg" className="bg-white hover:bg-slate-100 text-slate-900 hover:text-slate-700 rounded-full px-8 font-semibold">
-                  <Link href={config.ctaLink}>
-                    {config.ctaText || 'Get Started'} <ArrowRight className="ml-2 h-5 w-5" />
-                  </Link>
-                </Button>
-              ) : null}
-          </div>
-        </div>
-      </section>
-
       {/* Shared Footer */}
       <SiteFooter />
     </div>

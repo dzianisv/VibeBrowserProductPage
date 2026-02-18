@@ -66,12 +66,11 @@ export function SiteFooter() {
             <h3 className={`font-semibold text-sm ${isDark ? 'text-[#e8eaed]' : ''}`}>Resources</h3>
             <nav className="flex flex-col gap-2">
               {[
-                { href: 'https://docs.vibebrowser.app', label: 'Documentation' },
                 { href: '/mcp', label: 'MCP Server' },
                 { href: '/agentic-team', label: 'Agentic Team' },
                 { href: 'https://docs.vibebrowser.app/getting-started/extension', label: 'Developer Install' },
                 { href: '/tee', label: 'TEE Research Paper' },
-                { href: '/aboutus', label: 'About Us' },
+                { href: 'https://docs.vibebrowser.app', label: 'Documentation' },
               ].map((page) => (
                 <Link 
                   key={page.href} 
@@ -112,6 +111,9 @@ export function SiteFooter() {
               </Link>
               <Link href="https://t.me/VibeBrowser" target="_blank" rel="noopener noreferrer" className={`text-sm transition-colors ${isDark ? 'text-[#9aa0a6] hover:text-[#e8eaed]' : 'text-muted-foreground hover:text-purple-600'}`}>
                 Telegram Community
+              </Link>
+              <Link href="/aboutus" className={`text-sm transition-colors ${isDark ? 'text-[#9aa0a6] hover:text-[#e8eaed]' : 'text-muted-foreground hover:text-purple-600'}`}>
+                About Us
               </Link>
             </div>
           </div>

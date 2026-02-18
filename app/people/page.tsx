@@ -11,7 +11,7 @@ const peopleConfig: ProfessionConfig = {
   gradientTo: 'to-emerald-600',
   accentColor: 'text-emerald-600',
   accentBg: 'bg-emerald-100 text-emerald-700',
-  rotatingWords: ['Email', 'Calendar', 'Appointments', 'Shopping', 'Travel', 'Bills', 'Applications', 'Reminders'],
+  rotatingWords: ['Email', 'Calendar', 'Appointments', 'Shopping', 'Travel', 'Bills', 'Applications', 'Reminders', 'Taxes'],
   description: 'Your personal AI assistant that handles the busywork of daily life. From answering emails to scheduling appointments, Vibe Co-Pilot helps you stay on top of everything without the overwhelm.',
   ctaText: 'Get Started',
   ctaLink: '/waitlist',
@@ -31,6 +31,7 @@ const peopleConfig: ProfessionConfig = {
     { icon: 'Stethoscope', title: 'Doctor Appointments', description: 'Schedule appointments with doctors. Find in-network providers and book slots.' },
     { icon: 'Headphones', title: 'Get Refunds', description: 'Contact customer support for refunds, disputed charges, or service issues.' },
     { icon: 'Building', title: 'Bank Disputes', description: 'Submit unauthorized transaction claims to your bank. Contest charges and protect your accounts.' },
+    { icon: 'Calculator', title: 'Tax Filing', description: 'Gather W-2s, 1099s, and receipts. Fill out tax forms and maximize deductions automatically.' },
   ],
   workflows: [
     'Get a morning brief of important emails and calendar',
@@ -44,11 +45,13 @@ const peopleConfig: ProfessionConfig = {
     'Contact support for refunds',
     'Dispute unauthorized bank charges',
     'Track bills and subscriptions automatically',
+    'Download all 1099s and W-2s for tax filing',
   ],
-  tools: ['Gmail', 'Google Calendar', 'LinkedIn', 'Amazon', 'Uber', 'Doordash', 'Netflix', 'Spotify'],
+  tools: ['Gmail', 'Google Calendar', 'LinkedIn', 'Amazon', 'Uber', 'Doordash', 'Netflix', 'Spotify', 'FreetaxUSA'],
   testimonials: [
     { quote: "Vibe handles my email while I'm in meetings. It's like having a personal assistant.", author: "Jessica Miller", practice: "Product Manager" },
     { quote: "Applied to 20 jobs in one weekend. Vibe filled out all the forms for me.", author: "David Chen", practice: "Job Seeker" },
+    { quote: "I asked Vibe Co-Pilot to download all 1099s to file them on freetaxusa.com. Done in 10m. It will take a few hours for me to do that manually on all my bank and brokerage accounts.", author: "Alex Thompson", practice: "Freelancer" },
   ],
   faqs: [
     { question: 'Does Vibe read my emails?', answer: 'Vibe only reads emails to help you manage them. Your data is processed locally or encrypted - we never use it to train models.' },

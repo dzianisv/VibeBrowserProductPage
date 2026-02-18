@@ -31,6 +31,16 @@ const developersConfig: ProfessionConfig = {
     'Run browser automation in your CI pipeline',
   ],
   tools: ['npm', 'Claude Desktop', 'Cursor', 'Windsurf', 'VS Code', 'OpenAI', 'Gemini'],
+  demos: [
+    {
+      id: 'github-ticket',
+      title: 'GitHub Ticket Automation',
+      subtitle: 'AI-powered GitHub issue automation',
+      description: 'Vibe AI Agent autonomously handles GitHub tasks - creating issues, updating status, and managing repositories.',
+      badges: ['GitHub', 'Issue Management', 'Automation', 'AI Agent'],
+      videoSrc: '/github-ticket-demo',
+    },
+  ],
   faqs: [
     { question: 'What is relay.api.vibebrowser.app?', answer: 'Secure WebSocket relay to connect to your browser from anywhere over HTTPS.' },
     { question: 'How does Vibe MCP differ from Playwright?', answer: 'Playwright is focused on testing. Vibe is designed for AI agent workflows.' },
