@@ -13,9 +13,7 @@ const developersConfig: ProfessionConfig = {
   accentBg: 'bg-purple-100 text-purple-700',
   rotatingWords: ['Web Scraping', 'E2E Testing', 'Form Automation', 'Data Extraction', 'Browser Control', 'CI/CD', 'AI Agents', 'Workflows'],
   description: 'NPM CLI tool for controlling Playwright MCP with our AI agent. Remote browser access, MCP protocol support, and self-hosted deployment.',
-  ctaText: 'Explore MCP Docs',
-  ctaLink: '/mcp',
-  showDownload: true,
+  showDownloadButtons: true,
   features: [
     { icon: 'Terminal', title: 'NPM CLI', description: 'Install via npm. Control your browser from the command line with our AI agent.' },
     { icon: 'Cloud', title: 'Remote Access', description: 'Access your browser from anywhere via relay.api.vibebrowser.app' },
