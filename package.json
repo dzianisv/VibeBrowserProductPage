@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "prebuild": "git lfs pull || true",
+    "prebuild": "git lfs pull && git lfs checkout",
     "build": "next build",
     "postbuild": "node scripts/indexnow-ping.js",
     "dev": "next dev",
