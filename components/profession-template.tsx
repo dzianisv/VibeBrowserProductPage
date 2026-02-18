@@ -7,6 +7,7 @@ import { SiteNav } from '@/components/site-nav'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { WaitlistDialogIncognito } from '@/components/waitlist-dialog-incognito'
+import { SiteFooter } from '@/components/site-footer'
 import { ArrowRight, CheckCircle, Shield, Lock, FileText, Scale, Eye, Server, Building2, Clock, Globe, Mail, Calendar, Search, Database, BookOpen, Bookmark, TrendingUp, Users, UserPlus, Target, Bell, Code, Terminal, Plug, Cloud, Workflow, DollarSign, Microscope, Library, Zap, MessageSquare, Linkedin, ShoppingCart, Briefcase, Plane, UserMinus, Phone, Stethoscope, Headphones, Building, RefreshCw, Wallet, Download, Smartphone, Chrome, Calculator } from 'lucide-react'
 
 const iconMap: Record<string, React.ElementType> = {
@@ -354,31 +355,8 @@ export default function ProfessionTemplate({ config }: ProfessionTemplateProps) 
         </div>
       </section>
 
-      {/* Footer navigation */}
-      <section className="py-12 border-t border-slate-200">
-        <div className="container mx-auto px-6">
-          <div className="flex flex-wrap gap-6 justify-center text-sm">
-            <Link href="/teams" className="text-purple-600 hover:text-purple-700 font-medium">
-              Vibe for Teams →
-            </Link>
-            <Link href="/enterprise" className="text-purple-600 hover:text-purple-700 font-medium">
-              Enterprise →
-            </Link>
-            <Link href="/lawyers" className="text-purple-600 hover:text-purple-700 font-medium">
-              Lawyers →
-            </Link>
-            <Link href="/recruiters" className="text-purple-600 hover:text-purple-700 font-medium">
-              Recruiters →
-            </Link>
-            <Link href="/sales" className="text-purple-600 hover:text-purple-700 font-medium">
-              Sales →
-            </Link>
-            <Link href="/developers" className="text-purple-600 hover:text-purple-700 font-medium">
-              Developers →
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* Shared Footer */}
+      <SiteFooter />
     </div>
   )
 }
