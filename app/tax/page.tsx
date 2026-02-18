@@ -13,10 +13,7 @@ const taxConfig: ProfessionConfig = {
   accentBg: 'bg-emerald-100 text-emerald-700',
   rotatingWords: ['1099', 'W2', 'Tax Returns', 'Deductions', 'Estimates', 'Extensions'],
   description: 'Login to financial institutions, download tax forms, estimate taxes, and help fill returns. All credentials securely stored in encrypted vault.',
-  ctaText: 'Get Started',
-  ctaLink: '/waitlist',
-  ctaIsWaitlist: true,
-  showDownload: true,
+  showDownloadButtons: true,
   contactEmail: 'sales@vibebrowser.app',
   features: [
     { icon: 'Key', title: 'Credential Vault', description: 'Securely store login credentials for banks, brokerages, and financial institutions. AES-256 encrypted.' },

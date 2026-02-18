@@ -44,8 +44,8 @@ export interface ProfessionConfig {
   accentBg: string
   rotatingWords: string[]
   description: string
-  ctaText: string
-  ctaLink: string
+  ctaText?: string
+  ctaLink?: string
   ctaIsMailto?: boolean
   ctaIsWaitlist?: boolean
   showDownload?: boolean
@@ -150,16 +150,16 @@ export default function ProfessionTemplate({ config }: ProfessionTemplateProps) 
               ) : config.ctaIsWaitlist ? (
                 <WaitlistDialogIncognito>
                   <Button size="lg" className={`${config.gradientFrom.replace('from-', 'bg-')} hover:opacity-90 text-white rounded-full px-8 font-semibold cursor-pointer`}>
-                    {config.ctaText} <ArrowRight className="ml-2 h-5 w-5" />
+                    {config.ctaText || 'Get Started'} <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </WaitlistDialogIncognito>
-              ) : (
+              ) : config.ctaLink ? (
                 <Button asChild size="lg" className={`${config.accentColor.replace('text-', 'bg-').replace('400', '500')} hover:opacity-90 text-white rounded-full px-8 font-semibold`}>
                   <Link href={config.ctaLink}>
-                    {config.ctaText} <ArrowRight className="ml-2 h-5 w-5" />
+                    {config.ctaText || 'Get Started'} <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>
                 </Button>
-              )}
+              ) : null}
             </div>
           </div>
         </div>
@@ -338,19 +338,19 @@ export default function ProfessionTemplate({ config }: ProfessionTemplateProps) 
                   {config.ctaText} <ArrowRight className="ml-2 h-5 w-5" />
                 </a>
               </Button>
-            ) : config.ctaIsWaitlist ? (
-              <WaitlistDialogIncognito>
-                <Button size="lg" className="bg-white hover:bg-slate-100 text-slate-900 hover:text-slate-700 rounded-full px-8 font-semibold cursor-pointer">
-                  {config.ctaText} <ArrowRight className="ml-2 h-5 w-5" />
+              ) : config.ctaIsWaitlist ? (
+                <WaitlistDialogIncognito>
+                  <Button size="lg" className="bg-white hover:bg-slate-100 text-slate-900 hover:text-slate-700 rounded-full px-8 font-semibold cursor-pointer">
+                    {config.ctaText || 'Get Started'} <ArrowRight className="ml-2 h-5 w-5" />
+                  </Button>
+                </WaitlistDialogIncognito>
+              ) : config.ctaLink ? (
+                <Button asChild size="lg" className="bg-white hover:bg-slate-100 text-slate-900 hover:text-slate-700 rounded-full px-8 font-semibold">
+                  <Link href={config.ctaLink}>
+                    {config.ctaText || 'Get Started'} <ArrowRight className="ml-2 h-5 w-5" />
+                  </Link>
                 </Button>
-              </WaitlistDialogIncognito>
-            ) : (
-              <Button asChild size="lg" className="bg-white hover:bg-slate-100 text-slate-900 hover:text-slate-700 rounded-full px-8 font-semibold">
-                <Link href={config.ctaLink}>
-                  {config.ctaText} <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
-              </Button>
-            )}
+              ) : null}
           </div>
         </div>
       </section>
