@@ -44,6 +44,7 @@ export function SiteFooter() {
                 { href: '/lawyers', label: 'Lawyers' },
                 { href: '/recruiters', label: 'Recruiters' },
                 { href: '/sales', label: 'Sales' },
+                { href: '/amazon', label: 'Amazon' },
                 { href: '/researchers', label: 'Researchers' },
                 { href: '/developers', label: 'Developers' },
                 { href: '/investors', label: 'Investors' },

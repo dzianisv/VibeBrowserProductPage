@@ -1,0 +1,98 @@
+import { MetadataRoute } from 'next'
+
+export default function sitemap(): MetadataRoute.Sitemap {
+  const baseUrl = 'https://www.vibebrowser.app'
+  const now = new Date()
+
+  const staticPages: MetadataRoute.Sitemap = [
+    {
+      url: baseUrl,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 1,
+    },
+    {
+      url: `${baseUrl}/mcp`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/tee`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/enterprise`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/teams`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/aboutus`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/compare`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+  ]
+
+  const professionPages = [
+    'people',
+    'lawyers',
+    'recruiters',
+    'sales',
+    'amazon',
+    'investors',
+    'crypto',
+    'tax',
+    'researchers',
+    'developers',
+    'agentic-team',
+  ]
+
+  const professionSitemap: MetadataRoute.Sitemap = professionPages.map((page) => ({
+    url: `${baseUrl}/${page}`,
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: 0.8,
+  }))
+
+  const legalPages = [
+    {
+      url: `${baseUrl}/privacy`,
+      priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/terms`,
+      priority: 0.5,
+    },
+  ]
+
+  const useCasePages = [
+    'recruiter-linkedin-automation',
+    'privacy-first-legal-research',
+    'financial-advisor-morningstar-schwab',
+  ]
+
+  const useCaseSitemap: MetadataRoute.Sitemap = useCasePages.map((page) => ({
+    url: `${baseUrl}/use-cases/${page}`,
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: 0.7,
+  }))
+
+  return [...staticPages, ...professionSitemap, ...legalPages, ...useCaseSitemap]
+}

@@ -109,6 +109,25 @@ vercel --prod && node scripts/test-layout.js
 └── public/          # Static assets
 ```
 
+## Adding New Profession Pages
+
+When creating a new profession page (e.g., `/amazon`), update:
+
+### 1. Navigation slider
+Add to `components/site-nav.tsx`:
+- `pageNames` object: `'/amazon': 'for Amazon Sellers',`
+- `forPages` array: `{ href: '/amazon', label: 'Amazon' },`
+
+### 2. Footer links
+Add to `components/site-footer.tsx` in the "Vibe Co-Pilot for" section:
+- `{ href: '/amazon', label: 'Amazon' },`
+
+### 3. Sitemap
+Add slug to `app/sitemap.ts` professionPages array
+
+### 4. OG/Twitter images (optional)
+Create `app/[slug]/opengraph-image.tsx` and `app/[slug]/twitter-image.tsx` for social sharing cards
+
 ## Troubleshooting
 
 ### Waitlist not working?
