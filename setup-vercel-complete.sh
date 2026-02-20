@@ -45,6 +45,7 @@ echo "================================"
 # Environment variables
 SUPABASE_URL="https://svhdffutjfzislubdzos.supabase.co"
 SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN2aGRmZnV0amZ6aXNsdWJkem9zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU1OTI2MTgsImV4cCI6MjA3MTE2ODYxOH0.m-kYpaksMvL9ex6bp8YUcTLwEFK3HqS-ePMTHDLdN5Q"
+GIT_LFS_ENABLED="1"
 
 # Add SUPABASE_PROJECT_URL
 echo ""
@@ -59,6 +60,13 @@ echo "Adding SUPABASE_API_KEY..."
 echo "$SUPABASE_KEY" | vercel env add SUPABASE_API_KEY production 2>/dev/null && echo -e "${GREEN}✅ Added to production${NC}" || echo -e "${YELLOW}⚠️  Already exists in production${NC}"
 echo "$SUPABASE_KEY" | vercel env add SUPABASE_API_KEY preview 2>/dev/null && echo -e "${GREEN}✅ Added to preview${NC}" || echo -e "${YELLOW}⚠️  Already exists in preview${NC}"
 echo "$SUPABASE_KEY" | vercel env add SUPABASE_API_KEY development 2>/dev/null && echo -e "${GREEN}✅ Added to development${NC}" || echo -e "${YELLOW}⚠️  Already exists in development${NC}"
+
+# Add GIT_LFS_ENABLED
+echo ""
+echo "Adding GIT_LFS_ENABLED..."
+echo "$GIT_LFS_ENABLED" | vercel env add GIT_LFS_ENABLED production 2>/dev/null && echo -e "${GREEN}✅ Added to production${NC}" || echo -e "${YELLOW}⚠️  Already exists in production${NC}"
+echo "$GIT_LFS_ENABLED" | vercel env add GIT_LFS_ENABLED preview 2>/dev/null && echo -e "${GREEN}✅ Added to preview${NC}" || echo -e "${YELLOW}⚠️  Already exists in preview${NC}"
+echo "$GIT_LFS_ENABLED" | vercel env add GIT_LFS_ENABLED development 2>/dev/null && echo -e "${GREEN}✅ Added to development${NC}" || echo -e "${YELLOW}⚠️  Already exists in development${NC}"
 
 # Optional: Add RESEND_API_KEY
 echo ""

@@ -41,6 +41,22 @@ vercel --prod
 Ensure these are configured in Vercel dashboard:
 - `SUPABASE_PROJECT_URL`
 - `SUPABASE_API_KEY`
+- `GIT_LFS_ENABLED` (set to `1` so Vercel pulls LFS video assets)
+
+### Git LFS Video Assets
+
+If video demos are not loading in production, Vercel may be serving Git LFS pointer files instead of real binaries.
+
+**Fix:**
+- Ensure `GIT_LFS_ENABLED=1` is set for Production/Preview/Development and redeploy (clear build cache).
+- For GitHub Actions deployments, make sure the checkout step pulls LFS objects (`lfs: true`).
+- For CLI/manual deployments, run `git lfs pull` before `vercel build`.
+
+**Verify (body check):**
+```bash
+curl -s https://vibebrowser.app/linkedin-demo.mp4 | head -n 2
+# Should NOT show: version https://git-lfs.github.com/spec/v1
+```
 
 ### Monitoring Deployments
 

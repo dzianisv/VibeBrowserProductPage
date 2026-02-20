@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { ArrowRight, Globe, Bot, Building2, MessageCircle, Users, Zap, Shield, Linkedin, Code2, Cpu, Wrench, Lightbulb, Plug, Mail, Briefcase } from "lucide-react"
+import { ArrowRight, Globe, Bot, MessageCircle, Users, Zap, Shield, Linkedin, Code2, Cpu, Wrench, Lightbulb, Plug, Mail, Briefcase } from "lucide-react"
 import Image from "next/image"
 
 const ROTATING_WORDS = [
@@ -225,7 +225,7 @@ export default function AboutUsPage() {
             </div>
 
             <div className="grid gap-8 md:grid-cols-2">
-              {/* Vibe Co-Pilot */}
+              {/* Vibe Co-Pilot - Personal, Teams, Enterprise */}
               <Card className="bg-[#1a1a1a] border-[#2a2a2a] hover:border-[#8ab4f8]/40 transition-all duration-300">
                 <CardContent className="p-8">
                   <div className="flex items-center gap-3 mb-6">
@@ -234,11 +234,11 @@ export default function AboutUsPage() {
                     </div>
                     <div>
                       <h3 className="text-xl font-bold text-[#e8eaed]">Vibe Co-Pilot</h3>
-                      <span className="text-xs text-[#8ab4f8] bg-[#8ab4f8]/10 px-2 py-0.5 rounded-full">Web Agent</span>
+                      <span className="text-xs text-[#8ab4f8] bg-[#8ab4f8]/10 px-2 py-0.5 rounded-full">Personal • Teams • Enterprise</span>
                     </div>
                   </div>
                   <p className="text-[#9aa0a6] mb-6 leading-relaxed">
-                    Available as a Chrome extension and a standalone Chromium-fork browser with AI built in. Tell it what you need in plain English &mdash; it navigates sites, fills forms, drafts messages, and researches across dozens of tabs. Supports any LLM including fully local AI via Gemini Nano.
+                    AI-powered browser automation for everyone. Available as a Chrome extension or standalone browser. Tell it what you need in plain English — it navigates sites, fills forms, drafts messages, and researches across dozens of tabs. Supports any LLM including fully local AI via Gemini Nano. Teams get shared workflows and admin controls. Enterprises get TEE security, SSO, SOC 2 compliance, and dedicated support.
                   </p>
                   <div className="flex flex-wrap gap-2 mb-6">
                     <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">Chrome Extension</span>
@@ -247,12 +247,27 @@ export default function AboutUsPage() {
                     <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">Web Automation</span>
                     <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">Any LLM</span>
                     <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">Local AI</span>
+                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">SSO</span>
+                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">TEE Security</span>
+                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">SOC 2</span>
                   </div>
-                  <Link href="/">
-                    <Button variant="outline" className="border-[#3c4043] bg-transparent hover:bg-[#2a2a2a] text-[#8ab4f8] w-full">
-                      Learn More <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                  </Link>
+                  <div className="flex flex-wrap gap-3">
+                    <Link href="/" className="flex-1">
+                      <Button variant="outline" className="border-[#3c4043] bg-transparent hover:bg-[#2a2a2a] text-[#8ab4f8] w-full">
+                        Personal <ArrowRight className="ml-2 h-4 w-4" />
+                      </Button>
+                    </Link>
+                    <Link href="/teams" className="flex-1">
+                      <Button variant="outline" className="border-[#3c4043] bg-transparent hover:bg-[#2a2a2a] text-[#81c995] w-full">
+                        Teams <ArrowRight className="ml-2 h-4 w-4" />
+                      </Button>
+                    </Link>
+                    <Link href="/enterprise" className="flex-1">
+                      <Button variant="outline" className="border-[#3c4043] bg-transparent hover:bg-[#2a2a2a] text-[#f6aea9] w-full">
+                        Enterprise <ArrowRight className="ml-2 h-4 w-4" />
+                      </Button>
+                    </Link>
+                  </div>
                 </CardContent>
               </Card>
 
@@ -269,7 +284,7 @@ export default function AboutUsPage() {
                     </div>
                   </div>
                   <p className="text-[#9aa0a6] mb-6 leading-relaxed">
-                    A team of specialized AI agents that collaborate over Slack. Each agent has its own role, tools, and context window &mdash; solving the #1 problem with single-agent systems: context flooding. Fully configurable roles for any workflow.
+                    A team of specialized AI agents that collaborate over Slack. Each agent has its own role, tools, and context window — solving the #1 problem with single-agent systems: context flooding. Fully configurable roles for any workflow.
                   </p>
                   <div className="flex flex-wrap gap-2 mb-6">
                     <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">Slack Integration</span>
@@ -279,35 +294,6 @@ export default function AboutUsPage() {
                   </div>
                   <Link href="/agentic-team">
                     <Button variant="outline" className="border-[#3c4043] bg-transparent hover:bg-[#2a2a2a] text-[#81c995] w-full">
-                      Learn More <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
-
-              {/* Vibe for Enterprise */}
-              <Card className="bg-[#1a1a1a] border-[#2a2a2a] hover:border-[#f6aea9]/40 transition-all duration-300">
-                <CardContent className="p-8">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-12 h-12 bg-[#f6aea9]/10 rounded-xl flex items-center justify-center">
-                      <Building2 className="w-6 h-6 text-[#f6aea9]" />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold text-[#e8eaed]">Vibe for Enterprise</h3>
-                      <span className="text-xs text-[#f6aea9] bg-[#f6aea9]/10 px-2 py-0.5 rounded-full">Enterprise</span>
-                    </div>
-                  </div>
-                  <p className="text-[#9aa0a6] mb-6 leading-relaxed">
-                    Enterprise-grade web automation with Trusted Execution Environment (TEE) security. Credentials never leave secure hardware enclaves. SOC 2 compliance path, SSO, audit logs, and dedicated support for regulated industries.
-                  </p>
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">TEE Security</span>
-                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">SOC 2 Path</span>
-                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">SSO</span>
-                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">Audit Logs</span>
-                  </div>
-                  <Link href="/enterprise">
-                    <Button variant="outline" className="border-[#3c4043] bg-transparent hover:bg-[#2a2a2a] text-[#f6aea9] w-full">
                       Learn More <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
                   </Link>
