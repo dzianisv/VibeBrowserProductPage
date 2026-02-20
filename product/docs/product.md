@@ -95,8 +95,8 @@ The AI browser that acts, not just answers. Autonomous browser automation that w
 ## Pricing
 
 - **Free**: Unlimited local AI (Gemini Nano), GPT-5-mini, all core features
-- **Pro**: $25/month - GPT-5.1, Grok-4-fast, DeepSeek-V3.2
-- **Max**: $99/month - GPT-5.2, Grok-4 (full reasoning), DeepSeek-R1
+- **Pro**: $25/month - GPT-5.1, GPT-5.2-codex (medium/high reasoning effort), Grok-4-fast, DeepSeek-V3.2
+- **Max**: $99/month - GPT-5.2, GPT-5.2-codex (xhigh reasoning effort), Grok-4 (full reasoning), DeepSeek-R1
 
 ## One-Sentence Description
 The AI browser that acts, not just answers - autonomous browser automation with any AI model, running fully private on your device.
