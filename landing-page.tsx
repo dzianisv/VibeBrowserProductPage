@@ -825,10 +825,10 @@ export default function Component() {
               <AccordionContent>
                 <p className="mb-2"><strong>Free forever</strong> with Gemini Nano, BYOM, GPT-5-mini, or GPT-OSS-120B.</p>
                 <p className="text-sm text-muted-foreground mb-2">
-                  <strong>Pro ($25/month):</strong> GPT-5.1, Grok-4-fast (non-reasoning), DeepSeek-V3.2
+                  <strong>Pro ($25/month):</strong> GPT-5.1, GPT-5.2-codex (medium/high reasoning), Grok-4-fast (non-reasoning), DeepSeek-V3.2
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  <strong>Max ($99/month):</strong> GPT-5.2, Grok-4, Grok-4-fast-reasoning, DeepSeek-R1
+                  <strong>Max ($99/month):</strong> GPT-5.2, GPT-5.2-codex (xhigh reasoning), Grok-4, Grok-4-fast-reasoning, DeepSeek-R1
                 </p>
               </AccordionContent>
             </AccordionItem>
@@ -1023,6 +1023,10 @@ export default function Component() {
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                    <span>GPT-5.2-codex (medium/high reasoning)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
                     <span>Grok-4-fast (non-reasoning)</span>
                   </li>
                   <li className="flex items-start gap-2">
@@ -1048,6 +1052,10 @@ export default function Component() {
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
                     <span>GPT-5.2 (latest)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                    <span>GPT-5.2-codex (xhigh reasoning)</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />

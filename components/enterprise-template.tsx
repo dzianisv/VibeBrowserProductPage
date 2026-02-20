@@ -504,7 +504,7 @@ export default function EnterpriseTemplate({ config }: EnterpriseTemplateProps) 
                       </li>
                       <li className="flex items-center gap-2">
                         <CheckCircle className="w-4 h-4 text-[#81c995]" />
-                        GPT-5.2, GPT-5.1, GPT-4.1
+                        GPT-5.2, GPT-5.2-codex, GPT-5.1, GPT-4.1
                       </li>
                       <li className="flex items-center gap-2">
                         <CheckCircle className="w-4 h-4 text-[#81c995]" />

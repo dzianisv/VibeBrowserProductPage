@@ -105,8 +105,8 @@ We've talked to 50+ potential users across sales, recruiting, and research roles
 
 **Pricing tiers:**
 - **Free**: Unlimited local AI (Gemini Nano), basic cloud models
-- **Pro ($25/mo)**: Premium cloud models (GPT-5.1, Claude, Grok-4)
-- **Max ($99/mo)**: Full reasoning models (GPT-5.2, DeepSeek-R1)
+- **Pro ($25/mo)**: Premium cloud models (GPT-5.1, GPT-5.2-codex with medium/high reasoning effort, Claude, Grok-4)
+- **Max ($99/mo)**: Full reasoning models (GPT-5.2, GPT-5.2-codex with xhigh reasoning effort, DeepSeek-R1)
 
 **Unit economics**: Cloud AI costs ~$0.01/query. At $25/month for ~100 queries, 3x+ margin on Pro tier.
 
