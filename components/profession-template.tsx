@@ -306,6 +306,7 @@ export default function ProfessionTemplate({ config }: ProfessionTemplateProps) 
             </div>
           </div>
         </section>
+      )}
 
       {/* Integrations & Agent Ecosystem */}
       <section className="py-16 md:py-24 border-t border-slate-200 bg-white">
@@ -329,7 +330,6 @@ export default function ProfessionTemplate({ config }: ProfessionTemplateProps) 
           </div>
         </div>
       </section>
-      )}
 
       {/* Stats */}
       {config.stats && config.stats.length > 0 && (
