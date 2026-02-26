@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Vibe Co-Pilot for Recruiters | LinkedIn Automation & Skills-Based Recruiting',
-  description: 'Automate LinkedIn recruiting with Vibe Co-Pilot. Find candidates by skills, draft personalized outreach, and manage your CRM.',
+  description: 'Automate LinkedIn recruiting with Vibe Co-Pilot. Includes Google Workspace (Gmail + Calendar), MCP agent access, skills, and a secrets vault for safe outreach.',
   keywords: [
     'AI recruiter',
     'LinkedIn automation',
@@ -14,13 +14,17 @@ export const metadata: Metadata = {
     'candidate sourcing AI',
     'automated recruiting',
     'recruitment workflow',
+    'google workspace automation',
+    'mcp server',
+    'skills library',
+    'secrets vault',
   ],
   alternates: {
     canonical: 'https://www.vibebrowser.app/recruiters',
   },
   openGraph: {
     title: 'Vibe Co-Pilot for Recruiters',
-    description: 'Automate LinkedIn recruiting with skills-based outreach.',
+    description: 'Automate recruiting with Google Workspace, MCP agent access, skills, and a secrets vault.',
     url: 'https://www.vibebrowser.app/recruiters',
     siteName: 'Vibe Co-Pilot',
     type: 'website',
@@ -36,7 +40,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Vibe Co-Pilot for Recruiters',
-    description: 'Automate LinkedIn recruiting with skills-based outreach.',
+    description: 'Automate recruiting with Google Workspace, MCP agent access, skills, and a secrets vault.',
   },
   robots: {
     index: true,

@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Vibe Co-Pilot for Tax Preparation - AI Tax Assistant',
-  description: 'AI-powered tax preparation. Login to financial institutions, download forms (1099, W2), estimate taxes, and help fill tax forms.',
+  description: 'AI-powered tax preparation with Google Workspace tools, MCP agent access, reusable skills, and a secrets vault for secure logins.',
   keywords: [
     'AI tax preparation',
     'tax AI assistant',
@@ -11,13 +11,17 @@ export const metadata: Metadata = {
     'W2 download',
     'tax filing automation',
     'AI tax software',
+    'google workspace automation',
+    'mcp server',
+    'skills library',
+    'secrets vault',
   ],
   alternates: {
     canonical: 'https://www.vibebrowser.app/tax',
   },
   openGraph: {
     title: 'Vibe Co-Pilot for Tax Preparation',
-    description: 'AI-powered tax preparation. Download 1099, W2 forms and automate tax filing.',
+    description: 'AI-powered tax prep with Google Workspace, MCP agent access, skills, and a secrets vault.',
     url: 'https://www.vibebrowser.app/tax',
     siteName: 'Vibe Co-Pilot',
     type: 'website',

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     default: 'Vibe Co-Pilot - Automate Your Browsing',
     template: '%s | Vibe Co-Pilot',
   },
-  description: 'Vibe Co-Pilot automates browsing tasks autonomously. Research, data entry, bookings, and more - just describe what you want done. The first truly agentic AI browser extension.',
+  description: 'Vibe Co-Pilot automates browsing tasks with Google Workspace (Gmail + Calendar), MCP agent access, skills, and a secrets vault. Works with Vibe AI, Anthropic Claude Max, GitHub Copilot, and BYOK providers.',
   keywords: [
     'AI browser co-pilot',
     'AI browser auto-pilot',
@@ -32,7 +32,18 @@ export const metadata: Metadata = {
     'web automation tool',
     'AI-native browser',
     'natural language browser',
-    'Vibe browser'
+    'Vibe browser',
+    'Google Workspace automation',
+    'Gmail automation',
+    'Google Calendar automation',
+    'MCP server',
+    'Model Context Protocol',
+    'skills library',
+    'credential vault',
+    'password vault',
+    'BYOK AI',
+    'Claude Max',
+    'GitHub Copilot MCP'
   ],
   authors: [{ name: 'Vibe Co-Pilot Team' }],
   creator: 'Vibe Co-Pilot',
@@ -48,7 +59,7 @@ export const metadata: Metadata = {
     url: 'https://www.vibebrowser.app',
     siteName: 'Vibe Co-Pilot',
     title: 'Vibe Co-Pilot',
-    description: 'The first agentic AI browser extension that automates research, bookings, data entry, and more. Just describe what you want done.',
+    description: 'Agentic AI browser extension with Google Workspace (Gmail + Calendar), MCP agent access, skills, and a secrets vault. Works with Vibe AI, Anthropic Claude Max, GitHub Copilot, and BYOK providers.',
     images: [
       {
         url: '/og/home.svg',
@@ -61,7 +72,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Vibe Co-Pilot',
-    description: 'Your AI browser co-pilot that handles browsing tasks autonomously. Research, bookings, data entry - just describe what you want done.',
+    description: 'AI browser co-pilot with Google Workspace, MCP agent access, skills, and a secrets vault. Works with Vibe AI, Anthropic Claude Max, GitHub Copilot, and BYOK providers.',
     images: ['/og/home.svg'],
     creator: '@vibebrowserapp',
   },
@@ -128,7 +139,7 @@ const websiteJsonLd = {
   '@type': 'WebSite',
   name: 'Vibe Co-Pilot',
   url: 'https://www.vibebrowser.app',
-  description: 'The first agentic AI browser extension that automates research, bookings, data entry, and more. Just describe what you want done.',
+  description: 'Agentic AI browser extension with Google Workspace (Gmail + Calendar), MCP agent access, skills, and a secrets vault.',
   potentialAction: {
     '@type': 'SearchAction',
     target: 'https://www.vibebrowser.app/use-cases?q={search_term_string}',
@@ -162,7 +173,7 @@ const softwareJsonLd = {
   name: 'Vibe Co-Pilot',
   applicationCategory: 'BrowserApplication',
   operatingSystem: 'Chrome',
-  description: 'AI browser co-pilot that automates browsing tasks autonomously. Research, data entry, bookings, and more — just describe what you want done.',
+  description: 'AI browser co-pilot that automates browsing tasks with Google Workspace (Gmail + Calendar), MCP agent access, skills, and a secrets vault.',
   url: 'https://www.vibebrowser.app',
   author: {
     '@type': 'Organization',
@@ -186,6 +197,10 @@ const softwareJsonLd = {
     'Model-agnostic AI support',
     'MCP server integration',
     'Enterprise and team workflows',
+    'Google Workspace integration (Gmail, Calendar)',
+    'Skills library for reusable workflows',
+    'Secrets vault with password fill tool',
+    'Works with Vibe AI and BYOK providers',
   ],
 }
 

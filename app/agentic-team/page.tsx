@@ -404,6 +404,67 @@ export default function AgenticTeamPage() {
           </div>
         </section>
 
+        {/* Browser & Agent Integrations */}
+        <section className="w-full py-16 md:py-24 border-t border-[#1e1e1e] bg-[#111111]">
+          <div className="container max-w-5xl px-4 md:px-6 mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-2xl md:text-3xl font-normal text-[#e8eaed] mb-4">
+                Browser & Agent Integrations
+              </h2>
+              <p className="text-[#9aa0a6] max-w-2xl mx-auto">
+                Connect the agentic team to real browser workflows with Google Workspace, MCP access, skills, and a secure secrets vault.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              <Card className="bg-[#0a0a0a] border-[#2a2a2a]">
+                <CardContent className="p-6">
+                  <div className="w-10 h-10 rounded-lg bg-[#8ab4f8]/10 flex items-center justify-center mb-3">
+                    <Mail className="w-5 h-5 text-[#8ab4f8]" />
+                  </div>
+                  <h3 className="font-medium text-[#e8eaed] mb-2">Google Workspace Native</h3>
+                  <p className="text-sm text-[#9aa0a6]">
+                    Built-in Gmail + Calendar actions so agents can schedule, triage, and follow up directly.
+                  </p>
+                </CardContent>
+              </Card>
+              <Card className="bg-[#0a0a0a] border-[#2a2a2a]">
+                <CardContent className="p-6">
+                  <div className="w-10 h-10 rounded-lg bg-[#81c995]/10 flex items-center justify-center mb-3">
+                    <GitBranch className="w-5 h-5 text-[#81c995]" />
+                  </div>
+                  <h3 className="font-medium text-[#e8eaed] mb-2">MCP Browser Access</h3>
+                  <p className="text-sm text-[#9aa0a6]">
+                    Expose your browser as an MCP server so other agents can drive real sessions, locally or remote.
+                  </p>
+                </CardContent>
+              </Card>
+              <Card className="bg-[#0a0a0a] border-[#2a2a2a]">
+                <CardContent className="p-6">
+                  <div className="w-10 h-10 rounded-lg bg-[#fdd663]/10 flex items-center justify-center mb-3">
+                    <Shield className="w-5 h-5 text-[#fdd663]" />
+                  </div>
+                  <h3 className="font-medium text-[#e8eaed] mb-2">Skills + Secrets Vault</h3>
+                  <p className="text-sm text-[#9aa0a6]">
+                    Reusable skills plus an internal vault with password fill that never exposes secrets to the LLM.
+                  </p>
+                </CardContent>
+              </Card>
+              <Card className="bg-[#0a0a0a] border-[#2a2a2a]">
+                <CardContent className="p-6">
+                  <div className="w-10 h-10 rounded-lg bg-[#f28b82]/10 flex items-center justify-center mb-3">
+                    <Brain className="w-5 h-5 text-[#f28b82]" />
+                  </div>
+                  <h3 className="font-medium text-[#e8eaed] mb-2">Model & Agent Choice</h3>
+                  <p className="text-sm text-[#9aa0a6]">
+                    Works with Vibe AI, Anthropic Claude Max, GitHub Copilot, and BYOK providers.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+
         {/* Live Demo */}
         <section id="demo" className="w-full py-16 md:py-24 border-t border-[#1e1e1e] bg-[#111111]">
           <div className="container max-w-5xl px-4 md:px-6 mx-auto">

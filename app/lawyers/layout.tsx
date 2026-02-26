@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Vibe Co-Pilot for Lawyers | AI Legal Research with TEE Privacy',
-  description: 'Automate legal research while keeping client data secure. Vibe Co-Pilot runs in TEE (Trusted Execution Environment) or on-premise, ensuring attorney-client privilege remains protected.',
+  description: 'Automate legal research while keeping client data secure. Vibe Co-Pilot runs in TEE or on-premise and includes Google Workspace tools, MCP agent access, skills, and a secrets vault.',
   keywords: [
     'AI for lawyers',
     'legal research automation',
@@ -15,13 +15,17 @@ export const metadata: Metadata = {
     'law firm automation',
     'AI paralegal',
     'legal CRM automation',
+    'google workspace automation',
+    'mcp server',
+    'skills library',
+    'secrets vault',
   ],
   alternates: {
     canonical: 'https://www.vibebrowser.app/lawyers',
   },
   openGraph: {
     title: 'Vibe Co-Pilot for Lawyers',
-    description: 'Automate legal research with TEE privacy protection for law firms.',
+    description: 'Automate legal research with Google Workspace, MCP agent access, skills, and a secrets vault.',
     url: 'https://www.vibebrowser.app/lawyers',
     siteName: 'Vibe Co-Pilot',
     type: 'website',
@@ -37,7 +41,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Vibe Co-Pilot for Lawyers',
-    description: 'AI legal research with TEE privacy protection.',
+    description: 'AI legal research with Google Workspace, MCP agent access, skills, and a secrets vault.',
   },
   robots: {
     index: true,

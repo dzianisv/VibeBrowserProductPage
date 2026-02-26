@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Vibe Co-Pilot for Crypto & DeFi - DeFi Portfolio Management',
-  description: 'Your AI crypto assistant. Research DeFi pools, compare APY, rebalance portfolio, track yields across chains.',
+  description: 'Your AI crypto assistant with Google Workspace tools, MCP agent access, skills, and a secrets vault for secure DeFi workflows.',
   keywords: [
     'AI crypto',
     'DeFi portfolio management',
@@ -12,13 +12,17 @@ export const metadata: Metadata = {
     'crypto portfolio rebalancing',
     'blockchain AI',
     'Web3 automation',
+    'google workspace automation',
+    'mcp server',
+    'skills library',
+    'secrets vault',
   ],
   alternates: {
     canonical: 'https://www.vibebrowser.app/crypto',
   },
   openGraph: {
     title: 'Vibe Co-Pilot for Crypto & DeFi',
-    description: 'Your AI crypto assistant. Research DeFi pools, compare APY, rebalance portfolio.',
+    description: 'AI crypto assistant with Google Workspace, MCP agent access, skills, and a secrets vault.',
     url: 'https://www.vibebrowser.app/crypto',
     siteName: 'Vibe Co-Pilot',
     type: 'website',

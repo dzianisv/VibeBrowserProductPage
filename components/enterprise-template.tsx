@@ -40,10 +40,11 @@ import {
   Share2,
   Globe,
   EyeOff,
+  Mail,
 } from 'lucide-react'
 
 const iconMap: Record<string, React.ElementType> = {
-  Shield, Lock, CheckCircle, XCircle, Server, ArrowRight, HardDrive, ChevronRight, Download, Brain, Zap, AlertTriangle, ShieldCheck, FileCheck, LineChart, Gavel, Receipt, Users, Settings, CreditCard, Building2, Key, BarChart3, Share2, Globe, EyeOff
+  Shield, Lock, CheckCircle, XCircle, Server, ArrowRight, HardDrive, ChevronRight, Download, Brain, Zap, AlertTriangle, ShieldCheck, FileCheck, LineChart, Gavel, Receipt, Users, Settings, CreditCard, Building2, Key, BarChart3, Share2, Globe, EyeOff, Mail
 }
 
 interface EnterpriseFeature {
@@ -106,6 +107,39 @@ export interface EnterpriseConfig {
 interface EnterpriseTemplateProps {
   config: EnterpriseConfig
 }
+
+const ECOSYSTEM_ADVANTAGES: EnterpriseFeature[] = [
+  {
+    icon: 'Mail',
+    title: 'Google Workspace Native',
+    description: 'Gmail + Calendar actions built in for secure workflows.',
+  },
+  {
+    icon: 'Server',
+    title: 'MCP Server Ready',
+    description: 'Expose Vibe as an MCP server so other AI agents can drive your browser.',
+  },
+  {
+    icon: 'Globe',
+    title: 'Remote Agent Relay',
+    description: 'Securely connect remote agents to your logged-in browser without VPNs.',
+  },
+  {
+    icon: 'Share2',
+    title: 'Skills Library',
+    description: 'Reusable skills shared org-wide with governance and approvals.',
+  },
+  {
+    icon: 'Key',
+    title: 'Secrets Vault + Type-In',
+    description: 'Internal vault with a password-fill tool that never exposes secrets to the LLM.',
+  },
+  {
+    icon: 'Zap',
+    title: 'Model & Agent Choice',
+    description: 'Works with Vibe AI, Anthropic Claude Max, GitHub Copilot, and BYOK providers.',
+  },
+]
 
 function useTypewriter(words: string[], typingSpeed = 80, deletingSpeed = 50, pauseTime = 2000) {
   const [displayText, setDisplayText] = useState(words[0])
@@ -241,6 +275,30 @@ export default function EnterpriseTemplate({ config }: EnterpriseTemplateProps) 
                   <Icon name={feature.icon} className="w-8 h-8 text-[#8ab4f8] mb-4" />
                   <h3 className="text-lg font-medium text-[#e8eaed] mb-2">{feature.title}</h3>
                   <p className="text-sm text-[#9aa0a6]">{feature.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Ecosystem Advantages */}
+        <section className="w-full py-16 md:py-24 border-t border-[#3c4043] bg-[#1c1d20]">
+          <div className="container max-w-5xl px-4 md:px-6 mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-2xl md:text-3xl font-normal text-[#e8eaed] mb-4">
+                Integrations & Agent Ecosystem
+              </h2>
+              <p className="text-[#9aa0a6] max-w-2xl mx-auto">
+                Google Workspace, MCP access for other agents, reusable skills, and a secure secrets vault.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {ECOSYSTEM_ADVANTAGES.map((item) => (
+                <div key={item.title} className="bg-[#202124] rounded-lg border border-[#3c4043] p-6 hover:border-[#5f6368] transition-colors">
+                  <Icon name={item.icon} className="w-8 h-8 text-[#8ab4f8] mb-3" />
+                  <h3 className="font-medium text-[#e8eaed] mb-2">{item.title}</h3>
+                  <p className="text-sm text-[#9aa0a6]">{item.description}</p>
                 </div>
               ))}
             </div>

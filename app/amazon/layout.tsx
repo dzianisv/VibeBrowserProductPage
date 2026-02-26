@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Vibe Co-Pilot for Amazon Sellers | AI Amazon FBA Assistant',
-  description: 'Automate your Amazon FBA business with Vibe Co-Pilot. AI-powered inventory management, listing optimization, PPC automation, and repricing. Scale your Amazon business without the burnout.',
+  description: 'Automate your Amazon FBA business with Vibe Co-Pilot. Includes Google Workspace (Gmail + Calendar), skills, MCP agent access, and a secrets vault for secure ops.',
   keywords: [
     'AI Amazon seller',
     'Amazon FBA automation',
@@ -14,13 +14,17 @@ export const metadata: Metadata = {
     'AI for Amazon FBA',
     'Amazon product research',
     'Amazon review management',
+    'google workspace automation',
+    'mcp server',
+    'skills library',
+    'secrets vault',
   ],
   alternates: {
     canonical: 'https://www.vibebrowser.app/amazon',
   },
   openGraph: {
     title: 'Vibe Co-Pilot for Amazon Sellers',
-    description: 'AI-powered automation for Amazon FBA. Inventory, listings, PPC, repricing.',
+    description: 'AI automation for Amazon FBA with Google Workspace, MCP agent access, skills, and a secrets vault.',
     url: 'https://www.vibebrowser.app/amazon',
     siteName: 'Vibe Co-Pilot',
     type: 'website',
@@ -36,7 +40,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Vibe Co-Pilot for Amazon Sellers',
-    description: 'AI-powered automation for Amazon FBA. Inventory, listings, PPC, repricing.',
+    description: 'AI automation for Amazon FBA with Google Workspace, MCP agent access, skills, and a secrets vault.',
   },
   robots: {
     index: true,

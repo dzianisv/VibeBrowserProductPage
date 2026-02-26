@@ -436,7 +436,8 @@ export default function McpPage() {
                 </h1>
                 <p className="text-xl text-[#9aa0a6] max-w-2xl mx-auto">
                   Connect Claude, Cursor, VS Code, and more to your real browser — with all your sessions, cookies, and extensions intact.
-                   Multi-agent ready, internet-exposed relay, 25+ tools, open source MCP server. Connect any agent on the internet — including <a href="https://openclaw.com" target="_blank" rel="noopener noreferrer" className="text-[#8ab4f8] hover:underline">OpenClaw</a> — to your local browser.
+                  Works with Anthropic Claude Max, GitHub Copilot, Vibe AI, and BYOK providers.
+                  Multi-agent ready, internet-exposed relay, 25+ tools, open source MCP server. Connect any agent on the internet — including <a href="https://openclaw.com" target="_blank" rel="noopener noreferrer" className="text-[#8ab4f8] hover:underline">OpenClaw</a> — to your local browser.
                 </p>
               </div>
 
@@ -804,7 +805,7 @@ export default function McpPage() {
                 25+ tools across 8 categories
               </h2>
               <p className="text-[#9aa0a6] max-w-2xl mx-auto">
-                Navigation, interaction, Google Workspace, credential management, sub-agents, and more — all exposed via MCP.
+                Navigation, interaction, Google Workspace, credential management, skills, sub-agents, and more — all exposed via MCP.
               </p>
             </div>
 
@@ -832,6 +833,42 @@ export default function McpPage() {
                   </CardContent>
                 </Card>
               ))}
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6 mt-10">
+              <Card className="bg-[#0a0a0a] border-[#2a2a2a]">
+                <CardContent className="p-5">
+                  <div className="w-9 h-9 rounded-lg bg-[#1a1a1a] flex items-center justify-center mb-3">
+                    <Layers className="w-5 h-5 text-[#8ab4f8]" />
+                  </div>
+                  <h3 className="font-medium text-[#e8eaed] mb-2">Skills Library</h3>
+                  <p className="text-xs text-[#9aa0a6]">
+                    Turn workflows into reusable skills and share them across agents or teams.
+                  </p>
+                </CardContent>
+              </Card>
+              <Card className="bg-[#0a0a0a] border-[#2a2a2a]">
+                <CardContent className="p-5">
+                  <div className="w-9 h-9 rounded-lg bg-[#1a1a1a] flex items-center justify-center mb-3">
+                    <Lock className="w-5 h-5 text-[#81c995]" />
+                  </div>
+                  <h3 className="font-medium text-[#e8eaed] mb-2">Secrets Vault + Type-In</h3>
+                  <p className="text-xs text-[#9aa0a6]">
+                    Internal password vault with a fill tool that never exposes secrets to the LLM.
+                  </p>
+                </CardContent>
+              </Card>
+              <Card className="bg-[#0a0a0a] border-[#2a2a2a]">
+                <CardContent className="p-5">
+                  <div className="w-9 h-9 rounded-lg bg-[#1a1a1a] flex items-center justify-center mb-3">
+                    <Zap className="w-5 h-5 text-[#fdd663]" />
+                  </div>
+                  <h3 className="font-medium text-[#e8eaed] mb-2">Model & Agent Choice</h3>
+                  <p className="text-xs text-[#9aa0a6]">
+                    Works with Vibe AI, Anthropic Claude Max, GitHub Copilot, and BYOK providers.
+                  </p>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </section>

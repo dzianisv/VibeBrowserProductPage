@@ -281,8 +281,11 @@ export default function Component() {
             <span className="text-muted-foreground text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-normal">Not Just Answers</span>
           </h1>
 
-          <p className="max-w-3xl text-lg text-muted-foreground md:text-xl leading-relaxed mb-8">
-            Autonomous browser automation that works with <strong>any AI model</strong>, runs <strong>fully private</strong> on your device, and breaks free from vendor lock-in. Tell Vibe what you need—it researches, compares, and executes complex workflows across multiple sites.
+          <p className="max-w-3xl text-lg text-muted-foreground md:text-xl leading-relaxed mb-6">
+            Autonomous browser automation that works with <strong>Vibe AI or your BYOK providers</strong>, runs <strong>fully private</strong> on your device, and breaks free from vendor lock-in. Tell Vibe what you need—it researches, compares, and executes complex workflows across multiple sites.
+          </p>
+          <p className="text-sm text-muted-foreground">
+            Compatible with Anthropic Claude Max, GitHub Copilot, and any MCP-ready agent.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 items-center justify-center mb-8">
@@ -355,6 +358,22 @@ export default function Component() {
             <div className="flex items-center gap-2">
               <CheckCircle className="w-4 h-4 text-purple-600" />
               <span>You stay in control</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Calendar className="w-4 h-4 text-indigo-600" />
+              <span>Google Workspace (Gmail + Calendar)</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Puzzle className="w-4 h-4 text-orange-600" />
+              <span>MCP server for other agents</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <ListTodo className="w-4 h-4 text-slate-600" />
+              <span>Skills library</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Key className="w-4 h-4 text-emerald-600" />
+              <span>Secrets vault + password fill</span>
             </div>
           </div>
 
@@ -676,6 +695,94 @@ export default function Component() {
                </p>
              </CardContent>
            </Card>
+        </div>
+      </div>
+    </section>
+
+    {/* Integrations & Agent Ecosystem */}
+    <section className="w-full py-12 md:py-16 bg-slate-50">
+      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
+            Integrations & Agent Ecosystem
+          </h2>
+          <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
+            Google Workspace, MCP access for other agents, reusable skills, and a secure secrets vault.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          <Card className="border-0 shadow-lg bg-white">
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center mb-4">
+                <Calendar className="w-6 h-6 text-slate-700" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Google Workspace Native</h3>
+              <p className="text-sm text-muted-foreground">
+                Built-in Gmail and Calendar actions for search, draft, send, and event creation.
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 shadow-lg bg-white">
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
+                <Puzzle className="w-6 h-6 text-purple-600" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">MCP Server for Agents</h3>
+              <p className="text-sm text-muted-foreground">
+                Expose your browser as an MCP server so other AI agents can drive it.
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 shadow-lg bg-white">
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
+                <Globe className="w-6 h-6 text-blue-600" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Remote Agent Relay</h3>
+              <p className="text-sm text-muted-foreground">
+                Securely expose your browser to remote AI agents without port forwarding.
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 shadow-lg bg-white">
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mb-4">
+                <ListTodo className="w-6 h-6 text-emerald-600" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Skills Library</h3>
+              <p className="text-sm text-muted-foreground">
+                Create reusable skills and share them across teams or clients.
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 shadow-lg bg-white">
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center mb-4">
+                <Key className="w-6 h-6 text-amber-600" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Secrets Vault + Type-In</h3>
+              <p className="text-sm text-muted-foreground">
+                Internal password vault with a fill tool that never exposes secrets to the LLM.
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 shadow-lg bg-white">
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-sky-100 rounded-xl flex items-center justify-center mb-4">
+                <Cloud className="w-6 h-6 text-sky-600" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Model & Agent Choice</h3>
+              <p className="text-sm text-muted-foreground">
+                Works with Vibe AI, Anthropic Claude Max, GitHub Copilot, and BYOK providers.
+              </p>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </section>

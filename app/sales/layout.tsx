@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Vibe Co-Pilot for Sales | AI Sales Assistant with Gmail & CRM',
-  description: 'Automate sales outreach with Vibe Co-Pilot. Gmail integration, CRM automation, and lead research. Find prospects, draft emails, and close more deals.',
+  description: 'Automate sales outreach with Vibe Co-Pilot. Google Workspace (Gmail + Calendar), CRM automation, MCP agent access, skills, and a secrets vault for safe email workflows.',
   keywords: [
     'AI sales assistant',
     'sales automation',
@@ -14,13 +14,17 @@ export const metadata: Metadata = {
     'sales productivity',
     'AI for sales',
     'sales workflow',
+    'google workspace automation',
+    'mcp server',
+    'skills library',
+    'secrets vault',
   ],
   alternates: {
     canonical: 'https://www.vibebrowser.app/sales',
   },
   openGraph: {
     title: 'Vibe Co-Pilot for Sales',
-    description: 'AI sales assistant with Gmail & CRM integration.',
+    description: 'AI sales assistant with Google Workspace, MCP agent access, skills, and a secrets vault.',
     url: 'https://www.vibebrowser.app/sales',
     siteName: 'Vibe Co-Pilot',
     type: 'website',
@@ -36,7 +40,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Vibe Co-Pilot for Sales',
-    description: 'AI sales assistant with Gmail & CRM integration.',
+    description: 'AI sales assistant with Google Workspace, MCP agent access, skills, and a secrets vault.',
   },
   robots: {
     index: true,

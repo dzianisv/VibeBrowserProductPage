@@ -12,16 +12,17 @@ const developersConfig: ProfessionConfig = {
   accentColor: 'text-purple-400',
   accentBg: 'bg-purple-100 text-purple-700',
   rotatingWords: ['Web Scraping', 'E2E Testing', 'Form Automation', 'Data Extraction', 'Browser Control', 'CI/CD', 'AI Agents', 'Workflows'],
-  description: 'NPM CLI tool for controlling Playwright MCP with our AI agent. Remote browser access, MCP protocol support, and self-hosted deployment.',
+  description: 'NPM CLI + MCP server to expose your real browser to any agent. Includes Google Workspace (Gmail + Calendar), skills library, secrets vault, and BYOK model support for Vibe AI, Anthropic Claude Max, and GitHub Copilot.',
   showDownloadButtons: true,
   features: [
     { icon: 'Terminal', title: 'NPM CLI', description: 'Install via npm. Control your browser from the command line with our AI agent.' },
     { icon: 'Cloud', title: 'Remote Access', description: 'Access your browser from anywhere via relay.api.vibebrowser.app' },
-    { icon: 'Plug', title: 'MCP Protocol', description: 'Full Model Context Protocol. Connect Claude, Cursor, Windsurf.' },
+    { icon: 'Plug', title: 'MCP Protocol', description: 'Expose your browser as an MCP server for any AI agent.' },
     { icon: 'Code', title: '25+ Tools', description: 'Screenshot, click, type, scroll, extract data, fill forms.' },
     { icon: 'Server', title: 'Self-Hostable', description: 'Run your own MCP server. Keep data in your infrastructure.' },
-    { icon: 'Key', title: 'Credential Vault', description: 'Securely store and manage browser credentials.' },
-    { icon: 'Workflow', title: 'Google Workspace', description: 'Built-in support for Gmail, Sheets, Docs.' },
+    { icon: 'Key', title: 'Credential Vault', description: 'Securely store credentials with a type-in tool that never exposes secrets.' },
+    { icon: 'Mail', title: 'Google Workspace', description: 'Built-in support for Gmail + Calendar actions.' },
+    { icon: 'Workflow', title: 'Skills Library', description: 'Create reusable skills and share them across agents or teams.' },
   ],
   workflows: [
     'Install via npm and control browser from CLI',
@@ -30,7 +31,7 @@ const developersConfig: ProfessionConfig = {
     'Extract structured data from any website',
     'Run browser automation in your CI pipeline',
   ],
-  tools: ['npm', 'Claude Desktop', 'Cursor', 'Windsurf', 'VS Code', 'OpenAI', 'Gemini'],
+  tools: ['npm', 'Claude Desktop', 'Claude Max', 'GitHub Copilot', 'Cursor', 'Windsurf', 'VS Code', 'Vibe AI', 'OpenAI', 'Gemini', 'BYOK Providers'],
   demos: [
     {
       id: 'github-ticket',

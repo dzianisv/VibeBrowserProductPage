@@ -218,9 +218,9 @@ export default function AboutUsPage() {
         <section className="w-full py-16 md:py-24 border-t border-[#1e1e1e]">
           <div className="container max-w-6xl px-4 md:px-6 mx-auto">
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Products</h2>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Products & Projects</h2>
               <p className="text-lg text-[#9aa0a6] max-w-2xl mx-auto">
-                A suite of AI agents for individuals, teams, and enterprises
+                A suite of AI agents and open-source tooling for individuals, teams, and enterprises
               </p>
             </div>
 
@@ -300,7 +300,6 @@ export default function AboutUsPage() {
                 </CardContent>
               </Card>
 
-              {/* OClawBox Telegram Bot */}
               <Card className="bg-[#1a1a1a] border-[#2a2a2a] hover:border-[#fdd663]/40 transition-all duration-300">
                 <CardContent className="p-8">
                   <div className="flex items-center gap-3 mb-6">
@@ -308,7 +307,7 @@ export default function AboutUsPage() {
                       <MessageCircle className="w-6 h-6 text-[#fdd663]" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-[#e8eaed]">OClawBox</h3>
+                      <h3 className="text-xl font-bold text-[#e8eaed]">OpenClaw Bot</h3>
                       <span className="text-xs text-[#fdd663] bg-[#fdd663]/10 px-2 py-0.5 rounded-full">Telegram Bot</span>
                     </div>
                   </div>
@@ -329,7 +328,6 @@ export default function AboutUsPage() {
                 </CardContent>
               </Card>
 
-              {/* Vibe MCP Server */}
               <Card className="bg-[#1a1a1a] border-[#2a2a2a] hover:border-[#c58af9]/30 transition-all duration-300 group">
                 <CardContent className="p-6">
                   <div className="flex items-center gap-3 mb-6">
@@ -337,7 +335,7 @@ export default function AboutUsPage() {
                       <Plug className="w-6 h-6 text-[#c58af9]" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-[#e8eaed]">Vibe MCP Server</h3>
+                      <h3 className="text-xl font-bold text-[#e8eaed]">Vibe Co-Pilot MCP</h3>
                       <span className="text-xs text-[#c58af9] bg-[#c58af9]/10 px-2 py-0.5 rounded-full">Open Source</span>
                     </div>
                   </div>
@@ -355,6 +353,38 @@ export default function AboutUsPage() {
                   <Link href="/mcp">
                     <Button variant="outline" className="border-[#3c4043] bg-transparent hover:bg-[#2a2a2a] text-[#c58af9] w-full">
                       Learn More <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+
+              {/* OpenCode Manager */}
+              <Card className="bg-[#1a1a1a] border-[#2a2a2a] hover:border-[#f6aea9]/40 transition-all duration-300">
+                <CardContent className="p-8">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-12 h-12 bg-[#f6aea9]/10 rounded-xl flex items-center justify-center">
+                      <Code2 className="w-6 h-6 text-[#f6aea9]" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-[#e8eaed]">OpenCode Manager</h3>
+                      <span className="text-xs text-[#f6aea9] bg-[#f6aea9]/10 px-2 py-0.5 rounded-full">Open Source • PWA</span>
+                    </div>
+                  </div>
+                  <p className="text-[#9aa0a6] mb-6 leading-relaxed">
+                    Mobile-first web interface for OpenCode AI agents. Manage multiple agents from any device with Git integration, file management, and real-time chat in a responsive PWA.
+                    One-click deployment with Docker. Perfect for monitoring and controlling your agents on the go. Github Co-Pilot, Antropics Claude and more LLM providers supported.
+                  </p>
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">Mobile-first</span>
+                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">Multi-Agent</span>
+                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">Git Integration</span>
+                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">File Manager</span>
+                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">Real-time Chat</span>
+                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">Docker</span>
+                  </div>
+                  <Link href="https://github.com/dzianisv/opencode-manager" target="_blank" rel="noopener noreferrer">
+                    <Button variant="outline" className="border-[#3c4043] bg-transparent hover:bg-[#2a2a2a] text-[#f6aea9] w-full">
+                      View on GitHub <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
                   </Link>
                 </CardContent>

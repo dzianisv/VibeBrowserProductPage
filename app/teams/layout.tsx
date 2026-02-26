@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Vibe Browser for Teams - Shared Automation for Modern Teams',
   description:
-    'AI browser automation for teams of 5-50. Build workflows once, share with your whole team, track productivity, and manage models centrally.',
+    'AI browser automation for teams of 5-50. Build workflows once, share with your whole team, track productivity, and manage models centrally with Google Workspace, MCP agent access, and a secrets vault.',
   keywords: [
     'AI browser for teams',
     'team browser automation',
@@ -17,6 +17,10 @@ export const metadata: Metadata = {
     'admin controls AI browser',
     'unified billing AI',
     'Vibe Browser teams',
+    'Google Workspace automation',
+    'MCP server for teams',
+    'skills library',
+    'secrets vault',
   ],
   alternates: {
     canonical: 'https://www.vibebrowser.app/teams',
@@ -24,7 +28,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Vibe Browser for Teams',
     description:
-      'Shared AI browser automation with team dashboards, admin controls, and unified billing.',
+      'Shared AI browser automation with Google Workspace, MCP agent access, skills, and a secrets vault.',
     url: 'https://www.vibebrowser.app/teams',
     images: [
       {
@@ -39,7 +43,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Vibe Browser for Teams',
     description:
-      'Shared AI browser automation with team dashboards, admin controls, and unified billing.',
+      'Shared AI browser automation with Google Workspace, MCP agent access, skills, and a secrets vault.',
     images: ['/og/teams.svg'],
     creator: '@vibebrowserapp',
   },
@@ -66,6 +70,10 @@ const teamsJsonLd = {
     'Unified billing',
     'Centralized model management',
     'Usage tracking per team member',
+    'Google Workspace integration (Gmail, Calendar)',
+    'MCP server access for other agents',
+    'Skills library for reusable workflows',
+    'Secrets vault with password fill tool',
   ],
 }
 

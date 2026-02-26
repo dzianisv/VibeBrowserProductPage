@@ -10,7 +10,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.vibebrowser.app'),
   title: 'Vibe MCP Server - Control Your Browser from Claude, Cursor, VS Code & More',
-  description: 'Connect AI coding agents to your real browser via Model Context Protocol. Multi-agent support, 25+ tools, Google Workspace integration, credential vault. The best alternative to Playwright MCP, Chrome DevTools MCP, and BrowserMCP.',
+  description: 'Connect AI agents to your real browser via Model Context Protocol. Multi-agent support, Google Workspace (Gmail + Calendar), skills, and a secrets vault. Works with Anthropic Claude Max, GitHub Copilot, Vibe AI, and BYOK providers.',
   keywords: [
     // Primary MCP keywords
     'browser mcp server',
@@ -51,6 +51,11 @@ export const metadata: Metadata = {
     'mcp google workspace',
     'mcp gmail integration',
     'mcp credential management',
+    'mcp skills library',
+    'mcp secrets vault',
+    'claude max mcp',
+    'github copilot mcp',
+    'byok mcp',
 
     // Technical keywords
     'npx vibebrowser mcp',
@@ -83,7 +88,7 @@ export const metadata: Metadata = {
     url: 'https://www.vibebrowser.app/mcp',
     siteName: 'Vibe Co-Pilot',
     title: 'Vibe MCP Server - Control Your Browser from Any AI Agent',
-    description: 'Multi-agent browser automation via MCP. 25+ tools, Google Workspace, credential vault, no debug permissions. Works with Claude, Cursor, VS Code, Windsurf, OpenCode, Gemini CLI.',
+    description: 'Multi-agent browser automation via MCP. Google Workspace, skills, secrets vault, no debug permissions. Works with Claude Max, GitHub Copilot, Vibe AI, Cursor, VS Code, and BYOK providers.',
     images: [
       {
         url: '/og/mcp.svg',
@@ -96,7 +101,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Vibe MCP Server - Control Your Browser from Any AI Agent',
-    description: 'Multi-agent browser automation via MCP. 25+ tools, Google Workspace, credential vault. Works with Claude, Cursor, VS Code & more.',
+    description: 'Multi-agent browser automation via MCP. Google Workspace, skills, secrets vault. Works with Claude Max, GitHub Copilot, Vibe AI, and BYOK providers.',
     images: ['/og/mcp.svg'],
     creator: '@vibebrowserapp',
   },
@@ -125,7 +130,7 @@ const jsonLd = {
   name: 'Vibe MCP Server',
   applicationCategory: 'DeveloperApplication',
   operatingSystem: 'Chrome, macOS, Windows, Linux',
-  description: 'MCP server that exposes your browser as a tool for AI coding agents. Multi-agent support, 25+ browser tools, Google Workspace integration, credential vault.',
+  description: 'MCP server that exposes your browser as a tool for AI agents. Multi-agent support, Google Workspace, skills library, and a secrets vault.',
   url: 'https://www.vibebrowser.app/mcp',
   downloadUrl: 'https://www.npmjs.com/package/@vibebrowser/mcp',
   installUrl: 'https://docs.vibebrowser.app/getting-started/extension',
@@ -144,7 +149,9 @@ const jsonLd = {
     'Multi-agent simultaneous browser control',
     '25+ browser automation tools',
     'Google Workspace integration (Gmail, Calendar)',
+    'Skills library for reusable workflows',
     'Secure credential vault',
+    'Password fill tool that hides secrets from the LLM',
     'No Chrome debug permissions required',
     'Markdown-indexed page content',
     'Sub-agent orchestration',

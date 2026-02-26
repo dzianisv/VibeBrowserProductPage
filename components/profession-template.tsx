@@ -73,6 +73,39 @@ interface ProfessionTemplateProps {
   config: ProfessionConfig
 }
 
+const ECOSYSTEM_ADVANTAGES: ProfessionFeature[] = [
+  {
+    icon: 'Mail',
+    title: 'Google Workspace Native',
+    description: 'Gmail + Calendar actions built in for real workflows, not brittle APIs.',
+  },
+  {
+    icon: 'Plug',
+    title: 'MCP Server for Agents',
+    description: 'Expose your browser as an MCP server so other AI agents can drive it.',
+  },
+  {
+    icon: 'Globe',
+    title: 'Remote Browser Relay',
+    description: 'Securely connect remote agents to your logged-in browser without VPNs.',
+  },
+  {
+    icon: 'Workflow',
+    title: 'Skills Library',
+    description: 'Create reusable skills and share them across your team or clients.',
+  },
+  {
+    icon: 'Lock',
+    title: 'Secrets Vault + Type-In',
+    description: 'Internal vault with a password-fill tool that never exposes secrets to the LLM.',
+  },
+  {
+    icon: 'Cloud',
+    title: 'Model & Agent Choice',
+    description: 'Works with Vibe AI, Anthropic Claude Max, GitHub Copilot, and BYOK providers.',
+  },
+]
+
 function useTypewriter(words: string[], typingSpeed = 80, deletingSpeed = 50, pauseTime = 2000) {
   const [displayText, setDisplayText] = useState(words[0])
   const [wordIndex, setWordIndex] = useState(0)
@@ -273,6 +306,29 @@ export default function ProfessionTemplate({ config }: ProfessionTemplateProps) 
             </div>
           </div>
         </section>
+
+      {/* Integrations & Agent Ecosystem */}
+      <section className="py-16 md:py-24 border-t border-slate-200 bg-white">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">
+              Integrations & Agent Ecosystem
+            </h2>
+            <p className="text-slate-600 max-w-2xl mx-auto">
+              Google Workspace, MCP access for other agents, reusable skills, and a secure secrets vault.
+            </p>
+          </div>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {ECOSYSTEM_ADVANTAGES.map((item) => (
+              <div key={item.title} className="bg-white rounded-2xl border border-slate-200 p-6">
+                <Icon name={item.icon} className={`w-8 h-8 ${config.accentColor} mb-4`} />
+                <h3 className="text-lg font-semibold text-slate-900 mb-2">{item.title}</h3>
+                <p className="text-slate-600 text-sm">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
       )}
 
       {/* Stats */}

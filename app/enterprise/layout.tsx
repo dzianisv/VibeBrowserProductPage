@@ -10,7 +10,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.vibebrowser.app'),
   title: 'Vibe AI Browser · Private Enterprise | Secure AI for Financial Professionals',
-  description: 'Private AI browser automation for financial professionals. SOC2 compliant, on-premise deployment, TEE-ready. AI that never sees your client data. Built for traders, wealth managers, and regulated industries.',
+  description: 'Private AI browser automation for financial professionals. SOC2 compliant, on-premise deployment, TEE-ready. Includes Google Workspace (Gmail + Calendar), MCP agent access, skills, and a secrets vault. Built for regulated industries.',
   keywords: [
     // Primary keywords - Financial AI
     'private AI for finance',
@@ -48,6 +48,10 @@ export const metadata: Metadata = {
     'AI browser co-pilot',
     'private browser automation',
     'secure workflow automation',
+    'Google Workspace automation',
+    'MCP server',
+    'skills library',
+    'secrets vault',
     
     // Privacy keywords
     'zero data retention AI',
@@ -73,7 +77,7 @@ export const metadata: Metadata = {
     url: 'https://www.vibebrowser.app/enterprise',
     siteName: 'Vibe Co-Pilot',
     title: 'Private AI for Financial Professionals | Vibe AI Browser',
-    description: 'AI browser automation that never sees your client data. SOC2 compliant, on-premise deployment, TEE-ready. Built for traders, wealth managers, and regulated industries.',
+    description: 'AI browser automation that never sees your client data. SOC2 compliant, on-premise, TEE-ready, with Google Workspace tools, MCP agent access, skills, and a secrets vault.',
     images: [
       {
         url: '/og/enterprise.svg',
@@ -86,7 +90,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Private AI for Financial Professionals | Vibe AI Browser',
-    description: 'AI browser automation that never sees your client data. SOC2 compliant, on-premise, TEE-ready.',
+    description: 'AI browser automation that never sees your client data. SOC2 compliant, on-premise, TEE-ready, with Google Workspace tools, MCP agent access, skills, and a secrets vault.',
     images: ['/og/enterprise.svg'],
     creator: '@vibebrowserapp',
   },
@@ -115,7 +119,7 @@ const jsonLd = {
   name: 'Vibe AI Browser · Private Enterprise',
   applicationCategory: 'BusinessApplication',
   operatingSystem: 'Chrome',
-  description: 'Private AI browser automation for financial professionals. SOC2 compliant, on-premise deployment, TEE-ready.',
+  description: 'Private AI browser automation for financial professionals. SOC2 compliant, on-premise deployment, TEE-ready, with Google Workspace, MCP access, skills, and a secrets vault.',
   url: 'https://www.vibebrowser.app/enterprise',
   author: {
     '@type': 'Organization',
@@ -158,6 +162,10 @@ const jsonLd = {
     'SEC Rule 17a-4 Compatible',
     'Self-Hosted LLM Support',
     'Complete Audit Logging',
+    'Google Workspace integration (Gmail, Calendar)',
+    'MCP server access for other agents',
+    'Skills library for reusable workflows',
+    'Secrets vault with password fill tool',
   ],
   screenshot: 'https://www.vibebrowser.app/screenshot-enterprise.png',
   softwareHelp: {

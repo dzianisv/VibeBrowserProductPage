@@ -109,6 +109,73 @@ vercel --prod && node scripts/test-layout.js
 └── public/          # Static assets
 ```
 
+## Page Tree (Routes -> Renderer)
+```
+/
+├── /                          -> app/page.tsx (renders landing-page.tsx)
+├── /aboutus                   -> app/aboutus/page.tsx (inline AboutUsPage)
+├── /admin/waitlist            -> app/admin/waitlist/page.tsx (waitlist admin UI)
+├── /agentic-team              -> app/agentic-team/page.tsx (Slack demo page)
+├── /amazon                    -> app/amazon/page.tsx (ProfessionTemplate)
+├── /compare                   -> app/compare/page.tsx (ComparePage)
+├── /crypto                    -> app/crypto/page.tsx (ProfessionTemplate)
+├── /developers                -> app/developers/page.tsx (ProfessionTemplate)
+├── /enterprise                -> app/enterprise/page.tsx (EnterpriseTemplate)
+├── /investors                 -> app/investors/page.tsx (ProfessionTemplate)
+├── /lawyers                   -> app/lawyers/page.tsx (ProfessionTemplate)
+├── /mcp                       -> app/mcp/page.tsx (McpPage)
+├── /people                    -> app/people/page.tsx (ProfessionTemplate)
+├── /privacy                   -> app/privacy/page.tsx (renders privacy-policy.tsx)
+├── /recruiters                -> app/recruiters/page.tsx (ProfessionTemplate)
+├── /researchers               -> app/researchers/page.tsx (ProfessionTemplate)
+├── /sales                     -> app/sales/page.tsx (ProfessionTemplate)
+├── /tax                       -> app/tax/page.tsx (ProfessionTemplate)
+├── /teams                     -> app/teams/page.tsx (EnterpriseTemplate)
+├── /tee                       -> app/tee/page.tsx (TEE page)
+└── /terms                     -> app/terms/page.tsx (renders terms-of-service.tsx)
+```
+
+System/SEO routes:
+- `/robots.txt` -> `app/robots.ts`
+- `/sitemap.xml` -> `app/sitemap.ts`
+- `404` -> `app/not-found.tsx`
+
+Not routed by Next.js app router (legacy/standalone):
+- `products/agenticteam/page.tsx` (standalone Agentic Team page, not under `app/`)
+
+## Key Files & Responsibilities
+- `app/layout.tsx` - Global metadata, fonts, structured data, and mounts `GoogleAnalytics` + `ReferralTracker`.
+- `app/globals.css` - Tailwind base and global styles.
+- `app/sitemap.ts` - Sitemap builder and profession pages list.
+- `landing-page.tsx` - Homepage content and sections (used by `app/page.tsx`).
+- `privacy-policy.tsx` - Privacy policy page component (used by `app/privacy/page.tsx`).
+- `terms-of-service.tsx` - Terms of service page component (used by `app/terms/page.tsx`).
+- `actions/waitlist-supabase.ts` - Supabase waitlist CRUD, CSV export, Brevo sync, Resend notifications.
+- `actions/waitlist.ts` - Legacy Neon-based waitlist (not used by current routes).
+- `lib/referral-tracking.ts` - UTM/referrer capture + helpers for waitlist attribution.
+
+## Custom Components (components/)
+- `components/site-nav.tsx` - Top nav + profession dropdown and dark/light mode handling.
+- `components/site-footer.tsx` - Footer links and mailing list embed.
+- `components/profession-template.tsx` - Shared template for profession landing pages (amazon, sales, etc).
+- `components/enterprise-template.tsx` - Shared template for enterprise/teams pages.
+- `components/waitlist-dialog.tsx` - Primary waitlist modal (homepage).
+- `components/waitlist-dialog-incognito.tsx` - Enterprise-styled waitlist modal (dark theme).
+- `components/mailing-list-subscribe.tsx` - Footer mailing list form (Brevo only).
+- `components/referral-tracker.tsx` - Captures referral/UTM data early in app.
+- `components/google-analytics.tsx` - GA script + event helpers.
+- `components/slack-demo.tsx` - Slack-style conversation UI used on `/agentic-team`.
+- `components/horizontal-roadmap.tsx` - Homepage roadmap UI.
+- `components/typewriter-effect.tsx` - Homepage rotating typewriter text.
+- `components/ui/*.tsx` - Shadcn UI primitives (accordion, badge, button, card, dialog, input, label).
+
+Unused/experimental components (no imports found as of 2026-02-26):
+- `components/ai-first-homepage.tsx`
+- `components/ai-reasoning-engine.tsx`
+- `components/chatgpt-interface.tsx`
+- `components/credential-management.tsx`
+- `components/theme-provider.tsx`
+
 ## Adding New Profession Pages
 
 When creating a new profession page (e.g., `/amazon`), update:
@@ -213,6 +280,5 @@ console.log('url:', page.url());
 // Verify URL matches expected before continuing
 // If URL changed unexpectedly, STOP and reassess
 ```
-
 
 

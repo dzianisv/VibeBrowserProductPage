@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Vibe Co-Pilot for Investors - Research & Portfolio Analysis',
-  description: 'Your AI investment assistant. Research stocks, download Morningstar reports, analyze portfolios, and make better investment decisions.',
+  description: 'Your AI investment assistant with Google Workspace tools, MCP agent access, reusable skills, and a secrets vault for secure research.',
   keywords: [
     'AI investor',
     'stock research AI',
@@ -11,13 +11,17 @@ export const metadata: Metadata = {
     'investment research automation',
     'AI financial analysis',
     'stock screening',
+    'google workspace automation',
+    'mcp server',
+    'skills library',
+    'secrets vault',
   ],
   alternates: {
     canonical: 'https://www.vibebrowser.app/investors',
   },
   openGraph: {
     title: 'Vibe Co-Pilot for Investors',
-    description: 'Your AI investment assistant. Research stocks, analyze portfolios.',
+    description: 'AI investment assistant with Google Workspace, MCP agent access, skills, and a secrets vault.',
     url: 'https://www.vibebrowser.app/investors',
     siteName: 'Vibe Co-Pilot',
     type: 'website',

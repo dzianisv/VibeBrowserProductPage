@@ -11,7 +11,7 @@ const enterpriseConfig: EnterpriseConfig = {
   accentColor: 'text-slate-300',
   heroTitle: 'Private AI Co-Pilot for',
   heroSubtitle: 'AI browser automation that never sees your client data',
-  heroDescription: 'Built for professionals in finance, law, healthcare, and other regulated industries who need AI automation without compliance risk. Run models locally, self-host on your infrastructure, or use TEE-protected cloud inference.',
+  heroDescription: 'Built for professionals in finance, law, healthcare, and other regulated industries who need AI automation without compliance risk. Run models locally, self-host on your infrastructure, or use TEE-protected cloud inference. Includes Google Workspace (Gmail + Calendar), skills library, MCP server access for other agents, and an internal secrets vault with password fill. Works with Vibe AI or BYOK providers.',
   rotatingWords: ['Financial', 'Investment', 'Legal', 'Healthcare', 'Insurance', 'Accounting', 'Tax', 'Compliance'],
   ctaText: 'Contact Sales',
   ctaLink: 'mailto:sales@vibebrowser.app',

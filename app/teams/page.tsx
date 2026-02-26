@@ -11,7 +11,7 @@ const teamsConfig: EnterpriseConfig = {
   accentColor: 'text-blue-300',
   heroTitle: 'AI Automation for Marketing',
   heroSubtitle: 'Build workflows once, share with your team',
-  heroDescription: 'Gmail, CRM, and more—powered by secure AI that keeps your data private. Build skills once, share with the whole team. Centralized control with admin dashboard, usage tracking, and unified billing.',
+  heroDescription: 'Google Workspace (Gmail + Calendar), CRM, and more—powered by secure AI that keeps your data private. Build skills once, share across the team, and expose your browser as an MCP server for other agents with a secrets vault for safe password fill. Works with Vibe AI or BYOK providers.',
   rotatingWords: ['Marketing', 'Sales', 'Recruiting', 'Operations', 'Support', 'Research'],
   ctaText: 'Contact Sales',
   ctaLink: 'mailto:sales@vibebrowser.app',
