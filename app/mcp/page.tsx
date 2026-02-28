@@ -229,37 +229,36 @@ const SETUP_CONFIGS: SetupConfig[] = [
   {
     agent: "Claude Code",
     file: "CLI",
-    config: `claude mcp add --transport stdio vibe -- npx -y @vibebrowser/mcp`,
+    config: `claude mcp add --transport stdio --scope user vibe -- npx -y @vibebrowser/mcp@latest`,
     note: "Or add to project-level .mcp.json",
   },
   {
     agent: "OpenCode",
-    file: "opencode.json",
+    file: "~/.config/opencode/opencode.json",
     config: `{
+  "$schema": "https://opencode.ai/config.json",
   "mcp": {
     "vibe": {
       "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@vibebrowser/mcp"
-      ],
+      "command": ["npx", "-y", "@vibebrowser/mcp@latest"],
       "enabled": true
     }
   }
 }`,
-    note: "Or: opencode mcp add vibe -- npx -y @vibebrowser/mcp",
+    note: "Project-level config: ./opencode.json",
   },
   {
     agent: "Cursor",
     file: "~/.cursor/mcp.json",
     config: `{
-  "vibe": {
-    "command": "npx",
-    "args": ["-y", "@vibebrowser/mcp"]
+  "mcpServers": {
+    "vibe": {
+      "command": "npx",
+      "args": ["-y", "@vibebrowser/mcp@latest"]
+    }
   }
 }`,
-    note: "Or: Settings > Features > MCP Servers > Add Server",
+    note: "Or: Settings > MCP > Add Server (project-level: .cursor/mcp.json)",
   },
   {
     agent: "Claude Desktop",
@@ -268,7 +267,7 @@ const SETUP_CONFIGS: SetupConfig[] = [
   "mcpServers": {
     "vibe": {
       "command": "npx",
-      "args": ["-y", "@vibebrowser/mcp"]
+      "args": ["-y", "@vibebrowser/mcp@latest"]
     }
   }
 }`,
@@ -281,7 +280,7 @@ const SETUP_CONFIGS: SetupConfig[] = [
   "github.copilot.chat.mcpServers": {
     "vibe": {
       "command": "npx",
-      "args": ["-y", "@vibebrowser/mcp"]
+      "args": ["-y", "@vibebrowser/mcp@latest"]
     }
   }
 }`,
@@ -293,7 +292,7 @@ const SETUP_CONFIGS: SetupConfig[] = [
   "mcpServers": {
     "vibe": {
       "command": "npx",
-      "args": ["-y", "@vibebrowser/mcp"]
+      "args": ["-y", "@vibebrowser/mcp@latest"]
     }
   }
 }`,
@@ -305,17 +304,17 @@ const SETUP_CONFIGS: SetupConfig[] = [
   "mcpServers": {
     "vibe": {
       "command": "npx",
-      "args": ["-y", "@vibebrowser/mcp"]
+      "args": ["-y", "@vibebrowser/mcp@latest"]
     }
   }
 }`,
-    note: "Or: gemini mcp add vibe -- npx -y @vibebrowser/mcp",
+    note: "Project-level config: .gemini/settings.json",
   },
   {
     agent: "Codex",
     file: "CLI",
-    config: `codex mcp add vibe -- npx -y @vibebrowser/mcp`,
-    note: "Or add to ~/.codex/config.toml: [mcp_servers.vibe] command = \"npx\" args = [\"-y\", \"@vibebrowser/mcp\"]",
+    config: `codex mcp add vibe -- npx -y @vibebrowser/mcp@latest`,
+    note: "Or add to ~/.codex/config.toml (or .codex/config.toml): [mcp_servers.vibe] command = \"npx\" args = [\"-y\", \"@vibebrowser/mcp@latest\"]",
   },
 ]
 
@@ -660,7 +659,7 @@ export default function McpPage() {
                   <div className="w-3 h-3 rounded-full bg-[#f28b82]" />
                   <div className="w-3 h-3 rounded-full bg-[#fdd663]" />
                   <div className="w-3 h-3 rounded-full bg-[#81c995]" />
-                  <span className="text-xs text-[#5f6368] ml-2">npx @vibebrowser/mcp</span>
+                  <span className="text-xs text-[#5f6368] ml-2">npx -y @vibebrowser/mcp@latest</span>
                 </div>
                 <pre className="p-6 text-sm font-mono text-[#9aa0a6] overflow-x-auto leading-relaxed">
 {`  Claude Code          Cursor           OpenCode
@@ -699,7 +698,7 @@ export default function McpPage() {
                   <div className="w-3 h-3 rounded-full bg-[#f28b82]" />
                   <div className="w-3 h-3 rounded-full bg-[#fdd663]" />
                   <div className="w-3 h-3 rounded-full bg-[#81c995]" />
-                  <span className="text-xs text-[#5f6368] ml-2">npx @vibebrowser/mcp --remote &lt;uuid&gt;</span>
+                  <span className="text-xs text-[#5f6368] ml-2">npx -y @vibebrowser/mcp@latest --remote &lt;uuid&gt;</span>
                 </div>
                 <pre className="p-6 text-sm font-mono text-[#9aa0a6] overflow-x-auto leading-relaxed">
 {`  OpenClaw (cloud)     Claude Code (laptop)     Cursor (office)
@@ -756,10 +755,10 @@ export default function McpPage() {
                     <div className="bg-[#0a0a0a] rounded border border-[#2a2a2a] overflow-hidden">
                       <div className="flex items-center justify-between px-3 py-1.5 bg-[#1a1a1a] border-b border-[#2a2a2a]">
                         <span className="text-xs text-[#5f6368] font-mono">CLI</span>
-                        <CopyButton text="npx -y @vibebrowser/mcp --remote YOUR_UUID" />
+                        <CopyButton text="npx -y @vibebrowser/mcp@latest --remote YOUR_UUID" />
                       </div>
                       <pre className="px-3 py-2 text-sm font-mono text-[#e8eaed] overflow-x-auto">
-                        <code>npx -y @vibebrowser/mcp --remote YOUR_UUID</code>
+                        <code>npx -y @vibebrowser/mcp@latest --remote YOUR_UUID</code>
                       </pre>
                     </div>
                   </div>
