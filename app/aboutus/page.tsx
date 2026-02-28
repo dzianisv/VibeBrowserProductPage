@@ -328,6 +328,34 @@ export default function AboutUsPage() {
                 </CardContent>
               </Card>
 
+              <Card className="bg-[#1a1a1a] border-[#2a2a2a] hover:border-[#8ab4f8]/30 transition-all duration-300">
+                <CardContent className="p-8">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-12 h-12 bg-[#8ab4f8]/10 rounded-xl flex items-center justify-center">
+                      <Cpu className="w-6 h-6 text-[#8ab4f8]" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-[#e8eaed]">QuantArena</h3>
+                      <span className="text-xs text-[#8ab4f8] bg-[#8ab4f8]/10 px-2 py-0.5 rounded-full">AI-Native Hedge Fund</span>
+                    </div>
+                  </div>
+                  <p className="text-[#9aa0a6] mb-6 leading-relaxed">
+                    Public performance leaderboard for AlphaVibe, our AI-native hedge fund. Tracks a multi-model trading arena and publishes live P&amp;L charts, model results, and waitlist access.
+                  </p>
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">Live Leaderboard</span>
+                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">Multi-Model Arena</span>
+                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">P&amp;L Charts</span>
+                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">Crypto Perps</span>
+                  </div>
+                  <Link href="https://quantarena.xyz" target="_blank" rel="noopener noreferrer">
+                    <Button variant="outline" className="border-[#3c4043] bg-transparent hover:bg-[#2a2a2a] text-[#8ab4f8] w-full">
+                      Visit quantarena.xyz <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+
               <Card className="bg-[#1a1a1a] border-[#2a2a2a] hover:border-[#c58af9]/30 transition-all duration-300 group">
                 <CardContent className="p-6">
                   <div className="flex items-center gap-3 mb-6">
