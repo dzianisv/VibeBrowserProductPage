@@ -230,6 +230,231 @@ const AGENTIC_CHANNELS = [
   { name: "general", active: false },
 ]
 
+const CATEGORY_PILLS = [
+  "Autonomous Product Execution Layer",
+  "Browser-Native Background Agents",
+  "Parallel Workforce for SaaS Tools",
+]
+
+const AUTONOMY_METRICS = [
+  {
+    label: "Autonomy rate",
+    value: "57%",
+    description: "Tasks completed without human prompts",
+    icon: Zap,
+    color: "#8ab4f8",
+  },
+  {
+    label: "Browser workflows",
+    value: "1,284",
+    description: "Sessions executed in the last 30 days",
+    icon: GitBranch,
+    color: "#81c995",
+  },
+  {
+    label: "Human hours saved",
+    value: "162h",
+    description: "Ops time returned to your team",
+    icon: Clock,
+    color: "#fdd663",
+  },
+  {
+    label: "Escalations",
+    value: "12%",
+    description: "Routed for human review",
+    icon: AlertTriangle,
+    color: "#f28b82",
+  },
+]
+
+const DASHBOARD_SIGNALS = [
+  { label: "Tasks completed", value: "842", delta: "+18% week over week" },
+  { label: "Success rate", value: "93.4%", delta: "+2.1% vs last week" },
+  { label: "Errors caught", value: "38", delta: "15 regressions prevented" },
+  { label: "Revenue influenced", value: "$48.2k", delta: "Pipeline touched" },
+]
+
+const CONFIDENCE_EVIDENCE = [
+  "Screenshot diff passed against baseline",
+  "Logs checked for errors and spikes",
+  "KPI deltas within defined thresholds",
+  "Rollback checkpoint created",
+]
+
+const PUBLIC_METRICS = [
+  "% tasks completed autonomously",
+  "# browser sessions run in background",
+  "Average task success rate",
+  "% reduction in human follow-ups",
+]
+
+const VERTICAL_USE_CASES = [
+  {
+    icon: <Megaphone className="w-5 h-5" />,
+    title: "Growth Agent for SaaS",
+    description: "Runs landing page tests, ships copy updates, and monitors funnel drop-off without waiting on a human sprint.",
+    outcomes: ["Weekly UI improvements", "Funnel anomaly alerts", "Lifecycle email drafts"],
+    color: "#8ab4f8",
+  },
+  {
+    icon: <Eye className="w-5 h-5" />,
+    title: "QA Agent for Product Teams",
+    description: "Executes browser regression suites, validates UI via screenshot diffs, and files PR-ready fixes with evidence.",
+    outcomes: ["Screenshot diff validation", "Log + KPI checks", "Release gate signals"],
+    color: "#fdd663",
+  },
+  {
+    icon: <Headphones className="w-5 h-5" />,
+    title: "Customer Support Auto-Resolver",
+    description: "Closes the loop on tickets by triaging, resolving common issues, and escalating only when risk is high.",
+    outcomes: ["Autonomous ticket resolution", "SLA-driven prioritization", "Customer updates in Slack"],
+    color: "#81c995",
+  },
+  {
+    icon: <ClipboardList className="w-5 h-5" />,
+    title: "Marketplace & RevOps Agent",
+    description: "Keeps listings, pricing, and CRM workflows updated across tools while tracking pipeline impact.",
+    outcomes: ["Listing hygiene checks", "CRM field updates", "Revenue-impact attribution"],
+    color: "#c58af9",
+  },
+]
+
+const ACTIVATION_STEPS = [
+  {
+    title: "Connect your stack",
+    description: "One-click SaaS integrations for Slack, Google Workspace, Jira, and your browser tools.",
+    icon: Settings,
+    color: "#8ab4f8",
+  },
+  {
+    title: "Pick a task pack",
+    description: "Choose Growth, QA, or Support playbooks with pre-wired automations.",
+    icon: Layers,
+    color: "#81c995",
+  },
+  {
+    title: "Shadow mode",
+    description: "Agent observes and suggests actions for a week before going live.",
+    icon: Eye,
+    color: "#fdd663",
+  },
+  {
+    title: "Live with guardrails",
+    description: "Escalation rules, confidence thresholds, and safe-mode toggles.",
+    icon: Rocket,
+    color: "#f28b82",
+  },
+]
+
+const FIRST_AUTOMATIONS = [
+  "Auto-close low-risk support tickets",
+  "Run daily UI regression sweeps",
+  "Monitor revenue drop-offs and alert",
+  "Ship weekly copy/CTA improvements",
+  "Generate release notes + announcements",
+]
+
+const RISK_CONTROLS = [
+  {
+    title: "Permission scoping",
+    description: "Fine-grained access control by tool, action, and data scope.",
+    icon: Shield,
+    color: "#81c995",
+  },
+  {
+    title: "Escalation modes",
+    description: "Auto-approve low-risk tasks, require review on high-impact changes.",
+    icon: AlertTriangle,
+    color: "#fdd663",
+  },
+  {
+    title: "Audit trails + replay",
+    description: "Action-by-action trace with full browser session replay.",
+    icon: Eye,
+    color: "#8ab4f8",
+  },
+  {
+    title: "Safe-mode toggle",
+    description: "Freeze execution instantly and roll back to last good state.",
+    icon: Settings,
+    color: "#f28b82",
+  },
+]
+
+const WORKFLOW_BEFORE = [
+  "14 manual steps across 3 tools",
+  "2 approval cycles and 2 days of latency",
+  "Context switching between CRM, support, and docs",
+  "Manual QA with brittle handoffs",
+]
+
+const WORKFLOW_AFTER = [
+  "Agent executes the workflow in 8 minutes",
+  "Human reviews a single summary",
+  "Evidence pack attached (screenshots + logs)",
+  "Auto-rollback if KPI drops",
+]
+
+const PRICING_OPTIONS = [
+  {
+    title: "Per autonomous task",
+    description: "Outcome-based pricing aligned to verified task completion.",
+    detail: "Best for teams measuring cost per workflow.",
+    icon: CheckCircle,
+    color: "#8ab4f8",
+  },
+  {
+    title: "Per agent role",
+    description: "Dedicated agents for Growth, QA, Support, or Ops with SLA guarantees.",
+    detail: "Best for verticalized teams that want predictable spend.",
+    icon: Users,
+    color: "#81c995",
+  },
+  {
+    title: "Per FTE replaced",
+    description: "Replace 0.5-1.0 FTE with a flat monthly fee tied to autonomy metrics.",
+    detail: "Best for exec buyers looking at payroll economics.",
+    icon: Bot,
+    color: "#fdd663",
+  },
+]
+
+const PROOF_ITEMS = [
+  {
+    title: "Weekly autonomy metrics",
+    description: "Public scorecards with autonomy rate, success rate, and escalations.",
+    icon: Zap,
+    color: "#8ab4f8",
+  },
+  {
+    title: "Engineering deep dives",
+    description: "Transparent breakdowns of agent architecture, verification loops, and failures.",
+    icon: Code2,
+    color: "#81c995",
+  },
+  {
+    title: "Benchmarks + open components",
+    description: "Open-source a core agent component and publish comparative results.",
+    icon: GitBranch,
+    color: "#fdd663",
+  },
+]
+
+const DEPLOYMENT_MODES = [
+  {
+    title: "Developer platform",
+    description: "Build and customize agents with your own tools and prompts.",
+  },
+  {
+    title: "Vertical workforce",
+    description: "Pre-packaged agents for Growth, QA, Support, and RevOps.",
+  },
+  {
+    title: "Execution infrastructure",
+    description: "Browser-native background runtime for any autonomous workflow.",
+  },
+]
+
 // ----- Rotating text hook -----
 
 const ROTATING_ROLES = [
@@ -301,11 +526,13 @@ export default function AgenticTeamPage() {
         <div className="flex items-center gap-3">
           <img src="/vibebrowser-logo.png" alt="Vibe AI Browser" className="w-9 h-9 object-contain" />
           <span className="text-lg font-medium text-[#e8eaed]">
-            Agentic Team<span className="text-[#9aa0a6]"> · AI Ops</span>
+            Agentic Team<span className="text-[#9aa0a6]"> · Autonomy Layer</span>
           </span>
         </div>
         <nav aria-label="Main navigation" className="hidden md:flex gap-6 items-center text-sm">
+          <a href="#autonomy" className="text-[#9aa0a6] hover:text-[#e8eaed] transition-colors">Autonomy</a>
           <a href="#demo" className="text-[#9aa0a6] hover:text-[#e8eaed] transition-colors">Demo</a>
+          <a href="#playbooks" className="text-[#9aa0a6] hover:text-[#e8eaed] transition-colors">Playbooks</a>
           <a href="#agents" className="text-[#9aa0a6] hover:text-[#e8eaed] transition-colors">Agents</a>
           <a href="#how-it-works" className="text-[#9aa0a6] hover:text-[#e8eaed] transition-colors">How It Works</a>
           <a href="#faq" className="text-[#9aa0a6] hover:text-[#e8eaed] transition-colors">FAQ</a>
@@ -329,20 +556,28 @@ export default function AgenticTeamPage() {
             <div className="flex flex-col items-center gap-8 text-center">
               <Badge variant="secondary" className="px-4 py-2 text-sm font-medium bg-[#8ab4f8]/10 text-[#8ab4f8] border-[#8ab4f8]/20">
                 <Bot className="w-4 h-4 mr-2" />
-                OpenHands + OpenClaw Agents
+                Browser-Native Background Agents
               </Badge>
 
               <div className="space-y-4">
                 <h1 className="text-4xl font-normal tracking-tight sm:text-5xl md:text-6xl text-[#e8eaed]">
-                  AI Agents That Run
+                  Autonomous Product Execution
                   <br className="hidden sm:block" />
-                  <span className="text-[#8ab4f8]"> {rotatingRole}</span>
+                  <span className="text-[#8ab4f8]"> for {rotatingRole}</span>
                   <span className="animate-pulse text-[#8ab4f8]">|</span>
                 </h1>
                 <p className="text-xl text-[#9aa0a6] max-w-2xl mx-auto">
-                  Deploy a full AI operations team that communicates over Slack.
-                  Specialized agents coordinate autonomously to run your SaaS &mdash; 24/7, with full transparency.
+                  Browser-native agents execute workflows, verify outcomes, and escalate only when risk is high.
+                  Autonomy you can measure &mdash; not just a clever demo.
                 </p>
+              </div>
+
+              <div className="flex flex-wrap justify-center gap-2">
+                {CATEGORY_PILLS.map((pill) => (
+                  <Badge key={pill} variant="outline" className="border-[#2a2a2a] text-[#9aa0a6] bg-[#0a0a0a] px-3 py-1 text-xs">
+                    {pill}
+                  </Badge>
+                ))}
               </div>
 
               {/* CTA buttons */}
@@ -372,13 +607,103 @@ export default function AgenticTeamPage() {
                   Natural Slack coordination
                 </span>
                 <span className="flex items-center gap-2">
-                  <Settings className="w-4 h-4" />
-                  Configurable knowledge & personality
+                  <Shield className="w-4 h-4" />
+                  Verification loops built-in
+                </span>
+                <span className="flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4" />
+                  Confidence score per task
+                </span>
+                <span className="flex items-center gap-2">
+                  <Eye className="w-4 h-4" />
+                  Audit trail + replay
                 </span>
                 <span className="flex items-center gap-2">
                   <Clock className="w-4 h-4" />
                   24/7 autonomous ops
                 </span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Autonomy Scoreboard */}
+        <section id="autonomy" className="w-full py-16 md:py-24 border-t border-[#1e1e1e] bg-[#111111]">
+          <div className="container max-w-5xl px-4 md:px-6 mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-2xl md:text-3xl font-normal text-[#e8eaed] mb-4">
+                Autonomy you can measure
+              </h2>
+              <p className="text-[#9aa0a6] max-w-2xl mx-auto">
+                Make autonomy visible and low-risk with a live scoreboard, verification loops, and confidence scoring.
+              </p>
+            </div>
+
+            <div className="grid lg:grid-cols-[1.15fr,0.85fr] gap-8">
+              <div className="grid sm:grid-cols-2 gap-4">
+                {AUTONOMY_METRICS.map((metric) => {
+                  const Icon = metric.icon
+                  return (
+                    <Card key={metric.label} className="bg-[#0a0a0a] border-[#2a2a2a]">
+                      <CardContent className="p-5">
+                        <div className="flex items-center justify-between mb-4">
+                          <div
+                            className="w-9 h-9 rounded-lg flex items-center justify-center"
+                            style={{ backgroundColor: `${metric.color}15` }}
+                          >
+                            <Icon className="w-4 h-4" style={{ color: metric.color }} />
+                          </div>
+                          <Badge variant="secondary" className="text-[10px] uppercase bg-[#1a1a1a] border border-[#2a2a2a] text-[#9aa0a6]">
+                            Live
+                          </Badge>
+                        </div>
+                        <div className="text-2xl font-semibold text-[#e8eaed]">{metric.value}</div>
+                        <p className="text-sm text-[#e8eaed]">{metric.label}</p>
+                        <p className="text-xs text-[#5f6368] mt-1">{metric.description}</p>
+                      </CardContent>
+                    </Card>
+                  )
+                })}
+              </div>
+
+              <div className="bg-[#0a0a0a] border border-[#2a2a2a] rounded-xl p-6">
+                <div className="flex items-start justify-between mb-5">
+                  <div>
+                    <h3 className="text-lg font-medium text-[#e8eaed]">Autonomy Dashboard</h3>
+                    <p className="text-sm text-[#9aa0a6]">Scorecards + evidence for every task.</p>
+                  </div>
+                  <Badge variant="secondary" className="text-[10px] uppercase bg-[#8ab4f8]/10 text-[#8ab4f8] border-[#8ab4f8]/30">
+                    Live
+                  </Badge>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  {DASHBOARD_SIGNALS.map((signal) => (
+                    <div key={signal.label} className="bg-[#111111] border border-[#2a2a2a] rounded-lg p-3">
+                      <p className="text-xs text-[#5f6368]">{signal.label}</p>
+                      <p className="text-lg font-semibold text-[#e8eaed]">{signal.value}</p>
+                      <p className="text-[10px] text-[#9aa0a6]">{signal.delta}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-5 p-4 border border-[#2a2a2a] rounded-lg bg-[#111111]">
+                  <div className="flex items-center justify-between mb-3">
+                    <p className="text-sm text-[#e8eaed] font-medium">Confidence score</p>
+                    <div className="flex items-center gap-2 text-xs text-[#81c995]">
+                      <CheckCircle className="w-3.5 h-3.5" />
+                      0.91 high confidence
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    {CONFIDENCE_EVIDENCE.map((item) => (
+                      <div key={item} className="flex items-start gap-2 text-xs text-[#9aa0a6]">
+                        <CheckCircle className="w-3.5 h-3.5 text-[#81c995]" />
+                        <span>{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -970,49 +1295,70 @@ export default function AgenticTeamPage() {
           </div>
         </section>
 
-        {/* Use Cases */}
-        <section className="w-full py-16 md:py-24 border-t border-[#1e1e1e]">
+        {/* Before / After Workflow Map */}
+        <section id="workflow" className="w-full py-16 md:py-24 border-t border-[#1e1e1e] bg-[#111111]">
           <div className="container max-w-5xl px-4 md:px-6 mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-2xl md:text-3xl font-normal text-[#e8eaed] mb-4">
-                What your agentic team handles
+                Before / after workflow map
               </h2>
               <p className="text-[#9aa0a6] max-w-2xl mx-auto">
-                From incident response to release management, your AI team handles the operational work that keeps your SaaS running.
+                See how browser-native agents compress multi-day workflows into a single verified pass.
               </p>
             </div>
 
             <div className="grid md:grid-cols-2 gap-6">
-              {[
-                {
-                  icon: <AlertTriangle className="w-5 h-5" />,
-                  title: "Incident Response",
-                  description: "@SupportEngineer detects via Sentry, @ReleaseEngineer investigates infrastructure, @SoftwareEngineer patches code \u2014 all coordinated in a single Slack thread.",
-                  agents: ["@SupportEngineer", "@ReleaseEngineer", "@SoftwareEngineer"],
-                  color: "#f28b82",
-                },
-                {
-                  icon: <Rocket className="w-5 h-5" />,
-                  title: "Automated Deployments",
-                  description: "@ReleaseEngineer manages the full CI/CD pipeline. Runs tests, deploys to staging, validates, and promotes to production with zero-downtime rollouts.",
-                  agents: ["@ReleaseEngineer", "@SoftwareEngineer"],
-                  color: "#fdd663",
-                },
-                {
-                  icon: <Headphones className="w-5 h-5" />,
-                  title: "Customer Support Triage",
-                  description: "@SupportEngineer monitors incoming tickets and Sentry errors, triages by severity, and routes to the right agent. Responds to customers with status updates.",
-                  agents: ["@SupportEngineer", "@SoftwareEngineer"],
-                  color: "#81c995",
-                },
-                {
-                  icon: <ClipboardList className="w-5 h-5" />,
-                  title: "Product Backlog Management",
-                  description: "@ProductManager maintains the backlog, writes PRDs for new features, prioritizes based on customer feedback, and coordinates sprint planning with the team.",
-                  agents: ["@ProductManager", "@SoftwareEngineer", "@MarketingManager"],
-                  color: "#c58af9",
-                },
-              ].map((useCase) => (
+              <Card className="bg-[#0a0a0a] border-[#2a2a2a]">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-2 mb-4 text-[#f28b82]">
+                    <AlertTriangle className="w-4 h-4" />
+                    <h3 className="font-medium">Before: manual operations</h3>
+                  </div>
+                  <div className="space-y-2">
+                    {WORKFLOW_BEFORE.map((item) => (
+                      <div key={item} className="flex items-start gap-2 text-sm text-[#9aa0a6]">
+                        <span className="mt-2 w-1.5 h-1.5 rounded-full bg-[#f28b82]" />
+                        <span>{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-[#0a0a0a] border-[#2a2a2a]">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-2 mb-4 text-[#81c995]">
+                    <CheckCircle className="w-4 h-4" />
+                    <h3 className="font-medium">After: autonomous execution</h3>
+                  </div>
+                  <div className="space-y-2">
+                    {WORKFLOW_AFTER.map((item) => (
+                      <div key={item} className="flex items-start gap-2 text-sm text-[#9aa0a6]">
+                        <CheckCircle className="w-3.5 h-3.5 text-[#81c995]" />
+                        <span>{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+
+        {/* Use Cases */}
+        <section id="playbooks" className="w-full py-16 md:py-24 border-t border-[#1e1e1e]">
+          <div className="container max-w-5xl px-4 md:px-6 mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-2xl md:text-3xl font-normal text-[#e8eaed] mb-4">
+                Vertical playbooks that close revenue
+              </h2>
+              <p className="text-[#9aa0a6] max-w-2xl mx-auto">
+                Horizontal agents excite builders. Vertical agents win budgets. Choose 2-3 high-value workflows and ship with proof.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              {VERTICAL_USE_CASES.map((useCase) => (
                 <Card key={useCase.title} className="bg-[#111111] border-[#2a2a2a]">
                   <CardContent className="p-5">
                     <div className="flex items-center gap-3 mb-3">
@@ -1026,15 +1372,216 @@ export default function AgenticTeamPage() {
                     </div>
                     <p className="text-sm text-[#9aa0a6] mb-3">{useCase.description}</p>
                     <div className="flex gap-2 flex-wrap">
-                      {useCase.agents.map((handle) => {
-                        const agent = AGENTS.find((a) => a.handle === handle)
-                        return (
-                          <Badge key={handle} variant="secondary" className="text-xs border font-mono" style={{ color: agent?.color, borderColor: `${agent?.color}30`, backgroundColor: `${agent?.color}10` }}>
-                            {handle}
-                          </Badge>
-                        )
-                      })}
+                      {useCase.outcomes.map((outcome) => (
+                        <Badge key={outcome} variant="secondary" className="text-[11px] border" style={{ color: useCase.color, borderColor: `${useCase.color}30`, backgroundColor: `${useCase.color}10` }}>
+                          {outcome}
+                        </Badge>
+                      ))}
                     </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Activation */}
+        <section id="activation" className="w-full py-16 md:py-24 border-t border-[#1e1e1e] bg-[#111111]">
+          <div className="container max-w-5xl px-4 md:px-6 mx-auto">
+            <div className="grid lg:grid-cols-[1.15fr,0.85fr] gap-8 items-start">
+              <div>
+                <div className="mb-6">
+                  <h2 className="text-2xl md:text-3xl font-normal text-[#e8eaed] mb-4">
+                    Activation without the friction
+                  </h2>
+                  <p className="text-[#9aa0a6] max-w-2xl">
+                    One-click integrations, pre-trained task packs, and a shadow mode that proves value before anything goes live.
+                  </p>
+                </div>
+
+                <div className="grid sm:grid-cols-2 gap-4">
+                  {ACTIVATION_STEPS.map((step) => {
+                    const Icon = step.icon
+                    return (
+                      <Card key={step.title} className="bg-[#0a0a0a] border-[#2a2a2a]">
+                        <CardContent className="p-5">
+                          <div
+                            className="w-9 h-9 rounded-lg flex items-center justify-center mb-3"
+                            style={{ backgroundColor: `${step.color}15` }}
+                          >
+                            <Icon className="w-4 h-4" style={{ color: step.color }} />
+                          </div>
+                          <h3 className="font-medium text-[#e8eaed] mb-1">{step.title}</h3>
+                          <p className="text-xs text-[#9aa0a6]">{step.description}</p>
+                        </CardContent>
+                      </Card>
+                    )
+                  })}
+                </div>
+              </div>
+
+              <Card className="bg-[#0a0a0a] border-[#2a2a2a]">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-lg font-medium text-[#e8eaed]">Suggested first automations</h3>
+                    <Badge variant="secondary" className="text-[10px] uppercase bg-[#fdd663]/10 text-[#fdd663] border-[#fdd663]/30">
+                      Shadow mode
+                    </Badge>
+                  </div>
+                  <div className="space-y-2">
+                    {FIRST_AUTOMATIONS.map((item) => (
+                      <div key={item} className="flex items-start gap-2 text-sm text-[#9aa0a6]">
+                        <CheckCircle className="w-3.5 h-3.5 text-[#81c995] mt-0.5" />
+                        <span>{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-5 p-4 border border-[#2a2a2a] rounded-lg bg-[#111111] text-xs text-[#5f6368]">
+                    Shadow mode runs for 7 days, captures evidence, and builds confidence before you enable execution.
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+
+        {/* Risk Controls */}
+        <section id="controls" className="w-full py-16 md:py-24 border-t border-[#1e1e1e]">
+          <div className="container max-w-5xl px-4 md:px-6 mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-2xl md:text-3xl font-normal text-[#e8eaed] mb-4">
+                Enterprise-grade control and safety
+              </h2>
+              <p className="text-[#9aa0a6] max-w-2xl mx-auto">
+                Buyers care less about brilliance and more about what happens when things go wrong. These guardrails ship by default.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              {RISK_CONTROLS.map((control) => {
+                const Icon = control.icon
+                return (
+                  <Card key={control.title} className="bg-[#111111] border-[#2a2a2a]">
+                    <CardContent className="p-6">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div
+                          className="w-9 h-9 rounded-lg flex items-center justify-center"
+                          style={{ backgroundColor: `${control.color}15` }}
+                        >
+                          <Icon className="w-4 h-4" style={{ color: control.color }} />
+                        </div>
+                        <h3 className="font-medium text-[#e8eaed]">{control.title}</h3>
+                      </div>
+                      <p className="text-sm text-[#9aa0a6]">{control.description}</p>
+                    </CardContent>
+                  </Card>
+                )
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* Public Metrics & Proof */}
+        <section id="proof" className="w-full py-16 md:py-24 border-t border-[#1e1e1e] bg-[#111111]">
+          <div className="container max-w-5xl px-4 md:px-6 mx-auto">
+            <div className="text-center mb-10">
+              <h2 className="text-2xl md:text-3xl font-normal text-[#e8eaed] mb-4">
+                Public autonomy metrics build trust
+              </h2>
+              <p className="text-[#9aa0a6] max-w-2xl mx-auto">
+                Publish real, verifiable metrics so the market understands your autonomy is production-grade.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap justify-center gap-2 mb-10">
+              {PUBLIC_METRICS.map((metric) => (
+                <Badge key={metric} variant="outline" className="border-[#2a2a2a] text-[#9aa0a6] bg-[#0a0a0a] px-3 py-1 text-xs">
+                  {metric}
+                </Badge>
+              ))}
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6">
+              {PROOF_ITEMS.map((item) => {
+                const Icon = item.icon
+                return (
+                  <Card key={item.title} className="bg-[#0a0a0a] border-[#2a2a2a]">
+                    <CardContent className="p-6">
+                      <div
+                        className="w-9 h-9 rounded-lg flex items-center justify-center mb-3"
+                        style={{ backgroundColor: `${item.color}15` }}
+                      >
+                        <Icon className="w-4 h-4" style={{ color: item.color }} />
+                      </div>
+                      <h3 className="font-medium text-[#e8eaed] mb-2">{item.title}</h3>
+                      <p className="text-sm text-[#9aa0a6]">{item.description}</p>
+                    </CardContent>
+                  </Card>
+                )
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* Pricing Innovation */}
+        <section id="pricing" className="w-full py-16 md:py-24 border-t border-[#1e1e1e]">
+          <div className="container max-w-5xl px-4 md:px-6 mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-2xl md:text-3xl font-normal text-[#e8eaed] mb-4">
+                Pricing that feels like hiring
+              </h2>
+              <p className="text-[#9aa0a6] max-w-2xl mx-auto">
+                Anchor the decision to payroll economics: pay per verified outcome, per role, or per FTE replaced.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6">
+              {PRICING_OPTIONS.map((option) => {
+                const Icon = option.icon
+                return (
+                  <Card key={option.title} className="bg-[#111111] border-[#2a2a2a]">
+                    <CardContent className="p-6">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div
+                          className="w-9 h-9 rounded-lg flex items-center justify-center"
+                          style={{ backgroundColor: `${option.color}15` }}
+                        >
+                          <Icon className="w-4 h-4" style={{ color: option.color }} />
+                        </div>
+                        <h3 className="font-medium text-[#e8eaed]">{option.title}</h3>
+                      </div>
+                      <p className="text-sm text-[#9aa0a6] mb-3">{option.description}</p>
+                      <p className="text-xs text-[#5f6368]">{option.detail}</p>
+                    </CardContent>
+                  </Card>
+                )
+              })}
+            </div>
+
+            <div className="mt-8 text-center text-sm text-[#5f6368]">
+              Replace 0.5-1.0 FTE with a background operator that works 24/7 and reports its own impact.
+            </div>
+          </div>
+        </section>
+
+        {/* Strategic Positioning */}
+        <section id="positioning" className="w-full py-16 md:py-24 border-t border-[#1e1e1e] bg-[#111111]">
+          <div className="container max-w-5xl px-4 md:px-6 mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-2xl md:text-3xl font-normal text-[#e8eaed] mb-4">
+                Choose the story you want to win
+              </h2>
+              <p className="text-[#9aa0a6] max-w-2xl mx-auto">
+                Agentic Team can be a developer platform, a vertical workforce, or a browser-native execution layer. The clarity of this story drives conversion.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6">
+              {DEPLOYMENT_MODES.map((mode) => (
+                <Card key={mode.title} className="bg-[#0a0a0a] border-[#2a2a2a]">
+                  <CardContent className="p-6">
+                    <h3 className="font-medium text-[#e8eaed] mb-2">{mode.title}</h3>
+                    <p className="text-sm text-[#9aa0a6]">{mode.description}</p>
                   </CardContent>
                 </Card>
               ))}
@@ -1123,6 +1670,24 @@ export default function AgenticTeamPage() {
                 </AccordionTrigger>
                 <AccordionContent className="text-[#9aa0a6]">
                   The agentic team is currently in private beta, actively running vibebrowser.app operations. We are onboarding select SaaS companies for early deployment. <a href="mailto:agenticteam@vibebrowser.app" className="text-[#8ab4f8] hover:underline">Request a demo</a> to learn more and get early access.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-9" className="border-[#2a2a2a] bg-[#1a1a1a] rounded-lg px-4">
+                <AccordionTrigger className="text-[#e8eaed] hover:no-underline">
+                  How do you verify tasks and confidence scores?
+                </AccordionTrigger>
+                <AccordionContent className="text-[#9aa0a6]">
+                  Every task ships with evidence: screenshot diffs, log checks, KPI-based success detection, and rollback checkpoints. The confidence score is derived from these signals so you can audit exactly why the agent believes a task succeeded.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-10" className="border-[#2a2a2a] bg-[#1a1a1a] rounded-lg px-4">
+                <AccordionTrigger className="text-[#e8eaed] hover:no-underline">
+                  What is shadow mode?
+                </AccordionTrigger>
+                <AccordionContent className="text-[#9aa0a6]">
+                  Shadow mode lets agents observe and suggest actions without executing them. After a week of safe observation and evidence capture, you decide which workflows go live.
                 </AccordionContent>
               </AccordionItem>
             </Accordion>

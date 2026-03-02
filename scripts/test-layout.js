@@ -1,6 +1,6 @@
-const puppeteer = require('puppeteer');
-const fs = require('fs');
-const path = require('path');
+import puppeteer from 'puppeteer';
+import fs from 'node:fs';
+import path from 'node:path';
 
 async function testLayout(baseUrl = 'https://www.vibebrowser.app') {
   console.log('🧪 Testing VibeBrowser Layout...\n');
