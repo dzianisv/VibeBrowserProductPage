@@ -914,6 +914,10 @@ export default function McpPage() {
               <p className="text-[#9aa0a6]">
                 Click an agent to see the config. Copy, paste, done.
               </p>
+              <p className="text-xs text-[#5f6368] mt-3">
+                Local mode defaults to relay port <code className="text-[#9aa0a6]">19888</code> (no flag needed). The browser
+                extension listens on <code className="text-[#9aa0a6]">19889</code> — do not point the MCP server at the extension port.
+              </p>
             </div>
 
             {/* Agent tabs */}
