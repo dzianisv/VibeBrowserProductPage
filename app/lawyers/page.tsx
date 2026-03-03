@@ -22,6 +22,7 @@ const lawyersConfig: ProfessionConfig = {
     { icon: 'FileText', title: 'Legal Research', description: 'Search case databases, extract precedent, draft summaries.' },
     { icon: 'Scale', title: 'Compliance-Ready', description: 'SOC 2 path, audit logs, human-in-the-loop approvals.' },
     { icon: 'Server', title: 'Self-Hosted', description: 'Run entirely on your infrastructure. Data never leaves.' },
+    { icon: 'Cpu', title: 'NVIDIA Jetson Orin', description: 'Works with self-hosted LLMs on NVIDIA Jetson Orin Nano Super. Full AI privacy on-premise.' },
     { icon: 'Building2', title: 'CRM Integration', description: 'Works with Clio, NetDocuments, iManage, and more.' },
   ],
   workflows: [

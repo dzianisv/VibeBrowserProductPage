@@ -41,6 +41,7 @@ const enterpriseConfig: EnterpriseConfig = {
   features: [
     { icon: 'Shield', title: 'TEE Protection', description: 'Hardware-encrypted AI inference with cryptographic attestation. Even we cannot see your data.' },
     { icon: 'Server', title: 'Self-Hosted', description: 'Run DeepSeek, Llama, or any model on your own infrastructure. Complete data control.' },
+    { icon: 'Cpu', title: 'NVIDIA Jetson Orin', description: 'Works with self-hosted LLMs on NVIDIA Jetson Orin Nano Super. Full AI privacy on-premise.' },
     { icon: 'Key', title: 'SSO / SAML', description: 'Enterprise identity integration with Okta, Azure AD, and other SAML providers.' },
     { icon: 'HardDrive', title: 'On-Premise', description: 'Deploy entirely within your data center. Meets the strictest compliance requirements.' },
     { icon: 'FileCheck', title: 'Audit Logging', description: 'Complete audit trails for regulatory examinations. SEC, FINRA, HIPAA compliant.' },

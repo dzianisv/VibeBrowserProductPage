@@ -22,6 +22,7 @@ const taxConfig: ProfessionConfig = {
     { icon: 'FileText', title: 'Return Filing', description: 'Help fill tax returns. Review and approve before submission.' },
     { icon: 'Clock', title: 'Extension Filing', description: 'Automatically file extensions if you need more time.' },
     { icon: 'Shield', title: 'Privacy First', description: 'Local AI processing. Credentials never leave your encrypted vault.' },
+    { icon: 'Cpu', title: 'NVIDIA Jetson Orin', description: 'Works with self-hosted LLMs on NVIDIA Jetson Orin Nano Super. Full AI privacy on-premise.' },
   ],
   workflows: [
     'Connect bank/brokerage accounts via secure credential vault',
