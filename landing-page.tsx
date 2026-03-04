@@ -221,6 +221,9 @@ export default function Component() {
           </span>
         </div>
         <nav className="hidden md:flex gap-6">
+          <Link href="/copilot" className="text-sm font-medium hover:text-purple-600 transition-colors">
+            Co-Pilot for Copilot Users
+          </Link>
           <Link href="/teams" className="text-sm font-medium hover:text-purple-600 transition-colors">
             Co-Pilot for Teams
           </Link>
@@ -244,6 +247,9 @@ export default function Component() {
         {/* Mobile navigation */}
         <nav className="flex md:hidden flex-wrap items-center justify-end gap-x-3 gap-y-1 text-[11px]">
    
+          <Link href="/copilot" className="font-medium hover:text-purple-600 transition-colors whitespace-nowrap">
+            Copilot Users
+          </Link>
           <Link href="/teams" className="font-medium hover:text-purple-600 transition-colors whitespace-nowrap">
             Co-Pilot for Teams
           </Link>
@@ -774,12 +780,13 @@ export default function Component() {
 
           <Card className="border-0 shadow-lg bg-white">
             <CardContent className="p-6">
-              <div className="w-12 h-12 bg-sky-100 rounded-xl flex items-center justify-center mb-4">
-                <Cloud className="w-6 h-6 text-sky-600" />
+              <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mb-4">
+                <Cloud className="w-6 h-6 text-indigo-600" />
               </div>
-              <h3 className="text-xl font-bold mb-2">Model & Agent Choice</h3>
+              <h3 className="text-xl font-bold mb-2">GitHub Copilot for People</h3>
               <p className="text-sm text-muted-foreground">
-                Works with Vibe AI, Anthropic Claude Max, GitHub Copilot, and BYOK providers.
+                Already have Copilot? Run it inside Vibe to automate routine browser tasks for non-engineering teams.
+                <Link href="/copilot" className="text-indigo-700 hover:text-indigo-800 font-medium"> Learn more →</Link>
               </p>
             </CardContent>
           </Card>

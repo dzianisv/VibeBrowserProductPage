@@ -38,6 +38,7 @@ export function SiteFooter() {
             <h3 className={`font-semibold text-sm ${isDark ? 'text-[#e8eaed]' : ''}`}>Vibe Co-Pilot for</h3>
             <nav className="flex flex-col gap-2">
               {[
+                { href: '/copilot', label: 'Copilot Users' },
                 { href: '/people', label: 'People' },
                 { href: '/teams', label: 'Teams' },
                 { href: '/enterprise', label: 'Enterprise' },

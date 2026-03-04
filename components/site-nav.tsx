@@ -7,6 +7,7 @@ import { ChevronDown } from 'lucide-react'
 
 const pageNames: Record<string, string> = {
   '/aboutus': '',
+  '/copilot': 'for Copilot Users',
   '/people': 'for People',
   '/teams': 'for Teams',
   '/enterprise': 'for Enterprise',
@@ -22,6 +23,7 @@ const pageNames: Record<string, string> = {
 }
 
 const forPages = [
+  { href: '/copilot', label: 'Copilot Users' },
   { href: '/people', label: 'People' },
   { href: '/teams', label: 'Teams' },
   { href: '/enterprise', label: 'Enterprise' },
