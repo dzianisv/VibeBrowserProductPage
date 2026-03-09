@@ -4,14 +4,15 @@ import { Badge } from '@/components/ui/badge'
 import { SiteNav } from '@/components/site-nav'
 
 export const metadata: Metadata = {
-  title: 'Vibe vs OpenAI Operator, Perplexity Comet, Strawberry, Browser MCP',
+  title: 'Vibe vs OpenAI Operator, Perplexity Comet, Strawberry, OpenClaw, Browser MCP',
   description:
-    'Research-based AI browser comparison across Vibe, OpenAI Operator, Perplexity Comet, Strawberry, and Browser MCP, using official product documentation only.',
+    'Research-based AI browser comparison across Vibe, OpenAI Operator, Perplexity Comet, Strawberry, OpenClaw, and Browser MCP, using official product documentation only.',
   keywords: [
     'AI browser comparison',
     'Vibe vs Operator',
     'Vibe vs Comet',
     'Vibe vs Strawberry',
+    'Vibe vs OpenClaw',
     'Vibe vs Browser MCP',
     'browser automation comparison',
     'agentic browser tools',
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
     canonical: 'https://www.vibebrowser.app/compare',
   },
   openGraph: {
-    title: 'AI Browser Comparison: Vibe vs Operator, Comet, Strawberry, Browser MCP',
+    title: 'AI Browser Comparison: Vibe vs Operator, Comet, Strawberry, OpenClaw, Browser MCP',
     description:
       'Side-by-side comparison using only publicly documented product claims and technical docs.',
     url: 'https://www.vibebrowser.app/compare',
@@ -37,7 +38,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AI Browser Comparison: Vibe vs Operator, Comet, Strawberry, Browser MCP',
+    title: 'AI Browser Comparison: Vibe vs Operator, Comet, Strawberry, OpenClaw, Browser MCP',
     description:
       'Research-based comparison across automation capability, architecture, and deployment model.',
     images: ['/og/home.svg'],
@@ -61,6 +62,11 @@ type SourceId =
   | 'S13'
   | 'S14'
   | 'S15'
+  | 'S16'
+  | 'S17'
+  | 'S18'
+  | 'S19'
+  | 'S20'
 
 const sources: Record<SourceId, { label: string; href: string }> = {
   S1: {
@@ -123,6 +129,26 @@ const sources: Record<SourceId, { label: string; href: string }> = {
     label: 'Browser MCP GitHub README',
     href: 'https://github.com/BrowserMCP/mcp',
   },
+  S16: {
+    label: 'OpenClaw docs – What is OpenClaw',
+    href: 'https://docs.openclaw.ai/start/openclaw',
+  },
+  S17: {
+    label: 'OpenClaw docs – Deploy on Fly',
+    href: 'https://docs.openclaw.ai/install/fly',
+  },
+  S18: {
+    label: 'OpenClaw docs – Browser tool',
+    href: 'https://docs.openclaw.ai/tools/browser',
+  },
+  S19: {
+    label: 'OpenClaw docs – Skills',
+    href: 'https://docs.openclaw.ai/skills',
+  },
+  S20: {
+    label: 'OpenClaw docs – Creating skills',
+    href: 'https://docs.openclaw.ai/tools/creating-skills',
+  },
 }
 
 const lastVerifiedDate = new Intl.DateTimeFormat('en-US', {
@@ -130,7 +156,7 @@ const lastVerifiedDate = new Intl.DateTimeFormat('en-US', {
   dateStyle: 'long',
 }).format(new Date())
 
-type ProductKey = 'vibe' | 'operator' | 'comet' | 'strawberry' | 'browsermcp'
+type ProductKey = 'vibe' | 'operator' | 'comet' | 'strawberry' | 'openclaw' | 'browsermcp'
 
 interface CellData {
   text: string
@@ -151,6 +177,7 @@ const rows: ComparisonRow[] = [
       operator: { text: 'ChatGPT agent with its own browser', ids: ['S3'] },
       comet: { text: 'AI-native desktop browser', ids: ['S5', 'S6'] },
       strawberry: { text: 'AI browser with companion agents', ids: ['S8'] },
+      openclaw: { text: 'Self-hosted agent gateway with browser tooling', ids: ['S16', 'S18'] },
       browsermcp: { text: 'MCP server + Chrome extension connector', ids: ['S12', 'S15'] },
     },
   },
@@ -169,6 +196,10 @@ const rows: ComparisonRow[] = [
       strawberry: {
         text: 'Public setup guide documents download and account onboarding.',
         ids: ['S9'],
+      },
+      openclaw: {
+        text: 'Public docs include guided setup and deployment options, including cloud-hosted setup on Fly.',
+        ids: ['S16', 'S17'],
       },
       browsermcp: { text: 'Public install + docs flow for extension and MCP server.', ids: ['S12', 'S13', 'S14'] },
     },
@@ -191,6 +222,10 @@ const rows: ComparisonRow[] = [
       strawberry: {
         text: 'Docs explicitly state it can click, scroll, fill forms, and automate recurring tasks.',
         ids: ['S8'],
+      },
+      openclaw: {
+        text: 'Browser docs explicitly list tabs, open, navigate, click, type, scroll, screenshot, and snapshot actions.',
+        ids: ['S18'],
       },
       browsermcp: {
         text: 'Docs describe automation for tasks such as form fill and navigation.',
@@ -216,6 +251,10 @@ const rows: ComparisonRow[] = [
       strawberry: {
         text: 'Windows 10+ and macOS 11+ requirements are documented.',
         ids: ['S9'],
+      },
+      openclaw: {
+        text: 'Docs cover local install plus Fly deployment requirements such as machine sizing and persistent volume configuration.',
+        ids: ['S17'],
       },
       browsermcp: {
         text: 'Node.js prerequisite + extension tab connection flow are documented.',
@@ -243,6 +282,11 @@ const rows: ComparisonRow[] = [
       strawberry: {
         text: 'Docs describe full browser behavior including extensions.',
         ids: ['S8'],
+      },
+      openclaw: {
+        text: 'Docs describe a dedicated browser profile and browser tool usage; general Chrome extension compatibility is not publicly documented.',
+        ids: ['S18'],
+        muted: true,
       },
       browsermcp: {
         text: 'N/A (uses your existing browser + extension bridge, not a standalone browser shell).',
@@ -273,9 +317,80 @@ const rows: ComparisonRow[] = [
         ids: ['S8', 'S9'],
         muted: true,
       },
+      openclaw: {
+        text: 'OpenClaw docs explicitly position the project as open source and self-hosted.',
+        ids: ['S16'],
+      },
       browsermcp: {
         text: 'Public MCP server repository available (Apache-2.0).',
         ids: ['S15'],
+      },
+    },
+  },
+  {
+    feature: 'Documented cloud-hosted deployment path',
+    values: {
+      vibe: {
+        text: 'Cloud-hosted deployment path is not publicly documented in the cited sources for this page.',
+        ids: ['S1', 'S2'],
+        muted: true,
+      },
+      operator: {
+        text: 'Delivered via ChatGPT product surface rather than self-managed cloud deployment docs.',
+        ids: ['S3'],
+      },
+      comet: {
+        text: 'Cloud self-host deployment path is not publicly documented in cited sources.',
+        ids: ['S5', 'S6'],
+        muted: true,
+      },
+      strawberry: {
+        text: 'Cloud self-host deployment path is not publicly documented in cited sources.',
+        ids: ['S8', 'S9'],
+        muted: true,
+      },
+      openclaw: {
+        text: 'Docs include a first-party Fly deployment guide for running OpenClaw in the cloud.',
+        ids: ['S17'],
+      },
+      browsermcp: {
+        text: 'Cloud deployment path is not explicitly documented in cited first-party setup pages.',
+        ids: ['S13', 'S14'],
+        muted: true,
+      },
+    },
+  },
+  {
+    feature: 'Documented skills authoring / extension path',
+    values: {
+      vibe: {
+        text: 'Public MCP README focuses on tool/server integration; a formal public skills spec is not documented in cited sources.',
+        ids: ['S2'],
+        muted: true,
+      },
+      operator: {
+        text: 'No public skill-pack authoring system documented in cited sources.',
+        ids: ['S3', 'S4'],
+        muted: true,
+      },
+      comet: {
+        text: 'No public skill authoring system documented in cited sources.',
+        ids: ['S5', 'S6'],
+        muted: true,
+      },
+      strawberry: {
+        text: 'Docs discuss companions and workflows, but a public skill-pack authoring framework is not clearly documented in cited sources.',
+        ids: ['S8', 'S9'],
+        muted: true,
+      },
+      openclaw: {
+        text: 'Docs include first-party skills system docs plus guides for creating custom skills.',
+        ids: ['S19', 'S20'],
+      },
+      browsermcp: {
+        text: 'Extension pathway is via MCP server + browser extension; skill authoring framework is not documented in cited sources.',
+        ids: ['S13', 'S14', 'S15'],
+        muted: true,
       },
     },
   },
@@ -299,6 +414,11 @@ const rows: ComparisonRow[] = [
       strawberry: {
         text: 'No MCP-client integration pattern documented in cited sources.',
         ids: ['S8', 'S9'],
+        muted: true,
+      },
+      openclaw: {
+        text: 'MCP-client interoperability pattern with VS Code/GitHub Copilot is not publicly documented in cited sources.',
+        ids: ['S16', 'S18'],
         muted: true,
       },
       browsermcp: {
@@ -371,7 +491,7 @@ export default function ComparePage() {
         <div className="container mx-auto px-6 py-10 text-center">
           <Badge className="mb-4 bg-purple-100 text-purple-700">Research-Based Comparison</Badge>
           <h1 className="text-3xl md:text-4xl font-semibold text-slate-900">
-            Vibe vs OpenAI Operator, Perplexity Comet, Strawberry, and Browser MCP
+            Vibe vs OpenAI Operator, Perplexity Comet, Strawberry, OpenClaw, and Browser MCP
           </h1>
           <p className="mt-4 text-slate-600 max-w-3xl mx-auto">
             Updated {lastVerifiedDate}. This table uses only official product pages, help docs, and
@@ -396,6 +516,7 @@ export default function ComparePage() {
                 <th className="text-left py-4 px-4 text-slate-600 font-semibold min-w-[220px]">OpenAI Operator</th>
                 <th className="text-left py-4 px-4 text-slate-600 font-semibold min-w-[220px]">Perplexity Comet</th>
                 <th className="text-left py-4 px-4 text-slate-600 font-semibold min-w-[220px]">Strawberry</th>
+                <th className="text-left py-4 px-4 text-slate-600 font-semibold min-w-[220px]">OpenClaw</th>
                 <th className="text-left py-4 px-4 text-slate-600 font-semibold min-w-[220px]">Browser MCP</th>
               </tr>
             </thead>
@@ -404,7 +525,7 @@ export default function ComparePage() {
                 <tr key={row.feature} className="hover:bg-slate-50/60">
                   <td className="py-4 px-4 font-medium text-slate-900">{row.feature}</td>
                   {(
-                    ['vibe', 'operator', 'comet', 'strawberry', 'browsermcp'] as ProductKey[]
+                    ['vibe', 'operator', 'comet', 'strawberry', 'openclaw', 'browsermcp'] as ProductKey[]
                   ).map((product) => {
                     const cell = row.values[product]
                     return (

@@ -5,6 +5,7 @@ export default [
     ignores: [
       'node_modules/**',
       '.next/**',
+      '.vercel/**',
       'out/**',
       'public/**',
       'tmp/**',
