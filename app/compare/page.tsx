@@ -438,6 +438,27 @@ claudechrome: {
   },
 ]
 
+const stuckSignals: Array<{ title: string; text: string; ids: SourceId[] }> = [
+  {
+    title: 'Model lock-in risk',
+    text:
+      'Across most products in this matrix, explicit user-facing model/provider selection controls are not clearly documented in the cited first-party pages.',
+    ids: ['S3', 'S5', 'S8', 'S12', 'S16'],
+  },
+  {
+    title: 'Screenshot/snapshot-heavy control loops',
+    text:
+      'Official computer-use/browser docs for Operator and OpenClaw explicitly describe screenshot and snapshot interaction patterns, which can increase context usage on visually dense pages.',
+    ids: ['S4', 'S18'],
+  },
+  {
+    title: 'Workflow reuse gaps',
+    text:
+      'Explicit skills authoring docs are clearly published for OpenClaw. For most other products here, equivalent public skills authoring frameworks are not clearly documented in cited sources.',
+    ids: ['S19', 'S20', 'S3', 'S5', 'S8', 'S12'],
+  },
+]
+
 const faqItems = [
   {
     question: 'What changed on this comparison page?',
@@ -515,6 +536,37 @@ export default function ComparePage() {
           <strong>Method:</strong> First-party sources only (vendor sites/docs/repos), no third-party
           benchmark claims, no inferred capabilities. Each cell includes source IDs.
         </div>
+
+        <section className="mb-8 rounded-2xl border border-slate-200 p-6">
+          <div className="grid gap-6 md:grid-cols-2">
+            <div>
+              <h2 className="text-lg font-semibold text-slate-900">Where AI Browsers Get Stuck</h2>
+              <p className="mt-2 text-sm text-slate-600">
+                The matrix below is documentation-first. Based on those same docs, these are recurring
+                risk signals teams see on real browser workloads.
+              </p>
+              <ul className="mt-4 space-y-3">
+                {stuckSignals.map((signal) => (
+                  <li key={signal.title} className="text-sm leading-6 text-slate-700">
+                    <span className="font-semibold text-slate-900">{signal.title}:</span> {signal.text}
+                    <SourceRefs ids={signal.ids} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
+              <img
+                src="/compare/facebook-marketplace-demo.jpg"
+                alt="Facebook Marketplace search results as a dense browser automation workload example"
+                className="w-full rounded-lg border border-slate-200"
+              />
+              <p className="mt-2 text-xs text-slate-500">
+                Example workload captured via Chrome DevTools MCP: navigating Facebook Marketplace search
+                results.
+              </p>
+            </div>
+          </div>
+        </section>
 
         <div className="overflow-x-auto rounded-2xl border border-slate-200">
           <table className="w-full text-sm align-top">
