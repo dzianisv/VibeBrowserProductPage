@@ -151,10 +151,8 @@ const sources: Record<SourceId, { label: string; href: string }> = {
   },
 }
 
-const lastVerifiedDate = new Intl.DateTimeFormat('en-US', {
-  timeZone: 'America/Los_Angeles',
-  dateStyle: 'long',
-}).format(new Date())
+// Keep this date explicit so "last verified" reflects manual source review, not deploy time.
+const lastVerifiedDate = 'March 9, 2026'
 
 type ProductKey = 'vibe' | 'operator' | 'comet' | 'strawberry' | 'openclaw' | 'browsermcp'
 

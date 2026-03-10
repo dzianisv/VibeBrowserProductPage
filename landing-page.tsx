@@ -287,13 +287,13 @@ export default function Component() {
           </h1>
 
           <p className="max-w-3xl text-lg text-muted-foreground md:text-xl leading-relaxed mb-6">
-            Autonomous browser automation that works with <strong>Vibe AI or your BYOK providers</strong>, lets you choose <strong>frontier or self-hosted models</strong>, runs <strong>fully private</strong> on your device, and breaks free from vendor lock-in. Tell Vibe what you need—it researches, compares, and executes complex workflows across multiple sites.
+            Autonomous browser automation that works with <strong>Vibe AI or your BYOK providers</strong>, lets you choose <strong>frontier or self-hosted models</strong>, runs <strong>local-first on your device</strong>, and breaks free from vendor lock-in. Tell Vibe what you need—it researches, compares, and executes complex workflows across multiple sites.
           </p>
           <p className="text-sm text-muted-foreground">
             Compatible with Anthropic Claude Max, GitHub Copilot, and any MCP-ready agent.
           </p>
           <p className="text-sm text-muted-foreground max-w-3xl">
-            Run Vibe as your local co-pilot, control it from a cloud agent, or connect your self-hosted OpenClaw assistant through MCP.
+            Run Vibe as your local co-pilot, control it from a cloud agent, or connect your self-hosted OpenClaw assistant through MCP. Cloud model APIs are optional and user-controlled.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 items-center justify-center mb-8">
@@ -710,7 +710,7 @@ export default function Component() {
                 <span>Full competitive analysis</span>
               </div>
               <p className="mt-3 text-base text-muted-foreground">
-                Compare Vibe against Atlas, Comet, Composite, Strawberry, and more on the features teams care about.
+                Compare Vibe against Operator, Comet, Strawberry, OpenClaw, and Browser MCP on the features teams care about.
               </p>
             </div>
             <Link href="/compare" className="w-full md:w-auto">
@@ -720,6 +720,67 @@ export default function Component() {
               </Button>
             </Link>
           </div>
+        </div>
+      </div>
+    </section>
+
+    {/* Investor Snapshot */}
+    <section className="w-full py-12 md:py-16 bg-white">
+      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
+        <div className="text-center mb-12">
+          <Badge className="bg-emerald-100 text-emerald-700 border-emerald-200 mb-4">
+            Investor Snapshot
+          </Badge>
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
+            Execution, ICP, and Expansion Path
+          </h2>
+          <p className="max-w-3xl mx-auto text-lg text-muted-foreground">
+            The core investor questions: proof of execution quality, who buys first, and how revenue compounds.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          <Card className="border border-emerald-200 bg-emerald-50/40 shadow-sm">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-2 mb-3 text-emerald-700">
+                <CheckCircle className="w-5 h-5" />
+                <h3 className="text-xl font-bold">Execution Proof</h3>
+              </div>
+              <ul className="text-sm text-muted-foreground space-y-2">
+                <li>200 early-access users, all organic.</li>
+                <li>Diligence dashboard tracks WAU, end-to-end task completion, and minutes saved per workflow.</li>
+                <li>Major workflows are replayable with browser-level audit traces.</li>
+              </ul>
+            </CardContent>
+          </Card>
+
+          <Card className="border border-blue-200 bg-blue-50/40 shadow-sm">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-2 mb-3 text-blue-700">
+                <Target className="w-5 h-5" />
+                <h3 className="text-xl font-bold">ICP + Buyer</h3>
+              </div>
+              <ul className="text-sm text-muted-foreground space-y-2">
+                <li>ICP: tax advisors, legal ops, financial teams, and recruiter workflows.</li>
+                <li>Buyer: managing partner, operations lead, or workflow owner.</li>
+                <li>Trigger: repetitive browser work with privacy and compliance pressure.</li>
+              </ul>
+            </CardContent>
+          </Card>
+
+          <Card className="border border-purple-200 bg-purple-50/40 shadow-sm">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-2 mb-3 text-purple-700">
+                <TrendingUp className="w-5 h-5" />
+                <h3 className="text-xl font-bold">GTM + Monetization</h3>
+              </div>
+              <ul className="text-sm text-muted-foreground space-y-2">
+                <li>Acquire via Chrome Web Store and founder-led outbound to vertical teams.</li>
+                <li>Convert from free to paid via reusable skills and execution volume.</li>
+                <li>Expand through team controls, governance, and MCP interoperability.</li>
+              </ul>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </section>
@@ -768,7 +829,7 @@ export default function Component() {
               </div>
               <h3 className="text-xl font-bold mb-2">Privacy First</h3>
               <p className="text-sm text-muted-foreground">
-                100% local with Gemini Nano. Your data never leaves your device.{' '}
+                Local-first with Gemini Nano and self-hosted models. Cloud APIs are optional and user-controlled.{' '}
                 <Link href="/tee" className="text-green-600 hover:text-green-700 underline">
                   TEE research
                 </Link>{' '}

@@ -12,7 +12,7 @@ const copilotConfig: ProfessionConfig = {
   accentColor: 'text-sky-300',
   accentBg: 'bg-sky-100 text-sky-800',
   rotatingWords: ['Inbox Triage', 'Recruiting Ops', 'CRM Updates', 'Vendor Portals', 'Calendar Coordination', 'Expense Reconciliation', 'Support Routing'],
-  description: 'Already paying for GitHub Copilot? Keep your existing subscription and run it inside your browser with Vibe. Vibe can click, type, navigate, and automate routine workflows for non-software teams.',
+  description: 'Already paying for GitHub Copilot? Keep your existing subscription and run it inside your browser with Vibe. Vibe is local-first by default, with optional BYOK cloud models, and can click, type, navigate, and automate routine workflows for non-software teams.',
   showDownloadButtons: true,
   features: [
     { icon: 'Code', title: 'Bring Your Copilot Subscription', description: 'Use your existing GitHub Copilot subscription as your AI backend.' },
@@ -22,6 +22,7 @@ const copilotConfig: ProfessionConfig = {
     { icon: 'Calendar', title: 'Calendar Coordination', description: 'Schedule meetings, align stakeholders, and handle rescheduling automatically.' },
     { icon: 'Building2', title: 'Ops Across Portals', description: 'Move data between CRMs, ticketing systems, and vendor portals without manual copy-paste.' },
     { icon: 'Users', title: 'Built for Non-Engineers', description: 'Designed for recruiters, sales, operations, finance, and support teams.' },
+    { icon: 'Lock', title: 'Local-First Privacy', description: 'Run local by default with optional cloud model APIs only when you choose.' },
     { icon: 'Shield', title: 'Human-in-the-Loop Control', description: 'Stay in control with approvals and visibility before important actions are executed.' },
   ],
   workflows: [
@@ -54,6 +55,7 @@ const copilotConfig: ProfessionConfig = {
   faqs: [
     { question: 'Do I need to be a software engineer?', answer: 'No. This page is built for non-engineering workflows in recruiting, sales, operations, finance, and support.' },
     { question: 'Do I need another AI subscription?', answer: 'Not necessarily. If you already have GitHub Copilot, you can use that subscription as your model backend in Vibe.' },
+    { question: 'Does Vibe require cloud inference?', answer: 'No. Vibe is local-first. You can run local models or connect BYOK cloud providers only when needed.' },
     { question: 'How is this different from using Copilot chat directly?', answer: 'Copilot chat helps with content and reasoning, while Vibe adds browser control so your agent can actually operate websites and complete repetitive tasks.' },
   ],
 }
