@@ -9,8 +9,8 @@ const teamsConfig: EnterpriseConfig = {
   gradientVia: 'via-blue-800',
   gradientTo: 'to-blue-900',
   accentColor: 'text-blue-300',
-  heroTitle: 'AI Automation for Marketing',
-  heroSubtitle: 'Build workflows once, share with your team',
+  heroTitle: 'AI Automation for',
+  heroSubtitle: 'Stop reinventing the wheel. Build workflows once, share with your team.',
   heroDescription: 'Google Workspace (Gmail + Calendar), CRM, and more—powered by secure AI that keeps your data private. Build skills once, share across the team, and expose your browser as an MCP server for other agents with a secrets vault for safe password fill. Works with Vibe AI or BYOK providers.',
   rotatingWords: ['Marketing', 'Sales', 'Recruiting', 'Operations', 'Support', 'Research'],
   ctaText: 'Contact Sales',
@@ -52,8 +52,14 @@ const teamsConfig: EnterpriseConfig = {
     'Track team usage and productivity',
     'Control access and permissions centrally',
   ],
-  stats: [],
-  testimonials: [],
+  stats: [
+    { value: '5-50', label: 'Team size' },
+    { value: '10hrs', label: 'Saved per week' },
+  ],
+  testimonials: [
+    { quote: "We built our 'Quarterly Review' workflow once, and now all 15 account managers run it with one click. It's a massive consistency win.", author: "Sarah Chen", practice: "Operations Manager, Series B Startup" },
+    { quote: "Vibe lets our non-technical ops team automate complex portal data entry without waiting on engineering.", author: "Michael Torres", practice: "CEO, Series A crypto startup" },
+  ],
   faqs: [
     { question: "How do team skills work?", answer: "Anyone on your team can create skills. Once shared, everyone on the team can use them." },
     { question: "Is Gmail integration secure?", answer: "Yes. Vibe uses OAuth for Gmail. Credentials are stored securely." },

@@ -721,6 +721,105 @@ export default function Component() {
       </div>
     </section>
 
+    {/* Backed by Research */}
+    <section className="w-full py-12 md:py-16 bg-slate-50">
+      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
+        <div className="text-center mb-10">
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
+            Backed by Research
+          </h2>
+          <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
+            Vibe&apos;s architecture is validated by 2025-2026 academic research and industry standards from Google and Microsoft.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-12">
+          <Card className="bg-white border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-2 mb-3">
+                <Shield className="w-5 h-5 text-purple-600" />
+                <h3 className="font-bold">Privacy &amp; Security</h3>
+              </div>
+              <p className="text-sm text-muted-foreground mb-4">
+                &quot;Agent-to-agent communications in context-rich enterprise environments markedly increase privacy risk.&quot;
+              </p>
+              <div className="text-xs text-slate-500 font-medium bg-slate-100 px-3 py-2 rounded-lg inline-block">
+                Microsoft Research: Privacy Risks (2024)
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-2 mb-3">
+                <Zap className="w-5 h-5 text-purple-600" />
+                <h3 className="font-bold">Reliability Failure</h3>
+              </div>
+              <p className="text-sm text-muted-foreground mb-4">
+                Cloud swarms fail due to &quot;inter-agent misalignment.&quot; Hybrid agents (API + Browsing) increase success by 24%.
+              </p>
+              <div className="text-xs text-slate-500 font-medium bg-slate-100 px-3 py-2 rounded-lg inline-block">
+                arXiv:2503.23350 &amp; ACL 2025
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-2 mb-3">
+                <ListTodo className="w-5 h-5 text-purple-600" />
+                <h3 className="font-bold">Agentic Skills</h3>
+              </div>
+              <p className="text-sm text-muted-foreground mb-4">
+                Research confirms that reusable &quot;agentic skills&quot; (procedural capabilities) are the key to reliable LLM agents.
+              </p>
+              <div className="text-xs text-slate-500 font-medium bg-slate-100 px-3 py-2 rounded-lg inline-block">
+                arXiv:2602.20867 (SoK: Agentic Skills)
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-16">
+          <Card className="bg-slate-50 border-slate-200 shadow-sm">
+            <CardContent className="p-5 flex items-start gap-4">
+              <div className="bg-white p-2 rounded-lg border border-slate-100 shadow-sm">
+                <Globe className="w-6 h-6 text-blue-600" />
+              </div>
+              <div>
+                <h4 className="font-bold text-sm mb-1">Google Chrome Team (Sept 2025)</h4>
+                <p className="text-xs text-muted-foreground mb-2">
+                  <strong>&quot;Chrome DevTools (MCP) for your AI agent&quot;</strong> by Mathias Bynens &amp; Michael Hablich. Validates that AI agents need direct, local access to the browser&apos;s DOM and Network layers.
+                </p>
+                <Link href="https://developer.chrome.com/blog/chrome-devtools-mcp" target="_blank" className="text-[10px] text-blue-600 hover:underline">
+                  Read Announcement →
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-slate-50 border-slate-200 shadow-sm">
+            <CardContent className="p-5 flex items-start gap-4">
+              <div className="bg-white p-2 rounded-lg border border-slate-100 shadow-sm">
+                <Code className="w-6 h-6 text-blue-600" />
+              </div>
+              <div>
+                <h4 className="font-bold text-sm mb-1">Microsoft Playwright Team</h4>
+                <p className="text-xs text-muted-foreground mb-2">
+                  <strong>&quot;How to Integrate Playwright MCP&quot;</strong> confirms that semantic, accessibility-tree automation is superior to brittle vision-based cloud agents for reliability.
+                </p>
+                <Link href="https://techcommunity.microsoft.com/blog/azuredevcommunityblog/how-to-integrate-playwright-mcp-for-ai-driven-test-automation/4470372" target="_blank" className="text-[10px] text-blue-600 hover:underline">
+                  Read Article →
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </section>
+
+
+
 
 
 
