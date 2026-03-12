@@ -4,14 +4,14 @@ import Component from '../landing-page'
 export const metadata: Metadata = {
   title: 'Vibe Co-Pilot | AI Browser Automation for Real Browser Sessions',
   description:
-    'AI browser automation for real logged-in browser sessions. Operate websites, Gmail, and Google Calendar directly or via MCP from Claude Code, Codex, Gemini CLI, and other agents.',
+    'Vibe Co-Pilot automates browsing tasks with Google Workspace (Gmail + Calendar), MCP agent access, reusable skills, and a secrets vault. Works with Vibe AI, Anthropic Claude Max, GitHub Copilot, Ollama self-hosted models, and BYOK providers. Run AI locally for complete privacy.',
   alternates: {
     canonical: 'https://www.vibebrowser.app',
   },
   openGraph: {
     title: 'Vibe Co-Pilot | Real Browser AI Automation',
     description:
-      'AI browser automation for real logged-in browser sessions with MCP access, Google Workspace tools, and reusable skills.',
+      'Agentic AI browser extension with Google Workspace (Gmail + Calendar), MCP agent access, skills, and a secrets vault. Works with Vibe AI, Anthropic Claude Max, GitHub Copilot, Ollama self-hosted LLMs, and BYOK providers.',
     url: 'https://www.vibebrowser.app',
     images: [
       {
@@ -26,8 +26,69 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Vibe Co-Pilot | Real Browser AI Automation',
     description:
-      'AI browser automation for real logged-in browser sessions with MCP access, Google Workspace tools, and reusable skills.',
+      'AI browser co-pilot with Google Workspace, MCP agent access, skills, and a secrets vault. Works with Vibe AI, Anthropic Claude Max, GitHub Copilot, Ollama local models, and BYOK providers. Self-hosted AI for complete privacy.',
     images: ['/og/home.svg'],
+  },
+}
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Vibe Co-Pilot',
+  applicationCategory: 'BrowserApplication',
+  operatingSystem: 'Windows, macOS, Linux',
+  description:
+    'AI browser co-pilot extension that completes tasks autonomously with Google Workspace (Gmail + Calendar), MCP agent access, reusable skills, and a secrets vault.',
+  url: 'https://www.vibebrowser.app',
+  author: {
+    '@type': 'Organization',
+    name: 'Vibe Co-Pilot',
+    url: 'https://www.vibebrowser.app',
+  },
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+    availability: 'https://schema.org/PreOrder',
+  },
+  featureList: [
+    'Autonomous task completion',
+    'Multi-site navigation',
+    'Decision-making AI agent',
+    'Complete workflow automation',
+    'Zero-click task execution',
+    'Self-directed research',
+    'Hands-free operation',
+    'Google Workspace integration (Gmail, Calendar)',
+    'MCP server access for other agents',
+    'Skills library for reusable workflows',
+    'Secrets vault with password fill tool',
+    'Works with Vibe AI and BYOK providers',
+    'Self-hosted local LLM via Ollama integration',
+    'Private AI — no data leaves your machine',
+  ],
+  screenshot: 'https://www.vibebrowser.app/og/home.svg',
+  softwareVersion: '1.0',
+  datePublished: '2025-01-01',
+  dateModified: '2026-02-15',
+}
+
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Vibe Co-Pilot',
+  url: 'https://www.vibebrowser.app',
+  logo: 'https://www.vibebrowser.app/logo.png',
+  description: 'Creators of the revolutionary AI Browser Co-Pilot',
+  sameAs: [
+    'https://x.com/vibebrowserapp',
+    'https://github.com/vibebrowser',
+    'https://www.linkedin.com/company/vibebrowser',
+  ],
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'Customer Support',
+    email: 'support@vibebrowser.app',
   },
 }
 
