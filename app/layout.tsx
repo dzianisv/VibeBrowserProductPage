@@ -4,6 +4,7 @@ import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
 import { GoogleAnalytics } from '@/components/google-analytics'
 import { ReferralTracker } from '@/components/referral-tracker'
+import { WebVitals } from '@/components/web-vitals'
 import './globals.css'
 
 const newsreader = Newsreader({
@@ -148,11 +149,6 @@ const websiteJsonLd = {
   name: 'Vibe Co-Pilot',
   url: 'https://www.vibebrowser.app',
   description: 'Agentic AI browser extension with Google Workspace (Gmail + Calendar), MCP agent access, skills, and a secrets vault.',
-  potentialAction: {
-    '@type': 'SearchAction',
-    target: 'https://www.vibebrowser.app/use-cases?q={search_term_string}',
-    'query-input': 'required name=search_term_string',
-  },
 }
 
 const organizationJsonLd = {
@@ -221,6 +217,7 @@ export default function RootLayout({
     <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable} ${newsreader.variable}`}>
       <body>
         <GoogleAnalytics />
+        <WebVitals />
         <ReferralTracker />
         <script
           type="application/ld+json"

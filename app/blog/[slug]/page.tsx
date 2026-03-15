@@ -44,11 +44,20 @@ export async function generateMetadata(
       url,
       siteName: 'Vibe Co-Pilot',
       publishedTime: post.date,
+      images: [
+        {
+          url: '/og/home.svg',
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
     },
     twitter: {
       card: 'summary_large_image',
       title: post.title,
       description: post.description,
+      images: ['/og/home.svg'],
     },
   }
 }
@@ -61,11 +70,73 @@ export default async function BlogPostPage(props: { params: Promise<Params> }) {
     notFound()
   }
 
+  const postUrl = `https://www.vibebrowser.app/blog/${post.slug}`
+  const publishedTime = new Date(post.date).toISOString()
+  const wordCount = post.content.trim().split(/\s+/).filter(Boolean).length
+  const articleJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.description,
+    datePublished: publishedTime,
+    dateModified: publishedTime,
+    author: {
+      '@type': 'Organization',
+      name: post.author,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Vibe Technologies',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://www.vibebrowser.app/vibebrowser-logo.png',
+      },
+    },
+    mainEntityOfPage: postUrl,
+    url: postUrl,
+    image: 'https://www.vibebrowser.app/og/home.svg',
+    keywords: post.tags.join(', '),
+    timeRequired: `PT${post.readingTimeMinutes}M`,
+    wordCount,
+  }
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://www.vibebrowser.app',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Blog',
+        item: 'https://www.vibebrowser.app/blog',
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: post.title,
+        item: postUrl,
+      },
+    ],
+  }
+
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(168,85,247,0.10),transparent_30%),linear-gradient(to_bottom,#fafafa,#ffffff_16rem)] font-sans">
       <SiteNav />
       <main className="container mx-auto max-w-5xl px-6 py-12 md:py-16">
         <div className="mx-auto max-w-3xl">
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+          />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+          />
           <Link href="/blog" className="inline-flex items-center text-sm font-medium text-purple-700 transition-colors hover:text-purple-800">
             ← Back to blog
           </Link>

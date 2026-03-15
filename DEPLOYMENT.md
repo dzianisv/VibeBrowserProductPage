@@ -42,6 +42,10 @@ Ensure these are configured in Vercel dashboard:
 - `SUPABASE_PROJECT_URL`
 - `SUPABASE_API_KEY`
 - `GIT_LFS_ENABLED` (set to `1` so Vercel pulls LFS video assets)
+- Optional Honeycomb/OpenTelemetry:
+  - `OTEL_SERVICE_NAME` (example: `vibebrowser-product-page`)
+  - `OTEL_EXPORTER_OTLP_ENDPOINT` (example: `https://api.honeycomb.io`)
+  - `OTEL_EXPORTER_OTLP_HEADERS` (example: `x-honeycomb-team=YOUR_API_KEY,x-honeycomb-dataset=YOUR_DATASET`)
 
 ### Git LFS Video Assets
 

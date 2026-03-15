@@ -12,6 +12,29 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.vibebrowser.app/blog',
   },
+  openGraph: {
+    type: 'website',
+    title: 'Vibe Blog | AI Browser Automation Insights',
+    description:
+      'Research, product updates, and practical automation playbooks for AI browser workflows.',
+    url: 'https://www.vibebrowser.app/blog',
+    siteName: 'Vibe Co-Pilot',
+    images: [
+      {
+        url: '/og/home.svg',
+        width: 1200,
+        height: 630,
+        alt: 'Vibe Blog',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Vibe Blog | AI Browser Automation Insights',
+    description:
+      'Research, product updates, and practical automation playbooks for AI browser workflows.',
+    images: ['/og/home.svg'],
+  },
 }
 
 export default function BlogIndexPage() {

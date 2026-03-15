@@ -83,19 +83,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ]
 
-  const useCasePages = [
-    'recruiter-linkedin-automation',
-    'privacy-first-legal-research',
-    'financial-advisor-morningstar-schwab',
-  ]
-
-  const useCaseSitemap: MetadataRoute.Sitemap = useCasePages.map((page) => ({
-    url: `${baseUrl}/use-cases/${page}`,
-    lastModified: now,
-    changeFrequency: 'monthly' as const,
-    priority: 0.7,
-  }))
-
   const blogPages: MetadataRoute.Sitemap = [
     {
       url: `${baseUrl}/blog`,
@@ -115,7 +102,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...staticPages,
     ...professionSitemap,
     ...legalPages,
-    ...useCaseSitemap,
     ...blogPages,
   ]
 }

@@ -31,65 +31,6 @@ export const metadata: Metadata = {
   },
 }
 
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'SoftwareApplication',
-  name: 'Vibe Co-Pilot',
-  applicationCategory: 'BrowserApplication',
-  operatingSystem: 'Windows, macOS, Linux',
-  description:
-    'AI browser co-pilot extension that completes tasks autonomously with Google Workspace (Gmail + Calendar), MCP agent access, reusable skills, and a secrets vault.',
-  url: 'https://www.vibebrowser.app',
-  author: {
-    '@type': 'Organization',
-    name: 'Vibe Co-Pilot',
-    url: 'https://www.vibebrowser.app',
-  },
-  offers: {
-    '@type': 'Offer',
-    price: '0',
-    priceCurrency: 'USD',
-    availability: 'https://schema.org/PreOrder',
-  },
-  featureList: [
-    'Autonomous task completion',
-    'Multi-site navigation',
-    'Decision-making AI agent',
-    'Complete workflow automation',
-    'Zero-click task execution',
-    'Self-directed research',
-    'Hands-free operation',
-    'Google Workspace integration (Gmail, Calendar)',
-    'MCP server access for other agents',
-    'Skills library for reusable workflows',
-    'Secrets vault with password fill tool',
-    'Works with Vibe AI and BYOK providers',
-  ],
-  screenshot: 'https://www.vibebrowser.app/og/home.svg',
-  softwareVersion: '1.0',
-  datePublished: '2025-01-01',
-  dateModified: '2026-02-15',
-}
-
-const organizationJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: 'Vibe Co-Pilot',
-  url: 'https://www.vibebrowser.app',
-  logo: 'https://www.vibebrowser.app/logo.png',
-  description: 'Creators of the revolutionary AI Browser Co-Pilot',
-  sameAs: [
-    'https://x.com/vibebrowserapp',
-    'https://github.com/vibebrowser',
-    'https://www.linkedin.com/company/vibebrowser',
-  ],
-  contactPoint: {
-    '@type': 'ContactPoint',
-    contactType: 'Customer Support',
-    email: 'support@vibebrowser.app',
-  },
-}
-
 const pageJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
@@ -171,29 +112,9 @@ const faqJsonLd = {
   ],
 }
 
-const websiteJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  name: 'Vibe Co-Pilot',
-  url: 'https://www.vibebrowser.app',
-  potentialAction: {
-    '@type': 'SearchAction',
-    target: 'https://www.vibebrowser.app/use-cases?query={search_term_string}',
-    'query-input': 'required name=search_term_string',
-  },
-}
-
 export default function Page() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
-      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(pageJsonLd) }}
@@ -201,10 +122,6 @@ export default function Page() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
       />
       <Component />
     </>

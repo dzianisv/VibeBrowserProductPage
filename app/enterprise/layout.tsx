@@ -179,7 +179,7 @@ const organizationJsonLd = {
   '@type': 'Organization',
   name: 'Vibe Technologies',
   url: 'https://vibebrowser.app',
-  logo: 'https://vibebrowser.app/logo.png',
+  logo: 'https://vibebrowser.app/vibebrowser-logo.png',
   contactPoint: {
     '@type': 'ContactPoint',
     email: 'enterprise@vibebrowser.app',
