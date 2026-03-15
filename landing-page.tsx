@@ -354,6 +354,26 @@ export default function Component() {
             </WaitlistDialog>
           </div>
 
+          <Link href="/blog/gpt-5-4-support-and-kimi-k2-5-free-tier" className="group mb-8 w-full max-w-2xl">
+            <div className="rounded-2xl border border-purple-200 bg-white/90 p-4 shadow-sm transition-all hover:border-purple-300 hover:shadow-md">
+              <div className="flex flex-col gap-3 text-left sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <div className="flex items-center gap-2 text-sm font-semibold text-purple-700">
+                    <BookOpen className="h-4 w-4" />
+                    <span>New on the blog</span>
+                  </div>
+                  <p className="mt-1 text-sm text-slate-600 sm:text-base">
+                    GPT-5.4 support is live, and Kimi-K2.5 is now available in Vibe&apos;s free tier.
+                  </p>
+                </div>
+                <span className="inline-flex items-center text-sm font-semibold text-purple-700 group-hover:text-purple-800">
+                  Read the post
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </span>
+              </div>
+            </div>
+          </Link>
+
           <div className="flex flex-wrap gap-4 md:gap-6 justify-center items-center text-sm text-muted-foreground mb-12">
             <div className="flex items-center gap-2">
               <Globe className="w-4 h-4 text-blue-600" />

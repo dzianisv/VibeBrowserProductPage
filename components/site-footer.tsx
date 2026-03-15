@@ -70,6 +70,7 @@ export function SiteFooter() {
               {[
                 { href: '/mcp', label: 'MCP Server' },
                 { href: '/agentic-team', label: 'Agentic Team' },
+                { href: '/blog', label: 'Blog' },
                 { href: 'https://docs.vibebrowser.app/getting-started/extension', label: 'Developer Install' },
                 { href: '/tee', label: 'TEE Research Paper' },
                 { href: 'https://docs.vibebrowser.app', label: 'Documentation' },

@@ -29,6 +29,13 @@ next-env.d.ts
 !.opencode/
 !.opencode/agent/
 !.opencode/skills/
+!.agents/
+!.agents/**
+!app/blog/
+!app/blog/**
+!blog/
+blog/**
+!blog/gpt-5-4-support-and-kimi-k2-5-free-tier.md
 .env
 .env.*
 !.env.example
