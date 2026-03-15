@@ -220,19 +220,9 @@ export default function Component() {
           </span>
         </div>
         <nav className="hidden md:flex gap-6">
-          <Link href="/copilot" className="text-sm font-medium hover:text-purple-600 transition-colors">
-            Co-Pilot for Copilot Users
-          </Link>
-          <Link href="/teams" className="text-sm font-medium hover:text-purple-600 transition-colors">
-            Co-Pilot for Teams
-          </Link>
-          <Link href="/enterprise" className="text-sm font-medium hover:text-purple-600 transition-colors">
-            Co-Pilot for Enterprise
-          </Link>
           <Link href="/mcp" className="text-sm font-medium hover:text-purple-600 transition-colors">
             MCP
           </Link>
-          <span className="text-slate-300">|</span>
           <Link href="#pricing" className="text-sm font-medium hover:text-purple-600 transition-colors">
             Pricing
           </Link>
@@ -248,20 +238,9 @@ export default function Component() {
         </nav>
         {/* Mobile navigation */}
         <nav className="flex md:hidden flex-wrap items-center justify-end gap-x-3 gap-y-1 text-[11px]">
-   
-          <Link href="/copilot" className="font-medium hover:text-purple-600 transition-colors whitespace-nowrap">
-            Copilot Users
-          </Link>
-          <Link href="/teams" className="font-medium hover:text-purple-600 transition-colors whitespace-nowrap">
-            Co-Pilot for Teams
-          </Link>
-          <Link href="/enterprise" className="font-medium hover:text-purple-600 transition-colors whitespace-nowrap">
-            Co-Pilot for Enterprise
-          </Link>
           <Link href="/mcp" className="font-medium hover:text-purple-600 transition-colors whitespace-nowrap">
             MCP
           </Link>
-          <span className="text-slate-300">|</span>
           <Link href="#pricing" className="font-medium hover:text-purple-600 transition-colors whitespace-nowrap">
             Pricing
           </Link>
