@@ -52,3 +52,4 @@ blog/**
 # backup data (contains PII)
 old-waitlist-backup.json
 tmp/
+!blog/vibebrowser-openclaw-inspired-agent-memory.md
