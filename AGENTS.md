@@ -114,6 +114,8 @@ vercel --prod && node scripts/test-layout.js
 /
 ├── /                          -> app/page.tsx (renders landing-page.tsx)
 ├── /aboutus                   -> app/aboutus/page.tsx (inline AboutUsPage)
+├── /blog                      -> app/blog/page.tsx (blog index)
+├── /blog/[slug]               -> app/blog/[slug]/page.tsx (markdown blog post renderer)
 ├── /admin/waitlist            -> app/admin/waitlist/page.tsx (waitlist admin UI)
 ├── /agentic-team              -> app/agentic-team/page.tsx (Slack demo page)
 ├── /amazon                    -> app/amazon/page.tsx (ProfessionTemplate)
@@ -148,6 +150,7 @@ Not routed by Next.js app router (legacy/standalone):
 - `app/layout.tsx` - Global metadata, fonts, structured data, and mounts `GoogleAnalytics` + `ReferralTracker`.
 - `app/globals.css` - Tailwind base and global styles.
 - `app/sitemap.ts` - Sitemap builder and profession pages list.
+- `lib/blog.ts` - Markdown blog loader/parser used by `/blog` and sitemap blog URLs.
 - `app/copilot/page.tsx` - GitHub Copilot-for-people landing page using `ProfessionTemplate`.
 - `landing-page.tsx` - Homepage content and sections (used by `app/page.tsx`).
 - `privacy-policy.tsx` - Privacy policy page component (used by `app/privacy/page.tsx`).
@@ -282,4 +285,3 @@ console.log('url:', page.url());
 // Verify URL matches expected before continuing
 // If URL changed unexpectedly, STOP and reassess
 ```
-
