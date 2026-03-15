@@ -17,10 +17,11 @@ const newsreader = Newsreader({
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.vibebrowser.app'),
   title: {
-    default: 'Vibe Co-Pilot - Automate Your Browsing',
+    default: 'Vibe Co-Pilot | AI Browser Automation for Google Workspace and MCP',
     template: '%s | Vibe Co-Pilot',
   },
-  description: 'Vibe Co-Pilot automates browsing tasks with Google Workspace (Gmail + Calendar), MCP agent access, skills, and a secrets vault. Works with Vibe AI, Anthropic Claude Max, GitHub Copilot, and BYOK providers.',
+  description:
+    'AI browser automation that operates websites, Gmail, and Google Calendar with MCP access, model-flexible routing, reusable skills, and a secure secrets vault.',
   keywords: [
     'AI browser co-pilot',
     'AI browser auto-pilot',
@@ -67,8 +68,9 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://www.vibebrowser.app',
     siteName: 'Vibe Co-Pilot',
-    title: 'Vibe Co-Pilot',
-    description: 'Agentic AI browser extension with Google Workspace (Gmail + Calendar), MCP agent access, skills, and a secrets vault. Works with Vibe AI, Anthropic Claude Max, GitHub Copilot, and BYOK providers.',
+    title: 'Vibe Co-Pilot | AI Browser Automation',
+    description:
+      'AI browser automation for websites, Gmail, and Google Calendar with MCP access, reusable skills, and secure model-flexible execution.',
     images: [
       {
         url: '/og/home.svg',
@@ -80,8 +82,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Vibe Co-Pilot',
-    description: 'AI browser co-pilot with Google Workspace, MCP agent access, skills, and a secrets vault. Works with Vibe AI, Anthropic Claude Max, GitHub Copilot, and BYOK providers.',
+    title: 'Vibe Co-Pilot | AI Browser Automation',
+    description:
+      'AI browser automation for websites, Gmail, and Google Calendar with MCP access, reusable skills, and secure model-flexible execution.',
     images: ['/og/home.svg'],
     creator: '@vibebrowserapp',
   },
@@ -142,13 +145,13 @@ export const viewport = {
 }
 
 
-// JSON-LD Structured Data for homepage
 const websiteJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: 'Vibe Co-Pilot',
   url: 'https://www.vibebrowser.app',
-  description: 'Agentic AI browser extension with Google Workspace (Gmail + Calendar), MCP agent access, skills, and a secrets vault.',
+  description:
+    'AI browser automation for websites, Gmail, and Google Calendar with MCP access, reusable skills, and model-flexible execution.',
 }
 
 const organizationJsonLd = {
@@ -177,7 +180,8 @@ const softwareJsonLd = {
   name: 'Vibe Co-Pilot',
   applicationCategory: 'BrowserApplication',
   operatingSystem: 'Chrome',
-  description: 'AI browser co-pilot that automates browsing tasks with Google Workspace (Gmail + Calendar), MCP agent access, skills, and a secrets vault.',
+  description:
+    'AI browser automation that operates websites, Gmail, and Google Calendar with MCP access, reusable skills, and a secure secrets vault.',
   url: 'https://www.vibebrowser.app',
   author: {
     '@type': 'Organization',
@@ -188,7 +192,7 @@ const softwareJsonLd = {
     '@type': 'Offer',
     price: '0',
     priceCurrency: 'USD',
-    description: 'Free AI browser co-pilot extension',
+    description: 'Free tier available, with paid plans for premium models and higher-volume workflows.',
   },
   featureList: [
     'Autonomous browser task execution',
@@ -215,6 +219,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable} ${newsreader.variable}`}>
+      <head>
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title="Vibe Blog RSS Feed"
+          href="https://www.vibebrowser.app/rss.xml"
+        />
+      </head>
       <body>
         <GoogleAnalytics />
         <WebVitals />

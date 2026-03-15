@@ -194,6 +194,13 @@ export default async function BlogPostPage(props: { params: Promise<Params> }) {
             <div className="mt-4">
               <MailingListSubscribe />
             </div>
+            <p className="mt-4 text-sm text-slate-600">
+              Prefer a reader?{' '}
+              <Link href="/rss.xml" className="font-medium text-purple-700 transition-colors hover:text-purple-800">
+                Subscribe via RSS
+              </Link>
+              .
+            </p>
           </aside>
         </div>
       </main>

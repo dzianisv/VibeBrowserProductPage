@@ -2,16 +2,16 @@ import type { Metadata } from 'next'
 import Component from '../landing-page'
 
 export const metadata: Metadata = {
-  title: 'Vibe Co-Pilot - Automate Your Browsing',
+  title: 'Vibe Co-Pilot | AI Browser Automation for Google Workspace and MCP',
   description:
-    'Vibe Co-Pilot automates browsing tasks with Google Workspace (Gmail + Calendar), MCP agent access, reusable skills, and a secrets vault. Works with Vibe AI, Anthropic Claude Max, GitHub Copilot, and BYOK providers.',
+    'AI browser automation that operates websites, Gmail, and Google Calendar with MCP access, model-flexible routing, reusable skills, and a secure secrets vault.',
   alternates: {
     canonical: 'https://www.vibebrowser.app',
   },
   openGraph: {
-    title: 'Vibe Co-Pilot',
+    title: 'Vibe Co-Pilot | AI Browser Automation',
     description:
-      'Agentic AI browser extension with Google Workspace (Gmail + Calendar), MCP agent access, skills, and a secrets vault. Works with Vibe AI, Anthropic Claude Max, GitHub Copilot, and BYOK providers.',
+      'AI browser automation for websites, Gmail, and Google Calendar with MCP access, reusable skills, and secure model-flexible execution.',
     url: 'https://www.vibebrowser.app',
     images: [
       {
@@ -24,9 +24,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Vibe Co-Pilot',
+    title: 'Vibe Co-Pilot | AI Browser Automation',
     description:
-      'AI browser co-pilot with Google Workspace, MCP agent access, skills, and a secrets vault. Works with Vibe AI, Anthropic Claude Max, GitHub Copilot, and BYOK providers.',
+      'AI browser automation for websites, Gmail, and Google Calendar with MCP access, reusable skills, and secure model-flexible execution.',
     images: ['/og/home.svg'],
   },
 }
@@ -34,9 +34,9 @@ export const metadata: Metadata = {
 const pageJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
-  name: 'Vibe Co-Pilot - Automate Your Browsing',
+  name: 'Vibe Co-Pilot | AI Browser Automation for Google Workspace and MCP',
   description:
-    'Experience the AI Browser Co-Pilot with Google Workspace (Gmail + Calendar), MCP access for other agents, skills, and a secrets vault.',
+    'AI browser automation for websites, Gmail, and Google Calendar with MCP access, reusable skills, and model-flexible execution.',
   url: 'https://www.vibebrowser.app',
   inLanguage: 'en-US',
   isPartOf: {
@@ -63,50 +63,50 @@ const faqJsonLd = {
   mainEntity: [
     {
       '@type': 'Question',
-      name: 'What is Vibe Co-Pilot?',
+      name: 'Is my data safe?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Vibe Co-Pilot is an autonomous browser extension that completes entire tasks for you. Unlike AI chatbots or assistants, Vibe takes full control - researching across multiple sites, making decisions, and executing complete workflows without you clicking a single button.',
+        text: "Yes. Vibe supports local and self-hosted models for workflows that should stay on your device or infrastructure. If you choose a cloud model, task data is sent only to that provider for the run you initiate, and you stay in control of which model powers the browser agent.",
       },
     },
     {
       '@type': 'Question',
-      name: 'How does Vibe Co-Pilot work?',
+      name: 'How much does it cost?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: "Vibe uses an autonomous AI agent with Plan-Execute-Reflect architecture. You give it a goal like 'book the cheapest flight to Paris next month' and it autonomously researches options, compares prices across airlines, and completes the booking - all without your intervention.",
+        text: 'Vibe offers a free tier for local and bring-your-own-model workflows, plus paid Pro and Max plans for higher-end reasoning models and more demanding browser automation use cases.',
       },
     },
     {
       '@type': 'Question',
-      name: 'Is Vibe Co-Pilot free?',
+      name: 'What makes Vibe different from OpenAI Atlas and other AI browsers?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: "Vibe Co-Pilot is free during beta. After launch, it's $20/month. Join our waitlist to be notified when it becomes available.",
+        text: 'Vibe focuses on model flexibility, local-first privacy options, and browser automation that works inside a standard Chrome extension. Teams can combine Vibe AI, BYOK cloud providers, and local models instead of being locked to a single browser or model vendor.',
       },
     },
     {
       '@type': 'Question',
-      name: 'What platforms does Vibe Co-Pilot support?',
+      name: 'Are we locked into Vibe? Can we switch to other tools later?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Vibe Co-Pilot works as a Chrome extension on Windows, macOS, and Linux.',
+        text: 'No. Vibe is designed to avoid vendor lock-in. You can switch model providers over time, keep using your existing Chrome or Chromium setup, and keep your workflows portable instead of depending on a proprietary browser fork.',
       },
     },
     {
       '@type': 'Question',
-      name: 'Does Vibe integrate with Google Workspace and MCP agents?',
+      name: 'Is Vibe suitable for enterprises with strict privacy requirements?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Yes. Vibe includes native Gmail and Calendar tools for Google Workspace, and it can be exposed as an MCP server so other AI agents can drive your real browser sessions securely.',
+        text: 'Yes. Vibe supports local processing, self-hosted deployments, and policy-friendly workflows for teams with strict privacy requirements. Organizations can keep sensitive work on their own infrastructure while still using browser automation.',
       },
     },
     {
       '@type': 'Question',
-      name: 'Is my data safe with Vibe Co-Pilot?',
+      name: 'How does Vibe compare to Manus and other competitors on vendor lock-in?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: "Yes, Vibe Co-Pilot prioritizes user privacy and security. All processing happens locally using Chrome's built-in AI (Gemini Nano), and we never sell your data to third parties.",
+        text: 'Vibe is not tied to one model vendor, one browser surface, or one pricing path. Teams can choose local, self-hosted, or cloud models and keep operating inside familiar Chrome environments instead of migrating to a closed browser stack.',
       },
     },
   ],
