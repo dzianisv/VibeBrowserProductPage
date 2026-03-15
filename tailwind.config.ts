@@ -4,7 +4,7 @@ import { fontFamily } from "tailwindcss/defaultTheme";
 // all in fixtures is set to tailwind v3 as interims solutions
 
 const config: Config = {
-    darkMode: ["class"],
+    darkMode: "media",
     content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",

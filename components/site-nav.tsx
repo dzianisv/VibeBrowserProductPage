@@ -42,12 +42,13 @@ export function SiteNav() {
 
   const currentPage = forPages.find(p => p.href === pathname)
   const isDark = darkPages.includes(pathname)
+  const isBlog = pathname?.startsWith('/blog')
 
   return (
     <nav className={`w-full px-4 lg:px-6 h-16 flex items-center justify-between border-b sticky top-0 z-50 ${
       isDark 
         ? 'bg-[#202124]/95 backdrop-blur-sm border-[#3c4043]' 
-        : 'bg-white/80 backdrop-blur-sm border-slate-200'
+        : `bg-white/80 backdrop-blur-sm border-slate-200 ${isBlog ? 'dark:bg-[#202124]/95 dark:border-[#3c4043]' : ''}`
     }`}>
       <div className="flex items-center gap-1">
         <img src="/vibebrowser-logo.png" alt="Vibe Co-Pilot" className="w-10 h-10 object-contain" />
@@ -55,7 +56,7 @@ export function SiteNav() {
           <span className={`text-xl font-bold bg-clip-text text-transparent ${
             isDark 
               ? 'bg-gradient-to-r from-purple-400 to-pink-400' 
-              : 'bg-gradient-to-r from-purple-600 to-pink-600'
+              : `bg-gradient-to-r from-purple-600 to-pink-600 ${isBlog ? 'dark:from-purple-400 dark:to-pink-400' : ''}`
           }`}>
             Vibe Co-Pilot
           </span>
@@ -69,11 +70,11 @@ export function SiteNav() {
               className={`flex items-center gap-1 text-xl font-bold transition-colors ${
                 isDark 
                   ? 'text-[#9aa0a6] hover:text-[#e8eaed]' 
-                  : 'text-slate-500 hover:text-purple-600'
+                  : `text-slate-500 hover:text-purple-600 ${isBlog ? 'dark:text-[#9aa0a6] dark:hover:text-[#e8eaed]' : ''}`
               }`}
             >
               <span>for</span>
-              <span className={isDark ? 'text-[#e8eaed]' : 'text-slate-700'}>{currentPage.label}</span>
+              <span className={isDark ? 'text-[#e8eaed]' : `text-slate-700 ${isBlog ? 'dark:text-[#e8eaed]' : ''}`}>{currentPage.label}</span>
               <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
             </button>
             
@@ -81,7 +82,7 @@ export function SiteNav() {
               <>
                 <div className="fixed inset-0" onClick={() => setIsOpen(false)} />
                 <div className={`absolute top-full mt-2 left-1/2 -translate-x-1/2 w-48 rounded-lg shadow-lg border py-2 z-50 ${
-                  isDark ? 'bg-[#202124] border-[#3c4043]' : 'bg-white border-slate-200'
+                  isDark ? 'bg-[#202124] border-[#3c4043]' : `bg-white border-slate-200 ${isBlog ? 'dark:bg-[#202124] dark:border-[#3c4043]' : ''}`
                 }`}>
                   {forPages.map((page) => (
                     <Link
@@ -90,8 +91,8 @@ export function SiteNav() {
                       onClick={() => setIsOpen(false)}
                       className={`block px-4 py-2 text-sm transition-colors ${
                         pathname === page.href 
-                          ? (isDark ? 'text-purple-400 font-medium' : 'text-purple-600 font-medium')
-                          : (isDark ? 'text-[#9aa0a6] hover:text-[#e8eaed] hover:bg-[#3c4043]' : 'text-slate-600 hover:bg-slate-100')
+                          ? (isDark ? 'text-purple-400 font-medium' : `text-purple-600 font-medium ${isBlog ? 'dark:text-[#8ab4f8]' : ''}`)
+                          : (isDark ? 'text-[#9aa0a6] hover:text-[#e8eaed] hover:bg-[#3c4043]' : `text-slate-600 hover:bg-slate-100 ${isBlog ? 'dark:text-[#9aa0a6] dark:hover:text-[#e8eaed] dark:hover:bg-[#3c4043]' : ''}`)
                       }`}
                     >
                       {page.label}
@@ -106,12 +107,12 @@ export function SiteNav() {
 
       <div className="hidden md:flex items-center gap-6">
         <Link href="/blog" className={`text-sm font-medium transition-colors ${
-          isDark ? 'text-[#9aa0a6] hover:text-[#e8eaed]' : 'text-slate-600 hover:text-purple-600'
+          isDark ? 'text-[#9aa0a6] hover:text-[#e8eaed]' : `text-slate-600 hover:text-purple-600 ${isBlog ? 'dark:text-[#9aa0a6] dark:hover:text-[#e8eaed]' : ''}`
         }`}>
           Blog
         </Link>
         <Link href="/aboutus" className={`text-sm font-medium transition-colors ${
-          isDark ? 'text-[#9aa0a6] hover:text-[#e8eaed]' : 'hover:text-purple-600'
+          isDark ? 'text-[#9aa0a6] hover:text-[#e8eaed]' : `hover:text-purple-600 ${isBlog ? 'dark:text-[#9aa0a6] dark:hover:text-[#e8eaed]' : ''}`
         }`}>
           About Us
         </Link>
@@ -119,12 +120,12 @@ export function SiteNav() {
       {/* Mobile navigation */}
       <div className="flex items-center gap-4 md:hidden">
         <Link href="/blog" className={`text-[11px] font-medium transition-colors whitespace-nowrap ${
-          isDark ? 'text-[#9aa0a6] hover:text-[#e8eaed]' : 'text-slate-600 hover:text-purple-600'
+          isDark ? 'text-[#9aa0a6] hover:text-[#e8eaed]' : `text-slate-600 hover:text-purple-600 ${isBlog ? 'dark:text-[#9aa0a6] dark:hover:text-[#e8eaed]' : ''}`
         }`}>
           Blog
         </Link>
         <Link href="/aboutus" className={`text-[11px] font-medium transition-colors whitespace-nowrap ${
-          isDark ? 'text-[#9aa0a6] hover:text-[#e8eaed]' : 'hover:text-purple-600'
+          isDark ? 'text-[#9aa0a6] hover:text-[#e8eaed]' : `hover:text-purple-600 ${isBlog ? 'dark:text-[#9aa0a6] dark:hover:text-[#e8eaed]' : ''}`
         }`}>
           About Us
         </Link>
