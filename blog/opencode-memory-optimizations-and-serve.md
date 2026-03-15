@@ -154,6 +154,43 @@ The repo's own security docs are explicit: server mode is opt-in, and if you ena
 
 So the interesting story here is not "remote control with magic security." It is "a capable local runtime with real control surfaces, plus explicit responsibility to secure them properly."
 
+## Update: `chrome-devtools-mcp` is the primary memory leak culprit (2026-03-15)
+
+After the original post, we caught a real overnight crash: a macOS kernel watchdog panic caused by swap exhaustion at 07:33 UTC.
+
+The built-in memory monitor data showed process-tree RSS peaking at **8,472 MB** at 23:00 with 55 child processes. opencode itself was only ~1.7 GB — the remaining 6+ GB was child processes.
+
+We caught a live reproduction the same day:
+
+| Process | RSS after ~2 hours |
+|---------|-------------------|
+| `chrome-devtools-mcp --autoConnect` | **1,661 MB** (growing ~13 MB/min) |
+| opencode serve (root) | 366 MB |
+| `playwriter` | 54 MB |
+| `mcp-server-memory` | 49 MB |
+| `whisper-mcp` | 30 MB |
+
+The `--autoConnect` mode of `chrome-devtools-mcp` leaks memory at a rate that will exhaust a 16 GB machine overnight. The leak is in `chrome-devtools-mcp` itself — opencode is the host, not the source — but opencode's lack of MCP idle disposal means the leaking process is never terminated.
+
+### What we patched locally
+
+1. **MCP idle sweep** — added `lastUsed` timestamp tracking to the `shared` MCP client map and a periodic sweep that closes clients with `refs === 0` after a configurable idle period (`OPENCODE_MCP_IDLE_MS`, default 10 minutes).
+
+2. **Session idle archival** — added a periodic sweep in serve mode that archives sessions not updated within a configurable window (`OPENCODE_SESSION_IDLE_MS`, default 30 minutes). This prevents the 238-session accumulation we saw overnight.
+
+3. **Graceful shutdown handler** — `SIGTERM`/`SIGINT` now capture a final memory snapshot before exiting, so forensics data covers the moment of shutdown instead of having a gap.
+
+4. **External memory watchdog** — a `launchd`-managed shell script that polls process-tree RSS every 30 seconds independently of opencode. This runs even when opencode crashes, filling the evidence gap we had between 01:17 and 07:33.
+
+These patches are documented on [anomalyco/opencode#16697](https://github.com/anomalyco/opencode/issues/16697).
+
+### The deeper lesson
+
+The hardest memory problems in agent runtimes are not JavaScript heap leaks. They are **child-process lifecycle failures**. An MCP server that leaks 13 MB/min will exhaust any machine if the host never disposes it. The fix has two sides:
+
+- upstream MCP servers need to be memory-safe
+- the host runtime needs idle disposal as a safety net regardless
+
 ## Why we are paying attention
 
 We care about this direction because the boundary between local coding agents and remotely orchestrated agent systems is disappearing.
