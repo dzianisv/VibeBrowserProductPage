@@ -40,7 +40,6 @@ blog/**
 .env
 .env.*
 !.env.example
-!.env.prod
 
 # backup data (contains PII)
 old-waitlist-backup.json

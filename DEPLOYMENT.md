@@ -47,6 +47,8 @@ Ensure these are configured in Vercel dashboard:
   - `OTEL_EXPORTER_OTLP_ENDPOINT` (example: `https://api.honeycomb.io`)
   - `OTEL_EXPORTER_OTLP_HEADERS` (example: `x-honeycomb-team=YOUR_API_KEY,x-honeycomb-dataset=YOUR_DATASET`)
 
+Store production secrets in the Vercel dashboard or ignored local files such as `.env.local`. Do not commit `.env.prod` or other secret-bearing env files to Git.
+
 ### Git LFS Video Assets
 
 If video demos are not loading in production, Vercel may be serving Git LFS pointer files instead of real binaries.

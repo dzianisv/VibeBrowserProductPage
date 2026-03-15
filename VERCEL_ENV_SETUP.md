@@ -10,12 +10,12 @@ Visit: https://vercel.com/[your-team]/vibebrowserproductpage/settings/environmen
 ### 2. Add the Following Variables
 
 #### SUPABASE_PROJECT_URL
-- **Value**: `https://svhdffutjfzislubdzos.supabase.co`
+- **Value**: `[Your Supabase project URL]`
 - **Environments**: ✅ Production, ✅ Preview, ✅ Development
 - **Description**: Supabase project URL for waitlist database
 
 #### SUPABASE_API_KEY
-- **Value**: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN2aGRmZnV0amZ6aXNsdWJkem9zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU1OTI2MTgsImV4cCI6MjA3MTE2ODYxOH0.m-kYpaksMvL9ex6bp8YUcTLwEFK3HqS-ePMTHDLdN5Q`
+- **Value**: `[Your Supabase anon/public API key]`
 - **Environments**: ✅ Production, ✅ Preview, ✅ Development
 - **Description**: Supabase anonymous API key for client-side access
 
@@ -29,7 +29,7 @@ Visit: https://vercel.com/[your-team]/vibebrowserproductpage/settings/environmen
 ### Method 1: Manual (Recommended)
 1. Go to your Vercel dashboard
 2. Navigate to Settings → Environment Variables
-3. Add each variable above with the provided values
+3. Add each variable above with values from your own Supabase/Vercel setup
 4. Click "Save" for each variable
 
 ### Method 2: Using Vercel CLI
@@ -49,14 +49,14 @@ If you have Vercel CLI installed, you can run these commands directly:
 
 ```bash
 # Set SUPABASE_PROJECT_URL
-echo "https://svhdffutjfzislubdzos.supabase.co" | vercel env add SUPABASE_PROJECT_URL production
-echo "https://svhdffutjfzislubdzos.supabase.co" | vercel env add SUPABASE_PROJECT_URL preview
-echo "https://svhdffutjfzislubdzos.supabase.co" | vercel env add SUPABASE_PROJECT_URL development
+echo "<SUPABASE_PROJECT_URL>" | vercel env add SUPABASE_PROJECT_URL production
+echo "<SUPABASE_PROJECT_URL>" | vercel env add SUPABASE_PROJECT_URL preview
+echo "<SUPABASE_PROJECT_URL>" | vercel env add SUPABASE_PROJECT_URL development
 
 # Set SUPABASE_API_KEY
-echo "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN2aGRmZnV0amZ6aXNsdWJkem9zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU1OTI2MTgsImV4cCI6MjA3MTE2ODYxOH0.m-kYpaksMvL9ex6bp8YUcTLwEFK3HqS-ePMTHDLdN5Q" | vercel env add SUPABASE_API_KEY production
-echo "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN2aGRmZnV0amZ6aXNsdWJkem9zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU1OTI2MTgsImV4cCI6MjA3MTE2ODYxOH0.m-kYpaksMvL9ex6bp8YUcTLwEFK3HqS-ePMTHDLdN5Q" | vercel env add SUPABASE_API_KEY preview
-echo "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN2aGRmZnV0amZ6aXNsdWJkem9zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU1OTI2MTgsImV4cCI6MjA3MTE2ODYxOH0.m-kYpaksMvL9ex6bp8YUcTLwEFK3HqS-ePMTHDLdN5Q" | vercel env add SUPABASE_API_KEY development
+echo "<SUPABASE_API_KEY>" | vercel env add SUPABASE_API_KEY production
+echo "<SUPABASE_API_KEY>" | vercel env add SUPABASE_API_KEY preview
+echo "<SUPABASE_API_KEY>" | vercel env add SUPABASE_API_KEY development
 ```
 
 ## After Adding Variables
@@ -84,3 +84,5 @@ If the waitlist isn't working after deployment:
 ## Security Note
 
 The API key provided is the **anon/public** key which is safe to use in client-side code. It only allows operations permitted by your Row Level Security policies.
+
+Still, keep live values out of Git. Use the Vercel dashboard or ignored local env files instead of committing `.env.prod` or other secret-bearing env files.
