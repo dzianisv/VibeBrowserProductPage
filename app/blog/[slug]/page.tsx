@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { SiteNav } from '@/components/site-nav'
 import { SiteFooter } from '@/components/site-footer'
 import { MailingListSubscribe } from '@/components/mailing-list-subscribe'
@@ -68,6 +68,10 @@ export default async function BlogPostPage(props: { params: Promise<Params> }) {
 
   if (!post) {
     notFound()
+  }
+
+  if (post.slug !== slug) {
+    redirect(`/blog/${post.slug}`)
   }
 
   const postUrl = `https://www.vibebrowser.app/blog/${post.slug}`

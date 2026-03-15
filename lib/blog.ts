@@ -4,6 +4,7 @@ import { marked } from 'marked'
 
 export interface BlogPost {
   slug: string
+  aliases: string[]
   title: string
   description: string
   date: string
@@ -21,6 +22,7 @@ interface Frontmatter {
   date?: string
   author?: string
   tags?: string[]
+  aliases?: string[]
   published?: boolean
 }
 
@@ -31,11 +33,23 @@ function estimateReadingTime(content: string): number {
   return Math.max(1, Math.ceil(words / 220))
 }
 
+function stripWrappingQuotes(value: string): string {
+  return value.replace(/^['\"]|['\"]$/g, '')
+}
+
 function parseScalar(value: string): string | boolean {
   const trimmed = value.trim()
   if (trimmed === 'true') return true
   if (trimmed === 'false') return false
-  return trimmed.replace(/^['\"]|['\"]$/g, '')
+  return stripWrappingQuotes(trimmed)
+}
+
+function parseList(rawValue: string): string[] {
+  return rawValue
+    .split(',')
+    .map((value) => value.trim())
+    .filter(Boolean)
+    .map(stripWrappingQuotes)
 }
 
 function parseFrontmatter(raw: string): { frontmatter: Frontmatter; content: string } {
@@ -52,12 +66,12 @@ function parseFrontmatter(raw: string): { frontmatter: Frontmatter; content: str
   const content = raw.slice(end + 5)
 
   const frontmatter: Frontmatter = {}
-  let activeListKey: 'tags' | null = null
+  let activeListKey: 'tags' | 'aliases' | null = null
 
   for (const line of fmRaw.split('\n')) {
     const listItem = line.match(/^\s*-\s+(.*)$/)
     if (listItem && activeListKey) {
-      const value = listItem[1].trim().replace(/^['\"]|['\"]$/g, '')
+      const value = stripWrappingQuotes(listItem[1].trim())
       frontmatter[activeListKey] = [...(frontmatter[activeListKey] || []), value]
       continue
     }
@@ -70,16 +84,12 @@ function parseFrontmatter(raw: string): { frontmatter: Frontmatter; content: str
     const key = pair[1]
     const rawValue = pair[2] || ''
 
-    if (key === 'tags') {
+    if (key === 'tags' || key === 'aliases') {
       if (rawValue.trim() === '') {
-        frontmatter.tags = []
-        activeListKey = 'tags'
+        frontmatter[key] = []
+        activeListKey = key
       } else {
-        frontmatter.tags = rawValue
-          .split(',')
-          .map((v) => v.trim())
-          .filter(Boolean)
-          .map((v) => v.replace(/^['\"]|['\"]$/g, ''))
+        frontmatter[key] = parseList(rawValue)
       }
       continue
     }
@@ -122,6 +132,7 @@ function toPost(fileName: string): BlogPost | null {
 
   return {
     slug,
+    aliases: frontmatter.aliases || [],
     title: frontmatter.title || slug.replace(/[-_]/g, ' '),
     description: frontmatter.description || '',
     date: frontmatter.date || '1970-01-01',
@@ -147,9 +158,11 @@ export function getAllBlogPosts(): BlogPost[] {
 
 export function getBlogPost(slug: string): BlogPost | null {
   const postPath = path.join(BLOG_DIR, `${slug}.md`)
-  if (!fs.existsSync(postPath)) return null
+  if (fs.existsSync(postPath)) {
+    const post = toPost(`${slug}.md`)
+    if (!post || !post.published) return null
+    return post
+  }
 
-  const post = toPost(`${slug}.md`)
-  if (!post || !post.published) return null
-  return post
+  return getAllBlogPosts().find((post) => post.aliases.includes(slug)) || null
 }
