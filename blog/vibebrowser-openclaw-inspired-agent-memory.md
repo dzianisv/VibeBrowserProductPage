@@ -71,16 +71,18 @@ Where OpenClaw writes Markdown files, we store structured entries in Chrome's lo
 
 We also handle **legacy data migration** automatically. If you had memories from the old system (which used a graph-based model under `vibeAIMemories`), they're converted to the new format on first load.
 
-### Search: keyword scoring with recency bias
+### Search: BM25 with stemming and temporal decay
 
-Without embeddings available in the extension context, we implemented a **term-match scoring** approach:
+We implemented a proper information retrieval pipeline — not OpenClaw's full vector search, but a significant step beyond naive keyword matching:
 
-1. Tokenize the query and each memory entry
-2. Score each entry by the ratio of query terms that match (with partial/prefix matching for flexibility)
-3. Apply a **recency boost** — memories from the last 7 days get a small score bonus, decaying linearly
-4. Filter by minimum score threshold and return ranked results
+1. **BM25 scoring** (k1=1.2, b=0.75) — the same algorithm used by Elasticsearch and other search engines. It weights terms by how rare they are across the memory corpus (IDF) and normalizes for document length, so a memory containing a rare term ranks much higher than one with a common word.
+2. **Porter-style stemming** — "running" matches "run", "preferences" matches "prefer", "configured" matches "configur". This dramatically increases recall without false positives.
+3. **Stop word filtering** — common English words like "the", "is", "a" are ignored, so searches focus on meaningful terms.
+4. **Tag-match boosting** — if your query terms appear in an entry's tags, that entry gets a 15% score boost. Tags act as curated metadata that signal relevance.
+5. **Temporal decay with 30-day half-life** — matching OpenClaw's default. A perfect keyword match from today scores higher than the same match from two months ago. The decay is exponential, blending 50% pure relevance with 50% recency-weighted relevance.
+6. **Score normalization** — raw BM25 scores are mapped to 0–1 via a sigmoid transform, same pattern as OpenClaw's `bm25RankToScore`.
 
-This isn't as powerful as OpenClaw's hybrid vector + BM25 approach, but it's surprisingly effective for the typical memory sizes in a browser extension (hundreds of entries, not thousands of files). And it runs instantly with zero external dependencies.
+What we **don't** have yet: vector search with embeddings for semantic matching, and MMR for deduplication. These require an embedding model, and we're exploring adding this using the user's configured LLM provider. For now, stemming bridges much of the gap: searching "cost" matches "costing" and "costly", though it won't yet match "pricing" or "expensive".
 
 ### Tool surface: compatible naming with strong agent guidance
 
