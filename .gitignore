@@ -45,3 +45,4 @@ blog/**
 # backup data (contains PII)
 old-waitlist-backup.json
 tmp/
+!blog/vibebrowser-january-march-2026-product-update.md
