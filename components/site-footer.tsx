@@ -40,8 +40,6 @@ export function SiteFooter() {
               {[
                 { href: '/copilot', label: 'Copilot Users' },
                 { href: '/people', label: 'People' },
-                { href: '/teams', label: 'Teams' },
-                { href: '/enterprise', label: 'Enterprise' },
                 { href: '/lawyers', label: 'Lawyers' },
                 { href: '/recruiters', label: 'Recruiters' },
                 { href: '/sales', label: 'Sales' },
