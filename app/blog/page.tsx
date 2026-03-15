@@ -18,23 +18,26 @@ export default function BlogIndexPage() {
   const posts = getAllBlogPosts()
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(168,85,247,0.10),transparent_30%),linear-gradient(to_bottom,#fafafa,#ffffff_16rem)] font-sans">
       <SiteNav />
-      <main className="container mx-auto px-6 py-12 max-w-4xl">
+      <main className="container mx-auto max-w-5xl px-6 py-12 md:py-16">
         <div className="mb-10 grid gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
           <div>
-            <h1 className="text-4xl font-bold text-slate-900">Vibe Blog</h1>
-            <p className="mt-3 text-slate-600 text-lg">
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-purple-700">Insights</p>
+            <h1 className="mt-3 font-serif text-5xl font-semibold tracking-tight text-slate-950 md:text-6xl">
+              Vibe Blog
+            </h1>
+            <p className="mt-4 max-w-2xl text-lg leading-8 text-slate-600">
               Tactical playbooks and market analysis for teams using AI browser automation.
             </p>
           </div>
 
-          <div className="rounded-2xl border border-purple-200 bg-gradient-to-br from-purple-50 to-white p-6 shadow-sm">
+          <div className="rounded-[1.75rem] border border-purple-200 bg-gradient-to-br from-purple-50 via-white to-white p-6 shadow-sm">
             <p className="text-sm font-semibold text-purple-700">Newsletter</p>
-            <h2 className="mt-2 text-xl font-semibold text-slate-900">
+            <h2 className="mt-2 font-serif text-2xl font-semibold text-slate-950">
               Get product updates and browser automation notes
             </h2>
-            <p className="mt-2 text-sm text-slate-600">
+            <p className="mt-3 text-sm leading-7 text-slate-600">
               Subscribe for new posts, model support announcements, and practical operator workflows.
             </p>
             <div className="mt-4">
@@ -49,26 +52,31 @@ export default function BlogIndexPage() {
           </div>
         ) : (
           <div className="space-y-6">
-            {posts.map((post) => (
+            {posts.map((post, index) => (
               <article
                 key={post.slug}
-                className="rounded-xl border border-slate-200 p-6 hover:border-slate-300 transition-colors"
+                className="group rounded-[1.75rem] border border-slate-200/80 bg-white p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:border-purple-200 hover:shadow-lg md:p-8"
               >
-                <div className="text-sm text-slate-500">
+                <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
+                  {index === 0 && (
+                    <span className="inline-flex rounded-full bg-purple-100 px-2.5 py-1 text-xs font-semibold text-purple-700">
+                      Latest post
+                    </span>
+                  )}
                   {new Date(post.date).toLocaleDateString('en-US', {
                     year: 'numeric',
                     month: 'long',
                     day: 'numeric',
                     timeZone: 'UTC',
                   })}{' '}
-                  • {post.author}
+                  • {post.author} • {post.readingTimeMinutes} min read
                 </div>
-                <h2 className="mt-2 text-2xl font-semibold text-slate-900">
-                  <Link href={`/blog/${post.slug}`} className="hover:text-purple-700">
+                <h2 className="mt-4 font-serif text-3xl font-semibold tracking-tight text-slate-950 md:text-[2rem]">
+                  <Link href={`/blog/${post.slug}`} className="transition-colors group-hover:text-purple-700">
                     {post.title}
                   </Link>
                 </h2>
-                <p className="mt-3 text-slate-700">{post.description}</p>
+                <p className="mt-4 max-w-3xl text-base leading-8 text-slate-700">{post.description}</p>
 
                 {post.tags.length > 0 && (
                   <div className="mt-4 flex flex-wrap gap-2">
@@ -82,6 +90,16 @@ export default function BlogIndexPage() {
                     ))}
                   </div>
                 )}
+
+                <div className="mt-6">
+                  <Link
+                    href={`/blog/${post.slug}`}
+                    className="inline-flex items-center text-sm font-semibold text-purple-700 transition-colors hover:text-purple-800"
+                  >
+                    Read article
+                    <span className="ml-2 transition-transform group-hover:translate-x-0.5">→</span>
+                  </Link>
+                </div>
               </article>
             ))}
           </div>

@@ -36,6 +36,7 @@ next-env.d.ts
 !blog/
 blog/**
 !blog/gpt-5-4-support-and-kimi-k2-5-free-tier.md
+!blog/state-of-ai-browser-solutions-2026.md
 .env
 .env.*
 !.env.example

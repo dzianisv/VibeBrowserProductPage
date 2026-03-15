@@ -12,6 +12,7 @@ export interface BlogPost {
   published: boolean
   content: string
   html: string
+  readingTimeMinutes: number
 }
 
 interface Frontmatter {
@@ -24,6 +25,11 @@ interface Frontmatter {
 }
 
 const BLOG_DIR = path.join(process.cwd(), 'blog')
+
+function estimateReadingTime(content: string): number {
+  const words = content.trim().split(/\s+/).filter(Boolean).length
+  return Math.max(1, Math.ceil(words / 220))
+}
 
 function parseScalar(value: string): string | boolean {
   const trimmed = value.trim()
@@ -124,6 +130,7 @@ function toPost(fileName: string): BlogPost | null {
     published,
     content,
     html: markdownToHtml(content),
+    readingTimeMinutes: estimateReadingTime(content),
   }
 }
 

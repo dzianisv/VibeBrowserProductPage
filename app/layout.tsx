@@ -1,9 +1,17 @@
 import type { Metadata } from 'next'
+import { Newsreader } from 'next/font/google'
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
 import { GoogleAnalytics } from '@/components/google-analytics'
 import { ReferralTracker } from '@/components/referral-tracker'
 import './globals.css'
+
+const newsreader = Newsreader({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-serif',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.vibebrowser.app'),
@@ -210,7 +218,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
+    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable} ${newsreader.variable}`}>
       <body>
         <GoogleAnalytics />
         <ReferralTracker />
