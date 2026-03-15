@@ -1,6 +1,6 @@
 ---
-title: "Codex Now Supports GitHub Copilot, Ollama, and a Reflection Layer"
-description: "Recent Codex work made the local coding stack more flexible with first-class GitHub Copilot login, safer Ollama model discovery, and an experimental reflection loop that can retry incomplete work."
+title: "Our Codex Fork Now Supports GitHub Copilot, Ollama, and a Reflection Layer"
+description: "Recent work in our team's custom Codex fork made the local coding stack more flexible with first-class GitHub Copilot login, safer Ollama model discovery, and an experimental reflection loop that can retry incomplete work."
 date: "2026-03-15"
 author: "Dzianis Vashchuk"
 authorUrl: "https://linkedin.com/in/dzianisv"
@@ -19,9 +19,11 @@ Good local coding tools should do two things well:
 1. let you bring the model providers you actually use, and
 2. recover when the first answer is not good enough.
 
-Recent work in `codex` improved both.
+Recent work in our team's custom `codex` fork improved both.
 
-The most interesting March 2026 changes are not cosmetic. They pushed `codex` toward a more practical day-to-day local stack:
+This is not outside commentary on somebody else's stack. It is our own work on a `codex` fork we use day to day, because we want to keep improving the coding tools we rely on ourselves.
+
+The most interesting March 2026 changes are not cosmetic. They pushed our `codex` fork toward a more practical day-to-day local stack:
 
 - GitHub Copilot became a real provider with built-in login
 - Ollama support got more honest and reliable
@@ -140,9 +142,9 @@ So the strongest honest summary is this:
 
 `codex` is getting better at provider flexibility and second-pass task verification, but some of the most interesting parts are still in active rollout.
 
-## Why we are paying attention
+## Why we are building this ourselves
 
-We pay attention to this direction because local coding tools are converging on the same shape:
+We are investing in this direction because local coding tools are converging on the same shape:
 
 - multiple providers
 - optional local-model backends
@@ -150,6 +152,8 @@ We pay attention to this direction because local coding tools are converging on 
 - more explicit evaluation loops
 
 That is exactly the stack you want if the goal is not just "generate code," but "keep working until the task is actually complete."
+
+That is also why our team keeps working on this custom `codex` fork directly. We build and improve the coding tools we use ourselves, so better provider support, more honest local-model handling, and stronger verification loops are not abstract roadmap ideas for us. They directly shape how we ship.
 
 ## References
 

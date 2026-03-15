@@ -9,8 +9,6 @@ const pageNames: Record<string, string> = {
   '/aboutus': '',
   '/copilot': 'for Copilot Users',
   '/people': 'for People',
-  '/teams': 'for Teams',
-  '/enterprise': 'for Enterprise',
   '/lawyers': 'for Lawyers',
   '/recruiters': 'for Recruiters',
   '/sales': 'for Sales',
@@ -25,8 +23,6 @@ const pageNames: Record<string, string> = {
 const forPages = [
   { href: '/copilot', label: 'Copilot Users' },
   { href: '/people', label: 'People' },
-  { href: '/teams', label: 'Teams' },
-  { href: '/enterprise', label: 'Enterprise' },
   { href: '/lawyers', label: 'Lawyers' },
   { href: '/recruiters', label: 'Recruiters' },
   { href: '/sales', label: 'Sales' },
@@ -108,7 +104,12 @@ export function SiteNav() {
         )}
       </div>
 
-      <div className="hidden md:flex gap-6">
+      <div className="hidden md:flex items-center gap-6">
+        <Link href="/blog" className={`text-sm font-medium transition-colors ${
+          isDark ? 'text-[#9aa0a6] hover:text-[#e8eaed]' : 'text-slate-600 hover:text-purple-600'
+        }`}>
+          Blog
+        </Link>
         <Link href="/aboutus" className={`text-sm font-medium transition-colors ${
           isDark ? 'text-[#9aa0a6] hover:text-[#e8eaed]' : 'hover:text-purple-600'
         }`}>
@@ -116,7 +117,12 @@ export function SiteNav() {
         </Link>
       </div>
       {/* Mobile navigation */}
-      <div className="flex md:hidden">
+      <div className="flex items-center gap-4 md:hidden">
+        <Link href="/blog" className={`text-[11px] font-medium transition-colors whitespace-nowrap ${
+          isDark ? 'text-[#9aa0a6] hover:text-[#e8eaed]' : 'text-slate-600 hover:text-purple-600'
+        }`}>
+          Blog
+        </Link>
         <Link href="/aboutus" className={`text-[11px] font-medium transition-colors whitespace-nowrap ${
           isDark ? 'text-[#9aa0a6] hover:text-[#e8eaed]' : 'hover:text-purple-600'
         }`}>

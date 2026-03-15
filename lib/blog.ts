@@ -172,3 +172,40 @@ export function getBlogPost(slug: string): BlogPost | null {
 
   return getAllBlogPosts().find((post) => post.aliases.includes(slug)) || null
 }
+
+export function getRelatedBlogPosts(slug: string, limit = 3): BlogPost[] {
+  const currentPost = getBlogPost(slug)
+  if (!currentPost) return []
+
+  const currentTags = new Set(currentPost.tags)
+  const otherPosts = getAllBlogPosts().filter((post) => post.slug !== currentPost.slug)
+
+  const scoredPosts = otherPosts
+    .map((post) => ({
+      post,
+      sharedTags: post.tags.filter((tag) => currentTags.has(tag)).length,
+    }))
+    .sort((a, b) => {
+      if (b.sharedTags !== a.sharedTags) {
+        return b.sharedTags - a.sharedTags
+      }
+
+      return new Date(b.post.date).getTime() - new Date(a.post.date).getTime()
+    })
+
+  const related = scoredPosts
+    .filter((entry) => entry.sharedTags > 0)
+    .slice(0, limit)
+    .map((entry) => entry.post)
+
+  if (related.length >= limit) {
+    return related
+  }
+
+  const seenSlugs = new Set(related.map((post) => post.slug))
+  const fallbackPosts = otherPosts
+    .filter((post) => !seenSlugs.has(post.slug))
+    .slice(0, limit - related.length)
+
+  return [...related, ...fallbackPosts]
+}
