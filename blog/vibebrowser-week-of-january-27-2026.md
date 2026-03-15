@@ -2,7 +2,8 @@
 title: "Week of January 27: Confidential AI with TEE, Settings Redesign, and First-Install Experience"
 description: "VibeBrowser adds Trusted Execution Environment support for private AI inference, redesigned settings with import/export, and a guided first-install setup flow."
 date: "2026-02-02"
-author: "Vibe Product Team"
+author: "Dzianis Vashchuk"
+authorUrl: "https://linkedin.com/in/dzianisv"
 tags:
   - product-update
   - release-notes

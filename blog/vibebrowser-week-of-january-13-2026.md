@@ -2,7 +2,8 @@
 title: "Week of January 13: Voice Control, Text-to-Speech, and Google Workspace Automation"
 description: "VibeBrowser adds voice input with auto-submit, text-to-speech AI responses, Gmail and Calendar automation, and cross-session memory — all in one week."
 date: "2026-01-19"
-author: "Vibe Product Team"
+author: "Dzianis Vashchuk"
+authorUrl: "https://linkedin.com/in/dzianisv"
 tags:
   - product-update
   - release-notes

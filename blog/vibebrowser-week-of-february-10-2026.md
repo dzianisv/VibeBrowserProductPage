@@ -2,7 +2,8 @@
 title: "Week of February 10: MCP Remote Control, OpenRouter Free Models, and Tab Groups"
 description: "VibeBrowser launches MCP protocol support for remote AI control, OpenRouter integration with free models, Chrome tab groups, and wildcard TLS infrastructure."
 date: "2026-02-16"
-author: "Vibe Product Team"
+author: "Dzianis Vashchuk"
+authorUrl: "https://linkedin.com/in/dzianisv"
 tags:
   - product-update
   - release-notes

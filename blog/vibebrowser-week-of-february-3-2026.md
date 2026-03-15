@@ -2,7 +2,8 @@
 title: "Week of February 3: GPT-5.2 Codex, TEE Attestation UI, and Subscription Reliability"
 description: "VibeBrowser deploys GPT-5.2 Codex, adds TEE attestation verification in the model selector, and hardens the subscription system for seamless tier upgrades."
 date: "2026-02-09"
-author: "Vibe Product Team"
+author: "Dzianis Vashchuk"
+authorUrl: "https://linkedin.com/in/dzianisv"
 tags:
   - product-update
   - release-notes

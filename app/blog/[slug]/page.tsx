@@ -33,7 +33,7 @@ export async function generateMetadata(
   return {
     title: `${post.title} | Vibe Blog`,
     description: post.description,
-    authors: [{ name: post.author }],
+    authors: [{ name: post.author, url: post.authorUrl }],
     alternates: {
       canonical: url,
     },
@@ -85,8 +85,10 @@ export default async function BlogPostPage(props: { params: Promise<Params> }) {
     datePublished: publishedTime,
     dateModified: publishedTime,
     author: {
-      '@type': 'Organization',
+      '@type': 'Person',
       name: post.author,
+      url: post.authorUrl,
+      sameAs: [post.authorUrl],
     },
     publisher: {
       '@type': 'Organization',
@@ -157,7 +159,14 @@ export default async function BlogPostPage(props: { params: Promise<Params> }) {
                   })}
                 </span>
                 <span>•</span>
-                <span>{post.author}</span>
+                <a
+                  href={post.authorUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="font-medium text-slate-600 underline decoration-slate-300 underline-offset-4 transition-colors hover:text-purple-700"
+                >
+                  {post.author}
+                </a>
                 <span>•</span>
                 <span>{post.readingTimeMinutes} min read</span>
               </div>

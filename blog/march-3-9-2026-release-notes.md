@@ -2,7 +2,8 @@
 title: "March 3-9: Accessibility Tree Snapshots, Stable Refs, GPT-5.3 Codex, and a Fresh Chat Design"
 description: "Vibe shipped accessibility-tree extraction, the composite `take_snapshot` tool, stable page refs, GPT-5.3 Codex, and stronger cache/test coverage so agents can target pages more reliably."
 date: "2026-03-09"
-author: "Vibe Product Team"
+author: "Dzianis Vashchuk"
+authorUrl: "https://linkedin.com/in/dzianisv"
 aliases:
   - vibebrowser-week-of-march-3-2026
 tags:
@@ -54,12 +55,6 @@ With stable refs and better round-trips:
 - multi-step interactions become less brittle
 
 This is the kind of infrastructure work users do not always notice immediately, but it is what makes the browser operator feel less random and more dependable.
-
-## `get_snapshot` became `take_snapshot`
-
-We also cleaned up the naming during the rollout.
-
-The earlier `get_snapshot` naming was renamed to **`take_snapshot`**, which better matches what the tool is doing and fits the rest of the tool vocabulary more naturally.
 
 ## GPT-5.3 Codex and dynamic model lists
 

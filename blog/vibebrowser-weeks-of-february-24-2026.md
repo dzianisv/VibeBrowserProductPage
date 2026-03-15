@@ -2,7 +2,8 @@
 title: "Weeks of February 24 – March 2: Reliability Sprint and Webhook Monitoring"
 description: "VibeBrowser ships a focused reliability sprint: quota retry logic, MCP relay stability, webhook health alerts, and Azure Key Vault secret syncing."
 date: "2026-03-02"
-author: "Vibe Product Team"
+author: "Dzianis Vashchuk"
+authorUrl: "https://linkedin.com/in/dzianisv"
 tags:
   - product-update
   - release-notes

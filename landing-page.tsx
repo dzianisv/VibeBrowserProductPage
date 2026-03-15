@@ -239,6 +239,9 @@ export default function Component() {
           <Link href="https://docs.vibebrowser.app" className="text-sm font-medium hover:text-purple-600 transition-colors">
             Docs
           </Link>
+          <Link href="/blog" className="text-sm font-medium hover:text-purple-600 transition-colors">
+            Blog
+          </Link>
           <Link href="/aboutus" className="text-sm font-medium hover:text-purple-600 transition-colors">
             About Us
           </Link>
@@ -261,6 +264,9 @@ export default function Component() {
           <span className="text-slate-300">|</span>
           <Link href="#pricing" className="font-medium hover:text-purple-600 transition-colors whitespace-nowrap">
             Pricing
+          </Link>
+          <Link href="/blog" className="font-medium hover:text-purple-600 transition-colors whitespace-nowrap">
+            Blog
           </Link>
           <Link href="/aboutus" className="font-medium hover:text-purple-600 transition-colors whitespace-nowrap">
             About Us
@@ -997,7 +1003,7 @@ export default function Component() {
             From Local Co-Pilot to Cloud OpenClaw Assistant
           </h2>
           <p className="max-w-3xl mx-auto text-lg text-muted-foreground">
-            Other AI browsers are stuck in one control mode. Vibe is building the full control stack: local, cloud, and self-hosted.
+            Other AI browsers are stuck in one control mode. Vibe already supports local, cloud-relay, and self-hosted control, with a managed cloud assistant as the next layer.
           </p>
         </div>
 
@@ -1018,12 +1024,12 @@ export default function Component() {
           <Card className="border border-blue-200 bg-blue-50/40 shadow-sm">
             <CardContent className="p-6">
               <div className="flex items-center gap-2 mb-3 text-blue-700">
-                <Clock className="w-5 h-5" />
-                <span className="text-sm font-semibold">Next</span>
+                <CheckCircle className="w-5 h-5" />
+                <span className="text-sm font-semibold">Now</span>
               </div>
               <h3 className="text-xl font-bold mb-2">Cloud Agent Relay</h3>
               <p className="text-sm text-muted-foreground">
-                Secure relay so cloud agents can orchestrate your local browser session with explicit user approvals and full audit visibility.
+                MCP-backed secure relay so cloud agents can orchestrate your local browser session with explicit user approvals, operator-visible actions, and full audit visibility.
               </p>
             </CardContent>
           </Card>

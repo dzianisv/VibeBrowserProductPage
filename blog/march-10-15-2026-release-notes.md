@@ -2,7 +2,8 @@
 title: "March 10-15: Ollama, Standalone Snapshot Tools, Smarter Tab Control, and a Cleaner Agent"
 description: "This week Vibe added Ollama self-hosted LLM support, standalone markdown/a11y/HTML snapshot tools, stronger multi-tab reliability, and better handling for tricky UI controls."
 date: "2026-03-15"
-author: "Vibe Product Team"
+author: "Dzianis Vashchuk"
+authorUrl: "https://linkedin.com/in/dzianisv"
 aliases:
   - week-of-march-10-2026-release-notes
 tags:

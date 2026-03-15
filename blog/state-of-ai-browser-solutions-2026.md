@@ -2,7 +2,8 @@
 title: "The State of AI Browser Solutions (March 2026): Comet, Atlas, Composite, Strawberry, and the Gap Vibe Is Built For"
 description: "A practical market read on what leading AI browser products can do today, where each one breaks in real workflows, and why Vibe focuses on model-agnostic, operator-visible execution."
 date: "2026-03-13"
-author: "Vibe Product Team"
+author: "Dzianis Vashchuk"
+authorUrl: "https://linkedin.com/in/dzianisv"
 tags:
   - market-analysis
   - ai-browser

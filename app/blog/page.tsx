@@ -99,7 +99,16 @@ export default function BlogIndexPage() {
                     day: 'numeric',
                     timeZone: 'UTC',
                   })}{' '}
-                  • {post.author} • {post.readingTimeMinutes} min read
+                  •{' '}
+                  <a
+                    href={post.authorUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-medium text-slate-600 underline decoration-slate-300 underline-offset-4 transition-colors hover:text-purple-700"
+                  >
+                    {post.author}
+                  </a>{' '}
+                  • {post.readingTimeMinutes} min read
                 </div>
                 <h2 className="mt-4 font-serif text-3xl font-semibold tracking-tight text-slate-950 md:text-[2rem]">
                   <Link href={`/blog/${post.slug}`} className="transition-colors group-hover:text-purple-700">

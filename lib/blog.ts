@@ -9,6 +9,7 @@ export interface BlogPost {
   description: string
   date: string
   author: string
+  authorUrl: string
   tags: string[]
   published: boolean
   content: string
@@ -21,12 +22,15 @@ interface Frontmatter {
   description?: string
   date?: string
   author?: string
+  authorUrl?: string
   tags?: string[]
   aliases?: string[]
   published?: boolean
 }
 
 const BLOG_DIR = path.join(process.cwd(), 'blog')
+const DEFAULT_BLOG_AUTHOR = 'Dzianis Vashchuk'
+const DEFAULT_BLOG_AUTHOR_URL = 'https://linkedin.com/in/dzianisv'
 
 function estimateReadingTime(content: string): number {
   const words = content.trim().split(/\s+/).filter(Boolean).length
@@ -105,6 +109,7 @@ function parseFrontmatter(raw: string): { frontmatter: Frontmatter; content: str
       if (key === 'description') frontmatter.description = parsed
       if (key === 'date') frontmatter.date = parsed
       if (key === 'author') frontmatter.author = parsed
+      if (key === 'authorUrl') frontmatter.authorUrl = parsed
     }
   }
 
@@ -136,7 +141,8 @@ function toPost(fileName: string): BlogPost | null {
     title: frontmatter.title || slug.replace(/[-_]/g, ' '),
     description: frontmatter.description || '',
     date: frontmatter.date || '1970-01-01',
-    author: frontmatter.author || 'Vibe Team',
+    author: frontmatter.author || DEFAULT_BLOG_AUTHOR,
+    authorUrl: frontmatter.authorUrl || DEFAULT_BLOG_AUTHOR_URL,
     tags: frontmatter.tags || [],
     published,
     content,

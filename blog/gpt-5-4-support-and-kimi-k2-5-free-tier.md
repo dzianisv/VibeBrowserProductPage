@@ -2,7 +2,8 @@
 title: "GPT-5.4 Support Is Live in Vibe — and Kimi-K2.5 Is Now in the Free Tier"
 description: "Vibe now supports GPT-5.4 for higher-confidence browser work and adds Kimi-K2.5 to the free tier for fast, tool-heavy agentic workflows."
 date: "2026-03-15"
-author: "Vibe Product Team"
+author: "Dzianis Vashchuk"
+authorUrl: "https://linkedin.com/in/dzianisv"
 tags:
   - product-update
   - gpt-5.4
@@ -56,18 +57,39 @@ Those are exactly the kinds of traits we care about for browser automation: long
 
 ## How good is Kimi-K2.5 for agentic web tasks?
 
-Short version: **promising enough that it belongs in the product, especially as a free-tier option**.
+Short version: **promising enough that it belongs in the product, especially as a free-tier option** — and the public BrowseComp data puts it in the top open-weight cluster rather than in a runaway lead.
 
-The public benchmark story is strong:
+## BrowseComp is the browser benchmark we care about most
+
+As of **March 15, 2026**, BrowseComp is one of the best public sanity checks for browser-adjacent agent work. The benchmark includes **1,266 questions** that require agents to persistently navigate the web and find concise, verifiable answers, rather than just recall memorized facts.
+
+That is why it matters more to us than a generic static QA benchmark when we decide which models belong in Vibe.
+
+## BrowseComp leaderboard: GPT-5.4, Kimi-K2.5, and the open-weight field
+
+On the public BrowseComp leaderboard, **GPT-5.4** is clearly ahead of **Kimi-K2.5**. But the more relevant comparison for a free-tier model is where Kimi lands against the other strong open-weight entrants.
+
+| Model | Public BrowseComp score | Weight status | What it suggests for Vibe |
+| --- | ---: | --- | --- |
+| GPT-5.4 | **0.827** | Proprietary | Stronger choice when a browser run is expensive to get wrong. |
+| MiniMax M2.5 | **0.763** | Open-weight | Currently the highest-scoring open-weight peer in this set, with an explicit tool-use and search focus. |
+| GLM-5 | **0.759** | Open-weight | Slightly ahead of Kimi on public BrowseComp, with positioning centered on agentic engineering. |
+| Kimi-K2.5 | **0.749** | Open-weight | Top-tier open-weight result. Moonshot also reports **74.9** with context management and **78.4** in Agent Swarm mode on its own eval setup. |
+| Qwen3.5-397B-A17B | **0.690** | Open-weight | Capable, but materially behind Kimi on this benchmark. |
+
+That table changes the story a bit. **Kimi-K2.5 is not the single highest-scoring open-weight model on BrowseComp today.** But it is firmly in the top cluster: within **0.014** of MiniMax M2.5 and **0.010** of GLM-5, while staying comfortably ahead of Qwen3.5-397B-A17B.
+
+For Vibe, that matters because Kimi's differentiator is not just raw leaderboard placement. Moonshot is explicitly optimizing for **long-context, tool-heavy, multi-agent execution**. Its public materials emphasize a **256K context window**, up to **100 sub-agents**, and up to **1,500 tool calls** in swarm mode. That is unusually aligned with browser tasks that fan out across many pages, tabs, and search branches.
+
+The broader benchmark story is still strong:
 
 - On the Kimi-K2.5 model card, Moonshot reports **50.2 on HLE-Full with tools**
-- **78.4 on BrowseComp (Agent Swarm)**
 - **85.0 on LiveCodeBench**
 - **76.8 on SWE-Bench Verified**
 
 None of those numbers guarantee perfect browser execution in the wild, but they do suggest Kimi-K2.5 is not just a cheap fallback model. It looks genuinely competitive for tool-heavy tasks and coding-adjacent workflows.
 
-For web tasks specifically, the BrowseComp and tool-augmented scores are the most interesting signals. They suggest Kimi-K2.5 is worth using when the job looks like:
+For web tasks specifically, the BrowseComp results are the most interesting signal. They suggest Kimi-K2.5 is worth using when the job looks like:
 
 - research across many pages
 - extraction plus summarization
@@ -126,10 +148,22 @@ This is the right way to evaluate browser agents anyway: not by vibes, but by re
 
 ## References
 
+- OpenAI / BrowseComp paper  
+  https://arxiv.org/abs/2504.12516
+- BrowseComp public leaderboard  
+  https://llm-stats.com/benchmarks/browsecomp
 - Moonshot AI: Kimi K2.5 launch  
   https://www.kimi.com/blog/kimi-k2-5.html
 - Hugging Face model card: `moonshotai/Kimi-K2.5`  
   https://huggingface.co/moonshotai/Kimi-K2.5
+- MiniMax: MiniMax-M2.5 launch  
+  https://www.minimax.io/news/minimax-m25
+- Z.AI developer docs: GLM-5  
+  https://docs.z.ai/guides/llm/glm-5
+- Qwen3.5 official repository  
+  https://github.com/QwenLM/Qwen3.5
+- Hugging Face model card: `Qwen/Qwen3.5-397B-A17B`  
+  https://huggingface.co/Qwen/Qwen3.5-397B-A17B
 - Fireworks: Kimi K2.5 launch and serving-speed notes  
   https://fireworks.ai/blog/kimi-k2p5
 
