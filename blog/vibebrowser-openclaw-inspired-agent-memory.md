@@ -2,7 +2,8 @@
 title: "How We Brought OpenClaw-Style Memory to VibeBrowser"
 description: "VibeBrowser now remembers what you tell it — across sessions, across tasks. Inspired by OpenClaw's dual memory architecture, we built persistent agent memory that works inside a browser extension."
 date: "2026-03-15"
-author: "Vibe Product Team"
+author: "Dzianis Vashchuk"
+authorUrl: "https://linkedin.com/in/dzianisv"
 tags:
   - product-update
   - release-notes
@@ -81,9 +82,20 @@ Without embeddings available in the extension context, we implemented a **term-m
 
 This isn't as powerful as OpenClaw's hybrid vector + BM25 approach, but it's surprisingly effective for the typical memory sizes in a browser extension (hundreds of entries, not thousands of files). And it runs instantly with zero external dependencies.
 
-### Tool surface: compatible naming
+### Tool surface: compatible naming with strong agent guidance
 
-We matched OpenClaw's naming convention so the tools feel familiar:
+We matched OpenClaw's naming convention and, critically, adopted their approach of **embedding behavioral instructions directly in tool descriptions**. OpenClaw's `memory_search` description starts with "Mandatory recall step" — telling the agent this isn't optional. We did the same:
+
+- `memory_search` description says: *"Mandatory recall step: search stored memories before answering questions about prior work, user preferences, decisions, people, accounts..."*
+- `memory_write` description says: *"Call proactively when the user shares reusable personal info — don't wait to be asked."*
+
+We also added a **Memory section to the agent's system prompt** with explicit rules:
+
+> - **memory_search**: ALWAYS call before answering questions about user preferences, prior tasks, personal details, or anything the user previously told you.
+> - **memory_write**: Proactively store user preferences, account details, addresses, recurring instructions, and important decisions.
+> - Don't wait for "remember this" — if the user shares reusable personal info, store it automatically.
+
+This is the key insight from studying OpenClaw: the tools themselves aren't enough. You need to tell the agent **when** to use them, and make recall feel mandatory rather than optional.
 
 | Tool | What it does |
 |------|-------------|
