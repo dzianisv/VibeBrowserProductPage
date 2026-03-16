@@ -1,234 +1,212 @@
 ---
-title: "How opencode Got Better for Long-Running Local Agents"
-description: "Recent opencode work tightened memory behavior for long-lived sessions and made `opencode serve` a more practical remote-control surface for sessions, shell, MCP, and human approvals."
-date: "2026-03-15"
+title: "Stabilizing AI Coding Agents for All-Day Use: Memory Fixes, MCP Lifecycle, and Why Browser Extensions Beat Standalone Servers"
+description: "A deep dive into fixing opencode for production use as a long-running coding agent: MCP memory leaks, tool deadlocks, session recovery, and why Vibe Browser's extension architecture avoids the chrome-devtools-mcp memory trap entirely."
+date: "2026-03-16"
 author: "Dzianis Vashchuk"
 authorUrl: "https://linkedin.com/in/dzianisv"
 tags:
   - engineering
+  - ai-coding-agent
   - opencode
-  - local-coding-tools
-  - memory
-  - remote-control
-  - serve
+  - mcp-server
+  - memory-optimization
+  - browser-automation
+  - devtools
+  - vibe-browser
 published: true
 ---
 
-If a local coding tool is going to stay open all day, two things matter more than glossy demos:
+AI coding agents look great in demos. Then you leave one running overnight and your laptop kernel-panics from swap exhaustion.
 
-1. it needs to keep memory bounded under real session churn, and
-2. it needs a clean control surface so other tools can drive it without scraping a terminal.
+We use [opencode](https://github.com/anomalyco/opencode) and OpenAI's [Codex CLI](https://github.com/openai/codex) as our daily coding tools at [Vibe](https://vibebrowser.app). Not wrappers around ChatGPT. Not experiments. The tools we ship production code with, across multiple repositories, sometimes from a phone while away from the desk.
 
-Recent work in `opencode` improved both.
+We chose opencode for specific engineering reasons:
 
-The March 2026 commits are especially interesting because they were not just about one leak fix. They tightened several different growth paths at once: instance caching, MCP process fanout, shell-output buffering, per-session file state, and diagnostics. At the same time, `opencode serve` kept getting more useful as a headless API surface for remote orchestration.
+- **Any provider** — Claude, GPT, Gemini, DeepSeek, local models. As pricing drops and capabilities shift, we switch without changing workflows.
+- **Hackable** — add tools, agents, MCP servers, custom skills. Open source means we fix what breaks.
+- **Web UI from anywhere** — `opencode serve` exposes a full web app. Check session status, approve permissions, or send prompts from a phone browser. No VPN, no SSH.
+- **Codex CLI for focused work** — tight OpenAI integration, fast for single-session tasks, good sandboxing defaults. Different strengths, no lock-in.
 
-## The real problem: local agents need to stay alive
+But running these agents all day on real projects — dozens of sessions, MCP servers for browser automation, voice transcription, memory analysis — exposed problems that no demo ever shows.
 
-Short interactive demos hide a lot of pain.
+This post documents every fix we shipped, the `chrome-devtools-mcp` memory leak that caused a kernel panic, and why [Vibe Browser's](https://vibebrowser.app) extension architecture solves the browser automation memory problem at the architectural level.
 
-The hard case for a local coding tool is the one developers actually live in:
+## What breaks when AI coding agents run all day
 
-- multiple sessions open
-- repeated prompts over hours
-- large shell output
-- MCP servers spawning child processes
-- switching across directories and workspaces
-- a desktop app, plugin, or another controller talking to the same runtime
+The failure mode is not a single leak. It is a cascade:
 
-That is where memory behavior starts to matter. It is also where a plain terminal interface stops being enough.
+1. **MCP child processes grow unbounded** — the host never terminates idle servers
+2. **Sessions accumulate** — 238 sessions open after 12 hours, each holding in-memory state
+3. **Tool executions deadlock** — permission prompts block the entire AI SDK stream forever
+4. **Orphaned state survives restarts** — tools stuck in "running," assistant messages never completed, sidebar shows spinners for dead sessions
+5. **Shell output fills RAM** — large build/test output held entirely in memory
 
-## opencode tightened several memory pressure paths at once
+We hit all five simultaneously. The result was 8.4 GB RSS, macOS swap exhaustion, and a watchdog kernel panic at 07:33 UTC.
 
-The strongest recent `opencode` improvements are not one giant rewrite. They are a series of targeted guardrails.
+## Every fix we shipped
 
-### 1) The instance cache is now bounded
+### MCP idle sweep
 
-One recent fix added a bounded per-directory instance cache with reference tracking, idle eviction, and max-size eviction. Another follow-up deduplicated concurrent instance bootstraps so the same instance is not opened twice under parallel pressure.
+Upstream opencode has **zero process lifecycle management** for MCP servers. Once spawned, they run forever.
 
-Why that matters:
+We added `lastUsed` timestamp tracking to every MCP client and a periodic sweep that closes clients idle beyond a configurable threshold.
 
-- long-running `serve` setups can touch many directories
-- repeated workspace attachment should not accumulate stale instances forever
-- concurrent requests should not stampede into duplicate startup work
+```bash
+# Default: 10 minutes. Set to 0 to disable.
+export OPENCODE_MCP_IDLE_MS=600000
+```
 
-This is exactly the kind of operational detail that separates "works in a demo" from "stays healthy under all-day use."
+This is the single most impactful fix. A `chrome-devtools-mcp` process leaking 13 MB/min gets terminated after 10 minutes of inactivity instead of growing to 1.6 GB.
 
-### 2) MCP clients are now shared, cleaned up harder, and not spawned eagerly
+### Session idle archival
 
-Another important change was around MCP lifecycle management.
+Sessions accumulate in serve mode with no upper bound. Each holds messages, tool state, and file timestamps in memory.
 
-Recent commits made `opencode`:
+We added a sweep that archives sessions not updated within a configurable window, freeing associated state.
 
-- share MCP clients across instances instead of multiplying them
-- hard-close descendant processes when needed
-- avoid eager MCP connections on status/bootstrap paths
+```bash
+# Default: 3 days. Set to 0 to disable.
+export OPENCODE_SESSION_IDLE_MS=259200000
+```
 
-That last point matters more than it sounds. If a status check causes subprocess fanout, memory growth starts from completely normal product behavior. Making `/mcp` lazy removes a whole class of accidental background expansion.
+### Tool execution deadlock fix
 
-### 3) Per-session runtime state is capped more aggressively
+This one is subtle. The AI SDK's `streamText` runs tool executions internally. The stream iterator blocks until ALL tool calls complete. But `Question.ask()` and `PermissionNext.ask()` create an Effect `Deferred` and await it with no timeout and no abort signal.
 
-Two other changes are directly about unbounded in-memory growth:
+When the model issues three tool calls and one is a permission prompt, the stream deadlocks. The cleanup code that marks stuck tools as errors runs AFTER the stream exits — a perfect circular deadlock.
 
-- file read timestamps are now capped per session
-- shell capture is capped and throttled to reduce in-memory output accumulation
+**Fix**: race both `Question.ask()` and `PermissionNext.ask()` against `ctx.abort`. When the session is cancelled, stuck tools resolve immediately.
 
-Then the bash tool got an even more useful improvement: large output can now be spooled to disk instead of forcing everything to stay in RAM.
+### Startup recovery
 
-That is a better design for a local coding tool. Developers still need access to big command output, but the runtime should not pay the full in-memory cost just to preserve inspectability.
+Server restarts leave database state inconsistent:
 
-## The memory story is stronger because the diagnostics got better too
+- Tool parts stuck in `running` or `pending` — show spinners forever
+- Assistant messages without `time.completed` — sidebar shows active indicator on dead sessions
 
-One of the best recent additions is not a guardrail at all. It is visibility.
+`Session.recover()` now runs at startup and fixes both: tools get marked as `error`, messages get `time.completed` set to their last update timestamp.
 
-`opencode` now ships a much better memory forensics workflow for `serve`:
+### Graceful shutdown
 
-- a one-shot memory diagnostic
-- continuous monitor support in `opencode serve`
-- a `/global/memory` API endpoint
-- snapshot artifacts when thresholds are breached
-- a synthetic workload profiler that drives sessions, prompts, and shell churn
+`SIGTERM`/`SIGINT` now call `Instance.disposeAll()` and `MCP.closeAll()` before exit, properly terminating all child processes instead of orphaning them.
 
-That is the right way to debug long-running agent systems. Starting a server and staring at Activity Monitor rarely tells you enough. You need a way to distinguish:
+### External watchdog
 
-- root JavaScript heap growth
-- child-process growth
-- session churn
-- PTY activity
-- instance-cache accumulation
+A launchd-managed shell script that monitors process-tree RSS independently of opencode. If the tree exceeds a threshold, it kills the process. This runs even when opencode itself is hung or crashed.
 
-The current docs even include a 1-hour reference workload:
+### Web UI improvements
 
-- `24,584` prompts
-- `7,990` shell calls
-- `478` session creates and `439` deletes
-- root RSS from `287.19 MB` to `364.66 MB`
-- tree RSS from `507.41 MB` to `533.61 MB`
-- no threshold hit at `5120 MB`
+- **Recently Active dashboard** — `/recent` page showing sessions across all projects in one view, with diff stats and relative timestamps. No more clicking through project sidebars.
+- **Local app serving** — server serves from built assets instead of proxying to `app.opencode.ai`. Local UI changes work immediately. Fully offline.
+- **AI-driven session naming** — built-in tool lets agents rename sessions to reflect current task. Sidebar shows "Fix auth token refresh" instead of "curious-river."
 
-That is not proof that memory work is "done." But it is exactly the kind of instrumentation you want if you are serious about making a local agent runtime stable.
+### Earlier memory optimizations
 
-## Why `opencode serve` is more than a convenience flag
+- Bounded instance cache with reference tracking and idle eviction
+- Shared MCP clients across instances (no duplication)
+- Lazy MCP connections on status/bootstrap paths
+- Capped per-session file timestamps
+- Disk-spooled shell output instead of in-memory buffering
+- Memory diagnostics API (`/global/memory`) with threshold alerting
 
-The other big reason these commits matter is that `opencode` is not only a terminal tool anymore. `opencode serve` is a real control surface.
+## The `chrome-devtools-mcp` problem: why MCP architecture matters for browser automation
 
-It exposes HTTP routes for things like:
+After all the opencode fixes, we caught the real overnight killer.
 
-- session creation and session history
-- sending messages to a session
-- shell execution
-- question and permission handoffs
-- MCP status and connect/disconnect flows
-- health, config, and memory endpoints
-- a global event stream
+The memory monitor showed process-tree RSS peaking at **8,472 MB** with 55 child processes. opencode itself was ~1.7 GB. The remaining 6+ GB was one process:
 
-In practice, that means another process can orchestrate a live local coding runtime without pretending to be a human typing into a terminal.
+| Process | RSS | Growth rate |
+|---------|-----|-------------|
+| `chrome-devtools-mcp --autoConnect` | **1,661 MB** | ~13 MB/min |
+| opencode serve (root) | 366 MB | stable |
+| All other MCP servers combined | ~133 MB | stable |
 
-That is powerful for at least three reasons:
+The `--autoConnect` mode of `chrome-devtools-mcp` leaks memory continuously. It maintains persistent CDP WebSocket connections to every Chrome tab, buffers DevTools Protocol events in its Node.js heap, and never releases them. On a machine with 20+ tabs open, this exhausts 16 GB overnight.
 
-1. a desktop UI can talk to a real background runtime
-2. plugins or remote controllers can subscribe to events and answer approvals
-3. teams can build higher-level workflows on top of a stable local agent surface
+We filed [ChromeDevTools/chrome-devtools-mcp#1192](https://github.com/ChromeDevTools/chrome-devtools-mcp/issues/1192) upstream.
 
-There is also newer `workspace-serve` work in the repo, which pushes in the same direction: cleaner remote workspace handling and event/session routing for multi-workspace setups.
+### The architectural problem with standalone MCP servers for browser automation
 
-## The important architectural shift
+`chrome-devtools-mcp` represents a common pattern: a Node.js process that connects to Chrome via CDP WebSocket, maintains its own event listeners and state caches, and exposes browser automation as MCP tools.
 
-Put together, these changes make `opencode` look more like a local agent runtime and less like a single interactive shell app.
+The problem is structural:
 
-That matters because the next generation of coding tools will not live in one surface:
+```
+AI Agent → MCP Server (Node.js) → CDP WebSocket → Chrome
+```
 
-- part terminal
-- part desktop UI
-- part background server
-- part remote orchestrator
-- part human approval loop
+Every layer in this chain must independently manage memory for the same browser state that Chrome already tracks internally. The MCP server duplicates Chrome's tab lifecycle, event buffering, and cleanup logic — but in userland JavaScript with no access to Chrome's native memory pressure signals.
 
-If your runtime leaks memory or explodes subprocess count, that architecture collapses quickly. If your runtime stays bounded and exposes a clean server API, it becomes much easier to build around.
+When the MCP server's garbage collector falls behind Chrome's event rate, memory grows without bound. Even if the specific leak is patched, the architecture remains fundamentally wasteful: an entire Node.js runtime maintaining a shadow copy of browser state that Chrome already manages.
 
-## One caveat worth stating clearly
+### How Vibe Browser solves this at the architecture level
 
-`opencode serve` is useful, but it is not something to expose carelessly.
+[Vibe Browser](https://vibebrowser.app) takes a different approach to browser automation for AI agents. Instead of running a separate process that connects to Chrome from outside, Vibe's Copilot extension **runs inside Chrome's existing process model**.
 
-The repo's own security docs are explicit: server mode is opt-in, and if you enable it, you should set `OPENCODE_SERVER_PASSWORD` so HTTP access requires Basic Auth. Without that, the server is unauthenticated.
+```
+AI Agent → Vibe Extension (Chrome process) → Chrome APIs
+```
 
-So the interesting story here is not "remote control with magic security." It is "a capable local runtime with real control surfaces, plus explicit responsibility to secure them properly."
+The difference is not incremental. It eliminates an entire class of problems:
 
-## Update: `chrome-devtools-mcp` is the primary memory leak culprit (2026-03-15)
+| | chrome-devtools-mcp | Vibe Browser Extension |
+|---|---|---|
+| **Runtime** | Separate Node.js process | Chrome extension service worker |
+| **Browser connection** | CDP WebSocket (external) | `chrome.debugger` API (internal) |
+| **Tab lifecycle** | Must track independently | Chrome manages automatically |
+| **Memory pressure** | No visibility | Chrome suspends/evicts as needed |
+| **Event buffering** | Unbounded in JS heap | Event-driven, no persistent buffer |
+| **Idle behavior** | Runs forever unless killed | Service worker sleeps when inactive |
+| **Process count** | +1 per agent connection | Zero additional processes |
 
-After the original post, we caught a real overnight crash: a macOS kernel watchdog panic caused by swap exhaustion at 07:33 UTC.
+A [Vibe Browser](https://vibebrowser.app) session can run for days without memory growth because there is no separate process to leak. Chrome's own lifecycle management handles everything the MCP server tries (and fails) to replicate.
 
-The built-in memory monitor data showed process-tree RSS peaking at **8,472 MB** at 23:00 with 55 child processes. opencode itself was only ~1.7 GB — the remaining 6+ GB was child processes.
+For teams running AI coding agents with browser automation — testing web apps, scraping documentation, automating deployments, managing cloud consoles — this is the difference between a workflow that crashes overnight and one that runs indefinitely.
 
-We caught a live reproduction the same day:
+### What this means for MCP server design
 
-| Process | RSS after ~2 hours |
-|---------|-------------------|
-| `chrome-devtools-mcp --autoConnect` | **1,661 MB** (growing ~13 MB/min) |
-| opencode serve (root) | 366 MB |
-| `playwriter` | 54 MB |
-| `mcp-server-memory` | 49 MB |
-| `whisper-mcp` | 30 MB |
+The `chrome-devtools-mcp` leak is not unique. Any MCP server that maintains persistent connections to external systems (databases, browsers, APIs) and buffers events in-process will eventually exhibit the same pattern.
 
-The `--autoConnect` mode of `chrome-devtools-mcp` leaks memory at a rate that will exhaust a 16 GB machine overnight. The leak is in `chrome-devtools-mcp` itself — opencode is the host, not the source — but opencode's lack of MCP idle disposal means the leaking process is never terminated.
+The fix has two sides:
 
-### What we patched locally
+1. **Host-side**: the agent runtime needs idle disposal as a safety net. Our MCP idle sweep handles this.
+2. **Server-side**: MCP servers should be stateless where possible, event-driven rather than polling, and designed for short lifetimes.
 
-1. **MCP idle sweep** — added `lastUsed` timestamp tracking to the `shared` MCP client map and a periodic sweep that closes clients with `refs === 0` after a configurable idle period (`OPENCODE_MCP_IDLE_MS`, default 10 minutes).
+Or, for browser automation specifically: skip the MCP server entirely and use a browser extension that shares Chrome's native lifecycle. That is what [Vibe Browser](https://vibebrowser.app) does.
 
-2. **Session idle archival** — added a periodic sweep in serve mode that archives sessions not updated within a configurable window (`OPENCODE_SESSION_IDLE_MS`, default 30 minutes). This prevents the 238-session accumulation we saw overnight.
+## The developer experience we actually want
 
-3. **Graceful shutdown handler** — `SIGTERM`/`SIGINT` now capture a final memory snapshot before exiting, so forensics data covers the moment of shutdown instead of having a gap.
+The combination we landed on:
 
-4. **External memory watchdog** — a `launchd`-managed shell script that polls process-tree RSS every 30 seconds independently of opencode. This runs even when opencode crashes, filling the evidence gap we had between 01:17 and 07:33.
+- **opencode** for long-running multi-session coding work, any provider, web UI from mobile
+- **Codex CLI** for focused single-session tasks with OpenAI models
+- **[Vibe Browser](https://vibebrowser.app)** for browser automation that does not leak memory or crash the machine
 
-These patches are documented on [anomalyco/opencode#16697](https://github.com/anomalyco/opencode/issues/16697).
+All three are open or extensible. None locks us into a single provider. The web UI means an engineer on a walk can check if the agent finished the PR, approve a permission prompt, or kick off the next task — from their phone.
 
-### The deeper lesson
+That is what "AI-assisted development" actually looks like in practice: not a single magical tool, but a stable stack of tools that each do their part without falling over under real workload.
 
-The hardest memory problems in agent runtimes are not JavaScript heap leaks. They are **child-process lifecycle failures**. An MCP server that leaks 13 MB/min will exhaust any machine if the host never disposes it. The fix has two sides:
+If you are building AI-powered workflows that touch the browser — testing, scraping, cloud console automation, or anything that needs a real browser session — [try Vibe Browser](https://vibebrowser.app). It is the only browser automation tool designed to run alongside long-lived AI agents without eating your machine's memory.
 
-- upstream MCP servers need to be memory-safe
-- the host runtime needs idle disposal as a safety net regardless
+## All commits
 
-## Why we are paying attention
-
-We care about this direction because the boundary between local coding agents and remotely orchestrated agent systems is disappearing.
-
-The most useful tools will be the ones that can:
-
-- stay alive for long sessions
-- expose state and events cleanly
-- let humans step in on approvals
-- support other controllers without fragile hacks
-
-Recent `opencode` work moved meaningfully in that direction.
+- [`ff20a133f`](https://github.com/dzianisv/opencode/commit/ff20a133f) — MCP idle sweep, session archival, graceful shutdown, external watchdog
+- [`e54c70911`](https://github.com/dzianisv/opencode/commit/e54c70911) — make permission and question tools respect abort signals
+- [`97879b4a3`](https://github.com/dzianisv/opencode/commit/97879b4a3) — recover orphaned running/pending tool parts on startup
+- [`04b29542c`](https://github.com/dzianisv/opencode/commit/04b29542c) — recover orphaned assistant messages on startup
+- [`5198db9b4`](https://github.com/dzianisv/opencode/commit/5198db9b4) — Recently Active dashboard with global session list
+- [`9d95eea49`](https://github.com/dzianisv/opencode/commit/9d95eea49) — rename tool for AI-driven session naming
+- [`889d20385`](https://github.com/dzianisv/opencode/commit/889d20385) — serve local app build instead of proxying to cloud
+- [`450a73c5b`](https://github.com/dzianisv/opencode/commit/450a73c5b) — fix scoped package resolution in fork publish
+- [`a5578e1f3`](https://github.com/dzianisv/opencode/commit/a5578e1f3) — bound instance cache to prevent serve memory blowups
+- [`7720454da`](https://github.com/dzianisv/opencode/commit/7720454da) — share and hard-close MCP clients across instances
+- [`9b16b0c33`](https://github.com/dzianisv/opencode/commit/9b16b0c33) — spool bash tool output to disk instead of in-memory capping
+- [`41c594673`](https://github.com/dzianisv/opencode/commit/41c594673) — add memory diagnostics endpoints and monitor hooks
 
 ## References
 
-- `fix(opencode): bound instance cache to prevent serve memory blowups`  
-  https://github.com/dzianisv/opencode/commit/a5578e1f3f02b266a1dc682c1396314748bffe31
-- `fix(opencode): dedupe instance bootstraps and restore cache headroom`  
-  https://github.com/dzianisv/opencode/commit/1be1224859bb9849711c10d2c6587dc0cbaf3523
-- `fix(opencode): share and hard-close mcp clients across instances`  
-  https://github.com/dzianisv/opencode/commit/7720454da3579a334c31539de6f374c2c706522a
-- `lazy-load MCP clients for status and bootstrap paths`  
-  https://github.com/dzianisv/opencode/commit/597dc7d4049ab46a99f189180df612f41fbb0fcb
-- `cap file read timestamps per session to prevent unbounded growth`  
-  https://github.com/dzianisv/opencode/commit/ee069fc524fecc8c95d5b8ca00ae0ee598a37784
-- `cap and throttle shell output streaming to reduce memory pressure`  
-  https://github.com/dzianisv/opencode/commit/8e30a85eccfc3f79778e78ad7450bf7a49f7dd57
-- `fix(bash): spool output to disk instead of in-memory capping`  
-  https://github.com/dzianisv/opencode/commit/9b16b0c332c0cfeb6e53a90984f3d1ed73156ba5
-- `feat(opencode): add serve memory forensics and diagnostics`  
-  https://github.com/dzianisv/opencode/commit/41c594673532a557271907517fc81bacf1d0e93e
-- `feat(opencode): add serve memory workload profiler`  
-  https://github.com/dzianisv/opencode/commit/1f1ddc86e6d29966522e867f68ef9ced9912a8a7
-- `feat(core): add workspace-serve command (experimental)`  
-  https://github.com/dzianisv/opencode/commit/2c00eb60bdc6e6ff0362e792e731eaa39204bf72
-- `feat(core): basic implementation of remote workspace support`  
-  https://github.com/dzianisv/opencode/commit/c12ce2ffff38fae11e22762292c56f1e71c387e7
-- `Memory Forensics for opencode serve`  
-  https://github.com/dzianisv/opencode/blob/dev/docs/memory-forensics.md
-- `SECURITY.md`  
-  https://github.com/dzianisv/opencode/blob/dev/SECURITY.md
+- [anomalyco/opencode#16697](https://github.com/anomalyco/opencode/issues/16697) — upstream memory issue with field evidence
+- [ChromeDevTools/chrome-devtools-mcp#1192](https://github.com/ChromeDevTools/chrome-devtools-mcp/issues/1192) — MCP server memory leak report
+- [Vibe Browser](https://vibebrowser.app) — browser automation without the MCP memory trap
+- [Memory Forensics for opencode serve](https://github.com/dzianisv/opencode/blob/dev/docs/memory-forensics.md)
+- [Fork README](https://github.com/dzianisv/opencode/blob/dev/README.md) — full diff from upstream
