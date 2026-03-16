@@ -44,10 +44,50 @@ Ensure these are configured in Vercel dashboard:
 - `GIT_LFS_ENABLED` (set to `1` so Vercel pulls LFS video assets)
 - Optional Honeycomb/OpenTelemetry:
   - `OTEL_SERVICE_NAME` (example: `vibebrowser-product-page`)
+  - `OTEL_EXPORTER_OTLP_PROTOCOL` (recommended: `http/protobuf`)
   - `OTEL_EXPORTER_OTLP_ENDPOINT` (example: `https://api.honeycomb.io`)
-  - `OTEL_EXPORTER_OTLP_HEADERS` (example: `x-honeycomb-team=YOUR_API_KEY,x-honeycomb-dataset=YOUR_DATASET`)
+  - `OTEL_EXPORTER_OTLP_HEADERS` (Honeycomb Environments example: `x-honeycomb-team=YOUR_API_KEY`)
+
+For Honeycomb in the US region, these Vercel CLI commands are enough:
+
+```bash
+printf 'vibebrowser-product-page' | vercel env add OTEL_SERVICE_NAME production
+printf 'http/protobuf' | vercel env add OTEL_EXPORTER_OTLP_PROTOCOL production
+printf 'https://api.honeycomb.io' | vercel env add OTEL_EXPORTER_OTLP_ENDPOINT production
+printf 'x-honeycomb-team=YOUR_API_KEY' | vercel env add OTEL_EXPORTER_OTLP_HEADERS production
+```
+
+If you use Honeycomb EU, replace the endpoint with `https://api.eu1.honeycomb.io`.
+If you still use Honeycomb Classic, append `,x-honeycomb-dataset=YOUR_DATASET` to `OTEL_EXPORTER_OTLP_HEADERS`.
+
+Telemetry emitted by this app is intentionally narrow:
+- Web vitals (`CLS`, `FCP`, `FID`, `INP`, `LCP`, `TTFB`)
+- Product page events (`dialog_open`, `cta_click`, `generate_lead`)
+- Path-only URLs; query strings, form contents, and raw user-agent are not sent to Honeycomb
 
 Store production secrets in the Vercel dashboard or ignored local files such as `.env.local`. Do not commit `.env.prod` or other secret-bearing env files to Git.
+
+### Verifying Honeycomb Telemetry
+
+After adding the env vars, redeploy so the server picks them up:
+
+```bash
+vercel --prod
+```
+
+Then confirm the telemetry routes are active:
+
+```bash
+curl -i -X POST https://www.vibebrowser.app/api/telemetry/web-vitals \
+  -H 'Content-Type: application/json' \
+  --data '{"id":"verify","name":"LCP","delta":123,"value":123,"rating":"good","navigationType":"navigate","pathname":"/","href":"https://www.vibebrowser.app/"}'
+
+curl -i -X POST https://www.vibebrowser.app/api/telemetry/events \
+  -H 'Content-Type: application/json' \
+  --data '{"eventName":"dialog_open","pathname":"/","properties":{"dialog_name":"waitlist_dialog"}}'
+```
+
+Both routes should return `202` when Honeycomb is enabled.
 
 ### Git LFS Video Assets
 

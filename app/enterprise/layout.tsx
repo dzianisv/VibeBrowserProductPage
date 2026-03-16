@@ -10,19 +10,19 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.vibebrowser.app'),
   title: 'Vibe AI Browser · Private Enterprise | Secure AI for Financial Professionals',
-  description: 'Private AI browser automation for financial professionals. SOC2 compliant, on-premise deployment, TEE-ready. Includes Google Workspace (Gmail + Calendar), MCP agent access, skills, and a secrets vault. Built for regulated industries.',
+  description: 'Private AI browser automation for financial professionals. Supports local, self-hosted, and TEE-ready deployment paths with Google Workspace tools, MCP access, reusable skills, and a secrets vault.',
   keywords: [
     // Primary keywords - Financial AI
     'private AI for finance',
     'secure AI browser',
     'financial AI automation',
-    'compliant AI browser',
+    
     'enterprise AI browser',
     
     // Compliance keywords
-    'SOC2 compliant AI',
-    'FINRA compliant AI',
-    'SEC compliant AI tool',
+    'Privacy-focused AI',
+    
+    
     'regulated industry AI',
     'compliance AI automation',
     
@@ -77,7 +77,7 @@ export const metadata: Metadata = {
     url: 'https://www.vibebrowser.app/enterprise',
     siteName: 'Vibe Co-Pilot',
     title: 'Private AI for Financial Professionals | Vibe AI Browser',
-    description: 'AI browser automation that never sees your client data. SOC2 compliant, on-premise, TEE-ready, with Google Workspace tools, MCP agent access, skills, and a secrets vault.',
+    description: 'Private AI browser automation with local, self-hosted, and TEE-ready deployment paths plus Google Workspace tools, MCP access, reusable skills, and a secrets vault.',
     images: [
       {
         url: '/og/enterprise.svg',
@@ -90,7 +90,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Private AI for Financial Professionals | Vibe AI Browser',
-    description: 'AI browser automation that never sees your client data. SOC2 compliant, on-premise, TEE-ready, with Google Workspace tools, MCP agent access, skills, and a secrets vault.',
+    description: 'Private AI browser automation with local, self-hosted, and TEE-ready deployment paths plus Google Workspace tools, MCP access, reusable skills, and a secrets vault.',
     images: ['/og/enterprise.svg'],
     creator: '@vibebrowserapp',
   },
@@ -119,12 +119,12 @@ const jsonLd = {
   name: 'Vibe AI Browser · Private Enterprise',
   applicationCategory: 'BusinessApplication',
   operatingSystem: 'Chrome',
-  description: 'Private AI browser automation for financial professionals. SOC2 compliant, on-premise deployment, TEE-ready, with Google Workspace, MCP access, skills, and a secrets vault.',
+  description: 'Private AI browser automation for financial professionals with local, self-hosted, and TEE-ready deployment paths plus Google Workspace, MCP access, skills, and a secrets vault.',
   url: 'https://www.vibebrowser.app/enterprise',
   author: {
     '@type': 'Organization',
     name: 'Vibe Technologies',
-    url: 'https://vibebrowser.app',
+    url: 'https://www.vibebrowser.app',
   },
   offers: [
     {
@@ -150,16 +150,16 @@ const jsonLd = {
     {
       '@type': 'Offer',
       name: 'Enterprise',
-      description: 'TEE-protected inference with dedicated support',
+      description: 'Private deployment planning and enterprise onboarding support',
     },
   ],
   featureList: [
-    'SOC2 Type II Compliant',
+    
     'On-Premise Deployment',
     'TEE-Protected Inference',
     'Zero Data Retention',
-    'FINRA Compliant',
-    'SEC Rule 17a-4 Compatible',
+    
+    
     'Self-Hosted LLM Support',
     'Complete Audit Logging',
     'Google Workspace integration (Gmail, Calendar)',
@@ -168,18 +168,14 @@ const jsonLd = {
     'Secrets vault with password fill tool',
   ],
   screenshot: 'https://www.vibebrowser.app/screenshot-enterprise.png',
-  softwareHelp: {
-    '@type': 'CreativeWork',
-    url: 'https://www.vibebrowser.app/tee',
-  },
 }
 
 const organizationJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'Vibe Technologies',
-  url: 'https://vibebrowser.app',
-  logo: 'https://vibebrowser.app/vibebrowser-logo.png',
+  url: 'https://www.vibebrowser.app',
+  logo: 'https://www.vibebrowser.app/vibebrowser-logo.png',
   contactPoint: {
     '@type': 'ContactPoint',
     email: 'enterprise@vibebrowser.app',
@@ -210,7 +206,7 @@ const faqJsonLd = {
       name: 'What models can I self-host?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Any model that exposes an OpenAI-compatible API. Popular choices include DeepSeek, Llama 3, Mistral, and Qwen. We provide Docker images and deployment guides for AWS, GCP, Azure, and on-premise servers.',
+        text: 'Any model that exposes an OpenAI-compatible API. Popular choices include DeepSeek, Llama 3, Mistral, and Qwen.',
       },
     },
     {
@@ -218,15 +214,15 @@ const faqJsonLd = {
       name: 'How does TEE protect my data?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Trusted Execution Environments (TEE) use hardware-level encryption to create isolated memory regions. Even the cloud provider cannot access data inside a TEE. We use Intel TDX and provide cryptographic attestation so you can verify the code running on your data.',
+        text: 'Trusted Execution Environments (TEE) use hardware-level isolation to protect code and data in memory. Vibe supports TEE-oriented deployment paths for teams that need stronger infrastructure controls.',
       },
     },
     {
       '@type': 'Question',
-      name: 'Is this compliant with SEC/FINRA regulations?',
+      name: 'Can this be used in regulated industries?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Yes. With self-hosted or TEE deployment, all data remains under your control. We provide complete audit logs for regulatory examinations. Our architecture is designed to meet SEC Rule 17a-4, FINRA 4511, and similar recordkeeping requirements.',
+        text: 'Yes. Teams can use local, self-hosted, or TEE-oriented deployment paths and pair them with audit logs and approval workflows that support their own compliance programs.',
       },
     },
     {
@@ -234,7 +230,7 @@ const faqJsonLd = {
       name: 'Does using AI waive attorney-client privilege?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: "With traditional cloud AI, sharing privileged information with a third party can potentially waive privilege. Vibe's local and self-hosted modes process everything within your own environment, avoiding third-party disclosure. For cloud TEE, the cryptographic isolation means no third party can access the data.",
+        text: "Organizations with privilege or confidentiality concerns typically prefer local or self-hosted deployments so work stays inside their environment. Specific legal conclusions depend on your counsel and operating model.",
       },
     },
   ],

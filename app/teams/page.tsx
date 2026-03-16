@@ -52,14 +52,8 @@ const teamsConfig: EnterpriseConfig = {
     'Track team usage and productivity',
     'Control access and permissions centrally',
   ],
-  stats: [
-    { value: '5-50', label: 'Team size' },
-    { value: '10hrs', label: 'Saved per week' },
-  ],
-  testimonials: [
-    { quote: "Shared skills saved us hours every week. No more recreating the same workflows.", author: "Sarah Chen", practice: "Operations Manager, Series B Startup" },
-    { quote: "Finally, a tool that works for the whole team, not just individuals.", author: "Michael Torres", practice: "CEO, Series A crypto startup" },
-  ],
+  stats: [],
+  testimonials: [],
   faqs: [
     { question: "How do team skills work?", answer: "Anyone on your team can create skills. Once shared, everyone on the team can use them." },
     { question: "Is Gmail integration secure?", answer: "Yes. Vibe uses OAuth for Gmail. Credentials are stored securely." },

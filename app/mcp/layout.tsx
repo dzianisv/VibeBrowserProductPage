@@ -137,7 +137,7 @@ const jsonLd = {
   author: {
     '@type': 'Organization',
     name: 'Vibe Technologies',
-    url: 'https://vibebrowser.app',
+    url: 'https://www.vibebrowser.app',
   },
   offers: {
     '@type': 'Offer',
@@ -170,8 +170,8 @@ const organizationJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'Vibe Technologies',
-  url: 'https://vibebrowser.app',
-  logo: 'https://vibebrowser.app/vibebrowser-logo.png',
+  url: 'https://www.vibebrowser.app',
+  logo: 'https://www.vibebrowser.app/vibebrowser-logo.png',
   contactPoint: {
     '@type': 'ContactPoint',
     email: 'info@vibebrowser.app',

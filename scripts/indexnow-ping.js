@@ -6,7 +6,6 @@ const defaultPaths = [
   "/teams",
   "/mcp",
   "/enterprise",
-  "/tee",
   "/compare",
   "/agentic-team",
   "/aboutus",

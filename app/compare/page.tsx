@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge'
 import { SiteNav } from '@/components/site-nav'
 
 export const metadata: Metadata = {
-  title: 'Vibe vs OpenAI Operator, Perplexity Comet, Strawberry, OpenClaw, Browser MCP',
+  title: 'AI Browser Comparison: Vibe vs Operator, Comet, OpenClaw',
   description:
     'Research-based AI browser comparison across Vibe, OpenAI Operator, Perplexity Comet, Strawberry, OpenClaw, and Browser MCP, using official product documentation only.',
   keywords: [

@@ -33,16 +33,9 @@ const researchersConfig: ProfessionConfig = {
     'Generate literature review outlines',
     'Research companies for competitive analysis',
   ],
-  stats: [
-    { value: '80%', label: 'Less time on reviews' },
-    { value: '50+', label: 'Sources searched' },
-    { value: '10x', label: 'Faster analysis' },
-  ],
+  stats: [],
   tools: ['arXiv', 'PubMed', 'Google Scholar', 'Zotero', 'EndNote', 'Notion'],
-  testimonials: [
-    { quote: "Vibe found papers I'd never discover with keyword searches.", author: "Dr. Alex Kim", practice: "PhD Candidate, Machine Learning" },
-    { quote: "Cut literature review time from weeks to days.", author: "Maria Santos", practice: "Research Lead, Think Tank" },
-  ],
+  testimonials: [],
   faqs: [
     { question: 'What databases does Vibe support?', answer: 'arXiv, PubMed, Google Scholar, SSRN, and any authenticated database.' },
     { question: 'Can Vibe help with literature reviews?', answer: 'Yes. Describe your research question and Vibe finds papers, extracts themes, and drafts outlines.' },

@@ -89,8 +89,6 @@ export async function POST(request: Request) {
       'web_vital.rating': payload.rating ?? 'unrated',
       'web_vital.navigation_type': payload.navigationType ?? 'unknown',
       'url.path': payload.pathname,
-      'url.full': payload.href,
-      'user_agent.original': request.headers.get('user-agent') ?? 'unknown',
     })
     span.end()
   })

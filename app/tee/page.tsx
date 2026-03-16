@@ -248,9 +248,9 @@ export default function TeePage() {
               <div className="flex items-start gap-4 p-4 bg-[#292a2d] rounded-lg border border-[#3c4043]">
                 <CheckCircle className="w-5 h-5 text-[#81c995] mt-0.5 flex-shrink-0" />
                 <div>
-                  <h4 className="font-medium text-[#e8eaed] mb-1">Regulatory Compliance</h4>
+                  <h4 className="font-medium text-[#e8eaed] mb-1">Stronger Privacy Controls</h4>
                   <p className="text-sm text-[#9aa0a6]">
-                    Meet SEC, FINRA, HIPAA, and GDPR requirements for data protection while still leveraging powerful cloud AI.
+                    Teams can combine TEE infrastructure with their own legal, privacy, and compliance review processes for sensitive AI workloads.
                   </p>
                 </div>
               </div>

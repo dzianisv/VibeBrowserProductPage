@@ -162,7 +162,7 @@ export default async function BlogPostPage(props: { params: Promise<Params> }) {
   }
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(168,85,247,0.10),transparent_30%),linear-gradient(to_bottom,#fafafa,#ffffff_16rem)] dark:bg-none dark:bg-[#202124] font-sans">
+    <div className="min-h-screen bg-[#202124] font-sans">
       <SiteNav />
       <main className="container mx-auto max-w-4xl px-5 py-8 md:px-6 md:py-12">
         <div className="mx-auto max-w-3xl">
@@ -174,13 +174,13 @@ export default async function BlogPostPage(props: { params: Promise<Params> }) {
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
           />
-          <Link href="/blog" className="inline-flex items-center text-sm font-medium text-purple-700 transition-colors hover:text-purple-800 dark:text-[#8ab4f8] dark:hover:text-[#aecbfa]">
+          <Link href="/blog" className="inline-flex items-center text-sm font-medium text-[#8ab4f8] transition-colors hover:text-[#aecbfa]">
             ← Back to blog
           </Link>
 
           <article className="mt-5">
             <header className="pb-8">
-              <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500 dark:text-[#9aa0a6]">
+              <div className="flex flex-wrap items-center gap-2 text-sm text-[#9aa0a6]">
                 <span>
                   {new Date(post.date).toLocaleDateString('en-US', {
                     year: 'numeric',
@@ -190,27 +190,22 @@ export default async function BlogPostPage(props: { params: Promise<Params> }) {
                   })}
                 </span>
                 <span>•</span>
-                <a
-                  href={post.authorUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="font-medium text-slate-600 underline decoration-slate-300 underline-offset-4 transition-colors hover:text-purple-700 dark:text-[#e8eaed] dark:decoration-[#5f6368] dark:hover:text-[#8ab4f8]"
-                >
+                <a href={post.authorUrl} className="font-medium text-[#8ab4f8] transition-colors hover:text-[#aecbfa]">
                   {post.author}
                 </a>
                 <span>•</span>
                 <span>{post.readingTimeMinutes} min read</span>
               </div>
-              <h1 className="mt-4 font-serif text-3xl font-semibold leading-tight tracking-tight text-slate-950 dark:text-[#e8eaed] md:text-5xl">
+              <h1 className="mt-4 font-serif text-3xl font-semibold leading-tight tracking-tight text-[#e8eaed] md:text-5xl">
                 {post.title}
               </h1>
-              <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600 dark:text-[#9aa0a6] md:text-lg md:leading-8">{post.description}</p>
+              <p className="mt-4 max-w-2xl text-base leading-7 text-[#9aa0a6] md:text-lg md:leading-8">{post.description}</p>
               {post.tags.length > 0 && (
                 <div className="mt-5 flex flex-wrap gap-2">
                   {post.tags.map((tag) => (
                     <span
                       key={`${post.slug}-${tag}`}
-                      className="inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700 dark:bg-[#3c4043] dark:text-[#e8eaed]"
+                      className="inline-flex rounded-full bg-[#3c4043] px-3 py-1 text-xs font-medium text-[#e8eaed]"
                     >
                       {tag}
                     </span>
@@ -219,25 +214,25 @@ export default async function BlogPostPage(props: { params: Promise<Params> }) {
               )}
             </header>
 
-            <div className="border-t border-slate-200 dark:border-[#3c4043] pt-8">
+            <div className="border-t border-[#3c4043] pt-8">
               <div
-                className="prose prose-slate max-w-none font-serif prose-headings:font-serif prose-headings:font-semibold prose-headings:tracking-tight prose-headings:text-slate-950 prose-p:text-[1.05rem] prose-p:leading-8 prose-li:text-[1.02rem] prose-li:leading-8 prose-strong:text-slate-950 prose-a:font-medium prose-a:text-purple-700 prose-a:decoration-purple-300 prose-a:underline-offset-4 prose-blockquote:border-l-purple-300 prose-blockquote:bg-purple-50/70 prose-blockquote:px-5 prose-blockquote:py-4 prose-blockquote:font-medium prose-blockquote:text-slate-700 prose-pre:rounded-xl prose-pre:bg-slate-950 prose-img:rounded-xl prose-img:shadow-none prose-hr:border-slate-200 md:prose-lg [&_a:hover]:text-purple-800 [&_code]:rounded-md [&_code]:bg-slate-100 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:font-mono [&_code]:text-[0.95em] [&_code]:text-slate-900 [&_pre_code]:bg-transparent [&_pre_code]:p-0 [&_pre_code]:text-slate-100 dark:prose-invert dark:prose-headings:text-[#e8eaed] dark:prose-p:text-[#e8eaed] dark:prose-li:text-[#e8eaed] dark:prose-strong:text-[#e8eaed] dark:prose-a:text-[#8ab4f8] dark:prose-a:decoration-[#5f6368] dark:prose-blockquote:border-l-[#5f6368] dark:prose-blockquote:bg-[#3c4043]/30 dark:prose-blockquote:text-[#9aa0a6] dark:prose-hr:border-[#3c4043] dark:[&_a:hover]:text-[#aecbfa] dark:[&_code]:bg-[#3c4043] dark:[&_code]:text-[#e8eaed]"
+                className="prose prose-invert max-w-none font-serif prose-headings:font-serif prose-headings:font-semibold prose-headings:tracking-tight prose-headings:text-[#e8eaed] prose-p:text-[1.05rem] prose-p:leading-8 prose-p:text-[#e8eaed] prose-li:text-[1.02rem] prose-li:leading-8 prose-li:text-[#e8eaed] prose-strong:text-[#e8eaed] prose-a:font-medium prose-a:text-[#8ab4f8] prose-a:decoration-[#5f6368] prose-a:underline-offset-4 prose-blockquote:border-l-[#5f6368] prose-blockquote:bg-[#3c4043]/30 prose-blockquote:px-5 prose-blockquote:py-4 prose-blockquote:font-medium prose-blockquote:text-[#9aa0a6] prose-pre:rounded-xl prose-pre:bg-slate-950 prose-img:rounded-xl prose-img:shadow-none prose-hr:border-[#3c4043] md:prose-lg [&_a:hover]:text-[#aecbfa] [&_code]:rounded-md [&_code]:bg-[#3c4043] [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:font-mono [&_code]:text-[0.95em] [&_code]:text-[#e8eaed] [&_pre_code]:bg-transparent [&_pre_code]:p-0 [&_pre_code]:text-slate-100"
                 dangerouslySetInnerHTML={{ __html: post.html }}
               />
             </div>
           </article>
 
           {relatedPosts.length > 0 && (
-            <section className="mt-12 border-t border-slate-200 dark:border-[#3c4043] pt-8">
-              <p className="text-sm font-semibold text-purple-700 dark:text-[#8ab4f8]">Read next</p>
-              <h2 className="mt-2 font-serif text-2xl font-semibold text-slate-950 dark:text-[#e8eaed]">Related posts</h2>
+            <section className="mt-12 border-t border-[#3c4043] pt-8">
+              <p className="text-sm font-semibold text-[#8ab4f8]">Read next</p>
+              <h2 className="mt-2 font-serif text-2xl font-semibold text-[#e8eaed]">Related posts</h2>
               <div className="mt-6 space-y-6">
                 {relatedPosts.map((relatedPost) => (
                   <article
                     key={relatedPost.slug}
-                    className="border-b border-slate-200 dark:border-[#3c4043] pb-6 last:border-b-0 last:pb-0"
+                    className="border-b border-[#3c4043] pb-6 last:border-b-0 last:pb-0"
                   >
-                    <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500 dark:text-[#9aa0a6]">
+                      <div className="flex flex-wrap items-center gap-2 text-sm text-[#9aa0a6]">
                       <span>
                         {new Date(relatedPost.date).toLocaleDateString('en-US', {
                           year: 'numeric',
@@ -249,21 +244,21 @@ export default async function BlogPostPage(props: { params: Promise<Params> }) {
                       <span>•</span>
                       <span>{relatedPost.readingTimeMinutes} min read</span>
                     </div>
-                    <h3 className="mt-3 font-serif text-2xl font-semibold tracking-tight text-slate-950 dark:text-[#e8eaed]">
+                    <h3 className="mt-3 font-serif text-2xl font-semibold tracking-tight text-[#e8eaed]">
                       <Link
                         href={`/blog/${relatedPost.slug}`}
-                        className="transition-colors hover:text-purple-700 dark:hover:text-[#8ab4f8]"
+                        className="transition-colors hover:text-[#8ab4f8]"
                       >
                         {relatedPost.title}
                       </Link>
                     </h3>
-                    <p className="mt-3 text-base leading-7 text-slate-600 dark:text-[#9aa0a6]">
+                    <p className="mt-3 text-base leading-7 text-[#9aa0a6]">
                       {relatedPost.description}
                     </p>
                     <div className="mt-4">
                       <Link
                         href={`/blog/${relatedPost.slug}`}
-                        className="inline-flex items-center text-sm font-semibold text-purple-700 transition-colors hover:text-purple-800 dark:text-[#8ab4f8] dark:hover:text-[#aecbfa]"
+                        className="inline-flex items-center text-sm font-semibold text-[#8ab4f8] transition-colors hover:text-[#aecbfa]"
                       >
                         Read article
                         <span className="ml-2">→</span>
@@ -275,20 +270,20 @@ export default async function BlogPostPage(props: { params: Promise<Params> }) {
             </section>
           )}
 
-          <aside className="mt-12 border-t border-slate-200 dark:border-[#3c4043] pt-8">
-            <p className="text-sm font-semibold text-purple-700 dark:text-[#8ab4f8]">Stay in the loop</p>
-            <h2 className="mt-2 font-serif text-2xl font-semibold text-slate-950 dark:text-[#e8eaed]">
+          <aside className="mt-12 border-t border-[#3c4043] pt-8">
+            <p className="text-sm font-semibold text-[#8ab4f8]">Stay in the loop</p>
+            <h2 className="mt-2 font-serif text-2xl font-semibold text-[#e8eaed]">
               Get the next product update in your inbox
             </h2>
-            <p className="mt-3 text-sm leading-7 text-slate-600 dark:text-[#9aa0a6]">
+            <p className="mt-3 text-sm leading-7 text-[#9aa0a6]">
               We publish product launches, browser automation benchmarks, and practical operator playbooks.
             </p>
             <div className="mt-4">
               <MailingListSubscribe />
             </div>
-            <p className="mt-4 text-sm text-slate-600 dark:text-[#9aa0a6]">
+            <p className="mt-4 text-sm text-[#9aa0a6]">
               Prefer a reader?{' '}
-              <Link href="/rss.xml" className="font-medium text-purple-700 transition-colors hover:text-purple-800 dark:text-[#8ab4f8] dark:hover:text-[#aecbfa]">
+              <Link href="/rss.xml" className="font-medium text-[#8ab4f8] transition-colors hover:text-[#aecbfa]">
                 Subscribe via RSS
               </Link>
               .

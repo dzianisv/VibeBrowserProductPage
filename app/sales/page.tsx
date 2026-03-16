@@ -31,16 +31,9 @@ const salesConfig: ProfessionConfig = {
     'Schedule follow-ups and send sequences',
     'Update CRM with meeting notes and next steps',
   ],
-  stats: [
-    { value: '15hrs', label: 'Saved per week' },
-    { value: '35%', label: 'More emails sent' },
-    { value: '3x', label: 'More meetings booked' },
-  ],
+  stats: [],
   tools: ['Gmail', 'Google Calendar', 'Salesforce', 'HubSpot', 'LinkedIn', 'Zoom', 'Calendly'],
-  testimonials: [
-    { quote: "Vibe handles my prospecting research while I focus on selling.", author: "James Mitchell", practice: "Account Executive, Enterprise SaaS" },
-    { quote: "Cut my admin time in half. More time for actual conversations.", author: "Rachel Green", practice: "Sales Director, Professional Services" },
-  ],
+  testimonials: [],
   faqs: [
     { question: 'Is Gmail integration secure?', answer: 'Yes. Uses OAuth. Credentials stored securely, never leave your control.' },
     { question: 'Does it work with my CRM?', answer: 'Salesforce, HubSpot, Pipedrive, and more supported.' },

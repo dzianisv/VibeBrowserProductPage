@@ -171,7 +171,7 @@ export function WaitlistDialogIncognito({ children, tier = "enterprise" }: Waitl
                 </div>
                 <div>
                   <p className="text-sm font-medium text-[#e8eaed]">Compliance Ready</p>
-                  <p className="text-xs text-[#9aa0a6]">SEC, FINRA, HIPAA audit support</p>
+                  <p className="text-xs text-[#9aa0a6]">Audit logs, review steps, and flexible deployment options</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">

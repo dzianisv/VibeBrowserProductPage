@@ -95,6 +95,12 @@ Check for:
 ### 9. Analytics & Tracking
 
 - [ ] GA4 loads (check Network tab for google-analytics.com requests)
+- [ ] Honeycomb telemetry routes return `202` after env vars are configured:
+  ```bash
+  curl -i -X POST http://localhost:3000/api/telemetry/events \
+    -H 'Content-Type: application/json' \
+    --data '{"eventName":"dialog_open","pathname":"/","properties":{"dialog_name":"waitlist_dialog"}}'
+  ```
 - [ ] Referral tracking works with UTM parameters:
   ```
   http://localhost:3000?utm_source=test&utm_medium=manual&utm_campaign=testing

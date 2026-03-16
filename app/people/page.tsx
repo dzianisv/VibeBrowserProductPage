@@ -48,11 +48,7 @@ const peopleConfig: ProfessionConfig = {
     'Download all 1099s and W-2s for tax filing',
   ],
   tools: ['Gmail', 'Google Calendar', 'LinkedIn', 'Amazon', 'Uber', 'Doordash', 'Netflix', 'Spotify', 'FreetaxUSA'],
-  testimonials: [
-    { quote: "Vibe handles my email while I'm in meetings. It's like having a personal assistant.", author: "Jessica Miller", practice: "Product Manager" },
-    { quote: "Applied to 20 jobs in one weekend. Vibe filled out all the forms for me.", author: "David Chen", practice: "Job Seeker" },
-    { quote: "I asked Vibe Co-Pilot to download all 1099s to file them on freetaxusa.com. Done in 10m. It will take a few hours for me to do that manually on all my bank and brokerage accounts.", author: "Alex Thompson", practice: "Freelancer" },
-  ],
+  testimonials: [],
   faqs: [
     { question: 'Does Vibe read my emails?', answer: 'Vibe only reads emails to help you manage them. Your data is processed locally or encrypted - we never use it to train models.' },
     { question: 'Can Vibe make purchases?', answer: 'Vibe can research and recommend products, but all purchases require your approval.' },

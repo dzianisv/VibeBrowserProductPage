@@ -31,20 +31,13 @@ const recruitersConfig: ProfessionConfig = {
     'Update CRM status and schedule follow-ups automatically',
     'Research salary ranges and competitor teams',
   ],
-  stats: [
-    { value: '22%', label: 'Higher response rates' },
-    { value: '10hrs', label: 'Saved per week' },
-    { value: '2x', label: 'More candidates' },
-  ],
+  stats: [],
   tools: ['LinkedIn', 'Greenhouse', 'Lever', 'Bullhorn', 'Indeed', 'Glassdoor', 'Ashby', 'JazzHR'],
-  testimonials: [
-    { quote: "We doubled our qualified candidate pipeline without adding recruiters.", author: "Tom Anderson", practice: "Head of Talent, Series B Tech Company" },
-    { quote: "The skills-based matching is game-changing. Vibe finds candidates we'd never discover.", author: "Lisa Chang", practice: "Technical Recruiter, Enterprise SaaS" },
-  ],
+  testimonials: [],
   faqs: [
     { question: 'Can Vibe send LinkedIn messages automatically?', answer: 'Vibe drafts and queues messages for your approval before sending.' },
     { question: 'Does Vibe work with my ATS/CRM?', answer: 'Yes. Integrates with Greenhouse, Lever, Bullhorn, Ashby, and most major platforms.' },
-    { question: 'Is this compliant with LinkedIn policies?', answer: 'Vibe operates within authenticated sessions with human approval for each message.' },
+    { question: 'How should teams use this with platform policies?', answer: 'Teams should review each workflow against the policies of the platforms they use. Vibe supports human approval before sensitive actions.' },
   ],
 }
 

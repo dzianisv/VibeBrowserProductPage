@@ -16,6 +16,8 @@ const WEB_VITALS_ENDPOINT = '/api/telemetry/web-vitals'
 
 export function WebVitals() {
   const reportMetric = useCallback((metric: ReportableMetric) => {
+    const sanitizedHref = `${window.location.origin}${window.location.pathname}`
+
     const payload = JSON.stringify({
       id: metric.id,
       name: metric.name,
@@ -24,7 +26,7 @@ export function WebVitals() {
       rating: metric.rating,
       navigationType: metric.navigationType,
       pathname: window.location.pathname,
-      href: window.location.href,
+      href: sanitizedHref,
     })
 
     if (navigator.sendBeacon) {

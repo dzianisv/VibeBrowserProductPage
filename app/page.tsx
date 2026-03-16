@@ -2,16 +2,16 @@ import type { Metadata } from 'next'
 import Component from '../landing-page'
 
 export const metadata: Metadata = {
-  title: 'Vibe Co-Pilot | AI Browser Automation for Google Workspace and MCP',
+  title: 'Vibe Co-Pilot | AI Browser Automation for Real Browser Sessions',
   description:
-    'AI browser automation that operates websites, Gmail, and Google Calendar with MCP access, model-flexible routing, reusable skills, and a secure secrets vault.',
+    'AI browser automation for real logged-in browser sessions. Operate websites, Gmail, and Google Calendar directly or via MCP from Claude Code, Codex, Gemini CLI, and other agents.',
   alternates: {
     canonical: 'https://www.vibebrowser.app',
   },
   openGraph: {
-    title: 'Vibe Co-Pilot | AI Browser Automation',
+    title: 'Vibe Co-Pilot | Real Browser AI Automation',
     description:
-      'AI browser automation for websites, Gmail, and Google Calendar with MCP access, reusable skills, and secure model-flexible execution.',
+      'AI browser automation for real logged-in browser sessions with MCP access, Google Workspace tools, and reusable skills.',
     url: 'https://www.vibebrowser.app',
     images: [
       {
@@ -24,9 +24,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Vibe Co-Pilot | AI Browser Automation',
+    title: 'Vibe Co-Pilot | Real Browser AI Automation',
     description:
-      'AI browser automation for websites, Gmail, and Google Calendar with MCP access, reusable skills, and secure model-flexible execution.',
+      'AI browser automation for real logged-in browser sessions with MCP access, Google Workspace tools, and reusable skills.',
     images: ['/og/home.svg'],
   },
 }
@@ -36,7 +36,7 @@ const pageJsonLd = {
   '@type': 'WebPage',
   name: 'Vibe Co-Pilot | AI Browser Automation for Google Workspace and MCP',
   description:
-    'AI browser automation for websites, Gmail, and Google Calendar with MCP access, reusable skills, and model-flexible execution.',
+    'AI browser automation for real logged-in browser sessions with MCP access, reusable skills, and model-flexible execution.',
   url: 'https://www.vibebrowser.app',
   inLanguage: 'en-US',
   isPartOf: {

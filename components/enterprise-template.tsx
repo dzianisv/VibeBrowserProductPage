@@ -234,11 +234,11 @@ export default function EnterpriseTemplate({ config }: EnterpriseTemplateProps) 
                 )}
               </div>
 
-              {/* Trust indicators */}
+              {/* Deployment indicators */}
               <div className="flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm text-[#9aa0a6] mt-8 pt-8 border-t border-[#3c4043]">
                 <span className="flex items-center gap-2">
                   <ShieldCheck className="w-4 h-4 text-[#81c995]" />
-                  SOC 2 Type II
+                  Audit logs
                 </span>
                 <span className="flex items-center gap-2">
                   <Server className="w-4 h-4" />
@@ -246,11 +246,11 @@ export default function EnterpriseTemplate({ config }: EnterpriseTemplateProps) 
                 </span>
                 <span className="flex items-center gap-2">
                   <Lock className="w-4 h-4" />
-                  TEE-Protected
+                  TEE-Ready
                 </span>
                 <span className="flex items-center gap-2">
                   <FileCheck className="w-4 h-4" />
-                  FINRA Compliant
+                  Human approvals
                 </span>
               </div>
             </div>
@@ -486,7 +486,7 @@ export default function EnterpriseTemplate({ config }: EnterpriseTemplateProps) 
                   Four ways to run AI
                 </h2>
                 <p className="text-[#9aa0a6]">
-                  Choose the deployment model that matches your privacy and compliance requirements
+                  Choose the deployment model that matches your privacy and governance requirements
                 </p>
               </div>
 
@@ -570,7 +570,7 @@ export default function EnterpriseTemplate({ config }: EnterpriseTemplateProps) 
                       </li>
                       <li className="flex items-center gap-2">
                         <CheckCircle className="w-4 h-4 text-[#81c995]" />
-                        150+ tokens/sec
+                        Managed model access
                       </li>
                     </ul>
                   </CardContent>
@@ -582,7 +582,7 @@ export default function EnterpriseTemplate({ config }: EnterpriseTemplateProps) 
                       <Shield className="w-6 h-6 text-[#9aa0a6]" />
                       <span className="text-xs px-2 py-1 rounded bg-[#3c4043] text-[#9aa0a6]">Enterprise</span>
                     </div>
-                    <h3 className="text-lg font-medium text-[#e8eaed] mb-2">Open-Source TEE</h3>
+                    <h3 className="text-lg font-medium text-[#e8eaed] mb-2">TEE Deployment Path</h3>
                     <p className="text-sm text-[#9aa0a6] mb-4">
                       Run using our API with a variety of models.
                     </p>
@@ -597,7 +597,7 @@ export default function EnterpriseTemplate({ config }: EnterpriseTemplateProps) 
                       </li>
                       <li className="flex items-center gap-2">
                         <CheckCircle className="w-4 h-4 text-[#81c995]" />
-                        150+ tokens/sec
+                        TEE-oriented deployment path
                       </li>
                       <li className="flex items-center gap-2">
                         <CheckCircle className="w-4 h-4 text-[#81c995]" />
@@ -613,12 +613,9 @@ export default function EnterpriseTemplate({ config }: EnterpriseTemplateProps) 
               </div>
 
               <div className="mt-8 text-center">
-                <p className="text-sm text-[#9aa0a6] mb-2">Compliance:</p>
-                <div className="flex flex-wrap justify-center gap-4 text-sm">
-                  <span className="text-[#81c995]">SOC 2 Type II in progress</span>
-                  <span className="text-[#81c995]">HIPAA In Progress</span>
-                  <span className="text-[#81c995]">FINRA Compliant</span>
-                </div>
+                <p className="text-sm text-[#9aa0a6] max-w-2xl mx-auto">
+                  Deployment choices, audit logs, and approval workflows can help teams fit Vibe into stricter privacy and governance environments.
+                </p>
               </div>
             </div>
           </section>
@@ -910,7 +907,7 @@ export default function EnterpriseTemplate({ config }: EnterpriseTemplateProps) 
               Ready to get started?
             </h2>
             <p className="text-[#9aa0a6] mb-8 max-w-xl mx-auto">
-              Join teams at leading organizations who trust Vibe Co-Pilot.
+              Talk with us about your deployment, workflow, and privacy requirements.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               {config.ctaIsMailto ? (

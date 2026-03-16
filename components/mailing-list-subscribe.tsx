@@ -41,7 +41,7 @@ export function MailingListSubscribe() {
 
   if (success) {
     return (
-      <div className="flex items-center gap-2 text-sm text-green-600">
+      <div className="flex items-center gap-2 text-sm text-green-400">
         <CheckCircle className="w-4 h-4" />
         <span>Subscribed! Check your inbox.</span>
       </div>
@@ -49,32 +49,25 @@ export function MailingListSubscribe() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-2">
-      <div className="flex items-center gap-1.5 text-sm font-semibold text-muted-foreground mb-1">
-        <Mail className="w-3.5 h-3.5" />
-        Dev Mailing List
-      </div>
-      <div className="flex gap-2">
-        <Input
-          type="email"
-          placeholder="you@email.com"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          disabled={isLoading}
-          required
-          className="h-9 text-sm"
-        />
-        <Button
-          type="submit"
-          size="sm"
-          disabled={isLoading}
-          className="bg-purple-600 hover:bg-purple-700 text-white h-9 px-4 whitespace-nowrap"
-        >
-          {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Subscribe"}
-        </Button>
-      </div>
-      {error && <p className="text-xs text-red-500">{error}</p>}
-      <p className="text-xs text-muted-foreground">No spam. Unsubscribe anytime.</p>
+    <form onSubmit={handleSubmit} className="flex gap-2">
+      <Input
+        type="email"
+        placeholder="you@email.com"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        disabled={isLoading}
+        required
+        className="h-9 text-sm bg-[#303134] border-[#5f6368] text-[#e8eaed] placeholder:text-[#9aa0a6]"
+      />
+      <Button
+        type="submit"
+        size="sm"
+        disabled={isLoading}
+        className="bg-[#8ab4f8] hover:bg-[#aecbfa] text-[#202124] h-9 px-4 whitespace-nowrap font-medium"
+      >
+        {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Subscribe"}
+      </Button>
+      {error && <p className="text-xs text-red-400">{error}</p>}
     </form>
   )
 }

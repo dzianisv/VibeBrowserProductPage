@@ -20,7 +20,7 @@ const lawyersConfig: ProfessionConfig = {
     { icon: 'Shield', title: 'TEE Privacy', description: 'Run AI in Trusted Execution Environment with cryptographic isolation.' },
     { icon: 'Lock', title: 'Privilege Protected', description: 'On-premise and TEE deployments maintain attorney-client privilege.' },
     { icon: 'FileText', title: 'Legal Research', description: 'Search case databases, extract precedent, draft summaries.' },
-    { icon: 'Scale', title: 'Compliance-Ready', description: 'SOC 2 path, audit logs, human-in-the-loop approvals.' },
+    { icon: 'Scale', title: 'Governance Controls', description: 'Audit logs, review steps, and deployment choices for sensitive legal workflows.' },
     { icon: 'Server', title: 'Self-Hosted', description: 'Run entirely on your infrastructure. Data never leaves.' },
     { icon: 'Cpu', title: 'NVIDIA Jetson Orin', description: 'Works with self-hosted LLMs on NVIDIA Jetson Orin Nano Super. Full AI privacy on-premise.' },
     { icon: 'Building2', title: 'CRM Integration', description: 'Works with Clio, NetDocuments, iManage, and more.' },
@@ -32,14 +32,11 @@ const lawyersConfig: ProfessionConfig = {
     'Automate due diligence research',
   ],
   tools: ['Clio', 'NetDocuments', 'iManage', 'Rocket Matter', 'LexisNexis', 'Westlaw'],
-  testimonials: [
-    { quote: "Vibe's TEE deployment let us use AI for case research without risking privilege.", author: "Robert Williams", practice: "Partner, AmLaw 100 Firm - Corporate Litigation" },
-    { quote: "We reduced research time by 65% while keeping all client data on-premise.", author: "Amanda Foster", practice: "General Counsel, Regional Healthcare System" },
-  ],
+  testimonials: [],
   faqs: [
     { question: 'How does TEE protect attorney-client privilege?', answer: 'TEE creates hardware-enclave where data is encrypted during processing. No third party can access.' },
     { question: 'Can Vibe work with our existing legal software?', answer: 'Yes. Integrates with Clio, NetDocuments, iManage, and custom systems.' },
-    { question: 'Is Vibe SOC 2 compliant?', answer: 'Compliance roadmap to SOC 2 Type II. TEE option provides additional security controls.' },
+    { question: 'What governance controls are available?', answer: 'Teams can combine audit logs, review steps, and local or self-hosted deployment choices for more sensitive legal workflows.' },
   ],
 }
 

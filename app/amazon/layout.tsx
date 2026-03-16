@@ -43,8 +43,8 @@ export const metadata: Metadata = {
     description: 'AI automation for Amazon FBA with Google Workspace, MCP agent access, skills, and a secrets vault.',
   },
   robots: {
-    index: true,
-    follow: true,
+    index: false,
+    follow: false,
   },
 }
 

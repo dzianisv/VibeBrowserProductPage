@@ -3,6 +3,39 @@
 import Script from 'next/script'
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-EYZHHTHR57'
+const TELEMETRY_EVENTS_ENDPOINT = '/api/telemetry/events'
+
+type TelemetryEventValue = string | number | boolean | null
+
+function sendTelemetryEvent(
+  eventName: string,
+  eventParams?: Record<string, TelemetryEventValue>
+) {
+  if (typeof window === 'undefined') {
+    return
+  }
+
+  const payload = JSON.stringify({
+    eventName,
+    pathname: window.location.pathname,
+    properties: eventParams,
+  })
+
+  if (navigator.sendBeacon) {
+    const beacon = new Blob([payload], { type: 'application/json' })
+    navigator.sendBeacon(TELEMETRY_EVENTS_ENDPOINT, beacon)
+    return
+  }
+
+  void fetch(TELEMETRY_EVENTS_ENDPOINT, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: payload,
+    keepalive: true,
+  })
+}
 
 export function GoogleAnalytics() {
   return (
@@ -34,6 +67,8 @@ export function trackEvent(
   if (typeof window !== 'undefined' && 'gtag' in window) {
     (window as typeof window & { gtag: (...args: unknown[]) => void }).gtag('event', eventName, eventParams)
   }
+
+  sendTelemetryEvent(eventName, eventParams)
 }
 
 // Track waitlist signup with referral data

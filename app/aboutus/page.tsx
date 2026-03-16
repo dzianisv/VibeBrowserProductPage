@@ -238,7 +238,7 @@ export default function AboutUsPage() {
                     </div>
                   </div>
                   <p className="text-[#9aa0a6] mb-6 leading-relaxed">
-                    AI-powered browser automation for everyone. Available as a Chrome extension or standalone browser. Tell it what you need in plain English — it navigates sites, fills forms, drafts messages, and researches across dozens of tabs. Supports any LLM including fully local AI via Gemini Nano. Teams get shared workflows and admin controls. Enterprises get TEE security, SSO, SOC 2 compliance, and dedicated support.
+                    AI-powered browser automation for everyone. Available as a Chrome extension or standalone browser. Tell it what you need in plain English — it navigates sites, fills forms, drafts messages, and researches across dozens of tabs. Supports any LLM including fully local AI via Gemini Nano. Teams get shared workflows and admin controls. Enterprises get TEE-oriented deployment paths, SSO, and dedicated onboarding support.
                   </p>
                   <div className="flex flex-wrap gap-2 mb-6">
                     <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">Chrome Extension</span>
@@ -249,7 +249,7 @@ export default function AboutUsPage() {
                     <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">Local AI</span>
                     <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">SSO</span>
                     <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">TEE Security</span>
-                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">SOC 2</span>
+                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">Audit Logs</span>
                   </div>
                   <div className="flex flex-wrap gap-3">
                     <Link href="/" className="flex-1">

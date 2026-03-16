@@ -18,22 +18,18 @@ export const metadata: Metadata = {
     'NVIDIA H100 confidential computing',
     'secure AI inference',
     'zero trust AI',
-    'HIPAA AI compliance',
-    'SOC 2 AI',
+    'private AI infrastructure',
+    'attested AI infrastructure',
     'encrypted LLM inference',
   ],
   alternates: {
     canonical: 'https://www.vibebrowser.app/tee',
   },
   robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
+    index: false,
+    follow: false,
+    // Noindexing TEE whitepaper as it attracts tangential backend/inference impressions
+    // that do not align with the core AI Browser/MCP product wedge.
   },
   openGraph: {
     title: 'TEE Security Whitepaper — Privacy-Preserving LLM Inference',
