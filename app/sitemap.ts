@@ -19,12 +19,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/tee`,
-      lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
       url: `${baseUrl}/enterprise`,
       lastModified: now,
       changeFrequency: 'monthly',
@@ -56,13 +50,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'lawyers',
     'recruiters',
     'sales',
-    'amazon',
     'investors',
     'crypto',
     'tax',
     'researchers',
     'developers',
     'agentic-team',
+    'mobile',
   ]
 
   const professionSitemap: MetadataRoute.Sitemap = professionPages.map((page) => ({
