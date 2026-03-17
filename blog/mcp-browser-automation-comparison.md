@@ -63,6 +63,17 @@ These skip the middleman. They hook straight into the browser via a native exten
                    +-------------------------+
 ```
 
+### 3. The Headless Automation Approach (e.g., Microsoft Playwright MCP)
+Rather than bridging to your daily driver browser, tools like [microsoft/playwright-mcp](https://github.com/microsoft/playwright-mcp) wrap an existing testing framework (Playwright). The MCP server acts as an API gateway, launching a fresh, usually headless browser instance and exposing Playwright's native commands (navigate, click, evaluate) directly to the AI as MCP tools.
+
+```ascii
++----------+       +-------------------+       +-----------------------+
+|          |       |                   |       |                       |
+| AI Agent | <---> |  Playwright MCP   | <---> | Headless Browser (Cr) |
+|          |       |                   |       |                       |
++----------+       +-------------------+       +-----------------------+
+```
+
 ---
 
 ## 🔎 Seeing the Page: State Representation
@@ -84,6 +95,19 @@ Let me give you a real-world example: **Facebook Marketplace**. It is a visually
 | **HTML** | ✅ | ✅ | ✅ | ✅ | ✅ |
 | **Screenshots** | ✅ | ✅ | ✅ | ✅ | ✅ |
 | **Visual Labels** | ✅ (Vimium-style) | ✅ (via scripts)| ❌ | ❌ | ✅ |
+
+### The Real Cost of Context (Token Benchmarking)
+
+I actually [ran a benchmark on this exact issue](https://www.linkedin.com/feed/update/urn:li:activity:7435744737472585729/) recently, comparing the raw token consumption of HTML, A11y Trees, and Markdown across different web applications using VibeBrowser. The results were pretty eye-opening:
+
+| Web App | HTML (Tokens) | A11y Tree (Tokens) | Markdown (Tokens) | Winner |
+| :--- | ---: | ---: | ---: | :--- |
+| **Gmail** | 25,752 | 17,119 (-33.5%) | 12,708 (-50.7%) | 🏆 **Markdown** |
+| **LinkedIn (Feed)** | 21,294 | 15,033 (-29.4%) | 15,472 (-27.3%) | 🏆 **A11y Tree** |
+| **LinkedIn (Conversation)** | 8,458 | 14,906 (+76.2%) | 4,323 (-48.9%) | 🏆 **Markdown** |
+| **Aggregate Total** | **55,504** | **47,058** (-15.2%) | **32,503** (-41.4%) | 🏆 **Markdown** |
+
+*Note: In deeply nested conversational UIs like LinkedIn DMs, A11y trees can sometimes bloat to be even larger than the raw HTML! Overall, Markdown provides a massive ~41.4% weighted reduction in token usage compared to raw HTML, which is why VibeBrowser defaults to it.*
 
 ---
 
@@ -122,9 +146,11 @@ Setting this up usually means launching Chrome from the terminal with `--remote-
 
 The catch? It has a nasty habit of leaking memory over time. If you leave it running, it will eventually drag your system to a halt. (I actually wrote a whole separate post diving into the [Chrome DevTools MCP memory issues](/blog/chromeDevtoolsMcpIssue.medium) if you want the gory details).
 
-### 4. Playwright MCP
+### 4. Playwright MCP (microsoft/playwright-mcp)
 **Ease of Setup:** ⭐⭐⭐⭐ | **Daily Use:** ⭐⭐⭐
-Standard `npm` or `pip` install, which is nice. But in daily use, it defaults to spinning up fresh, headless browser contexts. This means you are constantly slamming into Cloudflare challenges, CAPTCHAs, and login walls. 
+Standard `npx` install via the official Microsoft repository, which is nice. But in daily use, it defaults to spinning up fresh, headless browser contexts. This means you are constantly slamming into Cloudflare challenges, CAPTCHAs, and login walls. 
+
+Honestly, I think that the official `chrome-devtools-mcp` with `--autoConnect` looks better than `https://github.com/microsoft/playwright-mcp`. Being able to connect to your existing, authenticated browser session via DevTools beats fighting bot detection in a fresh headless instance any day of the week.
 
 ### 5. BrowserMCP.io
 **Ease of Setup:** ⭐⭐⭐⭐⭐ | **Daily Use:** ⭐⭐⭐⭐
