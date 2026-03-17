@@ -122,7 +122,7 @@ const COMPARISON_ROWS: ComparisonRow[] = [
   { feature: "No debug port required", vibe: true, playwright: "partial", devtools: false, browsermcp: true, detail: "Playwright's default mode requires --remote-debugging-port; extension mode avoids this but adds token auth setup" },
   { feature: "Multi-agent support", vibe: true, playwright: false, devtools: false, browsermcp: false, detail: "Multiple AI agents control the same browser simultaneously via relay daemon" },
   { feature: "Internet-exposed relay", vibe: true, playwright: false, devtools: false, browsermcp: false, detail: "Expose your relay to the internet so remote agents can connect to your local browser from anywhere" },
-  { feature: "Google Workspace integration", vibe: true, playwright: false, devtools: false, browsermcp: false, detail: "Gmail search/send/draft, Calendar view/create — 7 native tools" },
+  { feature: "Google Workspace integration", vibe: true, playwright: false, devtools: false, browsermcp: false, detail: "Gmail search/send/draft/thread/message plus Calendar view/create/delete — 8 native tools" },
   { feature: "Credential vault", vibe: true, playwright: false, devtools: false, browsermcp: false, detail: "Secure password manager that never exposes secrets to the LLM" },
   { feature: "Sub-agent orchestration", vibe: true, playwright: false, devtools: false, browsermcp: false, detail: "Spawn sub-agents with isolated context and parallel tool execution" },
   { feature: "Standalone AI browser", vibe: true, playwright: false, devtools: false, browsermcp: false, detail: "Also works as a standalone AI co-pilot directly in your browser" },
@@ -147,36 +147,38 @@ const TOOL_CATEGORIES: { category: string; icon: React.ReactNode; tools: ToolDef
     category: "Navigation",
     icon: <Globe className="w-5 h-5" />,
     tools: [
-      { name: "navigate_to_url", description: "Navigate to URL and wait for load" },
-      { name: "navigate", description: "Browser history back / forward / refresh" },
+      { name: "navigate_page", description: "Navigate to a URL or go back / forward / reload" },
+      { name: "wait_for", description: "Wait for text to appear on the page" },
     ],
   },
   {
     category: "Tab Management",
     icon: <Monitor className="w-5 h-5" />,
     tools: [
-      { name: "create_new_tab", description: "Open new tab with optional URL" },
-      { name: "switch_to_tab", description: "Switch browser focus to tab" },
-      { name: "set_working_tab", description: "Set working tab without focus change" },
+      { name: "list_pages", description: "List open browser pages/tabs" },
+      { name: "new_page", description: "Open a new page with optional URL" },
+      { name: "close_page", description: "Close a page by ID" },
     ],
   },
   {
     category: "Index-Based Interaction",
     icon: <MousePointerClick className="w-5 h-5" />,
     tools: [
-      { name: "click_by_index", description: "Click element by [index:score]" },
-      { name: "fill_by_index", description: "Fill form field by index" },
-      { name: "select_by_index", description: "Select dropdown option by index" },
+      { name: "click", description: "Click by canonical ref like A7, M12, or 12" },
+      { name: "fill", description: "Fill an input/select/contenteditable by canonical ref" },
+      { name: "fill_form", description: "Fill multiple fields in one call" },
       { name: "scroll_page", description: "Scroll page up or down" },
-      { name: "media_control_by_index", description: "Control video/audio playback" },
+      { name: "media_control", description: "Control video/audio playback" },
     ],
   },
   {
     category: "Advanced Interaction",
     icon: <Keyboard className="w-5 h-5" />,
     tools: [
-      { name: "keypress", description: "Send keyboard keys and shortcuts" },
-      { name: "hover_element", description: "Hover to trigger tooltips/menus" },
+      { name: "type_text", description: "Type into the focused field" },
+      { name: "press_key", description: "Send keyboard keys and shortcuts" },
+      { name: "hover", description: "Hover to trigger tooltips/menus" },
+      { name: "drag", description: "Drag between elements or coordinates" },
     ],
   },
   {
@@ -190,10 +192,18 @@ const TOOL_CATEGORIES: { category: string; icon: React.ReactNode; tools: ToolDef
     ],
   },
   {
-    category: "Visual",
+    category: "Inspection & State",
     icon: <Eye className="w-5 h-5" />,
     tools: [
+      { name: "take_snapshot", description: "Composite markdown + a11y + optional screenshot" },
+      { name: "get_page_markdown", description: "Extract indexed markdown from the current page" },
+      { name: "take_md_snapshot", description: "Take a dedicated indexed markdown snapshot" },
+      { name: "take_a11y_snapshot", description: "Take a dedicated indexed accessibility-tree snapshot" },
+      { name: "take_html_snapshot", description: "Take a dedicated indexed HTML snapshot" },
       { name: "take_screenshot", description: "JPEG screenshot with resize, grayscale, quality controls" },
+      { name: "evaluate_script", description: "Run JavaScript in the current page context" },
+      { name: "list_network_requests", description: "List captured network requests" },
+      { name: "get_network_request", description: "Inspect one captured request/response" },
     ],
   },
   {
@@ -207,6 +217,7 @@ const TOOL_CATEGORIES: { category: string; icon: React.ReactNode; tools: ToolDef
       { name: "gmail_send_message", description: "Send email" },
       { name: "calendar_view", description: "View upcoming events" },
       { name: "calendar_create", description: "Create calendar event" },
+      { name: "calendar_delete", description: "Delete a calendar event" },
     ],
   },
   {
@@ -215,6 +226,9 @@ const TOOL_CATEGORIES: { category: string; icon: React.ReactNode; tools: ToolDef
     tools: [
       { name: "secrets_manager", description: "List/read saved credentials" },
       { name: "typein_secret", description: "Fill form from vault (hidden from LLM)" },
+      { name: "settings", description: "Read or update extension settings and skills" },
+      { name: "settings_list", description: "List stored settings keys and skill entries" },
+      { name: "memory_search", description: "Recall stored context before acting" },
     ],
   },
 ]

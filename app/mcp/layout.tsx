@@ -147,7 +147,7 @@ const jsonLd = {
   },
   featureList: [
     'Multi-agent simultaneous browser control',
-    '25+ browser automation tools',
+    '35+ browser automation and workspace tools',
     'Google Workspace integration (Gmail, Calendar)',
     'Skills library for reusable workflows',
     'Secure credential vault',
