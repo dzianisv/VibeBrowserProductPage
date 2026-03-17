@@ -24,6 +24,21 @@ Visit: https://vercel.com/[your-team]/vibebrowserproductpage/settings/environmen
 - **Environments**: ✅ Production, ✅ Preview, ✅ Development
 - **Description**: Optional - for email notifications when someone joins waitlist
 
+#### NEXT_PUBLIC_POSTHOG_TOKEN (Optional, recommended)
+- **Value**: `[Your PostHog project token]`
+- **Environments**: ✅ Production, ✅ Preview, ✅ Development
+- **Description**: Enables PostHog pageviews, autocapture, session replay, and custom waitlist events
+
+#### NEXT_PUBLIC_POSTHOG_HOST (Optional)
+- **Value**: `/ingest`
+- **Environments**: ✅ Production, ✅ Preview, ✅ Development
+- **Description**: Recommended first-party PostHog proxy path to reduce ad-blocking and route analytics through your own domain
+
+#### NEXT_PUBLIC_POSTHOG_UI_HOST (Optional)
+- **Value**: `https://us.posthog.com`
+- **Environments**: ✅ Production, ✅ Preview, ✅ Development
+- **Description**: PostHog app host used for in-product links and region-specific setup
+
 ## Quick Setup Methods
 
 ### Method 1: Manual (Recommended)
@@ -57,6 +72,21 @@ echo "<SUPABASE_PROJECT_URL>" | vercel env add SUPABASE_PROJECT_URL development
 echo "<SUPABASE_API_KEY>" | vercel env add SUPABASE_API_KEY production
 echo "<SUPABASE_API_KEY>" | vercel env add SUPABASE_API_KEY preview
 echo "<SUPABASE_API_KEY>" | vercel env add SUPABASE_API_KEY development
+
+# Set NEXT_PUBLIC_POSTHOG_TOKEN
+echo "<NEXT_PUBLIC_POSTHOG_TOKEN>" | vercel env add NEXT_PUBLIC_POSTHOG_TOKEN production
+echo "<NEXT_PUBLIC_POSTHOG_TOKEN>" | vercel env add NEXT_PUBLIC_POSTHOG_TOKEN preview
+echo "<NEXT_PUBLIC_POSTHOG_TOKEN>" | vercel env add NEXT_PUBLIC_POSTHOG_TOKEN development
+
+# Set NEXT_PUBLIC_POSTHOG_HOST
+echo "/ingest" | vercel env add NEXT_PUBLIC_POSTHOG_HOST production
+echo "/ingest" | vercel env add NEXT_PUBLIC_POSTHOG_HOST preview
+echo "/ingest" | vercel env add NEXT_PUBLIC_POSTHOG_HOST development
+
+# Set NEXT_PUBLIC_POSTHOG_UI_HOST
+echo "https://us.posthog.com" | vercel env add NEXT_PUBLIC_POSTHOG_UI_HOST production
+echo "https://us.posthog.com" | vercel env add NEXT_PUBLIC_POSTHOG_UI_HOST preview
+echo "https://us.posthog.com" | vercel env add NEXT_PUBLIC_POSTHOG_UI_HOST development
 ```
 
 ## After Adding Variables

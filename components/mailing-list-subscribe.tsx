@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { subscribeToMailingList } from "../actions/waitlist-supabase"
 import { CheckCircle, Loader2, Mail } from "lucide-react"
+import { trackMailingListSignup } from "@/components/google-analytics"
 
 export function MailingListSubscribe() {
   const [email, setEmail] = useState("")
@@ -27,6 +28,7 @@ export function MailingListSubscribe() {
     try {
       const result = await subscribeToMailingList(email)
       if (result.success) {
+        trackMailingListSignup('footer')
         setSuccess(true)
         setEmail("")
       } else {

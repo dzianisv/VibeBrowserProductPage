@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { SiteFooter } from "@/components/site-footer"
 import { Button } from "@/components/ui/button"
+import { trackCTAClick } from "@/components/google-analytics"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import {
@@ -409,7 +410,11 @@ export default function McpPage() {
             Vibe Co-Pilot →
           </Link>
           <Link href="https://docs.vibebrowser.app/getting-started/extension" target="_blank">
-            <Button size="sm" className="bg-[#8ab4f8] hover:bg-[#aecbfa] text-[#0a0a0a] font-medium rounded-full">
+            <Button
+              size="sm"
+              className="bg-[#8ab4f8] hover:bg-[#aecbfa] text-[#0a0a0a] font-medium rounded-full"
+              onClick={() => trackCTAClick('install_extension_docs', 'mcp_header')}
+            >
               Install Extension
             </Button>
           </Link>
@@ -443,7 +448,11 @@ export default function McpPage() {
               {/* Hero buttons: Install in Chrome + Install in [Agent] */}
               <div className="flex flex-col sm:flex-row gap-4 mt-2 items-center">
                 <Link href="https://docs.vibebrowser.app/getting-started/extension#option-2-developer-version-advanced" target="_blank">
-                  <Button size="lg" className="bg-[#8ab4f8] hover:bg-[#aecbfa] text-[#0a0a0a] font-medium px-8 py-6 h-auto rounded-full">
+                  <Button
+                    size="lg"
+                    className="bg-[#8ab4f8] hover:bg-[#aecbfa] text-[#0a0a0a] font-medium px-8 py-6 h-auto rounded-full"
+                    onClick={() => trackCTAClick('install_extension_docs', 'mcp_hero')}
+                  >
                     <Chrome className="mr-2 h-5 w-5" />
                     Install in Chrome
                   </Button>

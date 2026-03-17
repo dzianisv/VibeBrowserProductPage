@@ -54,6 +54,7 @@ Info,
 } from "lucide-react"
 import Link from "next/link"
 import { useState, useEffect, useRef } from "react"
+import { trackCTAClick } from "@/components/google-analytics"
 
 export default function Component() {
   const [currentDemo, setCurrentDemo] = useState(0)
@@ -284,7 +285,10 @@ export default function Component() {
                 <Button 
                   size="lg" 
                   className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white text-lg px-8 py-6 h-auto rounded-r-none" 
-                  onClick={() => window.open('https://chromewebstore.google.com/detail/vibe-ai-browser-co-pilot/djodpgokbmobeclicaicnnidccoinado', '_blank')}
+                  onClick={() => {
+                    trackCTAClick('install_extension', 'hero_primary')
+                    window.open('https://chromewebstore.google.com/detail/vibe-ai-browser-co-pilot/djodpgokbmobeclicaicnnidccoinado', '_blank')
+                  }}
                 >
                   <Chrome className="mr-2 h-5 w-5" />
                   Install Extension
@@ -302,6 +306,7 @@ export default function Component() {
                   <button
                     className="w-full px-4 py-3 text-left text-sm hover:bg-gray-50 flex items-center gap-3 border-b border-gray-100"
                     onClick={() => {
+                      trackCTAClick('install_extension_chrome_web_store', 'hero_dropdown')
                       window.open('https://chromewebstore.google.com/detail/vibe-ai-browser-co-pilot/djodpgokbmobeclicaicnnidccoinado', '_blank')
                       setInstallDropdownOpen(false)
                     }}
@@ -315,6 +320,7 @@ export default function Component() {
                   <button
                     className="w-full px-4 py-3 text-left text-sm hover:bg-gray-50 flex items-center gap-3"
                     onClick={() => {
+                      trackCTAClick('install_extension_developer_version', 'hero_dropdown')
                       window.open('https://vibeextensioncdn.blob.core.windows.net/extensions/vibe-ai-copilot-latest.zip', '_blank')
                       setInstallDropdownOpen(false)
                     }}

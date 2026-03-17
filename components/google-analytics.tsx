@@ -1,5 +1,6 @@
 'use client'
 
+import posthog from 'posthog-js'
 import Script from 'next/script'
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-EYZHHTHR57'
@@ -64,6 +65,14 @@ export function trackEvent(
   eventName: string, 
   eventParams?: Record<string, string | number | boolean>
 ) {
+  const hasPostHogToken = Boolean(
+    process.env.NEXT_PUBLIC_POSTHOG_TOKEN || process.env.NEXT_PUBLIC_POSTHOG_KEY
+  )
+
+  if (typeof window !== 'undefined' && hasPostHogToken) {
+    posthog.capture(eventName, eventParams)
+  }
+
   if (typeof window !== 'undefined' && 'gtag' in window) {
     (window as typeof window & { gtag: (...args: unknown[]) => void }).gtag('event', eventName, eventParams)
   }
@@ -101,5 +110,11 @@ export function trackCTAClick(ctaName: string, location: string) {
   trackEvent('cta_click', {
     cta_name: ctaName,
     location: location,
+  })
+}
+
+export function trackMailingListSignup(location: string) {
+  trackEvent('mailing_list_signup', {
+    location,
   })
 }

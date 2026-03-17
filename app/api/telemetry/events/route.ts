@@ -18,6 +18,7 @@ const telemetryEnabled = Boolean(
 const ALLOWED_EVENT_PROPERTIES: Record<string, Set<string>> = {
   cta_click: new Set(['cta_name', 'location']),
   dialog_open: new Set(['dialog_name']),
+  mailing_list_signup: new Set(['location']),
   generate_lead: new Set([
     'event_category',
     'event_label',

@@ -95,6 +95,10 @@ Check for:
 ### 9. Analytics & Tracking
 
 - [ ] GA4 loads (check Network tab for google-analytics.com requests)
+- [ ] PostHog loads (check Network tab for `us.i.posthog.com`, `/decide`, `/flags`, or `/e/` requests)
+- [ ] Custom PostHog events fire on waitlist dialog open and successful signup
+- [ ] Proxied PostHog traffic flows through first-party `/ingest/*` requests on deployed environments
+- [ ] Install CTAs emit `cta_click` events for homepage and MCP page entry points
 - [ ] Honeycomb telemetry routes return `202` after env vars are configured:
   ```bash
   curl -i -X POST http://localhost:3000/api/telemetry/events \
@@ -106,6 +110,7 @@ Check for:
   http://localhost:3000?utm_source=test&utm_medium=manual&utm_campaign=testing
   ```
 - [ ] Subscribe captures referral data (check database after signup)
+- [ ] Email inputs remain masked from session replay/autocapture
 
 ### 10. Performance
 
