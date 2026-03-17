@@ -34,18 +34,6 @@ next-env.d.ts
 !.agents/**
 !app/blog/
 !app/blog/**
-!blog/
-blog/**
-!blog/gpt-5-4-support-and-kimi-k2-5-free-tier.md
-!blog/march-3-9-2026-release-notes.md
-!blog/march-10-15-2026-release-notes.md
-!blog/state-of-ai-browser-solutions-2026.md
-!blog/vibebrowser-week-of-january-13-2026.md
-!blog/vibebrowser-week-of-january-20-2026.md
-!blog/vibebrowser-week-of-january-27-2026.md
-!blog/vibebrowser-week-of-february-3-2026.md
-!blog/vibebrowser-week-of-february-10-2026.md
-!blog/vibebrowser-weeks-of-february-24-2026.md
 .env
 .env.*
 !.env.example
@@ -53,4 +41,3 @@ blog/**
 # backup data (contains PII)
 old-waitlist-backup.json
 tmp/
-!blog/vibebrowser-openclaw-inspired-agent-memory.md

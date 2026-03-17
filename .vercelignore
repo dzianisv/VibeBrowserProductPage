@@ -1,1 +1,9 @@
-# Rebuild with Git LFS Mon Sep 29 19:29:01 +03 2025
+# Exclude
+.next/
+out/
+node_modules/
+.git/
+.vercel/
+
+# DO NOT IGNORE BLOG
+!blog/**
