@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
+import { trackCTAClick } from '@/components/google-analytics'
 import { SiteNav } from '@/components/site-nav'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -72,6 +73,8 @@ export interface ProfessionConfig {
 interface ProfessionTemplateProps {
   config: ProfessionConfig
 }
+
+const CHROME_WEB_STORE_URL = 'https://chromewebstore.google.com/detail/vibe-ai-browser-co-pilot/djodpgokbmobeclicaicnnidccoinado'
 
 const ECOSYSTEM_ADVANTAGES: ProfessionFeature[] = [
   {
@@ -152,6 +155,7 @@ export default function ProfessionTemplate({ config }: ProfessionTemplateProps) 
   const rotatingWord = useTypewriter(config.rotatingWords, 100, 60, 2500)
   const [currentDemo, setCurrentDemo] = useState(0)
   const videoRef = useRef<HTMLVideoElement>(null)
+  const installLocation = `${config.slug}_install`
 
   const nextDemo = () => {
     if (config.demos) {
@@ -170,6 +174,10 @@ export default function ProfessionTemplate({ config }: ProfessionTemplateProps) 
       videoRef.current.play()
     }
   }, [currentDemo])
+
+  const handleInstallClick = () => {
+    trackCTAClick('install_extension_chrome_web_store', installLocation)
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -192,7 +200,7 @@ export default function ProfessionTemplate({ config }: ProfessionTemplateProps) 
               {config.showDownloadButtons ? (
                 <>
                   <Button size="lg" className={`${config.gradientFrom.replace('from-', 'bg-')} hover:opacity-90 text-white rounded-full px-8 font-semibold`}>
-                    <a href="https://chromewebstore.google.com/detail/vibe-ai-browser-co-pilot/djodpgokbmobeclicaicnnidccoinado" target="_blank" className="flex items-center">
+                    <a href={CHROME_WEB_STORE_URL} target="_blank" rel="noreferrer" onClick={handleInstallClick} className="flex items-center">
                       <Chrome className="mr-2 h-5 w-5" />
                       Chrome Extension
                     </a>
@@ -233,9 +241,11 @@ export default function ProfessionTemplate({ config }: ProfessionTemplateProps) 
         <section className="py-8 border-b border-slate-200">
           <div className="container mx-auto px-6">
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className={`${config.gradientFrom.replace('from-', 'bg-')} hover:opacity-90 text-white rounded-full px-8 font-semibold`}>
-                <Chrome className="mr-2 h-5 w-5" />
-                Download for Chrome
+              <Button asChild size="lg" className={`${config.gradientFrom.replace('from-', 'bg-')} hover:opacity-90 text-white rounded-full px-8 font-semibold`}>
+                <a href={CHROME_WEB_STORE_URL} target="_blank" rel="noreferrer" onClick={handleInstallClick}>
+                  <Chrome className="mr-2 h-5 w-5" />
+                  Download for Chrome
+                </a>
               </Button>
               <WaitlistDialogIncognito>
                 <Button size="lg" variant="outline" className={`border-2 rounded-full px-8 font-semibold ${config.accentColor.replace('text-', 'border-').replace('300', '500')} ${config.accentColor} hover:opacity-80`}>

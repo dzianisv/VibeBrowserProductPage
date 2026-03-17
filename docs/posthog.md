@@ -97,6 +97,8 @@ Explicit `cta_click` coverage was added for:
 - Homepage hero dropdown -> Developer Version
 - MCP page header install button
 - MCP page hero install button
+- Profession landing page Chrome install buttons via `ProfessionTemplate`
+- Enterprise/teams contact-sales CTAs via `EnterpriseTemplate`
 
 ### 6. Privacy protection
 
@@ -166,16 +168,36 @@ curl -I 'https://www.vibebrowser.app/ingest/static/surveys.js?v=1.360.2'
    - dropdown `Chrome Web Store`
    - dropdown `Developer Version`
 3. In PostHog, confirm `cta_click` events with location values such as:
-   - `hero_primary`
-   - `hero_dropdown`
+    - `hero_primary`
+    - `hero_dropdown`
+    - `<profession-slug>_install`
 
 ### Check MCP page install events
 
 1. Visit `https://www.vibebrowser.app/mcp`
 2. Click the header and hero install buttons
 3. Confirm `cta_click` events with:
-   - `mcp_header`
-   - `mcp_hero`
+    - `mcp_header`
+    - `mcp_hero`
+
+### Check shared template install events
+
+1. Visit a profession page such as `https://www.vibebrowser.app/lawyers`
+2. Click the Chrome install CTA
+3. Confirm `cta_click` appears with `location=lawyers_install`
+
+### Check enterprise contact-sales events
+
+1. Visit `https://www.vibebrowser.app/teams` or `https://www.vibebrowser.app/enterprise`
+2. Click the hero `Contact Sales` CTA
+3. Confirm `cta_click` appears with `cta_name=contact_sales`
+4. Confirm `location` matches values such as:
+   - `teams_hero`
+   - `teams_pricing_primary`
+   - `teams_pricing_custom`
+   - `enterprise_hero`
+   - `enterprise_pricing_primary`
+   - `enterprise_pricing_custom`
 
 ### Check mailing-list event
 

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { trackCTAClick } from '@/components/google-analytics'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { WaitlistDialogIncognito } from '@/components/waitlist-dialog-incognito'
@@ -46,6 +47,8 @@ import {
 const iconMap: Record<string, React.ElementType> = {
   Shield, Lock, CheckCircle, XCircle, Server, ArrowRight, HardDrive, ChevronRight, Download, Brain, Zap, AlertTriangle, ShieldCheck, FileCheck, LineChart, Gavel, Receipt, Users, Settings, CreditCard, Building2, Key, BarChart3, Share2, Globe, EyeOff, Mail
 }
+
+const CHROME_WEB_STORE_URL = 'https://chromewebstore.google.com/detail/vibe-ai-browser-co-pilot/djodpgokbmobeclicaicnnidccoinado'
 
 interface EnterpriseFeature {
   icon: string
@@ -185,6 +188,9 @@ function Icon({ name, className }: { name: string; className?: string }) {
 
 export default function EnterpriseTemplate({ config }: EnterpriseTemplateProps) {
   const rotatingWord = useTypewriter(config.rotatingWords, 100, 60, 2500)
+  const handleSalesClick = (location: string) => {
+    trackCTAClick('contact_sales', `${config.slug}_${location}`)
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-[#202124] text-[#e8eaed] overflow-x-hidden">
@@ -215,7 +221,7 @@ export default function EnterpriseTemplate({ config }: EnterpriseTemplateProps) 
               <div className="flex flex-col sm:flex-row gap-4 mt-4">
                 {config.ctaIsMailto ? (
                   <Button size="lg" className="bg-[#8ab4f8] hover:bg-[#aecbfa] text-[#202124] font-medium px-8 py-6 h-auto rounded-full">
-                    <a href={config.ctaLink} className="flex items-center">
+                    <a href={config.ctaLink} onClick={() => handleSalesClick('hero')} className="flex items-center">
                       {config.ctaText} <ArrowRight className="ml-2 h-5 w-5" />
                     </a>
                   </Button>
@@ -674,7 +680,9 @@ export default function EnterpriseTemplate({ config }: EnterpriseTemplateProps) 
                       </ul>
                       {config.ctaIsMailto ? (
                         <Button className="w-full bg-[#8ab4f8] hover:bg-[#aecbfa] text-[#202124]">
-                          <a href={config.ctaLink}>{config.ctaText}</a>
+                          <a href={config.ctaLink} onClick={() => handleSalesClick('pricing_primary')}>
+                            {config.ctaText}
+                          </a>
                         </Button>
                       ) : (
                         <WaitlistDialogIncognito>
@@ -715,7 +723,9 @@ export default function EnterpriseTemplate({ config }: EnterpriseTemplateProps) 
                       </ul>
                       {config.ctaIsMailto ? (
                         <Button variant="outline" className="w-full border-[#5f6368] bg-transparent hover:bg-[#3c4043] text-[#e8eaed]">
-                          <a href={config.ctaLink}>Contact Sales</a>
+                          <a href={config.ctaLink} onClick={() => handleSalesClick('pricing_custom')}>
+                            Contact Sales
+                          </a>
                         </Button>
                       ) : (
                         <WaitlistDialogIncognito>
@@ -753,7 +763,7 @@ export default function EnterpriseTemplate({ config }: EnterpriseTemplateProps) 
                         Community support
                       </li>
                     </ul>
-                    <Link href="https://chromewebstore.google.com/detail/vibe-ai-browser-co-pilot/djodpgokbmobeclicaicnnidccoinado" target="_blank">
+                    <Link href={CHROME_WEB_STORE_URL} target="_blank" rel="noreferrer" onClick={() => trackCTAClick('install_extension_chrome_web_store', `${config.slug}_pricing`)}>
                       <Button variant="outline" className="w-full border-[#5f6368] bg-transparent hover:bg-[#3c4043] text-[#e8eaed]">
                         Download
                       </Button>
