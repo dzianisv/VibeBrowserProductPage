@@ -18,6 +18,7 @@ git config user.email "2119348+dzianisv@users.noreply.github.com"
 ## Important References
 
 - **Testing Checklist**: See @docs/testing.md for complete manual and automated testing procedures after any modifications.
+- **PostHog Analytics**: See @docs/posthog.md for the current PostHog integration, env vars, tracked events, and verification workflow.
 
 ## Quick Deploy & Test
 
@@ -151,6 +152,7 @@ Not routed by Next.js app router (legacy/standalone):
 - `app/globals.css` - Tailwind base and global styles.
 - `app/sitemap.ts` - Sitemap builder and profession pages list.
 - `lib/blog.ts` - Markdown blog loader/parser used by `/blog` and sitemap blog URLs.
+- `instrumentation-client.ts` - PostHog client bootstrap and defaults.
 - `app/copilot/page.tsx` - GitHub Copilot-for-people landing page using `ProfessionTemplate`.
 - `landing-page.tsx` - Homepage content and sections (used by `app/page.tsx`).
 - `privacy-policy.tsx` - Privacy policy page component (used by `app/privacy/page.tsx`).
@@ -168,11 +170,16 @@ Not routed by Next.js app router (legacy/standalone):
 - `components/waitlist-dialog-incognito.tsx` - Enterprise-styled waitlist modal (dark theme).
 - `components/mailing-list-subscribe.tsx` - Footer mailing list form (Brevo only).
 - `components/referral-tracker.tsx` - Captures referral/UTM data early in app.
-- `components/google-analytics.tsx` - GA script + event helpers.
+- `components/google-analytics.tsx` - GA script + shared event helpers for GA4, PostHog, and server telemetry.
 - `components/slack-demo.tsx` - Slack-style conversation UI used on `/agentic-team`.
 - `components/horizontal-roadmap.tsx` - Homepage roadmap UI.
 - `components/typewriter-effect.tsx` - Homepage rotating typewriter text.
 - `components/ui/*.tsx` - Shadcn UI primitives (accordion, badge, button, card, dialog, input, label).
+
+## Analytics Notes
+- PostHog integration details, tracked event conventions, proxy setup, and verification steps live in `docs/posthog.md`.
+- Agent skill for PostHog work lives at `.agents/skills/posthog/SKILL.md`.
+- All live `app/` routes inherit `app/layout.tsx`, so PostHog is mounted globally across the routed site.
 
 Unused/experimental components (no imports found as of 2026-02-26):
 - `components/ai-first-homepage.tsx`

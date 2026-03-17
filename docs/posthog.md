@@ -2,6 +2,10 @@
 
 This document explains how PostHog is integrated into the Vibe Browser product page, what was changed, how it is configured, and how to verify it.
 
+Agent workflow note:
+
+- Use `.agents/skills/posthog/SKILL.md` when another agent needs to explain, verify, or extend this analytics setup.
+
 ## What was implemented
 
 - Added PostHog client initialization through Next.js `instrumentation-client.ts`.
@@ -59,6 +63,31 @@ Configuration includes:
 - `capture_pageleave: true`
 - `autocapture: true`
 - `session_recording.maskAllInputs: true`
+
+### 1a. Route coverage
+
+PostHog is installed globally for the live product site:
+
+- `app/layout.tsx` mounts the shared analytics layer for the whole App Router tree
+- `instrumentation-client.ts` initializes `posthog-js` client-side on routed pages
+- nested layouts such as `/mcp`, `/blog/*`, `/admin/*`, `/teams`, and `/enterprise` inherit the root layout rather than replacing it
+
+Representative local verification was completed on:
+
+- `/lawyers`
+- `/mcp`
+- `/blog/mcp-browser-automation-comparison`
+- `/admin/waitlist`
+
+Observed on those routes:
+
+- `instrumentation-client` bundle loaded
+- `/ingest/array/.../config.js` loaded
+- `/ingest/e/` requests fired
+
+Legacy note:
+
+- `products/agenticteam/page.tsx` is listed in the repo as legacy/standalone and is not part of the active Next.js App Router route tree
 
 ### 2. First-party proxy
 
