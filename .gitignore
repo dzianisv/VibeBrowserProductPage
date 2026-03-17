@@ -54,3 +54,4 @@ blog/**
 old-waitlist-backup.json
 tmp/
 !blog/vibebrowser-openclaw-inspired-agent-memory.md
+!blog/mcp-browser-automation-comparison.md
