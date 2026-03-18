@@ -820,6 +820,32 @@ export default function AgenticTeamPage() {
           </div>
         </section>
 
+        {/* Showcases */}
+        <section className="w-full py-16 md:py-24 border-t border-[#1e1e1e] bg-[#0a0a0a]">
+          <div className="container max-w-6xl px-4 md:px-6 mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-2xl md:text-3xl font-normal text-[#e8eaed] mb-4">
+                See the team in action
+              </h2>
+              <p className="text-[#9aa0a6] max-w-2xl mx-auto">
+                Real-world examples of our agents coordinating to solve complex problems.
+              </p>
+            </div>
+            
+            <div className="grid gap-12">
+              <div className="rounded-xl overflow-hidden border border-[#2a2a2a] shadow-2xl">
+                <img src="/vibeteam1.png" alt="Vibe Team Showcase 1" className="w-full h-auto" />
+              </div>
+              <div className="rounded-xl overflow-hidden border border-[#2a2a2a] shadow-2xl">
+                <img src="/vibeteam2.png" alt="Vibe Team Showcase 2" className="w-full h-auto" />
+              </div>
+              <div className="rounded-xl overflow-hidden border border-[#2a2a2a] shadow-2xl">
+                <img src="/vibeteam3.png" alt="Vibe Team Showcase 3" className="w-full h-auto" />
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Agent Roles — active team, configurable */}
         <section id="agents" className="w-full py-16 md:py-24 border-t border-[#1e1e1e]">
           <div className="container max-w-5xl px-4 md:px-6 mx-auto">
