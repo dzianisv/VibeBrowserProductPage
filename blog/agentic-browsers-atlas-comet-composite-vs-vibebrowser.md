@@ -13,54 +13,138 @@ tags:
 published: true
 ---
 
-The "agentic browser" space has exploded in the last six months. We’ve moved from hacky Puppeteer scripts in terminal windows to full-fledged desktop products backed by the biggest names in AI. But as the dust settles on recent launches like OpenAI Atlas, Perplexity Comet, and Composite, the gap between marketing demos and daily-driver reliability is becoming painfully clear.
+The agentic browser category is finally real. OpenAI, Perplexity, and newer players like Composite are all shipping products that move beyond chat and into direct browser action.
 
-At VibeBrowser, we've spent the last year building a model-agnostic, privacy-first automation layer. We track the competition closely—not to copy them, but to understand what approaches actually survive contact with the real web. 
+That is the good news.
 
-Here is our honest assessment of the current heavyweight agentic browsers, what the community is saying, and why VibeBrowser’s architectural choices were designed to solve the exact problems these platforms are hitting.
+The hard part starts after the demo: reliability on hostile pages, security on untrusted content, visibility when an action fails, and flexibility when one model is not enough.
 
-## The State of the Heavyweights
+At VibeBrowser, we track this space continuously because our product is built for exactly those constraints. This post is a source-backed market read of what Atlas/Operator, Comet, and Composite appear to optimize for today, plus why Vibe is taking a different architecture path.
 
-### OpenAI Atlas: The Walled Garden
-OpenAI’s entry into the space with Atlas surprised exactly no one. It’s Chromium with a heavy AI layer baked directly into the core, tightly coupling the browsing experience to the GPT model family.
+## What shipped (with proof)
 
-**The Reality:** 
-While Atlas excels at summarizing pages and interacting with clear text, its architecture is fundamentally a walled garden. It forces users into the OpenAI ecosystem. More importantly, early feedback highlights significant privacy concerns. As one Hacker News commenter aptly put it: *"The shift from passive browsing to 'digital agent' browsing means our browser is no longer just reading the web—it's reading us."* Atlas feels less like a tool you control and more like an omniscient observer reporting back to its parent servers.
+### OpenAI: Operator and browser-use agents are now mainstream
 
-### Perplexity Comet: The Ram-Hogging Search Engine
-Perplexity Comet attempts to bridge the gap between their excellent search product and active web interactions. It tries to execute tasks directly on pages instead of just answering questions.
+OpenAI publicly introduced Operator as a browser-using agent, then expanded its computer-use tooling and agentic surface area in the OpenAI stack ([1], [2]).
 
-**The Reality:**
-Comet is incredibly ambitious, but the execution has struggled. Community sentiment has been harsh regarding performance. A top Reddit/HN critique noted: *"Perplexity’s Comet attempted to do this, but their app quickly became a ram-hogging, flaming pile of garbage..."* Furthermore, security researchers have already demonstrated how susceptible Comet is to indirect prompt injections (e.g., malicious invisible text on a website commanding Comet to extract user data). It’s a search engine trying to be an operating system, and the seams are showing.
+![OpenAI Operator product page](/images/blog/openai-operator-page.png)
+*OpenAI's first-party Operator page and positioning.*
 
-### Composite: The 'Autopilot' Black Box
-Composite takes the "autopilot" approach, aiming for CRM and workflow automation. You tell it what to do, and it drives the browser for you.
+### Perplexity: Comet is broadly available
 
-**The Reality:**
-Composite looks incredible in well-choreographed demos, but struggles with the infinite edge-cases of the modern web (cookie banners, dynamic popups, A/B tested layouts). Because it often acts as a black box, when it fails—and on complex SPAs, it will fail—the user is left staring at a stuck screen with no way to intervene or debug.
+Perplexity announced Comet worldwide availability and positions it as an AI-native browser experience ([4]). Their help docs are explicit about install requirements and extension compatibility details ([5], [6]).
 
----
+![Perplexity Comet worldwide announcement](/images/blog/perplexity-comet-announcement.png)
+*Perplexity's first-party Comet launch announcement.*
 
-## The VibeBrowser Difference: Open, Verifiable, and Yours
+![Perplexity Comet installation requirements](/images/blog/perplexity-comet-install-requirements.png)
+*Comet install requirements and platform constraints from Perplexity docs.*
 
-We built VibeBrowser because we believed the "agentic browser" shouldn't be a locked-down data vacuum or a fragile black box. We made three fundamental architectural bets that differentiate us from Atlas, Comet, and Composite.
+### Composite: workflow autopilot for GTM teams
 
-### 1. Model-Agnostic by Design
-Unlike Atlas, which chains you to OpenAI, VibeBrowser doesn't care if you use GPT-5.4, Claude 3.5, or a locally hosted Ollama model. We provide the *surface* and the *memory*; you choose the brain. If a new model drops tomorrow that excels at form-filling, you can swap to it instantly.
+Composite positions itself around autopilot workflows and GTM execution, with external coverage focused on CRM/sales acceleration rather than general-purpose browser operation ([7], [8]).
 
-### 2. A11y-First State Abstraction, Not Just Pixel Pushing
-Composite and early agent iterations often relied on brittle DOM scraping or expensive vision models pixel-pushing via coordinates. VibeBrowser leverages a deeply integrated, accessibility-first state projection (our MCP architecture). The agent sees a highly structured, stable representation of the page (buttons, roles, states) rather than chaotic raw HTML. This drastically reduces hallucinated clicks and "stuck" states.
+![Composite homepage](/images/blog/composite-homepage.png)
+*Composite's core product positioning on the public site.*
 
-### 3. Human-in-the-Loop as a Feature, Not a Fallback
-When an agent fails in Comet or Composite, the workflow dies. VibeBrowser is designed for *co-piloting*. If a task is ambiguous, the agent stops, asks for clarification, or requests manual intervention for a specific click (like a complex CAPTCHA), and then seamlessly resumes. You are the operator; the agent is the executor. 
+## Where the friction appears in practice
 
-### 4. Privacy as a Default
-Atlas sends your browsing telemetry to OpenAI. VibeBrowser operates as a local extension/client where your session cookies and credentials never leave your machine. The LLM only receives the minimal state snapshot required to complete the immediate action. 
+No serious team evaluates this category only on launch videos. They evaluate on failure modes.
 
-## The Road Ahead
+### 1) Security pressure: indirect prompt injection is not theoretical
 
-The era of the agentic browser is here. But the winning paradigm won't be a monolithic, resource-heavy Chromium fork that locks you into a single AI provider. It will be an open, transparent, and model-agnostic tool that respects your privacy and integrates smoothly into your existing workflow. 
+Brave published a concrete write-up showing indirect prompt injection risks in Perplexity Comet, including scenarios where malicious page content influences agent behavior ([9]).
 
-We think that's VibeBrowser. 
+![Brave analysis of Comet prompt injection risk](/images/blog/brave-comet-prompt-injection.png)
+*Security analysis highlighting indirect prompt injection concerns.*
 
-*Want to see how our MCP automation compares under the hood? Read our deep dive: [The Great Browser MCP Showdown](/blog/mcp-browser-automation-comparison).*
+This does not mean Comet is uniquely insecure. It means all browser agents need stronger policy boundaries, content trust handling, and operator review checkpoints.
+
+### 2) Community sentiment: strong excitement, equally strong skepticism
+
+Public threads around Comet and Atlas show the same pattern: users are excited by capability but worried about reliability, control, and data boundaries ([10], [11], [12], [13]).
+
+![Hacker News discussion on Comet security concerns](/images/blog/hn-comet-prompt-injection-discussion.png)
+*Representative HN thread discussing Comet's security tradeoffs.*
+
+![Reddit discussion on Perplexity ad tracking concerns](/images/blog/reddit-comet-ad-tracking-discussion.png)
+*Representative Reddit thread discussing trust and tracking concerns.*
+
+Community posts are directional signals, not controlled benchmarks. But when the same concerns repeat across channels, product teams should pay attention.
+
+### 3) Product scope mismatch: demo magic vs operational control
+
+Composite's value is clear for sales workflows, and that focus is a strength for GTM teams ([7], [8]). The tradeoff is scope: a workflow-first GTM product is not automatically a universal browser operations layer across research, legal, finance, and cross-domain automations.
+
+![Composite autopilot product page](/images/blog/composite-autopilot-product.png)
+*Composite emphasizes sales workflow acceleration and automation UX.*
+
+## Why Vibe is taking a different architecture path
+
+We are not trying to win on a single polished demo. We are optimizing for repeatable runs under real constraints.
+
+### 1) Model-agnostic execution
+
+Teams should be able to route tasks across models for quality, cost, latency, or policy reasons. Vibe is built so the browser operation layer is independent of one model vendor.
+
+### 2) Operator-visible control, not black-box replay
+
+When an automation step fails, users need to inspect what happened and continue safely. Vibe's UX and control model are designed around co-piloting, not "fire-and-forget" opacity.
+
+### 3) MCP-native integration
+
+Vibe is designed to work as a browser capability inside broader agent toolchains. That is core to how we think about production operations, not an add-on.
+
+![Vibe compare page with source mapping](/images/blog/vibe-compare-page-sources.png)
+*Vibe's comparison page explicitly maps claims to sources for inspection.*
+
+![Vibe MCP feature page](/images/blog/vibe-mcp-feature-page.png)
+*Vibe's MCP-first framing for interoperable browser automation.*
+
+## Bottom line
+
+Atlas/Operator, Comet, and Composite are all helping define the category. That is good for everyone building agentic browsers.
+
+But if your bar is production reliability, governance, and model flexibility, you should evaluate architecture, failure handling, and interoperability before you evaluate demo quality.
+
+That is exactly where VibeBrowser is focused.
+
+If you want the deeper technical breakdown, read: [The Great Browser MCP Showdown](/blog/mcp-browser-automation-comparison).
+
+## References
+
+[1] OpenAI: Introducing Operator  
+https://openai.com/index/introducing-operator/
+
+[2] OpenAI docs: Computer Use tool guide  
+https://platform.openai.com/docs/guides/tools-computer-use
+
+[4] Perplexity: Comet worldwide announcement  
+https://www.perplexity.ai/hub/blog/comet-is-now-available-to-everyone-worldwide
+
+[5] Perplexity Comet help: install requirements  
+https://comet-help.perplexity.ai/en/articles/11583748-installing-comet
+
+[6] Perplexity Comet help: extensions compatibility  
+https://comet-help.perplexity.ai/en/articles/11734716-extensions
+
+[7] Composite official site  
+https://composite.com/
+
+[8] TechCrunch: Composite funding and positioning  
+https://techcrunch.com/2025/01/30/sales-ai-startup-composite-raises-3m/
+
+[9] Brave: indirect prompt injection against Comet  
+https://brave.com/blog/comet-prompt-injection/
+
+[10] Hacker News: Comet security discussion thread  
+https://news.ycombinator.com/item?id=45910036
+
+[11] Hacker News: Atlas launch discussion thread  
+https://news.ycombinator.com/item?id=43401766
+
+[12] Reddit: community discussion on Comet ad-tracking concerns  
+https://www.reddit.com/r/perplexity_ai/comments/1n57fcd/they_need_to_add_an_option_to_turn_off_comet_ad/
+
+[13] Vibe comparison page with source indexing  
+https://www.vibebrowser.app/compare
