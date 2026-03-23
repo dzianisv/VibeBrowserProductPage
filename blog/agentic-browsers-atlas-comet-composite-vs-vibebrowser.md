@@ -25,17 +25,29 @@ At VibeBrowser, we track this space continuously because our product is built fo
 
 ### OpenAI: Operator and browser-use agents are now mainstream
 
-OpenAI publicly introduced Operator as a browser-using agent, then expanded its computer-use tooling and agentic surface area in the OpenAI stack ([1], [2]).
+OpenAI publicly introduced Operator as a browser-using agent, then expanded its computer-use tooling and agentic surface area in the OpenAI stack ([1], [2]). In OpenAI's own launch post, the example tasks include filling out forms, ordering groceries, and creating memes, with explicit user takeovers for sensitive steps like login, payment, and CAPTCHAs ([1]).
 
-![OpenAI Operator product page](/images/blog/openai-operator-page.png)
-*OpenAI's first-party Operator page and positioning.*
+![OpenAI Operator official launch visual](/images/blog/openai-operator-hero.jpg)
+*Official Operator launch visual from OpenAI's first-party announcement.*
+
+Public OpenAI examples from the launch post:
+- Filling out repetitive web forms
+- Ordering groceries
+- Creating memes
+- Handing control back for login/payment/CAPTCHA
 
 ### Perplexity: Comet is broadly available
 
-Perplexity announced Comet worldwide availability and positions it as an AI-native browser experience ([4]). Their help docs are explicit about install requirements and extension compatibility details ([5], [6]).
+Perplexity announced Comet worldwide availability and positions it as an AI-native browser experience ([4]). In the same first-party launch post, Perplexity frames Comet Assistant examples around research, meetings, code, and e-commerce tasks while users browse ([4]). Their docs are explicit about install requirements and extension compatibility details ([5], [6]).
 
-![Perplexity Comet worldwide announcement](/images/blog/perplexity-comet-announcement.png)
-*Perplexity's first-party Comet launch announcement.*
+![Perplexity Comet official launch visual](/images/blog/perplexity-comet-hero.png)
+*Official Comet launch visual from Perplexity's first-party announcement.*
+
+Public Perplexity examples from the launch post:
+- In-tab assistant while researching
+- Help with meetings and summaries
+- Code and development assistance
+- E-commerce help while browsing
 
 ![Perplexity Comet installation requirements](/images/blog/perplexity-comet-install-requirements.png)
 *Comet install requirements and platform constraints from Perplexity docs.*
