@@ -138,12 +138,12 @@ export default function OllamaProviderPage() {
                       ollama pull qwen3.5
                       <br />
                       <br />
-                      <span className="text-[#5f6368]"># Lighter alternative (~4.7 GB)</span>
+                      <span className="text-[#5f6368]"># Lighter alternative</span>
                       <br />
                       ollama pull llama3.1:8b
                       <br />
                       <br />
-                      <span className="text-[#5f6368]"># Smallest, runs on anything (~1 GB)</span>
+                      <span className="text-[#5f6368]"># Smallest, great for testing</span>
                       <br />
                       ollama pull smollm2:1.7b
                     </code>
@@ -263,42 +263,36 @@ export default function OllamaProviderPage() {
                   <thead>
                     <tr className="text-left text-[#9aa0a6]">
                       <th className="pr-4 pb-2 font-medium">Model</th>
-                      <th className="pr-4 pb-2 font-medium">Size</th>
                       <th className="pb-2 font-medium">Description</th>
                     </tr>
                   </thead>
                   <tbody className="text-[#bdc1c6]">
                     <tr className="border-t border-[#2a2a2a]">
                       <td className="pr-4 py-2 font-mono text-[#8ab4f8]">qwen3.5</td>
-                      <td className="pr-4 py-2">~5 GB+</td>
                       <td className="py-2">Default pick -- strong reasoning and tool use</td>
                     </tr>
                     <tr className="border-t border-[#2a2a2a]">
                       <td className="pr-4 py-2 font-mono text-[#8ab4f8]">llama3.1:8b</td>
-                      <td className="pr-4 py-2">4.7 GB</td>
                       <td className="py-2">Meta&apos;s general-purpose model</td>
                     </tr>
                     <tr className="border-t border-[#2a2a2a]">
                       <td className="pr-4 py-2 font-mono text-[#8ab4f8]">deepseek-r1:8b</td>
-                      <td className="pr-4 py-2">5 GB</td>
                       <td className="py-2">Strong reasoning and math</td>
                     </tr>
                     <tr className="border-t border-[#2a2a2a]">
                       <td className="pr-4 py-2 font-mono text-[#8ab4f8]">gemma3:4b</td>
-                      <td className="pr-4 py-2">3 GB</td>
                       <td className="py-2">Google&apos;s efficient model</td>
                     </tr>
                     <tr className="border-t border-[#2a2a2a]">
                       <td className="pr-4 py-2 font-mono text-[#8ab4f8]">smollm2:1.7b</td>
-                      <td className="pr-4 py-2">1 GB</td>
                       <td className="py-2">Smallest, runs on anything</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
               <p className="text-[#9aa0a6] text-xs mt-3">
-                Smaller models (under 4B parameters) may struggle with complex
-                DOM structures. Browse all models at{" "}
+                Model size and memory footprint vary by quantization and
+                runtime settings. Browse all models at{" "}
                 <a
                   href="https://ollama.com/library"
                   target="_blank"
@@ -371,8 +365,9 @@ export default function OllamaProviderPage() {
                   Model Runs Slowly
                 </h3>
                 <p className="text-[#9aa0a6] text-sm">
-                  Models need roughly 1.2x their file size in RAM. Try a smaller
-                  model (<code className="text-[#8ab4f8]">qwen3:4b</code> or{" "}
+                  Memory requirements vary by model and quantization (for
+                  example Q4 vs F16). Try a smaller model ({" "}
+                  <code className="text-[#8ab4f8]">qwen3:4b</code> or{" "}
                   <code className="text-[#8ab4f8]">smollm2:1.7b</code>), close
                   other apps to free RAM, or use quantized (Q4) variants for
                   lower memory usage.

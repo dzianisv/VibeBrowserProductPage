@@ -79,7 +79,7 @@ const faqJsonLd = {
       name: 'Which Ollama model is recommended for browser automation?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'We recommend Qwen 3.5 (~5 GB+) for the best experience, as browser automation requires strong reasoning and tool-use capabilities. Lighter alternatives include Llama 3.1 8B, Gemma 3 4B, and SmolLM 2 1.7B.',
+        text: 'We recommend Qwen 3.5 for the best experience, as browser automation requires strong reasoning and tool-use capabilities. Good alternatives include Llama 3.1 8B, Gemma 3 4B, and SmolLM 2 1.7B.',
       },
     },
     {
