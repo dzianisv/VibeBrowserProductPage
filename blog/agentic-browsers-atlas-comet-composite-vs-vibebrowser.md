@@ -60,7 +60,7 @@ Public Perplexity examples from the launch post:
 Composite positions itself around autopilot workflows and GTM execution, with external coverage focused on CRM/sales acceleration rather than general-purpose browser operation ([7], [8]).
 
 ![Composite homepage](/images/blog/composite-homepage.png)
-*Composite's core product positioning on the public site.*
+*What to verify: Composite's public positioning centers on workflow autopilot and GTM execution rather than a general-purpose browser operations layer.*
 
 ## Where the friction appears in practice
 
@@ -71,7 +71,7 @@ No serious team evaluates this category only on launch videos. They evaluate on 
 Brave published a concrete write-up showing indirect prompt injection risks in Perplexity Comet, including scenarios where malicious page content influences agent behavior ([9]).
 
 ![Brave analysis of Comet prompt injection risk](/images/blog/brave-comet-prompt-injection.png)
-*Security analysis highlighting indirect prompt injection concerns.*
+*What to verify: Brave documents concrete indirect prompt-injection scenarios where untrusted page content can influence agent behavior.*
 
 This does not mean Comet is uniquely insecure. It means all browser agents need stronger policy boundaries, content trust handling, and operator review checkpoints.
 
@@ -80,10 +80,10 @@ This does not mean Comet is uniquely insecure. It means all browser agents need 
 Public threads around Comet and Atlas show the same pattern: users are excited by capability but worried about reliability, control, and data boundaries ([10], [11], [12], [13]).
 
 ![Hacker News discussion on Comet security concerns](/images/blog/hn-comet-prompt-injection-discussion.png)
-*Representative HN thread discussing Comet's security tradeoffs.*
+*What to verify: community feedback includes explicit security and reliability concerns alongside excitement about capability.*
 
 ![Reddit discussion on Perplexity ad tracking concerns](/images/blog/reddit-comet-ad-tracking-discussion.png)
-*Representative Reddit thread discussing trust and tracking concerns.*
+*What to verify: user trust discussions include ad-tracking and data-boundary concerns, not only feature hype.*
 
 Community posts are directional signals, not controlled benchmarks. But when the same concerns repeat across channels, product teams should pay attention.
 
@@ -92,7 +92,7 @@ Community posts are directional signals, not controlled benchmarks. But when the
 Composite's value is clear for sales workflows, and that focus is a strength for GTM teams ([7], [8]). The tradeoff is scope: a workflow-first GTM product is not automatically a universal browser operations layer across research, legal, finance, and cross-domain automations.
 
 ![Composite autopilot product page](/images/blog/composite-autopilot-product.png)
-*Composite emphasizes sales workflow acceleration and automation UX.*
+*What to verify: Composite's product UX and copy emphasize sales workflow acceleration and autopilot execution for GTM teams.*
 
 ## Why Vibe is taking a different architecture path
 
@@ -111,10 +111,10 @@ When an automation step fails, users need to inspect what happened and continue 
 Vibe is designed to work as a browser capability inside broader agent toolchains. That is core to how we think about production operations, not an add-on.
 
 ![Vibe compare page with source mapping](/images/blog/vibe-compare-page-sources.png)
-*Vibe's comparison page explicitly maps claims to sources for inspection.*
+*What to verify: Vibe's comparison surface maps claims to sources so operators can inspect evidence instead of trusting black-box assertions.*
 
 ![Vibe MCP feature page](/images/blog/vibe-mcp-feature-page.png)
-*Vibe's MCP-first framing for interoperable browser automation.*
+*What to verify: Vibe presents MCP as a core interoperability layer for plugging browser actions into broader agent toolchains.*
 
 ## Bottom line
 
