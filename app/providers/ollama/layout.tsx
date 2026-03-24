@@ -19,21 +19,12 @@ export const metadata: Metadata = {
       'Run Vibe Browser with 100% private, local models via Ollama. Zero data leaves your machine.',
     url: 'https://www.vibebrowser.app/providers/ollama',
     type: 'website',
-    images: [
-      {
-        url: '/og/home.svg',
-        width: 1200,
-        height: 630,
-        alt: 'Vibe Browser + Ollama — Private Local AI',
-      },
-    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Ollama — Private Local AI | Vibe Co-Pilot',
     description:
       'Run Vibe Browser with 100% private, local models via Ollama. Zero data leaves your machine.',
-    images: ['/og/home.svg'],
     creator: '@vibebrowserapp',
   },
   alternates: {
