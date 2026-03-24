@@ -406,6 +406,7 @@ export default function OllamaProviderPage() {
                     variant="outline"
                     size="lg"
                     className="border-[#3c4043] text-[#e8eaed] hover:bg-[#2a2a2a] px-8 py-6 h-auto rounded-full"
+                    onClick={() => trackCTAClick("ollama_docs", "ollama_cta")}
                   >
                     Full Ollama Docs
                     <ArrowRight className="ml-2 h-5 w-5" />
