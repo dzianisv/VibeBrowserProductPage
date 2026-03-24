@@ -67,6 +67,7 @@ export function SiteFooter() {
             <nav className="flex flex-col gap-2">
               {[
                 { href: '/mcp', label: 'MCP Server' },
+                { href: '/providers/ollama', label: 'Ollama Integration' },
                 { href: '/agentic-team', label: 'Agentic Team' },
                 { href: '/blog', label: 'Blog' },
                 { href: '/rss.xml', label: 'RSS Feed' },
