@@ -64,7 +64,7 @@ const enterpriseConfig: EnterpriseConfig = {
     { question: "What models can I self-host?", answer: "Any model that exposes an OpenAI-compatible API. Popular choices include DeepSeek, Llama 3, Mistral, and Qwen." },
     { question: "Can this be used in regulated industries?", answer: "Yes. Teams can use local, self-hosted, or TEE-oriented deployment paths and pair them with audit logs and approval workflows that support their own compliance programs." },
     { question: "Does using AI waive attorney-client privilege?", answer: "Organizations with privilege or confidentiality concerns typically prefer local or self-hosted deployments so work stays inside their environment. Specific legal conclusions depend on your counsel and operating model." },
-    { question: "Can I use GPT-4 or Claude with Vibe?", answer: "Yes, but only for non-sensitive tasks. For sensitive data, we recommend using local AI, self-hosted models, or TEE-protected inference." },
+    { question: "Can I use OpenAI or Anthropic models with Vibe?", answer: "Yes, but only for non-sensitive tasks. For sensitive data, we recommend using local AI, self-hosted models, or TEE-protected inference." },
   ],
   showSecurity: true,
   showPricing: true,

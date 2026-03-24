@@ -747,7 +747,7 @@ export default function EnterpriseTemplate({ config }: EnterpriseTemplateProps) 
                       <span className="text-[#9aa0a6]">/month</span>
                     </div>
                     <p className="text-sm text-[#9aa0a6] mb-6">
-                      Local AI only. Perfect for trying out.
+                      Local AI + Basic Models. Perfect for trying out.
                     </p>
                     <ul className="space-y-2 text-sm text-[#9aa0a6] mb-6">
                       <li className="flex items-center gap-2">
@@ -756,7 +756,7 @@ export default function EnterpriseTemplate({ config }: EnterpriseTemplateProps) 
                       </li>
                       <li className="flex items-center gap-2">
                         <CheckCircle className="w-4 h-4 text-[#81c995]" />
-                        Basic automation
+                        BYOM / GPT-5-mini
                       </li>
                       <li className="flex items-center gap-2">
                         <CheckCircle className="w-4 h-4 text-[#81c995]" />
@@ -773,13 +773,13 @@ export default function EnterpriseTemplate({ config }: EnterpriseTemplateProps) 
 
                 <Card className="bg-[#202124] border-[#8ab4f8]">
                   <CardContent className="p-6">
-                    <h3 className="text-lg font-medium text-[#e8eaed] mb-1">Professional</h3>
+                    <h3 className="text-lg font-medium text-[#e8eaed] mb-1">Pro</h3>
                     <div className="mb-4">
-                      <span className="text-3xl font-normal text-[#e8eaed]">$49</span>
+                      <span className="text-3xl font-normal text-[#e8eaed]">$25</span>
                       <span className="text-[#9aa0a6]">/month</span>
                     </div>
                     <p className="text-sm text-[#9aa0a6] mb-6">
-                      Self-hosted models. Full control.
+                      Advanced AI models and workflows.
                     </p>
                     <ul className="space-y-2 text-sm text-[#9aa0a6] mb-6">
                       <li className="flex items-center gap-2">
@@ -788,19 +788,15 @@ export default function EnterpriseTemplate({ config }: EnterpriseTemplateProps) 
                       </li>
                       <li className="flex items-center gap-2">
                         <CheckCircle className="w-4 h-4 text-[#81c995]" />
-                        Self-hosted model support
+                        GPT-5.1, GPT-5.2-codex
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <CheckCircle className="w-4 h-4 text-[#81c995]" />
+                        Grok-4-fast, DeepSeek V3.2
                       </li>
                       <li className="flex items-center gap-2">
                         <CheckCircle className="w-4 h-4 text-[#81c995]" />
                         Advanced workflows
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <CheckCircle className="w-4 h-4 text-[#81c995]" />
-                        Audit logging
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <CheckCircle className="w-4 h-4 text-[#81c995]" />
-                        Priority support
                       </li>
                     </ul>
                     <WaitlistDialogIncognito>
@@ -813,34 +809,30 @@ export default function EnterpriseTemplate({ config }: EnterpriseTemplateProps) 
 
                 <Card className="bg-[#202124] border-[#3c4043]">
                   <CardContent className="p-6">
-                    <h3 className="text-lg font-medium text-[#e8eaed] mb-1">Enterprise</h3>
+                    <h3 className="text-lg font-medium text-[#e8eaed] mb-1">Max</h3>
                     <div className="mb-4">
-                      <span className="text-3xl font-normal text-[#e8eaed]">$10</span>
-                      <span className="text-[#9aa0a6]">/seat</span>
+                      <span className="text-3xl font-normal text-[#e8eaed]">$99</span>
+                      <span className="text-[#9aa0a6]">/month</span>
                     </div>
                     <p className="text-sm text-[#9aa0a6] mb-6">
-                      Pay per token use. Dedicated support.
+                      Premium AI with reasoning capabilities.
                     </p>
                     <ul className="space-y-2 text-sm text-[#9aa0a6] mb-6">
                       <li className="flex items-center gap-2">
                         <CheckCircle className="w-4 h-4 text-[#81c995]" />
-                        Everything in Professional
+                        Everything in Pro
                       </li>
                       <li className="flex items-center gap-2">
                         <CheckCircle className="w-4 h-4 text-[#81c995]" />
-                        TEE-protected inference
+                        GPT-5.2, GPT-5.2-codex (high)
                       </li>
                       <li className="flex items-center gap-2">
                         <CheckCircle className="w-4 h-4 text-[#81c995]" />
-                        Remote attestation API
+                        Grok-4, Grok-4-reasoning
                       </li>
                       <li className="flex items-center gap-2">
                         <CheckCircle className="w-4 h-4 text-[#81c995]" />
-                        SSO / SAML
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <CheckCircle className="w-4 h-4 text-[#81c995]" />
-                        Dedicated account manager
+                        DeepSeek R1
                       </li>
                     </ul>
                     {config.ctaIsMailto ? (

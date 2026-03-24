@@ -34,14 +34,14 @@ export const metadata: Metadata = {
 const pageJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
-  name: 'Vibe Co-Pilot | AI Browser Automation for Google Workspace and MCP',
+  name: 'Vibe Browser | AI Browser Workflows for Real Websites',
   description:
-    'AI browser automation for real logged-in browser sessions with MCP access, reusable skills, and model-flexible execution.',
+    'Vibe turns repetitive browser work into reusable workflows with real-browser execution, MCP access, reusable skills, and model-flexible execution.',
   url: 'https://www.vibebrowser.app',
   inLanguage: 'en-US',
   isPartOf: {
     '@type': 'WebSite',
-    name: 'Vibe Co-Pilot',
+    name: 'Vibe Browser',
     url: 'https://www.vibebrowser.app',
   },
   breadcrumb: {

@@ -182,7 +182,7 @@ curl -I 'https://www.vibebrowser.app/ingest/static/surveys.js?v=1.360.2'
 
 ### Check custom events
 
-1. Visit `https://www.vibebrowser.app/mobile`
+1. Visit any routed landing page with a waitlist trigger such as `https://www.vibebrowser.app/`
 2. Open the waitlist dialog
 3. Confirm:
    - `dialog_open` reaches PostHog

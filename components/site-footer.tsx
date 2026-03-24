@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { MailingListSubscribe } from './mailing-list-subscribe'
 
-const darkPages = ['/teams', '/enterprise']
+const darkPages = ['/teams', '/enterprise', '/providers/ollama']
 
 export function SiteFooter() {
   const pathname = usePathname()

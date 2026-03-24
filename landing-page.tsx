@@ -260,24 +260,30 @@ export default function Component() {
           <Badge variant="secondary"
             className="px-4 py-2 text-sm font-medium bg-purple-100 text-purple-700 border-purple-200">
             <Sparkles className="w-4 h-4 mr-2" />
-            Agentic Browser
+            AI Workflows on Real Websites
           </Badge>
 
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-            Your AI Agent,
+            Move repetitive browser work
             <br />
-            <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">Connected to Your Real Browser</span>
+            <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">off your plate</span>
           </h1>
 
           <p className="max-w-3xl text-lg text-muted-foreground md:text-xl leading-relaxed mb-6">
-            Automate real websites, Gmail, and Google Calendar in your existing logged-in browser session. Use Vibe directly or connect it through <strong>MCP</strong> to Claude Code, Codex, OpenCode, Gemini CLI, and other agents—while keeping your sessions intact, choosing your models, and turning repeated tasks into reusable skills.
+            Vibe turns repetitive website, Gmail, and Google Calendar work into reusable workflows inside your existing logged-in browser session. Use it directly or connect it through <strong>MCP</strong> to Claude Code, Codex, OpenCode, Gemini CLI, and other agents—while keeping your sessions intact, choosing your models, and staying in control of execution.
           </p>
           <p className="text-sm text-muted-foreground">
-            Works with MCP-ready agents and real browser sessions — not a separate browser sandbox.
+            Best for browser-heavy work APIs do not cover: sourcing, research, inbox follow-up, scheduling, and portal tasks.
           </p>
           <p className="text-sm text-muted-foreground max-w-3xl">
-            Run Vibe as your local co-pilot, control it from a cloud agent, or connect your self-hosted OpenClaw assistant through MCP. Cloud model APIs are optional and user-controlled.
+            Run Vibe locally, let cloud agents call it through MCP, or pair it with OpenClaw surfaces where they fit. Cloud model APIs are optional and user-controlled.
           </p>
+
+          <div className="max-w-3xl rounded-2xl border border-emerald-200 bg-emerald-50/90 px-4 py-3 text-left shadow-sm">
+            <p className="text-sm font-medium text-emerald-900">
+              Open source soon: we plan to open-source the Vibe extension as soon as we close the remaining gaps and complete a proper security review.
+            </p>
+          </div>
 
           <div className="flex flex-col sm:flex-row gap-4 items-center justify-center mb-8">
             <div className="relative" ref={dropdownRef}>
@@ -397,10 +403,10 @@ export default function Component() {
             <div className="w-full max-w-5xl mx-auto mb-12">
               <div className="text-center mb-6">
                 <h2 className="text-2xl font-bold tracking-tight sm:text-3xl mb-2">
-                  Use cases for high-intent browser workflows
+                  Work Vibe can take off your plate
                 </h2>
                 <p className="text-muted-foreground">
-                  Real workflows for research, outreach, and browser-based operations
+                  Outcome-first workflows for recruiting, research, and browser-heavy operations
                 </p>
               </div>
 
@@ -416,7 +422,7 @@ export default function Component() {
                   </div>
                   <h3 className="font-bold text-lg mb-2">Recruiter Automation</h3>
                   <p className="text-sm text-muted-foreground mb-3">
-                    Skills-based LinkedIn outreach you approve
+                    Source profiles, draft outreach, and queue follow-ups you approve
                   </p>
                   <ul className="text-xs text-left space-y-1 text-muted-foreground">
                     <li className="flex items-start gap-2">
@@ -590,124 +596,15 @@ export default function Component() {
       </div>
     </section>
 
-    {/* Why teams choose Vibe */}
-    <section className="w-full py-12 md:py-16 bg-gradient-to-br from-slate-950 via-slate-900 to-purple-950">
-      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
-        <div className="text-center mb-12">
-          <Badge className="bg-red-500/20 text-red-200 border-red-300/30 mb-4">
-            Product Wedge
-          </Badge>
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-white mb-4">
-            Why teams choose Vibe
-          </h2>
-          <p className="max-w-3xl mx-auto text-lg text-slate-300">
-            Real browser sessions, MCP interoperability, reusable skills, and privacy controls for workflows that cannot live in a toy sandbox.
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto">
-          <Card className="border-red-400/30 bg-white/5 backdrop-blur">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-2 mb-3">
-                <Brain className="w-5 h-5 text-red-300" />
-                <h3 className="font-bold text-white">Model flexibility</h3>
-              </div>
-              <p className="text-sm text-slate-300">
-                Choose the model that fits the workflow instead of locking your team to one provider.
-              </p>
-              <p className="text-sm text-purple-200 mt-3">
-                Vibe supports Vibe AI, BYOK cloud providers, and local or self-hosted options.
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="border-red-400/30 bg-white/5 backdrop-blur">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-2 mb-3">
-                <Lock className="w-5 h-5 text-red-300" />
-                <h3 className="font-bold text-white">Privacy controls</h3>
-              </div>
-              <p className="text-sm text-slate-300">
-                Keep sensitive workflows on-device, self-host them, or use managed inference when that is the right tradeoff.
-              </p>
-              <p className="text-sm text-purple-200 mt-3">
-                Local AI, self-hosted endpoints, and TEE-ready deployment paths support stricter environments.
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="border-red-400/30 bg-white/5 backdrop-blur">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-2 mb-3">
-                <ListTodo className="w-5 h-5 text-red-300" />
-                <h3 className="font-bold text-white">Reusable workflows</h3>
-              </div>
-              <p className="text-sm text-slate-300">
-                One-off prompts are hard to operationalize across repeated browser tasks.
-              </p>
-              <p className="text-sm text-purple-200 mt-3">
-                Vibe includes a skills system for repeatable browser automation you can version and share.
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="border-red-400/30 bg-white/5 backdrop-blur">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-2 mb-3">
-                <RefreshCw className="w-5 h-5 text-red-300" />
-                <h3 className="font-bold text-white">Agent extensibility</h3>
-              </div>
-              <p className="text-sm text-slate-300">
-                Teams often need browser agents that can be extended with new skills and workflows over time.
-              </p>
-              <p className="text-sm text-purple-200 mt-3">
-                Vibe is built around reusable skills, MCP interoperability, and workflow iteration.
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="border-red-400/30 bg-white/5 backdrop-blur">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-2 mb-3">
-                <Calendar className="w-5 h-5 text-red-300" />
-                <h3 className="font-bold text-white">Native workflow tools</h3>
-              </div>
-              <p className="text-sm text-slate-300">
-                Communication and scheduling workflows often break when they depend on brittle custom integrations.
-              </p>
-              <p className="text-sm text-purple-200 mt-3">
-                Vibe ships native Gmail and Google Calendar actions for inbox and scheduling automation.
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="border-red-400/30 bg-white/5 backdrop-blur">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-2 mb-3">
-                <Puzzle className="w-5 h-5 text-red-300" />
-                <h3 className="font-bold text-white">Open interoperability</h3>
-              </div>
-              <p className="text-sm text-slate-300">
-                Browser automation gets more useful when your agents can share context and tools instead of living in one closed stack.
-              </p>
-              <p className="text-sm text-purple-200 mt-3">
-                Vibe agents support MCP tools, and Vibe can expose the live browser as an MCP server.
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    </section>
-
     {/* Why Vibe - Comparison CTA */}
     <section className="w-full py-12 md:py-16 bg-slate-50">
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
         <div className="text-center mb-10">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
-            Why Vibe?
+            Why teams choose Vibe for browser work
           </h2>
           <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
-            Review the documented differences across privacy controls, model choice, and agentic workflows.
+            Compare execution reliability, privacy controls, model choice, and workflow depth — not just chat features.
           </p>
         </div>
         <div className="max-w-4xl mx-auto">
@@ -738,10 +635,10 @@ export default function Component() {
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
-            Features That Work
+            Built to get browser work done
           </h2>
           <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
-            Built for power users who want leverage, not magic tricks
+            The execution layer behind repeatable workflows on real sites, not a browser-themed chatbot
           </p>
         </div>
 
@@ -821,15 +718,15 @@ export default function Component() {
       </div>
     </section>
 
-    {/* Integrations & Agent Ecosystem */}
+    {/* Built for workflow execution, not just chat */}
     <section className="w-full py-12 md:py-16 bg-slate-50">
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
-            Integrations & Agent Ecosystem
+            Built for workflow execution, not just chat
           </h2>
           <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
-            Gmail + Calendar automation, MCP interoperability, reusable skills, and OpenClaw-inspired self-improving agents.
+            Gmail + Calendar actions, MCP interoperability, reusable skills, and secure secrets management for work that still lives in the browser.
           </p>
         </div>
 
@@ -861,11 +758,11 @@ export default function Component() {
           <Card className="border-0 shadow-lg bg-white">
             <CardContent className="p-6">
               <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
-                <RefreshCw className="w-6 h-6 text-blue-600" />
+                <Globe className="w-6 h-6 text-blue-600" />
               </div>
-              <h3 className="text-xl font-bold mb-2">Self-Modifying Agent</h3>
+              <h3 className="text-xl font-bold mb-2">Local & Remote Modes</h3>
               <p className="text-sm text-muted-foreground">
-                OpenClaw-inspired execution loop where the agent can update its own workflow logic and skills.
+                Run agents on your machine for full local context, or connect remotely for CI/CD and cloud automation.
               </p>
             </CardContent>
           </Card>
@@ -918,10 +815,10 @@ export default function Component() {
             Roadmap
           </Badge>
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
-            From Local Co-Pilot to Cloud OpenClaw Assistant
+            From browser workflow execution to managed assistants
           </h2>
           <p className="max-w-3xl mx-auto text-lg text-muted-foreground">
-            Other AI browsers are stuck in one control mode. Vibe already supports local, cloud-relay, and self-hosted control, with a managed cloud assistant as the next layer.
+            Start with real browser work in the user’s session, then expand into cloud-relay, self-hosted, and managed assistant layers where they add leverage.
           </p>
         </div>
 
@@ -1162,7 +1059,11 @@ export default function Component() {
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                    <span><strong>Works with Any Chrome:</strong> Not a fork—just a standard Chrome extension that works on vanilla Chrome, Chromium, and Edge</span>
+                    <span><strong>Works with Any Chrome:</strong> Not a fork - just a standard Chrome extension that works on vanilla Chrome, Chromium, and Edge</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                    <span><strong>Open-Source Roadmap:</strong> We plan to open-source the extension once we close the remaining gaps and complete a proper security review</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
@@ -1236,15 +1137,15 @@ export default function Component() {
         <div className="flex flex-col items-center gap-8 text-center text-white">
           <Badge className="bg-white/20 text-white border-white/30 px-4 py-2">
             <Sparkles className="w-4 h-4 mr-2" />
-            Replace 5 Tools with One Browser
+            Turn browser-heavy work into reusable workflows
           </Badge>
 
           <h2 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl max-w-4xl">
-            Stop Clicking. Start Automating.
+            Move recurring browser work off your team’s plate
           </h2>
           
           <p className="max-w-2xl text-xl opacity-90 mb-4">
-            Join early adopters using Vibe to automate their web workflows
+            Join early teams using Vibe to reduce repetitive work across websites, Gmail, and Calendar
           </p>
 
           <Button size="lg" className="bg-white text-purple-600 hover:bg-slate-100 text-xl px-12 py-8 font-bold shadow-2xl" onClick={() => window.open('https://billing.stripe.com/p/login/9B6bJ06iPcwL9VUa4yabK00', '_blank')}>

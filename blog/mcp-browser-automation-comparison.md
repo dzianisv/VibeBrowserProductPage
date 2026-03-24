@@ -1,6 +1,6 @@
 ---
-title: "The Great Browser MCP Showdown: VibeBrowser, Playwriter, Chrome DevTools, and Beyond"
-description: "A current, practical comparison of VibeBrowser MCP, Playwriter, Chrome DevTools MCP, Playwright MCP, and BrowserMCP - including snapshot formats, tool surfaces, and where each one still breaks."
+title: "The Great Browser MCP Showdown: VibeBrowser, Playwriter, Playwright MCP, Chrome DevTools, and Beyond"
+description: "A current, code-reviewed comparison of VibeBrowser MCP, Playwriter, Chrome DevTools MCP, Playwright MCP, and BrowserMCP - including snapshot formats, tool surfaces, and where each one still breaks."
 date: "2026-03-16"
 author: "Dzianis Vashchuk"
 authorUrl: "https://linkedin.com/in/dzianisv"
@@ -21,7 +21,9 @@ The Model Context Protocol (MCP) has been a massive leap forward, finally giving
 
 I've spent a lot of time wrestling with these tools in the trenches. In this post, I want to cut through the marketing copy and compare what it’s *actually* like to use **VibeBrowser MCP**, **[Playwriter](https://github.com/remorses/playwriter)**, **Chrome DevTools MCP**, **[Playwright MCP](https://github.com/microsoft/playwright-mcp)**, and **[BrowserMCP.io](https://browsermcp.io/)**.
 
-Update on March 16, 2026: the original draft of this post undersold VibeBrowser's current tool surface. Vibe now exposes dedicated `take_a11y_snapshot`, `take_md_snapshot`, and `take_html_snapshot` tools, keeps the composite `take_snapshot`, and ships a broader Chrome DevTools-style tool layout than the earlier version of this article described.
+One naming warning up front: **Playwriter** and **Playwright MCP** are different projects. The names are annoyingly close, but the architecture and tool surfaces are not the same.
+
+Update on March 19, 2026: I re-reviewed the Microsoft and Google codebases for this post. Two important corrections came out of that pass. First, **Playwright MCP** and **Chrome DevTools MCP** both use **accessibility-first snapshots by default**, not HTML snapshots. Second, the big difference between them is not "HTML vs A11y" - it is **custom AI snapshot vs formatted accessibility tree**. VibeBrowser also now exposes dedicated `take_a11y_snapshot`, `take_md_snapshot`, and `take_html_snapshot` tools, keeps the composite `take_snapshot`, and ships a broader Chrome DevTools-style tool layout than the earlier version of this article described.
 
 ---
 
@@ -65,15 +67,15 @@ These skip the middleman. They hook straight into the browser via a native exten
                    +-------------------------+
 ```
 
-### 3. The Headless Automation Approach (e.g., Microsoft Playwright MCP)
-Rather than bridging to your daily driver browser, tools like [microsoft/playwright-mcp](https://github.com/microsoft/playwright-mcp) wrap an existing testing framework (Playwright). The MCP server acts as an API gateway, launching a fresh, usually headless browser instance and exposing Playwright's native commands (navigate, click, evaluate) directly to the AI as MCP tools.
+### 3. The Playwright-Managed Browser Approach (e.g., Microsoft Playwright MCP)
+Rather than talking to Chrome through DevTools directly, tools like [microsoft/playwright-mcp](https://github.com/microsoft/playwright-mcp) wrap Playwright itself. The MCP server becomes an API gateway over Playwright's browser, context, and locator model. In practice that usually means a **Playwright-managed browser/profile** with Playwright-native actions and Playwright's own AI snapshot format - though it can also connect to an existing browser through the extension pathway.
 
 ```ascii
-+----------+       +-------------------+       +-----------------------+
-|          |       |                   |       |                       |
-| AI Agent | <---> |  Playwright MCP   | <---> | Headless Browser (Cr) |
-|          |       |                   |       |                       |
-+----------+       +-------------------+       +-----------------------+
++----------+       +-------------------+       +---------------------------+
+|          |       |                   |       |                           |
+| AI Agent | <---> |  Playwright MCP   | <---> | Playwright-Managed Browser |
+|          |       |                   |       | / Profile                  |
++----------+       +-------------------+       +---------------------------+
 ```
 
 ---
@@ -86,17 +88,78 @@ Let me give you a real-world example: **Facebook Marketplace**. It is a visually
 
 1.  **VibeBrowser MCP**: Honestly, this is the most AI-native approach I've seen. Because VibeBrowser can extract the page state as **Markdown** (rather than raw HTML or CDP dumps), I was able to successfully run the exact same Facebook Marketplace task. The agent read the markdown, found the listings, and clicked perfectly. It now supports both a composite `take_snapshot` tool and dedicated extraction tools: `take_md_snapshot`, `take_a11y_snapshot`, `take_html_snapshot`, plus `get_page_markdown`. It gives the AI exactly what it needs without the bloat.
 2.  **Playwriter**: It relies heavily on custom scripts to pull snapshots, HTML, or screenshots. It works, but it puts more burden on the AI to figure out how to see the page.
-3.  **Chrome DevTools MCP**: You get raw CDP dumps, A11y trees, and screenshots. It's incredibly detailed, but it is *verbose*. Prepare your context windows.
-4.  **Playwright MCP**: Gives you standard DOM element locators, screenshots, and raw text/HTML. Solid, but traditional.
+3.  **Chrome DevTools MCP**: The built-in snapshot tool is `take_snapshot`, and under the hood it calls Puppeteer's `page.accessibility.snapshot(...)`, then formats the resulting AX tree into text with `uid`s. So yes, it is A11y-first - and specifically it is very close to a serialized browser accessibility tree.
+4.  **Playwright MCP**: The built-in snapshot tool is `browser_snapshot`, and the code path goes through Playwright's `snapshotForAI()` into `incrementalAriaSnapshot(..., { mode: "ai" })`. So this is also A11y-first - but the important nuance is that it is **not** just the browser's raw AX tree. It is a **Playwright-made, accessibility-derived AI snapshot** with refs, iframe stitching, and incremental diffs.
 5.  **BrowserMCP.io**: Usually leans hard on screenshots and simplified DOM text extraction. 
 
 | Feature | VibeBrowser | Playwriter | Chrome DevTools | Playwright MCP | BrowserMCP.io |
 | :--- | :---: | :---: | :---: | :---: | :---: |
-| **A11y Tree** | ✅ (`take_a11y_snapshot` or `take_snapshot`) | ⚠️ (via scripts) | ✅ (Raw CDP snapshot) | ⚠️ (`browser_snapshot`) | ⚠️ |
+| **A11y Tree** | ✅ (`take_a11y_snapshot` or `take_snapshot`) | ⚠️ (via scripts) | ✅ (`take_snapshot` = formatted AX tree) | ✅ (accessibility-derived, but transformed into an AI snapshot) | ⚠️ |
 | **Markdown** | ✅ (`get_page_markdown`, `take_md_snapshot`, `take_snapshot`) | ❌ | ❌ | ❌ | ❌ |
-| **HTML** | ✅ (`take_html_snapshot`) | ✅ | ✅ | ✅ | ✅ |
+| **HTML as first-class snapshot** | ✅ (`take_html_snapshot`) | ✅ | ❌ | ❌ | ⚠️ |
 | **Screenshots** | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **Ref-based interaction** | ✅ (`A7`, `M12`, `12`) | ⚠️ (DIY) | ⚠️ (UID-based) | ⚠️ (locator-based) | ⚠️ |
+| **Ref-based interaction** | ✅ (`A7`, `M12`, `12`) | ⚠️ (DIY) | ✅ (`uid`) | ✅ (`ref=e2`) | ⚠️ |
+
+### Microsoft Playwright MCP vs Google Chrome DevTools MCP, from the code
+
+After reading both codebases side by side, here is the shortest accurate explanation.
+
+- **Microsoft Playwright MCP**: the wrapper repo is thin. `packages/playwright-mcp/index.js` hands most of the real work to `playwright-core`. The `browser_snapshot` tool is defined in Playwright core's `lib/tools/backend/snapshot.js`, then `lib/tools/backend/tab.js` calls `page.snapshotForAI()`, and `lib/server/page.js` eventually runs `injected.incrementalAriaSnapshot(..., { mode: "ai" })`. The output is a **YAML-like AI snapshot** with stable refs and incremental diffs. It is not an HTML dump, and it is also **not a raw AX tree dump** - it is Playwright's own accessibility-derived representation.
+- **Google Chrome DevTools MCP**: `src/tools/snapshot.ts` defines `take_snapshot`. `src/McpContext.ts` then calls `page.pptrPage.accessibility.snapshot({ includeIframes: true, interestingOnly: !verbose })`, and `src/formatters/SnapshotFormatter.ts` serializes that AX tree into text lines like `uid=... role "name"`. The output is a **formatted accessibility tree**, closer to DevTools inspection output than to an AI-specific DSL.
+- **So what is the significant difference?** Both are A11y-first, but they do different things with that information. **Playwright MCP turns accessibility semantics into an agent-oriented AI snapshot** with refs, iframe stitching, and diffs. **Chrome DevTools MCP exposes a much more literal, debugging-oriented accessibility tree** with UIDs and more direct AX attributes.
+- **The easiest mental model:** `browser_snapshot` is an **AI-ready accessibility projection**. `take_snapshot` is a **formatted browser accessibility tree**.
+- **Do they use HTML?** Not as the default page snapshot. If you want HTML in either tool, you generally get it through code execution (`browser_evaluate`, `browser_run_code`, or `evaluate_script`) rather than through the primary snapshot tool.
+
+### What this looks like on a simple form
+
+Take a tiny page like this:
+
+```html
+<form>
+  <label for="email">Email</label>
+  <input id="email" type="email" />
+
+  <label for="password">Password</label>
+  <input id="password" type="password" />
+
+  <button type="submit">Sign in</button>
+</form>
+```
+
+Here is the kind of output you should expect conceptually.
+
+**Playwright MCP `browser_snapshot` style**
+
+```yaml
+- form [ref=e1]:
+  - text "Email"
+  - textbox "Email" [ref=e2]
+  - text "Password"
+  - textbox "Password" [ref=e3]
+  - button "Sign in" [ref=e4]
+```
+
+What matters here is not just the role/name information. Playwright turns that accessibility information into an **action-oriented tree**. The `ref=e2` / `ref=e3` / `ref=e4` handles are there so the model can immediately call `browser_type`, `browser_fill_form`, or `browser_click` against them. In the MCP flow, that same system also supports **incremental diffs** and **iframe stitching**, which is why it feels more compact and agent-friendly than a raw browser AX dump.
+
+**Chrome DevTools MCP `take_snapshot` style**
+
+```text
+uid=7 form
+  uid=8 StaticText "Email"
+  uid=9 textbox "Email" focusable required
+  uid=10 StaticText "Password"
+  uid=11 textbox "Password" focusable
+  uid=12 button "Sign in"
+```
+
+This is much closer to a **serialized browser accessibility tree**. It preserves more of the literal AX flavor: each node gets a `uid`, roles are printed directly, and extra properties such as `focusable`, `required`, `disabled`, `expanded`, or `selected` may appear inline. That is excellent for inspection and debugging, but it is a less opinionated agent abstraction than Playwright's snapshot.
+
+So on the exact same HTML:
+
+- **Playwright MCP** asks: what is the smallest accessibility-derived structure that lets the agent act?
+- **Chrome DevTools MCP** asks: what does Chrome think the accessibility tree looks like right now?
+
+That is the deepest practical difference between `browser_snapshot` and `take_snapshot`.
 
 ### The Real Cost of Context (Token Benchmarking)
 
@@ -119,12 +182,14 @@ I actually [ran a benchmark on this exact issue](https://www.linkedin.com/feed/u
 | :--- | :--- | :--- | :--- | :--- |
 | **Basic Nav** | `navigate_page`, `new_page`, `list_pages`, `close_page` | `execute` (via `page.goto()`) | `navigate_page`, `new_page`, `list_pages`, `close_page` | `browser_navigate`, `browser_tabs` |
 | **Clicking/Typing** | `click`, `fill`, `fill_form`, `type_text`, `press_key`, `hover`, `drag` | `execute` (writes JS to click) | `click`, `fill`, `fill_form`, `press_key`, `hover`, `drag` | `browser_click`, `browser_fill_form`, `browser_type`, `browser_press_key`, `browser_drag`, `browser_hover` |
-| **Seeing State** | `take_snapshot`, `take_md_snapshot`, `take_a11y_snapshot`, `take_html_snapshot`, `get_page_markdown`, `take_screenshot` | `execute` + custom helpers | `take_snapshot`, `take_screenshot` | `browser_snapshot`, `browser_take_screenshot` |
+| **Seeing State** | `take_snapshot`, `take_md_snapshot`, `take_a11y_snapshot`, `take_html_snapshot`, `get_page_markdown`, `take_screenshot` | `execute` + custom helpers | `take_snapshot` (AX tree), `take_screenshot` | `browser_snapshot` (AI aria/YAML), `browser_take_screenshot` |
 | **Advanced** | `evaluate_script`, network request inspection, settings/skills, memory, Gmail API, Calendar API, secrets vault | Network interception, debugger, code execution | Network requests, console, Lighthouse, performance tooling | `browser_evaluate`, network requests, file upload |
 
 VibeBrowser gives the AI simple, direct commands. If an element is labeled `A7`, the AI just calls `click(ref: "A7")`.
 
 Playwriter takes the opposite route: it gives the AI a blank check to write arbitrary Playwright JavaScript. It's infinitely flexible, provided the AI doesn't write a bug.
+
+Another important correction to the first draft: **Playwright MCP is ref-based too**. Its action tools take snapshot refs like `ref=e2`, not just free-form locators. That puts it much closer to Chrome DevTools MCP's `uid` model than I originally gave it credit for.
 
 One nuance that matters in practice: Vibe's current MCP server intentionally mirrors a lot of the Chrome DevTools / browser-tool naming shape - `navigate_page`, `new_page`, `list_pages`, `close_page`, `click`, `fill`, `fill_form`, `press_key`, `hover`, `drag`, `wait_for`, `take_screenshot`, `evaluate_script`, `list_network_requests`, and `get_network_request` - while still adding Vibe-specific tools like `get_page_markdown`, `take_md_snapshot`, `take_a11y_snapshot`, `take_html_snapshot`, `settings`, `settings_list`, `memory_*`, `gmail_*`, `calendar_*`, and `typein_secret`.
 
@@ -148,15 +213,19 @@ You have to spin up a local relay server and manage browser flags. It’s a bit 
 
 ### 3. Chrome DevTools MCP
 **Ease of Setup:** ⭐⭐ | **Daily Use:** ⭐⭐⭐⭐
-Setting this up usually means launching Chrome from the terminal with `--remote-debugging-port=9222`, which is clunky if you just want to get to work. **However**, if you configure it with `--autoConnect`, it is arguably the **most advanced and powerful tool** on this list. It gives you god-mode access to the browser. 
+This is the most DevTools-native option here. It can launch Chrome for you, or attach to an existing debuggable Chrome via `--autoConnect` / `--browser-url`. But that existing-browser path still depends on Chrome's remote debugging plumbing, which is the architectural tax you keep paying for the deep inspection power.
+
+The upside is obvious once you look at the tool surface: console inspection, network requests, Lighthouse, performance traces, memory snapshots, and a direct AX-tree snapshot. It feels more like giving an AI assistant a remote DevTools session than giving it an agent-native browser abstraction.
 
 The catch? It has a nasty habit of leaking memory over time. If you leave it running, it will eventually drag your system to a halt. (I actually wrote a whole separate post diving into the [Chrome DevTools MCP memory issues](/blog/chromeDevtoolsMcpIssue.medium) if you want the gory details).
 
 ### 4. Playwright MCP (microsoft/playwright-mcp)
 **Ease of Setup:** ⭐⭐⭐⭐ | **Daily Use:** ⭐⭐⭐
-Standard `npx` install via the official Microsoft repository, which is nice. But in daily use, it defaults to spinning up fresh, headless browser contexts. This means you are constantly slamming into Cloudflare challenges, CAPTCHAs, and login walls. 
+Standard `npx` install via the official Microsoft repository, which is nice. The subtle but important point is that it does **not** default to a raw HTML snapshot or a headless throwaway session. By default it runs a **Playwright-managed browser profile** and returns a **custom AI accessibility snapshot**. You can run isolated sessions, feed in storage state, or connect to an existing browser through the Playwright MCP extension.
 
-Honestly, I think that the official `chrome-devtools-mcp` with `--autoConnect` looks better than `https://github.com/microsoft/playwright-mcp`. Being able to connect to your existing, authenticated browser session via DevTools beats fighting bot detection in a fresh headless instance any day of the week.
+The real tradeoff is different: the default browser state is still **Playwright-managed**, not your normal everyday Chrome tabs. So unless you deliberately bridge state in, you are working in a separate profile. Compared with Chrome DevTools MCP, though, the snapshot format is much more agent-friendly: refs, YAML-like structure, iframe stitching, and incremental diffs. The key nuance is that `browser_snapshot` is not just "the accessibility tree" - it is Playwright's own AI projection built from accessibility semantics.
+
+Honestly, the cleanest way to think about the Microsoft vs Google split is this: **Playwright MCP is better shaped for agent interaction; Chrome DevTools MCP is better shaped for deep browser debugging**. If I need compact, ref-driven snapshots and action loops, I lean Playwright. If I need performance traces, console internals, or memory tooling, I lean Chrome DevTools MCP.
 
 ### 5. BrowserMCP.io
 **Ease of Setup:** ⭐⭐⭐⭐⭐ | **Daily Use:** ⭐⭐⭐⭐
@@ -205,7 +274,7 @@ None of these tools are perfect. The ecosystem still has some glaring blind spot
 
 If we are being brutally honest, the era of standalone extension-based relays (like Playwriter or BrowserMCP) is coming to an end. 
 
-Why bother installing a separate extension, running a local Node.js relay, and fighting bot-detection when the official **Chrome DevTools MCP** with `--autoConnect` already exists? It connects directly to your existing browser session natively, bypassing the need for clunky third-party extension bridges entirely. Even OpenClaw realized this, deprecating their extension relay in favor of wrapping `chrome-devtools-mcp` with Playwright.
+Why bother installing a separate extension, running a local Node.js relay, and fighting bot-detection when the official **Chrome DevTools MCP** with `--autoConnect` already exists? It can attach to a debuggable local Chrome instance without adding another bridge extension on top. The tradeoff is that you are now living in remote-debugging land: ports, debuggable profiles, and more DevTools-style plumbing. Even OpenClaw realized this, deprecating their extension relay in favor of wrapping `chrome-devtools-mcp` with Playwright.
 
 So, if Chrome DevTools MCP is the "native" way to do this, why does **VibeBrowser MCP** still exist (and thrive)?
 
@@ -219,3 +288,10 @@ Because Chrome DevTools MCP is a *plumbing* tool, not an *agent* tool. VibeBrows
 If you just want to run E2E tests, **Playwright** is still king. If you need to trace memory leaks on a single tab, fire up **Chrome DevTools MCP** with `--autoConnect`.
 
 But if your goal is to build autonomous agents that can actually surf the web securely, without blowing up your token budget or getting blocked by every Cloudflare wall they hit, you probably want a purpose-built agent environment rather than a raw protocol bridge. We built [**VibeBrowser**](https://vibebrowser.app) to solve exactly these headaches - giving AI agents stable access to your real browser, AI-friendly snapshots, Chrome DevTools-style controls, secure secrets handling, and multi-agent coordination without the usual duct tape.
+
+## References
+
+- [Microsoft Playwright MCP repository](https://github.com/microsoft/playwright-mcp)
+- [Google Chrome DevTools MCP repository](https://github.com/ChromeDevTools/chrome-devtools-mcp)
+- [Playwright MCP README](https://github.com/microsoft/playwright-mcp/blob/main/README.md)
+- [Chrome DevTools MCP tool reference](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/main/docs/tool-reference.md)

@@ -67,8 +67,8 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: 'https://www.vibebrowser.app',
-    siteName: 'Vibe Co-Pilot',
-    title: 'Vibe Co-Pilot | Real Browser AI Automation',
+    siteName: 'Vibe Browser',
+    title: 'Vibe Browser | Real Browser AI Automation',
     description:
       'AI browser automation for real logged-in browser sessions with MCP access, Google Workspace tools, and reusable skills.',
     images: [
@@ -177,7 +177,7 @@ const organizationJsonLd = {
 const softwareJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
-  name: 'Vibe Co-Pilot',
+  name: 'Vibe Browser',
   applicationCategory: 'BrowserApplication',
   operatingSystem: 'Chrome',
   description:

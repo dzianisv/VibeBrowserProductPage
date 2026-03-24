@@ -32,7 +32,7 @@ const forPages = [
   { href: '/tax', label: 'Tax' },
 ]
 
-const darkPages = ['/teams', '/enterprise', '/mobile']
+const darkPages = ['/teams', '/enterprise']
 
 export function SiteNav() {
   const pathname = usePathname()
