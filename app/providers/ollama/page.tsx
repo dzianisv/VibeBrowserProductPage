@@ -89,7 +89,7 @@ export default function OllamaProviderPage() {
         </section>
 
         {/* Quick Start */}
-        <section id="quick-start" className="w-full pb-16">
+        <section id="quick-start" className="w-full pb-16 scroll-mt-20">
           <div className="container max-w-4xl px-4 md:px-6 mx-auto">
             <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-2xl p-6 md:p-8">
               <h2 className="text-2xl font-semibold mb-6 text-[#e8eaed]">Quick Start</h2>
@@ -174,7 +174,7 @@ export default function OllamaProviderPage() {
         </section>
 
         {/* Why Ollama */}
-        <section id="why-ollama" className="w-full pb-16">
+        <section id="why-ollama" className="w-full pb-16 scroll-mt-20">
           <div className="container max-w-4xl px-4 md:px-6 mx-auto">
             <h2 className="text-2xl font-semibold mb-6 text-[#e8eaed]">
               Why use Ollama with Vibe Browser?
@@ -314,7 +314,7 @@ export default function OllamaProviderPage() {
         </section>
 
         {/* Troubleshooting */}
-        <section id="troubleshooting" className="w-full pb-16">
+        <section id="troubleshooting" className="w-full pb-16 scroll-mt-20">
           <div className="container max-w-4xl px-4 md:px-6 mx-auto">
             <h2 className="text-2xl font-semibold mb-6 text-[#e8eaed]">
               Troubleshooting
