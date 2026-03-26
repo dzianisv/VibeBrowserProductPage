@@ -16,7 +16,8 @@
 - [Investors](https://www.vibebrowser.app/investors): AI for investors. Stock research, Morningstar reports, portfolio analysis.
 - [Crypto & DeFi](https://www.vibebrowser.app/crypto): AI for crypto. DeFi research, APY comparison, portfolio rebalancing.
 - [Tax](https://www.vibebrowser.app/tax): AI tax preparation. Automated form downloads, tax estimation, return filing assistance.
-- [MCP](https://www.vibebrowser.app/mcp): Model Context Protocol integration. Connect Vibe Browser to AI coding agents.
+- [MCP](https://www.vibebrowser.app/mcp): Vibe Browser for Agents. Connect real browser sessions to MCP-compatible AI agents.
+- [OpenClaw](https://www.vibebrowser.app/openclaw): Vibe Browser for OpenClaw. Command-oriented browser CLI and relay workflow for OpenClaw-style agent control.
 - [Compare](https://www.vibebrowser.app/compare): Feature comparison between Vibe Browser and alternatives.
 - [About Us](https://www.vibebrowser.app/aboutus): Meet the Vibe Technologies team.
 - [Privacy Policy](https://www.vibebrowser.app/privacy): Vibe Browser privacy policy.

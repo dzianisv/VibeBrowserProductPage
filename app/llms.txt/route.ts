@@ -5,7 +5,8 @@ const siteUrl = 'https://www.vibebrowser.app'
 const primaryPages = [
   { label: 'Homepage', url: `${siteUrl}/` },
   { label: 'Compare Vibe with other AI browser products', url: `${siteUrl}/compare` },
-  { label: 'MCP browser operator page', url: `${siteUrl}/mcp` },
+  { label: 'Vibe Browser for Agents MCP page', url: `${siteUrl}/mcp` },
+  { label: 'Vibe Browser for OpenClaw CLI page', url: `${siteUrl}/openclaw` },
   { label: 'Teams page', url: `${siteUrl}/teams` },
   { label: 'Enterprise page', url: `${siteUrl}/enterprise` },
   { label: 'Blog index', url: `${siteUrl}/blog` },

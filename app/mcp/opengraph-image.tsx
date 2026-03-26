@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og'
 
-export const alt = 'Vibe MCP Server - Control Your Browser from Any AI Agent'
+export const alt = 'Vibe Browser for Agents - Real Browser MCP'
 export const size = {
   width: 1200,
   height: 630,
@@ -50,7 +50,7 @@ export default async function Image() {
           }}
         >
           <span style={{ color: '#8ab4f8', fontSize: '18px', fontWeight: 600 }}>
-            Model Context Protocol
+            Vibe Browser for Agents
           </span>
         </div>
 
@@ -97,7 +97,7 @@ export default async function Image() {
             maxWidth: '800px',
           }}
         >
-          Multi-agent relay | 25+ tools | Google Workspace | Credential vault
+          vibebrowser-mcp | vibe-mcp | Multi-agent relay
         </span>
 
         {/* Agent badges */}
@@ -139,7 +139,7 @@ export default async function Image() {
         >
           <span style={{ color: '#5f6368', fontSize: '16px' }}>vibebrowser.app/mcp</span>
           <span style={{ color: '#3c4043' }}>|</span>
-          <span style={{ color: '#81c995', fontSize: '16px', fontFamily: 'monospace' }}>npx @vibebrowser/mcp</span>
+          <span style={{ color: '#81c995', fontSize: '16px', fontFamily: 'monospace' }}>vibebrowser-mcp • vibe-mcp</span>
         </div>
       </div>
     ),

@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og'
 
-export const alt = 'Vibe Browser for Agents - Real Browser MCP'
+export const alt = 'Vibe Browser for OpenClaw - Real Browser CLI'
 export const size = {
   width: 1200,
   height: 630,
@@ -12,7 +12,7 @@ export default async function Image() {
     (
       <div
         style={{
-          background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%)',
+          background: 'radial-gradient(circle at 18% 18%, rgba(255, 77, 77, 0.22), transparent 26%), radial-gradient(circle at 78% 16%, rgba(158, 158, 255, 0.22), transparent 28%), linear-gradient(135deg, #050810 0%, #0a1020 46%, #050810 100%)',
           width: '100%',
           height: '100%',
           display: 'flex',
@@ -23,25 +23,23 @@ export default async function Image() {
           position: 'relative',
         }}
       >
-        {/* Top badge */}
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
             gap: '8px',
-            background: 'rgba(138, 180, 248, 0.1)',
-            border: '1px solid rgba(138, 180, 248, 0.2)',
+            background: 'rgba(255, 77, 77, 0.1)',
+            border: '1px solid rgba(255, 77, 77, 0.2)',
             borderRadius: '20px',
             padding: '8px 20px',
             marginBottom: '32px',
           }}
         >
-          <span style={{ color: '#8ab4f8', fontSize: '18px', fontWeight: 600 }}>
-            Vibe Browser for Agents
+          <span style={{ color: '#ff6b6b', fontSize: '18px', fontWeight: 600 }}>
+            Vibe Browser for OpenClaw
           </span>
         </div>
 
-        {/* Main title */}
         <div
           style={{
             display: 'flex',
@@ -52,57 +50,39 @@ export default async function Image() {
         >
           <span
             style={{
-              fontSize: '52px',
+              fontSize: '56px',
               fontWeight: 400,
-              color: '#e8eaed',
+              color: '#f0f4ff',
               textAlign: 'center',
               lineHeight: 1.2,
             }}
           >
-            Control Your Browser from
+            Real Browser CLI
           </span>
           <span
             style={{
-              fontSize: '52px',
+              fontSize: '56px',
               fontWeight: 400,
-              color: '#8ab4f8',
+              color: '#9e9eff',
               textAlign: 'center',
               lineHeight: 1.2,
             }}
           >
-            Any AI Agent
+            for OpenClaw Flows
           </span>
         </div>
 
-        {/* Key features */}
-        <div
+        <span
           style={{
-            display: 'flex',
-            gap: '24px',
-            marginTop: '36px',
-            color: '#9aa0a6',
-            fontSize: '20px',
+            fontSize: '22px',
+            color: '#c4cbe0',
+            marginTop: '24px',
+            textAlign: 'center',
+            maxWidth: '820px',
           }}
         >
-          <span>Multi-agent</span>
-          <span style={{ color: '#3c4043' }}>|</span>
-          <span>25+ tools</span>
-          <span style={{ color: '#3c4043' }}>|</span>
-          <span>Open source MCP</span>
-        </div>
-
-        {/* Bottom */}
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '32px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '12px',
-          }}
-        >
-          <span style={{ color: '#81c995', fontSize: '16px', fontFamily: 'monospace' }}>vibebrowser-mcp • vibe-mcp</span>
-        </div>
+          vibebrowser-cli | remote relay | logged-in browser session
+        </span>
       </div>
     ),
     {

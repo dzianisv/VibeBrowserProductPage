@@ -9,8 +9,8 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.vibebrowser.app'),
-  title: 'Vibe MCP Server - Control Your Browser from Claude, Cursor, VS Code & More',
-  description: 'Connect AI agents to your real browser via Model Context Protocol. Multi-agent support, Google Workspace (Gmail + Calendar), skills, and a secrets vault. Works with Anthropic Claude Max, GitHub Copilot, Vibe AI, and BYOK providers.',
+  title: 'Vibe Browser for Agents | Real Browser MCP',
+  description: 'Connect Claude Code, Cursor, Codex, VS Code, OpenCode, and other MCP agents to your real browser. Published npm binaries: vibebrowser-mcp and vibe-mcp. Multi-agent relay, Google Workspace, skills, and a secrets vault.',
   keywords: [
     // Primary MCP keywords
     'browser mcp server',
@@ -60,6 +60,7 @@ export const metadata: Metadata = {
     // Technical keywords
     'npx vibebrowser mcp',
     '@vibebrowser/mcp',
+    'vibebrowser-mcp',
     'mcp websocket relay',
     'ai coding agent browser',
     'browser control ai agent',
@@ -86,22 +87,22 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: 'https://www.vibebrowser.app/mcp',
-    siteName: 'Vibe Co-Pilot',
-    title: 'Vibe MCP Server - Control Your Browser from Any AI Agent',
-    description: 'Multi-agent browser automation via MCP. Google Workspace, skills, secrets vault, no debug permissions. Works with Claude Max, GitHub Copilot, Vibe AI, Cursor, VS Code, and BYOK providers.',
+    siteName: 'Vibe Browser',
+    title: 'Vibe Browser for Agents | Real Browser MCP',
+    description: 'Multi-agent browser automation via vibebrowser-mcp for Claude Code, Codex, Cursor, OpenCode, VS Code, and other MCP clients.',
     images: [
       {
         url: '/og/mcp.svg',
         width: 1200,
         height: 630,
-        alt: 'Vibe MCP Server',
+        alt: 'Vibe Browser for Agents',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Vibe MCP Server - Control Your Browser from Any AI Agent',
-    description: 'Multi-agent browser automation via MCP. Google Workspace, skills, secrets vault. Works with Claude Max, GitHub Copilot, Vibe AI, and BYOK providers.',
+    title: 'Vibe Browser for Agents | Real Browser MCP',
+    description: 'Multi-agent browser automation via vibebrowser-mcp for real browser sessions.',
     images: ['/og/mcp.svg'],
     creator: '@vibebrowserapp',
   },
@@ -127,10 +128,10 @@ export const metadata: Metadata = {
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
-  name: 'Vibe MCP Server',
+  name: 'Vibe Browser for Agents',
   applicationCategory: 'DeveloperApplication',
   operatingSystem: 'Chrome, macOS, Windows, Linux',
-  description: 'MCP server that exposes your browser as a tool for AI agents. Multi-agent support, Google Workspace, skills library, and a secrets vault.',
+  description: 'Browser automation MCP server that exposes your real browser to AI agents. Published npm binaries: vibebrowser-mcp and vibe-mcp.',
   url: 'https://www.vibebrowser.app/mcp',
   downloadUrl: 'https://www.npmjs.com/package/@vibebrowser/mcp',
   installUrl: 'https://docs.vibebrowser.app/getting-started/extension',
@@ -143,11 +144,11 @@ const jsonLd = {
     '@type': 'Offer',
     price: '0',
     priceCurrency: 'USD',
-    description: 'Free and open source MCP server for browser automation',
+    description: 'Free MCP server for browser automation',
   },
   featureList: [
     'Multi-agent simultaneous browser control',
-    '35+ browser automation and workspace tools',
+    '25+ browser automation and workspace tools',
     'Google Workspace integration (Gmail, Calendar)',
     'Skills library for reusable workflows',
     'Secure credential vault',
@@ -191,10 +192,10 @@ const faqJsonLd = {
   mainEntity: [
     {
       '@type': 'Question',
-      name: 'How is Vibe MCP different from Playwright MCP, Chrome DevTools MCP, and BrowserMCP?',
+      name: 'How is Vibe Browser MCP different from Playwright MCP, Chrome DevTools MCP, and BrowserMCP?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Playwright MCP and Chrome DevTools MCP launch a separate browser by default. Playwright now offers a Chrome extension mode to connect to your existing browser, but it still lacks multi-agent support, Google Workspace tools, credential vault, and sub-agent orchestration. Chrome DevTools MCP requires --remote-debugging-port and sends telemetry to Google. BrowserMCP is a Chrome extension like Vibe but only supports a single agent, has ~13 tools, and its extension is closed-source. Vibe MCP supports multiple agents simultaneously, offers 25+ tools, includes Google Workspace integration, a credential vault, sub-agent orchestration, and uses markdown-indexed page content for 3-5x lower token usage.',
+        text: 'Playwright MCP and Chrome DevTools MCP launch a separate browser by default. Playwright MCP can connect to your existing browser either through its Chrome extension mode or through an explicit --cdp-endpoint when Chrome remote debugging is already enabled, but that is still manual setup and it still lacks multi-agent support, Google Workspace tools, credential vault, and sub-agent orchestration. Chrome DevTools MCP requires --remote-debugging-port and sends telemetry to Google. BrowserMCP is a Chrome extension like Vibe but only supports a single agent, has ~13 tools, and its extension is closed-source. Vibe Browser MCP supports multiple agents simultaneously, offers 25+ tools, includes Google Workspace integration, a credential vault, sub-agent orchestration, and uses indexed markdown snapshots for lower token usage.',
       },
     },
     {
@@ -207,26 +208,26 @@ const faqJsonLd = {
     },
     {
       '@type': 'Question',
-      name: 'Does Vibe MCP require Chrome debug permissions?',
+      name: 'Does Vibe Browser MCP require Chrome debug permissions?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'No. Vibe MCP uses content scripts and the Chrome Extensions API — no --remote-debugging-port or CDP required. Playwright MCP\'s extension mode also avoids debug ports, but its default mode still launches a separate browser. Chrome DevTools MCP requires debug ports. Vibe works with your normal browser profile without any special launch flags.',
+        text: 'No. Vibe Browser MCP uses content scripts and the Chrome Extensions API — no --remote-debugging-port or CDP required. Playwright MCP\'s extension mode also avoids debug ports, and it can manually attach via --cdp-endpoint if Chrome is already exposing CDP, but its default mode still launches a separate browser. Chrome DevTools MCP requires debug ports. Vibe works with your normal browser profile without any special launch flags.',
       },
     },
     {
       '@type': 'Question',
-      name: 'What AI agents work with Vibe MCP?',
+      name: 'What AI agents work with Vibe Browser MCP?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Vibe MCP works with any MCP-compatible AI client including Claude Desktop, Cursor, VS Code (GitHub Copilot), OpenCode, Claude Code, Windsurf, and Gemini CLI. Setup requires adding one JSON config block.',
+        text: 'Vibe Browser MCP works with any MCP-compatible AI client including Claude Desktop, Cursor, VS Code (GitHub Copilot), OpenCode, Claude Code, Windsurf, Gemini CLI, and Codex.',
       },
     },
     {
       '@type': 'Question',
-      name: 'How does the markdown-indexed page content work?',
+      name: 'How do indexed markdown snapshots work?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Instead of sending raw DOM or accessibility tree snapshots, Vibe extracts page content as clean markdown with interactive elements labeled as [index:score]. Agents use these indices to click, fill, and interact with elements. This drastically reduces token usage and context pollution compared to full page snapshots.',
+        text: 'Instead of sending raw DOM or accessibility tree snapshots, Vibe captures indexed markdown snapshots with interactive elements labeled as [index:score]. Agents use these indices to click, fill, and interact with elements. This drastically reduces token usage and context pollution compared to full page snapshots.',
       },
     },
     {
@@ -234,7 +235,7 @@ const faqJsonLd = {
       name: 'Why does it matter that Vibe uses my real browser?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Playwright MCP and Chrome DevTools MCP launch a fresh, separate browser by default with no sessions, cookies, or extensions. Playwright now offers a Chrome extension mode that can connect to your existing browser, but setup requires token-based auth and it still lacks multi-agent support. Vibe MCP connects directly to the browser you are already using with zero configuration, so agents can interact with Gmail, Slack, GitHub, Jira, or any logged-in site without re-authenticating.',
+        text: 'Playwright MCP and Chrome DevTools MCP launch a fresh, separate browser by default with no sessions, cookies, or extensions. Playwright MCP can reuse an existing browser through its extension flow or by pointing it at an explicit --cdp-endpoint, but that still requires extra setup and it still lacks multi-agent support. Vibe Browser MCP connects directly to the browser you are already using with zero configuration, so agents can interact with Gmail, Slack, GitHub, Jira, or any logged-in site without re-authenticating.',
       },
     },
   ],
@@ -243,8 +244,8 @@ const faqJsonLd = {
 const howToJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'HowTo',
-  name: 'How to set up Vibe MCP Server',
-  description: 'Connect your AI coding agent to your browser using Vibe MCP Server in under 2 minutes.',
+  name: 'How to set up Vibe Browser for Agents',
+  description: 'Connect your AI coding agent to your browser using vibebrowser-mcp in under 2 minutes.',
   step: [
     {
       '@type': 'HowToStep',
@@ -259,8 +260,8 @@ const howToJsonLd = {
     },
     {
       '@type': 'HowToStep',
-      name: 'Add MCP server config to your AI client',
-      text: 'Add {"mcpServers":{"vibe":{"command":"npx","args":["-y","@vibebrowser/mcp"]}}} to your AI client\'s MCP configuration file.',
+      name: 'Add vibebrowser-mcp to your AI client',
+      text: 'Add {"mcpServers":{"vibe":{"command":"npx","args":["-y","--package","@vibebrowser/mcp@latest","vibebrowser-mcp"]}}} to your AI client\'s MCP configuration file.',
     },
   ],
   totalTime: 'PT2M',
