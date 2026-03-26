@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react"
 import Link from "next/link"
+import { SiteNav } from "@/components/site-nav"
 import { SiteFooter } from "@/components/site-footer"
 import { Button } from "@/components/ui/button"
 import { trackCTAClick } from "@/components/google-analytics"
@@ -51,7 +52,6 @@ const ROTATING_AGENTS = [
   "Cursor",
   "GitHub Copilot",
   "Windsurf",
-  "OpenClaw",
 ]
 
 // Typewriter hook with delete and retype animation
@@ -103,7 +103,6 @@ const COMPATIBLE_AGENTS = [
   { name: "Windsurf", icon: "windsurf" },
   { name: "Gemini CLI", icon: "gemini" },
   { name: "Codex", icon: "codex" },
-  { name: "OpenClaw", icon: "openclaw" },
 ]
 
 type CellValue = true | false | "partial" | string
@@ -126,16 +125,23 @@ const COMPARISON_ROWS: ComparisonRow[] = [
   { feature: "Credential vault", vibe: true, playwright: false, devtools: false, browsermcp: false, detail: "Secure password manager that never exposes secrets to the LLM" },
   { feature: "Sub-agent orchestration", vibe: true, playwright: false, devtools: false, browsermcp: false, detail: "Spawn sub-agents with isolated context and parallel tool execution" },
   { feature: "Standalone AI browser", vibe: true, playwright: false, devtools: false, browsermcp: false, detail: "Also works as a standalone AI co-pilot directly in your browser" },
-  { feature: "Open source", vibe: "partial", playwright: true, devtools: true, browsermcp: "partial", detail: "Vibe's MCP server (@vibebrowser/mcp) is open source; the browser extension is not. BrowserMCP is similar" },
+  { feature: "Open source", vibe: "partial", playwright: true, devtools: true, browsermcp: "partial", detail: "Vibe's npm package (@vibebrowser/mcp) ships vibebrowser-mcp and the vibe-mcp compatibility alias as open-source binaries; the browser extension is not. BrowserMCP is similar" },
   { feature: "Telemetry to vendor", vibe: false, playwright: false, devtools: true, browsermcp: false, detail: "Chrome DevTools MCP sends usage statistics and CrUX API calls to Google by default" },
 ]
 
 const COMPETITOR_COLS = [
-  { key: "vibe" as const, label: "Vibe MCP", color: "text-[#8ab4f8]" },
+  { key: "vibe" as const, label: "Vibe Browser MCP", color: "text-[#8ab4f8]" },
   { key: "playwright" as const, label: "Playwright MCP", color: "text-[#9aa0a6]" },
   { key: "devtools" as const, label: "DevTools MCP", color: "text-[#9aa0a6]" },
   { key: "browsermcp" as const, label: "Browser MCP", color: "text-[#9aa0a6]" },
 ]
+
+const MCP_PACKAGE_SPEC = "@vibebrowser/mcp@latest"
+const MCP_SERVER_BINARY = "vibebrowser-mcp"
+const MCP_COMPAT_ALIAS = "vibe-mcp"
+const LOCAL_MCP_COMMAND = `npx -y --package ${MCP_PACKAGE_SPEC} ${MCP_SERVER_BINARY}`
+const REMOTE_MCP_COMMAND = `${LOCAL_MCP_COMMAND} --remote YOUR_UUID`
+const REMOTE_MCP_DISPLAY_COMMAND = `${LOCAL_MCP_COMMAND} --remote <uuid>`
 
 interface ToolDef {
   name: string
@@ -196,7 +202,6 @@ const TOOL_CATEGORIES: { category: string; icon: React.ReactNode; tools: ToolDef
     icon: <Eye className="w-5 h-5" />,
     tools: [
       { name: "take_snapshot", description: "Composite markdown + a11y + optional screenshot" },
-      { name: "get_page_markdown", description: "Extract indexed markdown from the current page" },
       { name: "take_md_snapshot", description: "Take a dedicated indexed markdown snapshot" },
       { name: "take_a11y_snapshot", description: "Take a dedicated indexed accessibility-tree snapshot" },
       { name: "take_html_snapshot", description: "Take a dedicated indexed HTML snapshot" },
@@ -244,7 +249,7 @@ const SETUP_CONFIGS: SetupConfig[] = [
   {
     agent: "Claude Code",
     file: "CLI",
-    config: `claude mcp add --transport stdio --scope user vibe -- npx -y @vibebrowser/mcp@latest`,
+    config: `claude mcp add --transport stdio --scope user vibe -- ${LOCAL_MCP_COMMAND}`,
     note: "Or add to project-level .mcp.json",
   },
   {
@@ -255,7 +260,7 @@ const SETUP_CONFIGS: SetupConfig[] = [
   "mcp": {
     "vibe": {
       "type": "local",
-      "command": ["npx", "-y", "@vibebrowser/mcp@latest"],
+      "command": ["npx", "-y", "--package", "@vibebrowser/mcp@latest", "vibebrowser-mcp"],
       "enabled": true
     }
   }
@@ -269,7 +274,7 @@ const SETUP_CONFIGS: SetupConfig[] = [
   "mcpServers": {
     "vibe": {
       "command": "npx",
-      "args": ["-y", "@vibebrowser/mcp@latest"]
+      "args": ["-y", "--package", "@vibebrowser/mcp@latest", "vibebrowser-mcp"]
     }
   }
 }`,
@@ -282,7 +287,7 @@ const SETUP_CONFIGS: SetupConfig[] = [
   "mcpServers": {
     "vibe": {
       "command": "npx",
-      "args": ["-y", "@vibebrowser/mcp@latest"]
+      "args": ["-y", "--package", "@vibebrowser/mcp@latest", "vibebrowser-mcp"]
     }
   }
 }`,
@@ -295,7 +300,7 @@ const SETUP_CONFIGS: SetupConfig[] = [
   "github.copilot.chat.mcpServers": {
     "vibe": {
       "command": "npx",
-      "args": ["-y", "@vibebrowser/mcp@latest"]
+      "args": ["-y", "--package", "@vibebrowser/mcp@latest", "vibebrowser-mcp"]
     }
   }
 }`,
@@ -307,7 +312,7 @@ const SETUP_CONFIGS: SetupConfig[] = [
   "mcpServers": {
     "vibe": {
       "command": "npx",
-      "args": ["-y", "@vibebrowser/mcp@latest"]
+      "args": ["-y", "--package", "@vibebrowser/mcp@latest", "vibebrowser-mcp"]
     }
   }
 }`,
@@ -319,7 +324,7 @@ const SETUP_CONFIGS: SetupConfig[] = [
   "mcpServers": {
     "vibe": {
       "command": "npx",
-      "args": ["-y", "@vibebrowser/mcp@latest"]
+      "args": ["-y", "--package", "@vibebrowser/mcp@latest", "vibebrowser-mcp"]
     }
   }
 }`,
@@ -328,8 +333,8 @@ const SETUP_CONFIGS: SetupConfig[] = [
   {
     agent: "Codex",
     file: "CLI",
-    config: `codex mcp add vibe -- npx -y @vibebrowser/mcp@latest`,
-    note: "Or add to ~/.codex/config.toml (or .codex/config.toml): [mcp_servers.vibe] command = \"npx\" args = [\"-y\", \"@vibebrowser/mcp@latest\"]",
+    config: `codex mcp add vibe -- ${LOCAL_MCP_COMMAND}`,
+    note: "Or add to ~/.codex/config.toml (or .codex/config.toml): [mcp_servers.vibe] command = \"npx\" args = [\"-y\", \"--package\", \"@vibebrowser/mcp@latest\", \"vibebrowser-mcp\"]",
   },
 ]
 
@@ -405,35 +410,7 @@ export default function McpPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#0a0a0a] text-[#e8eaed] overflow-x-hidden">
-      {/* Header */}
-      <header className="w-full px-4 lg:px-6 h-16 flex items-center justify-between border-b border-[#1e1e1e] bg-[#0a0a0a]/95 backdrop-blur-sm sticky top-0 z-50">
-        <div className="flex items-center gap-3">
-          <img src="/vibebrowser-logo.png" alt="Vibe AI Browser" className="w-9 h-9 object-contain" />
-          <span className="text-lg font-medium text-[#e8eaed]">
-            Vibe MCP<span className="text-[#9aa0a6]"> · Browser Automation</span>
-          </span>
-        </div>
-        <nav className="hidden md:flex gap-6 items-center text-sm">
-          <a href="#compare" className="text-[#9aa0a6] hover:text-[#e8eaed] transition-colors">Compare</a>
-          <a href="#tools" className="text-[#9aa0a6] hover:text-[#e8eaed] transition-colors">Tools</a>
-          <a href="#setup" className="text-[#9aa0a6] hover:text-[#e8eaed] transition-colors">Setup</a>
-          <a href="#faq" className="text-[#9aa0a6] hover:text-[#e8eaed] transition-colors">FAQ</a>
-        </nav>
-        <div className="flex gap-3 items-center">
-          <Link href="/" className="text-sm text-[#9aa0a6] hover:text-[#e8eaed] transition-colors hidden sm:block">
-            Vibe Co-Pilot →
-          </Link>
-          <Link href="https://docs.vibebrowser.app/getting-started/extension" target="_blank">
-            <Button
-              size="sm"
-              className="bg-[#8ab4f8] hover:bg-[#aecbfa] text-[#0a0a0a] font-medium rounded-full"
-              onClick={() => trackCTAClick('install_extension_docs', 'mcp_header')}
-            >
-              Install Extension
-            </Button>
-          </Link>
-        </div>
-      </header>
+      <SiteNav />
 
       <main className="flex-1">
         {/* Hero Section */}
@@ -442,7 +419,7 @@ export default function McpPage() {
             <div className="flex flex-col items-center gap-8 text-center">
               <Badge variant="secondary" className="px-4 py-2 text-sm font-medium bg-[#8ab4f8]/10 text-[#8ab4f8] border-[#8ab4f8]/20">
                 <Cpu className="w-4 h-4 mr-2" />
-                Model Context Protocol
+                Real Browser MCP
               </Badge>
 
               <div className="space-y-4">
@@ -455,7 +432,7 @@ export default function McpPage() {
                 <p className="text-xl text-[#9aa0a6] max-w-2xl mx-auto">
                   Connect Claude, Cursor, VS Code, and more to your real browser — with all your sessions, cookies, and extensions intact.
                   Works with Anthropic Claude Max, GitHub Copilot, Vibe AI, and BYOK providers.
-                  Multi-agent ready, internet-exposed relay, 25+ tools, open source MCP server. Connect any agent on the internet — including <a href="https://openclaw.com" target="_blank" rel="noopener noreferrer" className="text-[#8ab4f8] hover:underline">OpenClaw</a> — to your local browser.
+                  Multi-agent ready, internet-exposed relay, 25+ tools, and an open source MCP package for real browser control. Need the command-oriented OpenClaw flow? Use the dedicated <Link href="/openclaw" className="text-[#8ab4f8] hover:underline">Vibe Browser for OpenClaw</Link> page.
                 </p>
               </div>
 
@@ -543,6 +520,9 @@ export default function McpPage() {
                   )}
                 </div>
                 <p className="text-xs text-[#5f6368] mt-2">Requires Node.js and the <Link href="https://docs.vibebrowser.app/getting-started/extension" target="_blank" className="text-[#8ab4f8] hover:underline">Vibe Browser extension</Link></p>
+                <p className="text-xs text-[#5f6368] mt-1">
+                  Published MCP binaries: <code className="text-[#9aa0a6]">{MCP_SERVER_BINARY}</code> and <code className="text-[#9aa0a6]">{MCP_COMPAT_ALIAS}</code>. For OpenClaw-style CLI flows, see <Link href="/openclaw" className="text-[#8ab4f8] hover:underline">the separate OpenClaw page</Link>.
+                </p>
               </div>
 
               {/* Trust indicators */}
@@ -565,7 +545,7 @@ export default function McpPage() {
                 </span>
                 <span className="flex items-center gap-2">
                   <Code2 className="w-4 h-4" />
-                   Open source MCP
+                  Open source MCP package
                 </span>
               </div>
             </div>
@@ -587,15 +567,15 @@ export default function McpPage() {
           </div>
         </section>
 
-        {/* Why Vibe MCP */}
+        {/* Why Vibe Browser MCP */}
         <section id="compare" className="w-full py-16 md:py-24 border-t border-[#1e1e1e] bg-[#111111]">
           <div className="container max-w-6xl px-4 md:px-6 mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-2xl md:text-3xl font-normal text-[#e8eaed] mb-4">
-                How Vibe MCP compares
+                How Vibe Browser MCP compares
               </h2>
               <p className="text-[#9aa0a6] max-w-2xl mx-auto">
-                Vibe MCP is the only browser MCP that uses your real browser with all your logged-in sessions — no debug ports, no separate browser instance.
+                Vibe Browser MCP is the only browser MCP that uses your real browser with all your logged-in sessions — no debug ports, no separate browser instance.
               </p>
             </div>
 
@@ -682,13 +662,13 @@ export default function McpPage() {
                   <div className="w-3 h-3 rounded-full bg-[#f28b82]" />
                   <div className="w-3 h-3 rounded-full bg-[#fdd663]" />
                   <div className="w-3 h-3 rounded-full bg-[#81c995]" />
-                  <span className="text-xs text-[#5f6368] ml-2">npx -y @vibebrowser/mcp@latest</span>
+                  <span className="text-xs text-[#5f6368] ml-2">{LOCAL_MCP_COMMAND}</span>
                 </div>
                 <pre className="p-6 text-sm font-mono text-[#9aa0a6] overflow-x-auto leading-relaxed">
 {`  Claude Code          Cursor           OpenCode
        │                  │                 │
        ▼                  ▼                 ▼
-   [vibe-mcp]         [vibe-mcp]        [vibe-mcp]     ← stdio MCP bridges
+   [vibebrowser-mcp]  [vibebrowser-mcp] [vibebrowser-mcp] ← stdio MCP bridges
        │                  │                 │
        └──────────────────┼─────────────────┘
                           │
@@ -721,13 +701,13 @@ export default function McpPage() {
                   <div className="w-3 h-3 rounded-full bg-[#f28b82]" />
                   <div className="w-3 h-3 rounded-full bg-[#fdd663]" />
                   <div className="w-3 h-3 rounded-full bg-[#81c995]" />
-                  <span className="text-xs text-[#5f6368] ml-2">npx -y @vibebrowser/mcp@latest --remote &lt;uuid&gt;</span>
+                  <span className="text-xs text-[#5f6368] ml-2">{REMOTE_MCP_DISPLAY_COMMAND}</span>
                 </div>
                 <pre className="p-6 text-sm font-mono text-[#9aa0a6] overflow-x-auto leading-relaxed">
-{`  OpenClaw (cloud)     Claude Code (laptop)     Cursor (office)
+{`  Cloud runner         Claude Code (laptop)     Cursor (office)
        │                      │                       │
        ▼                      ▼                       ▼
-   [vibe-mcp               [vibe-mcp               [vibe-mcp
+   [vibebrowser-mcp      [vibebrowser-mcp      [vibebrowser-mcp
     --remote <uuid>]         --remote <uuid>]         --remote <uuid>]
        │                      │                       │
        └──────────────────────┼───────────────────────┘
@@ -778,10 +758,10 @@ export default function McpPage() {
                     <div className="bg-[#0a0a0a] rounded border border-[#2a2a2a] overflow-hidden">
                       <div className="flex items-center justify-between px-3 py-1.5 bg-[#1a1a1a] border-b border-[#2a2a2a]">
                         <span className="text-xs text-[#5f6368] font-mono">CLI</span>
-                        <CopyButton text="npx -y @vibebrowser/mcp@latest --remote YOUR_UUID" />
+                        <CopyButton text={REMOTE_MCP_COMMAND} />
                       </div>
                       <pre className="px-3 py-2 text-sm font-mono text-[#e8eaed] overflow-x-auto">
-                        <code>npx -y @vibebrowser/mcp@latest --remote YOUR_UUID</code>
+                        <code>{REMOTE_MCP_COMMAND}</code>
                       </pre>
                     </div>
                   </div>
@@ -1035,24 +1015,28 @@ export default function McpPage() {
                   <span className="text-xs text-[#5f6368] ml-2">page content (auto)</span>
                 </div>
                 <pre className="p-4 text-sm font-mono text-[#9aa0a6] overflow-x-auto leading-relaxed">
-{`# GitHub - VibeTechnologies/vibe-mcp
+{`# @vibebrowser/mcp
 
-MCP server for browser automation.
+Browser automation MCP and CLI package.
 
 ## Quick Start
 
-[1:0.9] Install extension
-[2:0.8] View documentation
-[3:0.7] Star repository
+[1:0.9] Run vibebrowser-mcp
+[2:0.8] Run vibe-mcp
+[3:0.7] View documentation
+
+## Published binaries
+- vibebrowser-mcp
+- vibe-mcp (compatibility alias)
 
 ## Features
-- Multi-agent support
+- Multi-agent relay
 - 25+ browser tools
 - Google Workspace integration
 
 [4:0.6] Sign in
-[5:0.5] Fork repository
-[6:0.3] Watch`}
+[5:0.5] Copy config
+[6:0.3] Enable remote mode`}
                 </pre>
               </div>
             </div>
@@ -1069,14 +1053,14 @@ MCP server for browser automation.
             <Accordion type="single" collapsible className="space-y-2">
               <AccordionItem value="item-1" className="border-[#2a2a2a] bg-[#0a0a0a] rounded-lg px-4">
                 <AccordionTrigger className="text-[#e8eaed] hover:no-underline">
-                  How is Vibe MCP different from Playwright MCP, Chrome DevTools MCP, and BrowserMCP?
+                  How is Vibe Browser MCP different from Playwright MCP, Chrome DevTools MCP, and BrowserMCP?
                 </AccordionTrigger>
                 <AccordionContent className="text-[#9aa0a6]">
-                  <strong className="text-[#e8eaed]">vs Playwright MCP &amp; Chrome DevTools MCP:</strong> By default both launch a separate browser instance — you lose all logged-in sessions, cookies, and extensions. Playwright MCP now offers a Chrome extension mode that can connect to your existing browser, but it still lacks multi-agent control, Google Workspace tools, credential vault, and sub-agent orchestration. Chrome DevTools MCP requires <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">--remote-debugging-port</code> for existing browser connections and sends telemetry to Google by default.
+                  <strong className="text-[#e8eaed]">vs Playwright MCP &amp; Chrome DevTools MCP:</strong> By default both launch a separate browser instance — you lose all logged-in sessions, cookies, and extensions. Playwright MCP can connect to your existing browser either through its Chrome extension mode or through an explicit <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">--cdp-endpoint</code> when Chrome remote debugging is already enabled, but that is still manual setup and it still lacks multi-agent control, Google Workspace tools, credential vault, and sub-agent orchestration. Chrome DevTools MCP requires <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">--remote-debugging-port</code> for existing browser connections and sends telemetry to Google by default.
                   <br /><br />
                   <strong className="text-[#e8eaed]">vs BrowserMCP:</strong> Like Vibe, BrowserMCP is a Chrome extension that uses your real browser. However, it only supports a single agent at a time (new connections kill the previous one), has ~13 tools vs Vibe's 25+, lacks Google Workspace integration, credential vault, and sub-agent orchestration. Its extension is also closed-source.
                   <br /><br />
-                  <strong className="text-[#e8eaed]">Unique to Vibe:</strong> Multi-agent relay daemon, 25+ tools, native Gmail/Calendar integration, secure credential vault (<code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">typein_secret</code>), sub-agent orchestration, and markdown-indexed page content for 3-5x lower token usage.
+                  <strong className="text-[#e8eaed]">Unique to Vibe:</strong> Multi-agent relay daemon, 25+ tools, native Gmail/Calendar integration, secure credential vault (<code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">typein_secret</code>), sub-agent orchestration, and indexed markdown snapshots for 3-5x lower token usage.
                 </AccordionContent>
               </AccordionItem>
 
@@ -1085,7 +1069,7 @@ MCP server for browser automation.
                   Can remote agents on the internet connect to my browser?
                 </AccordionTrigger>
                 <AccordionContent className="text-[#9aa0a6]">
-                  Yes. Vibe MCP now supports exposing your relay daemon to the internet, so any remote AI agent — such as <a href="https://openclaw.com" target="_blank" rel="noopener noreferrer" className="text-[#8ab4f8] hover:underline">OpenClaw</a> — can connect to your local browser extension from anywhere. This means you can use cloud-hosted agents and AI platforms to automate tasks in your real browser with all your sessions intact, without needing to be on the same machine.
+                  Yes. Vibe Browser MCP now supports exposing your relay daemon to the internet, so remote AI agents and cloud runners can connect to your local browser extension from anywhere. That includes OpenClaw-style remote flows, but the command-oriented setup lives on the dedicated <Link href="/openclaw" className="text-[#8ab4f8] hover:underline">OpenClaw page</Link>.
                 </AccordionContent>
               </AccordionItem>
 
@@ -1094,25 +1078,25 @@ MCP server for browser automation.
                   Can multiple AI agents control the browser at the same time?
                 </AccordionTrigger>
                 <AccordionContent className="text-[#9aa0a6]">
-                  Yes. Vibe MCP uses a relay daemon architecture where multiple AI clients (Claude, Cursor, VS Code, etc.) each connect via their own stdio MCP bridge to a shared relay on port 19888. The relay forwards requests to the Vibe extension on port 19889. Each agent operates independently without conflicts.
+                  Yes. Vibe Browser MCP uses a relay daemon architecture where multiple AI clients (Claude, Cursor, VS Code, etc.) each connect via their own stdio MCP bridge to a shared relay on port 19888. The relay forwards requests to the Vibe extension on port 19889. Each agent operates independently without conflicts.
                 </AccordionContent>
               </AccordionItem>
 
               <AccordionItem value="item-4" className="border-[#2a2a2a] bg-[#0a0a0a] rounded-lg px-4">
                 <AccordionTrigger className="text-[#e8eaed] hover:no-underline">
-                  Does Vibe MCP require Chrome debug permissions?
+                  Does Vibe Browser MCP require Chrome debug permissions?
                 </AccordionTrigger>
                 <AccordionContent className="text-[#9aa0a6]">
-                  No. Vibe MCP uses content scripts and the Chrome Extensions API to interact with pages — no <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">--remote-debugging-port</code> or CDP required. Playwright MCP's extension mode also avoids debug ports, but its default mode still launches a separate browser via Playwright's protocol. Chrome DevTools MCP requires debug ports. Vibe works with your normal browser profile without any special launch flags or security downgrades.
+                  No. Vibe Browser MCP uses content scripts and the Chrome Extensions API to interact with pages — no <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">--remote-debugging-port</code> or CDP required. Playwright MCP's extension mode also avoids debug ports, and it can manually attach via <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">--cdp-endpoint</code> if Chrome is already exposing CDP, but its default mode still launches a separate browser via Playwright's protocol. Chrome DevTools MCP requires debug ports. Vibe works with your normal browser profile without any special launch flags or security downgrades.
                 </AccordionContent>
               </AccordionItem>
 
               <AccordionItem value="item-5" className="border-[#2a2a2a] bg-[#0a0a0a] rounded-lg px-4">
                 <AccordionTrigger className="text-[#e8eaed] hover:no-underline">
-                  What AI agents work with Vibe MCP?
+                  What AI agents work with Vibe Browser MCP?
                 </AccordionTrigger>
                 <AccordionContent className="text-[#9aa0a6]">
-                  Any MCP-compatible AI client — local or remote. We provide setup configs for Claude Desktop, Cursor, VS Code (GitHub Copilot), OpenCode, Claude Code, Windsurf, and Gemini CLI. Remote agents like <a href="https://openclaw.com" target="_blank" rel="noopener noreferrer" className="text-[#8ab4f8] hover:underline">OpenClaw</a> can also connect to your browser over the internet. Setup is one JSON block per agent.
+                  Any MCP-compatible AI client — local or remote. We provide setup configs for Claude Desktop, Cursor, VS Code (GitHub Copilot), OpenCode, Claude Code, Windsurf, Gemini CLI, and Codex. If you are specifically wiring up OpenClaw or another command-oriented browser runtime, use the dedicated <Link href="/openclaw" className="text-[#8ab4f8] hover:underline">Vibe Browser for OpenClaw</Link> page.
                 </AccordionContent>
               </AccordionItem>
 
@@ -1127,25 +1111,25 @@ MCP server for browser automation.
 
               <AccordionItem value="item-7" className="border-[#2a2a2a] bg-[#0a0a0a] rounded-lg px-4">
                 <AccordionTrigger className="text-[#e8eaed] hover:no-underline">
-                  Is Vibe MCP open source?
+                  Is Vibe Browser MCP open source?
                 </AccordionTrigger>
                 <AccordionContent className="text-[#9aa0a6]">
-                  Partially. The MCP server package (<code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">@vibebrowser/mcp</code>) is open source on GitHub and published on npm. The Vibe Browser extension itself is not open source. Playwright MCP (Microsoft) and Chrome DevTools MCP (Google) are fully open source under Apache-2.0. BrowserMCP is in a similar position to Vibe — their MCP server is open source, but the Chrome extension is closed-source and the monorepo cannot be built standalone.
+                  Partially. The npm package (<code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">@vibebrowser/mcp</code>) is open source on GitHub and published on npm with <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">{MCP_SERVER_BINARY}</code> and the compatibility alias <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">{MCP_COMPAT_ALIAS}</code>. The Vibe Browser extension itself is not open source. Playwright MCP (Microsoft) and Chrome DevTools MCP (Google) are fully open source under Apache-2.0. BrowserMCP is in a similar position to Vibe — their MCP server is open source, but the Chrome extension is closed-source and the monorepo cannot be built standalone.
                 </AccordionContent>
               </AccordionItem>
 
               <AccordionItem value="item-8" className="border-[#2a2a2a] bg-[#0a0a0a] rounded-lg px-4">
                 <AccordionTrigger className="text-[#e8eaed] hover:no-underline">
-                  What is the markdown-indexed page content?
+                  What are indexed markdown snapshots?
                 </AccordionTrigger>
                 <AccordionContent className="text-[#9aa0a6]">
-                  Instead of sending raw DOM or accessibility tree snapshots, Vibe extracts page content as clean markdown with interactive elements labeled as <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">[index:score]</code>. Agents use these indices to click, fill, and interact with elements. This format is 3-5x smaller than alternatives, reducing token usage and context pollution. Page content is delivered automatically before each agent turn — no tool call required.
+                  Instead of dumping raw DOM or accessibility tree snapshots, Vibe can capture indexed markdown snapshots with interactive elements labeled as <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">[index:score]</code>. Agents use these indices to click, fill, and interact with elements. This format is 3-5x smaller than alternatives, reducing token usage and context pollution while staying readable for both humans and agents.
                 </AccordionContent>
               </AccordionItem>
 
               <AccordionItem value="item-9" className="border-[#2a2a2a] bg-[#0a0a0a] rounded-lg px-4">
                 <AccordionTrigger className="text-[#e8eaed] hover:no-underline">
-                  Can Vibe MCP also work as a standalone browser?
+                  Can Vibe Browser MCP also work as a standalone browser?
                 </AccordionTrigger>
                 <AccordionContent className="text-[#9aa0a6]">
                   Yes. Unlike Browser MCP which is MCP-only, Vibe also functions as a standalone AI co-pilot directly in your browser. Click the extension icon to chat, automate tasks, and get AI assistance — no external agent required. MCP mode is an additional capability on top of the full in-browser experience.
@@ -1157,7 +1141,7 @@ MCP server for browser automation.
                   Why does it matter that Vibe uses my real browser?
                 </AccordionTrigger>
                 <AccordionContent className="text-[#9aa0a6]">
-                  Playwright MCP and Chrome DevTools MCP launch a fresh, separate browser instance by default. That means you start with no logged-in sessions, no cookies, no extensions, and no saved passwords. Playwright MCP now offers a Chrome extension mode that can connect to your existing browser, but setup requires a token-based auth flow and it still lacks multi-agent support. Vibe MCP connects directly to the browser you're already using with zero configuration — your agent can interact with Gmail, Slack, GitHub, Jira, or any site you're logged into without re-authenticating. This is critical for real-world automation workflows.
+                  Playwright MCP and Chrome DevTools MCP launch a fresh, separate browser instance by default. That means you start with no logged-in sessions, no cookies, no extensions, and no saved passwords. Playwright MCP can reuse an existing browser through its extension flow or by pointing it at an explicit <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">--cdp-endpoint</code>, but that still requires extra setup and it still lacks multi-agent support. Vibe Browser MCP connects directly to the browser you're already using with zero configuration — your agent can interact with Gmail, Slack, GitHub, Jira, or any site you're logged into without re-authenticating. This is critical for real-world automation workflows.
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
@@ -1171,7 +1155,7 @@ MCP server for browser automation.
               Ready to connect your AI agent to your browser?
             </h2>
             <p className="text-[#9aa0a6] mb-8 max-w-xl mx-auto">
-              Install the extension, add one config block, and start automating. Free, with an open source MCP server.
+              Install the extension, add one config block, and start automating. Free, with an open source MCP package and browser CLI.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

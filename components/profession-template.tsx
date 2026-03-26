@@ -188,7 +188,7 @@ export default function ProfessionTemplate({ config }: ProfessionTemplateProps) 
         <div className="container mx-auto px-6 py-20 md:py-28">
           <div className="max-w-4xl mx-auto text-center">
             <Badge className={`mb-6 ${config.accentBg} hover:${config.accentBg}`}>
-              Vibe Co-Pilot for {config.name}
+              VibeBrowser Co-Pilot for {config.name}
             </Badge>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight">
               AI for <span className={config.accentColor}>{rotatingWord}</span>
