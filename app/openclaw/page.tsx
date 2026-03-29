@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ArrowRight, CheckCircle, Chrome, Globe, GitBranch, Shield, Terminal } from 'lucide-react'
+import { ArrowRight, CheckCircle, Chrome, Eye, GitBranch, Globe, Layers, MousePointerClick, Shield, Terminal } from 'lucide-react'
 import { SiteNav } from '@/components/site-nav'
 import { SiteFooter } from '@/components/site-footer'
 import { Badge } from '@/components/ui/badge'
@@ -36,6 +36,85 @@ const quickstartCommands = [
 const remoteCommand = `${CLI_BASE} --remote YOUR_UUID --json status`
 const aliasCommand = `${MCP_BROWSER_ALIAS} --json status`
 
+const commandSurfaces = [
+  {
+    label: 'Observe',
+    title: 'Read browser state before acting',
+    description:
+      'Command-oriented flows work when the operator can inspect the live page first. Status and indexed snapshots make the next action explicit instead of guessy.',
+    commands: [`${CLI_BASE} --json status`, `${CLI_BASE} --json snapshot`],
+    note: 'Best for bug reproduction, portal triage, and any runbook that needs stable refs before the next click.',
+    icon: Eye,
+    tone: 'bg-[rgba(158,158,255,0.12)] text-[#9e9eff]',
+  },
+  {
+    label: 'Act',
+    title: 'Use explicit verbs against the live page',
+    description:
+      'Open a page, click by ref, and type by ref with a thin command surface that still talks to the real browser session your team already uses.',
+    commands: [`${CLI_BASE} open https://example.com`, `${CLI_BASE} click A12`, `${CLI_BASE} type A13 "hello world"`],
+    note: 'Good when you want shell-friendly control without turning the task into a full MCP integration yet.',
+    icon: MousePointerClick,
+    tone: 'bg-[rgba(255,77,77,0.12)] text-[#ff6b6b]',
+  },
+  {
+    label: 'Relay',
+    title: 'Point the same flow at a remote browser',
+    description:
+      'When the browser lives on another machine, keep the same command shape and swap in a UUID-backed remote relay instead of rewriting the workflow.',
+    commands: [remoteCommand],
+    note: 'Useful for home-office browser access, remote operators, and hosted runners that still need the human browser state.',
+    icon: GitBranch,
+    tone: 'bg-[rgba(129,201,149,0.12)] text-[#81c995]',
+  },
+  {
+    label: 'Escalate',
+    title: 'Move to MCP without changing the package',
+    description:
+      'The CLI is the thin command surface. When the job becomes richer, use the same published package to expose the browser to MCP agents.',
+    commands: [aliasCommand],
+    note: 'That lets OpenClaw-style command flows and broader agent systems share one execution layer instead of fragmenting the product story.',
+    icon: Layers,
+    tone: 'bg-[rgba(255,138,138,0.12)] text-[#ff8a8a]',
+  },
+]
+
+const operatorPatterns = [
+  {
+    eyebrow: 'Operator pattern',
+    title: 'Browser bug reproduction loop',
+    description:
+      'Open the failing route, capture a snapshot, click the suspect control, and hand the resulting evidence to a coding agent. This keeps the browser runbook explicit and replayable.',
+    outputs: [
+      'Deterministic command history',
+      'Snapshot refs an agent can reuse immediately',
+      'A cleaner handoff into richer MCP tooling when debugging expands',
+    ],
+  },
+  {
+    eyebrow: 'Operator pattern',
+    title: 'Portal runbooks with a real session',
+    description:
+      'For internal tools and authenticated portals, one human logs in once and the CLI reuses that exact browser state across repeated open, snapshot, click, and type steps.',
+    outputs: [
+      'No disposable browser profile to babysit',
+      'A shell-friendly interface for repeatable portal rituals',
+      'Lower ceremony than full custom automation stacks',
+    ],
+  },
+  {
+    eyebrow: 'Operator pattern',
+    title: 'Remote browser, local commands',
+    description:
+      'The browser can sit on a different machine while the command runner lives elsewhere. The remote relay keeps the flow thin without pretending the browser moved into the terminal.',
+    outputs: [
+      'Same CLI shape in local and remote modes',
+      'Better fit for distributed operators and hosted agents',
+      'A clear upgrade path into /mcp when more orchestration is needed',
+    ],
+  },
+]
+
 export default function OpenClawPage() {
   return (
     <div
@@ -69,9 +148,9 @@ export default function OpenClawPage() {
                     Install in Chrome
                   </Button>
                 </Link>
-                <Link href="/mcp">
+                <Link href="https://www.npmjs.com/package/@vibebrowser/mcp" target="_blank">
                   <Button size="lg" variant="outline" className="rounded-full border-[rgba(136,146,176,0.2)] bg-transparent px-8 py-6 text-[#b4b4ff] hover:bg-[rgba(158,158,255,0.08)] hover:text-[#d8dcff]">
-                    MCP Page for Agents
+                    View npm Package
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </Link>
@@ -123,6 +202,55 @@ export default function OpenClawPage() {
         <section className="border-b border-[rgba(136,146,176,0.15)] bg-[rgba(8,12,24,0.88)] py-16 md:py-24">
           <div className="container mx-auto max-w-6xl px-6">
             <div className="mx-auto mb-12 max-w-3xl text-center">
+              <p className="text-xs uppercase tracking-[0.26em] text-[#7f8aa8]">Command surfaces</p>
+              <h2
+                className="mt-4 text-3xl font-normal text-[#f0f4ff]"
+                style={{ fontFamily: "'Clash Display', 'Satoshi', system-ui, sans-serif" }}
+              >
+                Package the OpenClaw surface as explicit verbs
+              </h2>
+              <p className="mt-4 text-[#c4cbe0]">
+                This is where a Tavily-style lesson actually applies. Not the branding, but the discipline:
+                name the surfaces clearly so technical buyers understand what the route is for in under a minute.
+              </p>
+            </div>
+
+            <div className="grid gap-6 md:grid-cols-2">
+              {commandSurfaces.map((surface) => {
+                const Icon = surface.icon
+                return (
+                  <Card key={surface.label} className="min-w-0 border-[rgba(136,146,176,0.15)] bg-[rgba(5,8,16,0.96)]">
+                    <CardContent className="p-6">
+                      <div className={`mb-4 flex h-11 w-11 items-center justify-center rounded-xl ${surface.tone}`}>
+                        <Icon className="h-5 w-5" />
+                      </div>
+                      <p className="text-[11px] uppercase tracking-[0.22em] text-[#7f8aa8]">{surface.label}</p>
+                      <h3 className="mt-2 text-xl font-medium text-[#f0f4ff]">{surface.title}</h3>
+                      <p className="mt-3 text-sm leading-6 text-[#b7c0db]">{surface.description}</p>
+
+                      <div className="mt-5 space-y-3">
+                        {surface.commands.map((command) => (
+                          <pre
+                            key={command}
+                            className="overflow-x-auto rounded-lg border border-[rgba(136,146,176,0.15)] bg-[rgba(11,16,32,0.9)] p-4 text-sm text-[#b4b4ff]"
+                          >
+                            <code>{command}</code>
+                          </pre>
+                        ))}
+                      </div>
+
+                      <p className="mt-4 text-sm leading-6 text-[#c4cbe0]">{surface.note}</p>
+                    </CardContent>
+                  </Card>
+                )
+              })}
+            </div>
+          </div>
+        </section>
+
+        <section className="border-b border-[rgba(136,146,176,0.15)] bg-[rgba(8,12,24,0.88)] py-16 md:py-24">
+          <div className="container mx-auto max-w-6xl px-6">
+            <div className="mx-auto mb-12 max-w-3xl text-center">
               <h2
                 className="text-3xl font-normal text-[#f0f4ff]"
                 style={{ fontFamily: "'Clash Display', 'Satoshi', system-ui, sans-serif" }}
@@ -134,8 +262,8 @@ export default function OpenClawPage() {
               </p>
             </div>
 
-            <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-              <Card className="border-[rgba(136,146,176,0.15)] bg-[rgba(5,8,16,0.96)]">
+            <div className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
+              <Card className="min-w-0 border-[rgba(136,146,176,0.15)] bg-[rgba(5,8,16,0.96)]">
                 <CardContent className="p-0">
                   <div className="border-b border-[rgba(136,146,176,0.15)] bg-[rgba(11,16,32,0.94)] px-5 py-3 text-sm text-[#b7c0db]">
                     Local commands
@@ -153,8 +281,8 @@ export default function OpenClawPage() {
                 </CardContent>
               </Card>
 
-              <div className="space-y-6">
-                <Card className="border-[rgba(136,146,176,0.15)] bg-[rgba(5,8,16,0.96)]">
+              <div className="min-w-0 space-y-6">
+                <Card className="min-w-0 border-[rgba(136,146,176,0.15)] bg-[rgba(5,8,16,0.96)]">
                   <CardContent className="p-6">
                     <div className="mb-3 flex items-center gap-2 text-sm font-medium text-[#9e9eff]">
                       <GitBranch className="h-4 w-4" />
@@ -169,7 +297,7 @@ export default function OpenClawPage() {
                   </CardContent>
                 </Card>
 
-                <Card className="border-[rgba(136,146,176,0.15)] bg-[rgba(5,8,16,0.96)]">
+                <Card className="min-w-0 border-[rgba(136,146,176,0.15)] bg-[rgba(5,8,16,0.96)]">
                   <CardContent className="p-6">
                     <div className="mb-3 flex items-center gap-2 text-sm font-medium text-[#ff8a8a]">
                       <Terminal className="h-4 w-4" />
@@ -184,7 +312,7 @@ export default function OpenClawPage() {
                   </CardContent>
                 </Card>
 
-                <Card className="border-[rgba(136,146,176,0.15)] bg-[rgba(5,8,16,0.96)]">
+                <Card className="min-w-0 border-[rgba(136,146,176,0.15)] bg-[rgba(5,8,16,0.96)]">
                   <CardContent className="p-6">
                     <h3 className="mb-3 text-lg font-medium text-[#f0f4ff]">What this page is for</h3>
                     <p className="text-sm text-[#b7c0db]">
@@ -193,6 +321,44 @@ export default function OpenClawPage() {
                   </CardContent>
                 </Card>
               </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="border-b border-[rgba(136,146,176,0.15)] py-16 md:py-20">
+          <div className="container mx-auto max-w-6xl px-6">
+            <div className="mx-auto mb-12 max-w-3xl text-center">
+              <p className="text-xs uppercase tracking-[0.26em] text-[#7f8aa8]">Where it wins</p>
+              <h2
+                className="mt-4 text-3xl font-normal text-[#f0f4ff]"
+                style={{ fontFamily: "'Clash Display', 'Satoshi', system-ui, sans-serif" }}
+              >
+                OpenClaw-style command flows for real operator work
+              </h2>
+              <p className="mt-4 text-[#c4cbe0]">
+                This route should not read like a generic browser automation page. It is for operators who
+                want a thin, explicit command layer on top of a real browser session.
+              </p>
+            </div>
+
+            <div className="grid gap-6 md:grid-cols-3">
+              {operatorPatterns.map((pattern) => (
+                <Card key={pattern.title} className="border-[rgba(136,146,176,0.15)] bg-[rgba(10,15,29,0.92)]">
+                  <CardContent className="p-6">
+                    <p className="text-[11px] uppercase tracking-[0.22em] text-[#7f8aa8]">{pattern.eyebrow}</p>
+                    <h3 className="mt-3 text-lg font-medium text-[#f0f4ff]">{pattern.title}</h3>
+                    <p className="mt-4 text-sm leading-6 text-[#b7c0db]">{pattern.description}</p>
+                    <div className="mt-5 space-y-2">
+                      {pattern.outputs.map((output) => (
+                        <div key={output} className="flex items-start gap-2">
+                          <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-[#81c995]" />
+                          <span className="text-sm text-[#c4cbe0]">{output}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           </div>
         </section>
@@ -214,9 +380,9 @@ export default function OpenClawPage() {
                   View npm Package
                 </Button>
               </Link>
-              <Link href="/mcp">
+              <Link href="https://docs.vibebrowser.app/getting-started/extension#option-2-developer-version-advanced" target="_blank">
                 <Button size="lg" variant="outline" className="rounded-full border-[rgba(136,146,176,0.2)] bg-transparent px-8 py-6 text-[#b4b4ff] hover:bg-[rgba(158,158,255,0.08)] hover:text-[#d8dcff]">
-                  See MCP Setup
+                  Open Install Guide
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
