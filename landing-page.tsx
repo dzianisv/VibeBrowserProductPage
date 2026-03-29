@@ -158,6 +158,25 @@ export default function Component() {
       ]
     },
     {
+      id: 'github-issue-creation',
+      title: 'GitHub Issue Creation',
+      subtitle: 'AI-powered form filling and issue creation',
+      description: 'Watch Vibe Co-Pilot assist with filling out a GitHub issue form — navigating fields, adding context, and submitting automatically.',
+      task: {
+        label: 'Form Filling:',
+        description: 'Vibe Co-Pilot fills out the GitHub issue form and submits it for you.'
+      },
+      badges: ['Form Filling', 'GitHub', 'Issue Tracking', 'Developer Workflow'],
+      videoSrc: '/github-issue-creation-demo',
+      icon: Code,
+      iconColor: 'text-gray-800',
+      highlights: [
+        { icon: Edit, title: 'Smart Form Filling', description: 'Automatically fills fields with context' },
+        { icon: Code, title: 'GitHub Integration', description: 'Works directly on github.com' },
+        { icon: Target, title: 'End-to-End Automation', description: 'From description to submitted issue' }
+      ]
+    },
+    {
       id: 'market-research',
       title: 'Value Investing Research',
       subtitle: 'AI-powered market research and analysis',
