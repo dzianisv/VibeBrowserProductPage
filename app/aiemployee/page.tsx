@@ -33,7 +33,6 @@ import {
   Layers,
   Target,
   TrendingUp,
-  Eye,
 } from "lucide-react"
 
 const ROTATING_TITLES = [
@@ -261,17 +260,6 @@ export default function AIEmployeePage() {
                     <Eye className="mr-2 h-5 w-5" />
                     See Agentic Team Demo
                   </Button>
-                </Link>
-              </div>
-
-              <div className="flex flex-wrap justify-center gap-3 mt-6">
-                <span className="text-sm text-[#5f6368]">Related:</span>
-                <Link href="/digitalemployee" className="text-sm text-[#8ab4f8] hover:underline">
-                  Digital Employee
-                </Link>
-                <span className="text-[#2a2a2a]">|</span>
-                <Link href="/aioutbound" className="text-sm text-[#8ab4f8] hover:underline">
-                  AI Outbound
                 </Link>
               </div>
 
@@ -600,16 +588,6 @@ export default function AIEmployeePage() {
                 </Button>
               </Link>
             </div>
-            <div className="flex flex-wrap justify-center gap-3 mt-8 pt-8 border-t border-[#1e1e1e]">
-              <span className="text-sm text-[#5f6368]">Explore related concepts:</span>
-              <Link href="/digitalemployee" className="text-sm text-[#8ab4f8] hover:underline">
-                Digital Employee
-              </Link>
-              <span className="text-[#2a2a2a]">|</span>
-              <Link href="/aioutbound" className="text-sm text-[#8ab4f8] hover:underline">
-                AI Outbound Sales
-              </Link>
-            </div>
           </div>
         </section>
       </main>
@@ -619,4 +597,22 @@ export default function AIEmployeePage() {
   )
 }
 
-
+function Eye(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+  )
+}
