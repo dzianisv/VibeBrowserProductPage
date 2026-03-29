@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { MailingListSubscribe } from './mailing-list-subscribe'
 
-const darkPages = ['/mcp', '/openclaw', '/teams', '/enterprise', '/providers/ollama']
+const darkPages = ['/mcp', '/openclaw', '/aiemployee', '/showcase', '/teams', '/enterprise', '/providers/ollama']
 
 export function SiteFooter() {
   const pathname = usePathname()
@@ -73,6 +73,8 @@ export function SiteFooter() {
               {[
                 { href: '/mcp', label: 'MCP for Agents' },
                 { href: '/openclaw', label: 'OpenClaw CLI' },
+                { href: '/aiemployee', label: 'AI Employees' },
+                { href: '/showcase', label: 'Showcase' },
                 { href: '/providers/ollama', label: 'Ollama Integration' },
                 { href: '/agentic-team', label: 'Agentic Team' },
                 { href: '/blog', label: 'Blog' },
