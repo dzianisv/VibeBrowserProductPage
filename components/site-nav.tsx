@@ -9,7 +9,6 @@ const pageNames: Record<string, string> = {
   '/aboutus': '',
   '/mcp': 'for Agents',
   '/openclaw': 'for OpenClaw',
-  '/showcase': '',
   '/copilot': 'for Copilot Users',
   '/people': 'for People',
   '/lawyers': 'for Lawyers',
@@ -37,7 +36,7 @@ const forPages = [
   { href: '/tax', label: 'Tax' },
 ]
 
-const darkPages = ['/mcp', '/openclaw', '/aiemployee', '/showcase', '/teams', '/enterprise', '/providers/ollama']
+const darkPages = ['/mcp', '/openclaw', '/teams', '/enterprise', '/providers/ollama']
 
 export function SiteNav() {
   const pathname = usePathname()
@@ -116,11 +115,6 @@ export function SiteNav() {
       </div>
 
       <div className="hidden md:flex items-center gap-6">
-        <Link href="/showcase" className={`text-sm font-medium transition-colors ${
-          isOpenClaw ? 'text-[#aeb7d4] hover:text-[#f0f4ff]' : isDark ? 'text-[#9aa0a6] hover:text-[#e8eaed]' : 'text-slate-600 hover:text-purple-600'
-        }`}>
-          Showcase
-        </Link>
         <Link href="/blog" className={`text-sm font-medium transition-colors ${
           isOpenClaw ? 'text-[#aeb7d4] hover:text-[#f0f4ff]' : isDark ? 'text-[#9aa0a6] hover:text-[#e8eaed]' : 'text-slate-600 hover:text-purple-600'
         }`}>
@@ -134,11 +128,6 @@ export function SiteNav() {
       </div>
       {/* Mobile navigation */}
       <div className="flex items-center gap-4 md:hidden">
-        <Link href="/showcase" className={`text-[11px] font-medium transition-colors whitespace-nowrap ${
-          isOpenClaw ? 'text-[#aeb7d4] hover:text-[#f0f4ff]' : isDark ? 'text-[#9aa0a6] hover:text-[#e8eaed]' : 'text-slate-600 hover:text-purple-600'
-        }`}>
-          Showcase
-        </Link>
         <Link href="/blog" className={`text-[11px] font-medium transition-colors whitespace-nowrap ${
           isOpenClaw ? 'text-[#aeb7d4] hover:text-[#f0f4ff]' : isDark ? 'text-[#9aa0a6] hover:text-[#e8eaed]' : 'text-slate-600 hover:text-purple-600'
         }`}>
