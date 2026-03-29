@@ -148,6 +148,99 @@ interface ToolDef {
   description: string
 }
 
+interface CapabilitySurface {
+  label: string
+  title: string
+  description: string
+  proof: string
+  outcomes: string[]
+  tools: string[]
+  icon: React.ReactNode
+}
+
+const CAPABILITY_SURFACES: CapabilitySurface[] = [
+  {
+    label: "Browser control",
+    title: "Drive the live browser session your operator already trusts",
+    description:
+      "Open tabs, navigate, click, fill, drag, type, and scroll inside the same logged-in browser profile instead of a disposable automation runtime.",
+    proof:
+      "This is the right surface when your agent needs real UI state, installed extensions, existing cookies, and human-visible execution.",
+    outcomes: [
+      "Works on authenticated SaaS, portals, and internal tools",
+      "Keeps the human in the same browser context as the agent",
+      "Avoids extra browser launch flags or CDP ceremony",
+    ],
+    tools: ["navigate_page", "click", "fill_form", "press_key", "drag"],
+    icon: <Globe className="w-5 h-5" />,
+  },
+  {
+    label: "Snapshots",
+    title: "Read pages in agent-friendly formats instead of flooding context",
+    description:
+      "Indexed markdown, accessibility trees, HTML snapshots, screenshots, script evaluation, and network inspection let the agent ground itself before it acts.",
+    proof:
+      "This is where Vibe shifts from generic browser automation into a better reasoning surface for coding agents and workflow agents.",
+    outcomes: [
+      "Lower token usage than raw DOM dumps",
+      "Cleaner bug reports, QA runs, and extraction tasks",
+      "More reliable browser state before every action",
+    ],
+    tools: [
+      "take_snapshot",
+      "take_md_snapshot",
+      "evaluate_script",
+      "list_network_requests",
+    ],
+    icon: <Eye className="w-5 h-5" />,
+  },
+  {
+    label: "Workspace",
+    title: "Use Gmail and Calendar as first-class tools, not just browser targets",
+    description:
+      "Search inboxes, read threads, draft or send email, view calendars, and create or delete events through native actions when DOM automation would be the wrong abstraction.",
+    proof:
+      "This is a strong wedge for real operator workflows because it removes fragile webmail clicking from the high-value parts of the job.",
+    outcomes: [
+      "Keep inbox and scheduling flows reliable",
+      "Mix API-native workspace actions with live browser control",
+      "Reduce the number of brittle UI-only steps in the workflow",
+    ],
+    tools: ["gmail_search", "gmail_create_draft", "calendar_view", "calendar_create"],
+    icon: <Mail className="w-5 h-5" />,
+  },
+  {
+    label: "Secrets + memory",
+    title: "Carry state safely across long-running browser workflows",
+    description:
+      "Search stored memories, inspect credential metadata, and fill secrets into forms without exposing plaintext passwords to the model.",
+    proof:
+      "This matters when an agent should remember prior work and stay authenticated without turning secrets into prompt text.",
+    outcomes: [
+      "Safer authentication for portal workflows",
+      "Reusable context across runs and sessions",
+      "Cleaner separation between model context and secret material",
+    ],
+    tools: ["memory_search", "secrets_manager", "typein_secret", "settings"],
+    icon: <Lock className="w-5 h-5" />,
+  },
+  {
+    label: "Coordination",
+    title: "Split work across agents without losing the browser execution layer",
+    description:
+      "Spawn sub-agents, run parallel tasks, and fetch supporting context while the main agent keeps control of the live browser workflow.",
+    proof:
+      "This is the surface that makes Vibe feel like infrastructure for agent systems rather than a single browser toy.",
+    outcomes: [
+      "Research and execution can run in parallel",
+      "One browser can support multiple cooperating agents",
+      "Works for coding loops and browser-heavy operator tasks",
+    ],
+    tools: ["subagent", "parallel", "web_fetch", "wait"],
+    icon: <GitBranch className="w-5 h-5" />,
+  },
+]
+
 const TOOL_CATEGORIES: { category: string; icon: React.ReactNode; tools: ToolDef[] }[] = [
   {
     category: "Navigation",
@@ -392,10 +485,12 @@ function AgentIcon({ icon }: { icon: string }) {
 
 export default function McpPage() {
   const [activeAgent, setActiveAgent] = useState(0)
+  const [activeSurface, setActiveSurface] = useState(0)
   const [heroAgent, setHeroAgent] = useState(0) // index into SETUP_CONFIGS for hero split button
   const [agentDropdownOpen, setAgentDropdownOpen] = useState(false)
   const agentDropdownRef = useRef<HTMLDivElement>(null)
   const rotatingAgent = useTypewriter(ROTATING_AGENTS, 100, 60, 2500)
+  const selectedSurface = CAPABILITY_SURFACES[activeSurface]
 
   // Close dropdown on click outside
   useEffect(() => {
@@ -563,6 +658,123 @@ export default function McpPage() {
                   <span className="text-xs text-[#9aa0a6] group-hover:text-[#e8eaed] transition-colors">{agent.name}</span>
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="w-full py-16 md:py-24 border-t border-[#1e1e1e] bg-[#111111]">
+          <div className="container max-w-6xl px-4 md:px-6 mx-auto">
+            <div className="mx-auto mb-10 max-w-3xl text-center">
+              <p className="text-xs uppercase tracking-[0.26em] text-[#5f6368]">Capability surfaces</p>
+              <h2 className="mt-4 text-2xl md:text-3xl font-normal text-[#e8eaed]">
+                What agents can actually do through Vibe Browser MCP
+              </h2>
+              <p className="mt-4 text-[#9aa0a6]">
+                Package the browser, workspace, security, and coordination layers as explicit surfaces.
+                That is the useful lesson from infrastructure products like Tavily, translated to a real-browser MCP.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap justify-center gap-2 mb-8">
+              {CAPABILITY_SURFACES.map((surface, index) => (
+                <button
+                  key={surface.label}
+                  onClick={() => setActiveSurface(index)}
+                  className={`rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
+                    activeSurface === index
+                      ? "border-[#8ab4f8]/40 bg-[#8ab4f8]/12 text-[#e8f0fe]"
+                      : "border-[#2a2a2a] bg-[#0a0a0a] text-[#9aa0a6] hover:border-[#3a3a3a] hover:text-[#e8eaed]"
+                  }`}
+                >
+                  {surface.label}
+                </button>
+              ))}
+            </div>
+
+            <div className="grid gap-6 lg:grid-cols-[1.08fr_0.92fr]">
+              <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+                <CardContent className="p-6 md:p-8">
+                  <div className="flex items-center gap-3 text-sm font-medium text-[#8ab4f8]">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#8ab4f8]/10 text-[#8ab4f8]">
+                      {selectedSurface.icon}
+                    </div>
+                    <span>{selectedSurface.label}</span>
+                  </div>
+                  <h3 className="mt-5 text-2xl font-normal text-[#e8eaed]">
+                    {selectedSurface.title}
+                  </h3>
+                  <p className="mt-4 text-sm leading-7 text-[#9aa0a6]">
+                    {selectedSurface.description}
+                  </p>
+
+                  <div className="mt-6 rounded-2xl border border-[#2a2a2a] bg-[#111111] p-5">
+                    <p className="text-[11px] uppercase tracking-[0.22em] text-[#5f6368]">Why teams reach for this surface</p>
+                    <p className="mt-3 text-sm leading-7 text-[#c4cbe0]">{selectedSurface.proof}</p>
+                  </div>
+
+                  <div className="mt-6 space-y-3">
+                    {selectedSurface.outcomes.map((outcome) => (
+                      <div key={outcome} className="flex items-start gap-3">
+                        <CheckCircle className="w-4 h-4 text-[#81c995] mt-0.5 flex-shrink-0" />
+                        <span className="text-sm text-[#c4cbe0]">{outcome}</span>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              <div className="space-y-6">
+                <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+                  <CardContent className="p-6">
+                    <p className="text-[11px] uppercase tracking-[0.22em] text-[#5f6368]">Representative tools</p>
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {selectedSurface.tools.map((tool) => (
+                        <code
+                          key={tool}
+                          className="rounded-full border border-[#2a2a2a] bg-[#111111] px-3 py-1.5 text-xs text-[#8ab4f8]"
+                        >
+                          {tool}
+                        </code>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+                  <CardContent className="p-6">
+                    <p className="text-[11px] uppercase tracking-[0.22em] text-[#5f6368]">Packaging that technical buyers understand</p>
+                    <p className="mt-3 text-sm leading-7 text-[#9aa0a6]">
+                      Tavily makes its product legible by naming a small set of surfaces clearly. The
+                      equivalent move for Vibe is not “search” or “crawl”; it is browser control,
+                      snapshots, workspace actions, secrets, and agent coordination.
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+                  <CardContent className="p-6">
+                    <p className="text-[11px] uppercase tracking-[0.22em] text-[#5f6368]">Proof points already present in this route</p>
+                    <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                      <div className="rounded-xl border border-[#2a2a2a] bg-[#111111] p-4">
+                        <p className="text-lg font-medium text-[#e8eaed]">25+</p>
+                        <p className="mt-1 text-xs text-[#9aa0a6]">published tools across browser, workspace, security, and agent orchestration</p>
+                      </div>
+                      <div className="rounded-xl border border-[#2a2a2a] bg-[#111111] p-4">
+                        <p className="text-lg font-medium text-[#e8eaed]">Local + remote</p>
+                        <p className="mt-1 text-xs text-[#9aa0a6]">relay paths for laptop agents and internet-reachable runners</p>
+                      </div>
+                      <div className="rounded-xl border border-[#2a2a2a] bg-[#111111] p-4">
+                        <p className="text-lg font-medium text-[#e8eaed]">Multi-agent</p>
+                        <p className="mt-1 text-xs text-[#9aa0a6]">one real browser session can be shared by multiple cooperating agents</p>
+                      </div>
+                      <div className="rounded-xl border border-[#2a2a2a] bg-[#111111] p-4">
+                        <p className="text-lg font-medium text-[#e8eaed]">Real sessions</p>
+                        <p className="mt-1 text-xs text-[#9aa0a6]">cookies, tabs, extensions, and authenticated apps stay intact</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           </div>
         </section>
