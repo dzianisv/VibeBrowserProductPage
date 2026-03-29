@@ -18,6 +18,10 @@
 - [Tax](https://www.vibebrowser.app/tax): AI tax preparation. Automated form downloads, tax estimation, return filing assistance.
 - [MCP](https://www.vibebrowser.app/mcp): Vibe Browser for Agents. Connect real browser sessions to MCP-compatible AI agents.
 - [OpenClaw](https://www.vibebrowser.app/openclaw): Vibe Browser for OpenClaw. Command-oriented browser CLI and relay workflow for OpenClaw-style agent control.
+- [AI Employee](https://www.vibebrowser.app/aiemployee): Hire an AI employee with real role, browser access, and measurable productivity. The umbrella category for AI employee concepts.
+- [Digital Employee](https://www.vibebrowser.app/digitalemployee): Digital workforce with identity, ownership, and measurable productivity. Focus on "autonomous teammate" and "digital workforce" language.
+- [AI Outbound](https://www.vibebrowser.app/aioutbound): AI-powered outbound sales teammate that researches prospects, drafts personalized outreach, follows up, and hands qualified leads to humans.
+- [Showcase](https://www.vibebrowser.app/showcase): AI workflow examples and browser automation examples across agentic team operations, recruiting, research, sales, finance, and browser-native ops.
 - [Compare](https://www.vibebrowser.app/compare): Feature comparison between Vibe Browser and alternatives.
 - [About Us](https://www.vibebrowser.app/aboutus): Meet the Vibe Technologies team.
 - [Privacy Policy](https://www.vibebrowser.app/privacy): Vibe Browser privacy policy.

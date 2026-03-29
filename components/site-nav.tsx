@@ -37,7 +37,7 @@ const forPages = [
   { href: '/tax', label: 'Tax' },
 ]
 
-const darkPages = ['/mcp', '/openclaw', '/aiemployee', '/showcase', '/teams', '/enterprise', '/providers/ollama']
+const darkPages = ['/mcp', '/openclaw', '/aiemployee', '/digitalemployee', '/aioutbound', '/showcase', '/teams', '/enterprise', '/providers/ollama']
 
 export function SiteNav() {
   const pathname = usePathname()

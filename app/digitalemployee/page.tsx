@@ -33,15 +33,19 @@ import {
   Layers,
   Target,
   TrendingUp,
+  UserCheck,
+  Search,
+  FileText,
+  BarChart3,
   Eye,
 } from "lucide-react"
 
 const ROTATING_TITLES = [
-  "AI Employee",
-  "Digital Employee",
+  "Digital Workforce",
   "Autonomous Teammate",
-  "Virtual Worker",
-  "AI Staff",
+  "Virtual Employee",
+  "Digital Colleague",
+  "Virtual Teammate",
 ]
 
 function useTypewriter(words: string[], typingSpeed = 80, deletingSpeed = 50, pauseTime = 2000) {
@@ -83,142 +87,142 @@ function useTypewriter(words: string[], typingSpeed = 80, deletingSpeed = 50, pa
 
 const DIFFERENTIATORS = [
   {
+    icon: UserCheck,
+    title: "Teammate, not tool",
+    description: "Your digital employee has an identity, a role, and accountability. It's not a generic prompt — it's a dedicated teammate with a handle.",
+    color: "#81c995",
+  },
+  {
     icon: Globe,
-    title: "Real browser, real work",
-    description: "Your AI employee operates in a real browser with your logged-in sessions, cookies, and extensions intact. Not a fake headless browser.",
+    title: "Works in your real browser",
+    description: "Your digital employee operates in a real browser with your logged-in sessions, cookies, and extensions. No fake headless browsers.",
     color: "#8ab4f8",
   },
   {
     icon: Lock,
-    title: "Scoped credentials, safe execution",
-    description: "Give each AI employee only what it needs. Vault-backed passwords never reach the model. Approvals gate risky actions.",
-    color: "#81c995",
-  },
-  {
-    icon: Mail,
-    title: "Inbox + calendar as first-class tools",
-    description: "Gmail and Calendar work natively, not through fragile DOM clicking. Your AI employee can actually schedule and email reliably.",
+    title: "Scoped access, vault-backed",
+    description: "Each digital employee gets only what it needs. Credentials stay in the vault, never exposed to the model. Risky actions require approval.",
     color: "#fdd663",
   },
   {
-    icon: Brain,
-    title: "Focused context per role",
-    description: "No context flooding. Each AI employee gets exactly what it needs: codebase for engineers, inbox for support, portal for ops.",
+    icon: BarChart3,
+    title: "Measurable productivity",
+    description: "Track autonomy rate, tasks completed, escalation frequency. Your digital employee is an investment with visible returns.",
     color: "#c58af9",
   },
 ]
 
 const ROLE_EXAMPLES = [
   {
-    title: "Support Rep",
-    handle: "@SupportRep",
-    color: "#81c995",
-    description: "Triages tickets, verifies issues in the browser, drafts responses, escalates when needed.",
-    capabilities: ["Ticket triage from Gmail", "Live browser repro", "Canned response drafting", "SLA monitoring"],
-  },
-  {
-    title: "Sales Development",
-    handle: "@SDR",
-    color: "#8ab4f8",
-    description: "Researches leads, enriches profiles, drafts outreach, books meetings on your calendar.",
-    capabilities: ["Lead research", "Email sequence drafting", "Calendar hold booking", "CRM data entry"],
-  },
-  {
     title: "Research Analyst",
-    handle: "@Researcher",
+    handle: "@ResearchAnalyst",
     color: "#c58af9",
-    description: "Browses the web, extracts findings, compiles briefings, monitors competitors.",
-    capabilities: ["Web research", "Data extraction", "Briefing generation", "Competitive monitoring"],
+    description: "Monitors markets, tracks competitors, compiles briefings, and surfaces insights before you even ask.",
+    capabilities: ["Web research automation", "Competitor monitoring", "Briefing generation", "Data extraction"],
   },
   {
-    title: "Operations Manager",
-    handle: "@OpsManager",
+    title: "Account Manager",
+    handle: "@AccountManager",
+    color: "#8ab4f8",
+    description: "Keeps track of client interactions, schedules follow-ups, updates CRM, and surfaces at-risk accounts.",
+    capabilities: ["CRM hygiene", "Meeting scheduling", "Risk detection", "Activity logging"],
+  },
+  {
+    title: "Operations Lead",
+    handle: "@OpsLead",
+    color: "#81c995",
+    description: "Runs recurring workflows, reconciles data across portals, monitors dashboards, and alerts on anomalies.",
+    capabilities: ["Workflow automation", "Data reconciliation", "Alert monitoring", "Report generation"],
+  },
+  {
+    title: "Communications Lead",
+    handle: "@CommsLead",
     color: "#fdd663",
-    description: "Runs recurring workflows, updates records, monitors dashboards, alerts on anomalies.",
-    capabilities: ["Portal hygiene", "Data reconciliation", "Alert monitoring", "Report generation"],
+    description: "Manages inbox triage, drafts responses, schedules meetings, and coordinates across stakeholders.",
+    capabilities: ["Inbox management", "Draft responses", "Calendar coordination", "Stakeholder updates"],
   },
 ]
 
 const COMPARISON_POINTS = [
   {
-    label: "Uses your real browser session",
+    label: "Has a named role and identity",
     vibe: true,
     generic: false,
-    detail: "Vibe reuses your logged-in tabs, cookies, and extensions. Generic agents spin up isolated browsers that need fresh logins.",
+    detail: "Your digital teammate has @handle, focused context, and explicit ownership. Generic AI is a faceless utility.",
   },
   {
-    label: "Native Gmail + Calendar tools",
+    label: "Works in your real browser",
     vibe: true,
     generic: false,
-    detail: "Vibe calls the API directly. Generic agents click through the UI, which breaks constantly.",
+    detail: "Your sessions, cookies, and logins are preserved. Generic AI needs fresh browser contexts each time.",
   },
   {
-    label: "Vault-backed credentials",
+    label: "Scoped credential management",
     vibe: true,
     generic: false,
-    detail: "Secrets stay hidden from the model. Generic agents often leak credentials in prompts.",
+    detail: "Vault-backed secrets never reach the model. Generic AI often exposes credentials in prompts.",
   },
   {
-    label: "Role-scoped context",
-    vibe: true,
-    generic: "partial",
-    detail: "Each AI employee gets focused context. Generic agents flood the context window with everything.",
-  },
-  {
-    label: "Approval gates on risky actions",
+    label: "Productivity metrics",
     vibe: true,
     generic: false,
-    detail: "Configurable guardrails let humans approve before external emails, payments, or deployments.",
+    detail: "Track autonomy rate, tasks completed, and escalations. Generic AI offers no measurable productivity.",
+  },
+  {
+    label: "Escalation with evidence",
+    vibe: true,
+    generic: false,
+    detail: "When your digital teammate escalates, it brings screenshots, logs, and a recommendation — not a vague uncertainty.",
   },
 ]
 
 const WORKFLOW_EXAMPLES = [
   {
-    title: "Morning Brief",
-    description: "AI employee checks your inbox, reviews your calendar, researches meeting prep, and drafts your daily briefing — before you even log in.",
-    surfaces: ["Gmail", "Calendar", "Browser", "Memory"],
+    title: "Morning Intelligence Brief",
+    description: "Your digital teammate scans relevant sources, compiles market updates, and delivers a briefing to your inbox before you're online.",
+    surfaces: ["Browser", "Gmail", "Memory"],
   },
   {
-    title: "Lead Follow-Up",
-    description: "Inbound lead hits your site. AI employee researches the company, drafts personalized outreach, and books a hold on your calendar.",
-    surfaces: ["Browser", "Gmail", "Calendar", "CRM"],
+    title: "Client Health Check",
+    description: "Your digital teammate reviews account activity, identifies at-risk signals, and drafts preemptive outreach.",
+    surfaces: ["CRM", "Browser", "Gmail"],
   },
   {
-    title: "Support Triage",
-    description: "Customer email arrives. AI employee reproduces the issue in the browser, drafts a response, and escalates only if it cannot resolve.",
-    surfaces: ["Gmail", "Browser", "Knowledge Base"],
-  },
-  {
-    title: "Recurring Ops",
-    description: "Weekly portal reconciliation, dashboard monitoring, data hygiene. AI employee runs it on schedule and alerts on anomalies.",
+    title: "Data Reconciliation",
+    description: "Your digital teammate compares data across portals, flags discrepancies, and generates reconciliation reports.",
     surfaces: ["Browser", "Slack", "Memory"],
+  },
+  {
+    title: "Meeting Prep",
+    description: "Your digital teammate researches attendees, finds context from past interactions, and prepares discussion points.",
+    surfaces: ["Browser", "Calendar", "Gmail"],
   },
 ]
 
 const FAQ_ITEMS = [
   {
-    question: "What is an AI employee?",
-    answer: "An AI employee is an autonomous agent with a defined role, scoped access to your tools (browser, inbox, calendar), and guardrails that keep it safe. Unlike a generic chatbot, it can actually do the job — not just talk about it.",
+    question: "What's the difference between a digital employee and an AI chatbot?",
+    answer: "A chatbot is a utility — you prompt it, it responds. A digital employee is a teammate — it has a role, identity, memory, and works autonomously between prompts. It can access your tools, escalate with evidence, and build institutional knowledge.",
   },
   {
-    question: "How is this different from Claude, GPT, or other chatbots?",
-    answer: "Those are general-purpose assistants. Vibe AI employees are purpose-built for operational roles with real tool access: your logged-in browser, Gmail, Calendar, and vault-backed credentials. They work while you sleep.",
+    question: "How is this different from hiring a human employee?",
+    answer: "A digital employee costs a fraction (typically 10-20% of a human FTE), works 24/7, doesn't burn out on repetitive tasks, and scales instantly. It handles the high-volume, repetitive work that humans dread. You still own judgment, relationships, and exceptions.",
   },
   {
-    question: "Can I limit what the AI employee can access?",
-    answer: "Yes. Each role gets scoped credentials, approval rules, and confidence thresholds. Want your support AI to email customers but not access billing? Configure that. Approvals required for external sends? Configurable.",
+    question: "Can I have multiple digital employees?",
+    answer: "Yes. You can deploy a digital workforce with multiple teammates, each with its own role, context, and tools. They can coordinate through Slack, share knowledge through a common memory, and escalate to you independently.",
   },
   {
-    question: "Does this replace humans?",
-    answer: "AI employees handle the repetitive, high-volume work that burns out your team: inbox triage, lead research, portal hygiene. Humans stay for judgment, relationships, and exceptions. The math is usually 0.5-2 FTE returned, not a headcount replacement.",
+    question: "Is this secure?",
+    answer: "Security is foundational. Credentials are vault-backed and never exposed to the model. Each digital employee has scoped access — it can only do what you explicitly allow. External actions, sensitive data, and risky operations can require human approval before execution.",
   },
   {
-    question: "What's the difference between this and /agentic-team?",
-    answer: "/agentic-team shows how multiple AI agents coordinate in Slack with visible identities. This page focuses on the individual AI employee concept: one bot, one role, focused context. They are complementary — a team is just multiple AI employees working together.",
+    question: "How do I know it's actually working?",
+    answer: "Every digital employee publishes a public scorecard: autonomy rate, tasks completed, success rate, and escalations. You see exactly what it did, when it escalated, and why. Productivity is measurable, not aspirational.",
   },
 ]
 
-export default function AIEmployeePage() {
+export default function DigitalEmployeePage() {
   const rotatingTitle = useTypewriter(ROTATING_TITLES, 100, 60, 2500)
 
   return (
@@ -230,47 +234,47 @@ export default function AIEmployeePage() {
         <section className="w-full py-20 md:py-28 lg:py-36">
           <div className="container max-w-5xl px-4 md:px-6 mx-auto">
             <div className="flex flex-col items-center gap-8 text-center">
-              <Badge variant="secondary" className="px-4 py-2 text-sm font-medium bg-[#8ab4f8]/10 text-[#8ab4f8] border-[#8ab4f8]/20">
-                <Bot className="w-4 h-4 mr-2" />
-                AI Employee Platform
+              <Badge variant="secondary" className="px-4 py-2 text-sm font-medium bg-[#81c995]/10 text-[#81c995] border-[#81c995]/20">
+                <UserCheck className="w-4 h-4 mr-2" />
+                Digital Workforce Platform
               </Badge>
 
               <div className="space-y-4">
                 <h1 className="text-4xl font-normal tracking-tight sm:text-5xl md:text-6xl text-[#e8eaed]">
                   Your
                   <br className="hidden sm:block" />
-                  <span className="text-[#8ab4f8]"> {rotatingTitle}</span>
-                  <span className="animate-pulse text-[#8ab4f8]">|</span>
+                  <span className="text-[#81c995]"> {rotatingTitle}</span>
+                  <span className="animate-pulse text-[#81c995]">|</span>
                 </h1>
                 <p className="text-xl text-[#9aa0a6] max-w-2xl mx-auto">
-                  Hire an AI employee with a real role, real browser access, and real tools.
-                  It works while you sleep, escalates when it should, and never forgets what it learned.
+                  Hire a digital teammate with a real role, real browser access, and real ownership.
+                  It works autonomously, escalates with evidence, and builds institutional memory.
                 </p>
               </div>
 
               {/* CTA buttons */}
               <div className="flex flex-col sm:flex-row gap-4 mt-2">
-                <Link href="mailto:aiemployee@vibebrowser.app">
-                  <Button size="lg" className="bg-[#8ab4f8] hover:bg-[#aecbfa] text-[#0a0a0a] font-medium px-8 py-6 h-auto rounded-full">
+                <Link href="mailto:digitalemployee@vibebrowser.app">
+                  <Button size="lg" className="bg-[#81c995] hover:bg-[#a7d6b0] text-[#0a0a0a] font-medium px-8 py-6 h-auto rounded-full">
                     <Users className="mr-2 h-5 w-5" />
                     Request Early Access
                   </Button>
                 </Link>
-                <Link href="/agentic-team">
-                  <Button size="lg" variant="outline" className="px-8 py-6 h-auto rounded-full border-[#2a2a2a] bg-transparent hover:bg-[#1a1a1a] text-[#8ab4f8]">
+                <Link href="/aiemployee">
+                  <Button size="lg" variant="outline" className="px-8 py-6 h-auto rounded-full border-[#2a2a2a] bg-transparent hover:bg-[#1a1a1a] text-[#81c995]">
                     <Eye className="mr-2 h-5 w-5" />
-                    See Agentic Team Demo
+                    See AI Employee Overview
                   </Button>
                 </Link>
               </div>
 
               <div className="flex flex-wrap justify-center gap-3 mt-6">
                 <span className="text-sm text-[#5f6368]">Related:</span>
-                <Link href="/digitalemployee" className="text-sm text-[#8ab4f8] hover:underline">
-                  Digital Employee
+                <Link href="/aiemployee" className="text-sm text-[#81c995] hover:underline">
+                  AI Employee
                 </Link>
                 <span className="text-[#2a2a2a]">|</span>
-                <Link href="/aioutbound" className="text-sm text-[#8ab4f8] hover:underline">
+                <Link href="/aioutbound" className="text-sm text-[#81c995] hover:underline">
                   AI Outbound
                 </Link>
               </div>
@@ -278,39 +282,39 @@ export default function AIEmployeePage() {
               {/* Trust indicators */}
               <div className="flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm text-[#9aa0a6] mt-8 pt-8 border-t border-[#1e1e1e]">
                 <span className="flex items-center gap-2">
-                  <Globe className="w-4 h-4 text-[#8ab4f8]" />
-                  Real browser sessions
+                  <UserCheck className="w-4 h-4 text-[#81c995]" />
+                  Named teammate identity
                 </span>
                 <span className="flex items-center gap-2">
-                  <Mail className="w-4 h-4" />
-                  Native Gmail + Calendar
+                  <Globe className="w-4 h-4" />
+                  Real browser sessions
                 </span>
                 <span className="flex items-center gap-2">
                   <Lock className="w-4 h-4" />
                   Vault-backed secrets
                 </span>
                 <span className="flex items-center gap-2">
-                  <Shield className="w-4 h-4" />
-                  Approval guardrails
+                  <BarChart3 className="w-4 h-4" />
+                  Productivity metrics
                 </span>
                 <span className="flex items-center gap-2">
-                  <Brain className="w-4 h-4" />
-                  Focused role context
+                  <Shield className="w-4 h-4" />
+                  Scoped permissions
                 </span>
               </div>
             </div>
           </div>
         </section>
 
-        {/* What Makes Vibe Different */}
+        {/* What Makes Digital Employees Different */}
         <section className="w-full py-16 md:py-24 border-t border-[#1e1e1e] bg-[#111111]">
           <div className="container max-w-5xl px-4 md:px-6 mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-2xl md:text-3xl font-normal text-[#e8eaed] mb-4">
-                Why an AI employee beats a generic chatbot
+                Why a digital teammate beats a generic assistant
               </h2>
               <p className="text-[#9aa0a6] max-w-2xl mx-auto">
-                Most AI assistants can talk. Vibe AI employees can actually do the work — with real tool access, scoped permissions, and operational memory.
+                Most AI assistants are utilities — you prompt them, they respond. A digital employee is a teammate with identity, ownership, and measurable productivity.
               </p>
             </div>
 
@@ -343,10 +347,10 @@ export default function AIEmployeePage() {
           <div className="container max-w-5xl px-4 md:px-6 mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-2xl md:text-3xl font-normal text-[#e8eaed] mb-4">
-                Roles you can hire today
+                Digital teammates you can hire today
               </h2>
               <p className="text-[#9aa0a6] max-w-2xl mx-auto">
-                Each AI employee comes with focused context, scoped tools, and the skills to do the job — not a generic prompt you have to micromanage.
+                Each digital employee comes with focused context, scoped tools, and measurable productivity. Not a generic prompt — a dedicated teammate.
               </p>
             </div>
 
@@ -387,10 +391,10 @@ export default function AIEmployeePage() {
           <div className="container max-w-5xl px-4 md:px-6 mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-2xl md:text-3xl font-normal text-[#e8eaed] mb-4">
-                Vibe AI Employee vs. Generic AI Assistants
+                Digital Employee vs. Generic AI Assistant
               </h2>
               <p className="text-[#9aa0a6] max-w-2xl mx-auto">
-                The difference between an AI that talks and an AI that works.
+                The difference between a teammate and a utility.
               </p>
             </div>
 
@@ -399,7 +403,7 @@ export default function AIEmployeePage() {
                 <thead>
                   <tr className="border-b border-[#2a2a2a]">
                     <th className="text-left py-4 px-3 text-[#9aa0a6] font-medium">Capability</th>
-                    <th className="text-center py-4 px-3 text-[#8ab4f8] font-medium">Vibe AI Employee</th>
+                    <th className="text-center py-4 px-3 text-[#81c995] font-medium">Digital Employee</th>
                     <th className="text-center py-4 px-3 text-[#9aa0a6] font-medium">Generic AI</th>
                   </tr>
                 </thead>
@@ -441,10 +445,10 @@ export default function AIEmployeePage() {
           <div className="container max-w-5xl px-4 md:px-6 mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-2xl md:text-3xl font-normal text-[#e8eaed] mb-4">
-                What your AI employee actually does
+                What your digital teammate actually does
               </h2>
               <p className="text-[#9aa0a6] max-w-2xl mx-auto">
-                Real workflows, not hypotheticals. These are the jobs Vibe AI employees handle today.
+                Real workflows, not hypotheticals. These are jobs digital employees handle today.
               </p>
             </div>
 
@@ -453,8 +457,8 @@ export default function AIEmployeePage() {
                 <Card key={workflow.title} className="bg-[#1a1a1a] border-[#2a2a2a]">
                   <CardContent className="p-6">
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 rounded-lg bg-[#8ab4f8]/10 flex items-center justify-center">
-                        <Target className="w-5 h-5 text-[#8ab4f8]" />
+                      <div className="w-10 h-10 rounded-lg bg-[#81c995]/10 flex items-center justify-center">
+                        <Target className="w-5 h-5 text-[#81c995]" />
                       </div>
                       <h3 className="text-lg font-medium text-[#e8eaed]">{workflow.title}</h3>
                     </div>
@@ -478,12 +482,12 @@ export default function AIEmployeePage() {
           <div className="container max-w-5xl px-4 md:px-6 mx-auto">
             <div className="grid md:grid-cols-4 gap-6">
               <div className="text-center p-6">
-                <div className="text-3xl font-semibold text-[#8ab4f8] mb-2">57%</div>
-                <p className="text-sm text-[#9aa0a6]">Tasks completed autonomously</p>
+                <div className="text-3xl font-semibold text-[#81c995] mb-2">57%</div>
+                <p className="text-sm text-[#9aa0a6]">Autonomy rate</p>
               </div>
               <div className="text-center p-6">
-                <div className="text-3xl font-semibold text-[#81c995] mb-2">12%</div>
-                <p className="text-sm text-[#9aa0a6]">Escalation rate to humans</p>
+                <div className="text-3xl font-semibold text-[#8ab4f8] mb-2">12%</div>
+                <p className="text-sm text-[#9aa0a6]">Escalation rate</p>
               </div>
               <div className="text-center p-6">
                 <div className="text-3xl font-semibold text-[#fdd663] mb-2">162h</div>
@@ -493,62 +497,6 @@ export default function AIEmployeePage() {
                 <div className="text-3xl font-semibold text-[#c58af9] mb-2">93%</div>
                 <p className="text-sm text-[#9aa0a6]">Task success rate</p>
               </div>
-            </div>
-          </div>
-        </section>
-
-        {/* How It Works */}
-        <section className="w-full py-16 md:py-24 border-t border-[#1e1e1e]">
-          <div className="container max-w-5xl px-4 md:px-6 mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-2xl md:text-3xl font-normal text-[#e8eaed] mb-4">
-                How to hire your first AI employee
-              </h2>
-              <p className="text-[#9aa0a6] max-w-2xl mx-auto">
-                From zero to operational in four steps.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-4 gap-6">
-              {[
-                {
-                  step: "01",
-                  title: "Define the role",
-                  description: "Choose Support, SDR, Researcher, or build your own with specific context and tools.",
-                  icon: Code2,
-                  color: "#8ab4f8",
-                },
-                {
-                  step: "02",
-                  title: "Scope access",
-                  description: "Connect Gmail, Calendar, and browser. Set vault credentials. Define approval rules.",
-                  icon: Lock,
-                  color: "#81c995",
-                },
-                {
-                  step: "03",
-                  title: "Shadow mode",
-                  description: "AI employee watches and suggests for a week. Approve or tune the guardrails.",
-                  icon: Eye,
-                  color: "#fdd663",
-                },
-                {
-                  step: "04",
-                  title: "Go live",
-                  description: "Flip the switch. AI employee works autonomously. Escalate only when confidence is low.",
-                  icon: Zap,
-                  color: "#c58af9",
-                },
-              ].map((item) => (
-                <div key={item.step} className="relative">
-                  <div className="text-xs text-[#5f6368] mb-2">{item.step}</div>
-                  <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3" style={{ backgroundColor: `${item.color}15` }}>
-                    <item.icon className="w-5 h-5" style={{ color: item.color }} />
-                  </div>
-                  <h3 className="text-lg font-medium text-[#e8eaed] mb-2">{item.title}</h3>
-                  <p className="text-sm text-[#9aa0a6]">{item.description}</p>
-                </div>
-              ))}
             </div>
           </div>
         </section>
@@ -581,32 +529,32 @@ export default function AIEmployeePage() {
         <section className="w-full py-16 md:py-24 border-t border-[#1e1e1e]">
           <div className="container max-w-3xl px-4 md:px-6 mx-auto text-center">
             <h2 className="text-2xl md:text-3xl font-normal text-[#e8eaed] mb-4">
-              Hire your first AI employee
+              Hire your first digital teammate
             </h2>
             <p className="text-[#9aa0a6] mb-8">
-              Join the waitlist. We'll help you define the role, set up the guardrails, and get your AI employee working.
+              Join the waitlist. We'll help you define the role, set up permissions, and get your digital employee working.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="mailto:aiemployee@vibebrowser.app">
-                <Button size="lg" className="bg-[#8ab4f8] hover:bg-[#aecbfa] text-[#0a0a0a] font-medium px-8 py-6 h-auto rounded-full">
+              <Link href="mailto:digitalemployee@vibebrowser.app">
+                <Button size="lg" className="bg-[#81c995] hover:bg-[#a7d6b0] text-[#0a0a0a] font-medium px-8 py-6 h-auto rounded-full">
                   <Users className="mr-2 h-5 w-5" />
                   Request Early Access
                 </Button>
               </Link>
-              <Link href="/mcp">
-                <Button size="lg" variant="outline" className="px-8 py-6 h-auto rounded-full border-[#2a2a2a] bg-transparent hover:bg-[#1a1a1a] text-[#8ab4f8]">
-                  <Terminal className="mr-2 h-5 w-5" />
-                  Developer Setup
+              <Link href="/aiemployee">
+                <Button size="lg" variant="outline" className="px-8 py-6 h-auto rounded-full border-[#2a2a2a] bg-transparent hover:bg-[#1a1a1a] text-[#81c995]">
+                  <Eye className="mr-2 h-5 w-5" />
+                  AI Employee Overview
                 </Button>
               </Link>
             </div>
             <div className="flex flex-wrap justify-center gap-3 mt-8 pt-8 border-t border-[#1e1e1e]">
               <span className="text-sm text-[#5f6368]">Explore related concepts:</span>
-              <Link href="/digitalemployee" className="text-sm text-[#8ab4f8] hover:underline">
-                Digital Employee
+              <Link href="/aiemployee" className="text-sm text-[#81c995] hover:underline">
+                AI Employee
               </Link>
               <span className="text-[#2a2a2a]">|</span>
-              <Link href="/aioutbound" className="text-sm text-[#8ab4f8] hover:underline">
+              <Link href="/aioutbound" className="text-sm text-[#81c995] hover:underline">
                 AI Outbound Sales
               </Link>
             </div>
@@ -618,5 +566,3 @@ export default function AIEmployeePage() {
     </div>
   )
 }
-
-
