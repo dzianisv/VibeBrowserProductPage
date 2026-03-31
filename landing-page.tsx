@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { SiteFooter } from '@/components/site-footer'
+import { TypewriterEffect } from "@/components/typewriter-effect"
 import {
 Chrome,
 Zap,
@@ -228,15 +229,25 @@ export default function Component() {
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-slate-50 to-white overflow-x-hidden">
       {/* Header */}
       <header className="w-full px-4 lg:px-6 h-16 flex items-center justify-between border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="flex items-center gap-2">
-          <img src="/vibebrowser-logo.png" alt="Vibe Co-Pilot" className="w-10 h-10 object-contain" />
-          <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent hidden sm:inline">
-            Vibe Co-Pilot
-          </span>
-          <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent sm:hidden">
-            Vibe
-          </span>
-        </div>
+        <Link href="/" className="flex items-center gap-2 min-w-0">
+          <img src="/vibebrowser-logo.png" alt="VibeBrowser Co-Pilot" className="w-10 h-10 object-contain" />
+          <div className="hidden sm:flex flex-col leading-tight min-w-0">
+            <span className="text-lg font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent truncate">
+              VibeBrowser Co-Pilot
+            </span>
+            <span className="text-xs font-semibold text-slate-600 truncate">
+              for Evryone!
+            </span>
+          </div>
+          <div className="sm:hidden flex flex-col leading-tight min-w-0">
+            <span className="text-sm font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent truncate">
+              VibeBrowser
+            </span>
+            <span className="text-[10px] font-semibold text-slate-600 truncate">
+              for Evryone!
+            </span>
+          </div>
+        </Link>
         <nav className="hidden md:flex gap-6">
           <Link href="/mcp" className="text-sm font-medium hover:text-purple-600 transition-colors">
             MCP
@@ -273,38 +284,55 @@ export default function Component() {
 
   <main className="flex-1">
     {/* Hero Section with Hook */}
-    <section id="demo" className="w-full py-12 md:py-24 lg:py-32">
+    <section id="demo" className="w-full py-10 md:py-16 lg:py-20">
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
-        <div className="flex flex-col items-center gap-6 text-center max-w-5xl mx-auto">
+        <div className="flex flex-col items-center gap-5 text-center max-w-4xl mx-auto">
           <Badge variant="secondary"
             className="px-4 py-2 text-sm font-medium bg-purple-100 text-purple-700 border-purple-200">
             <Sparkles className="w-4 h-4 mr-2" />
-            AI Workflows on Real Websites
+            Real Browser Agent
           </Badge>
 
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-            Move repetitive browser work
-            <br />
-            <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">off your plate</span>
+            The Agentic AI Browser that
+            <span className="mt-1 block bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+              <span className="inline-flex w-full justify-center">
+                <TypewriterEffect
+                  words={[
+                    "runs warm outreach",
+                    "replies on LinkedIn",
+                    "replies on x.com",
+                    "analyzes Twitter posts",
+                    "fills taxes",
+                    "sources recruiter candidates",
+                    "summarizes legal cases",
+                    "researches investment theses",
+                    "triages GitHub issues",
+                    "monitors crypto narratives",
+                    "updates Amazon seller ops",
+                    "qualifies outbound sales leads",
+                    "reviews research papers",
+                    "orchestrates people ops tasks",
+                    "helps Copilot users move faster",
+                    "supports enterprise browser workflows",
+                  ]}
+                  typingSpeed={90}
+                  deletingSpeed={50}
+                  pauseDuration={1900}
+                  className="inline-block w-full px-2 text-center"
+                />
+              </span>
+            </span>
           </h1>
 
           <p className="max-w-3xl text-lg text-muted-foreground md:text-xl leading-relaxed mb-6">
-            Vibe turns repetitive website, Gmail, and Google Calendar work into reusable workflows inside your existing logged-in browser session. Use it directly or connect it through <strong>MCP</strong> to Claude Code, Codex, OpenCode, Gemini CLI, and other agents—while keeping your sessions intact, choosing your models, and staying in control of execution.
-          </p>
-          <p className="text-sm text-muted-foreground">
-            Best for browser-heavy work APIs do not cover: sourcing, research, inbox follow-up, scheduling, and portal tasks.
+            VibeBrowser Co-Pilot runs inside your existing logged-in browser session and turns repetitive website, Gmail, and Calendar work into reusable workflows you can run again with guardrails.
           </p>
           <p className="text-sm text-muted-foreground max-w-3xl">
-            Run Vibe locally, let cloud agents call it through MCP, or pair it with OpenClaw surfaces where they fit. Cloud model APIs are optional and user-controlled.
+            Use it directly or through <strong>MCP</strong> from Claude Code, Codex, OpenCode, and Gemini CLI while keeping model choice, sessions, and execution control on your side.
           </p>
 
-          <div className="max-w-3xl rounded-2xl border border-emerald-200 bg-emerald-50/90 px-4 py-3 text-left shadow-sm">
-            <p className="text-sm font-medium text-emerald-900">
-              Open source soon: we plan to open-source the Vibe extension as soon as we close the remaining gaps and complete a proper security review.
-            </p>
-          </div>
-
-          <div className="flex flex-col sm:flex-row gap-4 items-center justify-center mb-8">
+          <div className="flex flex-col sm:flex-row gap-4 items-center justify-center mb-6">
             <div className="relative" ref={dropdownRef}>
               <div className="flex">
                 <Button 
@@ -367,7 +395,7 @@ export default function Component() {
             </Link>
           </div>
 
-          <Link href="/blog/gpt-5-4-support-and-kimi-k2-5-free-tier" className="group mb-8 w-full max-w-2xl">
+          <Link href="/blog/gpt-5-4-support-and-kimi-k2-5-free-tier" className="group mb-6 w-full max-w-2xl">
             <div className="rounded-2xl border border-purple-200 bg-white/90 p-4 shadow-sm transition-all hover:border-purple-300 hover:shadow-md">
               <div className="flex flex-col gap-3 text-left sm:flex-row sm:items-center sm:justify-between">
                 <div>
@@ -387,47 +415,108 @@ export default function Component() {
             </div>
           </Link>
 
-          <div className="flex flex-wrap gap-4 md:gap-6 justify-center items-center text-sm text-muted-foreground mb-12">
+          <div className="flex flex-wrap gap-4 md:gap-5 justify-center items-center text-sm text-muted-foreground mb-8">
             <div className="flex items-center gap-2">
               <Globe className="w-4 h-4 text-blue-600" />
-              <span>No APIs needed</span>
+              <span>No API rebuilds</span>
             </div>
             <div className="flex items-center gap-2">
               <Lock className="w-4 h-4 text-green-600" />
-              <span>Runs locally</span>
+              <span>Local-first execution</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle className="w-4 h-4 text-purple-600" />
-              <span>You stay in control</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Calendar className="w-4 h-4 text-indigo-600" />
-              <span>Google Workspace (Gmail + Calendar)</span>
+              <span>Human-in-control guardrails</span>
             </div>
             <div className="flex items-center gap-2">
               <Puzzle className="w-4 h-4 text-orange-600" />
-              <span>MCP server for other agents</span>
+              <span>MCP integrations + secrets vault</span>
             </div>
             <div className="flex items-center gap-2">
-              <ListTodo className="w-4 h-4 text-slate-600" />
-              <span>Skills library</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Key className="w-4 h-4 text-emerald-600" />
-              <span>Secrets vault + password fill</span>
+              <Calendar className="w-4 h-4 text-indigo-600" />
+              <span>Gmail + Calendar built in</span>
             </div>
           </div>
 
-            {/* Use Cases - inline */}
-            <div className="w-full max-w-5xl mx-auto mb-12">
-              <div className="text-center mb-6">
-                <h2 className="text-2xl font-bold tracking-tight sm:text-3xl mb-2">
-                  Work Vibe can take off your plate
-                </h2>
-                <p className="text-muted-foreground">
-                  Outcome-first workflows for recruiting, research, and browser-heavy operations
-                </p>
+          {/* Demo Carousel */}
+          <div className="w-full max-w-4xl mx-auto">
+            <div className="relative">
+              <div className="relative rounded-3xl overflow-hidden shadow-2xl">
+                <div className="relative" style={{ paddingBottom: '62.5%' }}>
+                  <video
+                    ref={videoRef}
+                    key={currentDemo}
+                    className="absolute inset-0 w-full h-full object-cover"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="auto"
+                    src={`${demos[currentDemo].videoSrc}.mp4`}
+                    onPlay={() => setIsPlaying(true)}
+                    onPause={() => setIsPlaying(false)}
+                  >
+                    Your browser does not support the video tag.
+                  </video>
+
+                  <button
+                    onClick={prevDemo}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all z-20"
+                    aria-label="Previous demo"
+                  >
+                    <ChevronLeft className="w-5 h-5 text-gray-800" />
+                  </button>
+                  <button
+                    onClick={nextDemo}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all z-20"
+                    aria-label="Next demo"
+                  >
+                    <ChevronRight className="w-5 h-5 text-gray-800" />
+                  </button>
+                </div>
               </div>
+
+              <div className="flex flex-wrap justify-center gap-2 mt-8">
+                {demos.map((demo, index) => (
+                  <button
+                    key={demo.id}
+                    onClick={() => setCurrentDemo(index)}
+                    className={`px-4 py-2 rounded-full transition-all text-sm font-medium ${
+                      currentDemo === index
+                        ? 'bg-purple-600 text-white shadow-lg'
+                        : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
+                    }`}
+                  >
+                    {demo.title}
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex justify-center gap-2 mt-6">
+                {demos.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentDemo(index)}
+                    className={`h-1.5 rounded-full transition-all ${
+                      currentDemo === index ? 'w-8 bg-purple-600' : 'w-1.5 bg-gray-300'
+                    }`}
+                    aria-label={`Go to demo ${index + 1}`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Use Cases - inline */}
+          <div className="w-full max-w-5xl mx-auto mt-10 mb-10">
+            <div className="text-center mb-5">
+              <h2 className="text-2xl font-bold tracking-tight sm:text-3xl mb-2">
+                Work Vibe can take off your plate
+              </h2>
+              <p className="text-muted-foreground">
+                Outcome-first workflows for recruiting, research, and private browser operations
+              </p>
+            </div>
 
             <div className="grid gap-4 md:grid-cols-3">
               {/* Primary Use Case: Outreach */}
@@ -536,75 +625,6 @@ export default function Component() {
               <Link href="/compare" className="text-sm font-semibold text-purple-700 hover:text-purple-800">
                 Explore workflow comparison →
               </Link>
-            </div>
-          </div>
-
-          {/* Demo Carousel */}
-          <div className="w-full max-w-4xl mx-auto">
-            <div className="relative">
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-                <div className="relative" style={{ paddingBottom: '62.5%' }}>
-                  <video
-                    ref={videoRef}
-                    key={currentDemo}
-                    className="absolute inset-0 w-full h-full object-cover"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    preload="auto"
-                    src={`${demos[currentDemo].videoSrc}.mp4`}
-                    onPlay={() => setIsPlaying(true)}
-                    onPause={() => setIsPlaying(false)}
-                  >
-                    Your browser does not support the video tag.
-                  </video>
-
-                  <button
-                    onClick={prevDemo}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all z-20"
-                    aria-label="Previous demo"
-                  >
-                    <ChevronLeft className="w-5 h-5 text-gray-800" />
-                  </button>
-                  <button
-                    onClick={nextDemo}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all z-20"
-                    aria-label="Next demo"
-                  >
-                    <ChevronRight className="w-5 h-5 text-gray-800" />
-                  </button>
-                </div>
-              </div>
-
-              <div className="flex flex-wrap justify-center gap-2 mt-8">
-                {demos.map((demo, index) => (
-                  <button
-                    key={demo.id}
-                    onClick={() => setCurrentDemo(index)}
-                    className={`px-4 py-2 rounded-full transition-all text-sm font-medium ${
-                      currentDemo === index
-                        ? 'bg-purple-600 text-white shadow-lg'
-                        : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
-                    }`}
-                  >
-                    {demo.title}
-                  </button>
-                ))}
-              </div>
-
-              <div className="flex justify-center gap-2 mt-6">
-                {demos.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentDemo(index)}
-                    className={`h-1.5 rounded-full transition-all ${
-                      currentDemo === index ? 'w-8 bg-purple-600' : 'w-1.5 bg-gray-300'
-                    }`}
-                    aria-label={`Go to demo ${index + 1}`}
-                  />
-                ))}
-              </div>
             </div>
           </div>
 
