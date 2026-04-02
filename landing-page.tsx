@@ -635,6 +635,44 @@ export default function Component() {
       </div>
     </section>
 
+    {/* Why Vibe - Model Freedom Banner */}
+    <section className="w-full py-10 md:py-12 bg-gradient-to-r from-indigo-950 to-purple-950 text-white">
+      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="max-w-2xl">
+            <div className="flex items-center gap-2 mb-3">
+              <Badge className="bg-purple-500 text-white text-xs font-semibold">New</Badge>
+              <span className="text-purple-300 text-sm font-medium">Grok-4.1 Fast Reasoning just landed</span>
+            </div>
+            <h2 className="text-2xl md:text-3xl font-bold mb-3 leading-tight">
+              You choose the model. We execute in your browser.
+            </h2>
+            <p className="text-slate-300 text-base mb-4">
+              OpenAI Atlas locks you to GPT. Perplexity Comet locks you to their stack. Vibe gives you real freedom — run <strong className="text-white">Grok-4.1 Fast Reasoning</strong>, GPT-5.4, Claude, DeepSeek, Kimi, or any model you want. Switch anytime. No re-platforming.
+            </p>
+            <div className="flex flex-wrap gap-2 text-sm">
+              {["Grok-4.1 Fast Reasoning", "GPT-5.4", "Claude Sonnet", "DeepSeek R1", "Kimi K2.5", "Local models"].map((m) => (
+                <span key={m} className="px-3 py-1 rounded-full bg-white/10 border border-white/20 text-white font-medium">{m}</span>
+              ))}
+            </div>
+          </div>
+          <div className="flex-shrink-0 w-full md:w-auto">
+            <div className="rounded-2xl border border-white/20 bg-white/5 p-6 backdrop-blur-sm max-w-xs mx-auto md:mx-0">
+              <div className="text-center mb-4">
+                <div className="text-4xl font-black text-white mb-1">25×</div>
+                <div className="text-purple-300 text-sm">cheaper than GPT-5.4</div>
+              </div>
+              <div className="border-t border-white/10 pt-4 text-center">
+                <div className="text-2xl font-black text-white mb-1">2M</div>
+                <div className="text-purple-300 text-sm">token context window</div>
+                <div className="text-xs text-slate-400 mt-1">vs 128K for locked-in browsers</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     {/* Why Vibe - Comparison CTA */}
     <section className="w-full py-12 md:py-16 bg-slate-50">
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
@@ -749,7 +787,7 @@ export default function Component() {
                </div>
                <h3 className="text-xl font-bold mb-2">Any LLM, No Lock-in</h3>
                <p className="text-sm text-muted-foreground">
-                 Use GPT, Claude, Gemini, Grok, DeepSeek. Switch anytime. Works with any Chrome browser
+                 Run Grok-4.1 Fast Reasoning, GPT-5.4, Claude, DeepSeek, or local models. Switch instantly — unlike Atlas or Comet which lock your AI choice.
                </p>
              </CardContent>
            </Card>
