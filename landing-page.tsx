@@ -640,10 +640,10 @@ export default function Component() {
       <div className="container max-w-4xl px-4 md:px-6 mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-3">
-            Why Vibe instead of Operator, Comet, or Manus?
+            Why Vibe instead of Operator, Comet, Atlas, or Manus?
           </h2>
           <p className="max-w-xl mx-auto text-muted-foreground text-lg">
-            They all sound similar. They're not.
+            They all automate browsers. The details matter.
           </p>
         </div>
 
@@ -651,15 +651,15 @@ export default function Component() {
           {[
             {
               icon: "🪟",
-              title: "Your real browser session",
-              them: "Operator, Comet, and Manus run in their own sandboxed cloud browser. You have to re-authenticate, give them your passwords, and trust a stranger's VM with your accounts.",
-              us: "Vibe is a Chrome extension. It runs in your actual browser session — your logins, cookies, and context are already there. Nothing to hand over.",
+              title: "Your real Chrome session",
+              them: "Operator runs a sandboxed cloud browser — you re-authenticate and trust their VM. Comet and Atlas replace your browser entirely with their own app.",
+              us: "Vibe is a Chrome extension. It runs in your real session — your logins, cookies, and open tabs are already there. Nothing to hand over, no new browser to install.",
             },
             {
               icon: "🔒",
               title: "Your data stays on your device",
-              them: "Cloud browsers stream every page you visit through their servers. Your work, your clients, your private sessions — all logged on their infrastructure.",
-              us: "Vibe executes locally. Only the task context you explicitly initiate leaves your machine. Self-hosted and local model options mean nothing has to leave at all.",
+              them: "Operator streams every page through OpenAI's servers. Comet and Atlas process your browsing inside Perplexity's and OpenAI's infrastructure.",
+              us: "Vibe executes locally. Only the task context you choose to send leaves your machine. Self-hosted LLM option means nothing has to leave at all.",
             },
             {
               icon: "🔓",
