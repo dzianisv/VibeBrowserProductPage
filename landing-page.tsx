@@ -635,73 +635,37 @@ export default function Component() {
       </div>
     </section>
 
-    {/* Why Vibe - Model Freedom Banner */}
-    <section className="w-full py-10 md:py-12 bg-gradient-to-r from-indigo-950 to-purple-950 text-white">
-      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-          <div className="max-w-2xl">
-            <div className="flex items-center gap-2 mb-3">
-              <Badge className="bg-purple-500 text-white text-xs font-semibold">New</Badge>
-              <span className="text-purple-300 text-sm font-medium">Grok-4.1 Fast Reasoning just landed</span>
-            </div>
-            <h2 className="text-2xl md:text-3xl font-bold mb-3 leading-tight">
-              You choose the model. We execute in your browser.
-            </h2>
-            <p className="text-slate-300 text-base mb-4">
-              OpenAI Atlas locks you to GPT. Perplexity Comet locks you to their stack. Vibe gives you real freedom — run <strong className="text-white">Grok-4.1 Fast Reasoning</strong>, GPT-5.4, Claude, DeepSeek, Kimi, or any model you want. Switch anytime. No re-platforming.
-            </p>
-            <div className="flex flex-wrap gap-2 text-sm">
-              {["Grok-4.1 Fast Reasoning", "GPT-5.4", "Claude Sonnet", "DeepSeek R1", "Kimi K2.5", "Local models"].map((m) => (
-                <span key={m} className="px-3 py-1 rounded-full bg-white/10 border border-white/20 text-white font-medium">{m}</span>
-              ))}
-            </div>
-          </div>
-          <div className="flex-shrink-0 w-full md:w-auto">
-            <div className="rounded-2xl border border-white/20 bg-white/5 p-6 backdrop-blur-sm max-w-xs mx-auto md:mx-0">
-              <div className="text-center mb-4">
-                <div className="text-4xl font-black text-white mb-1">25×</div>
-                <div className="text-purple-300 text-sm">cheaper than GPT-5.4</div>
-              </div>
-              <div className="border-t border-white/10 pt-4 text-center">
-                <div className="text-2xl font-black text-white mb-1">2M</div>
-                <div className="text-purple-300 text-sm">token context window</div>
-                <div className="text-xs text-slate-400 mt-1">vs 128K for locked-in browsers</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    {/* Why Vibe - Comparison CTA */}
+    {/* Why Vibe */}
     <section className="w-full py-12 md:py-16 bg-slate-50">
-      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
+      <div className="container max-w-5xl px-4 md:px-6 mx-auto">
         <div className="text-center mb-10">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
-            Why teams choose Vibe for browser work
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-3">
+            Your browser. Your model. Your data.
           </h2>
-          <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
-            Compare execution reliability, privacy controls, model choice, and workflow depth — not just chat features.
+          <p className="max-w-xl mx-auto text-lg text-muted-foreground">
+            Atlas locks you to GPT. Comet locks you to their stack. Vibe runs any model — including Grok-4.1 Fast Reasoning — inside your own Chrome session, on your own terms.
           </p>
         </div>
-        <div className="max-w-4xl mx-auto">
-          <div className="rounded-2xl border border-purple-100 bg-white shadow-lg p-8 md:p-10 flex flex-col md:flex-row items-center justify-between gap-6">
-            <div>
-              <div className="flex items-center gap-2 text-sm font-semibold text-purple-700">
-                <Badge className="bg-purple-600 text-white">Updated</Badge>
-                <span>Full competitive analysis</span>
-              </div>
-              <p className="mt-3 text-base text-muted-foreground">
-                Compare Vibe against Operator, Comet, Strawberry, OpenClaw, and Browser MCP on the features teams care about.
-              </p>
+        <div className="grid sm:grid-cols-3 gap-4 mb-8">
+          {[
+            { stat: "2M", label: "token context window", sub: "vs 128K for locked-in browsers" },
+            { stat: "25×", label: "cheaper than GPT-5.4", sub: "with Grok-4.1 Fast Reasoning" },
+            { stat: "∞", label: "model choices", sub: "Grok, GPT, Claude, DeepSeek, local…" },
+          ].map(({ stat, label, sub }) => (
+            <div key={stat} className="rounded-2xl border border-purple-100 bg-white shadow-sm p-6 text-center">
+              <div className="text-4xl font-black text-purple-700 mb-1">{stat}</div>
+              <div className="font-semibold text-slate-800 text-sm">{label}</div>
+              <div className="text-xs text-muted-foreground mt-1">{sub}</div>
             </div>
-            <Link href="/compare" className="w-full md:w-auto">
-              <Button size="lg" className="w-full md:w-auto bg-purple-600 hover:bg-purple-700 text-white">
-                View comparison
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </Link>
-          </div>
+          ))}
+        </div>
+        <div className="text-center">
+          <Link href="/compare">
+            <Button variant="outline" className="border-purple-200 text-purple-700 hover:bg-purple-50">
+              See how Vibe compares to Operator, Comet &amp; more
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </Link>
         </div>
       </div>
     </section>
