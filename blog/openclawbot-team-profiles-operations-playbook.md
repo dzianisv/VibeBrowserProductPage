@@ -23,7 +23,7 @@ Once the fix was live and Sentry confirmed error rates back to baseline, DevOpsE
 
 I saw the closed loop in Slack. I didn't touch it.
 
-That is how **OpenClawBot team profiles** work for us: one cloud-managed [OpenClaw](https://github.com/openclaw/openclaw) deployment at [openclawbot.vibebrowser.app](https://openclawbot.vibebrowser.app), six role-specific agents, clear ownership, and strict handoff rules.
+That is how **OpenClawBot team profiles** work for us: one cloud-managed [OpenClaw](https://github.com/openclaw/openclaw) deployment at [openclaw.vibebrowser.app](https://openclaw.vibebrowser.app), six role-specific agents, clear ownership, and strict handoff rules.
 
 I wrote this post as an implementation guide, not a concept piece. It has two parts: **operating model** (how the roles, skills, and handoffs are designed) and **integration setup** (how to wire each role into Slack, GitHub, Sentry, Linear, and Google Drive). If you just want the managed version without manual config, skip to [Hire the team](#hire-the-team--invite-them-to-your-slack).
 
@@ -35,7 +35,7 @@ I wrote this post as an implementation guide, not a concept piece. It has two pa
 - Each role has locked tool access, a skills list, and explicit handoff rules. Agents cannot drift into each other's lanes.
 - ReleaseEngineer is the scheduled heartbeat profile for DevOps incident scanning — it checks Sentry every 15 minutes and delegates, not just alerts.
 - GPT-5.3-Codex (xhigh reasoning) for engineering roles, GPT-5.4 for support and finance, Grok-4.1 for speed. Model choice is per-role, not per-request.
-- **Want this without the setup work?** → [openclawbot.vibebrowser.app](https://openclawbot.vibebrowser.app)
+- **Want this without the setup work?** → [openclaw.vibebrowser.app](https://openclaw.vibebrowser.app)
 
 ---
 
@@ -398,7 +398,7 @@ Install to selected repos and note the installation ID.
 
 Store the app credentials in `openclaw.json`. The exact config shape depends on the OpenClaw skills that handle GitHub — typically the skill reads `GITHUB_APP_ID`, `GITHUB_PRIVATE_KEY`, and `GITHUB_INSTALLATION_ID` from the agent sandbox environment.
 
-For the cloud-managed product at [openclawbot.vibebrowser.app](https://openclawbot.vibebrowser.app), paste the App ID, Installation ID, and private key into the console — it handles the env injection.
+For the cloud-managed product at [openclaw.vibebrowser.app](https://openclaw.vibebrowser.app), paste the App ID, Installation ID, and private key into the console — it handles the env injection.
 
 Identity check: open a DM with the agent and ask it to comment on a test issue. Confirm the comment appears under the app's bot identity.
 
@@ -511,11 +511,11 @@ That full loop is the core metric for this setup.
 
 We turned this exact setup into a product.
 
-**[OpenClawBot](https://openclawbot.vibebrowser.app)** lets you hire a team of agents — SupportEngineer, DevOpsEngineer, SoftwareEngineer, GrowthManager, MarketingManager, FinManager — and invite them into your Slack workspace in minutes. No infrastructure to manage. No prompt engineering from scratch. The roles, skills, handoff rules, and integrations (GitHub, Sentry, Linear, Gmail, Google Drive) are pre-configured and ready to run.
+**[OpenClawBot](https://openclaw.vibebrowser.app)** lets you hire a team of agents — SupportEngineer, DevOpsEngineer, SoftwareEngineer, GrowthManager, MarketingManager, FinManager — and invite them into your Slack workspace in minutes. No infrastructure to manage. No prompt engineering from scratch. The roles, skills, handoff rules, and integrations (GitHub, Sentry, Linear, Gmail, Google Drive) are pre-configured and ready to run.
 
 It works like adding a new hire:
 
-1. Go to [openclawbot.vibebrowser.app](https://openclawbot.vibebrowser.app)
+1. Go to [openclaw.vibebrowser.app](https://openclaw.vibebrowser.app)
 2. Pick the roles you need
 3. Connect your tools (one OAuth flow per integration)
 4. Invite the bot to your Slack channel
@@ -540,7 +540,7 @@ Start with one role and one recurring workflow. Measure loop completion quality 
 
 ## References
 
-- OpenClawBot (hire your agent team): https://openclawbot.vibebrowser.app
+- OpenClawBot (hire your agent team): https://openclaw.vibebrowser.app
 - Vibe Browser for OpenClaw: https://www.vibebrowser.app/openclaw
 - OpenClaw project: https://github.com/openclaw/openclaw
 - GPT-5.4 support in Vibe: https://www.vibebrowser.app/blog/gpt-5-4-support-and-kimi-k2-5-free-tier
