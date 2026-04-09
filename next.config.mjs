@@ -4,6 +4,15 @@ const nextConfig = {
   outputFileTracingIncludes: {
     '/': ['./public/**/*'],
   },
+  async redirects() {
+    return [
+      {
+        source: '/BrowserUseModelsBenchmark',
+        destination: '/blog/BrowserUseModelsBenchmark',
+        permanent: true,
+      },
+    ]
+  },
   async rewrites() {
     return [
       {
