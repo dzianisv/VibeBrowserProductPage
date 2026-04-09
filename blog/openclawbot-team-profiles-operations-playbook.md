@@ -27,6 +27,36 @@ That is how **OpenClawBot team profiles** work for us: one cloud-managed [OpenCl
 
 I wrote this post as an implementation guide, not a concept piece.
 
+---
+
+**TL;DR**
+
+- We run five role-specific agents (SupportEngineer, DevOpsEngineer, SoftwareEngineer, GrowthManager, MarketingManager) on a single OpenClaw deployment at `openclawbot.vibebrowser.app`.
+- Each role has locked tool access, a skills list, and a handoff matrix — agents cannot drift into each other's lanes.
+- ReleaseEngineer scans Sentry on a 15-minute cron. When it finds a P0/P1 it delegates, doesn't just alert.
+- A gateway heartbeat kills stalled tasks so nothing silently hangs in "in progress."
+- GPT-5.4 for high-stakes decisions, Grok-4.1 for speed. Model choice is per-role, not per-request.
+- **Want the same setup without the config work?** → [openclawbot.vibebrowser.app](https://openclawbot.vibebrowser.app)
+
+---
+
+**Sections**
+
+- [Why we stopped using one general-purpose agent](#why-we-stopped-using-one-general-purpose-agent)
+- [Team structure](#team-structure-one-profile-one-lane)
+- [Team setup in the console](#team-setup-in-consoleopenclaw-vibebrowserapp)
+- [Skills by role](#skills-by-role-this-is-where-behavior-really-changes)
+- [Handoff matrix in AGENTS.md](#handoff-matrix-in-agentsmd)
+- [Slack integration](#slack-integration-one-slack-app-per-role)
+- [GitHub integration](#github-integration-one-github-app-per-role)
+- [Sentry integration](#sentry-integration-shared-visibility-role-specific-action)
+- [Linear integration](#linear-integration-graphql-only)
+- [Model routing](#model-routing-gpt-54-and-grok-41-by-risk-profile)
+- [Example workflow](#example-workflow-complaint---fix---customer-confirmation)
+- [Hire the team](#hire-the-team--invite-them-to-your-slack)
+
+---
+
 ![OpenClawBot team agents coordinating a customer issue in Slack — SupportEngineer triages, SoftwareEngineer ships the fix](/vibeteam1.png)
 
 ## Why we stopped using one general-purpose agent
