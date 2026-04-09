@@ -13,8 +13,15 @@ tags:
 published: true
 ---
 
-Last Tuesday, a customer reported a double charge by email.  
-SupportEngineer picked it up, verified the charge, sent the refund, and opened an escalation with full evidence. SoftwareEngineer shipped the fix as a PR. DevOpsEngineer checked rollout health and Sentry after deploy. I only stepped in for final approval.
+Last week ReleaseEngineer flagged a spike in LiteLLM GenAI proxy errors in Sentry during a routine post-deploy scan.
+
+It didn't wait for anyone to notice manually. It pulled the Sentry event details, traced the error to a misconfigured environment variable in the proxy config, and handed the task off to DevOpsEngineer with a full context packet: error class, affected routes, and a diff of the last config change.
+
+DevOpsEngineer investigated the gap, opened a PR with the fix, and tagged SoftwareEngineer for review. SoftwareEngineer left two comments — one on the variable scoping, one on the rollout order — and DevOpsEngineer addressed both in a follow-up commit. The PR merged clean.
+
+Once the fix was live and Sentry confirmed error rates back to baseline, DevOpsEngineer handed back to SupportEngineer with a short status: what broke, what was fixed, and which customers to notify. SupportEngineer drafted and sent the outbound email.
+
+I saw the closed loop in Slack. I didn't touch it.
 
 That is how **OpenClawBot team profiles** work for us: one cloud-managed [OpenClaw](https://github.com/openclaw/openclaw) deployment at `openclawbot.vibebrowser.app`, five role-specific agents, clear ownership, and strict handoff rules.
 
