@@ -35,7 +35,7 @@ I wrote this post as an implementation guide, not a concept piece.
 - Each role has locked tool access, a skills list, and a handoff matrix — agents cannot drift into each other's lanes.
 - ReleaseEngineer scans Sentry on a 15-minute cron. When it finds a P0/P1 it delegates, doesn't just alert.
 - A gateway heartbeat kills stalled tasks so nothing silently hangs in "in progress."
-- GPT-5.4 for high-stakes decisions, Grok-4.1 for speed. Model choice is per-role, not per-request.
+- GPT-5.3-Codex (xhigh reasoning) for engineering roles, Grok-4.1 for speed. Model choice is per-role, not per-request.
 - **Want the same setup without the config work?** → [openclawbot.vibebrowser.app](https://openclawbot.vibebrowser.app)
 
 ---
@@ -51,7 +51,7 @@ I wrote this post as an implementation guide, not a concept piece.
 - [GitHub integration](#github-integration-one-github-app-per-role)
 - [Sentry integration](#sentry-integration-shared-visibility-role-specific-action)
 - [Linear integration](#linear-integration-graphql-only)
-- [Model routing](#model-routing-gpt-54-and-grok-41-by-risk-profile)
+- [Model routing](#model-routing-gpt-53-codex-and-grok-41-by-risk-profile)
 - [Example workflow](#example-workflow-complaint---fix---customer-confirmation)
 - [Hire the team](#hire-the-team--invite-them-to-your-slack)
 
@@ -419,14 +419,15 @@ mutation {
 Linear API endpoint is `https://api.linear.app/graphql`.  
 Agents create and update issues through GraphQL mutations/queries.
 
-## Model routing: GPT-5.4 and Grok-4.1 by risk profile
+## Model routing: GPT-5.3-Codex and Grok-4.1 by risk profile
 
 | Profile | Default model | Why |
 |---|---|---|
 | **SupportEngineer** | GPT-5.4 | Customer-facing replies need judgment and careful escalation |
 | **GrowthManager** | Grok-4.1 | High-volume, lower-risk workflow throughput |
-| **SoftwareEngineer** | GPT-5.4 | Better reasoning for code and PR quality |
-| **DevOpsEngineer** | GPT-5.4 | Infra mistakes are expensive; requires careful analysis |
+| **SoftwareEngineer** | GPT-5.3-Codex (xhigh reasoning) | Deep code reasoning for PRs and bug analysis |
+| **DevOpsEngineer** | GPT-5.3-Codex (xhigh reasoning) | Infra mistakes are expensive; requires careful multi-step analysis |
+| **ReleaseEngineer** | GPT-5.3-Codex (xhigh reasoning) | Incident triage needs precise root-cause reasoning |
 | **MarketingManager** | Grok-4.1 | Drafting/distribution speed matters most |
 
 Simple rule: use the stronger model where mistakes create customer or production risk.
