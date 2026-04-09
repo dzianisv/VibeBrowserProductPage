@@ -2,6 +2,29 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { marked } from 'marked'
 
+function slugifyHeading(raw: string): string {
+  return raw
+    .replace(/^#{1,6}\s+/, '')       // strip leading #'s
+    .replace(/\s+$/, '')              // trim trailing whitespace
+    .replace(/`([^`]+)`/g, '$1')     // strip backtick spans, keep content
+    .replace(/\*\*([^*]+)\*\*/g, '$1')
+    .replace(/\*([^*]+)\*/g, '$1')
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '')        // remove non-word chars
+    .trim()
+    .replace(/\s+/g, '-')            // spaces → hyphens
+}
+
+marked.use({
+  renderer: {
+    heading({ text, depth, raw }: { text: string; depth: number; raw: string }) {
+      const id = slugifyHeading(raw)
+      return `<h${depth} id="${id}">${text}</h${depth}>\n`
+    },
+  },
+})
+
 export interface BlogPost {
   slug: string
   aliases: string[]

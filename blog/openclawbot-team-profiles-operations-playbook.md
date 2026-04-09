@@ -44,7 +44,7 @@ I wrote this post as an implementation guide, not a concept piece. It has two pa
 **Part 1 — Operating model**
 - [Why we stopped using one general-purpose agent](#why-we-stopped-using-one-general-purpose-agent)
 - [Team structure](#team-structure-one-profile-one-lane)
-- [Team setup in the console](#team-setup-in-consoleopenclaw-vibebrowserapp)
+- [Team setup in the console](#team-setup-in-the-console)
 - [Skills by role](#skills-by-role-this-is-where-behavior-really-changes)
 - [Handoff matrix](#handoff-matrix-in-agentsmd)
 - [Model routing](#model-routing-gpt-53-codex-and-grok-41-by-risk-profile)
@@ -89,9 +89,9 @@ The fix was boring but effective: split roles, lock tool access by role, and req
 
 The narrow scope is intentional. It keeps prompts shorter, decisions clearer, and postmortems easier.
 
-## Team setup in `console.openclaw.vibebrowser.app`
+## Team setup in the console
 
-Create a Team tenant in the console. You get a `TEAM_TOKEN` that secures the team API.
+Create a Team tenant at [console.openclaw.vibebrowser.app](https://console.openclaw.vibebrowser.app). You get a `TEAM_TOKEN` that secures the team API.
 
 Two config layers matter:
 
@@ -461,7 +461,7 @@ mutation {
 
 ### 3. Use API
 
-Linear API endpoint is `https://api.linear.app/graphql`.  
+Linear API endpoint is [https://api.linear.app/graphql](https://api.linear.app/graphql).  
 Agents create and update issues through GraphQL mutations/queries.
 
 ## Model routing: GPT-5.3-Codex and Grok-4.1 by risk profile
@@ -540,15 +540,15 @@ Start with one role and one recurring workflow. Measure loop completion quality 
 
 ## References
 
-- OpenClawBot (hire your agent team): https://openclaw.vibebrowser.app
-- Vibe Browser for OpenClaw: https://www.vibebrowser.app/openclaw
-- OpenClaw project: https://github.com/openclaw/openclaw
-- GPT-5.4 support in Vibe: https://www.vibebrowser.app/blog/gpt-5-4-support-and-kimi-k2-5-free-tier
-- Grok-4.1 support in Vibe: https://www.vibebrowser.app/blog/grok-4-1-fast-reasoning-best-agentic-model
-- GitHub Issues docs: https://docs.github.com/en/issues
-- Linear docs: https://linear.app/docs
-- Sentry docs: https://docs.sentry.io/
-- Gmail docs: https://support.google.com/mail/
+- [OpenClawBot (hire your agent team)](https://openclaw.vibebrowser.app)
+- [Vibe Browser for OpenClaw](https://www.vibebrowser.app/openclaw)
+- [OpenClaw project](https://github.com/openclaw/openclaw)
+- [GPT-5.4 support in Vibe](https://www.vibebrowser.app/blog/gpt-5-4-support-and-kimi-k2-5-free-tier)
+- [Grok-4.1 support in Vibe](https://www.vibebrowser.app/blog/grok-4-1-fast-reasoning-best-agentic-model)
+- [GitHub Issues docs](https://docs.github.com/en/issues)
+- [Linear docs](https://linear.app/docs)
+- [Sentry docs](https://docs.sentry.io/)
+- [Gmail docs](https://support.google.com/mail/)
 
 ---
 
