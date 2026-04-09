@@ -19,6 +19,8 @@ That's **OpenClawBot team profiles** in practice. One cloud-managed [OpenClaw](h
 
 No single "do everything" assistant. No prompt soup. Just accountable agents that know when to act and when to hand off to a human.
 
+![OpenClawBot team agents coordinating a customer issue in Slack — SupportEngineer triages, SoftwareEngineer ships the fix](/vibeteam1.png)
+
 This post is the playbook.
 
 ## Why not one big assistant?
@@ -184,6 +186,8 @@ The shared `AGENTS.md` enforces collaboration rules:
 - **Never re-mention yourself.** If you are SupportEngineer and someone says "@SupportEngineer please summarize", you respond with the summary. You don't write "@SupportEngineer can you provide…" — that creates an infinite loop.
 - **Include structured context**: why, evidence, requested output, and done condition.
 - **Maximum 3 Slack messages per task** — if you need more, you're being too verbose.
+
+![Multi-agent handoff in Slack — DevOpsEngineer confirms deploy, SupportEngineer sends customer follow-up](/vibeteam2.png)
 
 ## Connecting Slack: one app per agent role
 
@@ -403,6 +407,8 @@ Tools are easy. Values are what decide whether your agent team is trustworthy at
 ## Real example: customer complaint → production fix → follow-up
 
 Here's what a typical closed-loop resolution looks like end to end:
+
+![End-to-end resolution loop — agent team coordinating across Slack threads from triage to deploy to customer follow-up](/vibeteam3.png)
 
 1. **SupportEngineer** picks up an inbound customer email in Gmail. Customer reports being charged twice for a subscription upgrade.
 2. SupportEngineer classifies it as a billing edge case, **processes the refund**, and replies to the customer with confirmation and an apology.
