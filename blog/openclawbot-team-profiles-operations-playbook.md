@@ -23,37 +23,43 @@ Once the fix was live and Sentry confirmed error rates back to baseline, DevOpsE
 
 I saw the closed loop in Slack. I didn't touch it.
 
-That is how **OpenClawBot team profiles** work for us: one cloud-managed [OpenClaw](https://github.com/openclaw/openclaw) deployment at `openclawbot.vibebrowser.app`, five role-specific agents, clear ownership, and strict handoff rules.
+That is how **OpenClawBot team profiles** work for us: one cloud-managed [OpenClaw](https://github.com/openclaw/openclaw) deployment at `openclawbot.vibebrowser.app`, six role-specific agents, clear ownership, and strict handoff rules.
 
-I wrote this post as an implementation guide, not a concept piece.
+I wrote this post as an implementation guide, not a concept piece. It has two parts: **operating model** (how the roles, skills, and handoffs are designed) and **integration setup** (how to wire each role into Slack, GitHub, Sentry, Linear, and Google Drive). If you just want the managed version without manual config, skip to [Hire the team](#hire-the-team--invite-them-to-your-slack).
 
 ---
 
 **TL;DR**
 
-- We run six role-specific agents (SupportEngineer, DevOpsEngineer, SoftwareEngineer, GrowthManager, MarketingManager, FinManager) on a single OpenClaw deployment at `openclawbot.vibebrowser.app`.
-- Each role has locked tool access, a skills list, and a handoff matrix — agents cannot drift into each other's lanes.
-- ReleaseEngineer scans Sentry on a 15-minute cron. When it finds a P0/P1 it delegates, doesn't just alert.
-- A gateway heartbeat kills stalled tasks so nothing silently hangs in "in progress."
-- GPT-5.3-Codex (xhigh reasoning) for engineering roles, Grok-4.1 for speed. Model choice is per-role, not per-request.
-- **Want the same setup without the config work?** → [openclawbot.vibebrowser.app](https://openclawbot.vibebrowser.app)
+- Six role-specific agents — SupportEngineer, DevOpsEngineer, SoftwareEngineer, GrowthManager, MarketingManager, FinManager — on one OpenClaw deployment.
+- Each role has locked tool access, a skills list, and explicit handoff rules. Agents cannot drift into each other's lanes.
+- ReleaseEngineer is the scheduled heartbeat profile for DevOps incident scanning — it checks Sentry every 15 minutes and delegates, not just alerts.
+- GPT-5.3-Codex (xhigh reasoning) for engineering roles, GPT-5.4 for support and finance, Grok-4.1 for speed. Model choice is per-role, not per-request.
+- **Want this without the setup work?** → [openclawbot.vibebrowser.app](https://openclawbot.vibebrowser.app)
 
 ---
 
-**Sections**
+**Contents**
 
+**Part 1 — Operating model**
 - [Why we stopped using one general-purpose agent](#why-we-stopped-using-one-general-purpose-agent)
 - [Team structure](#team-structure-one-profile-one-lane)
 - [Team setup in the console](#team-setup-in-consoleopenclaw-vibebrowserapp)
 - [Skills by role](#skills-by-role-this-is-where-behavior-really-changes)
-- [Handoff matrix in AGENTS.md](#handoff-matrix-in-agentsmd)
-- [Slack integration](#slack-integration-one-slack-app-per-role)
-- [GitHub integration](#github-integration-one-github-app-per-role)
-- [Sentry integration](#sentry-integration-shared-visibility-role-specific-action)
-- [Linear integration](#linear-integration-graphql-only)
+- [Handoff matrix](#handoff-matrix-in-agentsmd)
 - [Model routing](#model-routing-gpt-53-codex-and-grok-41-by-risk-profile)
+- [Operating rules](#operating-rules-we-care-about)
+
+**Part 2 — Integration setup**
+- [Slack](#slack-integration-one-slack-app-per-role)
+- [GitHub](#github-integration-one-github-app-per-role)
+- [Sentry](#sentry-integration-shared-visibility-role-specific-action)
+- [Linear](#linear-integration-graphql-only)
+
+**Part 3 — Putting it together**
 - [Example workflow](#example-workflow-complaint---fix---customer-confirmation)
-- [Hire the team](#hire-the-team--invite-them-to-your-slack)
+- [Hire the team (managed shortcut)](#hire-the-team--invite-them-to-your-slack)
+- [Should you adopt this?](#should-you-adopt-this-architecture)
 
 ---
 
@@ -115,6 +121,17 @@ Every role has its own `AGENTS.md`. We also keep a shared `AGENTS.md` for global
 
 Different prompts are not enough. We mount different skills and tools per role.
 
+Here is the quick comparison — details follow below:
+
+| Role | Unique tools / skills | Key guardrail | Handoff target |
+|---|---|---|---|
+| **SupportEngineer** | Gmail, Sentry read, refund workflow | No refund without verification | @SoftwareEngineer or @DevOpsEngineer |
+| **SoftwareEngineer** | GitHub PRs, `sentry-response` skill | No deploy without PR review | @DevOpsEngineer for rollout |
+| **DevOpsEngineer** | `kubectl`, Sentry correlation, heartbeat Sentry scan | No cluster write without explicit task | @SupportEngineer post-incident |
+| **GrowthManager** | Campaign tooling, experiment tracking | No infra or customer PII access | @MarketingManager for external comms |
+| **MarketingManager** | Content drafting, distribution tools | Approval required before publish | Human for final sign-off |
+| **FinManager** | `gdrive-cli`, billing exports, expense reconciliation | Approval required for any write action above threshold | Human for payment actions |
+
 ### SupportEngineer: customer flow + Sentry context + refund safety
 
 SupportEngineer can read Sentry context (`curl` + `sentry-cli`) and uses Gmail context at session start. Refunds go through an explicit workflow:
@@ -151,7 +168,11 @@ Prereqs: `SENTRY_AUTH_TOKEN` plus GitHub permissions to branch, push, and open P
 
 ### DevOpsEngineer: `k8s-ops` skill + kubeconfig in sandbox
 
-DevOpsEngineer (runtime role `ReleaseEngineer`) has `kubectl` access.  
+DevOpsEngineer handles reactive infra work: rollouts, restarts, incident triage, and post-deploy validation.
+
+**ReleaseEngineer** is the scheduled heartbeat profile for DevOpsEngineer — a lightweight runtime identity that runs the proactive Sentry scan on a timer, separate from human-triggered DevOps tasks. Think of it as DevOpsEngineer on watch duty rather than on-call.
+
+DevOpsEngineer has `kubectl` access via the `k8s-ops` skill.  
 `KUBECONFIG` is stored in the OpenClaw sandbox, so incident response can run fully inside the same environment.
 
 ```bash
@@ -228,21 +249,13 @@ We also mount common skills in `k8s/base/skills/`:
 
 All agent profiles reference a handoff matrix. Mentions like `@SoftwareEngineer` or `@DevOpsEngineer` are treated as ownership transfer, not "FYI."
 
-```text
-Customer complaint or refund request
-  -> SupportEngineer triage + customer handling
-  -> escalate to @SoftwareEngineer or @DevOpsEngineer if action is needed
-
-Infra outage or reliability event
-  -> SupportEngineer confirms customer impact
-  -> @DevOpsEngineer executes rollback/restart/mitigation
-
-Code bug or feature request
-  -> @SoftwareEngineer owns implementation and PR
-
-External/public communication needed
-  -> @MarketingManager drafts and routes for approval
-```
+| Trigger | First owner | Escalates to | Done condition |
+|---|---|---|---|
+| Customer complaint / refund request | SupportEngineer | @SoftwareEngineer or @DevOpsEngineer if code/infra action needed | Customer confirmation sent |
+| Infra outage / reliability event | SupportEngineer (confirms customer impact) | @DevOpsEngineer for rollback/restart/mitigation | Sentry baseline restored |
+| Code bug / feature request | SoftwareEngineer | @DevOpsEngineer for rollout health | PR merged, deploy validated |
+| External / public communication | SupportEngineer or GrowthManager | @MarketingManager to draft | Approved and sent |
+| Billing anomaly / expense review | FinManager | Human for any write above threshold | Report filed, Drive updated |
 
 Shared rules we enforce:
 
@@ -252,6 +265,23 @@ Shared rules we enforce:
 - keep task discussions concise.
 
 ![Multi-agent handoff in Slack — DevOpsEngineer confirms deploy, SupportEngineer sends customer follow-up](/vibeteam2.png)
+
+---
+
+## Part 2 — Integration setup
+
+With roles, skills, and handoffs defined, here is how each role gets wired into the external systems it needs. Each integration is independent — set up only what your roles require.
+
+| Integration | Required for | Credential type | Shared or per-role |
+|---|---|---|---|
+| **Slack** | All roles | Bot token + app token (Socket Mode) | Per-role (one app each) |
+| **GitHub** | SoftwareEngineer, DevOpsEngineer | GitHub App private key | Per-role |
+| **Sentry** | SupportEngineer, SoftwareEngineer, DevOpsEngineer | Auth token (read scopes) | Shared token, role-specific action |
+| **Linear** | SoftwareEngineer, DevOpsEngineer | API key or OAuth | Shared |
+| **Google Drive** | FinManager | Service account or OAuth | Per-role |
+| **Gmail** | SupportEngineer, GrowthManager | OAuth token | Per-role |
+
+---
 
 ## Slack integration: one Slack app per role
 
@@ -454,6 +484,14 @@ Simple rule: use the stronger model where mistakes create customer or production
 2. **Escalate early.** Low confidence or high risk always goes to a human.
 3. **Ship artifacts, not opinions.** For engineering work that means issue, PR, and deploy evidence.
 4. **Protect customer trust.** Correct response beats fast-but-wrong response.
+
+---
+
+## Part 3 — Putting it together
+
+With integrations wired up, every role has its own Slack identity, its own GitHub/Sentry/Linear access, and a model matched to its risk profile. The handoff matrix in `AGENTS.md` ties it all together: when one role finishes its part, it explicitly transfers ownership to the next.
+
+Here is what that looks like in practice.
 
 ## Example workflow: complaint -> fix -> customer confirmation
 
