@@ -23,7 +23,7 @@ Once the fix was live and Sentry confirmed error rates back to baseline, DevOpsE
 
 I saw the closed loop in Slack. I didn't touch it.
 
-That is how **OpenClawBot team profiles** work for us: one cloud-managed [OpenClaw](https://github.com/openclaw/openclaw) deployment at `openclawbot.vibebrowser.app`, six role-specific agents, clear ownership, and strict handoff rules.
+That is how **OpenClawBot team profiles** work for us: one cloud-managed [OpenClaw](https://github.com/openclaw/openclaw) deployment at [openclawbot.vibebrowser.app](https://openclawbot.vibebrowser.app), six role-specific agents, clear ownership, and strict handoff rules.
 
 I wrote this post as an implementation guide, not a concept piece. It has two parts: **operating model** (how the roles, skills, and handoffs are designed) and **integration setup** (how to wire each role into Slack, GitHub, Sentry, Linear, and Google Drive). If you just want the managed version without manual config, skip to [Hire the team](#hire-the-team--invite-them-to-your-slack).
 
