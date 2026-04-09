@@ -161,9 +161,28 @@ kubectl rollout restart statefulset/openclaw-gateway -n <namespace>
 
 DevOpsEngineer also uses Sentry to correlate app errors with cluster events.
 
-**Cron-triggered Sentry scan.** ReleaseEngineer does not wait for alerts — it runs on a schedule. We configure a cron task in the OpenClaw console that fires every 15 minutes, invokes ReleaseEngineer with a fixed prompt (`check sentry for new unresolved issues since last run, triage severity, delegate P0/P1 to DevOpsEngineer`), and exits. No polling loop, no persistent process.
+**Sentry scan via heartbeat.** ReleaseEngineer does not wait for alerts — it runs on a schedule. We configure a per-agent heartbeat in `openclaw.json` so it fires every 15 minutes with a fixed prompt. No polling loop, no persistent process.
 
-**Heartbeat guard.** Long-running agent tasks can stall silently — a hung kubectl call, a Sentry API timeout. We use the [OpenClaw gateway heartbeat](https://docs.openclaw.ai/gateway/heartbeat) to catch this. Each task emits a heartbeat every N seconds; if the gateway stops receiving it, the task is marked failed and we get a Slack alert. This prevents an agent from appearing "in progress" indefinitely while nothing is actually happening.
+```json
+{
+  "agents": {
+    "list": [
+      {
+        "id": "release-engineer",
+        "heartbeat": {
+          "every": "15m",
+          "target": "slack",
+          "prompt": "Check Sentry for new unresolved P0/P1 issues since last run. Triage severity. Delegate to DevOpsEngineer in Slack if action is needed. Otherwise reply HEARTBEAT_OK.",
+          "isolatedSession": true,
+          "lightContext": true
+        }
+      }
+    ]
+  }
+}
+```
+
+`isolatedSession: true` keeps each check cheap (no full conversation history). `HEARTBEAT_OK` responses are silently dropped by the gateway — no Slack noise when everything is clean. See [Heartbeat docs](https://docs.openclaw.ai/gateway/heartbeat) for full config reference.
 
 ### GrowthManager: retention-first playbook
 
@@ -238,44 +257,61 @@ For each role: [api.slack.com/apps](https://api.slack.com/apps) -> **Create New 
 
 ### 2. Add scopes
 
-In **OAuth & Permissions** -> **Bot Token Scopes**:
+In **OAuth & Permissions** -> **Bot Token Scopes**, use the scopes from the [official OpenClaw Slack manifest](https://docs.openclaw.ai/channels/slack):
 
 ```text
-app_mentions:read, channels:history, channels:read, chat:write,
-chat:write.customize, groups:history, groups:read, im:history,
-im:read, im:write, mpim:history, mpim:read, usergroups:read
+app_mentions:read, assistant:write, channels:history, channels:read,
+chat:write, commands, emoji:read, files:read, files:write,
+groups:history, groups:read, im:history, im:read, im:write,
+mpim:history, mpim:read, mpim:write, pins:read, pins:write,
+reactions:read, reactions:write, users:read
 ```
 
-### 3. Install and store credentials
+### 3. Enable Socket Mode and store credentials
 
-- install each app to workspace,
-- save bot token (`xoxb-...`),
-- save Signing Secret.
+In **Settings** -> **Socket Mode**: toggle on. Then under **Basic Information** -> **App-Level Tokens**, generate a token with `connections:write` scope — this is your `appToken` (`xapp-...`).
 
-### 4. Configure events
+- save bot token (`xoxb-...`) from **OAuth & Permissions**
+- save app-level token (`xapp-...`) from **Basic Information**
 
-Set Request URL:
+Socket Mode is the default for OpenClaw. HTTP Request URL mode is also supported but requires a Signing Secret instead of an app token — see the [Slack channel docs](https://docs.openclaw.ai/channels/slack) for that variant.
 
-```text
-https://<your-gateway>/team/api/slack/events?token=<TEAM_TOKEN>
-```
+### 4. Subscribe to bot events
 
-Subscribe to:
+In **Event Subscriptions** -> **Subscribe to bot events**, add:
 
 - `app_mention`
 - `message.channels`
 - `message.groups`
 - `message.im`
+- `message.mpim`
 
-### 5. Push config to tenant
+With Socket Mode enabled, no Request URL is needed — the gateway connects outbound via WebSocket.
 
-```bash
-curl -X POST "https://console.openclaw.vibebrowser.app/team/api/config?token=$TEAM_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"team":{"integrations":{"slack":{"enabled":true,"...":"..."}}}}'
+### 5. Add to OpenClaw config
+
+In `openclaw.json`, add a named Slack account per role:
+
+```json
+{
+  "channels": {
+    "slack": {
+      "accounts": {
+        "support-engineer": {
+          "botToken": "xoxb-...",
+          "appToken": "xapp-..."
+        },
+        "devops-engineer": {
+          "botToken": "xoxb-...",
+          "appToken": "xapp-..."
+        }
+      }
+    }
+  }
+}
 ```
 
-Then send a DM to each bot and confirm replies.
+Then DM each bot and confirm it replies.
 
 > Slack free plans allow up to 10 installed apps. With role-per-app design, this limit matters quickly.
 
@@ -313,36 +349,13 @@ In app settings -> **Private keys** -> **Generate a private key** (`.pem` downlo
 
 Install to selected repos and note the installation ID.
 
-### 5. Push GitHub integration config
+### 5. Add to OpenClaw config
 
-```bash
-curl -X POST "https://console.openclaw.vibebrowser.app/team/api/config?token=$TEAM_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "team": {
-      "integrations": {
-        "github": {
-          "enabled": true,
-          "org": "YourOrg",
-          "webhookSecret": "<hex-secret>",
-          "agents": {
-            "software_engineer": {
-              "enabled": true,
-              "appId": "123456",
-              "privateKey": "-----BEGIN RSA PRIVATE KEY-----\n...\n-----END RSA PRIVATE KEY-----"
-            }
-          }
-        }
-      }
-    }
-  }'
-```
+Store the app credentials in `openclaw.json`. The exact config shape depends on the OpenClaw skills that handle GitHub — typically the skill reads `GITHUB_APP_ID`, `GITHUB_PRIVATE_KEY`, and `GITHUB_INSTALLATION_ID` from the agent sandbox environment.
 
-Identity check script:
+For the cloud-managed product at [openclawbot.vibebrowser.app](https://openclawbot.vibebrowser.app), paste the App ID, Installation ID, and private key into the console — it handles the env injection.
 
-```bash
-TEAM_TOKEN=... node scripts/prove_github_app_identity.mjs --post-comments
-```
+Identity check: open a DM with the agent and ask it to comment on a test issue. Confirm the comment appears under the app's bot identity.
 
 ## Sentry integration: shared visibility, role-specific action
 
