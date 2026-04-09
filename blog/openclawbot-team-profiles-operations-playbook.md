@@ -409,6 +409,24 @@ Simple rule: use the stronger model where mistakes create customer or production
 
 That full loop is the core metric for this setup.
 
+## Hire the team — invite them to your Slack
+
+We turned this exact setup into a product.
+
+**[OpenClawBot](https://openclawbot.vibebrowser.app)** lets you hire a team of agents — SupportEngineer, DevOpsEngineer, SoftwareEngineer, GrowthManager, MarketingManager — and invite them into your Slack workspace in minutes. No infrastructure to manage. No prompt engineering from scratch. The roles, skills, handoff rules, and integrations (GitHub, Sentry, Linear, Gmail) are pre-configured and ready to run.
+
+It works like adding a new hire:
+
+1. Go to [openclawbot.vibebrowser.app](https://openclawbot.vibebrowser.app)
+2. Pick the roles you need
+3. Connect your tools (one OAuth flow per integration)
+4. Invite the bot to your Slack channel
+5. Tag `@SupportEngineer`, `@DevOpsEngineer`, or whoever owns the task
+
+The same cron scans, heartbeat guards, and handoff matrix described in this post come out of the box. You can customize skills per role from the console once you're in.
+
+If you'd rather self-host, [OpenClaw](https://github.com/openclaw/openclaw) is open source and you can replicate everything here manually.
+
 ## Should you adopt this architecture?
 
 Use role-based agents if you need predictable cross-functional execution, not just "good answers" in chat.
@@ -422,10 +440,9 @@ It is worth the setup when you need:
 
 Start with one role and one recurring workflow. Measure loop completion quality before adding more integrations.
 
-If you want to try the same pattern, [OpenClaw](https://github.com/openclaw/openclaw) is open source, and [Vibe Browser for OpenClaw](https://www.vibebrowser.app/openclaw) gives the browser execution layer for Gmail/Linear/web workflows that are hard to handle with API-only agents.
-
 ## References
 
+- OpenClawBot (hire your agent team): https://openclawbot.vibebrowser.app
 - Vibe Browser for OpenClaw: https://www.vibebrowser.app/openclaw
 - OpenClaw project: https://github.com/openclaw/openclaw
 - GPT-5.4 support in Vibe: https://www.vibebrowser.app/blog/gpt-5-4-support-and-kimi-k2-5-free-tier
