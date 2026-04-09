@@ -131,6 +131,10 @@ kubectl rollout restart statefulset/openclaw-gateway -n <namespace>
 
 DevOpsEngineer also uses Sentry to correlate app errors with cluster events.
 
+**Cron-triggered Sentry scan.** ReleaseEngineer does not wait for alerts — it runs on a schedule. We configure a cron task in the OpenClaw console that fires every 15 minutes, invokes ReleaseEngineer with a fixed prompt (`check sentry for new unresolved issues since last run, triage severity, delegate P0/P1 to DevOpsEngineer`), and exits. No polling loop, no persistent process.
+
+**Heartbeat guard.** Long-running agent tasks can stall silently — a hung kubectl call, a Sentry API timeout. We use the [OpenClaw gateway heartbeat](https://docs.openclaw.ai/gateway/heartbeat) to catch this. Each task emits a heartbeat every N seconds; if the gateway stops receiving it, the task is marked failed and we get a Slack alert. This prevents an agent from appearing "in progress" indefinitely while nothing is actually happening.
+
 ### GrowthManager: retention-first playbook
 
 GrowthManager does not have infra privileges. The role is focused on growth quality:
