@@ -1,6 +1,6 @@
 ---
 title: "OpenClawBot Team Profiles: How We Run Support, Growth, Engineering, and DevOps with Cloud-Managed OpenClaw"
-description: "A practical, engineer-written playbook for running OpenClawBot team profiles across SupportEngineer, GrowthManager, SoftwareEngineer, DevOpsEngineer, and MarketingManager."
+description: "A practical, engineer-written playbook for running OpenClawBot team profiles across SupportEngineer, GrowthManager, SoftwareEngineer, DevOpsEngineer, MarketingManager, and FinManager."
 date: "2026-04-09"
 author: "Den"
 authorUrl: "https://linkedin.com/in/dzianisv"
@@ -31,7 +31,7 @@ I wrote this post as an implementation guide, not a concept piece.
 
 **TL;DR**
 
-- We run five role-specific agents (SupportEngineer, DevOpsEngineer, SoftwareEngineer, GrowthManager, MarketingManager) on a single OpenClaw deployment at `openclawbot.vibebrowser.app`.
+- We run six role-specific agents (SupportEngineer, DevOpsEngineer, SoftwareEngineer, GrowthManager, MarketingManager, FinManager) on a single OpenClaw deployment at `openclawbot.vibebrowser.app`.
 - Each role has locked tool access, a skills list, and a handoff matrix — agents cannot drift into each other's lanes.
 - ReleaseEngineer scans Sentry on a 15-minute cron. When it finds a P0/P1 it delegates, doesn't just alert.
 - A gateway heartbeat kills stalled tasks so nothing silently hangs in "in progress."
@@ -79,6 +79,7 @@ The fix was boring but effective: split roles, lock tool access by role, and req
 | **SoftwareEngineer** | Product bugs and feature work | GitHub issues, implementation PRs, test updates |
 | **DevOpsEngineer** | Reliability, infra incidents, rollout blockers | Incident updates, infra fix PRs, runbook improvements |
 | **MarketingManager** | Positioning, launch content, distribution | Blog drafts, launch copy, channel-specific content |
+| **FinManager** | Bills, accounting, expenses, tax doc preparation | Expense reports, bill receipts in Google Drive, tax summaries, refund analysis |
 
 The narrow scope is intentional. It keeps prompts shorter, decisions clearer, and postmortems easier.
 
@@ -197,6 +198,19 @@ GrowthManager does not have infra privileges. The role is focused on growth qual
 
 MarketingManager handles blog and launch copy, research, and distribution planning. Tools are geared toward content execution, not production operations.
 
+### FinManager: bills, accounting, and tax docs
+
+FinManager owns the full financial operations loop: tracking expenses, reconciling bills, preparing tax documents, and flagging billing anomalies. It does not have access to production infrastructure or customer PII beyond what is needed for refund reconciliation.
+
+Key skills:
+
+- `gdrive-cli` — stores and retrieves bills, receipts, and expense reports from a designated Google Drive folder using the Drive CLI. Files are organized by `YYYY/MM/` prefix and tagged with vendor and amount metadata.
+- `expense-reconcile` — parses billing exports (CSV/PDF), matches against recorded transactions, and produces a monthly summary.
+- `tax-doc-prep` — collects categorized expenses per quarter, generates structured summaries ready for accountant review, and uploads to the `tax-docs/` Drive folder.
+- `refund-analysis` — reads refund records from Stripe/billing source, cross-references with SupportEngineer escalation packets, and flags patterns (e.g., same user, same error class).
+
+FinManager escalates to a human for any payment action above a configured threshold. Read access to billing data is automatic; write actions (refunds, expense submissions) require explicit approval.
+
 ### Shared skills
 
 We also mount common skills in `k8s/base/skills/`:
@@ -254,6 +268,7 @@ For each role: [api.slack.com/apps](https://api.slack.com/apps) -> **Create New 
 | SupportEngineer | OpenClaw SupportEngineer |
 | MarketingManager | OpenClaw MarketingManager |
 | GrowthManager | OpenClaw GrowthManager |
+| FinManager | OpenClaw FinManager |
 
 ### 2. Add scopes
 
@@ -428,6 +443,7 @@ Agents create and update issues through GraphQL mutations/queries.
 | **SoftwareEngineer** | GPT-5.3-Codex (xhigh reasoning) | Deep code reasoning for PRs and bug analysis |
 | **DevOpsEngineer** | GPT-5.3-Codex (xhigh reasoning) | Infra mistakes are expensive; requires careful multi-step analysis |
 | **ReleaseEngineer** | GPT-5.3-Codex (xhigh reasoning) | Incident triage needs precise root-cause reasoning |
+| **FinManager** | GPT-5.4 (high reasoning) | Accounting accuracy and tax doc correctness cannot be wrong |
 | **MarketingManager** | Grok-4.1 | Drafting/distribution speed matters most |
 
 Simple rule: use the stronger model where mistakes create customer or production risk.
@@ -457,7 +473,7 @@ That full loop is the core metric for this setup.
 
 We turned this exact setup into a product.
 
-**[OpenClawBot](https://openclawbot.vibebrowser.app)** lets you hire a team of agents — SupportEngineer, DevOpsEngineer, SoftwareEngineer, GrowthManager, MarketingManager — and invite them into your Slack workspace in minutes. No infrastructure to manage. No prompt engineering from scratch. The roles, skills, handoff rules, and integrations (GitHub, Sentry, Linear, Gmail) are pre-configured and ready to run.
+**[OpenClawBot](https://openclawbot.vibebrowser.app)** lets you hire a team of agents — SupportEngineer, DevOpsEngineer, SoftwareEngineer, GrowthManager, MarketingManager, FinManager — and invite them into your Slack workspace in minutes. No infrastructure to manage. No prompt engineering from scratch. The roles, skills, handoff rules, and integrations (GitHub, Sentry, Linear, Gmail, Google Drive) are pre-configured and ready to run.
 
 It works like adding a new hire:
 
