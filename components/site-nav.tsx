@@ -19,6 +19,7 @@ const pageNames: Record<string, string> = {
   '/investors': 'for Investors',
   '/crypto': 'for Crypto & DeFi',
   '/tax': 'for Tax',
+  '/mom': 'for Everyone',
 }
 
 const forPages = [
@@ -34,6 +35,7 @@ const forPages = [
   { href: '/investors', label: 'Investors' },
   { href: '/crypto', label: 'Crypto & DeFi' },
   { href: '/tax', label: 'Tax' },
+  { href: '/mom', label: 'Everyone' },
 ]
 
 const darkPages = ['/mcp', '/openclaw', '/teams', '/enterprise', '/providers/ollama']

@@ -69,6 +69,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'developers',
     'agentic-team',
     'mobile',
+    'mom',
   ]
 
   const professionSitemap: MetadataRoute.Sitemap = professionPages.map((page) => ({
