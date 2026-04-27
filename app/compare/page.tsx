@@ -4,9 +4,9 @@ import { Badge } from '@/components/ui/badge'
 import { SiteNav } from '@/components/site-nav'
 
 export const metadata: Metadata = {
-  title: 'AI Browser Comparison: Vibe vs Operator, Comet, OpenClaw',
+  title: 'AI Browser Comparison: Vibe vs Operator, Comet, Claude for Chrome',
   description:
-    'Research-based AI browser comparison across Vibe, OpenAI Operator, Perplexity Comet, Strawberry, OpenClaw, and Browser MCP, using official product documentation only.',
+    'Research-based AI browser comparison across Vibe, OpenAI Operator, Perplexity Comet, Strawberry, OpenClaw, Browser MCP, and Claude for Chrome, using official product documentation only.',
   keywords: [
     'AI browser comparison',
     'Vibe vs Operator',
@@ -14,6 +14,7 @@ export const metadata: Metadata = {
     'Vibe vs Strawberry',
     'Vibe vs OpenClaw',
     'Vibe vs Browser MCP',
+    'Vibe vs Claude for Chrome',
     'browser automation comparison',
     'agentic browser tools',
     'GitHub Copilot browser automation',
@@ -23,7 +24,7 @@ export const metadata: Metadata = {
     canonical: 'https://www.vibebrowser.app/compare',
   },
   openGraph: {
-    title: 'AI Browser Comparison: Vibe vs Operator, Comet, Strawberry, OpenClaw, Browser MCP',
+    title: 'AI Browser Comparison: Vibe vs Operator, Comet, Claude for Chrome',
     description:
       'Side-by-side comparison using only publicly documented product claims and technical docs.',
     url: 'https://www.vibebrowser.app/compare',
@@ -38,7 +39,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AI Browser Comparison: Vibe vs Operator, Comet, Strawberry, OpenClaw, Browser MCP',
+    title: 'AI Browser Comparison: Vibe vs Operator, Comet, Claude for Chrome',
     description:
       'Research-based comparison across automation capability, architecture, and deployment model.',
     images: ['/og/home.svg'],
@@ -67,6 +68,8 @@ type SourceId =
   | 'S18'
   | 'S19'
   | 'S20'
+  | 'S21'
+  | 'S22'
 
 const sources: Record<SourceId, { label: string; href: string }> = {
   S1: {
@@ -149,12 +152,20 @@ const sources: Record<SourceId, { label: string; href: string }> = {
     label: 'OpenClaw docs – Creating skills',
     href: 'https://docs.openclaw.ai/tools/creating-skills',
   },
+  S21: {
+    label: 'Anthropic – Piloting Claude in Chrome',
+    href: 'https://www.anthropic.com/news/claude-for-chrome',
+  },
+  S22: {
+    label: 'Anthropic – Claude for Chrome Help',
+    href: 'https://support.anthropic.com/en/articles/12012173-getting-started-with-claude-for-chrome',
+  },
 }
 
 // Keep this date explicit so "last verified" reflects manual source review, not deploy time.
-const lastVerifiedDate = 'March 9, 2026'
+const lastVerifiedDate = 'April 27, 2026'
 
-type ProductKey = 'vibe' | 'operator' | 'comet' | 'strawberry' | 'openclaw' | 'browsermcp'
+type ProductKey = 'vibe' | 'operator' | 'comet' | 'strawberry' | 'openclaw' | 'browsermcp' | 'claudechrome'
 
 interface CellData {
   text: string
@@ -177,6 +188,7 @@ const rows: ComparisonRow[] = [
       strawberry: { text: 'AI browser with companion agents', ids: ['S8'] },
       openclaw: { text: 'Self-hosted agent gateway with browser tooling', ids: ['S16', 'S18'] },
       browsermcp: { text: 'MCP server + Chrome extension connector', ids: ['S12', 'S15'] },
+      claudechrome: { text: 'Browser extension (Chrome, Brave, Opera)', ids: ['S21', 'S22'] },
     },
   },
   {
@@ -200,6 +212,10 @@ const rows: ComparisonRow[] = [
         ids: ['S16', 'S17'],
       },
       browsermcp: { text: 'Public install + docs flow for extension and MCP server.', ids: ['S12', 'S13', 'S14'] },
+      claudechrome: {
+        text: 'Beta available to all paid plans (Pro $20/mo, Max $200/mo) as of Dec 2025.',
+        ids: ['S21', 'S22'],
+      },
     },
   },
   {
@@ -228,6 +244,10 @@ const rows: ComparisonRow[] = [
       browsermcp: {
         text: 'Docs describe automation for tasks such as form fill and navigation.',
         ids: ['S12'],
+      },
+      claudechrome: {
+        text: 'Docs describe navigation, form filling, multi-step tasks, and multi-tab workflows.',
+        ids: ['S21', 'S22'],
       },
     },
   },
@@ -258,37 +278,9 @@ const rows: ComparisonRow[] = [
         text: 'Node.js prerequisite + extension tab connection flow are documented.',
         ids: ['S13', 'S14'],
       },
-    },
-  },
-  {
-    feature: 'Chrome extension ecosystem compatibility',
-    values: {
-      vibe: {
-        text: 'N/A (this product is itself a Chrome extension).',
-        ids: ['S1'],
-        muted: true,
-      },
-      operator: {
-        text: 'Not publicly documented in cited sources.',
-        ids: ['S3'],
-        muted: true,
-      },
-      comet: {
-        text: 'Comet help docs say it supports most Chrome Web Store extensions.',
-        ids: ['S7'],
-      },
-      strawberry: {
-        text: 'Docs describe full browser behavior including extensions.',
-        ids: ['S8'],
-      },
-      openclaw: {
-        text: 'Docs describe a dedicated browser profile and browser tool usage; general Chrome extension compatibility is not publicly documented.',
-        ids: ['S18'],
-        muted: true,
-      },
-      browsermcp: {
-        text: 'N/A (uses your existing browser + extension bridge, not a standalone browser shell).',
-        ids: ['S12', 'S13'],
+claudechrome: {
+        text: 'Chrome extension (also works on Brave and Opera, Chromium-based). Not Firefox, Safari, or Edge.',
+        ids: ['S21'],
         muted: true,
       },
     },
@@ -323,6 +315,11 @@ const rows: ComparisonRow[] = [
         text: 'Public MCP server repository available (Apache-2.0).',
         ids: ['S15'],
       },
+      claudechrome: {
+        text: 'No open-source Claude for Chrome server component is documented in cited sources.',
+        ids: ['S21', 'S22'],
+        muted: true,
+      },
     },
   },
   {
@@ -355,6 +352,10 @@ const rows: ComparisonRow[] = [
         text: 'Cloud deployment path is not explicitly documented in cited first-party setup pages.',
         ids: ['S13', 'S14'],
         muted: true,
+      },
+      claudechrome: {
+        text: 'Delivered via Anthropic infrastructure, not self-managed cloud deployment.',
+        ids: ['S21'],
       },
     },
   },
@@ -390,6 +391,10 @@ const rows: ComparisonRow[] = [
         ids: ['S13', 'S14', 'S15'],
         muted: true,
       },
+      claudechrome: {
+        text: 'Docs describe "shortcuts" for saving and reusing workflows. Claude Code integration via /chrome command.',
+        ids: ['S21', 'S22'],
+      },
     },
   },
   {
@@ -423,6 +428,11 @@ const rows: ComparisonRow[] = [
         text: 'Docs include VS Code MCP server setup.',
         ids: ['S14'],
       },
+      claudechrome: {
+        text: 'Claude Code integration via /chrome command. No generic MCP-client pattern documented in cited sources.',
+        ids: ['S21', 'S22'],
+        muted: true,
+      },
     },
   },
 ]
@@ -431,7 +441,7 @@ const faqItems = [
   {
     question: 'What changed on this comparison page?',
     answer:
-      'We removed speculative rows and rebuilt the table using first-party product docs only. Every table cell now points to source IDs in the Sources section.',
+      'We added Claude for Chrome (Anthropic) as a new competitor, sourced from official Anthropic documentation. The table now covers 7 AI browser automation tools.',
   },
   {
     question: 'What does "Not publicly documented" mean?',
@@ -489,7 +499,7 @@ export default function ComparePage() {
         <div className="container mx-auto px-6 py-10 text-center">
           <Badge className="mb-4 bg-purple-100 text-purple-700">Research-Based Comparison</Badge>
           <h1 className="text-3xl md:text-4xl font-semibold text-slate-900">
-            Vibe vs OpenAI Operator, Perplexity Comet, Strawberry, OpenClaw, and Browser MCP
+            Vibe vs OpenAI Operator, Perplexity Comet, Claude for Chrome, and More
           </h1>
           <p className="mt-4 text-slate-600 max-w-3xl mx-auto">
             Updated {lastVerifiedDate}. This table uses only official product pages, help docs, and
@@ -516,6 +526,7 @@ export default function ComparePage() {
                 <th className="text-left py-4 px-4 text-slate-600 font-semibold min-w-[220px]">Strawberry</th>
                 <th className="text-left py-4 px-4 text-slate-600 font-semibold min-w-[220px]">OpenClaw</th>
                 <th className="text-left py-4 px-4 text-slate-600 font-semibold min-w-[220px]">Browser MCP</th>
+                <th className="text-left py-4 px-4 text-slate-600 font-semibold min-w-[220px]">Claude for Chrome</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-200">
@@ -523,7 +534,7 @@ export default function ComparePage() {
                 <tr key={row.feature} className="hover:bg-slate-50/60">
                   <td className="py-4 px-4 font-medium text-slate-900">{row.feature}</td>
                   {(
-                    ['vibe', 'operator', 'comet', 'strawberry', 'openclaw', 'browsermcp'] as ProductKey[]
+                    ['vibe', 'operator', 'comet', 'strawberry', 'openclaw', 'browsermcp', 'claudechrome'] as ProductKey[]
                   ).map((product) => {
                     const cell = row.values[product]
                     return (

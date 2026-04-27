@@ -328,6 +328,35 @@ export default function AboutUsPage() {
                 </CardContent>
               </Card>
 
+              {/* LaMooM - Built on OpenClaw */}
+              <Card className="bg-[#1a1a1a] border-[#2a2a2a] hover:border-[#c58af9]/40 transition-all duration-300">
+                <CardContent className="p-8">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-12 h-12 bg-[#c58af9]/10 rounded-xl flex items-center justify-center">
+                      <MessageCircle className="w-6 h-6 text-[#c58af9]" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-[#e8eaed]">LaMooM</h3>
+                      <span className="text-xs text-[#c58af9] bg-[#c58af9]/10 px-2 py-0.5 rounded-full">Built on OpenClaw</span>
+                    </div>
+                  </div>
+                  <p className="text-[#9aa0a6] mb-6 leading-relaxed">
+                    AI assistant widget that embeds directly into B2B SaaS products. Shows users a plain-language plan before any action runs — they approve, then LaMooM does the work. Built on top of OpenClaw's browser automation engine.
+                  </p>
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">B2B SaaS Widget</span>
+                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">OpenClaw Powered</span>
+                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">User Approval Flow</span>
+                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">Waitlist</span>
+                  </div>
+                  <Link href="https://dev.lamoom.com" target="_blank" rel="noopener noreferrer">
+                    <Button variant="outline" className="border-[#3c4043] bg-transparent hover:bg-[#2a2a2a] text-[#c58af9] w-full">
+                      Visit dev.lamoom.com <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+
               <Card className="bg-[#1a1a1a] border-[#2a2a2a] hover:border-[#8ab4f8]/30 transition-all duration-300">
                 <CardContent className="p-8">
                   <div className="flex items-center gap-3 mb-6">
