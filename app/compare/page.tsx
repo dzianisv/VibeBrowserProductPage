@@ -6,7 +6,7 @@ import { SiteNav } from '@/components/site-nav'
 export const metadata: Metadata = {
   title: 'AI Browser Comparison: Vibe vs Atlas, Comet, Claude for Chrome',
   description:
-    'Research-based AI browser comparison across Vibe, OpenAI Atlas, Perplexity Comet, Strawberry, OpenClaw, Browser MCP, and Claude for Chrome, using official product documentation only.',
+    'Research-based AI browser comparison across Vibe, Claude for Chrome, OpenAI Atlas, Perplexity Comet, Strawberry, OpenClaw, and Browser MCP, using official product documentation only.',
   keywords: [
     'AI browser comparison',
     'Vibe vs Atlas',
@@ -213,7 +213,7 @@ const rows: ComparisonRow[] = [
       },
       browsermcp: { text: 'Public install + docs flow for extension and MCP server.', ids: ['S12', 'S13', 'S14'] },
       claudechrome: {
-        text: 'Beta available to all paid plans (Pro $20/mo, Max $200/mo) as of Dec 2025.',
+        text: 'Beta available to all paid plans (Pro $20/mo, Max $100-200/mo, Team $25/seat) as of Dec 2025.',
         ids: ['S21', 'S22'],
       },
     },
@@ -535,7 +535,7 @@ export default function ComparePage() {
                 <tr key={row.feature} className="hover:bg-slate-50/60">
                   <td className="py-4 px-4 font-medium text-slate-900">{row.feature}</td>
                   {(
-                    ['vibe', 'atlas', 'comet', 'strawberry', 'openclaw', 'browsermcp', 'claudechrome'] as ProductKey[]
+                    ['vibe', 'claudechrome', 'atlas', 'comet', 'strawberry', 'openclaw', 'browsermcp'] as ProductKey[]
                   ).map((product) => {
                     const cell = row.values[product]
                     return (
