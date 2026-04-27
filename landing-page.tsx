@@ -404,7 +404,7 @@ export default function Component() {
                     <span>New on the blog</span>
                   </div>
                   <p className="mt-1 text-sm text-slate-600 sm:text-base">
-                    GPT-5.4 support is live, and Kimi-K2.5 is now available in Vibe&apos;s free tier.
+                    GPT-5 support is live, and Kimi K2.5 is now available in Vibe&apos;s free tier.
                   </p>
                 </div>
                 <span className="inline-flex items-center text-sm font-semibold text-purple-700 group-hover:text-purple-800">
@@ -665,7 +665,7 @@ export default function Component() {
               icon: "🔓",
               title: "Any model. No lock-in.",
               them: "Atlas forces GPT. Comet forces their stack. You're stuck with whatever model they chose for you, at whatever price they set.",
-              us: "Run Grok-4.1 Fast Reasoning, Claude, DeepSeek, Kimi, or a local Llama. Switch instantly. When a better model ships tomorrow, you have it the same day.",
+              us: "Run Grok 4, Claude, DeepSeek, Kimi, or a local Llama. Switch instantly. When a better model ships tomorrow, you have it the same day.",
             },
             {
               icon: "🌐",
