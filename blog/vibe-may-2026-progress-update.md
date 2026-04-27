@@ -1,7 +1,7 @@
 ---
-title: "VibeBrowser Progress Update: May 2026"
+title: "VibeBrowser Progress Update: Late April 2026"
 description: "Major improvements across comparison tables, Google Workspace, extraction, and partnerships."
-date: "2026-05-01"
+date: "2026-04-27"
 author: "Dzianis Vashchuk"
 authorUrl: "https://linkedin.com/in/dzianisv"
 tags:
