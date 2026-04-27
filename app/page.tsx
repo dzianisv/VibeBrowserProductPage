@@ -82,7 +82,7 @@ const faqJsonLd = {
       name: 'What makes Vibe different from OpenAI Atlas and other AI browsers?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'OpenAI Atlas locks you to GPT models. Perplexity Comet locks you to their stack. Vibe gives you real model freedom — run Grok-4.1 Fast Reasoning (the best model for agentic web tasks right now), GPT-5.4, Claude, DeepSeek, Kimi, or any local model. Switch instantly without re-platforming. Vibe also runs inside your existing Chrome session, so your logins and context are always available.',
+        text: 'OpenAI Atlas locks you to GPT models. Perplexity Comet locks you to their stack. Vibe gives you real model freedom — run Grok 4, GPT-5, Claude, DeepSeek, Kimi, or any local model. Switch instantly without re-platforming. Vibe also runs inside your existing Chrome session, so your logins and context are always available.',
       },
     },
     {

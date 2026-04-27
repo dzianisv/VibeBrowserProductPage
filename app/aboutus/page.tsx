@@ -347,7 +347,7 @@ export default function AboutUsPage() {
                     <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">B2B SaaS Widget</span>
                     <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">OpenClaw Powered</span>
                     <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">User Approval Flow</span>
-                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">Waitlist</span>
+                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">In Development</span>
                   </div>
                   <Link href="https://dev.lamoom.com" target="_blank" rel="noopener noreferrer">
                     <Button variant="outline" className="border-[#3c4043] bg-transparent hover:bg-[#2a2a2a] text-[#c58af9] w-full">
