@@ -4,12 +4,12 @@ import { Badge } from '@/components/ui/badge'
 import { SiteNav } from '@/components/site-nav'
 
 export const metadata: Metadata = {
-  title: 'AI Browser Comparison: Vibe vs Operator, Comet, Claude for Chrome',
+  title: 'AI Browser Comparison: Vibe vs Atlas, Comet, Claude for Chrome',
   description:
-    'Research-based AI browser comparison across Vibe, OpenAI Operator, Perplexity Comet, Strawberry, OpenClaw, Browser MCP, and Claude for Chrome, using official product documentation only.',
+    'Research-based AI browser comparison across Vibe, OpenAI Atlas, Perplexity Comet, Strawberry, OpenClaw, Browser MCP, and Claude for Chrome, using official product documentation only.',
   keywords: [
     'AI browser comparison',
-    'Vibe vs Operator',
+    'Vibe vs Atlas',
     'Vibe vs Comet',
     'Vibe vs Strawberry',
     'Vibe vs OpenClaw',
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     canonical: 'https://www.vibebrowser.app/compare',
   },
   openGraph: {
-    title: 'AI Browser Comparison: Vibe vs Operator, Comet, Claude for Chrome',
+    title: 'AI Browser Comparison: Vibe vs Atlas, Comet, Claude for Chrome',
     description:
       'Side-by-side comparison using only publicly documented product claims and technical docs.',
     url: 'https://www.vibebrowser.app/compare',
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AI Browser Comparison: Vibe vs Operator, Comet, Claude for Chrome',
+    title: 'AI Browser Comparison: Vibe vs Atlas, Comet, Claude for Chrome',
     description:
       'Research-based comparison across automation capability, architecture, and deployment model.',
     images: ['/og/home.svg'],
@@ -81,12 +81,12 @@ const sources: Record<SourceId, { label: string; href: string }> = {
     href: 'https://github.com/VibeTechnologies/vibe-mcp',
   },
   S3: {
-    label: 'OpenAI – Introducing Operator',
-    href: 'https://openai.com/index/introducing-operator/',
+    label: 'OpenAI – Introducing ChatGPT Atlas',
+    href: 'https://openai.com/index/introducing-chatgpt-atlas/',
   },
   S4: {
-    label: 'OpenAI API – Computer use guide',
-    href: 'https://developers.openai.com/api/docs/guides/tools-computer-use',
+    label: 'OpenAI – ChatGPT Atlas',
+    href: 'https://openai.com/atlas/',
   },
   S5: {
     label: 'Perplexity – The Internet is Better on Comet',
@@ -165,7 +165,7 @@ const sources: Record<SourceId, { label: string; href: string }> = {
 // Keep this date explicit so "last verified" reflects manual source review, not deploy time.
 const lastVerifiedDate = 'April 27, 2026'
 
-type ProductKey = 'vibe' | 'operator' | 'comet' | 'strawberry' | 'openclaw' | 'browsermcp' | 'claudechrome'
+type ProductKey = 'vibe' | 'atlas' | 'comet' | 'strawberry' | 'openclaw' | 'browsermcp' | 'claudechrome'
 
 interface CellData {
   text: string
@@ -183,7 +183,7 @@ const rows: ComparisonRow[] = [
     feature: 'Product category',
     values: {
       vibe: { text: 'Browser extension + MCP server bridge', ids: ['S1', 'S2'] },
-      operator: { text: 'ChatGPT agent with its own browser', ids: ['S3'] },
+      atlas: { text: 'AI-native desktop browser (macOS app, replacing Chrome)', ids: ['S3', 'S4'] },
       comet: { text: 'AI-native desktop browser', ids: ['S5', 'S6'] },
       strawberry: { text: 'AI browser with companion agents', ids: ['S8'] },
       openclaw: { text: 'Self-hosted agent gateway with browser tooling', ids: ['S16', 'S18'] },
@@ -195,9 +195,9 @@ const rows: ComparisonRow[] = [
     feature: 'Public availability status',
     values: {
       vibe: { text: 'Listed on Chrome Web Store.', ids: ['S1'] },
-      operator: {
-        text: 'Research preview at launch; OpenAI later updated the page to say it is bringing Operator capabilities into ChatGPT agentic features and beginning a transition from the original research preview.',
-        ids: ['S3'],
+      atlas: {
+        text: 'macOS app launched Oct 2025; Agent Mode in preview for Plus/Pro/Business. Windows, iOS, Android coming soon.',
+        ids: ['S3', 'S4'],
       },
       comet: {
         text: 'Perplexity announced worldwide availability and free download on Oct 2, 2025.',
@@ -225,9 +225,9 @@ const rows: ComparisonRow[] = [
         text: 'Listing describes navigation, form filling, and multi-step workflows.',
         ids: ['S1'],
       },
-      operator: {
-        text: 'Official page says Operator can type, click, and scroll in its own browser.',
-        ids: ['S3'],
+      atlas: {
+        text: 'Docs describe Agent Mode can type, click, scroll, fill forms, and complete tasks autonomously in browser.',
+        ids: ['S3', 'S4'],
       },
       comet: {
         text: 'Official Comet release post describes assistant actions and task execution while browsing.',
@@ -258,9 +258,9 @@ const rows: ComparisonRow[] = [
         text: 'Chromium browser extension + MCP config via npx.',
         ids: ['S2'],
       },
-      operator: {
-        text: 'OpenAI positions it through ChatGPT product flow rather than local browser install.',
-        ids: ['S3'],
+      atlas: {
+        text: 'macOS app (Apple Silicon M1+). Windows, iOS, Android coming soon. Not a Chrome extension.',
+        ids: ['S3', 'S4'],
       },
       comet: {
         text: 'Windows 10+ and macOS 11+ requirements are documented.',
@@ -292,8 +292,8 @@ claudechrome: {
         text: 'Public MCP server repository available.',
         ids: ['S2'],
       },
-      operator: {
-        text: 'No open-source Operator server component is documented in cited sources.',
+      atlas: {
+        text: 'No open-source Atlas server component is documented in cited sources.',
         ids: ['S3', 'S4'],
         muted: true,
       },
@@ -330,9 +330,10 @@ claudechrome: {
         ids: ['S1', 'S2'],
         muted: true,
       },
-      operator: {
-        text: 'Delivered via ChatGPT product surface rather than self-managed cloud deployment docs.',
-        ids: ['S3'],
+      atlas: {
+        text: 'SaaS browser app; no self-hosted deployment path documented in cited sources.',
+        ids: ['S3', 'S4'],
+        muted: true,
       },
       comet: {
         text: 'Cloud self-host deployment path is not publicly documented in cited sources.',
@@ -367,7 +368,7 @@ claudechrome: {
         ids: ['S2'],
         muted: true,
       },
-      operator: {
+      atlas: {
         text: 'No public skill-pack authoring system documented in cited sources.',
         ids: ['S3', 'S4'],
         muted: true,
@@ -404,9 +405,9 @@ claudechrome: {
         text: 'README includes explicit VS Code (GitHub Copilot) MCP config block.',
         ids: ['S2'],
       },
-      operator: {
+      atlas: {
         text: 'No MCP-client integration pattern documented in cited sources.',
-        ids: ['S3'],
+        ids: ['S3', 'S4'],
         muted: true,
       },
       comet: {
@@ -499,7 +500,7 @@ export default function ComparePage() {
         <div className="container mx-auto px-6 py-10 text-center">
           <Badge className="mb-4 bg-purple-100 text-purple-700">Research-Based Comparison</Badge>
           <h1 className="text-3xl md:text-4xl font-semibold text-slate-900">
-            Vibe vs OpenAI Operator, Perplexity Comet, Claude for Chrome, and More
+            Vibe vs OpenAI Atlas, Perplexity Comet, Claude for Chrome, and More
           </h1>
           <p className="mt-4 text-slate-600 max-w-3xl mx-auto">
             Updated {lastVerifiedDate}. This table uses only official product pages, help docs, and
@@ -521,7 +522,7 @@ export default function ComparePage() {
               <tr className="border-b border-slate-200">
                 <th className="text-left py-4 px-4 text-slate-600 font-semibold min-w-[220px]">Capability</th>
                 <th className="text-left py-4 px-4 text-purple-700 font-semibold min-w-[220px]">Vibe</th>
-                <th className="text-left py-4 px-4 text-slate-600 font-semibold min-w-[220px]">OpenAI Operator</th>
+                <th className="text-left py-4 px-4 text-slate-600 font-semibold min-w-[220px]">OpenAI Atlas</th>
                 <th className="text-left py-4 px-4 text-slate-600 font-semibold min-w-[220px]">Perplexity Comet</th>
                 <th className="text-left py-4 px-4 text-slate-600 font-semibold min-w-[220px]">Strawberry</th>
                 <th className="text-left py-4 px-4 text-slate-600 font-semibold min-w-[220px]">OpenClaw</th>
@@ -534,7 +535,7 @@ export default function ComparePage() {
                 <tr key={row.feature} className="hover:bg-slate-50/60">
                   <td className="py-4 px-4 font-medium text-slate-900">{row.feature}</td>
                   {(
-                    ['vibe', 'operator', 'comet', 'strawberry', 'openclaw', 'browsermcp', 'claudechrome'] as ProductKey[]
+                    ['vibe', 'atlas', 'comet', 'strawberry', 'openclaw', 'browsermcp', 'claudechrome'] as ProductKey[]
                   ).map((product) => {
                     const cell = row.values[product]
                     return (
