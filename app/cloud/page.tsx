@@ -5,45 +5,41 @@ import { Button } from '@/components/ui/button'
 import { SiteNav } from '@/components/site-nav'
 import { SiteFooter } from '@/components/site-footer'
 import { WaitlistDialogIncognito } from '@/components/waitlist-dialog-incognito'
-import { Cloud, Globe, Terminal, Code, Shield, ArrowRight, CheckCircle2 } from 'lucide-react'
+import { Cloud, Globe, Terminal, Code, Shield, ArrowRight, CheckCircle2, XCircle } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'VibeBrowser Cloud | Agentic Browser Infrastructure',
-  description: 'Give your agents access to the authenticated web. Cloud browser sessions pre-loaded with your credentials. Agents reach login-gated portals without ever seeing a password.',
+  title: 'VibeBrowser Cloud | Browserbase Alternative — Your Accounts, Your Sessions',
+  description: "90% cheaper than Browserbase. No stealth mode needed — you're automating your own accounts. Real Chrome sessions with your credentials, globally deployed.",
   keywords: [
-    'agentic browser infrastructure',
-    'cloud browser MCP',
-    'Chrome DevTools MCP cloud',
-    'headless browser AI agent',
-    'browser automation cloud',
-    'AI agent browser API',
-    'remote browser instances',
-    'MCP server cloud browser',
-    'VibeBrowser Cloud',
-    'agentic infrastructure',
-    'browser as a service AI',
-    'AI browser agent hosting',
+    'Browserbase alternative',
+    'Browserless alternative',
+    'cheap browser automation cloud',
+    'affordable browser as a service',
+    'authenticated browser sessions cloud',
+    'browser automation for your own accounts',
+    'no stealth mode browser agent',
+    'MCP browser cloud cheap',
   ],
   alternates: {
     canonical: 'https://www.vibebrowser.app/cloud',
   },
   openGraph: {
-    title: 'VibeBrowser Cloud | Agentic Browser Infrastructure',
-    description: 'Chrome-DevTools compatible MCP working in the cloud. Deploy Chrome instances globally, expose securely to your AI agents over HTTPS — no extension needed.',
+    title: 'VibeBrowser Cloud | Browserbase Alternative — Your Accounts, Your Sessions',
+    description: "90% cheaper than Browserbase. No stealth mode needed — you're automating your own accounts. Real Chrome sessions with your credentials, globally deployed.",
     url: 'https://www.vibebrowser.app/cloud',
     images: [
       {
         url: '/og/home.svg',
         width: 1200,
         height: 630,
-        alt: 'VibeBrowser Cloud — Agentic Browser Infrastructure',
+        alt: 'VibeBrowser Cloud — Affordable Browserbase Alternative',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'VibeBrowser Cloud | Agentic Browser Infrastructure',
-    description: 'Deploy Chrome instances globally. Chrome DevTools MCP over HTTPS. Connect any AI agent to real browser sessions in the cloud.',
+    title: 'VibeBrowser Cloud | Browserbase Alternative — Your Accounts, Your Sessions',
+    description: "90% cheaper than Browserbase. No stealth mode needed — you're automating your own accounts.",
     images: ['/og/home.svg'],
     creator: '@vibebrowserapp',
   },
@@ -56,7 +52,7 @@ const cloudJsonLd = {
   applicationCategory: 'DeveloperApplication',
   operatingSystem: 'Cloud',
   description:
-    'Agentic browser infrastructure. Chrome-DevTools compatible MCP working in the cloud. Deploy Chrome instances globally and expose them securely to your AI agents over HTTPS.',
+    'Affordable Browserbase alternative. Automate your own accounts without stealth mode, proxy rotation, or CAPTCHA solving. Real Chrome sessions pre-loaded with your credentials.',
   url: 'https://www.vibebrowser.app/cloud',
   author: {
     '@type': 'Organization',
@@ -70,14 +66,14 @@ const cloudJsonLd = {
     availability: 'https://schema.org/PreOrder',
   },
   featureList: [
+    'No stealth mode needed — you are a legitimate user',
+    'No proxy rotation costs',
+    'No CAPTCHA solving infrastructure',
+    'Pre-authenticated Chrome sessions',
     'Chrome DevTools Protocol over HTTPS',
     'MCP server for AI agents',
     'Global Chrome instance deployment',
-    'Web console for instance management',
-    'REST API and CLI',
-    'Credential transfer vault',
-    'Multi-region browser sessions',
-    'Works without browser extension',
+    'Open-source CLI',
     'Compatible with Claude, Copilot, Codex, Gemini CLI',
   ],
 }
@@ -96,13 +92,13 @@ export default function CloudPage() {
         <section className="container max-w-6xl px-4 md:px-6 mx-auto mb-20 text-center">
           <Badge variant="outline" className="mb-6 border-purple-500/30 bg-purple-500/10 text-purple-300 px-4 py-1.5 text-sm">
             <Cloud className="w-4 h-4 mr-2 inline" />
-            Cloud Browser Sessions
+            Browserbase Alternative
           </Badge>
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400">
-            Give your agents access to the authenticated web
+            90% cheaper than Browserbase.
           </h1>
           <p className="text-xl text-slate-400 max-w-3xl mx-auto mb-10">
-            Spin up cloud browser sessions pre-loaded with your credentials. Your agents reach login-gated portals, vendor dashboards, and SaaS tools without ever seeing a password.
+            Browserbase charges for stealth mode, proxy rotation, and bot detection — infrastructure built for scraping strangers&apos; sites. You&apos;re automating <em>your own</em> accounts. You don&apos;t need any of that. You just need your session in the cloud.
           </p>
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
             <WaitlistDialogIncognito tier="cloud">
@@ -123,26 +119,82 @@ export default function CloudPage() {
         <section className="container max-w-6xl px-4 md:px-6 mx-auto mb-24">
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-8 backdrop-blur-sm">
-              <Globe className="w-10 h-10 text-blue-400 mb-6" />
-              <h3 className="text-xl font-bold mb-3 text-slate-100">Authenticated sessions</h3>
+              <Shield className="w-10 h-10 text-emerald-400 mb-6" />
+              <h3 className="text-xl font-bold mb-3 text-slate-100">No stealth tax</h3>
               <p className="text-slate-400">
-                Transfer credentials once. Every cloud session starts already logged in. Agents access the 85% of the web that requires authentication.
+                You&apos;re a legitimate user on sites you already have accounts on. No bot detection, no CAPTCHA solving, no proxy rotation. That&apos;s how we keep costs low.
               </p>
             </div>
             <div className="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-8 backdrop-blur-sm">
-              <Shield className="w-10 h-10 text-emerald-400 mb-6" />
-              <h3 className="text-xl font-bold mb-3 text-slate-100">Credential vault</h3>
+              <Globe className="w-10 h-10 text-blue-400 mb-6" />
+              <h3 className="text-xl font-bold mb-3 text-slate-100">Your credentials, your sessions</h3>
               <p className="text-slate-400">
-                Your passwords never reach the agent. Credentials are injected server-side at session start. The agent only ever sees an active, authenticated browser.
+                Transfer your logins once. Every cloud browser session starts pre-authenticated. Agents reach vendor portals, SaaS dashboards, and internal tools without re-auth.
               </p>
             </div>
             <div className="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-8 backdrop-blur-sm">
               <Terminal className="w-10 h-10 text-pink-400 mb-6" />
-              <h3 className="text-xl font-bold mb-3 text-slate-100">Global regions + CLI</h3>
+              <h3 className="text-xl font-bold mb-3 text-slate-100">One npx command away</h3>
               <p className="text-slate-400">
-                Deploy Chrome instances in US, EU, and Asia. Manage everything via web console, REST API, or the open-source CLI.
+                No SDK to install, no session object to manage. Point your MCP agent at a cloud browser endpoint and go. Works with Claude Code, Codex, Copilot, and Gemini CLI.
               </p>
             </div>
+          </div>
+        </section>
+
+        {/* What you stop paying for */}
+        <section className="container max-w-5xl px-4 md:px-6 mx-auto mb-24">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-slate-100">What you stop paying for</h2>
+            <p className="text-slate-400 max-w-2xl mx-auto">
+              Browserbase and Browserless are built for scraping sites that don&apos;t know you. VibeBrowser Cloud is built for automating sites that do.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6 mb-10">
+            <div className="bg-red-950/20 border border-red-900/30 rounded-2xl p-8">
+              <p className="text-sm font-semibold text-red-400 uppercase tracking-wider mb-5">Browserbase / Browserless</p>
+              <ul className="space-y-4">
+                {[
+                  'Stealth mode & fingerprint randomization',
+                  'Residential proxy rotation ($10–12/GB)',
+                  'CAPTCHA solving infrastructure',
+                  'Bot detection bypass engine',
+                  'Sessions for sites that don\'t know you',
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-slate-400">
+                    <XCircle className="w-5 h-5 text-red-500 mt-0.5 shrink-0" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="bg-emerald-950/20 border border-emerald-900/30 rounded-2xl p-8">
+              <p className="text-sm font-semibold text-emerald-400 uppercase tracking-wider mb-5">VibeBrowser Cloud</p>
+              <ul className="space-y-4">
+                {[
+                  'Your real Chrome, pre-logged-in',
+                  'No proxies needed (it\'s your account)',
+                  'No CAPTCHAs (you\'re a real user)',
+                  'No stealth (sites already trust you)',
+                  'Fraction of the cost',
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-slate-200">
+                    <CheckCircle2 className="w-5 h-5 text-emerald-400 mt-0.5 shrink-0" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <div className="text-center">
+            <p className="text-slate-400 mb-6">
+              Starting at a fraction of Browserbase pricing. Join the waitlist for early access pricing.
+            </p>
+            <WaitlistDialogIncognito tier="cloud">
+              <Button size="lg" className="bg-purple-500 hover:bg-purple-600 text-white rounded-full px-8 font-semibold h-12">
+                Get Early Access <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </WaitlistDialogIncognito>
           </div>
         </section>
 
@@ -151,7 +203,7 @@ export default function CloudPage() {
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-slate-100">How We Compare</h2>
             <p className="text-slate-400 max-w-2xl mx-auto">
-              VibeBrowser Cloud is built natively on the Chrome-DevTools MCP standard, designed specifically for AI agents, and already battle-tested by OpenClaw.
+              Different use cases, completely different cost structures.
             </p>
           </div>
           
@@ -162,49 +214,57 @@ export default function CloudPage() {
                   <th className="p-5 font-semibold text-slate-300 w-1/4">Feature</th>
                   <th className="p-5 font-bold text-purple-400 w-1/4 bg-purple-500/5 border-x border-purple-500/20">VibeBrowser Cloud</th>
                   <th className="p-5 font-semibold text-slate-400 w-1/4">Browserbase</th>
-                  <th className="p-5 font-semibold text-slate-400 w-1/4">Browserbase / TinyFish</th>
+                  <th className="p-5 font-semibold text-slate-400 w-1/4">Browserless</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-700/50">
                 <tr className="hover:bg-slate-800/30 transition-colors">
-                  <td className="p-5 text-slate-300 font-medium">Standard Compliance</td>
+                  <td className="p-5 text-slate-300 font-medium">Use case</td>
                   <td className="p-5 bg-purple-500/5 border-x border-purple-500/20 text-slate-200">
-                    <CheckCircle2 className="w-5 h-5 text-purple-400 inline mr-2" /> Native Chrome-DevTools MCP
+                    <CheckCircle2 className="w-5 h-5 text-emerald-400 inline mr-2" /> Your own accounts &amp; workflows
                   </td>
-                  <td className="p-5 text-slate-400">Custom Puppeteer/Playwright</td>
-                  <td className="p-5 text-slate-400">Custom Playwright / Stagehand</td>
-                </tr>
-                <tr className="hover:bg-slate-800/30 transition-colors">
-                  <td className="p-5 text-slate-300 font-medium">Primary Use Case</td>
-                  <td className="p-5 bg-purple-500/5 border-x border-purple-500/20 text-slate-200">
-                    <CheckCircle2 className="w-5 h-5 text-purple-400 inline mr-2" /> AI Agent Reasoning (OpenClaw)
-                  </td>
-                  <td className="p-5 text-slate-400">Headless testing & agents</td>
+                  <td className="p-5 text-slate-400">Fresh anonymous sessions</td>
                   <td className="p-5 text-slate-400">Fresh anonymous sessions</td>
                 </tr>
                 <tr className="hover:bg-slate-800/30 transition-colors">
-                  <td className="p-5 text-slate-300 font-medium">Credential Management</td>
+                  <td className="p-5 text-slate-300 font-medium">Stealth mode needed</td>
                   <td className="p-5 bg-purple-500/5 border-x border-purple-500/20 text-slate-200">
-                    <CheckCircle2 className="w-5 h-5 text-purple-400 inline mr-2" /> Secure type-in (Agent never sees password)
+                    <CheckCircle2 className="w-5 h-5 text-emerald-400 inline mr-2" /> No (you&apos;re the user)
                   </td>
-                  <td className="p-5 text-slate-400">Session injection</td>
-                  <td className="p-5 text-slate-400">Session injection (API keys)</td>
+                  <td className="p-5 text-slate-400"><XCircle className="w-4 h-4 text-red-500 inline mr-1" /> Required</td>
+                  <td className="p-5 text-slate-400"><XCircle className="w-4 h-4 text-red-500 inline mr-1" /> Required</td>
                 </tr>
                 <tr className="hover:bg-slate-800/30 transition-colors">
-                  <td className="p-5 text-slate-300 font-medium">Access Control</td>
+                  <td className="p-5 text-slate-300 font-medium">Proxy rotation</td>
                   <td className="p-5 bg-purple-500/5 border-x border-purple-500/20 text-slate-200">
-                    <CheckCircle2 className="w-5 h-5 text-purple-400 inline mr-2" /> Token-protected HTTPS endpoint
+                    <CheckCircle2 className="w-5 h-5 text-emerald-400 inline mr-2" /> Not needed
                   </td>
-                  <td className="p-5 text-slate-400">API Keys</td>
-                  <td className="p-5 text-slate-400">API Keys</td>
+                  <td className="p-5 text-slate-400"><XCircle className="w-4 h-4 text-red-500 inline mr-1" /> $10–12/GB</td>
+                  <td className="p-5 text-slate-400"><XCircle className="w-4 h-4 text-red-500 inline mr-1" /> Extra cost</td>
                 </tr>
                 <tr className="hover:bg-slate-800/30 transition-colors">
-                  <td className="p-5 text-slate-300 font-medium">Open Source Core</td>
+                  <td className="p-5 text-slate-300 font-medium">CAPTCHA solving</td>
                   <td className="p-5 bg-purple-500/5 border-x border-purple-500/20 text-slate-200">
-                    <CheckCircle2 className="w-5 h-5 text-purple-400 inline mr-2" /> Yes (CLI & MCP Server)
+                    <CheckCircle2 className="w-5 h-5 text-emerald-400 inline mr-2" /> Not needed
                   </td>
-                  <td className="p-5 text-slate-400">SDKs only</td>
-                  <td className="p-5 text-slate-400">SDKs only</td>
+                  <td className="p-5 text-slate-400"><XCircle className="w-4 h-4 text-red-500 inline mr-1" /> Extra cost</td>
+                  <td className="p-5 text-slate-400"><XCircle className="w-4 h-4 text-red-500 inline mr-1" /> Extra cost</td>
+                </tr>
+                <tr className="hover:bg-slate-800/30 transition-colors">
+                  <td className="p-5 text-slate-300 font-medium">Entry cost</td>
+                  <td className="p-5 bg-purple-500/5 border-x border-purple-500/20 text-slate-200">
+                    <CheckCircle2 className="w-5 h-5 text-emerald-400 inline mr-2" /> Fraction of cost
+                  </td>
+                  <td className="p-5 text-slate-400"><XCircle className="w-4 h-4 text-red-500 inline mr-1" /> $49+/mo</td>
+                  <td className="p-5 text-slate-400"><XCircle className="w-4 h-4 text-red-500 inline mr-1" /> $25+/mo</td>
+                </tr>
+                <tr className="hover:bg-slate-800/30 transition-colors">
+                  <td className="p-5 text-slate-300 font-medium">Open source CLI</td>
+                  <td className="p-5 bg-purple-500/5 border-x border-purple-500/20 text-slate-200">
+                    <CheckCircle2 className="w-5 h-5 text-emerald-400 inline mr-2" /> Yes
+                  </td>
+                  <td className="p-5 text-slate-400"><XCircle className="w-4 h-4 text-red-500 inline mr-1" /> SDKs only</td>
+                  <td className="p-5 text-slate-400">⚠️ Partial</td>
                 </tr>
               </tbody>
             </table>
