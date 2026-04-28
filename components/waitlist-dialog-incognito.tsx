@@ -15,13 +15,13 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { joinWaitlist } from "../actions/waitlist-supabase"
-import { CheckCircle, Loader2, Mail, Zap, Gift, EyeOff, Shield, Lock } from "lucide-react"
+import { CheckCircle, Loader2, Mail, Zap, Gift, EyeOff, Shield, Lock, Globe, Terminal } from "lucide-react"
 import { trackWaitlistSignup, trackDialogOpen } from "@/components/google-analytics"
 import { getStoredReferralData, clearReferralData, type ReferralData } from "@/lib/referral-tracking"
 
 interface WaitlistDialogIncognitoProps {
   children: React.ReactNode
-  tier?: "free" | "pro" | "enterprise" | "mobile"
+  tier?: "free" | "pro" | "enterprise" | "mobile" | "cloud" | string
 }
 
 export function WaitlistDialogIncognito({ children, tier = "enterprise" }: WaitlistDialogIncognitoProps) {
@@ -136,9 +136,13 @@ export function WaitlistDialogIncognito({ children, tier = "enterprise" }: Waitl
               <Shield className="w-6 h-6 text-[#8ab4f8]" />
             </div>
           </div>
-          <DialogTitle className="text-center text-[#e8eaed]">Request Enterprise Access</DialogTitle>
+          <DialogTitle className="text-center text-[#e8eaed]">
+            {tier === "cloud" ? "Join the Cloud Waitlist" : "Request Enterprise Access"}
+          </DialogTitle>
           <DialogDescription className="text-center text-[#9aa0a6]">
-            Get early access to Vibe AI Browser · Private Enterprise
+            {tier === "cloud"
+              ? "Get early access to VibeBrowser Cloud · Agentic Infrastructure"
+              : "Get early access to Vibe AI Browser · Private Enterprise"}
           </DialogDescription>
         </DialogHeader>
 
@@ -154,35 +158,69 @@ export function WaitlistDialogIncognito({ children, tier = "enterprise" }: Waitl
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Benefits list - Incognito themed */}
+            {/* Benefits list */}
             <div className="space-y-3 py-2">
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-[#8ab4f8]/20 flex items-center justify-center flex-shrink-0">
-                  <Shield className="w-4 h-4 text-[#8ab4f8]" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-[#e8eaed]">Privacy-First AI</p>
-                  <p className="text-xs text-[#9aa0a6]">Local AI, self-hosted, or TEE-protected</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-[#81c995]/20 flex items-center justify-center flex-shrink-0">
-                  <Lock className="w-4 h-4 text-[#81c995]" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-[#e8eaed]">Compliance Ready</p>
-                  <p className="text-xs text-[#9aa0a6]">Audit logs, review steps, and flexible deployment options</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-[#fdd663]/20 flex items-center justify-center flex-shrink-0">
-                  <Zap className="w-4 h-4 text-[#fdd663]" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-[#e8eaed]">Priority Onboarding</p>
-                  <p className="text-xs text-[#9aa0a6]">Dedicated support and custom integration</p>
-                </div>
-              </div>
+              {tier === "cloud" ? (
+                <>
+                  <div className="flex items-start gap-3">
+                    <div className="w-8 h-8 rounded-full bg-[#8ab4f8]/20 flex items-center justify-center flex-shrink-0">
+                      <Globe className="w-4 h-4 text-[#8ab4f8]" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-[#e8eaed]">Global Regions</p>
+                      <p className="text-xs text-[#9aa0a6]">Deploy Chrome instances in US, EU, and Asia</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-8 h-8 rounded-full bg-[#81c995]/20 flex items-center justify-center flex-shrink-0">
+                      <Shield className="w-4 h-4 text-[#81c995]" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-[#e8eaed]">Secure Sessions</p>
+                      <p className="text-xs text-[#9aa0a6]">Token-protected HTTPS, credentials never exposed to agents</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-8 h-8 rounded-full bg-[#fdd663]/20 flex items-center justify-center flex-shrink-0">
+                      <Terminal className="w-4 h-4 text-[#fdd663]" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-[#e8eaed]">Open Source CLI</p>
+                      <p className="text-xs text-[#9aa0a6]">API, web console, and open-source CLI included</p>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="flex items-start gap-3">
+                    <div className="w-8 h-8 rounded-full bg-[#8ab4f8]/20 flex items-center justify-center flex-shrink-0">
+                      <Shield className="w-4 h-4 text-[#8ab4f8]" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-[#e8eaed]">Privacy-First AI</p>
+                      <p className="text-xs text-[#9aa0a6]">Local AI, self-hosted, or TEE-protected</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-8 h-8 rounded-full bg-[#81c995]/20 flex items-center justify-center flex-shrink-0">
+                      <Lock className="w-4 h-4 text-[#81c995]" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-[#e8eaed]">Compliance Ready</p>
+                      <p className="text-xs text-[#9aa0a6]">Audit logs, review steps, and flexible deployment options</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-8 h-8 rounded-full bg-[#fdd663]/20 flex items-center justify-center flex-shrink-0">
+                      <Zap className="w-4 h-4 text-[#fdd663]" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-[#e8eaed]">Priority Onboarding</p>
+                      <p className="text-xs text-[#9aa0a6]">Dedicated support and custom integration</p>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
 
             <div className="space-y-2">

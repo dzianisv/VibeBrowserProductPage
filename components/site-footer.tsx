@@ -42,6 +42,7 @@ export function SiteFooter() {
             <h3 className={`font-semibold text-sm ${isOpenClaw ? 'text-[#f0f4ff]' : isDark ? 'text-[#e8eaed]' : ''}`}>VibeBrowser Co-Pilot for</h3>
             <nav className="flex flex-col gap-2">
               {[
+                { href: '/cloud', label: 'Agent Infra' },
                 { href: '/mcp', label: 'Agents' },
                 { href: '/openclaw', label: 'OpenClaw' },
                 { href: '/copilot', label: 'Copilot Users' },

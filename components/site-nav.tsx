@@ -7,6 +7,7 @@ import { ChevronDown } from 'lucide-react'
 
 const pageNames: Record<string, string> = {
   '/aboutus': '',
+  '/cloud': 'for Agent Infra',
   '/mcp': 'for Agents',
   '/openclaw': 'for OpenClaw',
   '/copilot': 'for Copilot Users',
@@ -23,6 +24,7 @@ const pageNames: Record<string, string> = {
 }
 
 const forPages = [
+  { href: '/cloud', label: 'Agent Infra' },
   { href: '/mcp', label: 'Agents' },
   { href: '/openclaw', label: 'OpenClaw' },
   { href: '/copilot', label: 'Copilot Users' },
@@ -38,7 +40,7 @@ const forPages = [
   { href: '/mom', label: 'Everyone' },
 ]
 
-const darkPages = ['/mcp', '/openclaw', '/teams', '/enterprise', '/providers/ollama']
+const darkPages = ['/cloud', '/mcp', '/openclaw', '/teams', '/enterprise', '/providers/ollama']
 
 export function SiteNav() {
   const pathname = usePathname()
