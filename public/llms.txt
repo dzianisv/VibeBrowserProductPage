@@ -23,6 +23,22 @@
 - [Privacy Policy](https://www.vibebrowser.app/privacy): Vibe Browser privacy policy.
 - [Terms of Service](https://www.vibebrowser.app/terms): Vibe Browser terms of service.
 
+## Blog Posts
+
+- [Vibe Co-Pilot vs Claude for Chrome](https://www.vibebrowser.app/blog/vibe-copilot-vs-claude-for-chrome): Direct comparison of Vibe Co-Pilot and Claude for Chrome — model choice, secrets vault, MCP, pricing, and self-hosted options.
+- [Agentic Browsers: Atlas, Comet, Composite vs VibeBrowser](https://www.vibebrowser.app/blog/agentic-browsers-atlas-comet-composite-vs-vibebrowser): Comparison of next-gen AI browsers — OpenAI Atlas, Perplexity Comet, Composite, and Vibe.
+- [MCP Browser Automation Comparison](https://www.vibebrowser.app/blog/mcp-browser-automation-comparison): How browser automation tools compare when exposed as MCP servers for AI coding agents.
+- [Playwright MCP vs VibeBrowser MCP](https://www.vibebrowser.app/blog/playwright-mcp-vs-vibebrowser-mcp): Technical comparison between Playwright MCP and VibeBrowser MCP for agentic browser control.
+- [Chrome DevTools MCP vs Playwright MCP](https://www.vibebrowser.app/blog/chrome-devtools-mcp-vs-playwright-mcp): When to use Chrome DevTools Protocol vs Playwright for AI agent browser automation.
+- [OpenClaw Browser CLI vs Vibe Browser Co-Pilot](https://www.vibebrowser.app/blog/openclaw-browser-cli-vs-vibe-browser-copilot): Comparing terminal-first OpenClaw CLI with Vibe's browser extension approach.
+- [Grok 4 Fast Reasoning: Best Agentic Model](https://www.vibebrowser.app/blog/grok-4-1-fast-reasoning-best-agentic-model): How Grok 4 performs on agentic browser tasks compared to GPT-5 and Claude.
+- [GPT-5 Support and Kimi-K2.5 Free Tier](https://www.vibebrowser.app/blog/gpt-5-4-support-and-kimi-k2-5-free-tier): Vibe adds GPT-5 support and moves Kimi-K2.5 to the free tier.
+- [A11y vs Markdown Browser Agent System Design](https://www.vibebrowser.app/blog/a11y-vs-markdown-browser-agent-system-design): Why Vibe uses accessibility trees over markdown for browser state extraction.
+- [Reflection & Verification Layer](https://www.vibebrowser.app/blog/reflection-verification-layer): How Vibe's agent reflection loop improves task completion accuracy.
+- [We Forked OpenCode — Here's What We Changed](https://www.vibebrowser.app/blog/we-forked-opencode-heres-what-we-changed): Why Vibe forked OpenCode and what modifications power Vibe's coding agent.
+- [Late April 2026 Progress Update](https://www.vibebrowser.app/blog/vibe-may-2026-progress-update): Vibe product updates for late April 2026 — models, features, partnerships.
+- [6 Months Momentum](https://www.vibebrowser.app/blog/2026-03-17-6-months-momentum): Six months of Vibe growth — users, models, and what's next.
+
 ## Contact
 
 - Website: https://www.vibebrowser.app
