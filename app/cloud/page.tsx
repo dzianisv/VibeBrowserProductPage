@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { SiteNav } from '@/components/site-nav'
 import { SiteFooter } from '@/components/site-footer'
 import { WaitlistDialogIncognito } from '@/components/waitlist-dialog-incognito'
-import { Cloud, Globe, Key, Terminal, Code, Shield, Server, Plug, Package, ArrowRight, Zap, CheckCircle2, Lock } from 'lucide-react'
+import { Cloud, Globe, Terminal, Code, Shield, ArrowRight, CheckCircle2 } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'VibeBrowser Cloud | Agentic Browser Infrastructure',
