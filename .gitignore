@@ -41,3 +41,4 @@ next-env.d.ts
 # backup data (contains PII)
 old-waitlist-backup.json
 tmp/
+.netlify

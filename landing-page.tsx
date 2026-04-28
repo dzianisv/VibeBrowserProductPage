@@ -721,8 +721,287 @@ export default function Component() {
       </div>
     </section>
 
+    {/* Backed by Research */}
+    <section className="w-full py-12 md:py-16 bg-slate-50">
+      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
+        <div className="text-center mb-10">
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
+            Backed by Research
+          </h2>
+          <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
+            Vibe&apos;s architecture is validated by 2025-2026 academic research and industry standards from Google and Microsoft.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-12">
+          <Card className="bg-white border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-2 mb-3">
+                <Shield className="w-5 h-5 text-purple-600" />
+                <h3 className="font-bold">Privacy &amp; Security</h3>
+              </div>
+              <p className="text-sm text-muted-foreground mb-4">
+                &quot;Agent-to-agent communications in context-rich enterprise environments markedly increase privacy risk.&quot;
+              </p>
+              <div className="text-xs text-slate-500 font-medium bg-slate-100 px-3 py-2 rounded-lg inline-block">
+                Microsoft Research: Privacy Risks (2024)
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-2 mb-3">
+                <Zap className="w-5 h-5 text-purple-600" />
+                <h3 className="font-bold">Reliability Failure</h3>
+              </div>
+              <p className="text-sm text-muted-foreground mb-4">
+                Cloud swarms fail due to &quot;inter-agent misalignment.&quot; Hybrid agents (API + Browsing) increase success by 24%.
+              </p>
+              <div className="text-xs text-slate-500 font-medium bg-slate-100 px-3 py-2 rounded-lg inline-block">
+                arXiv:2503.23350 &amp; ACL 2025
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-2 mb-3">
+                <ListTodo className="w-5 h-5 text-purple-600" />
+                <h3 className="font-bold">Agentic Skills</h3>
+              </div>
+              <p className="text-sm text-muted-foreground mb-4">
+                Research confirms that reusable &quot;agentic skills&quot; (procedural capabilities) are the key to reliable LLM agents.
+              </p>
+              <div className="text-xs text-slate-500 font-medium bg-slate-100 px-3 py-2 rounded-lg inline-block">
+                arXiv:2602.20867 (SoK: Agentic Skills)
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-16">
+          <Card className="bg-slate-50 border-slate-200 shadow-sm">
+            <CardContent className="p-5 flex items-start gap-4">
+              <div className="bg-white p-2 rounded-lg border border-slate-100 shadow-sm">
+                <Globe className="w-6 h-6 text-blue-600" />
+              </div>
+              <div>
+                <h4 className="font-bold text-sm mb-1">Google Chrome Team (Sept 2025)</h4>
+                <p className="text-xs text-muted-foreground mb-2">
+                  <strong>&quot;Chrome DevTools (MCP) for your AI agent&quot;</strong> by Mathias Bynens &amp; Michael Hablich. Validates that AI agents need direct, local access to the browser&apos;s DOM and Network layers.
+                </p>
+                <Link href="https://developer.chrome.com/blog/chrome-devtools-mcp" target="_blank" className="text-[10px] text-blue-600 hover:underline">
+                  Read Announcement →
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-slate-50 border-slate-200 shadow-sm">
+            <CardContent className="p-5 flex items-start gap-4">
+              <div className="bg-white p-2 rounded-lg border border-slate-100 shadow-sm">
+                <Code className="w-6 h-6 text-blue-600" />
+              </div>
+              <div>
+                <h4 className="font-bold text-sm mb-1">Microsoft Playwright Team</h4>
+                <p className="text-xs text-muted-foreground mb-2">
+                  <strong>&quot;How to Integrate Playwright MCP&quot;</strong> confirms that semantic, accessibility-tree automation is superior to brittle vision-based cloud agents for reliability.
+                </p>
+                <Link href="https://techcommunity.microsoft.com/blog/azuredevcommunityblog/how-to-integrate-playwright-mcp-for-ai-driven-test-automation/4470372" target="_blank" className="text-[10px] text-blue-600 hover:underline">
+                  Read Article →
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </section>
 
 
+
+
+
+    {/* Core Features */}
+    <section className="w-full py-12 md:py-16 bg-white">
+      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
+            Features That Work
+          </h2>
+          <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
+            Built for power users who want leverage, not magic tricks
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          <Card className="border-0 shadow-lg bg-gradient-to-br from-purple-50 to-white">
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
+                <Brain className="w-6 h-6 text-purple-600" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Autonomous Decision Making</h3>
+              <p className="text-sm text-muted-foreground">
+                Plans, executes, and adjusts. Makes smart decisions without your input
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 shadow-lg bg-gradient-to-br from-blue-50 to-white">
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
+                <Globe className="w-6 h-6 text-blue-600" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Works on Any Site</h3>
+              <p className="text-sm text-muted-foreground">
+                LinkedIn, Twitter, Reddit, Gmail — anywhere you browse. No APIs needed, no brittle automations
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 shadow-lg bg-gradient-to-br from-green-50 to-white">
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4">
+                <Lock className="w-6 h-6 text-green-600" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Privacy First</h3>
+              <p className="text-sm text-muted-foreground">
+                Local-first with Gemini Nano, <a href="https://docs.vibebrowser.app/self-hosted-llm/ollama" className="text-green-600 hover:text-green-700 underline">Ollama</a>, and self-hosted models. Cloud APIs are optional and user-controlled.{' '}
+                <Link href="/tee" className="text-green-600 hover:text-green-700 underline">
+                  TEE research
+                </Link>{' '}
+                for enterprise security
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 shadow-lg bg-gradient-to-br from-orange-50 to-white">
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mb-4">
+                <MessageSquare className="w-6 h-6 text-orange-600" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Natural Language</h3>
+              <p className="text-sm text-muted-foreground">
+                Just describe what you need in plain English. No scripts or commands required
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 shadow-lg bg-gradient-to-br from-pink-50 to-white">
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center mb-4">
+                <Eye className="w-6 h-6 text-pink-600" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">You Stay in Control</h3>
+              <p className="text-sm text-muted-foreground">
+                Step-by-step visibility into every action. Nothing happens without your approval. AI amplifies your expertise, not replaces it
+              </p>
+            </CardContent>
+          </Card>
+
+           <Card className="border-0 shadow-lg bg-gradient-to-br from-indigo-50 to-white">
+             <CardContent className="p-6">
+               <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mb-4">
+                 <Code className="w-6 h-6 text-indigo-600" />
+               </div>
+               <h3 className="text-xl font-bold mb-2">Any LLM, No Lock-in</h3>
+               <p className="text-sm text-muted-foreground">
+                 Use GPT, Claude, Gemini, Grok, DeepSeek. Switch anytime. Works with any Chrome browser
+               </p>
+             </CardContent>
+           </Card>
+        </div>
+      </div>
+    </section>
+
+    {/* Integrations & Agent Ecosystem */}
+    <section className="w-full py-12 md:py-16 bg-slate-50">
+      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
+            Integrations & Agent Ecosystem
+          </h2>
+          <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
+            Gmail + Calendar automation, MCP interoperability, reusable skills, and OpenClaw-inspired self-improving agents.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          <Card className="border-0 shadow-lg bg-white">
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center mb-4">
+                <Calendar className="w-6 h-6 text-slate-700" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Google Workspace Native</h3>
+              <p className="text-sm text-muted-foreground">
+                Built-in Gmail and Calendar actions for search, draft, send, and event creation.
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 shadow-lg bg-white">
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
+                <Puzzle className="w-6 h-6 text-purple-600" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">MCP Server for Agents</h3>
+              <p className="text-sm text-muted-foreground">
+                Use MCP tools inside Vibe agents, then expose Vibe browser sessions as MCP for other agents.
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 shadow-lg bg-white">
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
+                <RefreshCw className="w-6 h-6 text-blue-600" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Self-Modifying Agent</h3>
+              <p className="text-sm text-muted-foreground">
+                OpenClaw-inspired execution loop where the agent can update its own workflow logic and skills.
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 shadow-lg bg-white">
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mb-4">
+                <ListTodo className="w-6 h-6 text-emerald-600" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Skills Library</h3>
+              <p className="text-sm text-muted-foreground">
+                Build reusable automation skills and let agents create new skills from successful runs.
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 shadow-lg bg-white">
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center mb-4">
+                <Key className="w-6 h-6 text-amber-600" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Secrets Vault + Type-In</h3>
+              <p className="text-sm text-muted-foreground">
+                Internal password vault with a fill tool that never exposes secrets to the LLM.
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 shadow-lg bg-white">
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mb-4">
+                <Cloud className="w-6 h-6 text-indigo-600" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">GitHub Copilot for People</h3>
+              <p className="text-sm text-muted-foreground">
+                Already have Copilot? Run it inside Vibe to automate routine browser tasks for non-engineering teams.
+                <Link href="/copilot" className="text-indigo-700 hover:text-indigo-800 font-medium"> Learn more →</Link>
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </section>
 
     {/* Roadmap: Cloud Agent + OpenClaw */}
     <section className="w-full py-12 md:py-16 bg-white">

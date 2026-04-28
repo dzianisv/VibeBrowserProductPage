@@ -1,9 +1,0 @@
-# Exclude
-.next/
-out/
-node_modules/
-.git/
-.vercel/
-
-# DO NOT IGNORE BLOG
-!blog/**
