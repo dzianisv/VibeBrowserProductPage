@@ -72,15 +72,67 @@ Before posting any promotion in a community, the account must meet **all** crite
 - [x] growth-hacking skill created
 
 #### 📋 Actions Taken Today
-- Searched competitor complaints: [document what you found]
-- Questions answered: [community, topic]
-- Tweet posted: [link]
-- HN comments: [any replies]
+- [x] HN thread monitored — 1 pt, 0 external comments, 26 min old. No replies needed yet.
+- [x] Competitor search — 3 threads found in r/mcp (see drafts below)
+- [ ] Post replies to r/mcp threads (use real account — drafts ready)
+- [ ] Build-in-public tweet
+
+#### ⚠️ HN Traction Window
+Post is ~26 min old. **Act now**: share from real accounts/Discord/Slack in next 30–60 min to ride velocity. Prepare for likely first questions:
+- "Doesn't this expose your entire browser to the agent?" → explain permissions/security model
+- "How is this different from running CDP directly?" → MCP bridge + zero-config auth value-add
+- "Multi-user/team?" → point to /cloud tier
+
+#### 🎯 r/mcp Reply Opportunities (post today with real account)
+
+**r/mcp has 62K weekly visitors — core MCP developer audience. Replies to others' threads are low-risk.**
+
+---
+
+**🥇 Best: Thread 2 — Customaise Chrome ext + MCP showcase** (3d old, 21 votes, 14 comments)
+https://www.reddit.com/r/mcp/comments/1surv15/showcase_customaise_webmcp_tools_in_your_own/
+
+> Solid approach and the framing is exactly right — "session ownership: no credential forwarding to a vendor" is the property cloud browsers fundamentally can't offer for personal-session workflows.
+>
+> For anyone who wants the same local-session advantage but prefers generic browser control rather than writing per-site AgentScripts, there's another Chrome-extension-based MCP approach worth knowing: **VibeBrowser** (vibebrowser.app). It exposes your real, already-logged-in Chrome to any MCP client (Claude Code, Cursor, etc.) with native CDP-level tools — navigate, click, screenshot, DOM — without needing custom scripts per site.
+>
+> The tradeoff:
+> - **Customaise** = typed, ergonomic contracts for sites you automate repeatedly (great for running the same workflow 50x/day — structured, reliable tool calls)
+> - **VibeBrowser** = ad-hoc agent control across any site you're already signed into, with zero per-site setup
+>
+> Both solve the same root problem: cloud browsers start fresh sessions, so they can't touch anything behind a real login.
+>
+> *(Disclosure: I built VibeBrowser — take the comparison with appropriate skepticism, but the architectural argument holds regardless.)*
+
+---
+
+**Thread 3 — ScrapingAnt cloud browser token efficiency** (9d old, 42 votes, 13 comments)
+https://www.reddit.com/r/mcp/comments/1spvkrz/microsoft_recommends_cli_over_mcp_for_playwright/
+
+> Great positioning — the "open web data pipeline at scale" vs "interactive UI testing" split is exactly right.
+>
+> Worth naming a third category both tools leave uncovered: tasks on sites you're **personally logged into** — inbox, LinkedIn, internal dashboards, anything behind SSO or 2FA. Cloud browsers start fresh sessions so they can't help here.
+>
+> The natural fit is a Chrome extension that bridges your *real* browser session to MCP — agent works inside the browser you're already signed into, so no credential extraction, no bot-detection risk from a mismatched fingerprint, no per-minute idle billing. **VibeBrowser** (vibebrowser.app) is one option in this space.
+>
+> Not the right tool for bulk open-web scraping at scale — that's exactly your use case. But there's a meaningful "access my own accounts" segment where cloud browsers leave a gap.
+
+---
+
+**Thread 1 — Browser MCP vs Playwright MCP?** (18h old, 7 votes, 13 comments)
+https://www.reddit.com/r/mcp/comments/1sx45zv/browser_mcp_or_playwright_mcp/
+
+> Playwright CLI is the right call for CI/regression — the token savings alone justify it.
+>
+> One angle nobody's mentioned: if you ever need to test against a site where you're **already authenticated** — staging behind SSO, internal tools, production features gated to your account — a headless Playwright process starts with empty cookies and you have to manage `storageState` files.
+>
+> Cleaner option for authenticated flows: a Chrome extension that bridges your real browser to MCP. The agent runs in the same Chrome you're already logged into, so auth is never a concern. **VibeBrowser** (vibebrowser.app) does this. Trade-off: less control over the exact browser environment, but zero credential-management overhead.
+
+---
 
 #### 📊 Metrics Snapshot
 - GA sessions today: _
-- HN upvotes: _
-- HN comments: _
+- HN score: 1 | comments: 0 (checked ~26 min after post)
 - Waitlist signups: _
 
 ---
