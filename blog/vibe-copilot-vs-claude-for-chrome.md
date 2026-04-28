@@ -33,11 +33,11 @@ When a better model ships tomorrow, Vibe has it the same day. With Claude for Ch
 
 | Plan | Claude for Chrome | Vibe Co-Pilot |
 |---|---|---|
-| Free | ❌ Not available | ✅ Local AI + GPT-5-mini |
+| Free | ❌ Not available | ✅ Kimi K2.5 Thinking, GPT-5 Mini, GPT-4.1, GPT OSS 120B, GPT-5.4 Nano |
 | $20/mo | ✅ Haiku 4.5 only | ✅ GPT-5.1, Grok 4 Fast, DeepSeek |
 | $100/mo | ✅ Sonnet 4.5 | ✅ GPT-5.2, Grok 4, DeepSeek R1 |
 
-Claude for Chrome has no free tier. At $20/month you get access but only Haiku 4.5 — the least capable model. Vibe's $20 Pro plan includes multiple frontier models.
+Claude for Chrome has no free tier. At $20/month you get access but only Haiku 4.5 — the least capable model. Vibe's free tier includes five models: Kimi K2.5 Thinking, GPT-5 Mini, GPT-4.1, GPT OSS 120B, and GPT-5.4 Nano. The $20 Pro plan adds GPT-5.1, Grok 4 Fast, and DeepSeek V3.
 
 ## Secrets Vault
 
