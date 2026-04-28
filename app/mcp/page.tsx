@@ -525,7 +525,7 @@ export default function McpPage() {
                   a real browser
                 </h1>
                 <p className="text-xl text-[#9aa0a6] max-w-2xl mx-auto">
-                  Your real logged-in browser — with all your sessions, cookies, and extensions intact — connected directly to your AI agent. No fresh sessions. No re-auth. No login walls.
+                  Your real logged-in browser — connected directly to your AI agent. No Browserbase account. No stealth mode. No per-hour billing. Just your existing Chrome session, exposed as MCP.
                 </p>
               </div>
 
@@ -639,6 +639,10 @@ export default function McpPage() {
                 <span className="flex items-center gap-2">
                   <Code2 className="w-4 h-4" />
                   Open source MCP package
+                </span>
+                <span className="flex items-center gap-2">
+                  <Zap className="w-4 h-4 text-[#ffd700]" />
+                  Free — no Browserbase account needed
                 </span>
               </div>
             </div>

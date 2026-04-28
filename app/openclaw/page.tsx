@@ -138,7 +138,7 @@ export default function OpenClawPage() {
                 Give your agents a <span className="text-[#ff4d4d]">command line to the web</span>
               </h1>
               <p className="mx-auto mt-6 max-w-3xl text-lg text-[#c4cbe0] md:text-xl">
-                One npx command. Your real logged-in browser, exposed to any AI agent. Local or remote. No disposable sessions, no re-auth — the same browser you already have open.
+                One npx command. No Browserbase account. No per-session billing. Your real logged-in browser, exposed to any AI agent — local or remote, free and open source.
               </p>
               <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
                 <Link href="https://docs.vibebrowser.app/getting-started/extension#option-2-developer-version-advanced" target="_blank">
