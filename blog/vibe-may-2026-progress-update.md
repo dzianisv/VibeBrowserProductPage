@@ -1,71 +1,58 @@
 ---
-title: "VibeBrowser Progress Update: Late April 2026"
-description: "Major improvements across comparison tables, Google Workspace, extraction, and partnerships."
+title: "What VibeBrowser Delivered for You: Late April 2026"
+description: "Your browser agent now handles full Google Workspace workflows, reads any page more reliably, and works with more AI models — here's what that means for you."
 date: "2026-04-27"
 author: "Dzianis Vashchuk"
 authorUrl: "https://linkedin.com/in/dzianisv"
 tags:
   - "Product Updates"
   - "Google Workspace"
-  - "Extraction"
-  - "Partnership"
+  - "Reliability"
 published: true
 ---
 
-It's been a packed few weeks at VibeBrowser. Here's what's new.
+Every update we ship has one goal: let you get more done without touching the keyboard. Here's what changed in the last few weeks — and what it means for your daily work.
 
-## Product Page Updates
+## Your Entire Google Workspace Is Now Agentic
 
-### Comparison Table Overhaul
+Gmail and Calendar were just the beginning. Vibe now operates your full Google Workspace:
 
-We've completely refreshed our comparison table:
+- **Google Drive** — find, open, and upload files on command
+- **Google Docs** — draft and edit documents directly
+- **Google Sheets** — read data, write rows, update cells
 
-- **Added Claude for Chrome** — Anthropic's new browser extension is now in the comparison, sourced directly from official docs.
-- **Replaced Operator with Atlas** — OpenAI's AI-native browser (macOS app with Agent Mode) replaces the deprecated Operator research preview.
-- **Updated model references** — Changed outdated "Grok-4.1 Fast Reasoning" to "Grok 4" and "GPT-5.4" to "GPT-5" across the entire site.
+**What this means for you:** Ask Vibe to pull the Q2 numbers from a spreadsheet, summarize a Drive document, and draft a follow-up email — all in one instruction. No tab-switching, no copy-paste.
 
-### LaMooM Partnership
+## Pages Load and Parse More Reliably
 
-Added LaMooM to our About Us page. LaMooM is a B2B AI assistant widget built on OpenClaw, demonstrating how our technology enables partners to build embeddable AI products.
+If Vibe ever missed a form field, fumbled a PDF, or got confused on a content-heavy page — those failures are largely gone:
 
-## Core Engine Improvements
+- Form fields are now captured accurately, so Vibe can fill out multi-step forms without missing inputs
+- PDFs are handled safely up to 50 MB — no more crashes on large reports
+- Rich-text editors (the kind used in Notion, Gmail compose, and CMS tools) are read and written correctly
 
-### Google Workspace Expansion
+**What this means for you:** Fewer retries. Less "it didn't work." More tasks that complete on the first attempt.
 
-We've significantly expanded Google Workspace integration:
+## Works on More Sites, With Fewer Interruptions
 
-- **Google Drive tools** — Read, list, upload, and manage files in Drive
-- **Google Docs tools** — Create and update documents  
-- **Google Sheets tools** — Read and write spreadsheet data
-- **Scope alignment** — Properly configured OAuth scopes for all new capabilities
+Two reliability fixes that matter:
 
-This means Vibe can now automate end-to-end workflows across Gmail, Calendar, Drive, Docs, and Sheets.
+- **X.com / Twitter** — Vibe no longer gets flagged as a bot and blocked mid-task
+- **Extension opens every time** — clicking the Vibe icon reliably opens the panel; no more phantom clicks
 
-### Extraction Improvements
+**What this means for you:** Research, posting, and monitoring tasks on X.com work consistently. You don't lose your train of thought waiting for the extension to respond.
 
-Major refinements to page content extraction:
+## Choose Any Model, Any Time
 
-- **Unified CDP a11y-to-markdown** — Single extraction pipeline for all content types
-- **Form field capture** — Now extracts form fields that markdown extractor was missing
-- **PDF size limit** — Added 50MB limit to prevent service worker crashes
-- **Empty contenteditable nodes** — Now enriched with DOM text for better extraction
+You can now switch AI models mid-session and Vibe remembers the choice correctly. Whether you prefer GPT-5, Grok 4, Claude, or a local model via Ollama — the switch is instant and sticks.
 
-### Bug Fixes
+**What this means for you:** Use a fast, cheap model for simple lookups. Switch to a reasoning model for complex multi-step tasks. No config files, no restarts.
 
-- **X.com bot detection** — Bypassed with `--enable-automation` flag
-- **Domain-scoped cookie deletion** — Replaced global cookie wipe with precise domain deletion
-- **Sidepanel always opens** — Extension icon click now consistently opens sidepanel
-- **Model switch state** — ReactGraph properly updates modelName on model changes
+## What's Coming Next
 
-## What's Coming
-
-We're working on:
-
-- **Cloud agent relay** — Secure relay so cloud agents can orchestrate your local browser with explicit approvals
-- **Managed OpenClaw assistant** — Cloud-hosted personal assistant connected to your local Vibe browser
-- **Expanded MCP integrations** — More agent platforms integrated
-
-Stay tuned for more updates.
+- **Cloud agent relay** — Let cloud AI agents (like OpenCode or Claude) orchestrate your local browser, with you approving each sensitive action
+- **Managed OpenClaw assistant** — A persistent, cloud-hosted assistant that stays connected to your Vibe browser even when you're away from your desk
+- **More MCP integrations** — Broader support for agent platforms that use the Model Context Protocol
 
 ---
 
