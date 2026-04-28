@@ -1,11 +1,165 @@
-# Copy-Paste Marketing Playbook
+# CWS Multi-Listing Growth Playbook
 
-> VibeBrowser's replicable growth system across CWS, SEO, content, and community.
-> Updated: 2026-04-28
+> VibeBrowser's strategy to 10× Chrome Web Store installs through model-specific brand forks.
+> Last updated: 2026-04-28
 
 ---
 
-## 0. The Biggest Insight Nobody Told You
+## Why We're Doing This
+
+### The Problem
+VibeBrowser is a multi-model AI browser co-pilot that works with Claude, Gemini, GPT, Copilot, Ollama, and Chrome Built-in AI. It's the most versatile AI browser extension on the market. But the Chrome Web Store listing says "Vibe AI Browser Co-Pilot" — a name that is invisible to the 90%+ of users who search for their SPECIFIC model:
+
+- "Claude browser extension" → finds Claude for Chrome (2.7★), dassi, Side Copilot — NOT VibeBrowser
+- "Gemini browser automation" → finds HARPA, Monica — NOT VibeBrowser
+- "ChatGPT browser agent" → finds dassi, HARPA, Monica — NOT VibeBrowser
+
+We have the best product (multi-model, cloud browser, MCP-native, markdown output) but zero CWS visibility for model-specific searches. That's the gap.
+
+### The Insight
+Every Featured competitor already does this:
+- **dassi** (4.9★, 30K+ users): "dassi: AI Browser Agent for Claude, GPT & Gemini"
+- **HARPA** (4.7★, 500K+, Chrome Award 2025): "HARPA AI: Web Automation with ChatGPT, Claude, Gemini, Grok"
+- **Monica** (4.9★, Featured): All-in-one AI with GPT, Claude, Gemini listed in title
+
+Model names in CWS titles = standard practice. Nominative fair use. Not gray-area.
+
+But there's a BIGGER opportunity: users searching "Claude browser extension" aren't just looking for any AI tool — they want something purpose-built for Claude. A listing called "Vibe for Claude — AI Browser Agent" with Claude-specific screenshots, Claude onboarding, and Claude Code integration examples will convert 3-5× better than a generic "works with everything" listing.
+
+### The Strategy: Model-Specific CWS Forks
+Create separate Chrome Web Store listings — same core extension code, different:
+1. **Name & branding** — "Vibe for Claude", "Vibe for Gemini", "Vibe for ChatGPT"
+2. **Default model** — each variant defaults to its target model
+3. **Onboarding** — model-specific API key setup (not a generic model picker)
+4. **Icons & colors** — distinct visual identity per variant
+5. **Screenshots** — showing the extension working with THAT specific model
+6. **CWS description** — entirely focused on one model's ecosystem and use cases
+7. **Omnibox keyword** — `claude`, `gemini`, `gpt` instead of `vibe`
+
+This is NOT a rename. The main listing stays as-is (with model names added to the title). These are ADDITIONAL listings that capture model-specific search traffic.
+
+### Why This Should Work (Evidence)
+
+1. **Anthropic's official Claude extension has 2.7★** — users are actively frustrated and searching for alternatives. "Claude for Chrome alternative" is a high-intent query with unsatisfied demand.
+
+2. **dassi proves the model is viable** — 4.9★, Featured badge, 30K+ users. They list all model names in their title and have model-specific landing pages (`dassi.ai/for/chatgpt-users/`). They're doing exactly this playbook.
+
+3. **CWS search is keyword-matching** — unlike Google Search, CWS discovery is heavily title/description keyword-driven. If "Claude" isn't in your listing name, you don't appear for "Claude browser extension". Period.
+
+4. **Multi-listing is allowed when genuinely differentiated** — Google's policy bans "duplicate experiences." Our variants are genuinely different: different default model, different onboarding, different UI accent color, different screenshots. Each optimizes for a specific user persona.
+
+5. **The math is simple** — if each variant listing gets even 500 installs/month from model-specific searches, that's 1,500 additional installs/month we're currently getting zero of. At a 5% cloud conversion rate, that's 75 new paying users ($675/mo MRR).
+
+### What Could Go Wrong
+
+| Risk | Likelihood | Impact | Mitigation |
+|---|---|---|---|
+| Google flags variants as duplicates | Medium | High (all listings removed) | Launch ONE variant first (Claude). Wait 60 days. Add next only if Claude survives. |
+| Low-quality installs (high uninstall rate) | Low | Medium | Variants deliver genuinely optimized experience — not bait-and-switch |
+| Trademark complaint from Anthropic/Google/OpenAI | Very Low | Medium | Nominative fair use — "Vibe for Claude" describes compatibility, doesn't claim endorsement. dassi/HARPA have done this for months. |
+| OAuth/identity issues per variant | Medium | Low | Each CWS listing gets its own ID. Google Workspace OAuth needs separate client per variant. Ship without GWS for variants initially, add later. |
+| Maintenance burden of 4 listings | Low | Low | Same codebase, build system handles variants via `VIBE_VARIANT` env var. CI matrix job builds all automatically. |
+
+### What We've Built So Far
+
+**Product page (VibeBrowserProductPage):**
+- ✅ `/claude` landing page — Claude-specific, with Claude Code MCP config, Claude for Chrome comparison FAQ
+- ✅ `/gemini` landing page — Gemini CLI integration, Google Workspace workflows
+- ✅ `/codex` landing page — Codex CLI integration, CI/CD workflows
+- ✅ `/cloud` page — competitor table, pricing, CLI demo, FAQ with JSON-LD
+- ✅ Blog: "Best Cloud Browser MCP for AI Agents" (2,300 words)
+- ✅ SEO: JSON-LD, FAQPage, SoftwareApplication schema on all pages
+- ✅ llms.txt updated with model-specific citation guidance
+- ✅ Sitemap includes all model pages
+
+**Extension (VibeWebAgent):**
+- ✅ `variants/{claude,gemini,chatgpt,main}.json` — brand configs
+- ✅ `variants/webstore-descriptions/` — full 4,000-char CWS descriptions per variant
+- ✅ `scripts/generate-variant-icons.py` — hue-shifted icon generation
+- ✅ `build.js` — `VIBE_VARIANT` env var support (manifest name, description, icons, omnibox keyword)
+- ✅ CI matrix job — builds all 3 variants on master push/release
+- ✅ Backward-compatible — main variant produces identical output to before
+
+**PR status:**
+- PR #90 (product page changes): ✅ MERGED
+- PR #1160 (extension variant system): 🔄 Open, CI running
+
+---
+
+## How We Execute
+
+### Phase 1: Rename Main Listing (This Week)
+**Action:** Change existing CWS listing title to "Vibe: AI Browser Agent for Claude, Copilot, Gemini & GPT"
+**Why:** Zero-risk, immediate visibility boost. Every competitor already does this.
+**Expected impact:** 2-5× more CWS impressions from model-name searches.
+**Metric:** CWS Developer Dashboard → Impressions (compare week-over-week)
+
+### Phase 2: Submit "Vibe for Claude" (Week 2-3)
+**Action:** Create new CWS listing using the claude variant build.
+**Why:** Claude for Chrome has 2.7★ — there's a gap in the market for a good Claude browser agent. Claude Code users are the highest-intent MCP audience.
+**Expected impact:** 200-500 installs/month from "Claude browser extension/agent" searches.
+**Metric:**
+- CWS installs (claude variant)
+- `/claude` landing page sessions (GA4)
+- Waitlist signups with `utm_source=cws&utm_campaign=claude`
+
+### Phase 3: "Vibe for Gemini" (Week 8+, only if Phase 2 survives)
+**Action:** Create new CWS listing using the gemini variant build.
+**Why:** Gemini CLI is growing; Google Workspace integration is our unique strength.
+**Prerequisite:** Claude variant listing has existed 60+ days without CWS flags.
+**Expected impact:** 100-300 installs/month.
+**Metric:** Same as Phase 2 but for gemini.
+
+### Phase 4: "Vibe for ChatGPT" (Week 14+, only if Phase 3 survives)
+**Action:** Create new CWS listing using the chatgpt variant build.
+**Why:** Largest addressable market (ChatGPT has 200M+ users), but also most competitive. Ship last.
+**Expected impact:** 300-500 installs/month.
+**Metric:** Same as Phase 2 but for chatgpt.
+
+### Phase 5: Content Flywheel (Ongoing)
+**Action:** Blog posts per model × workflow (see Section 3). Landing pages for remaining models (/chatgpt, /grok, /ollama).
+**Why:** SEO compounds. Each blog post and landing page feeds CWS discovery, LLM citation, and organic search.
+**Metric:** Blog organic traffic (GA4), Search Console impressions for model-specific queries.
+
+---
+
+## Metrics Dashboard
+
+### Primary KPIs (check weekly)
+
+| Metric | Tool | Baseline (today) | Target (30 days) | Target (90 days) |
+|---|---|---|---|---|
+| CWS total installs/week (all listings) | CWS Developer Dashboard | ~X/week | 2× | 5× |
+| CWS impressions/week (main listing) | CWS Developer Dashboard | ~X/week | 3× (after rename) | 5× |
+| Waitlist signups/week | Supabase + GA4 | ~X/week | +50% | 3× |
+| Cloud conversions ($9/mo) | Stripe/internal | ~X/mo | +25% | 2× |
+
+### Secondary KPIs (check monthly)
+
+| Metric | Tool | Target |
+|---|---|---|
+| "/claude" page sessions/week | GA4 | 100+ |
+| "/gemini" page sessions/week | GA4 | 50+ |
+| Blog organic traffic/month | GA4 | 500+ sessions |
+| "Claude browser extension" ranking | Google Search Console | Top 20 |
+| "Gemini browser automation" ranking | Google Search Console | Top 20 |
+| LLM mentions (ask Gemini/ChatGPT) | Manual testing | VibeBrowser appears in response |
+| CWS rating per listing | CWS Developer Dashboard | 4.0+ stars |
+| Uninstall rate per variant | CWS Developer Dashboard | <30% (7-day) |
+
+### Leading Indicators (check daily during launch)
+
+| Indicator | What it tells you |
+|---|---|
+| CWS impressions spike after rename | Title keyword strategy is working |
+| Install rate (installs/impressions) | Listing quality (screenshots, description) |
+| Bounce rate on /claude page | Landing page relevance to search intent |
+| Waitlist signup rate | Funnel is converting |
+| Review velocity | Users care enough to rate (good or bad signal) |
+
+---
+
+## The Biggest Insight Nobody Told You
 
 Your #1 competitor **dassi** (4.9★, Featured) has this CWS title:
 
