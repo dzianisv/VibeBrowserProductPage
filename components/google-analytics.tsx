@@ -2,6 +2,8 @@
 
 import posthog from 'posthog-js'
 import Script from 'next/script'
+import { usePathname } from 'next/navigation'
+import { useEffect } from 'react'
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-EYZHHTHR57'
 const TELEMETRY_EVENTS_ENDPOINT = '/api/telemetry/events'
@@ -38,6 +40,27 @@ function sendTelemetryEvent(
   })
 }
 
+// Fires a GA page_view on every SPA route change (Next.js App Router)
+function GAPageTracker() {
+  const pathname = usePathname()
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && 'gtag' in window) {
+      ;(window as Window & { gtag: (...args: unknown[]) => void }).gtag(
+        'config',
+        GA_MEASUREMENT_ID,
+        {
+          page_path: pathname,
+          page_title: document.title,
+          page_location: window.location.href,
+        }
+      )
+    }
+  }, [pathname])
+
+  return null
+}
+
 export function GoogleAnalytics() {
   return (
     <>
@@ -56,6 +79,7 @@ export function GoogleAnalytics() {
           });
         `}
       </Script>
+      <GAPageTracker />
     </>
   )
 }
