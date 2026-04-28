@@ -13,6 +13,259 @@
 - Works with Claude, Copilot, Codex, Gemini CLI
 - No per-hour billing traps, no proxy costs, no CAPTCHA fees
 
+**Competitor pain points (from research, 2026-04-28):**
+1. **Billing traps** — 1-min minimum billing, health checks burn credits; surprise proxy overages
+2. **Auth re-auth hell** — Long-running sessions randomly drop CDP connections
+3. **Infrastructure babysitting** — Silent session deaths, part-time DevOps work
+4. **Bot detection arms race** — Rotating proxies, CAPTCHAs, fingerprint mgmt steal time from building
+5. **Useless free tiers** — Browserbase: 1 browser hour *total*; Browserless: ~8 hours then pay
+6. **Wrong tool entirely** — Built for anonymous scraping; users paying for stealth they don't need
+
+> **Killer quote** (r/automation): "I became a part-time DevOps engineer babysitting containers that would silently die mid-session."
+> **Killer insight:** Both competitors assume you're a bot pretending to be human. VibeBrowser's premise: you're already human — use your real session. Makes 80% of their feature stack irrelevant.
+
+---
+
+## Growth Hacking Strategy
+
+### The Rule: Earn Before You Ask
+
+Communities can detect promotional intent instantly. The only sustainable approach is to **become a valued community member first**, then mention your product naturally when it's genuinely relevant.
+
+**The sequence for every new community:**
+```
+Phase 1 (Weeks 1–2): Listen & learn
+  → Read top posts, understand what questions come up repeatedly
+  → Identify the 3–5 threads per week where VibeBrowser is relevant
+
+Phase 2 (Weeks 2–4): Participate genuinely
+  → Answer questions thoroughly — no product mention yet
+  → Build karma/reputation with the real account
+  → Goal: 5+ well-received contributions before any promotion
+
+Phase 3 (Week 4+): Selective, honest promotion
+  → Only mention VibeBrowser when it's the honest best answer
+  → One direct product post max (framed as "I built this")
+  → Share blog posts, not product pages
+```
+
+### Tactics That Work for Dev Tools
+
+#### 1. Answer competitor complaints (highest ROI)
+Search for people frustrated with Browserbase/Browserless/Playwright auth issues. Reply helpfully — solve their problem, then mention VibeBrowser as one option.
+
+**Search queries to monitor:**
+- Reddit: `browserbase expensive`, `browserless alternative`, `playwright auth cookies`, `give AI agent browser access`
+- HN: `browser automation agent`, `MCP browser`, `authenticated browser agent`
+- X: `browserbase`, `@browserbase`, `browser agent auth`
+
+#### 2. Answer "how do I" questions (trust-building)
+Monitor for recurring questions in target communities:
+- "How do I give my AI agent browser access?"
+- "How do I keep my agent logged in between sessions?"
+- "Playwright keeps losing my session cookies, help?"
+
+Answer thoroughly and completely. Mention VibeBrowser only at the end as one option, never as the whole answer.
+
+#### 3. Build in public (compounding)
+Share genuine milestones on X (`@whoisdzianis`):
+- Usage metrics ("50 waitlist signups this week")
+- Technical insights ("Why we chose CDP over Playwright for session relay")
+- User stories ("A user automated their whole Salesforce workflow with 3 prompts")
+- Failures and learnings
+
+This builds an audience that amplifies future posts.
+
+#### 4. GitHub presence
+- Participate in issues on MCP-ecosystem repos (modelcontextprotocol/servers, etc.)
+- When someone opens an issue about browser tools, mention VibeBrowser
+- Star and watch relevant repos — be visible in the ecosystem
+
+#### 5. Discord communities (fastest warm-up)
+Smaller communities where individual contributors are more visible:
+- Anthropic Discord (Claude users)
+- Ollama Discord (local LLM users)
+- LangChain Discord
+- OpenAI Cookbook Discord
+
+Post in #tools or #show-your-work channels. Discord bans are rare compared to Reddit.
+
+#### 6. Content SEO (long-term, compounding)
+Every blog post is a permanent funnel entry. Priority topics:
+- "Browserbase alternative" (commercial intent, high value)
+- "Browser automation for AI agents" (informational, high volume)
+- "Give Claude browser access" (tool-specific, converts well)
+- "MCP browser tool" (emerging keyword, own it early)
+
+---
+
+## Pages
+
+| Page | Status | Notes |
+|---|---|---|
+| `/cloud` | ✅ Live | "90% cheaper than Browserbase" hero, pricing comparison section, comparison table |
+| `/mcp` | ✅ Live | "No Browserbase account needed" trust indicator, updated subhead |
+| `/openclaw` | ✅ Live | Cost-positioning subhead |
+| `/compare` | ✅ Live | "Where AI Browsers Get Stuck" section |
+
+---
+
+## Analytics
+
+| Tool | Status | Notes |
+|---|---|---|
+| Google Analytics (GA4) | ✅ Fixed | Was broken for SPA routes — only landing page tracked. Fixed 2026-04-28 (PR #89) |
+| PostHog | ✅ Working | `capture_pageview: 'history_change'` — tracks all routes |
+| Event tracking | ✅ Active | `trackWaitlistSignup`, `trackCTAClick`, `trackDialogOpen` on all major CTAs |
+
+**GA Property:** `G-EYZHHTHR57`
+
+**Remaining analytics work:**
+- [ ] Set up GA4 conversion goal for `generate_lead` event
+- [ ] Cloudflare: "AI Scrapers and Crawlers" → Allow (so LLMs index the site)
+
+---
+
+## Content / SEO
+
+| Content | Status | URL | Notes |
+|---|---|---|---|
+| Blog: Browserbase vs VibeBrowser | ✅ Live | `/blog/browserbase-vs-vibebrowser-local-and-cloud` | Competitor pain points, billing trap section, comparison table |
+| Blog: MCP + Chrome DevTools fallback | ✅ Live | `/blog/implementing-vibebrowser-mcp-cli-chrome-devtools-fallback` | Technical SEO for "browser MCP" |
+| `public/llms.txt` | ✅ Updated | — | `/cloud` and both blog posts |
+
+**Blog pipeline (write these next):**
+- [ ] "How to give Claude Code your real browser" — tactical how-to, high conversion
+- [ ] "Why your AI agent keeps getting logged out" — problem-aware, high search volume
+- [ ] "MCP browser tools compared" — roundup, captures broad traffic
+
+---
+
+## Community Channels
+
+### Hacker News
+
+**Post:** [Show HN: VibeBrowser – Give your AI agent your real logged-in browser via MCP](https://news.ycombinator.com/item?id=47931565)
+**Status:** ✅ Live — posted 2026-04-28
+**Angle:** Auth-loop problem + CDP relay. Technical, open-source invite.
+**Next:** Reply to any comments within 1 hour. Can re-submit in 6+ months with a new angle (e.g. VibeBrowser Cloud launch).
+
+---
+
+### Reddit
+
+**Accounts:**
+- `Icy_Host_1975` — ❌ banned from r/LocalLLaMA, low karma (16), do not use for promotion
+- Builder's real account — ✅ use for all future posts
+
+| Subreddit | Status | URL | Notes |
+|---|---|---|---|
+| r/LocalLLaMA | ❌ Banned (Icy_Host_1975) | — | Best fit. Use real account when karma ≥100 |
+| r/SideProject | 📋 Ready | — | Self-promo welcome; post with real account |
+| r/ClaudeAI | 📋 Planned | — | High-value: Claude Code + MCP users |
+| r/LangChain | 📋 Planned | — | Agent framework builders |
+| r/ChatGPTCoding | 📋 Planned | — | Codex CLI users |
+| r/webdev | 📋 Planned | — | Broad dev audience; free + open source angle |
+
+#### ⚠️ Post-mortem: Icy_Host_1975 ban (2026-04-28)
+
+**What went wrong:**
+1. **16 karma** — r/LocalLLaMA requires ~100+ karma; comments auto-removed
+2. **Product name in every comment** — "vibe browser", "openclaw.vibebrowser.app" in 7/7 replies → mod removals in r/MachineLearning + r/LocalLLaMA
+3. **r/womenintech post** — completely off-topic, got **−5 downvotes** from 366 viewers → account flagged as spammer
+4. **8 subreddits in 48 hours** — classic coordinated-spam signal
+5. **Comment drops not engagement** — technically plausible replies that always steered to the product
+
+**Rules:**
+- ✅ Use builder's real account only
+- ✅ 100+ karma minimum before any promo in high-signal subs
+- ✅ 2-week genuine-comment warm-up first
+- ✅ Max 1 product mention per 24h per account
+- ✅ Link only in top-level "I built this" posts, never in comment replies
+- ❌ Never post in off-topic subs to build karma
+- ❌ Never auto-post — always human-review draft first
+
+---
+
+### X / Twitter
+
+**Account:** `@whoisdzianis` (real identity — never use throwaway accounts)
+
+**Status:** ⚠️ A throwaway X account used for promotion was banned immediately.
+**Why it got banned:** New account + no followers + immediate product URL = instant spam flag.
+
+**Strategy:**
+- Reply to MCP/browser-automation threads for 1–2 weeks first (no product mention)
+- Quote-tweet relevant threads with added insight
+- Then post a thread: hook (the insight) → problem → solution → product link
+- Hashtags: `#MCP` `#AIagents` `#browserautomation` `#buildinpublic`
+
+---
+
+### Discord (not started)
+- Anthropic Discord — #claude-tools channel
+- Ollama Discord — #show-and-tell channel
+- LangChain Discord — #tools channel
+- Join first, contribute for 1 week, then share
+
+---
+
+### Dev.to / Hashnode (not started)
+Cross-post blog articles with canonical URL → free SEO backlinks + separate audience.
+
+---
+
+## Funnel
+
+```
+Answer a question / competitor complaint
+        ↓
+Link to blog post (educational, no hard sell)
+        ↓
+Blog post links to /cloud, /mcp product pages
+        ↓
+Product page → Waitlist signup (generate_lead event)
+```
+
+**UTM convention:**
+- Reddit: `?utm_source=reddit&utm_medium=community&utm_campaign=<subreddit>`
+- HN: `?utm_source=hackernews&utm_medium=community&utm_campaign=show-hn`
+- X: `?utm_source=twitter&utm_medium=social&utm_campaign=<thread-topic>`
+- Blog internal links: `?utm_source=blog&utm_medium=internal`
+
+---
+
+## TODO
+
+- [x] ~~Merge blog PR #88~~ — done 2026-04-28
+- [x] ~~Fix GA SPA tracking (PR #89)~~ — done 2026-04-28
+- [x] ~~Post Show HN~~ — live https://news.ycombinator.com/item?id=47931565
+- [ ] Monitor HN thread — reply to comments within 1 hour
+- [ ] Start Reddit warm-up with real account (2 weeks of genuine comments, no promo)
+- [ ] Post r/SideProject with real account
+- [ ] Post r/ClaudeAI after warm-up
+- [ ] Start X/Twitter engagement (reply to MCP threads, no product mention yet)
+- [ ] Join Anthropic + Ollama Discord, contribute for 1 week
+- [ ] Set up GA4 conversion goal for `generate_lead` event
+- [ ] Cloudflare: set "AI Scrapers and Crawlers" → Allow
+- [ ] Blog: "How to give Claude Code your real browser"
+- [ ] Blog: "Why your AI agent keeps getting logged out"
+- [ ] Dev.to cross-post of Browserbase comparison article
+- [ ] Product Hunt launch planning
+
+## Positioning
+
+**Core message:** 90% cheaper than Browserbase — because you don't need stealth mode to access your own accounts.
+
+**Key insight:** Browserbase/Browserless solve the *scraping strangers' sites* problem (bot detection, stealth, CAPTCHAs, proxies). VibeBrowser solves a different problem: automating *your own* workflows where you're already a legitimate user. No stealth = dramatically cheaper.
+
+**Differentiators:**
+- Local-first (Chrome extension, free, no account)
+- Cloud when you need it (VibeBrowser Cloud — your real session, globally deployed)
+- Open source MCP: `npx @vibebrowser/mcp`
+- Works with Claude, Copilot, Codex, Gemini CLI
+- No per-hour billing traps, no proxy costs, no CAPTCHA fees
+
 ---
 
 ## Pages
