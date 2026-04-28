@@ -9,7 +9,7 @@ import { Cloud, Globe, Terminal, Code, Shield, ArrowRight, CheckCircle2 } from '
 
 export const metadata: Metadata = {
   title: 'VibeBrowser Cloud | Agentic Browser Infrastructure',
-  description: 'Chrome-DevTools compatible MCP working in the cloud. Deploy Chrome instances globally, expose securely to your AI agents over HTTPS — no extension needed.',
+  description: 'Give your agents access to the authenticated web. Cloud browser sessions pre-loaded with your credentials. Agents reach login-gated portals without ever seeing a password.',
   keywords: [
     'agentic browser infrastructure',
     'cloud browser MCP',
@@ -96,13 +96,13 @@ export default function CloudPage() {
         <section className="container max-w-6xl px-4 md:px-6 mx-auto mb-20 text-center">
           <Badge variant="outline" className="mb-6 border-purple-500/30 bg-purple-500/10 text-purple-300 px-4 py-1.5 text-sm">
             <Cloud className="w-4 h-4 mr-2 inline" />
-            Agentic Infrastructure
+            Cloud Browser Sessions
           </Badge>
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400">
-            Chrome-DevTools MCP <br /> in the Cloud
+            Give your agents access to the authenticated web
           </h1>
           <p className="text-xl text-slate-400 max-w-3xl mx-auto mb-10">
-            Deploy Chrome instances on different regions securely. Use our web console, API, and open-source CLI to start instances, transfer cookies safely, and expose the browser to your AI agents over token-protected HTTPS.
+            Spin up cloud browser sessions pre-loaded with your credentials. Your agents reach login-gated portals, vendor dashboards, and SaaS tools without ever seeing a password.
           </p>
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
             <WaitlistDialogIncognito tier="cloud">
@@ -124,23 +124,23 @@ export default function CloudPage() {
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-8 backdrop-blur-sm">
               <Globe className="w-10 h-10 text-blue-400 mb-6" />
-              <h3 className="text-xl font-bold mb-3 text-slate-100">Global Regions</h3>
+              <h3 className="text-xl font-bold mb-3 text-slate-100">Authenticated sessions</h3>
               <p className="text-slate-400">
-                Deploy containerized Chrome instances in US, EU, and Asia regions. Route traffic locally to avoid captchas and geo-blocking for your agents.
+                Transfer credentials once. Every cloud session starts already logged in. Agents access the 85% of the web that requires authentication.
               </p>
             </div>
             <div className="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-8 backdrop-blur-sm">
               <Shield className="w-10 h-10 text-emerald-400 mb-6" />
-              <h3 className="text-xl font-bold mb-3 text-slate-100">Secure & Isolated</h3>
+              <h3 className="text-xl font-bold mb-3 text-slate-100">Credential vault</h3>
               <p className="text-slate-400">
-                Each session is isolated. Safely transfer cookies and credentials via our API without exposing them to the agent. Access is protected by bearer tokens.
+                Your passwords never reach the agent. Credentials are injected server-side at session start. The agent only ever sees an active, authenticated browser.
               </p>
             </div>
             <div className="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-8 backdrop-blur-sm">
               <Terminal className="w-10 h-10 text-pink-400 mb-6" />
-              <h3 className="text-xl font-bold mb-3 text-slate-100">API, CLI & Web Console</h3>
+              <h3 className="text-xl font-bold mb-3 text-slate-100">Global regions + CLI</h3>
               <p className="text-slate-400">
-                Full control over your instances. Use the web dashboard for visual debugging, or our open-source CLI/API for programmatic CI/CD integration.
+                Deploy Chrome instances in US, EU, and Asia. Manage everything via web console, REST API, or the open-source CLI.
               </p>
             </div>
           </div>
@@ -162,7 +162,7 @@ export default function CloudPage() {
                   <th className="p-5 font-semibold text-slate-300 w-1/4">Feature</th>
                   <th className="p-5 font-bold text-purple-400 w-1/4 bg-purple-500/5 border-x border-purple-500/20">VibeBrowser Cloud</th>
                   <th className="p-5 font-semibold text-slate-400 w-1/4">Browserbase</th>
-                  <th className="p-5 font-semibold text-slate-400 w-1/4">Traditional Scraping APIs</th>
+                  <th className="p-5 font-semibold text-slate-400 w-1/4">Browserbase / TinyFish</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-700/50">
@@ -172,7 +172,7 @@ export default function CloudPage() {
                     <CheckCircle2 className="w-5 h-5 text-purple-400 inline mr-2" /> Native Chrome-DevTools MCP
                   </td>
                   <td className="p-5 text-slate-400">Custom Puppeteer/Playwright</td>
-                  <td className="p-5 text-slate-400">REST API / HTTP Proxy</td>
+                  <td className="p-5 text-slate-400">Custom Playwright / Stagehand</td>
                 </tr>
                 <tr className="hover:bg-slate-800/30 transition-colors">
                   <td className="p-5 text-slate-300 font-medium">Primary Use Case</td>
@@ -180,7 +180,7 @@ export default function CloudPage() {
                     <CheckCircle2 className="w-5 h-5 text-purple-400 inline mr-2" /> AI Agent Reasoning (OpenClaw)
                   </td>
                   <td className="p-5 text-slate-400">Headless testing & agents</td>
-                  <td className="p-5 text-slate-400">Data extraction & scraping</td>
+                  <td className="p-5 text-slate-400">Fresh anonymous sessions</td>
                 </tr>
                 <tr className="hover:bg-slate-800/30 transition-colors">
                   <td className="p-5 text-slate-300 font-medium">Credential Management</td>
@@ -188,7 +188,7 @@ export default function CloudPage() {
                     <CheckCircle2 className="w-5 h-5 text-purple-400 inline mr-2" /> Secure type-in (Agent never sees password)
                   </td>
                   <td className="p-5 text-slate-400">Session injection</td>
-                  <td className="p-5 text-slate-400">Basic cookie passing</td>
+                  <td className="p-5 text-slate-400">Session injection (API keys)</td>
                 </tr>
                 <tr className="hover:bg-slate-800/30 transition-colors">
                   <td className="p-5 text-slate-300 font-medium">Access Control</td>
@@ -196,7 +196,7 @@ export default function CloudPage() {
                     <CheckCircle2 className="w-5 h-5 text-purple-400 inline mr-2" /> Token-protected HTTPS endpoint
                   </td>
                   <td className="p-5 text-slate-400">API Keys</td>
-                  <td className="p-5 text-slate-400">Proxy auth</td>
+                  <td className="p-5 text-slate-400">API Keys</td>
                 </tr>
                 <tr className="hover:bg-slate-800/30 transition-colors">
                   <td className="p-5 text-slate-300 font-medium">Open Source Core</td>
@@ -204,7 +204,7 @@ export default function CloudPage() {
                     <CheckCircle2 className="w-5 h-5 text-purple-400 inline mr-2" /> Yes (CLI & MCP Server)
                   </td>
                   <td className="p-5 text-slate-400">SDKs only</td>
-                  <td className="p-5 text-slate-400">No</td>
+                  <td className="p-5 text-slate-400">SDKs only</td>
                 </tr>
               </tbody>
             </table>
@@ -217,7 +217,7 @@ export default function CloudPage() {
             <Badge variant="outline" className="mb-4 border-emerald-500/30 bg-emerald-500/10 text-emerald-300">
               Battle-Tested
             </Badge>
-            <h2 className="text-3xl font-bold mb-4 text-slate-100">Powered by OpenClaw</h2>
+            <h2 className="text-3xl font-bold mb-4 text-slate-100">Battle-tested in production</h2>
             <p className="text-lg text-slate-400 mb-8 max-w-2xl mx-auto">
               VibeBrowser Cloud infrastructure is already well-tested in production. It is the core engine that <strong className="text-slate-200">openclaw.vibebrowser.app</strong> uses to start and control remote browsers securely.
             </p>

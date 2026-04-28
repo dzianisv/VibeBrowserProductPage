@@ -135,11 +135,10 @@ export default function OpenClawPage() {
                 className="text-4xl font-normal tracking-tight text-[#f0f4ff] sm:text-5xl md:text-6xl"
                 style={{ fontFamily: "'Clash Display', 'Satoshi', system-ui, sans-serif" }}
               >
-                Vibe Browser for <span className="text-[#ff4d4d]">OpenClaw</span>
+                Give your agents a <span className="text-[#ff4d4d]">command line to the web</span>
               </h1>
               <p className="mx-auto mt-6 max-w-3xl text-lg text-[#c4cbe0] md:text-xl">
-                Use OpenClaw-style browser commands against your real logged-in browser session. <code className="rounded bg-[rgba(158,158,255,0.1)] px-1.5 py-0.5 text-[#b4b4ff]">vibebrowser-cli</code> gives
-                you a command-oriented surface for status, open, snapshot, click, type, and remote relay flows without switching to a disposable browser profile.
+                One npx command. Your real logged-in browser, exposed to any AI agent. Local or remote. No disposable sessions, no re-auth — the same browser you already have open.
               </p>
               <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
                 <Link href="https://docs.vibebrowser.app/getting-started/extension#option-2-developer-version-advanced" target="_blank">

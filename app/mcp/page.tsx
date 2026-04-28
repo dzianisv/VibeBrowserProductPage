@@ -519,15 +519,13 @@ export default function McpPage() {
 
               <div className="space-y-4">
                 <h1 className="text-4xl font-normal tracking-tight sm:text-5xl md:text-6xl text-[#e8eaed]">
-                  Control Your Browser from
-                  <br className="hidden sm:block" />
-                  <span className="text-[#8ab4f8]"> {rotatingAgent}</span>
+                  Give <span className="text-[#8ab4f8]">{rotatingAgent}</span>
                   <span className="animate-pulse text-[#8ab4f8]">|</span>
+                  <br className="hidden sm:block" />
+                  a real browser
                 </h1>
                 <p className="text-xl text-[#9aa0a6] max-w-2xl mx-auto">
-                  Connect Claude, Cursor, VS Code, and more to your real browser — with all your sessions, cookies, and extensions intact.
-                  Works with Anthropic Claude Max, GitHub Copilot, Vibe AI, and BYOK providers.
-                  Multi-agent ready, internet-exposed relay, 25+ tools, and an open source MCP package for real browser control. Need the command-oriented OpenClaw flow? Use the dedicated <Link href="/openclaw" className="text-[#8ab4f8] hover:underline">Vibe Browser for OpenClaw</Link> page.
+                  Your real logged-in browser — with all your sessions, cookies, and extensions intact — connected directly to your AI agent. No fresh sessions. No re-auth. No login walls.
                 </p>
               </div>
 
