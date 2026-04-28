@@ -42,8 +42,9 @@
 
 | Content | Status | PR | Notes |
 |---|---|---|---|
-| Blog: Browserbase vs VibeBrowser (local+cloud) | ⏳ Pending merge | #88 | Being enriched with competitor pain-point research |
-| `public/llms.txt` | ✅ Updated | — | `/cloud` and MCP CLI blog post added |
+| Blog: Browserbase vs VibeBrowser (local+cloud) | ✅ Live | #88 merged | Includes competitor pain points, billing trap section, dev quote, updated comparison table |
+| VibeBrowser MCP + Chrome DevTools fallback | ✅ Live | #85 merged | Technical SEO for "browser MCP" and "CDP fallback" queries |
+| `public/llms.txt` | ✅ Updated | — | `/cloud` and both blog posts added |
 
 ### Competitor pain points to use in copy (from research, 2026-04-28)
 1. **Billing traps** — 1-min minimum billing, 5-sec health checks burn credits; surprise proxy overages
@@ -72,10 +73,14 @@
 
 ### Reddit
 
+**Account in use:** `Icy_Host_1975`
+**Known bans:** r/LocalLLaMA (banned — cannot post)
+
 | Subreddit | Post title | Status | URL | Why this subreddit |
 |---|---|---|---|---|
-| r/LocalLLaMA | "I built a browser MCP that gives your local LLM your real logged-in Chrome — free, no Browserbase account" | ⏳ Pending deploy | — | Highest-signal audience: people running Ollama/LM Studio locally who *need* browser access for agents but don't want a cloud subscription. Direct problem–solution fit. |
-| r/ClaudeAI | TBD | 📋 Planned | — | Claude Code has native MCP support — users here are already looking for MCP tools |
+| r/LocalLLaMA | "I built a browser MCP that gives your local LLM your real logged-in Chrome — free, no Browserbase account" | ❌ Banned | — | Best audience fit but account is banned. Try with different account or appeal ban. |
+| r/SideProject | Same angle | 📋 Ready to post | — | Self-promotion welcome, no restrictions. Good fallback for r/LocalLLaMA. |
+| r/ClaudeAI | "Give Claude Code your real browser via MCP (free extension)" | 📋 Planned | — | Claude Code has native MCP support — users already looking for MCP tools |
 | r/ChatGPTCoding | TBD | 📋 Planned | — | Codex CLI users; same MCP angle |
 | r/LangChain | TBD | 📋 Planned | — | Agent framework users who wire browser tools; direct fit |
 | r/webdev | TBD | 📋 Planned | — | Broader dev audience; lead with open-source + free angle, not AI |
@@ -115,11 +120,17 @@ Community post → Blog post (educational, SEO) → Product page (/cloud, /mcp) 
 
 ## TODO
 
-- [ ] Merge blog PR #88 (Browserbase vs VibeBrowser)
-- [ ] Post to r/LocalLLaMA (after deploy)
-- [ ] Add UTM params to HN/Reddit post links
+- [x] ~~Merge blog PR #88 (Browserbase vs VibeBrowser)~~ — done 2026-04-28
+- [x] ~~Fix GA SPA tracking (PR #89)~~ — done 2026-04-28
+- [x] ~~Post Show HN~~ — live https://news.ycombinator.com/item?id=47931565
+- [ ] **Reddit r/SideProject** — post when ready (account not banned there)
+- [ ] **Reddit r/ClaudeAI** — "Give Claude Code your real browser via MCP"
+- [ ] Resolve r/LocalLLaMA ban — appeal or use different account
 - [ ] Monitor HN thread — respond to comments within 1 hour
+- [ ] Add UTM params to HN/Reddit post links
 - [ ] Set up GA4 conversion goal for `generate_lead` event
 - [ ] Cloudflare: set "AI Scrapers and Crawlers" → Allow (so LLMs index the site)
+- [ ] Twitter/X thread — local vs cloud angle + competitor pricing breakdown
+- [ ] Dev.to cross-post of Browserbase comparison blog post
 - [ ] Add geo-region section to `/cloud` (local vs cloud positioning on proxies)
 - [ ] Product Hunt launch planning
