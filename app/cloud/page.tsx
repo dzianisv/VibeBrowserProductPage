@@ -205,6 +205,87 @@ export default function CloudPage() {
           </div>
         </section>
 
+        {/* Code Comparison — competitive to Browserbase */}
+        <section className="container max-w-5xl px-4 md:px-6 mx-auto mb-20">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl md:text-3xl font-bold mb-3 text-slate-100">Less code. Less cost. Same result.</h2>
+            <p className="text-slate-400 max-w-2xl mx-auto text-sm">
+              Browserbase requires an SDK, two API calls, and CDP plumbing before you can touch a page.
+              VibeBrowser is one command.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 gap-4">
+            {/* Browserbase side */}
+            <div className="rounded-2xl overflow-hidden border border-red-900/40 bg-slate-950 font-mono text-xs">
+              <div className="flex items-center gap-2 px-4 py-2.5 bg-slate-900 border-b border-slate-800">
+                <span className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
+                <span className="text-slate-500 text-xs flex-1">browserbase — 18 lines of setup</span>
+                <span className="text-red-400/70 text-[11px] font-sans font-semibold">$20/mo+</span>
+              </div>
+              <pre className="p-5 text-slate-400 leading-relaxed overflow-x-auto [scrollbar-width:none]"><code>{`import Browserbase from "@browserbasehq/sdk";
+import { chromium } from "playwright-core";
+
+// 1. create session (API call #1)
+const bb = new Browserbase({
+  apiKey: process.env.BROWSERBASE_API_KEY,
+});
+const session = await bb.sessions.create({
+  projectId: process.env.BROWSERBASE_PROJECT_ID,
+});
+
+// 2. fetch CDP URL (API call #2)
+const { wsUrl } = await bb.sessions
+  .debug(session.id);
+
+// 3. connect Playwright over CDP
+const browser = await chromium
+  .connectOverCDP(wsUrl);
+const [page] = browser.contexts()[0].pages();
+
+// 4. finally do your work
+await page.goto("https://mail.google.com");
+const html = await page.content(); // 400 KB HTML
+
+// 5. clean up
+await browser.close();
+await bb.sessions.update(session.id,
+  { status: "REQUEST_RELEASE" });`}</code></pre>
+            </div>
+
+            {/* VibeBrowser side */}
+            <div className="rounded-2xl overflow-hidden border border-emerald-900/40 bg-slate-950 font-mono text-xs">
+              <div className="flex items-center gap-2 px-4 py-2.5 bg-slate-900 border-b border-slate-800">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
+                <span className="text-slate-500 text-xs flex-1">vibebrowser-cli — 1 command</span>
+                <span className="text-emerald-400/80 text-[11px] font-sans font-semibold">$9/mo</span>
+              </div>
+              <pre className="p-5 text-slate-400 leading-relaxed overflow-x-auto [scrollbar-width:none]"><code>{`# Connect your AI agent to your cloud browser
+npx @vibebrowser/mcp --remote YOUR_UUID
+
+# ✓ Session ready  ·  IP 45.91.12.34
+# ✓ Logged in as alice@gmail.com
+
+# Your agent (Claude / Copilot / Gemini) now calls:
+# navigate  →  go to any URL
+# snapshot  →  get markdown (not raw HTML)
+# click     →  click by label or selector
+# fill      →  fill form fields
+
+# Example agent prompt:
+"Summarise my unread Gmail from today"
+
+# Snapshot output: 1.1 KB markdown
+# ── not 400 KB of HTML ──
+#
+# No SDK. No CDP. No session cleanup.
+# Pre-authenticated. Always-on. ☁`}</code></pre>
+            </div>
+          </div>
+          <p className="text-center text-slate-600 text-xs mt-4">
+            Browserbase also requires <code className="text-slate-500">npm install @browserbasehq/sdk playwright-core</code> and two env vars before the first line runs.
+          </p>
+        </section>
+
         {/* CLI Demo */}
         <section className="container max-w-4xl px-4 md:px-6 mx-auto mb-24">
           <div className="text-center mb-10">
