@@ -48,6 +48,23 @@ It's open source: [GitHub URL]
 - Flair correctly (most subs require it)
 - Reply within 1 hour of comments
 
+### ⚠️ Anti-ban rules (learned from Icy_Host_1975 ban, 2026-04-28)
+
+The account was banned from r/LocalLLaMA and had comments removed from r/MachineLearning for:
+- Posting with only 16 karma (min ~100 required by high-signal subs)
+- Mentioning "vibe browser" / "openclaw.vibebrowser.app" in every comment reply
+- Posting in completely off-topic subs (r/womenintech got −5 downvotes)
+- 7 comments across 8 subs in 48 hours = coordinated spam signal
+
+**Hard rules:**
+- ❌ Never post with < 100 karma on any high-signal sub
+- ❌ Never mention the product name more than once per 24h per account
+- ❌ Never post in off-topic subs to "build karma" — it backfires
+- ❌ Never let agent auto-post without human review
+- ✅ Use the builder's real Reddit account for promotional posts
+- ✅ 2-week warm-up with genuine, product-free comments before first promo
+- ✅ Only drop product link in top-level "I built this" / "Show r/..." posts
+
 **Subreddit guide:**
 
 ### r/LocalLLaMA

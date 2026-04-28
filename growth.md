@@ -87,6 +87,28 @@
 
 **Reddit strategy:** Never post the product page directly. Share the blog post or frame it as "I built this". One post per subreddit, days apart. Respond to every comment within the first hour — HN and Reddit rank by engagement velocity.
 
+#### ⚠️ Post-mortem: what went wrong with Icy_Host_1975 (2026-04-28)
+
+Account audit revealed a classic astroturfing pattern that got the account flagged and banned from r/LocalLLaMA:
+
+**Root causes:**
+
+1. **Too low karma (16)** — r/LocalLLaMA and r/MachineLearning require ~50–100+ karma. Comments auto-removed by filter.
+2. **Product name in every comment** — every reply mentioned "vibe browser" or "openclaw.vibebrowser.app". Two comments removed by mods (r/MachineLearning, r/LocalLLaMA).
+3. **Wrong subreddit entirely** — agent posted browser automation promo in **r/womenintech**. Got **−5 downvotes**, 366 views. Completely off-topic. This alone flags the account as a spammer to Reddit's algorithm.
+4. **Too many subreddits too fast** — 7 comments across 8 different subs in 48 hours from a 16-karma account. Classic coordinated promotion signal.
+5. **Comment drops, not genuine engagement** — technically plausible replies that always steered toward the product. Mods recognise this pattern immediately.
+
+**Rules for future agent-assisted posting:**
+
+- ✅ **Minimum 100 karma** before any promotional activity in high-signal subs (r/LocalLLaMA, r/MachineLearning, r/ClaudeAI)
+- ✅ **2-week warm-up** — genuine comments only (no product mention) before first promo post
+- ✅ **One product mention per 24h max** per account
+- ✅ **Use the builder's real account** (`u/dzianisv` or equivalent) — credibility beats anonymity
+- ✅ **Only link the product in top-level posts** where self-promotion is explicitly allowed ("I built this", "Show r/...")
+- ❌ **Never post in off-topic subs** just to build karma — it backfires badly
+- ❌ **Never let an agent auto-post without human review** of the draft first
+
 ---
 
 ### Blog posts (SEO + shareable content)
@@ -102,6 +124,24 @@
 - [ ] Twitter/X thread — local vs cloud angle + competitor pricing breakdown (thread format performs well)
 - [ ] Dev.to / Hashnode — cross-post the Browserbase comparison article (separate SEO juice)
 - [ ] Product Hunt launch (coordinate hero image, tagline, hunter outreach — separate planning needed)
+
+### X / Twitter
+
+**Account:** `@whoisdzianis` (builder's real account — use this, not throwaway accounts)
+
+#### ⚠️ Account status note
+A separate X account used for automated promotion was banned. Likely triggers:
+- **New account posting promotional links immediately** — X's spam detection is aggressive for accounts with no follower history posting product URLs
+- **Automated posting patterns** — identical phrasing, no engagement history, no followers = instant flag
+- **No prior community presence** — X requires social proof (followers, replies, likes received) before promotional posts get reach
+
+**Rules for X:**
+- ✅ Use `@whoisdzianis` (real identity, existing followers)
+- ✅ Thread format — lead with the insight/rant, product comes at the end
+- ✅ Engage first — reply to MCP / browser automation threads for 1 week before any product thread
+- ✅ Quote-tweet relevant threads rather than posting cold
+- ❌ Never create a new account just for promotion — gets banned within hours
+- ❌ Never auto-post without reviewing draft first
 
 ---
 
