@@ -33,6 +33,20 @@ In every one of these cases, you **already have an account**. You **already trus
 
 You need your existing logged-in browser — accessible to your AI agent. That's a fundamentally different problem, and Browserbase isn't designed to solve it.
 
+## The Hidden Costs of Cloud Browser Infrastructure
+
+Even developers building the *right* use cases for Browserbase often find themselves surprised by what they signed up for.
+
+**Billing traps.** Browserbase bills in 1-minute minimums. A 5-second health check costs the same as a full minute of browser time. Proxy bandwidth overages are charged separately — and they add up fast once your agent hits anything that triggers bot detection. Browserless (another popular option) gives you roughly 1,000 session units on the free tier — about 8 hours of browser time with a 1-minute session cap. Browserbase gives you 1 browser hour *total* before you're paying. Neither is realistic for real development iteration.
+
+**Auth re-auth hell.** Long-running authenticated sessions on cloud browsers randomly drop their CDP connections. One developer on r/automation described it plainly: *"I became a part-time DevOps engineer babysitting containers that would silently die mid-session."* Debugging why your agent's CDP connection dropped at 2am is not what you signed up for.
+
+**Infrastructure babysitting.** Silent session deaths, container management, mid-session drops — cloud browser infrastructure introduces an entire class of failure modes that have nothing to do with your actual automation logic. You end up doing DevOps instead of building your product.
+
+**The bot detection arms race.** Rotating proxies, CAPTCHA solving, fingerprint management — this is a real engineering surface area that Browserbase exists to manage. But if you're a legitimate user of the sites you're automating, you're paying for an arms race you were never part of.
+
+The underlying assumption of all this infrastructure is that you're a bot *pretending to be human*. If you're actually human — with real accounts, real sessions, real cookies — 80% of that feature stack is irrelevant to your use case.
+
 ## Local First: The VibeBrowser Extension
 
 VibeBrowser starts with the simplest possible solution: a Chrome extension that exposes your real, already-logged-in browser over MCP.
@@ -81,15 +95,16 @@ When your use case grows from "runs on my laptop" to "runs 24/7 in the cloud", V
 
 ## Side-by-Side Comparison
 
-| | VibeBrowser (local) | VibeBrowser Cloud | Browserbase |
-|---|---|---|---|
-| Cost | Free | Low | $49–149+/mo |
-| Setup | 30 sec | Minutes | Minutes + billing |
-| Use case | Your own accounts | Your own accounts, always-on | Anonymous / scraping |
-| Stealth mode | Not needed | Not needed | Required |
-| Runs locally | ✅ Yes | ❌ Cloud only | ❌ Cloud only |
-| Open source MCP | ✅ Yes | ✅ Yes | ❌ Proprietary SDK |
-| Real logged-in session | ✅ Yes | ✅ Yes | ⚠️ Manual cookie injection |
+| | VibeBrowser (local) | VibeBrowser Cloud | Browserbase | Browserless |
+|---|---|---|---|---|
+| Cost | Free | Low | $49–149+/mo | Pay per unit |
+| Setup | 30 sec | Minutes | Minutes + billing | Minutes + billing |
+| Use case | Your own accounts | Your own accounts, always-on | Anonymous / scraping | Anonymous / scraping |
+| Stealth mode | Not needed | Not needed | Required | Required |
+| Runs locally | ✅ Yes | ❌ Cloud only | ❌ Cloud only | ❌ Cloud only |
+| Open source MCP | ✅ Yes | ✅ Yes | ❌ Proprietary SDK | ❌ Proprietary SDK |
+| Real logged-in session | ✅ Yes | ✅ Yes | ⚠️ Manual cookie injection | ⚠️ Manual cookie injection |
+| Free tier | ✅ Free forever | ✅ Generous | ❌ 1 browser hour total | ❌ ~8 hours then pay |
 
 ## When to Use Browserbase
 
@@ -108,3 +123,7 @@ If you're automating **your own workflows**, the path is simple:
 3. **Use Browserbase** if you genuinely need anonymous multi-tenant cloud sessions at scale — it's the right tool for that job.
 
 Most developers find they never need step 3. Start with `npx @vibebrowser/mcp` and see how far it takes you.
+
+---
+
+*Both Browserbase and Browserless are built on the assumption that you're a bot pretending to be human. VibeBrowser's premise is the opposite: you're already human — use your real session. That makes 80% of their feature stack irrelevant to your use case.*
