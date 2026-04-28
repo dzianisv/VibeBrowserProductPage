@@ -9,15 +9,86 @@ import { Cloud, Globe, Terminal, Code, Shield, ArrowRight, CheckCircle2 } from '
 
 export const metadata: Metadata = {
   title: 'VibeBrowser Cloud | Agentic Browser Infrastructure',
-  description: 'Chrome-DevTools compatible MCP working in the cloud. Deploy Chrome instances globally, expose securely to your agents over HTTPS.',
+  description: 'Chrome-DevTools compatible MCP working in the cloud. Deploy Chrome instances globally, expose securely to your AI agents over HTTPS — no extension needed.',
+  keywords: [
+    'agentic browser infrastructure',
+    'cloud browser MCP',
+    'Chrome DevTools MCP cloud',
+    'headless browser AI agent',
+    'browser automation cloud',
+    'AI agent browser API',
+    'remote browser instances',
+    'MCP server cloud browser',
+    'VibeBrowser Cloud',
+    'agentic infrastructure',
+    'browser as a service AI',
+    'AI browser agent hosting',
+  ],
   alternates: {
     canonical: 'https://www.vibebrowser.app/cloud',
   },
+  openGraph: {
+    title: 'VibeBrowser Cloud | Agentic Browser Infrastructure',
+    description: 'Chrome-DevTools compatible MCP working in the cloud. Deploy Chrome instances globally, expose securely to your AI agents over HTTPS — no extension needed.',
+    url: 'https://www.vibebrowser.app/cloud',
+    images: [
+      {
+        url: '/og/home.svg',
+        width: 1200,
+        height: 630,
+        alt: 'VibeBrowser Cloud — Agentic Browser Infrastructure',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'VibeBrowser Cloud | Agentic Browser Infrastructure',
+    description: 'Deploy Chrome instances globally. Chrome DevTools MCP over HTTPS. Connect any AI agent to real browser sessions in the cloud.',
+    images: ['/og/home.svg'],
+    creator: '@vibebrowserapp',
+  },
+}
+
+const cloudJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'VibeBrowser Cloud',
+  applicationCategory: 'DeveloperApplication',
+  operatingSystem: 'Cloud',
+  description:
+    'Agentic browser infrastructure. Chrome-DevTools compatible MCP working in the cloud. Deploy Chrome instances globally and expose them securely to your AI agents over HTTPS.',
+  url: 'https://www.vibebrowser.app/cloud',
+  author: {
+    '@type': 'Organization',
+    name: 'Vibe Technologies',
+    url: 'https://www.vibebrowser.app',
+  },
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+    availability: 'https://schema.org/PreOrder',
+  },
+  featureList: [
+    'Chrome DevTools Protocol over HTTPS',
+    'MCP server for AI agents',
+    'Global Chrome instance deployment',
+    'Web console for instance management',
+    'REST API and CLI',
+    'Credential transfer vault',
+    'Multi-region browser sessions',
+    'Works without browser extension',
+    'Compatible with Claude, Copilot, Codex, Gemini CLI',
+  ],
 }
 
 export default function CloudPage() {
   return (
     <div className="flex min-h-screen flex-col bg-slate-900 text-slate-50 selection:bg-purple-500/30">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(cloudJsonLd) }}
+      />
       <SiteNav />
       
       <main className="flex-1 pt-24 pb-16">

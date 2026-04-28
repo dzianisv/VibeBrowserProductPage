@@ -16,6 +16,7 @@
 - [Investors](https://www.vibebrowser.app/investors): AI for investors. Stock research, Morningstar reports, portfolio analysis.
 - [Crypto & DeFi](https://www.vibebrowser.app/crypto): AI for crypto. DeFi research, APY comparison, portfolio rebalancing.
 - [Tax](https://www.vibebrowser.app/tax): AI tax preparation. Automated form downloads, tax estimation, return filing assistance.
+- [Cloud](https://www.vibebrowser.app/cloud): VibeBrowser Cloud — agentic browser infrastructure. Chrome DevTools MCP in the cloud. Deploy Chrome instances globally, expose securely to AI agents over HTTPS. No extension required.
 - [MCP](https://www.vibebrowser.app/mcp): Vibe Browser for Agents. Connect real browser sessions to MCP-compatible AI agents.
 - [OpenClaw](https://www.vibebrowser.app/openclaw): Vibe Browser for OpenClaw. Command-oriented browser CLI and relay workflow for OpenClaw-style agent control.
 - [Compare](https://www.vibebrowser.app/compare): Feature comparison between Vibe Browser and alternatives.
@@ -25,6 +26,7 @@
 
 ## Blog Posts
 
+- [MCP CLI Chrome DevTools Fallback](https://www.vibebrowser.app/blog/implementing-vibebrowser-mcp-cli-chrome-devtools-fallback): How VibeBrowser MCP and CLI implement extension-first routing with transparent Chrome DevTools fallback — one set of commands works in real browser and headless CI environments.
 - [Vibe Co-Pilot vs Claude for Chrome](https://www.vibebrowser.app/blog/vibe-copilot-vs-claude-for-chrome): Direct comparison of Vibe Co-Pilot and Claude for Chrome — model choice, secrets vault, MCP, pricing, and self-hosted options.
 - [Agentic Browsers: Atlas, Comet, Composite vs VibeBrowser](https://www.vibebrowser.app/blog/agentic-browsers-atlas-comet-composite-vs-vibebrowser): Comparison of next-gen AI browsers — OpenAI Atlas, Perplexity Comet, Composite, and Vibe.
 - [MCP Browser Automation Comparison](https://www.vibebrowser.app/blog/mcp-browser-automation-comparison): How browser automation tools compare when exposed as MCP servers for AI coding agents.
