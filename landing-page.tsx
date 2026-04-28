@@ -168,7 +168,7 @@ export default function Component() {
         description: 'Vibe Co-Pilot fills out the GitHub issue form and submits it for you.'
       },
       badges: ['Form Filling', 'GitHub', 'Issue Tracking', 'Developer Workflow'],
-      videoSrc: '/github-issue-creation-demo',
+      videoSrc: '/github-ticket-demo',
       icon: Code,
       iconColor: 'text-gray-800',
       highlights: [
@@ -236,7 +236,7 @@ export default function Component() {
               VibeBrowser Co-Pilot
             </span>
             <span className="text-xs font-semibold text-slate-600 truncate">
-              for Evryone!
+              for Everyone!
             </span>
           </div>
           <div className="sm:hidden flex flex-col leading-tight min-w-0">
@@ -244,7 +244,7 @@ export default function Component() {
               VibeBrowser
             </span>
             <span className="text-[10px] font-semibold text-slate-600 truncate">
-              for Evryone!
+              for Everyone!
             </span>
           </div>
         </Link>

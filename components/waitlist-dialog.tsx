@@ -240,7 +240,7 @@ export function ComingSoonDialog({ children }: ComingSoonDialogProps) {
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-center">Demo Coming Soon</DialogTitle>
+          <DialogTitle className="text-center">Join the Waitlist</DialogTitle>
           <DialogDescription className="text-center">
             We're working hard to bring you an amazing demo experience.
           </DialogDescription>
