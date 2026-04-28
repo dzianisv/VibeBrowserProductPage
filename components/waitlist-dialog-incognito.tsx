@@ -21,7 +21,7 @@ import { getStoredReferralData, clearReferralData, type ReferralData } from "@/l
 
 interface WaitlistDialogIncognitoProps {
   children: React.ReactNode
-  tier?: "free" | "pro" | "enterprise" | "mobile"
+  tier?: "free" | "pro" | "enterprise" | "mobile" | "cloud" | string
 }
 
 export function WaitlistDialogIncognito({ children, tier = "enterprise" }: WaitlistDialogIncognitoProps) {

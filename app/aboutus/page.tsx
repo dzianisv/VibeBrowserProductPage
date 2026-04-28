@@ -300,6 +300,38 @@ export default function AboutUsPage() {
                 </CardContent>
               </Card>
 
+              {/* VibeBrowser Cloud */}
+              <Card className="bg-[#1a1a1a] border-[#2a2a2a] hover:border-[#8ab4f8]/40 transition-all duration-300">
+                <CardContent className="p-8">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-12 h-12 bg-[#8ab4f8]/10 rounded-xl flex items-center justify-center">
+                      <Globe className="w-6 h-6 text-[#8ab4f8]" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-[#e8eaed]">VibeBrowser Cloud</h3>
+                      <span className="text-xs text-[#8ab4f8] bg-[#8ab4f8]/10 px-2 py-0.5 rounded-full">Infrastructure • Agents</span>
+                    </div>
+                  </div>
+                  <p className="text-[#9aa0a6] mb-6 leading-relaxed">
+                    Chrome-DevTools compatible MCP working in the cloud. We deploy Chrome instances across different regions so your agents can control browsers securely over HTTPS. Comes with a web console, API, and CLI to manage instances, transfer credentials safely, and connect your AI agents seamlessly.
+                  </p>
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">Chrome-DevTools MCP</span>
+                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">Global Regions</span>
+                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">Web Console</span>
+                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">API & CLI</span>
+                    <span className="text-xs bg-[#2a2a2a] text-[#9aa0a6] px-2 py-1 rounded">Open Source</span>
+                  </div>
+                  <div className="flex flex-wrap gap-3">
+                    <Link href="/cloud" className="flex-1">
+                      <Button variant="outline" className="border-[#3c4043] bg-transparent hover:bg-[#2a2a2a] text-[#8ab4f8] w-full">
+                        Learn More <ArrowRight className="ml-2 h-4 w-4" />
+                      </Button>
+                    </Link>
+                  </div>
+                </CardContent>
+              </Card>
+
               <Card className="bg-[#1a1a1a] border-[#2a2a2a] hover:border-[#fdd663]/40 transition-all duration-300">
                 <CardContent className="p-8">
                   <div className="flex items-center gap-3 mb-6">

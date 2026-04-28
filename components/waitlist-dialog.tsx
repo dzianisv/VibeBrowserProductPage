@@ -21,7 +21,7 @@ import { getStoredReferralData, clearReferralData, type ReferralData } from "@/l
 
 interface WaitlistDialogProps {
   children: React.ReactNode
-  tier?: "free" | "pro"
+  tier?: "free" | "pro" | "cloud" | string
 }
 
 export function WaitlistDialog({ children, tier = "free" }: WaitlistDialogProps) {
