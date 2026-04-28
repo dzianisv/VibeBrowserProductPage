@@ -13,25 +13,31 @@ tags:
 published: true
 ---
 
-When we started shipping `vibebrowser-mcp` and `vibebrowser-cli` to real users, one requirement kept coming up:
+If you've tried automating your browser with AI agents, you've probably hit one of two walls:
 
-1. it must work great with the Vibe extension (your real logged-in browser)
-2. it must still be useful if the extension is unavailable
+- **"Headless tools don't have my logins."** You want your agent to act inside the real browser you already have open — with all your sessions, cookies, and saved state intact. Spinning up a fresh Playwright/Puppeteer instance means re-authenticating everything, fighting 2FA, and missing extension-dependent workflows entirely.
+- **"Extension-based tools break in CI."** You're running in a headless pipeline or a remote dev box where no browser extension can load. Your nicely working local automation simply doesn't run.
 
-This post explains exactly how we implemented that: **extension-first behavior with a Chrome DevTools fallback**.
+Most tools make you pick one. VibeBrowser MCP + CLI gives you both — automatically, with the same commands.
 
-## The design goal
+This post explains exactly how we built that: **extension-first behavior with a transparent Chrome DevTools fallback**, and what it means for how you can use it today.
 
-We wanted one control plane that can run in two modes without making users relearn commands:
+## TL;DR
 
-- **Vibe extension mode** for normal daily browser automation
-- **Chrome DevTools mode** as fallback or explicit debug lane
+- **Default mode**: your real browser, logged-in sessions, everything working — no re-auth needed
+- **Fallback mode**: headless/CI environments, no extension required — same commands still work
+- **`--devtools` flag**: force Chrome DevTools-only for debugging — predictable, no surprises
+- **Same CLI commands work in all modes** — no rewiring your scripts when switching environments
 
-The key principle is simple:
+## Why this matters for you
 
-> If the extension is connected, it is authoritative.  
-> If the extension is disconnected, fallback tools can take over.  
-> If the operator passes `--devtools`, use only Chrome DevTools.
+The key pain this solves: your agent should work whether you're at your desk with the extension loaded, or running a pipeline at 2am on a headless VM. Today you probably maintain two separate automation setups — one for "real browser" work and one for CI. With VibeBrowser, one set of commands covers both.
+
+The routing rule is simple:
+
+> If the extension is connected, it is authoritative — you get your logged-in browser.  
+> If the extension is disconnected, fallback takes over silently — CI and headless work.  
+> If you pass `--devtools`, use only Chrome DevTools — explicit, deterministic debugging.
 
 ## Architecture in practice
 
@@ -142,12 +148,19 @@ npx -y --package @vibebrowser/mcp@latest vibebrowser-mcp start --devtools
 npx -y --package @vibebrowser/mcp@latest vibebrowser-cli --devtools --json snapshot
 ```
 
-## Why this fallback model works
+## Why this fallback model works — and what you can do now
 
-The implementation gives us three things at once:
+Before this architecture, you had to choose: use your real logged-in browser and lose CI/headless support, or use a headless tool and lose your sessions. Here's what that means concretely now:
 
-1. **Best default UX**: extension-first, logged-in browser automation
-2. **Operational resilience**: useful behavior when extension is absent/disconnected
-3. **Explicit operator control**: deterministic `--devtools` lane for debugging
+- **You can write one automation script** and run it locally with the extension (hitting your real accounts, your real tabs) and in CI without the extension (falling back to DevTools automatically).
+- **You don't re-authenticate for every agent run.** The extension bridges your logged-in session to the AI agent — no cookie injection, no Playwright auth state files, no per-run 2FA.
+- **When something behaves unexpectedly**, you can add `--devtools` to pin the backend and remove relay/extension variability from the equation.
+- **This is production-tested** — it powers OpenClaw's remote browser infrastructure today, not just a demo.
 
-In other words, we get a production control plane, not a demo path that breaks when one component goes missing.
+The implementation delivers three things at once:
+
+1. **Best default UX**: extension-first, logged-in browser automation — your real browser, your real sessions
+2. **Operational resilience**: useful behavior when extension is absent/disconnected — CI just works
+3. **Explicit operator control**: deterministic `--devtools` lane for debugging — no guessing which backend ran
+
+One tool. One set of commands. Works everywhere.
