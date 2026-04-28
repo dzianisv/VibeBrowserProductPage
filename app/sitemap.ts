@@ -64,6 +64,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const professionPages = [
     'copilot',
+    'claude',
+    'gemini',
+    'codex',
     'people',
     'lawyers',
     'recruiters',
