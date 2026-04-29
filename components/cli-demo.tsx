@@ -10,14 +10,14 @@ interface DisplayLine {
   text: string
 }
 
-type Step =
+export type Step =
   | { kind: 'type'; text: string }
   | { kind: 'output'; text: string; lineKind?: DisplayLine['kind'] }
   | { kind: 'pause'; ms: number }
 
 // ─── Scripts ─────────────────────────────────────────────────────────────────
 
-const SCRIPTS: Record<'local' | 'cloud', Step[]> = {
+const SCRIPTS: Record<string, Step[]> = {
   local: [
     { kind: 'output', text: '# Local mode — control your own Chrome', lineKind: 'info' },
     { kind: 'pause', ms: 400 },
@@ -125,8 +125,15 @@ function TerminalLine({ line }: { line: DisplayLine }) {
 
 // ─── Main component ───────────────────────────────────────────────────────────
 
-export function CliDemo() {
-  const [mode, setMode] = useState<'local' | 'cloud'>('cloud')
+interface CliDemoProps {
+  scripts?: Record<string, Step[]>
+  title?: string
+}
+
+export function CliDemo({ scripts: scriptsProp, title }: CliDemoProps = {}) {
+  const activeScripts = scriptsProp ?? SCRIPTS
+  const tabKeys = Object.keys(activeScripts)
+  const [mode, setMode] = useState<string>(tabKeys[tabKeys.length - 1])
   const [displayed, setDisplayed] = useState<DisplayLine[]>([])
   const [typing, setTyping] = useState('')
   const [cursorOn, setCursorOn] = useState(true)
@@ -160,7 +167,7 @@ export function CliDemo() {
       setTyping('')
 
       while (active) {
-        for (const step of SCRIPTS[mode]) {
+        for (const step of activeScripts[mode]) {
           if (!active) return
 
           if (step.kind === 'pause') {
@@ -202,7 +209,7 @@ export function CliDemo() {
       active = false
       clearTimeout(timerId)
     }
-  }, [mode])
+  }, [mode, activeScripts])
 
   return (
     <div className="rounded-2xl overflow-hidden border border-slate-700/60 shadow-2xl bg-slate-950 font-mono text-sm select-none">
@@ -211,30 +218,25 @@ export function CliDemo() {
         <div className="w-3 h-3 rounded-full bg-red-500/75" />
         <div className="w-3 h-3 rounded-full bg-amber-500/75" />
         <div className="w-3 h-3 rounded-full bg-emerald-500/75" />
-        <span className="text-slate-500 text-xs ml-3 flex-1">vibebrowser-cli</span>
+        <span className="text-slate-500 text-xs ml-3 flex-1">{title ?? 'vibebrowser-cli'}</span>
         {/* Mode tabs */}
+        {tabKeys.length > 1 && (
         <div className="flex rounded-md border border-slate-700 overflow-hidden text-xs">
-          <button
-            onClick={() => setMode('local')}
-            className={`px-3 py-1 transition-colors ${
-              mode === 'local'
-                ? 'bg-purple-600 text-white'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
-            }`}
-          >
-            Local
-          </button>
-          <button
-            onClick={() => setMode('cloud')}
-            className={`px-3 py-1 transition-colors border-l border-slate-700 ${
-              mode === 'cloud'
-                ? 'bg-purple-600 text-white'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
-            }`}
-          >
-            ☁ Cloud
-          </button>
+          {tabKeys.map((key, idx) => (
+            <button
+              key={key}
+              onClick={() => setMode(key)}
+              className={`px-3 py-1 transition-colors ${idx > 0 ? 'border-l border-slate-700' : ''} ${
+                mode === key
+                  ? 'bg-purple-600 text-white'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+              }`}
+            >
+              {key.charAt(0).toUpperCase() + key.slice(1)}
+            </button>
+          ))}
         </div>
+        )}
       </div>
 
       {/* Terminal body */}

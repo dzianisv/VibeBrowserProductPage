@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import ProfessionTemplate, { ProfessionConfig } from '@/components/profession-template'
+import type { Step } from '@/components/cli-demo'
 
 export const metadata: Metadata = {
   title: 'VibeBrowser for Claude — Give Claude Code a Real Cloud Browser',
@@ -95,6 +96,43 @@ const config: ProfessionConfig = {
     'Have Claude monitor a web dashboard and alert when a metric changes',
   ],
   tools: ['Claude Code', 'Claude Desktop', 'Gmail', 'GitHub', 'Notion', 'Salesforce', 'Jira', 'Linear', 'Google Docs', 'Slack'],
+  cliDemo: {
+    title: 'claude-code',
+    scripts: {
+      Install: [
+        { kind: 'output', text: '# Connect VibeBrowser to Claude Code', lineKind: 'info' },
+        { kind: 'pause', ms: 400 },
+        { kind: 'type', text: 'claude mcp add vibebrowser -- npx @vibebrowser/mcp --remote f8a2-91cd-4b3e' },
+        { kind: 'output', text: '✓ Added MCP server "vibebrowser"\n✓ Tools: navigate, snapshot, click, fill, scroll, new_tab' },
+        { kind: 'pause', ms: 600 },
+        { kind: 'type', text: 'claude "summarize my unread Gmail and draft replies"' },
+        { kind: 'output', text: '⟡ Using vibebrowser tools...' },
+        { kind: 'pause', ms: 400 },
+        { kind: 'output', text: 'Connecting to VibeBrowser Cloud...', lineKind: 'info' },
+        { kind: 'output', text: '✓ Session f8a2-91cd · IP 45.91.12.34 (us-east-1)\n✓ Navigated to mail.google.com · logged in as alice@example.com' },
+        { kind: 'pause', ms: 400 },
+        { kind: 'output', lineKind: 'md', text: '# Gmail — Inbox\n\n**8 unread messages**\n\n- **Team Standup** · Notes from today\'s sync · 10:15am\n- **GitHub** · PR #87 ready for review · 9:30am\n- **Stripe** · Invoice #2048 paid ($450) · 8:12am\n\n[Compose] [Inbox 8] [Sent]' },
+        { kind: 'output', text: '→ 1.2 KB markdown (raw HTML was 380 KB — 99.7% smaller)', lineKind: 'info' },
+        { kind: 'pause', ms: 2800 },
+      ] as Step[],
+      Use: [
+        { kind: 'output', text: '# Claude reads your browser, you stay in control', lineKind: 'info' },
+        { kind: 'pause', ms: 400 },
+        { kind: 'type', text: 'claude "check open GitHub PRs and write a status update"' },
+        { kind: 'output', text: '⟡ Using vibebrowser tools...' },
+        { kind: 'pause', ms: 300 },
+        { kind: 'output', text: '✓ Navigated to github.com/notifications · logged in as @alice' },
+        { kind: 'pause', ms: 400 },
+        { kind: 'output', lineKind: 'md', text: '# GitHub — Open Pull Requests\n\n**3 PRs need review**\n\n- **feat: add OAuth flow** · alice/backend#42 · +180 −12 · 2 approvals\n- **fix: rate limiter** · alice/api#91 · +24 −8 · CI passing\n- **docs: API reference** · alice/docs#15 · +340 −0 · draft\n\n[Review] [Merge] [Close]' },
+        { kind: 'output', text: '→ 890 B markdown', lineKind: 'info' },
+        { kind: 'pause', ms: 600 },
+        { kind: 'type', text: 'claude "now post a summary to #engineering in Slack"' },
+        { kind: 'output', text: '✓ Navigated to app.slack.com/client · #engineering channel' },
+        { kind: 'output', text: '✓ Posted message: "PR Status: 3 open — OAuth flow ready to merge, rate limiter CI green, API docs still draft"' },
+        { kind: 'pause', ms: 2800 },
+      ] as Step[],
+    },
+  },
   faqs: [
     {
       question: 'How is this different from Claude for Chrome (Anthropic\'s extension)?',

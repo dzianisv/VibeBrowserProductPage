@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import ProfessionTemplate, { ProfessionConfig } from '@/components/profession-template'
+import type { Step } from '@/components/cli-demo'
 
 export const metadata: Metadata = {
   title: 'VibeBrowser for Gemini CLI — Give Gemini a Real Cloud Browser',
@@ -95,6 +96,42 @@ const config: ProfessionConfig = {
     'Give Gemini a list of URLs and ask for a synthesised research brief',
   ],
   tools: ['Gemini CLI', 'Google Workspace', 'Gmail', 'Google Drive', 'Google Sheets', 'Google Docs', 'Google Calendar', 'Salesforce', 'Notion', 'HubSpot'],
+  cliDemo: {
+    title: 'gemini-cli',
+    scripts: {
+      Install: [
+        { kind: 'output', text: '# Connect VibeBrowser to Gemini CLI', lineKind: 'info' },
+        { kind: 'pause', ms: 400 },
+        { kind: 'type', text: 'gemini mcp add vibebrowser -- npx @vibebrowser/mcp --remote f8a2-91cd-4b3e' },
+        { kind: 'output', text: '✓ Registered MCP server "vibebrowser"\n✓ Tools: navigate, snapshot, click, fill, scroll, new_tab' },
+        { kind: 'pause', ms: 600 },
+        { kind: 'type', text: 'gemini "research Acme Corp — check their website, LinkedIn, and Crunchbase"' },
+        { kind: 'output', text: '✧ Using vibebrowser tools...' },
+        { kind: 'pause', ms: 400 },
+        { kind: 'output', text: 'Connecting to VibeBrowser Cloud...', lineKind: 'info' },
+        { kind: 'output', text: '✓ Session f8a2-91cd · IP 45.91.12.34 (us-east-1)\n✓ Navigated to acme.com' },
+        { kind: 'pause', ms: 400 },
+        { kind: 'output', lineKind: 'md', text: '# Acme Corp — Homepage\n\n**Enterprise automation platform**\n\nSeries B · $42M raised · 200+ employees\n\n"We help teams automate repetitive workflows"\n\n- Products: Acme Flow, Acme Connect, Acme Analytics\n- Customers: Fortune 500 logos (IBM, Deloitte, Spotify)\n\n[Pricing] [Demo] [Blog]' },
+        { kind: 'output', text: '→ 680 B markdown (raw HTML was 290 KB)', lineKind: 'info' },
+        { kind: 'pause', ms: 2800 },
+      ] as Step[],
+      Use: [
+        { kind: 'output', text: '# Gemini browses your Google Workspace', lineKind: 'info' },
+        { kind: 'pause', ms: 400 },
+        { kind: 'type', text: 'gemini "summarize today\'s calendar and prep me for the 2pm meeting"' },
+        { kind: 'output', text: '✧ Using vibebrowser tools...' },
+        { kind: 'pause', ms: 300 },
+        { kind: 'output', text: '✓ Navigated to calendar.google.com · logged in as alice@company.com' },
+        { kind: 'pause', ms: 400 },
+        { kind: 'output', lineKind: 'md', text: '# Google Calendar — Today\n\n- **9:00** Team standup (30min)\n- **11:00** Design review — Figma link attached\n- **14:00** Client call — Acme Corp Q3 review\n- **16:00** 1:1 with manager\n\n**Next: Client call in 2 hours**' },
+        { kind: 'output', text: '→ 420 B markdown', lineKind: 'info' },
+        { kind: 'pause', ms: 600 },
+        { kind: 'output', text: '✓ Navigated to docs.google.com · "Acme Corp Q3 Notes"' },
+        { kind: 'output', lineKind: 'md', text: '# Acme Corp Q3 Review — Prep Notes\n\n**Key metrics:** MRR $124K → $186K (+50%)\n**Churn:** 2.1% (down from 3.4%)\n**Open issue:** Migration timeline for Acme Connect v2\n\n**Action items from last call:**\n- ✅ Send revised SOW\n- ⏳ Schedule technical deep-dive\n- ❌ Share API docs (blocked on legal)' },
+        { kind: 'pause', ms: 2800 },
+      ] as Step[],
+    },
+  },
   faqs: [
     {
       question: 'Which Gemini products work with VibeBrowser?',

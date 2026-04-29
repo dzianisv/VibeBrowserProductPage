@@ -1,5 +1,6 @@
 "use client"
 
+import { CliDemo, type Step } from '@/components/cli-demo'
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
@@ -68,6 +69,10 @@ export interface ProfessionConfig {
   testimonials?: ProfessionTestimonial[]
   faqs?: ProfessionFAQ[]
   demos?: ProfessionDemo[]
+  cliDemo?: {
+    title?: string
+    scripts: Record<string, Step[]>
+  }
 }
 
 interface ProfessionTemplateProps {
@@ -253,6 +258,25 @@ export default function ProfessionTemplate({ config }: ProfessionTemplateProps) 
                   Download for Mobile
                 </Button>
               </WaitlistDialogIncognito>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* CLI Demo */}
+      {config.cliDemo && (
+        <section className="py-16 md:py-24 bg-slate-50 border-b border-slate-200">
+          <div className="container mx-auto px-6">
+            <div className="text-center mb-10">
+              <h2 className="text-3xl font-bold mb-3 text-slate-900">
+                Get Started in 30 Seconds
+              </h2>
+              <p className="text-slate-600 max-w-xl mx-auto">
+                One command wires up a cloud browser to your AI tool — then hand it any browser task.
+              </p>
+            </div>
+            <div className="max-w-4xl mx-auto">
+              <CliDemo scripts={config.cliDemo.scripts} title={config.cliDemo.title} />
             </div>
           </div>
         </section>

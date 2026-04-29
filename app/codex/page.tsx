@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import ProfessionTemplate, { ProfessionConfig } from '@/components/profession-template'
+import type { Step } from '@/components/cli-demo'
 
 export const metadata: Metadata = {
   title: 'VibeBrowser for Codex CLI — Give OpenAI Codex a Real Cloud Browser',
@@ -95,6 +96,42 @@ const config: ProfessionConfig = {
     'Give Codex a list of npm packages to audit: browse each changelog and summarise breaking changes',
   ],
   tools: ['Codex CLI', 'GitHub', 'Vercel', 'Linear', 'Jira', 'Confluence', 'Notion', 'Sentry', 'Datadog', 'npm'],
+  cliDemo: {
+    title: 'codex-cli',
+    scripts: {
+      Install: [
+        { kind: 'output', text: '# Connect VibeBrowser to Codex CLI', lineKind: 'info' },
+        { kind: 'pause', ms: 400 },
+        { kind: 'type', text: 'codex mcp add vibebrowser -- npx @vibebrowser/mcp --remote f8a2-91cd-4b3e' },
+        { kind: 'output', text: '✓ Added MCP server "vibebrowser"\n✓ Tools: navigate, snapshot, click, fill, scroll, new_tab' },
+        { kind: 'pause', ms: 600 },
+        { kind: 'type', text: 'codex "open the failing CI run and tell me what broke"' },
+        { kind: 'output', text: '⟡ Using vibebrowser tools...' },
+        { kind: 'pause', ms: 400 },
+        { kind: 'output', text: 'Connecting to VibeBrowser Cloud...', lineKind: 'info' },
+        { kind: 'output', text: '✓ Session f8a2-91cd · IP 45.91.12.34 (us-east-1)\n✓ Navigated to github.com/alice/api/actions/runs/12847' },
+        { kind: 'pause', ms: 400 },
+        { kind: 'output', lineKind: 'md', text: '# GitHub Actions — Run #12847 ❌\n\n**test-suite** · failed after 3m 42s\n\n```\nFAIL src/auth/oauth.test.ts\n  ✕ should refresh expired token (48ms)\n    Expected: 200\n    Received: 401\n    at src/auth/oauth.test.ts:47\n```\n\n**2 passed** · **1 failed** · 0 skipped' },
+        { kind: 'output', text: '→ 520 B markdown (raw HTML was 195 KB — 99.7% smaller)', lineKind: 'info' },
+        { kind: 'pause', ms: 2800 },
+      ] as Step[],
+      Use: [
+        { kind: 'output', text: '# Codex builds, deploys, and verifies', lineKind: 'info' },
+        { kind: 'pause', ms: 400 },
+        { kind: 'type', text: 'codex "fix the OAuth test, push, and verify the deploy"' },
+        { kind: 'output', text: '⟡ Analyzing oauth.test.ts:47...' },
+        { kind: 'pause', ms: 600 },
+        { kind: 'output', text: '✓ Fixed: token refresh was missing retry logic\n✓ Committed: fix(auth): add retry to token refresh\n✓ Pushed to feat/oauth-fix' },
+        { kind: 'pause', ms: 400 },
+        { kind: 'output', text: '⟡ Using vibebrowser to verify deploy...' },
+        { kind: 'output', text: '✓ Navigated to staging.myapp.com · CI passing' },
+        { kind: 'pause', ms: 400 },
+        { kind: 'output', lineKind: 'md', text: '# Vercel Deploy — staging.myapp.com\n\n**Status:** ✅ Ready\n**Branch:** feat/oauth-fix\n**Commit:** fix(auth): add retry to token refresh\n**Build:** 34s · 0 errors · 0 warnings\n\n[Visit] [Logs] [Redeploy]' },
+        { kind: 'output', text: '→ 380 B markdown', lineKind: 'info' },
+        { kind: 'pause', ms: 2800 },
+      ] as Step[],
+    },
+  },
   faqs: [
     {
       question: 'How does VibeBrowser complement Codex CLI?',
