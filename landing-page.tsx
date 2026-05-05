@@ -38,6 +38,7 @@ Database,
 ListTodo,
 Home,
 Puzzle,
+Settings,
 Store,
 ArrowRight,
 RefreshCw,
@@ -514,11 +515,11 @@ export default function Component() {
                 Work Vibe can take off your plate
               </h2>
               <p className="text-muted-foreground">
-                Outcome-first workflows for recruiting, research, and private browser operations
+                Outcome-first workflows for recruiting, research, complex UIs, and private browser operations
               </p>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-3">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
               {/* Primary Use Case: Outreach */}
               <Card className="border-2 border-purple-200 shadow-xl hover:shadow-2xl transition-shadow bg-gradient-to-br from-purple-50 to-white relative overflow-hidden">
                 <div className="absolute top-2 right-2">
@@ -618,6 +619,32 @@ export default function Component() {
                   >
                     Read legal story →
                   </Link>
+                </CardContent>
+              </Card>
+              {/* Use Case 4: Skip Complex UIs */}
+              <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-gradient-to-br from-orange-50 to-white">
+                <CardContent className="p-6 text-center">
+                  <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mb-3 mx-auto">
+                    <Settings className="w-6 h-6 text-orange-600" />
+                  </div>
+                  <h3 className="font-bold text-lg mb-2">Skip Complex UIs</h3>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    Let AI navigate settings, forms, and dashboards you&apos;d rather not learn
+                  </p>
+                  <ul className="text-xs text-left space-y-1 text-muted-foreground">
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="w-3 h-3 text-orange-600 mt-0.5 flex-shrink-0" />
+                      <span>Find buried settings (e.g., Amazon Locker)</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="w-3 h-3 text-orange-600 mt-0.5 flex-shrink-0" />
+                      <span>Generate and copy API keys from dashboards</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="w-3 h-3 text-orange-600 mt-0.5 flex-shrink-0" />
+                      <span>Fill multi-step forms and account setups</span>
+                    </li>
+                  </ul>
                 </CardContent>
               </Card>
             </div>
