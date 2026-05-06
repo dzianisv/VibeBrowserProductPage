@@ -4,13 +4,13 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { MailingListSubscribe } from './mailing-list-subscribe'
 
-const darkPages = ['/mcp', '/openclaw', '/teams', '/enterprise', '/providers/ollama']
+const darkPages = ['/mcp', '/openclaw', '/cli', '/teams', '/enterprise', '/providers/ollama']
 
 export function SiteFooter() {
   const pathname = usePathname()
   const isBlog = pathname?.startsWith('/blog')
   const isDark = darkPages.includes(pathname) || isBlog
-  const isOpenClaw = pathname === '/openclaw'
+  const isOpenClaw = pathname === '/openclaw' || pathname === '/cli'
 
   return (
     <footer className={`w-full border-t ${
@@ -45,6 +45,7 @@ export function SiteFooter() {
                 { href: '/cloud', label: 'Agent Infra' },
                 { href: '/mcp', label: 'Agents' },
                 { href: '/openclaw', label: 'OpenClaw' },
+                { href: '/cli', label: 'CLI Users' },
                 { href: '/copilot', label: 'Copilot Users' },
                 { href: '/claude', label: 'Claude Users' },
                 { href: '/gemini', label: 'Gemini Users' },
@@ -77,7 +78,8 @@ export function SiteFooter() {
             <nav className="flex flex-col gap-2">
               {[
                 { href: '/mcp', label: 'MCP for Agents' },
-                { href: '/openclaw', label: 'OpenClaw CLI' },
+                { href: '/section', label: 'Platform Breakdown' },
+                { href: '/cli', label: 'Browser CLI' },
                 { href: '/providers/ollama', label: 'Ollama Integration' },
                 { href: '/agentic-team', label: 'Agentic Team' },
                 { href: '/blog', label: 'Blog' },

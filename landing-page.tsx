@@ -17,11 +17,10 @@ FileText,
 Youtube,
 Sparkles,
 Download,
-CheckCircle,
-Shield,
-Lock,
-Eye,
-Play,
+  CheckCircle,
+  Shield,
+  Lock,
+  Play,
 Clock,
 ShoppingCart,
 Calendar,
@@ -42,17 +41,15 @@ Settings,
 Store,
 ArrowRight,
 RefreshCw,
-Target,
-Lightbulb,
-ChevronLeft,
-ChevronRight,
-ChevronDown,
-BookOpen,
-TrendingUp,
-Moon,
-Palette,
-Cloud,
-Info,
+  Target,
+  ChevronLeft,
+  ChevronRight,
+  ChevronDown,
+  TrendingUp,
+  Moon,
+  Palette,
+  Cloud,
+  Info,
 } from "lucide-react"
 import Link from "next/link"
 import { useState, useEffect, useRef } from "react"
@@ -291,31 +288,18 @@ export default function Component() {
           <Badge variant="secondary"
             className="px-4 py-2 text-sm font-medium bg-purple-100 text-purple-700 border-purple-200">
             <Sparkles className="w-4 h-4 mr-2" />
-            Real Browser Agent
+            Browser Automation Co-Pilot
           </Badge>
 
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-            The Agentic AI Browser that
+            AI Browser Co-Pilot that
             <span className="mt-1 block bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
               <span className="inline-flex w-full justify-center">
                 <TypewriterEffect
                   words={[
-                    "runs warm outreach",
-                    "replies on LinkedIn",
-                    "replies on x.com",
-                    "analyzes Twitter posts",
-                    "fills taxes",
-                    "sources recruiter candidates",
-                    "summarizes legal cases",
-                    "researches investment theses",
-                    "triages GitHub issues",
-                    "monitors crypto narratives",
-                    "updates Amazon seller ops",
-                    "qualifies outbound sales leads",
-                    "reviews research papers",
-                    "orchestrates people ops tasks",
-                    "helps Copilot users move faster",
-                    "supports enterprise browser workflows",
+                    "completes overcomplicated web tasks",
+                    "runs in your logged-in browser",
+                    "turns repetitive clicks into reusable workflows",
                   ]}
                   typingSpeed={90}
                   deletingSpeed={50}
@@ -396,34 +380,10 @@ export default function Component() {
             </Link>
           </div>
 
-          <Link href="/blog/gpt-5-4-support-and-kimi-k2-5-free-tier" className="group mb-6 w-full max-w-2xl">
-            <div className="rounded-2xl border border-purple-200 bg-white/90 p-4 shadow-sm transition-all hover:border-purple-300 hover:shadow-md">
-              <div className="flex flex-col gap-3 text-left sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <div className="flex items-center gap-2 text-sm font-semibold text-purple-700">
-                    <BookOpen className="h-4 w-4" />
-                    <span>New on the blog</span>
-                  </div>
-                  <p className="mt-1 text-sm text-slate-600 sm:text-base">
-                    GPT-5 support is live, and Kimi K2.5 is now available in Vibe&apos;s free tier.
-                  </p>
-                </div>
-                <span className="inline-flex items-center text-sm font-semibold text-purple-700 group-hover:text-purple-800">
-                  Read the post
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </span>
-              </div>
-            </div>
-          </Link>
-
           <div className="flex flex-wrap gap-4 md:gap-5 justify-center items-center text-sm text-muted-foreground mb-8">
             <div className="flex items-center gap-2">
               <Globe className="w-4 h-4 text-blue-600" />
-              <span>No API rebuilds</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Lock className="w-4 h-4 text-green-600" />
-              <span>Local-first execution</span>
+              <span>Runs in your logged-in session</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle className="w-4 h-4 text-purple-600" />
@@ -431,7 +391,7 @@ export default function Component() {
             </div>
             <div className="flex items-center gap-2">
               <Puzzle className="w-4 h-4 text-orange-600" />
-              <span>MCP integrations + secrets vault</span>
+              <span>Secrets vault + type-in</span>
             </div>
             <div className="flex items-center gap-2">
               <Calendar className="w-4 h-4 text-indigo-600" />
@@ -508,155 +468,85 @@ export default function Component() {
             </div>
           </div>
 
-          {/* Use Cases - inline */}
           <div className="w-full max-w-5xl mx-auto mt-10 mb-10">
             <div className="text-center mb-5">
               <h2 className="text-2xl font-bold tracking-tight sm:text-3xl mb-2">
-                Work Vibe can take off your plate
+                What Vibe actually solves
               </h2>
               <p className="text-muted-foreground">
-                Outcome-first workflows for recruiting, research, complex UIs, and private browser operations
+                If work happens in your logged-in browser, Vibe can run it for you.
               </p>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-              {/* Primary Use Case: Outreach */}
-              <Card className="border-2 border-purple-200 shadow-xl hover:shadow-2xl transition-shadow bg-gradient-to-br from-purple-50 to-white relative overflow-hidden">
-                <div className="absolute top-2 right-2">
-                  <Badge className="bg-purple-600 text-white text-xs">Most Popular</Badge>
-                </div>
-                <CardContent className="p-6 text-center">
-                  <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-3 mx-auto">
-                    <Target className="w-6 h-6 text-purple-600" />
-                  </div>
-                  <h3 className="font-bold text-lg mb-2">Recruiter Automation</h3>
+            <div className="grid gap-4 md:grid-cols-3">
+              <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-gradient-to-br from-purple-50 to-white">
+                <CardContent className="p-6">
+                  <h3 className="font-bold text-lg mb-2">Repetitive web work</h3>
                   <p className="text-sm text-muted-foreground mb-3">
-                    Source profiles, draft outreach, and queue follow-ups you approve
+                    Offload repetitive browser tasks while staying in control.
                   </p>
                   <ul className="text-xs text-left space-y-1 text-muted-foreground">
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="w-3 h-3 text-purple-600 mt-0.5 flex-shrink-0" />
-                      <span>Skill-matched candidate sourcing</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="w-3 h-3 text-purple-600 mt-0.5 flex-shrink-0" />
-                      <span>Personalized messages with context</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="w-3 h-3 text-purple-600 mt-0.5 flex-shrink-0" />
-                      <span>CRM updates and follow-ups</span>
-                    </li>
+                    <li>• Find records across dashboards</li>
+                    <li>• Fill forms without manual retyping</li>
+                    <li>• Update tools and statuses</li>
                   </ul>
-                  <Link
-                    href="/recruiters"
-                    className="mt-4 inline-flex text-xs font-semibold text-purple-700 hover:text-purple-800"
-                  >
-                    Read recruiter story →
-                  </Link>
                 </CardContent>
               </Card>
 
-              {/* Use Case 2: Research */}
-              <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-gradient-to-br from-green-50 to-white">
-                <CardContent className="p-6 text-center">
-                  <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-3 mx-auto">
-                    <TrendingUp className="w-6 h-6 text-green-600" />
-                  </div>
-                  <h3 className="font-bold text-lg mb-2">Advisor Research</h3>
-                  <p className="text-sm text-muted-foreground mb-3">
-                    Morningstar data inside Schwab, summarized
-                  </p>
-                  <ul className="text-xs text-left space-y-1 text-muted-foreground">
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="w-3 h-3 text-green-600 mt-0.5 flex-shrink-0" />
-                      <span>Morningstar fee + risk extraction</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="w-3 h-3 text-green-600 mt-0.5 flex-shrink-0" />
-                      <span>Comparison tables for clients</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="w-3 h-3 text-green-600 mt-0.5 flex-shrink-0" />
-                      <span>Advisor-ready recommendation memos</span>
-                    </li>
-                  </ul>
-                  <Link
-                    href="/investors"
-                    className="mt-4 inline-flex text-xs font-semibold text-green-700 hover:text-green-800"
-                  >
-                    Read investor workflow →
-                  </Link>
-                </CardContent>
-              </Card>
-
-              {/* Use Case 3: Transactions */}
-              <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-gradient-to-br from-blue-50 to-white">
-                <CardContent className="p-6 text-center">
-                  <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-3 mx-auto">
-                    <ShoppingCart className="w-6 h-6 text-blue-600" />
-                  </div>
-                  <h3 className="font-bold text-lg mb-2">Private Legal Research</h3>
-                  <p className="text-sm text-muted-foreground mb-3">
-                    On-prem CRM workflows with redaction
-                  </p>
-                  <ul className="text-xs text-left space-y-1 text-muted-foreground">
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="w-3 h-3 text-blue-600 mt-0.5 flex-shrink-0" />
-                      <span>Search self-hosted case databases</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="w-3 h-3 text-blue-600 mt-0.5 flex-shrink-0" />
-                      <span>Summarize precedent with citations</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="w-3 h-3 text-blue-600 mt-0.5 flex-shrink-0" />
-                      <span>Keep data private and auditable</span>
-                    </li>
-                  </ul>
-                  <Link
-                    href="/lawyers"
-                    className="mt-4 inline-flex text-xs font-semibold text-blue-700 hover:text-blue-800"
-                  >
-                    Read legal story →
-                  </Link>
-                </CardContent>
-              </Card>
-              {/* Use Case 4: Skip Complex UIs */}
               <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-gradient-to-br from-orange-50 to-white">
-                <CardContent className="p-6 text-center">
-                  <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mb-3 mx-auto">
-                    <Settings className="w-6 h-6 text-orange-600" />
-                  </div>
-                  <h3 className="font-bold text-lg mb-2">Skip Complex UIs</h3>
+                <CardContent className="p-6">
+                  <h3 className="font-bold text-lg mb-2">Overcomplicated account flows</h3>
                   <p className="text-sm text-muted-foreground mb-3">
-                    Let AI navigate settings, forms, and dashboards you&apos;d rather not learn
+                    Let Vibe handle confusing navigation paths and setup steps.
                   </p>
                   <ul className="text-xs text-left space-y-1 text-muted-foreground">
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="w-3 h-3 text-orange-600 mt-0.5 flex-shrink-0" />
-                      <span>Find buried settings (e.g., Amazon Locker)</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="w-3 h-3 text-orange-600 mt-0.5 flex-shrink-0" />
-                      <span>Generate and copy API keys from dashboards</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="w-3 h-3 text-orange-600 mt-0.5 flex-shrink-0" />
-                      <span>Fill multi-step forms and account setups</span>
-                    </li>
+                    <li>• Supabase API keys</li>
+                    <li>• Capital One virtual cards</li>
+                    <li>• Other nested settings / multi-step flows</li>
+                  </ul>
+                </CardContent>
+              </Card>
+
+              <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-gradient-to-br from-blue-50 to-white">
+                <CardContent className="p-6">
+                  <h3 className="font-bold text-lg mb-2">Repeatable team workflows</h3>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    Turn successful runs into consistent, reviewable team processes.
+                  </p>
+                  <ul className="text-xs text-left space-y-1 text-muted-foreground">
+                    <li>• Save successful runs</li>
+                    <li>• Reuse them across teammates</li>
+                    <li>• Keep human approvals before final actions</li>
                   </ul>
                 </CardContent>
               </Card>
             </div>
+
+            <div className="mt-6 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+              <h3 className="text-lg font-bold tracking-tight text-slate-900 mb-3">
+                Outcome proof from real workflows
+              </h3>
+              <div className="grid gap-3 md:grid-cols-3">
+                <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+                  <p className="text-sm font-semibold text-slate-900 mb-1">Supabase API key setup flow</p>
+                  <p className="text-xs text-slate-600">Navigates project settings, finds keys, and completes setup without manual digging.</p>
+                </div>
+                <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+                  <p className="text-sm font-semibold text-slate-900 mb-1">Capital One virtual card flow</p>
+                  <p className="text-xs text-slate-600">Handles nested account screens to create a virtual card through the full flow.</p>
+                </div>
+                <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+                  <p className="text-sm font-semibold text-slate-900 mb-1">GitHub issue form completion</p>
+                  <p className="text-xs text-slate-600">Fills issue fields, adds context, and submits from the live repository form.</p>
+                </div>
+              </div>
+            </div>
+
             <div className="mt-6 text-center">
               <Link href="/compare" className="text-sm font-semibold text-purple-700 hover:text-purple-800">
-                Explore workflow comparison →
+                Explore full comparison →
               </Link>
             </div>
-          </div>
-
-          <div className="text-xs text-muted-foreground mt-8 max-w-2xl mx-auto space-y-1">
-            <p>Works on any website — LinkedIn, Twitter, Reddit, Gmail, and more. No APIs needed.</p>
           </div>
         </div>
       </div>
@@ -664,84 +554,53 @@ export default function Component() {
 
     {/* Why Vibe */}
     <section className="w-full py-14 md:py-20 bg-white">
-      <div className="container max-w-4xl px-4 md:px-6 mx-auto">
-        <div className="text-center mb-12">
+      <div className="container max-w-5xl px-4 md:px-6 mx-auto">
+        <div className="text-center mb-10">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-3">
-            Why Vibe instead of Operator, Comet, Atlas, or Manus?
+            Why Vibe feels native
           </h2>
-          <p className="max-w-xl mx-auto text-muted-foreground text-lg">
-            They all automate browsers. The details matter.
+          <p className="max-w-2xl mx-auto text-muted-foreground text-lg">
+            Vibe stays close to how people already work in Chrome: same session, same tabs, clearer control.
           </p>
         </div>
 
-        <div className="flex flex-col divide-y divide-slate-100 border border-slate-100 rounded-2xl overflow-hidden">
+        <div className="grid gap-4 md:grid-cols-2">
           {[
             {
               icon: "🪟",
-              title: "Your real Chrome session",
-              them: "Operator runs a sandboxed cloud browser — you re-authenticate and trust their VM. Comet and Atlas replace your browser entirely with their own app.",
-              us: "Vibe is a Chrome extension. It runs in your real session — your logins, cookies, and open tabs are already there. Nothing to hand over, no new browser to install.",
+              title: "Uses your current browser session",
+              copy: "Run workflows in the tabs, logins, and cookies you already have.",
             },
             {
               icon: "🔒",
-              title: "Your data stays on your device",
-              them: "Operator streams every page through OpenAI's servers. Comet and Atlas process your browsing inside Perplexity's and OpenAI's infrastructure.",
-              us: "Vibe executes locally. Only the task context you choose to send leaves your machine. Self-hosted LLM option means nothing has to leave at all.",
+              title: "Local-first execution",
+              copy: "Browser actions run on your device, with optional self-hosted models for stricter data control.",
             },
             {
               icon: "🔓",
-              title: "Any model. No lock-in.",
-              them: "Atlas forces GPT. Comet forces their stack. You're stuck with whatever model they chose for you, at whatever price they set.",
-              us: "Run Grok 4, Claude, DeepSeek, Kimi, or a local Llama. Switch instantly. When a better model ships tomorrow, you have it the same day.",
+              title: "Model flexibility",
+              copy: "Choose cloud or local models and switch as quality, cost, or policy needs change.",
             },
             {
               icon: "🌐",
-              title: "Works on any site, no APIs needed",
-              them: "Most tools require site-specific integrations or break on anything outside their happy path.",
-              us: "Vibe reads the live DOM of any page you can open — LinkedIn, Workday, internal portals, legacy tools. If you can browse it, Vibe can work on it.",
+              title: "Works across real websites",
+              copy: "Automate multi-step flows on dashboards, portals, and internal tools without site-specific APIs.",
             },
-            {
-              icon: "⚙️",
-              title: "Reusable skills, not one-shot chats",
-              them: "Other AI browsers are stateless. Every session starts from zero. There's no way to package, reuse, or share what worked.",
-              us: "Vibe wraps successful runs into reusable skills. Run the same workflow again, share it with teammates, or trigger it from Claude Code or Codex via MCP.",
-            },
-            {
-              icon: "🔗",
-              title: "A browser operator your coding agents can call",
-              them: "AI browsers are isolated tools. Your coding agents (Claude Code, Codex, Gemini CLI) have no way to reach the browser.",
-              us: "Vibe exposes a full MCP server. Your agents can navigate pages, fill forms, and extract data from the web — without you switching context.",
-            },
-            {
-              icon: "🔑",
-              title: "Secrets that never touch the LLM",
-              them: "Giving an AI browser your passwords means they go into the model's context — and potentially into logs.",
-              us: "Vibe's built-in secrets vault types credentials directly into the page. The model is never told what your password is.",
-            },
-          ].map(({ icon, title, them, us }) => (
-            <div key={title} className="grid md:grid-cols-[1fr_1fr] bg-white">
-              <div className="p-6 md:border-r border-slate-100 flex flex-col gap-2">
-                <div className="flex items-center gap-2">
-                  <span className="text-lg">❌</span>
-                  <span className="text-xs font-semibold uppercase tracking-wide text-slate-400">Others</span>
-                </div>
-                <p className="text-sm text-slate-500 leading-relaxed">{them}</p>
+          ].map(({ icon, title, copy }) => (
+            <article key={title} className="rounded-xl border border-slate-200 bg-slate-50 p-5">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-lg">{icon}</span>
+                <h3 className="text-sm font-bold text-slate-900">{title}</h3>
               </div>
-              <div className="p-6 bg-slate-50 flex flex-col gap-2">
-                <div className="flex items-center gap-2">
-                  <span className="text-lg">{icon}</span>
-                  <span className="text-sm font-bold text-slate-900">{title}</span>
-                </div>
-                <p className="text-sm text-slate-700 leading-relaxed">{us}</p>
-              </div>
-            </div>
+              <p className="text-sm text-slate-700 leading-relaxed">{copy}</p>
+            </article>
           ))}
         </div>
 
         <div className="text-center mt-8">
           <Link href="/compare">
             <Button variant="outline" className="border-purple-200 text-purple-700 hover:bg-purple-50">
-              Full feature comparison →
+              Explore full comparison →
             </Button>
           </Link>
         </div>
@@ -849,98 +708,6 @@ export default function Component() {
 
 
 
-    {/* Core Features */}
-    <section className="w-full py-12 md:py-16 bg-white">
-      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
-            Features That Work
-          </h2>
-          <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
-            Built for power users who want leverage, not magic tricks
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-          <Card className="border-0 shadow-lg bg-gradient-to-br from-purple-50 to-white">
-            <CardContent className="p-6">
-              <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
-                <Brain className="w-6 h-6 text-purple-600" />
-              </div>
-              <h3 className="text-xl font-bold mb-2">Autonomous Decision Making</h3>
-              <p className="text-sm text-muted-foreground">
-                Plans, executes, and adjusts. Makes smart decisions without your input
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="border-0 shadow-lg bg-gradient-to-br from-blue-50 to-white">
-            <CardContent className="p-6">
-              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
-                <Globe className="w-6 h-6 text-blue-600" />
-              </div>
-              <h3 className="text-xl font-bold mb-2">Works on Any Site</h3>
-              <p className="text-sm text-muted-foreground">
-                LinkedIn, Twitter, Reddit, Gmail — anywhere you browse. No APIs needed, no brittle automations
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="border-0 shadow-lg bg-gradient-to-br from-green-50 to-white">
-            <CardContent className="p-6">
-              <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4">
-                <Lock className="w-6 h-6 text-green-600" />
-              </div>
-              <h3 className="text-xl font-bold mb-2">Privacy First</h3>
-              <p className="text-sm text-muted-foreground">
-                Local-first with Gemini Nano, <a href="https://docs.vibebrowser.app/self-hosted-llm/ollama" className="text-green-600 hover:text-green-700 underline">Ollama</a>, and self-hosted models. Cloud APIs are optional and user-controlled.{' '}
-                <Link href="/tee" className="text-green-600 hover:text-green-700 underline">
-                  TEE research
-                </Link>{' '}
-                for enterprise security
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="border-0 shadow-lg bg-gradient-to-br from-orange-50 to-white">
-            <CardContent className="p-6">
-              <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mb-4">
-                <MessageSquare className="w-6 h-6 text-orange-600" />
-              </div>
-              <h3 className="text-xl font-bold mb-2">Natural Language</h3>
-              <p className="text-sm text-muted-foreground">
-                Just describe what you need in plain English. No scripts or commands required
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="border-0 shadow-lg bg-gradient-to-br from-pink-50 to-white">
-            <CardContent className="p-6">
-              <div className="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center mb-4">
-                <Eye className="w-6 h-6 text-pink-600" />
-              </div>
-              <h3 className="text-xl font-bold mb-2">You Stay in Control</h3>
-              <p className="text-sm text-muted-foreground">
-                Step-by-step visibility into every action. Nothing happens without your approval. AI amplifies your expertise, not replaces it
-              </p>
-            </CardContent>
-          </Card>
-
-           <Card className="border-0 shadow-lg bg-gradient-to-br from-indigo-50 to-white">
-             <CardContent className="p-6">
-               <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mb-4">
-                 <Code className="w-6 h-6 text-indigo-600" />
-               </div>
-               <h3 className="text-xl font-bold mb-2">Any LLM, No Lock-in</h3>
-               <p className="text-sm text-muted-foreground">
-                 Use GPT, Claude, Gemini, Grok, DeepSeek. Switch anytime. Works with any Chrome browser
-               </p>
-             </CardContent>
-           </Card>
-        </div>
-      </div>
-    </section>
-
     {/* Integrations & Agent Ecosystem */}
     <section className="w-full py-12 md:py-16 bg-slate-50">
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
@@ -1030,92 +797,21 @@ export default function Component() {
       </div>
     </section>
 
-    {/* Roadmap: Cloud Agent + OpenClaw */}
     <section className="w-full py-12 md:py-16 bg-white">
-      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
-        <div className="text-center mb-10">
-          <Badge className="bg-indigo-100 text-indigo-700 border-indigo-200 mb-4">
-            Roadmap
-          </Badge>
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
-            From browser workflow execution to managed assistants
+      <div className="container max-w-4xl px-4 md:px-6 mx-auto">
+        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-8 text-center">
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900 mb-3">
+            Need architecture details?
           </h2>
-          <p className="max-w-3xl mx-auto text-lg text-muted-foreground">
-            Start with real browser work in the user’s session, then expand into cloud-relay, self-hosted, and managed assistant layers where they add leverage.
+          <p className="text-muted-foreground mb-6">
+            Dive into deeper implementation details, architecture notes, and section-by-section guidance.
           </p>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          <Card className="border border-emerald-200 bg-emerald-50/40 shadow-sm">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-2 mb-3 text-emerald-700">
-                <CheckCircle className="w-5 h-5" />
-                <span className="text-sm font-semibold">Now</span>
-              </div>
-              <h3 className="text-xl font-bold mb-2">Local + Self-Hosted Control</h3>
-              <p className="text-sm text-muted-foreground">
-                Vibe runs as your browser co-pilot today, and you can attach self-hosted OpenClaw workflows through MCP-compatible tooling.
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="border border-blue-200 bg-blue-50/40 shadow-sm">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-2 mb-3 text-blue-700">
-                <CheckCircle className="w-5 h-5" />
-                <span className="text-sm font-semibold">Now</span>
-              </div>
-              <h3 className="text-xl font-bold mb-2">Cloud Agent Relay</h3>
-              <p className="text-sm text-muted-foreground">
-                MCP-backed secure relay so cloud agents can orchestrate your local browser session with explicit user approvals, operator-visible actions, and full audit visibility.
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="border border-purple-200 bg-purple-50/40 shadow-sm">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-2 mb-3 text-purple-700">
-                <Cloud className="w-5 h-5" />
-                <span className="text-sm font-semibold">Planned</span>
-              </div>
-              <h3 className="text-xl font-bold mb-2">Cloud-Hosted OpenClaw Assistant</h3>
-              <p className="text-sm text-muted-foreground">
-                A managed OpenClaw personal assistant in the cloud, connected to your local Vibe browser, that can execute workflows, write new skills, and improve itself.
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    </section>
-
-    {/* Power User Philosophy Callout */}
-    <section className="w-full py-12 md:py-16 bg-gradient-to-br from-purple-900 to-slate-900">
-      <div className="container max-w-5xl px-4 md:px-6 mx-auto">
-        <div className="text-center text-white">
-          <Badge className="bg-white/20 text-white border-white/30 mb-6">
-            <Lightbulb className="w-4 h-4 mr-2" />
-            Our Philosophy
-          </Badge>
-          <h2 className="text-2xl md:text-3xl font-bold mb-6 max-w-3xl mx-auto leading-tight">
-            "AI doesn't replace power users—it amplifies them"
-          </h2>
-          <p className="text-lg text-white/80 max-w-2xl mx-auto mb-8 leading-relaxed">
-            The main bottleneck for power users has always been time. Vibe Browser extends your reach without taking away your judgment. You bring the taste and expertise. We give you leverage.
-          </p>
-          <div className="flex flex-wrap gap-6 justify-center text-sm">
-            <div className="flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 text-green-400" />
-              <span>Built by power users, for power users</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 text-green-400" />
-              <span>Control over magic</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 text-green-400" />
-              <span>Repeatable workflows you can trust</span>
-            </div>
-          </div>
+          <Link href="/section">
+            <Button variant="outline" className="border-purple-200 text-purple-700 hover:bg-purple-50">
+              Open architecture details
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </Link>
         </div>
       </div>
     </section>
@@ -1222,131 +918,58 @@ export default function Component() {
                 Is my data safe?
               </AccordionTrigger>
               <AccordionContent>
-                Yes. When using Gemini Nano (Chrome's built-in AI) or local models, everything runs on your device. Your data never leaves your computer. When using cloud models (GPT-4, Claude), data is sent to their respective APIs. You control which model to use.
+                You choose how data is processed. Local models run on your device. Cloud models send data to that provider&apos;s API.
               </AccordionContent>
             </AccordionItem>
 
             <AccordionItem value="item-2">
               <AccordionTrigger className="text-left">
-                How much does it cost?
+                How much does Vibe Co-Pilot cost?
               </AccordionTrigger>
               <AccordionContent>
-                <p className="mb-2"><strong>Free forever</strong> with Gemini Nano, BYOM, GPT-5-mini, or GPT-OSS-120B.</p>
-                <p className="text-sm text-muted-foreground mb-2">
-                  <strong>Pro ($25/month):</strong> GPT-5.1, GPT-5.2-codex (medium/high reasoning), Grok-4-fast (non-reasoning), DeepSeek-V3.2
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  <strong>Max ($99/month):</strong> GPT-5.2, GPT-5.2-codex (xhigh reasoning), Grok-4, Grok-4-fast-reasoning, DeepSeek-R1
-                </p>
+                Vibe is free to install. If you run cloud models, usage is billed by that provider, and paid Vibe plans are optional.
               </AccordionContent>
             </AccordionItem>
 
             <AccordionItem value="item-3">
               <AccordionTrigger className="text-left">
-                What makes Vibe different from OpenAI Atlas and other AI browsers?
+                How does Vibe compare to OpenClaw?
               </AccordionTrigger>
               <AccordionContent>
-                <p className="mb-3">Vibe focuses on key differentiators in the evolving AI browser space:</p>
-                <ul className="space-y-2 text-sm">
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                    <span><strong>Privacy Options:</strong> Choice to run 100% locally with Gemini Nano, or use cloud models when needed</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                    <span><strong>Model Flexibility:</strong> Bring your own model (BYOM) or switch between GPT, Claude, Gemini, and local models</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                    <span><strong>True Free Tier:</strong> Unlimited usage with local models, no subscription required</span>
-                  </li>
-                </ul>
-                <p className="mt-3 text-xs text-muted-foreground">Note: AI browser capabilities are rapidly evolving. We recommend testing with your specific workflows to determine the best fit.</p>
+                <p className="mb-2 text-sm text-muted-foreground">
+                  OpenClaw is a self-hosted agent stack. Vibe is a browser co-pilot focused on completing overcomplicated web tasks in your existing browser sessions.
+                </p>
+                <Link href="/blog/vibe-copilot-vs-openclaw-claude-cowork-and-devtools-mcp#openclaw" className="text-sm font-medium text-primary hover:underline">
+                  Explore full comparison →
+                </Link>
               </AccordionContent>
             </AccordionItem>
 
             <AccordionItem value="item-4">
               <AccordionTrigger className="text-left">
-                Are we locked into Vibe? Can we switch to other tools later?
+                How does Vibe compare to Claude Cowork?
               </AccordionTrigger>
               <AccordionContent>
-                <p className="mb-3">No, you're never locked into Vibe. We believe in true independence:</p>
-                <ul className="space-y-2 text-sm">
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                    <span><strong>Switch LLM Providers Anytime:</strong> Use Gemini Nano today, GPT-5 tomorrow, Claude next month. You control which AI powers your agent</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                    <span><strong>Export Workflows:</strong> Your automation scripts and workflows are yours to keep and use elsewhere</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                    <span><strong>Works with Any Chrome:</strong> Not a fork - just a standard Chrome extension that works on vanilla Chrome, Chromium, and Edge</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                    <span><strong>Open-Source Roadmap:</strong> We plan to open-source the extension once we close the remaining gaps and complete a proper security review</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                    <span><strong>No Data Lock-in:</strong> Your task history and results are accessible; we don't hold your data hostage</span>
-                  </li>
-                </ul>
-                <p className="mt-3 text-xs text-muted-foreground">This philosophy sets us apart from platforms like Manus that lock you into their proprietary AI and payment model.</p>
+                <p className="mb-2 text-sm text-muted-foreground">
+                  Claude browser workflows are Claude-first. Vibe is browser-first and model-flexible, so teams can choose how they run automations.
+                </p>
+                <Link href="/blog/vibe-copilot-vs-openclaw-claude-cowork-and-devtools-mcp#claude-cowork" className="text-sm font-medium text-primary hover:underline">
+                  Explore full comparison →
+                </Link>
               </AccordionContent>
             </AccordionItem>
 
             <AccordionItem value="item-5">
               <AccordionTrigger className="text-left">
-                Is Vibe suitable for enterprises with strict privacy requirements?
+                How does Vibe compare to Chrome DevTools MCP?
               </AccordionTrigger>
               <AccordionContent>
-                <p className="mb-3">Yes. Vibe is built for enterprise privacy from the ground up:</p>
-                <ul className="space-y-2 text-sm">
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                    <span><strong>100% Local Processing:</strong> Use Gemini Nano to run AI agents entirely on your device—zero data leaves your network</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                    <span><strong>No Telemetry:</strong> We don't log, track, or analyze your web browsing or task execution</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                    <span><strong>Self-Hosted Options:</strong> Deploy on your own infrastructure if needed</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                    <span><strong>Compliance Ready:</strong> Built to support enterprise security policies and data governance requirements</span>
-                  </li>
-                </ul>
-                <p className="mt-3 text-xs text-muted-foreground">For enterprises handling sensitive data, Vibe's local-first architecture provides the privacy guarantees you need without relying on external cloud services.</p>
-              </AccordionContent>
-            </AccordionItem>
-
-            <AccordionItem value="item-6">
-              <AccordionTrigger className="text-left">
-                How does Vibe compare to Manus and other competitors on vendor lock-in?
-              </AccordionTrigger>
-              <AccordionContent>
-                <p className="mb-3">Key differences on independence and flexibility:</p>
-                <ul className="space-y-2 text-sm">
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                    <span><strong>Manus:</strong> Proprietary AI provider, Chrome extension + web platform, vendor lock-in by design</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                    <span><strong>OpenAI Atlas:</strong> Locked to OpenAI models, requires fork of Chromium, subscription-only</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                    <span><strong>Vibe:</strong> Any LLM provider, native Chrome extension, free tier with local AI, true model independence</span>
-                  </li>
-                </ul>
-                <p className="mt-3 mb-2 text-sm"><strong>The difference matters:</strong></p>
-                <p className="text-xs text-muted-foreground">With Vibe, if a cheaper or better AI model launches, you can switch immediately. You're not locked into expensive subscription tiers or proprietary AI that doesn't improve. Your workflows stay with you, regardless of where you host the AI.</p>
+                <p className="mb-2 text-sm text-muted-foreground">
+                  DevTools MCP is a browser debugging/control interface. Vibe packages browser task execution into a co-pilot experience for end-to-end workflows.
+                </p>
+                <Link href="/blog/vibe-copilot-vs-openclaw-claude-cowork-and-devtools-mcp#chrome-devtools-mcp" className="text-sm font-medium text-primary hover:underline">
+                  Explore full comparison →
+                </Link>
               </AccordionContent>
             </AccordionItem>
            </Accordion>
@@ -1371,10 +994,20 @@ export default function Component() {
             Join early teams using Vibe to reduce repetitive work across websites, Gmail, and Calendar
           </p>
 
-          <Button size="lg" className="bg-white text-purple-600 hover:bg-slate-100 text-xl px-12 py-8 font-bold shadow-2xl" onClick={() => window.open('https://billing.stripe.com/p/login/9B6bJ06iPcwL9VUa4yabK00', '_blank')}>
-            Manage Subscription
+          <Button
+            size="lg"
+            className="bg-white text-purple-600 hover:bg-slate-100 text-xl px-12 py-8 font-bold shadow-2xl"
+            onClick={() => {
+              trackCTAClick('install_extension', 'pricing_primary')
+              window.open('https://chromewebstore.google.com/detail/vibe-ai-browser-co-pilot/djodpgokbmobeclicaicnnidccoinado', '_blank')
+            }}
+          >
+            Install Extension
             <ArrowRight className="ml-2 h-6 w-6" />
           </Button>
+          <Link href="https://billing.stripe.com/p/login/9B6bJ06iPcwL9VUa4yabK00" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-white/90 hover:text-white underline underline-offset-4">
+            Already subscribed? Manage billing
+          </Link>
 
           <div className="flex flex-col md:flex-row gap-8 items-center justify-center mt-8">
             <div className="flex items-center gap-2">

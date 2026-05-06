@@ -39,10 +39,13 @@ node scripts/test-layout.js https://www.vibebrowser.app
 ### 2. Navigation
 
 - [ ] Logo links work
-- [ ] "How It Works" anchor link scrolls to section
-- [ ] "Demo" anchor link scrolls to section
+- [ ] "MCP" link opens `/mcp`
+- [ ] "CLI Users" link opens `/cli`
+- [ ] "OpenClaw" link opens `/openclaw`
 - [ ] "Pricing" anchor link scrolls to section
 - [ ] "Docs" link opens documentation site
+- [ ] "Blog" link opens `/blog`
+- [ ] "About Us" link opens `/aboutus`
 
 ### 3. Demo Section
 
@@ -51,26 +54,41 @@ node scripts/test-layout.js https://www.vibebrowser.app
 - [ ] Demo selector buttons switch videos
 - [ ] Progress dots update correctly
 
-### 4. Comparison Table
+### 4. Use-Case Grid
 
-- [ ] Table renders correctly on desktop
-- [ ] Table is scrollable on mobile
-- [ ] All competitor columns visible
+- [ ] Section title displays: "What Vibe actually solves"
+- [ ] Card heading displays: "Repetitive web work"
+- [ ] Card heading displays: "Overcomplicated account flows"
+- [ ] Card heading displays: "Repeatable team workflows"
+- [ ] Outcome proof heading displays: "Outcome proof from real workflows"
+- [ ] Outcome proof item displays: "Supabase API key setup flow"
+- [ ] Outcome proof item displays: "Capital One virtual card flow"
+- [ ] Outcome proof item displays: "GitHub issue form completion"
+- [ ] CTA link label displays: "Explore full comparison →"
+- [ ] CTA link navigates to `/compare`
 
 ### 5. FAQ Section
 
 - [ ] Accordion items expand/collapse
-- [ ] Content displays correctly
+- [ ] Question displays: "Is my data safe?"
+- [ ] Question displays: "How much does Vibe Co-Pilot cost?"
+- [ ] Question displays: "How does Vibe compare to OpenClaw?"
+- [ ] Question displays: "How does Vibe compare to Claude Cowork?"
+- [ ] Question displays: "How does Vibe compare to Chrome DevTools MCP?"
+- [ ] OpenClaw answer includes link to `/blog/vibe-copilot-vs-openclaw-claude-cowork-and-devtools-mcp#openclaw`
+- [ ] Claude Cowork answer includes link to `/blog/vibe-copilot-vs-openclaw-claude-cowork-and-devtools-mcp#claude-cowork`
+- [ ] Chrome DevTools MCP answer includes link to `/blog/vibe-copilot-vs-openclaw-claude-cowork-and-devtools-mcp#chrome-devtools-mcp`
 
 ### 6. Pricing Section
 
 - [ ] All 3 pricing tiers display
-- [ ] "Manage Subscription" button opens Stripe portal
+- [ ] "Install Extension" button opens Chrome Web Store
+- [ ] Secondary link "Already subscribed? Manage billing" opens Stripe portal
 
 ### 7. Footer
 
 - [ ] All links work:
-  - [ ] Demo, Features, Roadmap, Pricing (anchor links)
+  - [ ] Demo, Features, Pricing (anchor links)
   - [ ] Documentation link
   - [ ] Developer Install link
   - [ ] Privacy Policy
@@ -146,6 +164,8 @@ node scripts/test-layout.js https://www.vibebrowser.app
 | Chrome Web Store | `https://chromewebstore.google.com/detail/vibe-ai-browser-co-pilot/djodpgokbmobeclicaicnnidccoinado` |
 | Developer Install | `https://docs.vibebrowser.app/getting-started/extension` |
 | Documentation | `https://docs.vibebrowser.app` |
+| CLI Users page | `/cli` |
+| OpenClaw page | `/openclaw` |
 | Stripe Portal | `https://billing.stripe.com/p/login/...` |
 | Privacy Policy | `/privacy` |
 | Terms of Service | `/terms` |

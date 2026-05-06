@@ -10,6 +10,7 @@ const pageNames: Record<string, string> = {
   '/cloud': 'for Agent Infra',
   '/mcp': 'for Agents',
   '/openclaw': 'for OpenClaw',
+  '/cli': 'for CLI Users',
   '/copilot': 'for Copilot Users',
   '/claude': 'for Claude Users',
   '/gemini': 'for Gemini Users',
@@ -30,6 +31,7 @@ const forPages = [
   { href: '/cloud', label: 'Agent Infra' },
   { href: '/mcp', label: 'Agents' },
   { href: '/openclaw', label: 'OpenClaw' },
+  { href: '/cli', label: 'CLI Users' },
   { href: '/copilot', label: 'Copilot Users' },
   { href: '/claude', label: 'Claude Users' },
   { href: '/gemini', label: 'Gemini Users' },
@@ -46,7 +48,7 @@ const forPages = [
   { href: '/mom', label: 'Everyone' },
 ]
 
-const darkPages = ['/cloud', '/mcp', '/openclaw', '/teams', '/enterprise', '/providers/ollama']
+const darkPages = ['/cloud', '/mcp', '/openclaw', '/cli', '/teams', '/enterprise', '/providers/ollama']
 
 export function SiteNav() {
   const pathname = usePathname()
@@ -55,7 +57,7 @@ export function SiteNav() {
   const currentPage = forPages.find(p => p.href === pathname)
   const isBlog = pathname?.startsWith('/blog')
   const isDark = darkPages.includes(pathname) || isBlog
-  const isOpenClaw = pathname === '/openclaw'
+  const isOpenClaw = pathname === '/openclaw' || pathname === '/cli'
 
   return (
     <nav className={`w-full px-4 lg:px-6 h-16 flex items-center justify-between border-b sticky top-0 z-50 ${

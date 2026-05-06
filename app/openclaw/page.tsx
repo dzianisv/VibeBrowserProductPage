@@ -9,6 +9,9 @@ import { Card, CardContent } from '@/components/ui/card'
 const PACKAGE_SPEC = '@vibebrowser/mcp@latest'
 const CLI_BASE = `npx -y --package ${PACKAGE_SPEC} vibebrowser-cli`
 const MCP_BROWSER_ALIAS = `npx -y --package ${PACKAGE_SPEC} vibebrowser-mcp browser`
+const GITHUB_MCP_URL = 'https://github.com/VibeTechnologies/vibe-mcp'
+const GITHUB_CLI_URL = 'https://github.com/VibeTechnologies/vibe-mcp/blob/main/src/browser-main.ts'
+const SKILL_URL = 'https://skills.sh/vibetechnologies/agent-skills/vibebrowser'
 
 const quickstartCommands = [
   {
@@ -138,7 +141,7 @@ export default function OpenClawPage() {
                 Give your agents a <span className="text-[#ff4d4d]">command line to the web</span>
               </h1>
               <p className="mx-auto mt-6 max-w-3xl text-lg text-[#c4cbe0] md:text-xl">
-                One npx command. No Browserbase account. No per-session billing. Your real logged-in browser, exposed to any AI agent — local or remote, free and open source.
+                One npx command. No Browserbase account. No per-session billing. OpenClaw-friendly by default, but built for any CLI-driven agent runtime using your real logged-in browser.
               </p>
               <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
                 <Link href="https://docs.vibebrowser.app/getting-started/extension#option-2-developer-version-advanced" target="_blank">
@@ -152,6 +155,22 @@ export default function OpenClawPage() {
                     View npm Package
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
+                </Link>
+                <Link href="/cli">
+                  <Button size="lg" variant="outline" className="rounded-full border-[rgba(136,146,176,0.2)] bg-transparent px-8 py-6 text-[#b4b4ff] hover:bg-[rgba(158,158,255,0.08)] hover:text-[#d8dcff]">
+                    General CLI Page
+                  </Button>
+                </Link>
+              </div>
+              <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-[#b7c0db]">
+                <Link href={GITHUB_MCP_URL} target="_blank" className="hover:text-[#f0f4ff] hover:underline">
+                  vibebrowser-mcp (GitHub)
+                </Link>
+                <Link href={GITHUB_CLI_URL} target="_blank" className="hover:text-[#f0f4ff] hover:underline">
+                  vibebrowser-cli (GitHub)
+                </Link>
+                <Link href={SKILL_URL} target="_blank" className="hover:text-[#f0f4ff] hover:underline">
+                  VibeBrowser skill
                 </Link>
               </div>
             </div>
@@ -315,7 +334,7 @@ export default function OpenClawPage() {
                   <CardContent className="p-6">
                     <h3 className="mb-3 text-lg font-medium text-[#f0f4ff]">What this page is for</h3>
                     <p className="text-sm text-[#b7c0db]">
-                      Use this route when you want a command-oriented browser interface, OpenClaw-compatible verbs, or relay-backed skill flows. If you need JSON MCP config blocks for Claude Code, Codex, Cursor, or VS Code, use <Link href="/mcp" className="text-[#b4b4ff] hover:text-[#d8dcff] hover:underline">Vibe Browser for Agents</Link>.
+                      Use this route when you want OpenClaw-first command workflows. If you need a broader CLI positioning for non-OpenClaw runtimes, use <Link href="/cli" className="text-[#b4b4ff] hover:text-[#d8dcff] hover:underline">/cli</Link>. For JSON MCP config blocks (Claude Code, Codex, Cursor, VS Code), use <Link href="/mcp" className="text-[#b4b4ff] hover:text-[#d8dcff] hover:underline">Vibe Browser for Agents</Link>.
                     </p>
                   </CardContent>
                 </Card>
