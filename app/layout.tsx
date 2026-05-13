@@ -103,7 +103,7 @@ export const metadata: Metadata = {
     canonical: 'https://www.vibebrowser.app',
   },
   verification: {
-    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || '',
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || 'OxGqPS7cJdS3ROdqQPhFwr-TqUnml2XvThfxOPC5beo',
     yandex: process.env.NEXT_PUBLIC_YANDEX_SITE_VERIFICATION || '',
     other: {
       'msvalidate.01': process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION || '',
