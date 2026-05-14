@@ -6,10 +6,11 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 
-const PACKAGE_SPEC = '@vibebrowser/mcp@latest'
-const CLI_BASE = `npx -y --package ${PACKAGE_SPEC} vibebrowser-cli`
-const CLI_REMOTE = `${CLI_BASE} --remote YOUR_UUID --json status`
-const MCP_OPENCLAW = `npx -y --package ${PACKAGE_SPEC} vibebrowser-mcp openclaw --remote YOUR_UUID`
+const PACKAGE_SPEC = '@vibebrowser/cli@latest'
+const FULL_PACKAGE_SPEC = '@vibebrowser/mcp@latest'
+const CLI_BASE = `npx -y ${PACKAGE_SPEC} vibebrowser-cli`
+const CLI_REMOTE = `${CLI_BASE} --remote YOUR_UUID_OR_WSS_URL --json status`
+const MCP_OPENCLAW = `npx -y ${FULL_PACKAGE_SPEC} vibebrowser-mcp openclaw --remote YOUR_UUID`
 
 const GITHUB_MCP_URL = 'https://github.com/VibeTechnologies/vibe-mcp'
 const GITHUB_CLI_URL = 'https://github.com/VibeTechnologies/vibe-mcp/blob/main/src/browser-main.ts'
@@ -28,7 +29,7 @@ const commandSurfaces = [
   },
   {
     title: 'Run the same flow remotely',
-    description: 'Swap local control for UUID relay access when the browser and agent are on different machines.',
+    description: 'Swap local control for UUID or full WSS URL relay access when the browser and agent are on different machines.',
     command: CLI_REMOTE,
   },
 ]
@@ -71,8 +72,7 @@ export default function CliPage() {
                 Vibe Browser CLI for <span className="text-[#ff4d4d]">any agent runtime</span>
               </h1>
               <p className="mx-auto mt-6 max-w-3xl text-lg text-[#c4cbe0] md:text-xl">
-                One command surface for OpenClaw, custom operators, and MCP-connected agents. Use your real logged-in browser
-                session locally or through remote relay.
+                One command surface for OpenClaw, custom operators, and MCP-connected agents. Install the lightweight <code className="rounded bg-[rgba(158,158,255,0.1)] px-1 text-[#b4b4ff]">@vibebrowser/cli</code> package or the full <code className="rounded bg-[rgba(158,158,255,0.1)] px-1 text-[#b4b4ff]">@vibebrowser/mcp</code> — both use your real logged-in browser session locally or through remote relay.
               </p>
               <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
                 <Link href="https://docs.vibebrowser.app/getting-started/extension#option-2-developer-version-advanced" target="_blank">

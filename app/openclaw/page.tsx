@@ -6,9 +6,10 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 
-const PACKAGE_SPEC = '@vibebrowser/mcp@latest'
-const CLI_BASE = `npx -y --package ${PACKAGE_SPEC} vibebrowser-cli`
-const MCP_BROWSER_ALIAS = `npx -y --package ${PACKAGE_SPEC} vibebrowser-mcp browser`
+const PACKAGE_SPEC = '@vibebrowser/cli@latest'
+const FULL_PACKAGE_SPEC = '@vibebrowser/mcp@latest'
+const CLI_BASE = `npx -y ${PACKAGE_SPEC} vibebrowser-cli`
+const MCP_BROWSER_ALIAS = `npx -y ${FULL_PACKAGE_SPEC} vibebrowser-mcp browser`
 const GITHUB_MCP_URL = 'https://github.com/VibeTechnologies/vibe-mcp'
 const GITHUB_CLI_URL = 'https://github.com/VibeTechnologies/vibe-mcp/blob/main/src/browser-main.ts'
 const SKILL_URL = 'https://skills.sh/vibetechnologies/agent-skills/vibebrowser'
@@ -36,7 +37,7 @@ const quickstartCommands = [
   },
 ]
 
-const remoteCommand = `${CLI_BASE} --remote YOUR_UUID --json status`
+const remoteCommand = `${CLI_BASE} --remote YOUR_UUID_OR_WSS_URL --json status`
 const aliasCommand = `${MCP_BROWSER_ALIAS} --json status`
 
 const commandSurfaces = [
@@ -150,7 +151,7 @@ export default function OpenClawPage() {
                     Install in Chrome
                   </Button>
                 </Link>
-                <Link href="https://www.npmjs.com/package/@vibebrowser/mcp" target="_blank">
+                <Link href="https://www.npmjs.com/package/@vibebrowser/cli" target="_blank">
                   <Button size="lg" variant="outline" className="rounded-full border-[rgba(136,146,176,0.2)] bg-transparent px-8 py-6 text-[#b4b4ff] hover:bg-[rgba(158,158,255,0.08)] hover:text-[#d8dcff]">
                     View npm Package
                     <ArrowRight className="ml-2 h-5 w-5" />
@@ -209,7 +210,7 @@ export default function OpenClawPage() {
                   </div>
                   <h2 className="mb-2 text-lg font-medium text-[#f0f4ff]">Same package, two surfaces</h2>
                   <p className="text-sm text-[#b7c0db]">
-                    The published npm package gives you both <code className="rounded bg-[rgba(158,158,255,0.1)] px-1 text-[#b4b4ff]">vibebrowser-cli</code> for command flows and <code className="rounded bg-[rgba(158,158,255,0.1)] px-1 text-[#b4b4ff]">vibebrowser-mcp</code> for MCP agents.
+                    Install <code className="rounded bg-[rgba(158,158,255,0.1)] px-1 text-[#b4b4ff]">@vibebrowser/cli</code> for lightweight command flows or <code className="rounded bg-[rgba(158,158,255,0.1)] px-1 text-[#b4b4ff]">@vibebrowser/mcp</code> for MCP agents — both share the same relay and browser connection.
                   </p>
                 </CardContent>
               </Card>
@@ -276,7 +277,7 @@ export default function OpenClawPage() {
                 Quick start for OpenClaw-style flows
               </h2>
               <p className="mt-4 text-[#c4cbe0]">
-                These are the real published commands from <code className="rounded bg-[rgba(158,158,255,0.1)] px-1.5 py-0.5 text-[#b4b4ff]">@vibebrowser/mcp</code>. Start with the CLI, then layer your OpenClaw skill or workflow on top.
+                These are the real published commands from <code className="rounded bg-[rgba(158,158,255,0.1)] px-1.5 py-0.5 text-[#b4b4ff]">@vibebrowser/cli</code>. Start with the CLI, then layer your OpenClaw skill or workflow on top.
               </p>
             </div>
 
@@ -307,7 +308,7 @@ export default function OpenClawPage() {
                       Remote relay
                     </div>
                     <p className="mb-3 text-sm text-[#b7c0db]">
-                      If your Vibe extension is connected in remote mode, use the same CLI with a UUID:
+                      If your Vibe extension is connected in remote mode, use the same CLI with a UUID or full WSS URL:
                     </p>
                     <pre className="overflow-x-auto rounded-lg border border-[rgba(136,146,176,0.15)] bg-[rgba(11,16,32,0.9)] p-4 text-sm text-[#b4b4ff]">
                       <code>{remoteCommand}</code>
