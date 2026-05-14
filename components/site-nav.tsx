@@ -8,6 +8,7 @@ import { ChevronDown } from 'lucide-react'
 const pageNames: Record<string, string> = {
   '/aboutus': '',
   '/mcp': 'for Agents',
+  '/cli': 'CLI',
   '/openclaw': 'for OpenClaw',
   '/copilot': 'for Copilot Users',
   '/people': 'for People',
@@ -23,6 +24,7 @@ const pageNames: Record<string, string> = {
 
 const forPages = [
   { href: '/mcp', label: 'Agents' },
+  { href: '/cli', label: 'CLI' },
   { href: '/openclaw', label: 'OpenClaw' },
   { href: '/copilot', label: 'Copilot Users' },
   { href: '/people', label: 'People' },
@@ -36,7 +38,7 @@ const forPages = [
   { href: '/tax', label: 'Tax' },
 ]
 
-const darkPages = ['/mcp', '/openclaw', '/teams', '/enterprise', '/providers/ollama']
+const darkPages = ['/mcp', '/cli', '/openclaw', '/teams', '/enterprise', '/providers/ollama']
 
 export function SiteNav() {
   const pathname = usePathname()
@@ -45,7 +47,7 @@ export function SiteNav() {
   const currentPage = forPages.find(p => p.href === pathname)
   const isBlog = pathname?.startsWith('/blog')
   const isDark = darkPages.includes(pathname) || isBlog
-  const isOpenClaw = pathname === '/openclaw'
+  const isOpenClaw = pathname === '/openclaw' || pathname === '/cli'
 
   return (
     <nav className={`w-full px-4 lg:px-6 h-16 flex items-center justify-between border-b sticky top-0 z-50 ${

@@ -10,7 +10,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.vibebrowser.app'),
   title: 'Vibe Browser for OpenClaw | Real Browser CLI',
-  description: 'Use OpenClaw with your real browser through vibebrowser-cli. Command-oriented browser control, remote relay support, and the same logged-in Vibe Browser session.',
+  description: 'Use OpenClaw with your real browser through @vibebrowser/cli. Command-oriented browser control with --remote <uuid> or --remote <full-ws-url>, and the same logged-in Vibe Browser session.',
   keywords: [
     'openclaw browser cli',
     'vibebrowser-cli',
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     'openclaw browser control',
     'browser cli relay',
     'remote browser relay',
-    '@vibebrowser/mcp',
+    '@vibebrowser/cli',
   ],
   openGraph: {
     type: 'website',
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     url: 'https://www.vibebrowser.app/openclaw',
     siteName: 'Vibe Browser',
     title: 'Vibe Browser for OpenClaw | Real Browser CLI',
-    description: 'Command-oriented browser control for OpenClaw-style workflows using vibebrowser-cli and your real logged-in browser session.',
+    description: 'Command-oriented browser control for OpenClaw-style workflows using @vibebrowser/cli and your real logged-in browser session.',
     images: [
       {
         url: '/openclaw/opengraph-image',
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Vibe Browser for OpenClaw | Real Browser CLI',
-    description: 'Command-oriented browser control for OpenClaw-style workflows using vibebrowser-cli.',
+    description: 'Command-oriented browser control for OpenClaw-style workflows using @vibebrowser/cli.',
     images: ['/openclaw/twitter-image'],
     creator: '@vibebrowserapp',
   },
@@ -57,7 +57,7 @@ const jsonLd = {
   operatingSystem: 'Chrome, macOS, Windows, Linux',
   description: 'Command-oriented browser CLI for OpenClaw-style workflows, backed by the real Vibe Browser session and relay.',
   url: 'https://www.vibebrowser.app/openclaw',
-  downloadUrl: 'https://www.npmjs.com/package/@vibebrowser/mcp',
+  downloadUrl: 'https://www.npmjs.com/package/@vibebrowser/cli',
   featureList: [
     'OpenClaw-compatible browser CLI',
     'Uses your real logged-in browser session',

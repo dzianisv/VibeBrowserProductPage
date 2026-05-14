@@ -17,6 +17,7 @@
 - [Crypto & DeFi](https://www.vibebrowser.app/crypto): AI for crypto. DeFi research, APY comparison, portfolio rebalancing.
 - [Tax](https://www.vibebrowser.app/tax): AI tax preparation. Automated form downloads, tax estimation, return filing assistance.
 - [MCP](https://www.vibebrowser.app/mcp): Vibe Browser for Agents. Connect real browser sessions to MCP-compatible AI agents.
+- [CLI](https://www.vibebrowser.app/cli): Vibe Browser CLI. Terminal commands for local and remote relay control of a real browser session.
 - [OpenClaw](https://www.vibebrowser.app/openclaw): Vibe Browser for OpenClaw. Command-oriented browser CLI and relay workflow for OpenClaw-style agent control.
 - [Compare](https://www.vibebrowser.app/compare): Feature comparison between Vibe Browser and alternatives.
 - [About Us](https://www.vibebrowser.app/aboutus): Meet the Vibe Technologies team.

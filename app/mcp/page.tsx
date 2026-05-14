@@ -139,9 +139,13 @@ const COMPETITOR_COLS = [
 const MCP_PACKAGE_SPEC = "@vibebrowser/mcp@latest"
 const MCP_SERVER_BINARY = "vibebrowser-mcp"
 const MCP_COMPAT_ALIAS = "vibe-mcp"
+const REMOTE_RELAY_URL = "wss://relay.api.vibebrowser.app/2d2f60a1-2031-4279-aa25-358f2c5b6f84"
+const REMOTE_RELAY_UUID = "2d2f60a1-2031-4279-aa25-358f2c5b6f84"
 const LOCAL_MCP_COMMAND = `npx -y --package ${MCP_PACKAGE_SPEC} ${MCP_SERVER_BINARY}`
-const REMOTE_MCP_COMMAND = `${LOCAL_MCP_COMMAND} --remote YOUR_UUID`
-const REMOTE_MCP_DISPLAY_COMMAND = `${LOCAL_MCP_COMMAND} --remote <uuid>`
+const REMOTE_MCP_COMMAND = `${LOCAL_MCP_COMMAND} --remote ${REMOTE_RELAY_URL}`
+const REMOTE_MCP_UUID_COMMAND = `${LOCAL_MCP_COMMAND} --remote ${REMOTE_RELAY_UUID}`
+const REMOTE_MCP_DISPLAY_COMMAND = `${LOCAL_MCP_COMMAND} --remote ${REMOTE_RELAY_UUID}`
+const SET_REMOTE_TOOL_CALL = `set_remote { "url": "${REMOTE_RELAY_URL}" }`
 
 interface ToolDef {
   name: string
@@ -285,6 +289,7 @@ const TOOL_CATEGORIES: { category: string; icon: React.ReactNode; tools: ToolDef
     icon: <Zap className="w-5 h-5" />,
     tools: [
       { name: "wait", description: "Wait N seconds" },
+      { name: "set_remote", description: "Hot reconnect this MCP server to a remote relay URL" },
       { name: "subagent", description: "Spawn sub-agent with isolated context" },
       { name: "parallel", description: "Execute multiple tools in parallel" },
       { name: "web_fetch", description: "HTTP fetch + text extraction" },
@@ -527,7 +532,7 @@ export default function McpPage() {
                 <p className="text-xl text-[#9aa0a6] max-w-2xl mx-auto">
                   Connect Claude, Cursor, VS Code, and more to your real browser — with all your sessions, cookies, and extensions intact.
                   Works with Anthropic Claude Max, GitHub Copilot, Vibe AI, and BYOK providers.
-                  Multi-agent ready, internet-exposed relay, 25+ tools, and an open source MCP package for real browser control. Need the command-oriented OpenClaw flow? Use the dedicated <Link href="/openclaw" className="text-[#8ab4f8] hover:underline">Vibe Browser for OpenClaw</Link> page.
+                  Multi-agent ready, internet-exposed relay, 25+ tools, and an open source MCP package for real browser control. Need terminal commands instead of MCP config? Use the dedicated <Link href="/cli" className="text-[#8ab4f8] hover:underline">Vibe Browser CLI</Link> page.
                 </p>
               </div>
 
@@ -616,7 +621,7 @@ export default function McpPage() {
                 </div>
                 <p className="text-xs text-[#5f6368] mt-2">Requires Node.js and the <Link href="https://docs.vibebrowser.app/getting-started/extension" target="_blank" className="text-[#8ab4f8] hover:underline">Vibe Browser extension</Link></p>
                 <p className="text-xs text-[#5f6368] mt-1">
-                  Published MCP binaries: <code className="text-[#9aa0a6]">{MCP_SERVER_BINARY}</code> and <code className="text-[#9aa0a6]">{MCP_COMPAT_ALIAS}</code>. For OpenClaw-style CLI flows, see <Link href="/openclaw" className="text-[#8ab4f8] hover:underline">the separate OpenClaw page</Link>.
+                  Published MCP binaries: <code className="text-[#9aa0a6]">{MCP_SERVER_BINARY}</code> and <code className="text-[#9aa0a6]">{MCP_COMPAT_ALIAS}</code>. For terminal CLI flows, see <Link href="/cli" className="text-[#8ab4f8] hover:underline">the separate CLI page</Link>.
                 </p>
               </div>
 
@@ -919,22 +924,22 @@ export default function McpPage() {
 {`  Cloud runner         Claude Code (laptop)     Cursor (office)
        │                      │                       │
        ▼                      ▼                       ▼
-   [vibebrowser-mcp      [vibebrowser-mcp      [vibebrowser-mcp
-    --remote <uuid>]         --remote <uuid>]         --remote <uuid>]
+      [vibebrowser-mcp      [vibebrowser-mcp      [vibebrowser-mcp
+       --remote ${REMOTE_RELAY_UUID}]         --remote ${REMOTE_RELAY_URL}]  --remote ${REMOTE_RELAY_UUID}]
        │                      │                       │
        └──────────────────────┼───────────────────────┘
-                              │
-                    wss://relay.vibebrowser.app/<uuid>
-                              │
-                              ▼
-                 ┌────────────────────────┐
-                 │    Public Relay Server  │  ← hosted by Vibe
-                 │  relay.vibebrowser.app  │     UUID-authenticated
-                 └────────────────────────┘
-                              │
-                    wss://relay.vibebrowser.app
-                              │
-                              ▼
+                               │
+                      ${REMOTE_RELAY_URL}
+                               │
+                               ▼
+                  ┌────────────────────────┐
+                  │    Public Relay Server  │  ← hosted by Vibe
+                  │ relay.api.vibebrowser.app │  URL-authenticated
+                  └────────────────────────┘
+                               │
+                     wss://relay.api.vibebrowser.app
+                               │
+                               ▼
                  ┌──────────────────┐
                  │  Vibe Extension  │  ← your real Chrome browser
                  │   (at home)      │     connects on "Remote" toggle
@@ -954,22 +959,31 @@ export default function McpPage() {
                   <span className="text-[#8ab4f8] font-mono text-sm font-bold mt-0.5 flex-shrink-0">1.</span>
                   <div>
                     <p className="text-sm text-[#e8eaed]">In the Vibe extension, go to Settings and enable MCP External Control in <strong>Remote</strong> mode</p>
-                    <p className="text-xs text-[#5f6368] mt-1">This connects your browser to relay.vibebrowser.app and generates a unique UUID</p>
+                    <p className="text-xs text-[#5f6368] mt-1">This connects your browser to relay.api.vibebrowser.app and gives you a UUID plus a full WebSocket URL</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <span className="text-[#8ab4f8] font-mono text-sm font-bold mt-0.5 flex-shrink-0">2.</span>
                   <div>
-                    <p className="text-sm text-[#e8eaed]">Copy your UUID from the extension settings page</p>
+                    <p className="text-sm text-[#e8eaed]">Copy the full <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1.5 py-0.5 rounded">wss://relay.api.vibebrowser.app/...</code> URL from the extension settings page</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <span className="text-[#8ab4f8] font-mono text-sm font-bold mt-0.5 flex-shrink-0">3.</span>
                   <div>
-                    <p className="text-sm text-[#e8eaed] mb-2">Configure your agent with the <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1.5 py-0.5 rounded">--remote</code> flag:</p>
+                    <p className="text-sm text-[#e8eaed] mb-2">Configure your agent with one of the two supported <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1.5 py-0.5 rounded">--remote</code> forms:</p>
                     <div className="bg-[#0a0a0a] rounded border border-[#2a2a2a] overflow-hidden">
                       <div className="flex items-center justify-between px-3 py-1.5 bg-[#1a1a1a] border-b border-[#2a2a2a]">
-                        <span className="text-xs text-[#5f6368] font-mono">CLI</span>
+                        <span className="text-xs text-[#5f6368] font-mono">UUID form</span>
+                        <CopyButton text={REMOTE_MCP_UUID_COMMAND} />
+                      </div>
+                      <pre className="px-3 py-2 text-sm font-mono text-[#e8eaed] overflow-x-auto">
+                        <code>{REMOTE_MCP_UUID_COMMAND}</code>
+                      </pre>
+                    </div>
+                    <div className="mt-3 bg-[#0a0a0a] rounded border border-[#2a2a2a] overflow-hidden">
+                      <div className="flex items-center justify-between px-3 py-1.5 bg-[#1a1a1a] border-b border-[#2a2a2a]">
+                        <span className="text-xs text-[#5f6368] font-mono">Full WebSocket URL form</span>
                         <CopyButton text={REMOTE_MCP_COMMAND} />
                       </div>
                       <pre className="px-3 py-2 text-sm font-mono text-[#e8eaed] overflow-x-auto">
@@ -978,9 +992,24 @@ export default function McpPage() {
                     </div>
                   </div>
                 </div>
+                <div className="flex items-start gap-3">
+                  <span className="text-[#8ab4f8] font-mono text-sm font-bold mt-0.5 flex-shrink-0">4.</span>
+                  <div>
+                    <p className="text-sm text-[#e8eaed] mb-2">Already running locally? Ask the MCP server tool to hot reconnect instead of restarting your agent:</p>
+                    <div className="bg-[#0a0a0a] rounded border border-[#2a2a2a] overflow-hidden">
+                      <div className="flex items-center justify-between px-3 py-1.5 bg-[#1a1a1a] border-b border-[#2a2a2a]">
+                        <span className="text-xs text-[#5f6368] font-mono">MCP tool call</span>
+                        <CopyButton text={SET_REMOTE_TOOL_CALL} />
+                      </div>
+                      <pre className="px-3 py-2 text-sm font-mono text-[#e8eaed] overflow-x-auto">
+                        <code>{SET_REMOTE_TOOL_CALL}</code>
+                      </pre>
+                    </div>
+                  </div>
+                </div>
               </div>
               <p className="text-xs text-[#5f6368] mt-4">
-                Share your UUID with any MCP-compatible agent on the internet. They connect to your browser through the relay — no port forwarding, no VPN, no firewall changes needed.
+                Use <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">--remote &lt;uuid&gt;</code> for the default public relay, or <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">--remote &lt;full-ws-url&gt;</code> for an explicit relay endpoint.
               </p>
             </div>
 
@@ -998,14 +1027,14 @@ export default function McpPage() {
                   <Globe className="w-6 h-6 text-[#81c995]" />
                 </div>
                 <h4 className="font-medium text-[#e8eaed] mb-1">Connect from Anywhere</h4>
-                <p className="text-xs text-[#9aa0a6]">Any agent on the internet can control your browser — just share your UUID</p>
+                <p className="text-xs text-[#9aa0a6]">Any authorized agent on the internet can control your browser using the UUID or full WebSocket URL</p>
               </div>
               <div className="text-center">
                 <div className="w-12 h-12 rounded-lg bg-[#fdd663]/10 flex items-center justify-center mx-auto mb-3">
                   <Shield className="w-6 h-6 text-[#fdd663]" />
                 </div>
                 <h4 className="font-medium text-[#e8eaed] mb-1">Authenticated</h4>
-                <p className="text-xs text-[#9aa0a6]">UUID + secret authentication — only you control who connects</p>
+                <p className="text-xs text-[#9aa0a6]">Relay URL authentication — only you control who connects</p>
               </div>
             </div>
           </div>
@@ -1281,7 +1310,7 @@ Browser automation MCP and CLI package.
                   Can remote agents on the internet connect to my browser?
                 </AccordionTrigger>
                 <AccordionContent className="text-[#9aa0a6]">
-                  Yes. Vibe Browser MCP now supports exposing your relay daemon to the internet, so remote AI agents and cloud runners can connect to your local browser extension from anywhere. That includes OpenClaw-style remote flows, but the command-oriented setup lives on the dedicated <Link href="/openclaw" className="text-[#8ab4f8] hover:underline">OpenClaw page</Link>.
+                  Yes. Vibe Browser MCP supports <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">--remote &lt;uuid&gt;</code> for the default public relay and <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">--remote &lt;full-ws-url&gt;</code> for explicit relay endpoints, so remote AI agents and cloud runners can connect to your local browser extension from anywhere. Running agents can also use the MCP server tool <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">set_remote &#123; url &#125;</code> to hot reconnect. Terminal remote setup lives in <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">@vibebrowser/cli</code>, with the same two forms on the dedicated <Link href="/cli" className="text-[#8ab4f8] hover:underline">CLI page</Link>.
                 </AccordionContent>
               </AccordionItem>
 
@@ -1308,7 +1337,7 @@ Browser automation MCP and CLI package.
                   What AI agents work with Vibe Browser MCP?
                 </AccordionTrigger>
                 <AccordionContent className="text-[#9aa0a6]">
-                  Any MCP-compatible AI client — local or remote. We provide setup configs for Claude Desktop, Cursor, VS Code (GitHub Copilot), OpenCode, Claude Code, Windsurf, Gemini CLI, and Codex. If you are specifically wiring up OpenClaw or another command-oriented browser runtime, use the dedicated <Link href="/openclaw" className="text-[#8ab4f8] hover:underline">Vibe Browser for OpenClaw</Link> page.
+                  Any MCP-compatible AI client — local or remote. We provide setup configs for Claude Desktop, Cursor, VS Code (GitHub Copilot), OpenCode, Claude Code, Windsurf, Gemini CLI, and Codex. If you are specifically wiring up a command-oriented browser runtime, use the dedicated <Link href="/cli" className="text-[#8ab4f8] hover:underline">Vibe Browser CLI</Link> page.
                 </AccordionContent>
               </AccordionItem>
 

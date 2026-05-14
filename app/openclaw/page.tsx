@@ -6,9 +6,12 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 
-const PACKAGE_SPEC = '@vibebrowser/mcp@latest'
-const CLI_BASE = `npx -y --package ${PACKAGE_SPEC} vibebrowser-cli`
-const MCP_BROWSER_ALIAS = `npx -y --package ${PACKAGE_SPEC} vibebrowser-mcp browser`
+const CLI_PACKAGE_SPEC = '@vibebrowser/cli'
+const MCP_PACKAGE_SPEC = '@vibebrowser/mcp@latest'
+const CLI_BASE = `npx ${CLI_PACKAGE_SPEC}`
+const MCP_BROWSER_ALIAS = `npx -y --package ${MCP_PACKAGE_SPEC} vibebrowser-mcp browser`
+const EXAMPLE_RELAY_URL = 'wss://relay.api.vibebrowser.app/2d2f60a1-2031-4279-aa25-358f2c5b6f84'
+const EXAMPLE_RELAY_ID = '2d2f60a1-2031-4279-aa25-358f2c5b6f84'
 
 const quickstartCommands = [
   {
@@ -24,16 +27,17 @@ const quickstartCommands = [
     command: `${CLI_BASE} --json snapshot`,
   },
   {
-    label: 'Click by ref',
-    command: `${CLI_BASE} click A12`,
+    label: 'Click by index',
+    command: `${CLI_BASE} click 12`,
   },
   {
     label: 'Type into a field',
-    command: `${CLI_BASE} type A13 "hello world"`,
+    command: `${CLI_BASE} type 13 "hello world"`,
   },
 ]
 
-const remoteCommand = `${CLI_BASE} --remote YOUR_UUID --json status`
+const remoteExampleCommand = `${CLI_BASE} --remote ${EXAMPLE_RELAY_URL} --json status`
+const remoteUuidCommand = `${CLI_BASE} --remote ${EXAMPLE_RELAY_ID} --json status`
 const aliasCommand = `${MCP_BROWSER_ALIAS} --json status`
 
 const commandSurfaces = [
@@ -43,7 +47,7 @@ const commandSurfaces = [
     description:
       'Command-oriented flows work when the operator can inspect the live page first. Status and indexed snapshots make the next action explicit instead of guessy.',
     commands: [`${CLI_BASE} --json status`, `${CLI_BASE} --json snapshot`],
-    note: 'Best for bug reproduction, portal triage, and any runbook that needs stable refs before the next click.',
+    note: 'Best for bug reproduction, portal triage, and any runbook that needs stable indices before the next click.',
     icon: Eye,
     tone: 'bg-[rgba(158,158,255,0.12)] text-[#9e9eff]',
   },
@@ -51,8 +55,8 @@ const commandSurfaces = [
     label: 'Act',
     title: 'Use explicit verbs against the live page',
     description:
-      'Open a page, click by ref, and type by ref with a thin command surface that still talks to the real browser session your team already uses.',
-    commands: [`${CLI_BASE} open https://example.com`, `${CLI_BASE} click A12`, `${CLI_BASE} type A13 "hello world"`],
+      'Open a page, click by index, and type by index with a thin command surface that still talks to the real browser session your team already uses.',
+    commands: [`${CLI_BASE} open https://example.com`, `${CLI_BASE} click 12`, `${CLI_BASE} type 13 "hello world"`],
     note: 'Good when you want shell-friendly control without turning the task into a full MCP integration yet.',
     icon: MousePointerClick,
     tone: 'bg-[rgba(255,77,77,0.12)] text-[#ff6b6b]',
@@ -61,17 +65,17 @@ const commandSurfaces = [
     label: 'Relay',
     title: 'Point the same flow at a remote browser',
     description:
-      'When the browser lives on another machine, keep the same command shape and swap in a UUID-backed remote relay instead of rewriting the workflow.',
-    commands: [remoteCommand],
-    note: 'Useful for home-office browser access, remote operators, and hosted runners that still need the human browser state.',
+      'When the browser lives on another machine, keep the same command shape and pass either the extension UUID or a full WebSocket relay URL.',
+    commands: [remoteExampleCommand, remoteUuidCommand],
+    note: 'Useful for home-office browser access, remote operators, hosted runners, and CLI flows that still need the human browser state.',
     icon: GitBranch,
     tone: 'bg-[rgba(129,201,149,0.12)] text-[#81c995]',
   },
   {
     label: 'Escalate',
-    title: 'Move to MCP without changing the package',
+    title: 'Move to MCP with the MCP package',
     description:
-      'The CLI is the thin command surface. When the job becomes richer, use the same published package to expose the browser to MCP agents.',
+      'The CLI is the thin command surface. When the job becomes richer, use @vibebrowser/mcp to expose the browser to MCP agents.',
     commands: [aliasCommand],
     note: 'That lets OpenClaw-style command flows and broader agent systems share one execution layer instead of fragmenting the product story.',
     icon: Layers,
@@ -87,7 +91,7 @@ const operatorPatterns = [
       'Open the failing route, capture a snapshot, click the suspect control, and hand the resulting evidence to a coding agent. This keeps the browser runbook explicit and replayable.',
     outputs: [
       'Deterministic command history',
-      'Snapshot refs an agent can reuse immediately',
+      'Snapshot indices an agent can reuse immediately',
       'A cleaner handoff into richer MCP tooling when debugging expands',
     ],
   },
@@ -138,7 +142,7 @@ export default function OpenClawPage() {
                 Vibe Browser for <span className="text-[#ff4d4d]">OpenClaw</span>
               </h1>
               <p className="mx-auto mt-6 max-w-3xl text-lg text-[#c4cbe0] md:text-xl">
-                Use OpenClaw-style browser commands against your real logged-in browser session. <code className="rounded bg-[rgba(158,158,255,0.1)] px-1.5 py-0.5 text-[#b4b4ff]">vibebrowser-cli</code> gives
+                Use OpenClaw-style browser commands against your real logged-in browser session. <code className="rounded bg-[rgba(158,158,255,0.1)] px-1.5 py-0.5 text-[#b4b4ff]">@vibebrowser/cli</code> gives
                 you a command-oriented surface for status, open, snapshot, click, type, and remote relay flows without switching to a disposable browser profile.
               </p>
               <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -148,7 +152,7 @@ export default function OpenClawPage() {
                     Install in Chrome
                   </Button>
                 </Link>
-                <Link href="https://www.npmjs.com/package/@vibebrowser/mcp" target="_blank">
+                <Link href="https://www.npmjs.com/package/@vibebrowser/cli" target="_blank">
                   <Button size="lg" variant="outline" className="rounded-full border-[rgba(136,146,176,0.2)] bg-transparent px-8 py-6 text-[#b4b4ff] hover:bg-[rgba(158,158,255,0.08)] hover:text-[#d8dcff]">
                     View npm Package
                     <ArrowRight className="ml-2 h-5 w-5" />
@@ -180,7 +184,7 @@ export default function OpenClawPage() {
                   </div>
                   <h2 className="mb-2 text-lg font-medium text-[#f0f4ff]">Local or remote relay</h2>
                   <p className="text-sm text-[#b7c0db]">
-                    Start locally on the same machine or point the CLI at a remote UUID when your browser is exposed through the Vibe relay.
+                    Start locally on the same machine or point the CLI at <code className="rounded bg-[rgba(158,158,255,0.1)] px-1 text-[#b4b4ff]">--remote &lt;uuid&gt;</code> or <code className="rounded bg-[rgba(158,158,255,0.1)] px-1 text-[#b4b4ff]">--remote &lt;full-ws-url&gt;</code> when your browser is exposed through the Vibe relay.
                   </p>
                 </CardContent>
               </Card>
@@ -189,9 +193,9 @@ export default function OpenClawPage() {
                   <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-[rgba(255,77,77,0.12)]">
                     <Shield className="h-5 w-5 text-[#ff8a8a]" />
                   </div>
-                  <h2 className="mb-2 text-lg font-medium text-[#f0f4ff]">Same package, two surfaces</h2>
+                  <h2 className="mb-2 text-lg font-medium text-[#f0f4ff]">Separate packages, shared relay</h2>
                   <p className="text-sm text-[#b7c0db]">
-                    The published npm package gives you both <code className="rounded bg-[rgba(158,158,255,0.1)] px-1 text-[#b4b4ff]">vibebrowser-cli</code> for command flows and <code className="rounded bg-[rgba(158,158,255,0.1)] px-1 text-[#b4b4ff]">vibebrowser-mcp</code> for MCP agents.
+                    The published <code className="rounded bg-[rgba(158,158,255,0.1)] px-1 text-[#b4b4ff]">@vibebrowser/cli</code> package gives command flows a focused terminal surface. Use <code className="rounded bg-[rgba(158,158,255,0.1)] px-1 text-[#b4b4ff]">@vibebrowser/mcp</code> when agents need MCP.
                   </p>
                 </CardContent>
               </Card>
@@ -258,7 +262,7 @@ export default function OpenClawPage() {
                 Quick start for OpenClaw-style flows
               </h2>
               <p className="mt-4 text-[#c4cbe0]">
-                These are the real published commands from <code className="rounded bg-[rgba(158,158,255,0.1)] px-1.5 py-0.5 text-[#b4b4ff]">@vibebrowser/mcp</code>. Start with the CLI, then layer your OpenClaw skill or workflow on top.
+                These are the real published commands from <code className="rounded bg-[rgba(158,158,255,0.1)] px-1.5 py-0.5 text-[#b4b4ff]">@vibebrowser/cli</code>. Start with the CLI, then layer your OpenClaw skill or workflow on top.
               </p>
             </div>
 
@@ -289,10 +293,16 @@ export default function OpenClawPage() {
                       Remote relay
                     </div>
                     <p className="mb-3 text-sm text-[#b7c0db]">
-                      If your Vibe extension is connected in remote mode, use the same CLI with a UUID:
+                      If your Vibe extension is connected in remote mode, use one of the two supported remote forms. For example, a full WebSocket URL targets an explicit relay endpoint:
                     </p>
                     <pre className="overflow-x-auto rounded-lg border border-[rgba(136,146,176,0.15)] bg-[rgba(11,16,32,0.9)] p-4 text-sm text-[#b4b4ff]">
-                      <code>{remoteCommand}</code>
+                      <code>{remoteExampleCommand}</code>
+                    </pre>
+                    <p className="mb-3 mt-4 text-sm text-[#b7c0db]">
+                      Or pass the UUID directly to use the default public relay:
+                    </p>
+                    <pre className="overflow-x-auto rounded-lg border border-[rgba(136,146,176,0.15)] bg-[rgba(11,16,32,0.9)] p-4 text-sm text-[#b4b4ff]">
+                      <code>{remoteUuidCommand}</code>
                     </pre>
                   </CardContent>
                 </Card>
@@ -316,7 +326,7 @@ export default function OpenClawPage() {
                   <CardContent className="p-6">
                     <h3 className="mb-3 text-lg font-medium text-[#f0f4ff]">What this page is for</h3>
                     <p className="text-sm text-[#b7c0db]">
-                      Use this route when you want a command-oriented browser interface, OpenClaw-compatible verbs, or relay-backed skill flows. If you need JSON MCP config blocks for Claude Code, Codex, Cursor, or VS Code, use <Link href="/mcp" className="text-[#b4b4ff] hover:text-[#d8dcff] hover:underline">Vibe Browser for Agents</Link>.
+                      Use this route when you want OpenClaw-compatible verbs or relay-backed skill flows. For the canonical terminal command reference, use <Link href="/cli" className="text-[#b4b4ff] hover:text-[#d8dcff] hover:underline">Vibe Browser CLI</Link>. If you need JSON MCP config blocks for Claude Code, Codex, Cursor, or VS Code, use <Link href="/mcp" className="text-[#b4b4ff] hover:text-[#d8dcff] hover:underline">Vibe Browser for Agents</Link>.
                     </p>
                   </CardContent>
                 </Card>
@@ -375,7 +385,7 @@ export default function OpenClawPage() {
               Vibe Browser for OpenClaw does not pretend to manage a fresh isolated browser lifecycle. It gives OpenClaw-style command flows access to the same real browser session your team already uses day to day.
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Link href="https://www.npmjs.com/package/@vibebrowser/mcp" target="_blank">
+              <Link href="https://www.npmjs.com/package/@vibebrowser/cli" target="_blank">
                 <Button size="lg" className="rounded-full bg-[#ff4d4d] px-8 py-6 text-[#fdf4f4] hover:bg-[#ff6b6b]">
                   View npm Package
                 </Button>
