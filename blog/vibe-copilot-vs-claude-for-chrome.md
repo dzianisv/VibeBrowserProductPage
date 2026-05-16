@@ -52,7 +52,7 @@ For any workflow involving banking, SaaS admin accounts, or corporate tools — 
 Vibe exposes a full MCP server. This means your coding agents — Claude Code, Codex, OpenCode, Gemini CLI — can call browser tools directly:
 
 ```bash
-npx -y @VibeTechnologies/vibe-mcp
+npx -y -p @vibebrowser/mcp@latest vibebrowser-mcp
 ```
 
 Then in Claude Code:

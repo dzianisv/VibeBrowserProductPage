@@ -261,7 +261,7 @@ const howToJsonLd = {
     {
       '@type': 'HowToStep',
       name: 'Add vibebrowser-mcp to your AI client',
-      text: 'Add {"mcpServers":{"vibe":{"command":"npx","args":["-y","--package","@vibebrowser/mcp@latest","vibebrowser-mcp"]}}} to your AI client\'s MCP configuration file.',
+      text: 'Add {"mcpServers":{"vibe":{"command":"npx","args":["-y","-p","@vibebrowser/mcp@latest","vibebrowser-mcp"]}}} to your AI client\'s MCP configuration file.',
     },
   ],
   totalTime: 'PT2M',

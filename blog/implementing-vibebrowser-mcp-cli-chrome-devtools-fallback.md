@@ -137,15 +137,15 @@ You need end-to-end proof that `call_tool -> extension/fallback execution -> too
 Extension-first (default):
 
 ```bash
-npx -y --package @vibebrowser/mcp@latest vibebrowser-mcp start
-npx -y --package @vibebrowser/mcp@latest vibebrowser-cli --json status
+npx -y -p @vibebrowser/mcp@latest vibebrowser-mcp start
+npx -y @vibebrowser/cli@latest --json status
 ```
 
 Force DevTools mode:
 
 ```bash
-npx -y --package @vibebrowser/mcp@latest vibebrowser-mcp start --devtools
-npx -y --package @vibebrowser/mcp@latest vibebrowser-cli --devtools --json snapshot
+npx -y -p @vibebrowser/mcp@latest vibebrowser-mcp start --devtools
+npx -y @vibebrowser/cli@latest --devtools --json snapshot
 ```
 
 ## Why this fallback model works — and what you can do now

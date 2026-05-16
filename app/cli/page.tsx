@@ -8,9 +8,9 @@ import { Card, CardContent } from '@/components/ui/card'
 
 const PACKAGE_SPEC = '@vibebrowser/cli@latest'
 const FULL_PACKAGE_SPEC = '@vibebrowser/mcp@latest'
-const CLI_BASE = `npx -y ${PACKAGE_SPEC} vibebrowser-cli`
+const CLI_BASE = `npx -y ${PACKAGE_SPEC}`
 const CLI_REMOTE = `${CLI_BASE} --remote YOUR_UUID_OR_WSS_URL --json status`
-const MCP_OPENCLAW = `npx -y ${FULL_PACKAGE_SPEC} vibebrowser-mcp openclaw --remote YOUR_UUID`
+const MCP_OPENCLAW = `npx -y -p ${FULL_PACKAGE_SPEC} vibebrowser-mcp openclaw --remote YOUR_UUID`
 
 const GITHUB_MCP_URL = 'https://github.com/VibeTechnologies/vibe-mcp'
 const GITHUB_CLI_URL = 'https://github.com/VibeTechnologies/vibe-mcp/blob/main/src/browser-main.ts'

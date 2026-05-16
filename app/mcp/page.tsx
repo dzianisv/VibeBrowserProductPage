@@ -139,7 +139,7 @@ const COMPETITOR_COLS = [
 const MCP_PACKAGE_SPEC = "@vibebrowser/mcp@latest"
 const MCP_SERVER_BINARY = "vibebrowser-mcp"
 const MCP_COMPAT_ALIAS = "vibe-mcp"
-const LOCAL_MCP_COMMAND = `npx -y --package ${MCP_PACKAGE_SPEC} ${MCP_SERVER_BINARY}`
+const LOCAL_MCP_COMMAND = `npx -y -p ${MCP_PACKAGE_SPEC} ${MCP_SERVER_BINARY}`
 const REMOTE_MCP_COMMAND = `${LOCAL_MCP_COMMAND} --remote YOUR_UUID`
 const REMOTE_MCP_DISPLAY_COMMAND = `${LOCAL_MCP_COMMAND} --remote <uuid>`
 
@@ -353,7 +353,7 @@ const SETUP_CONFIGS: SetupConfig[] = [
   "mcp": {
     "vibe": {
       "type": "local",
-      "command": ["npx", "-y", "--package", "@vibebrowser/mcp@latest", "vibebrowser-mcp"],
+      "command": ["npx", "-y", "-p", "@vibebrowser/mcp@latest", "vibebrowser-mcp"],
       "enabled": true
     }
   }
@@ -367,7 +367,7 @@ const SETUP_CONFIGS: SetupConfig[] = [
   "mcpServers": {
     "vibe": {
       "command": "npx",
-      "args": ["-y", "--package", "@vibebrowser/mcp@latest", "vibebrowser-mcp"]
+      "args": ["-y", "-p", "@vibebrowser/mcp@latest", "vibebrowser-mcp"]
     }
   }
 }`,
@@ -380,7 +380,7 @@ const SETUP_CONFIGS: SetupConfig[] = [
   "mcpServers": {
     "vibe": {
       "command": "npx",
-      "args": ["-y", "--package", "@vibebrowser/mcp@latest", "vibebrowser-mcp"]
+      "args": ["-y", "-p", "@vibebrowser/mcp@latest", "vibebrowser-mcp"]
     }
   }
 }`,
@@ -393,7 +393,7 @@ const SETUP_CONFIGS: SetupConfig[] = [
   "github.copilot.chat.mcpServers": {
     "vibe": {
       "command": "npx",
-      "args": ["-y", "--package", "@vibebrowser/mcp@latest", "vibebrowser-mcp"]
+      "args": ["-y", "-p", "@vibebrowser/mcp@latest", "vibebrowser-mcp"]
     }
   }
 }`,
@@ -405,7 +405,7 @@ const SETUP_CONFIGS: SetupConfig[] = [
   "mcpServers": {
     "vibe": {
       "command": "npx",
-      "args": ["-y", "--package", "@vibebrowser/mcp@latest", "vibebrowser-mcp"]
+      "args": ["-y", "-p", "@vibebrowser/mcp@latest", "vibebrowser-mcp"]
     }
   }
 }`,
@@ -417,7 +417,7 @@ const SETUP_CONFIGS: SetupConfig[] = [
   "mcpServers": {
     "vibe": {
       "command": "npx",
-      "args": ["-y", "--package", "@vibebrowser/mcp@latest", "vibebrowser-mcp"]
+      "args": ["-y", "-p", "@vibebrowser/mcp@latest", "vibebrowser-mcp"]
     }
   }
 }`,
@@ -427,7 +427,7 @@ const SETUP_CONFIGS: SetupConfig[] = [
     agent: "Codex",
     file: "CLI",
     config: `codex mcp add vibe -- ${LOCAL_MCP_COMMAND}`,
-    note: "Or add to ~/.codex/config.toml (or .codex/config.toml): [mcp_servers.vibe] command = \"npx\" args = [\"-y\", \"--package\", \"@vibebrowser/mcp@latest\", \"vibebrowser-mcp\"]",
+    note: "Or add to ~/.codex/config.toml (or .codex/config.toml): [mcp_servers.vibe] command = \"npx\" args = [\"-y\", \"-p\", \"@vibebrowser/mcp@latest\", \"vibebrowser-mcp\"]",
   },
 ]
 

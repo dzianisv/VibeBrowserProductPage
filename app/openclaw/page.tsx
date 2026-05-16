@@ -8,8 +8,8 @@ import { Card, CardContent } from '@/components/ui/card'
 
 const PACKAGE_SPEC = '@vibebrowser/cli@latest'
 const FULL_PACKAGE_SPEC = '@vibebrowser/mcp@latest'
-const CLI_BASE = `npx -y ${PACKAGE_SPEC} vibebrowser-cli`
-const MCP_BROWSER_ALIAS = `npx -y ${FULL_PACKAGE_SPEC} vibebrowser-mcp browser`
+const CLI_BASE = `npx -y ${PACKAGE_SPEC}`
+const MCP_BROWSER_ALIAS = `npx -y -p ${FULL_PACKAGE_SPEC} vibebrowser-mcp browser`
 const GITHUB_MCP_URL = 'https://github.com/VibeTechnologies/vibe-mcp'
 const GITHUB_CLI_URL = 'https://github.com/VibeTechnologies/vibe-mcp/blob/main/src/browser-main.ts'
 const SKILL_URL = 'https://skills.sh/vibetechnologies/agent-skills/vibebrowser'

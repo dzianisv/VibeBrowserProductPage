@@ -175,7 +175,7 @@ Install the [Vibe Browser extension](https://docs.vibebrowser.app/getting-starte
 **Claude Code:**
 ```bash
 claude mcp add --transport stdio --scope user vibe -- \
-  npx -y --package @vibebrowser/mcp@latest vibebrowser-mcp
+  npx -y -p @vibebrowser/mcp@latest vibebrowser-mcp
 ```
 
 **OpenCode (`~/.config/opencode/opencode.json`):**
@@ -184,7 +184,7 @@ claude mcp add --transport stdio --scope user vibe -- \
   "mcp": {
     "vibe": {
       "type": "local",
-      "command": ["npx", "-y", "--package", "@vibebrowser/mcp@latest", "vibebrowser-mcp"],
+      "command": ["npx", "-y", "-p", "@vibebrowser/mcp@latest", "vibebrowser-mcp"],
       "enabled": true
     }
   }
@@ -197,7 +197,7 @@ claude mcp add --transport stdio --scope user vibe -- \
   "mcpServers": {
     "vibe": {
       "command": "npx",
-      "args": ["-y", "--package", "@vibebrowser/mcp@latest", "vibebrowser-mcp"]
+      "args": ["-y", "-p", "@vibebrowser/mcp@latest", "vibebrowser-mcp"]
     }
   }
 }
