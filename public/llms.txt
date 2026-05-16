@@ -41,6 +41,7 @@
 - [Late April 2026 Progress Update](https://www.vibebrowser.app/blog/vibe-may-2026-progress-update): Vibe product updates for late April 2026 — models, features, partnerships.
 - [6 Months Momentum](https://www.vibebrowser.app/blog/2026-03-17-6-months-momentum): Six months of Vibe growth — users, models, and what's next.
 - [Browserbase vs VibeBrowser: Local and Cloud](https://www.vibebrowser.app/blog/browserbase-vs-vibebrowser-local-and-cloud): Browserbase vs VibeBrowser: local-first browser automation vs cloud-only, pricing comparison, MCP setup
+- [Share Your Local Browser With Cloud AI Agents via Chrome DevTools MCP](https://www.vibebrowser.app/blog/share-local-browser-cloud-agents-chrome-devtools-mcp): How to share your local Chrome with cloud AI agents using @vibebrowser/chrome-devtools-mcp — one install command, multi-agent HTTP sessions, optional Tailscale for secure remote access.
 
 ## Contact
 
