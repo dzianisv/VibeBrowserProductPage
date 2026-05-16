@@ -46,22 +46,22 @@ The simplest OpenClaw plus VibeBrowser setup today is not a deep plugin integrat
 Start by verifying that the local Vibe bridge is reachable:
 
 ```bash
-npx -y --package @vibebrowser/mcp@latest vibebrowser-cli --json status
+npx -y @vibebrowser/cli@latest --json status
 ```
 
 You can also use the alias shipped in the same package:
 
 ```bash
-npx -y --package @vibebrowser/mcp@latest vibebrowser-mcp browser --json status
+npx -y -p @vibebrowser/mcp@latest vibebrowser-mcp browser --json status
 ```
 
 The basic OpenClaw-friendly command loop is:
 
 ```bash
-npx -y --package @vibebrowser/mcp@latest vibebrowser-cli open https://example.com
-npx -y --package @vibebrowser/mcp@latest vibebrowser-cli --json snapshot
-npx -y --package @vibebrowser/mcp@latest vibebrowser-cli click A12
-npx -y --package @vibebrowser/mcp@latest vibebrowser-cli type A13 "hello world"
+npx -y @vibebrowser/cli@latest open https://example.com
+npx -y @vibebrowser/cli@latest --json snapshot
+npx -y @vibebrowser/cli@latest click A12
+npx -y @vibebrowser/cli@latest type A13 "hello world"
 ```
 
 ### A practical OpenClaw skill for `vibebrowser-cli`
@@ -76,14 +76,14 @@ description: Use Vibe Browser CLI when a task needs the human's real logged-in b
 
 When a task needs the user's real browser session, prefer running:
 
-`npx -y --package @vibebrowser/mcp@latest vibebrowser-cli --json status`
+`npx -y @vibebrowser/cli@latest --json status`
 
 If the bridge is healthy, use this workflow:
 
-1. `npx -y --package @vibebrowser/mcp@latest vibebrowser-cli open <url>`
-2. `npx -y --package @vibebrowser/mcp@latest vibebrowser-cli --json snapshot`
-3. `npx -y --package @vibebrowser/mcp@latest vibebrowser-cli click <ref>`
-4. `npx -y --package @vibebrowser/mcp@latest vibebrowser-cli type <ref> "<text>"`
+1. `npx -y @vibebrowser/cli@latest open <url>`
+2. `npx -y @vibebrowser/cli@latest --json snapshot`
+3. `npx -y @vibebrowser/cli@latest click <ref>`
+4. `npx -y @vibebrowser/cli@latest type <ref> "<text>"`
 
 If status reports `"extensionConnected": false`, stop and request operator reconnection before retrying.
 ```
