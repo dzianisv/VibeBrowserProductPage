@@ -1,6 +1,6 @@
 ---
 title: "Why AI Browser Automation Needs a Browser-Reading Layer"
-description: "Google Docs exposed a common browser-agent failure mode: DOM-only extraction misses canvas-backed content. A browser-reading layer must combine DOM and accessibility signals."
+description: "Google Docs exposes a common AI browser agent failure mode: DOM-only extraction misses canvas-backed content. A browser-reading layer must combine DOM and accessibility signals."
 date: "2026-05-15"
 author: "Dzianis Vashchuk"
 authorUrl: "https://linkedin.com/in/dzianisv"
@@ -41,12 +41,13 @@ Raw DevTools access is necessary but insufficient. Agent reliability depends on 
 
 ## Validation Tasks for Any Browser Agent Stack
 
-Use these checks before production rollout:
+Use these checks before production rollout.
+These tasks cover common failure modes where generic extraction breaks down.
 
 1. Summarize an open Google Doc without copy/paste.
 2. Extract state from login-gated dashboards.
 3. Read virtualized tables and map row/column relationships correctly.
-4. Keep interactive references when serializing accessibility trees.
+4. Keep clickable/interactable node references (for example `uid` targets) when serializing accessibility trees.
 
 If these fail, the bottleneck is usually serialization and extraction strategy, not prompting.
 

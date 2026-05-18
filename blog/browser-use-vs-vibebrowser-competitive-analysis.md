@@ -1,6 +1,6 @@
 ---
 title: "Browser Use vs VibeBrowser: Developer Tool vs End-User Copilot — Why Both Exist and Where Vibe Wins"
-description: "Technical comparison of browser-use and VibeBrowser: runtime model, session context, privacy boundaries, and target workload fit."
+description: "Technical comparison of browser-use and VibeBrowser: Playwright-isolated runtime vs extension-native browser context, plus privacy boundaries and workload fit."
 date: "2026-05-03"
 author: "Dzianis Vashchuk"
 authorUrl: "https://linkedin.com/in/dzianisv"
@@ -23,9 +23,9 @@ Both products solve browser automation, but for different operators:
 ## Architecture Delta
 
 | Dimension | browser-use | VibeBrowser |
-|---|---|---|
+| --- | --- | --- |
 | Runtime | Playwright-launched isolated browser | Existing logged-in Chrome profile |
-| Auth/session state | Re-created or synchronized per run | Reuses active cookies, tabs, extensions |
+| Auth/session state | Re-created or manually synchronized per run | Reuses active cookies, tabs, extensions |
 | Primary interface | Python code + APIs | Extension UX + MCP/CLI bridge |
 | Default data path | Cloud LLM/API flow | Local-first option (Gemini Nano) + cloud optional |
 
