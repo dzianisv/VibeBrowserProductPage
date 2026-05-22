@@ -299,9 +299,10 @@ export default function Component() {
     {/* Hero Section with Hook */}
     <section id="demo" className="w-full py-10 md:py-16 lg:py-20">
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
-        <div className="flex flex-col items-center gap-5 text-center max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+          <div className="flex flex-col gap-5 text-center lg:text-left">
           <Badge variant="secondary"
-            className="px-4 py-2 text-sm font-medium bg-purple-100 text-purple-700 border-purple-200">
+            className="px-4 py-2 text-sm font-medium bg-purple-100 text-purple-700 border-purple-200 self-center lg:self-start">
             <Sparkles className="w-4 h-4 mr-2" />
             Browser Automation Co-Pilot
           </Badge>
@@ -309,7 +310,7 @@ export default function Component() {
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
             AI Browser Co-Pilot that
             <span className="mt-1 block bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-              <span className="inline-flex w-full justify-center">
+              <span className="inline-flex w-full lg:justify-start justify-center">
                 <TypewriterEffect
                   words={[
                     "completes overcomplicated web tasks",
@@ -319,25 +320,22 @@ export default function Component() {
                   typingSpeed={90}
                   deletingSpeed={50}
                   pauseDuration={1900}
-                  className="inline-block w-full px-2 text-center"
+                  className="inline-block w-full px-2 lg:px-0 text-center lg:text-left"
                 />
               </span>
             </span>
           </h1>
 
-          <p className="max-w-3xl text-lg text-muted-foreground md:text-xl leading-relaxed mb-6">
-            VibeBrowser Co-Pilot runs inside your existing logged-in browser session and turns repetitive website, Gmail, and Calendar work into reusable workflows you can run again with guardrails.
-          </p>
-          <p className="text-sm text-muted-foreground max-w-3xl">
-            Use it directly or through <strong>MCP</strong> from Claude Code, Codex, OpenCode, and Gemini CLI while keeping model choice, sessions, and execution control on your side.
+          <p className="text-lg text-muted-foreground md:text-xl leading-relaxed">
+            Runs inside your existing logged-in browser session and turns repetitive website, Gmail, and Calendar work into reusable workflows with guardrails.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 items-center justify-center mb-6">
+          <div className="flex flex-col sm:flex-row gap-4 items-center lg:items-start justify-center lg:justify-start">
             <div className="relative" ref={dropdownRef}>
               <div className="flex">
-                <Button 
-                  size="lg" 
-                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white text-lg px-8 py-6 h-auto rounded-r-none" 
+                <Button
+                  size="lg"
+                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white text-lg px-8 py-6 h-auto rounded-r-none"
                   onClick={() => {
                     trackCTAClick('install_extension', 'hero_primary')
                     window.open('https://chromewebstore.google.com/detail/vibe-ai-browser-co-pilot/djodpgokbmobeclicaicnnidccoinado', '_blank')
@@ -395,7 +393,7 @@ export default function Component() {
             </Link>
           </div>
 
-          <div className="flex flex-wrap gap-4 md:gap-5 justify-center items-center text-sm text-muted-foreground mb-8">
+          <div className="flex flex-wrap gap-4 md:gap-5 justify-center lg:justify-start items-center text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
               <Globe className="w-4 h-4 text-blue-600" />
               <span>Runs in your logged-in session</span>
@@ -404,18 +402,19 @@ export default function Component() {
               <CheckCircle className="w-4 h-4 text-purple-600" />
               <span>Human-in-control guardrails</span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="hidden md:flex items-center gap-2">
               <Puzzle className="w-4 h-4 text-orange-600" />
               <span>Secrets vault + type-in</span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="hidden md:flex items-center gap-2">
               <Calendar className="w-4 h-4 text-indigo-600" />
               <span>Gmail + Calendar built in</span>
             </div>
           </div>
+          </div>
 
           {/* Demo Carousel */}
-          <div className="w-full max-w-4xl mx-auto">
+          <div className="w-full">
             <div className="relative">
               <div className="relative rounded-3xl overflow-hidden shadow-2xl">
                 <div className="relative" style={{ paddingBottom: '62.5%' }}>
