@@ -17,11 +17,11 @@ const newsreader = Newsreader({
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.vibebrowser.app'),
   title: {
-    default: 'Vibe Co-Pilot | AI Browser Automation for Real Browser Sessions',
+    default: 'AI Browser Co-Pilot for Chrome | Vibe',
     template: '%s | Vibe Co-Pilot',
   },
   description:
-    'AI browser automation for real logged-in browser sessions. Operate websites, Gmail, and Google Calendar directly or via MCP from Claude Code, Codex, Gemini CLI, and other agents.',
+    'Automate repetitive web tasks inside your real Chrome session — Gmail, calendars, and any website. Free to install. No API hacks needed.',
   keywords: [
     'AI browser co-pilot',
     'AI browser auto-pilot',
@@ -174,11 +174,59 @@ const organizationJsonLd = {
   ],
 }
 
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Is my data safe?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'You choose how data is processed. Local models run on your device. Cloud models send data to that provider\'s API.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'How much does Vibe Co-Pilot cost?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Vibe is free to install. If you run cloud models, usage is billed by that provider, and paid Vibe plans are optional.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'How does Vibe compare to OpenClaw?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'OpenClaw is a self-hosted agent stack. Vibe is a browser co-pilot focused on completing overcomplicated web tasks in your existing browser sessions.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'How does Vibe compare to Claude Cowork?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Claude browser workflows are Claude-first. Vibe is browser-first and model-flexible, so teams can choose how they run automations.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'How does Vibe compare to Chrome DevTools MCP?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'DevTools MCP is a browser debugging/control interface. Vibe packages browser task execution into a co-pilot experience for end-to-end workflows.',
+      },
+    },
+  ],
+}
+
 const softwareJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
   name: 'Vibe Browser',
-  applicationCategory: 'BrowserApplication',
+  applicationCategory: 'WebApplication',
+  browserRequirements: 'Chrome',
   operatingSystem: 'Chrome',
   description:
     'AI browser automation that operates real logged-in browser sessions, Gmail, and Google Calendar with MCP access, reusable skills, and a secure secrets vault.',
@@ -242,6 +290,10 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
         />
         {children}
       </body>

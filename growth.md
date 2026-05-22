@@ -427,3 +427,45 @@ Community post → Blog post (educational, SEO) → Product page (/cloud, /mcp) 
 - [ ] Dev.to cross-post of Browserbase comparison blog post
 - [ ] Add geo-region section to `/cloud` (local vs cloud positioning on proxies)
 - [ ] Product Hunt launch planning
+
+---
+
+## Session Log: 2026-05-22
+
+### GA Diagnosis
+- 300 active users/28d, avg 23s engagement — near-bounce
+- 5.4% DAU/MAU stickiness, 79% first_visit rate — retention is broken
+- cta_click: 8% of pageviews — CTA underperforming
+- **AARRR verdict:** Activation is the broken stage. Fix before scaling acquisition.
+- **North Star:** WAA (Weekly Active Automations)
+
+### Landing Page Changes (uncommitted, PR #101)
+**landing-page.tsx:**
+- Removed "Browser Automation Co-Pilot" badge
+- Shrunk/deduplicated hero CTAs
+- "What Vibe actually solves" → `lg:col-span-2` to span full grid
+- H1 keyword: "Your AI" → "AI Browser" (crawlable by Google)
+- H1 font: `text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl` (prevents video overlap)
+- Typewriter: `whitespace-nowrap` to prevent layout jump
+- Bullet points: removed emoji icons, `·` separator, expanded to 9 items (Ollama, BYOK, GitHub Copilot, MCP relay, skills library)
+- Video: added `title` attribute for SEO
+
+**app/layout.tsx:**
+- Title: keyword-first → `"AI Browser Co-Pilot for Chrome | Vibe"` (43 chars)
+- Meta description: 138 chars with CTA
+- Schema: `applicationCategory` → `"WebApplication"`, added `browserRequirements: "Chrome"`
+- FAQPage JSON-LD: 5 FAQ entries matching Accordion component
+
+### Content Debt (pending)
+- Duplicate "Outcome proof" box (~L533-549) — remove
+- Gmail+Calendar mentioned 3× — consolidate to one
+- "Logged-in session" mentioned 4× — reduce
+
+### Tech Debt (pending)
+- OG image: `/og/home.svg` needs PNG 1200×630 for social previews
+- Cloudflare may block GPTBot/ClaudeBot — verify
+
+### Growth Experiments (ICE priority)
+1. OG image PNG fix — ICE 7.3 (easy quick win)
+2. First automation in <60s onboarding — ICE 7.0 (highest impact)
+3. Exit-intent email capture — ICE 6.7 (zero re-engagement path today)
