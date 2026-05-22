@@ -278,6 +278,21 @@ export default function Component() {
             About Us
           </Link>
         </nav>
+        {/* Install CTA */}
+        <a
+          href="https://chromewebstore.google.com/detail/vibe-ai-browser-co-pilot/djodpgokbmobeclicaicnnidccoinado"
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => trackCTAClick('install_extension', 'sticky_header')}
+        >
+          <Button
+            size="sm"
+            className="ml-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white whitespace-nowrap"
+          >
+            <Chrome className="w-4 h-4 md:mr-2" />
+            <span className="hidden md:inline">Install Free</span>
+          </Button>
+        </a>
       </header>
 
   <main className="flex-1">
