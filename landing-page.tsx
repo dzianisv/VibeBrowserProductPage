@@ -309,7 +309,7 @@ export default function Component() {
 
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
             AI Browser Co-Pilot that
-            <span className="mt-1 block bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+            <span className="mt-1 block bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent min-h-[1.2em]">
               <span className="inline-flex w-full lg:justify-start justify-center">
                 <TypewriterEffect
                   words={[
