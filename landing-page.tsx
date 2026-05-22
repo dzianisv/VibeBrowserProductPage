@@ -278,62 +278,69 @@ export default function Component() {
             About Us
           </Link>
         </nav>
+        {/* Install CTA */}
+        <a
+          href="https://chromewebstore.google.com/detail/vibe-ai-browser-co-pilot/djodpgokbmobeclicaicnnidccoinado"
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => trackCTAClick('install_extension', 'sticky_header')}
+        >
+          <Button
+            size="sm"
+            className="ml-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white whitespace-nowrap"
+          >
+            <Chrome className="w-4 h-4 md:mr-2" />
+            <span className="hidden md:inline">Install Free</span>
+          </Button>
+        </a>
       </header>
 
   <main className="flex-1">
     {/* Hero Section with Hook */}
     <section id="demo" className="w-full py-10 md:py-16 lg:py-20">
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
-        <div className="flex flex-col items-center gap-5 text-center max-w-4xl mx-auto">
-          <Badge variant="secondary"
-            className="px-4 py-2 text-sm font-medium bg-purple-100 text-purple-700 border-purple-200">
-            <Sparkles className="w-4 h-4 mr-2" />
-            Browser Automation Co-Pilot
-          </Badge>
-
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+          <div className="flex flex-col gap-5 text-center lg:text-left">
+          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl">
             AI Browser Co-Pilot that
-            <span className="mt-1 block bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-              <span className="inline-flex w-full justify-center">
+            <span className="mt-1 block bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent min-h-[1.2em]">
+              <span className="inline-flex w-full lg:justify-start justify-center whitespace-nowrap">
                 <TypewriterEffect
                   words={[
-                    "completes overcomplicated web tasks",
-                    "runs in your logged-in browser",
-                    "turns repetitive clicks into reusable workflows",
+                    "automates web tasks",
+                    "works in your browser",
+                    "saves you hours daily",
                   ]}
                   typingSpeed={90}
                   deletingSpeed={50}
                   pauseDuration={1900}
-                  className="inline-block w-full px-2 text-center"
+                  className="inline-block w-full px-2 lg:px-0 text-center lg:text-left"
                 />
               </span>
             </span>
           </h1>
 
-          <p className="max-w-3xl text-lg text-muted-foreground md:text-xl leading-relaxed mb-6">
-            VibeBrowser Co-Pilot runs inside your existing logged-in browser session and turns repetitive website, Gmail, and Calendar work into reusable workflows you can run again with guardrails.
-          </p>
-          <p className="text-sm text-muted-foreground max-w-3xl">
-            Use it directly or through <strong>MCP</strong> from Claude Code, Codex, OpenCode, and Gemini CLI while keeping model choice, sessions, and execution control on your side.
+          <p className="text-lg text-muted-foreground md:text-xl leading-relaxed">
+            Runs inside your existing logged-in browser session and turns repetitive website, Gmail, and Calendar work into reusable workflows with guardrails.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 items-center justify-center mb-6">
+          <div className="flex flex-col sm:flex-row gap-4 items-center lg:items-start justify-center lg:justify-start">
             <div className="relative" ref={dropdownRef}>
               <div className="flex">
-                <Button 
-                  size="lg" 
-                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white text-lg px-8 py-6 h-auto rounded-r-none" 
+                <Button
+                  size="sm"
+                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-r-none"
                   onClick={() => {
                     trackCTAClick('install_extension', 'hero_primary')
                     window.open('https://chromewebstore.google.com/detail/vibe-ai-browser-co-pilot/djodpgokbmobeclicaicnnidccoinado', '_blank')
                   }}
                 >
-                  <Chrome className="mr-2 h-5 w-5" />
+                  <Chrome className="mr-2 h-4 w-4" />
                   Install Extension
                 </Button>
                 <Button
-                  size="lg"
-                  className="bg-gradient-to-r from-pink-600 to-pink-700 hover:from-pink-700 hover:to-pink-800 text-white px-3 py-6 h-auto rounded-l-none border-l border-white/20"
+                  size="sm"
+                  className="bg-gradient-to-r from-pink-600 to-pink-700 hover:from-pink-700 hover:to-pink-800 text-white px-2 rounded-l-none border-l border-white/20"
                   onClick={() => setInstallDropdownOpen(!installDropdownOpen)}
                 >
                   <ChevronDown className={`h-5 w-5 transition-transform ${installDropdownOpen ? 'rotate-180' : ''}`} />
@@ -373,34 +380,36 @@ export default function Component() {
               )}
             </div>
             <Link href="/mcp">
-              <Button variant="outline" size="lg" className="px-8 py-6 text-lg border-2 h-auto w-64 bg-white hover:bg-slate-50 text-gray-900">
+              <Button variant="outline" size="sm" className="border bg-white hover:bg-slate-50 text-gray-900">
                 See MCP Setup
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
           </div>
 
-          <div className="flex flex-wrap gap-4 md:gap-5 justify-center items-center text-sm text-muted-foreground mb-8">
-            <div className="flex items-center gap-2">
-              <Globe className="w-4 h-4 text-blue-600" />
-              <span>Runs in your logged-in session</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 text-purple-600" />
-              <span>Human-in-control guardrails</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Puzzle className="w-4 h-4 text-orange-600" />
-              <span>Secrets vault + type-in</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Calendar className="w-4 h-4 text-indigo-600" />
-              <span>Gmail + Calendar built in</span>
-            </div>
+          <p className="text-xs text-muted-foreground justify-center lg:justify-start flex gap-3">
+            <span className="flex items-center gap-1"><CheckCircle className="w-3 h-3 text-green-500" /> No credit card required</span>
+            <span className="flex items-center gap-1"><CheckCircle className="w-3 h-3 text-green-500" /> Installs in 60 seconds</span>
+            <span className="flex items-center gap-1"><CheckCircle className="w-3 h-3 text-green-500" /> Free tier included</span>
+          </p>
+
+          <div className="flex flex-wrap gap-x-4 gap-y-2 justify-center lg:justify-start items-center text-sm text-muted-foreground">
+            {[
+              "Works in your logged-in session",
+              "Gmail + Calendar built in",
+              "MCP relay for remote agents",
+              "BYOK or use our cloud API",
+            ].map((item, i, arr) => (
+              <span key={item} className="flex items-center gap-2">
+                {item}
+                {i < arr.length - 1 && <span className="text-gray-300 select-none">·</span>}
+              </span>
+            ))}
+          </div>
           </div>
 
           {/* Demo Carousel */}
-          <div className="w-full max-w-4xl mx-auto">
+          <div className="w-full">
             <div className="relative">
               <div className="relative rounded-3xl overflow-hidden shadow-2xl">
                 <div className="relative" style={{ paddingBottom: '62.5%' }}>
@@ -413,6 +422,7 @@ export default function Component() {
                     muted
                     playsInline
                     preload="auto"
+                    title={`Vibe AI browser automation — ${demos[currentDemo].title}`}
                     src={`${demos[currentDemo].videoSrc}.mp4`}
                     onPlay={() => setIsPlaying(true)}
                     onPause={() => setIsPlaying(false)}
@@ -468,8 +478,14 @@ export default function Component() {
             </div>
           </div>
 
-          <div className="w-full max-w-5xl mx-auto mt-10 mb-10">
-            <div className="text-center mb-5">
+          <div className="w-full max-w-5xl mx-auto mt-10 mb-10 lg:col-span-2">
+            <div className="flex justify-center mb-8">
+              <a href="#use-cases" className="flex flex-col items-center gap-1 text-xs text-muted-foreground hover:text-purple-600 transition-colors group">
+                <span>See what Vibe solves</span>
+                <ChevronDown className="w-5 h-5 animate-bounce group-hover:text-purple-600" />
+              </a>
+            </div>
+            <div id="use-cases" className="text-center mb-5">
               <h2 className="text-2xl font-bold tracking-tight sm:text-3xl mb-2">
                 What Vibe actually solves
               </h2>

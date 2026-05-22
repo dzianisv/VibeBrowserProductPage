@@ -188,7 +188,7 @@ const CAPABILITY_SURFACES: CapabilitySurface[] = [
     ],
     tools: [
       "take_snapshot",
-      "take_md_snapshot",
+      "take_html_snapshot",
       "evaluate_script",
       "list_network_requests",
     ],
@@ -294,9 +294,7 @@ const TOOL_CATEGORIES: { category: string; icon: React.ReactNode; tools: ToolDef
     category: "Inspection & State",
     icon: <Eye className="w-5 h-5" />,
     tools: [
-      { name: "take_snapshot", description: "Composite markdown + a11y + optional screenshot" },
-      { name: "take_md_snapshot", description: "Take a dedicated indexed markdown snapshot" },
-      { name: "take_a11y_snapshot", description: "Take a dedicated indexed accessibility-tree snapshot" },
+      { name: "take_snapshot", description: "Take indexed page snapshot (`type='markdown'` default or `type='a11y'`)" },
       { name: "take_html_snapshot", description: "Take a dedicated indexed HTML snapshot" },
       { name: "take_screenshot", description: "JPEG screenshot with resize, grayscale, quality controls" },
       { name: "evaluate_script", description: "Run JavaScript in the current page context" },

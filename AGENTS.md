@@ -19,6 +19,7 @@ git config user.email "2119348+dzianisv@users.noreply.github.com"
 
 - **Testing Checklist**: See @docs/testing.md for complete manual and automated testing procedures after any modifications.
 - **PostHog Analytics**: See @docs/posthog.md for the current PostHog integration, env vars, tracked events, and verification workflow.
+- **Growth Hacking**: All experiments, GA4 analytics findings, and optimization work tracked in [GitHub Issue #8](https://github.com/dzianisv/vibebrowser-pitch/issues/8). Update with comments when running experiments or discovering new insights.
 
 ## Quick Deploy & Test
 
