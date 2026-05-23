@@ -23,38 +23,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
 
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
-      - name: Build Project Artifacts
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Remove large video files from build output
-        run: find .vercel/output -name "*.mp4" -o -name "*.webm" | xargs rm -f
-
-      - name: Cancel stale Vercel deployments
-        run: |
-          DEPS=$(curl -sf "https://api.vercel.com/v6/deployments?projectId=$VERCEL_PROJECT_ID&teamId=$VERCEL_ORG_ID&state=BUILDING,QUEUED&limit=20" \
-            -H "Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}" \
-            | python3 -c "import json,sys; [print(d['uid']) for d in json.load(sys.stdin).get('deployments',[])]")
-          for DEP in $DEPS; do
-            echo "Cancelling $DEP"
-            curl -sf -X PATCH "https://api.vercel.com/v12/deployments/$DEP/cancel" \
-              -H "Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}" -H "Content-Type: application/json" || true
-          done
-
       - name: Deploy to Vercel Production
         run: |
-          OUTPUT=$(vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }})
+          OUTPUT=$(vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }})
           echo "Deployment URL: $OUTPUT"
           echo "deployment_url=$OUTPUT" >> $GITHUB_OUTPUT
         id: deploy
@@ -84,38 +61,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
 
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
 
-      - name: Build Project Artifacts
-        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Remove large video files from build output
-        run: find .vercel/output -name "*.mp4" -o -name "*.webm" | xargs rm -f
-
-      - name: Cancel stale Vercel deployments
-        run: |
-          DEPS=$(curl -sf "https://api.vercel.com/v6/deployments?projectId=$VERCEL_PROJECT_ID&teamId=$VERCEL_ORG_ID&state=BUILDING,QUEUED&limit=20" \
-            -H "Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}" \
-            | python3 -c "import json,sys; [print(d['uid']) for d in json.load(sys.stdin).get('deployments',[])]")
-          for DEP in $DEPS; do
-            echo "Cancelling $DEP"
-            curl -sf -X PATCH "https://api.vercel.com/v12/deployments/$DEP/cancel" \
-              -H "Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}" -H "Content-Type: application/json" || true
-          done
-
       - name: Deploy to Vercel Preview
         run: |
-          OUTPUT=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})
+          OUTPUT=$(vercel deploy --token=${{ secrets.VERCEL_TOKEN }})
           echo "Preview URL: $OUTPUT"
           echo "preview_url=$OUTPUT" >> $GITHUB_OUTPUT
         id: deploy
