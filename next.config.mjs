@@ -5,11 +5,22 @@ const nextConfig = {
     '/': ['./public/**/*'],
   },
   async redirects() {
+    const GH_MEDIA = 'https://media.githubusercontent.com/media/dzianisv/VibeBrowserProductPage/main/public'
     return [
       {
         source: '/BrowserUseModelsBenchmark',
         destination: '/blog/BrowserUseModelsBenchmark',
         permanent: true,
+      },
+      {
+        source: '/:filename(.*\\.mp4)',
+        destination: `${GH_MEDIA}/:filename`,
+        permanent: false,
+      },
+      {
+        source: '/:filename(.*\\.webm)',
+        destination: `${GH_MEDIA}/:filename`,
+        permanent: false,
       },
     ]
   },
