@@ -16,7 +16,7 @@ tags:
 published: true
 ---
 
-We switched from our custom OpenHands-based VibeTeam to a new agent stack built on OpenClaw and hosted at vibebrowser.app/agentic-team. Agent task failure dropped from 40% to under 10%. Each agent now has a named identity, a specific role, and a persistent Slack presence. This post explains what broke, what we built, and how eight named agents now run daily operations over Slack.
+We switched from our custom OpenHands-based VibeTeam to a new agent stack built on OpenClaw and hosted at vibebrowser.app/agentic-team. Agent task failure dropped from 40% to under 10%. Each agent now has a named identity, a specific role, and a persistent Slack presence. This post explains what broke, what we built, and how seven named agents now run daily operations over Slack.
 
 Two months ago I wrote about [VibeTeam](/blog/2025-11-20-vibeteam-openhand-ai-operations-agents) — our custom OpenHands build handling incidents, Slack messages, and customer triage. As of this week, VibeTeam is retired. Operations now run on [vibebrowser.app/agentic-team](https://vibebrowser.app/agentic-team), built on top of [OpenClaw](https://github.com/openclaw/openclaw) agents.
 
@@ -44,7 +44,6 @@ The roles, exactly as defined in the catalog:
 | Role id | Persona | Slack handle | Slack app name | Agent dir | Default model |
 |---|---|---|---|---|---|
 | `software_engineer` | Gilfoyle Bertram | `@GilfoyleBertram` | OpenClaw SoftwareEngineer | `SoftwareEngineer` | Claude Opus |
-| `release_engineer` | Einstein | `@Einstein` | OpenClaw DevOps | `ReleaseEngineer` | Claude Sonnet |
 | `support_engineer` | Jared Dunn | `@JaredDunn` | OpenClaw SupportEngineer | `SupportEngineer` | GPT-5.4-mini |
 | `product_manager` | Jordan | `@Jordan` | OpenClaw ProductManager | `ProductManager` | GPT-5.4 |
 | `marketing_manager` | Sam | `@Sam` | OpenClaw MarketingManager | `MarketingManager` | GPT-5.4 |
@@ -102,7 +101,7 @@ Handoff is not a framework primitive — it is `@RoleName` in a Slack message, p
 
 | Situation | Handoff to |
 |---|---|
-| Infrastructure outage / 5xx | `@ReleaseEngineer` |
+| Infrastructure outage / 5xx | `@GilfoyleBertram` |
 | Code bug or feature request | `@SoftwareEngineer` |
 | Roadmap question | `@ProductManager` |
 | Public announcement | `@MarketingManager` |
@@ -111,7 +110,7 @@ The rule in [`openclaw-rc.d/workspace/AGENTS.md`](https://github.com/openclaw/op
 
 ### Tool surface per role
 
-Tools differ by role because each role's `AGENTS.md` mounts different skills and grants different env. SoftwareEngineer has `gh` CLI authenticated and `sentry-cli`. SupportEngineer has Gmail context preinjected (`gws gmail users messages list ...`) and `sentry-cli` read access. ReleaseEngineer (the `release-engineer` agent) gets `kubectl` with KUBECONFIG mounted in-sandbox and a `k8s-ops` skill for safe restarts and rollouts.
+Tools differ by role because each role's `AGENTS.md` mounts different skills and grants different env. SoftwareEngineer has `gh` CLI authenticated and `sentry-cli`. SupportEngineer has Gmail context preinjected (`gws gmail users messages list ...`) and `sentry-cli` read access. Gilfoyle Bertram (SoftwareEngineer) also gets `kubectl` with KUBECONFIG mounted in-sandbox and a `k8s-ops` skill for safe restarts and rollouts.
 
 The skills themselves are first-class — declared in `openclaw.json` under `skills.entries` (e.g., `google-workspace-cli`, `litellm-model-capabilities`, `openclaw-config`, `mcporter`) and per-role under each agent's `AGENTS.md`. No glue code on my side wires Gmail or kubectl in. The skill reads its own env vars from the per-agent sandbox.
 
@@ -154,10 +153,6 @@ Gilfoyle Bertram is the opposite. His job is to fix things, and "fix things" in 
 So Gilfoyle Bertram holds the master keys. But the keys only fit when two locks are turned at once: his own diff plus the reflection model's approval.
 
 For non-developers: Gilfoyle Bertram is the head mechanic. He can take any car apart. But the policy is that every repair has to be signed off by a second mechanic before the car leaves the shop.
-
-### Einstein (ReleaseEngineer) — narrow but deep
-
-Einstein only does deploys. `kubectl` with broader cluster-admin scope than Gilfoyle, but no `gh` write scope. He cannot ship code — he can only ship the artifacts Gilfoyle merged. The split matters: the person who wrote the code is not the person who deploys it. Two-key principle, run by two agents.
 
 ### Why this split matters for AI-native companies
 
@@ -388,7 +383,6 @@ We do not run a single bot user with multiple personalities. Each role gets its 
 For each role in `src/team/catalog.ts`, go to [api.slack.com/apps](https://api.slack.com/apps) → **Create New App** → **From scratch**. App names match the `slackAppName` field:
 
 - `OpenClaw SoftwareEngineer`
-- `OpenClaw DevOps` (this is the `release_engineer` role)
 - `OpenClaw SupportEngineer`
 - `OpenClaw ProductManager`
 - `OpenClaw MarketingManager`
@@ -416,7 +410,7 @@ mpim:read
 usergroups:read
 ```
 
-`chat:write.customize` is what lets the agent post with a per-message username/icon override. `usergroups:read` is needed so the bot can resolve `@ReleaseEngineer` to the right Slack user group for handoff notifications.
+`chat:write.customize` is what lets the agent post with a per-message username/icon override. `usergroups:read` is needed so the bot can resolve `@GilfoyleBertram` to the right Slack user group for handoff notifications.
 
 ### 3. Event Subscriptions
 
@@ -491,18 +485,12 @@ TEAM_SLACK_SOFTWARE_ENGINEER_APP_ID=...
 TEAM_SLACK_SOFTWARE_ENGINEER_SIGNING_SECRET=...
 TEAM_SLACK_SOFTWARE_ENGINEER_BOT_TOKEN=xoxb-...
 
-TEAM_SLACK_DEVOPS_APP_ID=...
-TEAM_SLACK_DEVOPS_SIGNING_SECRET=...
-TEAM_SLACK_DEVOPS_BOT_TOKEN=xoxb-...
-
 TEAM_SLACK_SUPPORT_ENGINEER_APP_ID=...
 TEAM_SLACK_SUPPORT_ENGINEER_SIGNING_SECRET=...
 TEAM_SLACK_SUPPORT_ENGINEER_BOT_TOKEN=xoxb-...
 
 # ... and same shape for MARKETING_MANAGER, PRODUCT_MANAGER, GROWTH_MANAGER
 ```
-
-Note that `release_engineer` uses the prefix `DEVOPS` for legacy reasons.
 
 Second, push the config into the live tenant. [`src/team/openclaw.ts`](https://github.com/openclaw/openclaw/blob/main/src/team/openclaw.ts) writes one Slack `account` block per role into the tenant `openclaw.json`. The shape it produces is:
 
@@ -574,7 +562,7 @@ Where OpenHands treated browser sessions as one tool among many, OpenClaw treats
 
 After running on OpenClaw for a few weeks instead of VibeTeam-OpenHands:
 
-- **Incident handoffs are visible in Slack.** When Jared Dunn (SupportEngineer) escalates to Einstein (ReleaseEngineer), the `@mention` chain is the audit log. I do not have to open an orchestration UI to see who is doing what.
+- **Incident handoffs are visible in Slack.** When Jared Dunn (SupportEngineer) escalates to Gilfoyle Bertram (SoftwareEngineer), the `@mention` chain is the audit log. I do not have to open an orchestration UI to see who is doing what.
 - **Glue code I no longer maintain.** The Slack bridge, the per-role bot dispatcher, and the role-coordination layer all retired with VibeTeam. The replacement is config in two files (`openclaw.json` + per-role `AGENTS.md`) and one provisioning skill.
 - **Per-role identity in channels.** Six bot users in the workspace, each with its own name and icon. PR comments, Sentry resolves, and customer replies show up under the role that actually did the work — useful for trust and useful for blame.
 - **Skills, not framework code.** Adding Linear or Google Drive to a role means dropping a skill into `openclaw.json` and pointing the relevant `AGENTS.md` at it. Previously this was a code change in our bridge.

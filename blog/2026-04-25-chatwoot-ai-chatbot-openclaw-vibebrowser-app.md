@@ -325,11 +325,11 @@ The two-bucket output — `answer` vs `escalate` — is the part I would not ski
 
 When the bot tags `needs-human`, a second Chatwoot webhook (subscribed to `conversation_updated`) fires our gateway, which posts a structured message into Slack `#support-escalations` with the conversation transcript URL and the contact's plan/subdomain/status.
 
-[Jared Dunn](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team) — our SupportEngineer agent — picks it up the same way he picks up everything else: a Slack listener, the [agent prompt in `openclaw-rc.d/workspace/support-engineer/AGENTS.md`](https://github.com/openclaw/openclaw/blob/main/openclaw-rc.d/workspace/support-engineer/AGENTS.md), and the same toolchain (`kubectl`, `sentry-cli`, Gmail, `gh`) he uses for ticket triage. His instructions explicitly route follow-up code work to `@GilfoyleBertram` (SoftwareEngineer) and infrastructure work to `@ReleaseEngineer` (Einstein):
+[Jared Dunn](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team) — our SupportEngineer agent — picks it up the same way he picks up everything else: a Slack listener, the [agent prompt in `openclaw-rc.d/workspace/support-engineer/AGENTS.md`](https://github.com/openclaw/openclaw/blob/main/openclaw-rc.d/workspace/support-engineer/AGENTS.md), and the same toolchain (`kubectl`, `sentry-cli`, Gmail, `gh`) he uses for ticket triage. His instructions explicitly route follow-up code work and infrastructure work to `@GilfoyleBertram` (SoftwareEngineer):
 
 | Situation | Handoff To |
 |---|---|
-| Infra outage (5xx, pods down) | @ReleaseEngineer |
+| Infra outage (5xx, pods down) | @GilfoyleBertram |
 | Code bug | @SoftwareEngineer |
 | Roadmap / prioritization | @ProductManager |
 | Public status update needed | @MarketingManager |
@@ -349,7 +349,7 @@ When `@GilfoyleBertram` closes the implementing PR linked to the Linear issue, t
 
 The full Linear pipeline — issue templates, MCP tooling, the reverse path mechanics — is in [the Linear customer support pipeline post](/blog/2026-05-22-linear-customer-support-pipeline-supportengineer-vibebrowser-copilot).
 
-The Chatwoot "private message" feature also turned out to be load-bearing here. Jared Dunn uses it to leave a one-line context note on the conversation ("checked vibe-api-gateway logs, OOM on stripe-service, handed to Einstein, ETA 1h"), so when he comes back two hours later he does not have to re-derive what he already figured out. It is the agent equivalent of a code comment — written by an LLM, for an LLM, but the format makes it readable for me too when I drop in.
+The Chatwoot "private message" feature also turned out to be load-bearing here. Jared Dunn uses it to leave a one-line context note on the conversation ("checked vibe-api-gateway logs, OOM on stripe-service, handed to Gilfoyle, ETA 1h"), so when he comes back two hours later he does not have to re-derive what he already figured out. It is the agent equivalent of a code comment — written by an LLM, for an LLM, but the format makes it readable for me too when I drop in.
 
 ## Evidence It Works
 

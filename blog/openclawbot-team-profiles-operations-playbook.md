@@ -13,7 +13,7 @@ tags:
 published: true
 ---
 
-Last week ReleaseEngineer flagged a spike in LiteLLM GenAI proxy errors in Sentry during a routine post-deploy scan.
+Last week Gilfoyle Bertram flagged a spike in LiteLLM GenAI proxy errors in Sentry during a routine post-deploy scan.
 
 It didn't wait for anyone to notice manually. It pulled the Sentry event details, traced the error to a misconfigured environment variable in the proxy config, and handed the task off to DevOpsEngineer with a full context packet: error class, affected routes, and a diff of the last config change.
 
@@ -33,7 +33,7 @@ I wrote this post as an implementation guide, not a concept piece. It has two pa
 
 - Six role-specific agents — SupportEngineer, DevOpsEngineer, SoftwareEngineer, GrowthManager, MarketingManager, FinManager — on one OpenClaw deployment.
 - Each role has locked tool access, a skills list, and explicit handoff rules. Agents cannot drift into each other's lanes.
-- ReleaseEngineer is the scheduled heartbeat profile for DevOps incident scanning — it checks Sentry every 15 minutes and delegates, not just alerts.
+- Gilfoyle Bertram carries the scheduled heartbeat for DevOps incident scanning — it checks Sentry every 15 minutes and delegates, not just alerts.
 - GPT-5.3-Codex (xhigh reasoning) for engineering roles, GPT-5.4 for support and finance, Grok-4.1 for speed. Model choice is per-role, not per-request.
 - **Want this without the setup work?** → [openclaw.vibebrowser.app](https://openclaw.vibebrowser.app)
 
@@ -170,7 +170,7 @@ Prereqs: `SENTRY_AUTH_TOKEN` plus GitHub permissions to branch, push, and open P
 
 DevOpsEngineer handles reactive infra work: rollouts, restarts, incident triage, and post-deploy validation.
 
-**ReleaseEngineer** is the scheduled heartbeat profile for DevOpsEngineer — a lightweight runtime identity that runs the proactive Sentry scan on a timer, separate from human-triggered DevOps tasks. Think of it as DevOpsEngineer on watch duty rather than on-call.
+**Gilfoyle Bertram** carries the scheduled heartbeat responsibility for proactive Sentry scanning on a timer, separate from human-triggered DevOps tasks. Think of it as the SoftwareEngineer on watch duty rather than on-call.
 
 DevOpsEngineer has `kubectl` access via the `k8s-ops` skill.  
 `KUBECONFIG` is stored in the OpenClaw sandbox, so incident response can run fully inside the same environment.
@@ -183,14 +183,14 @@ kubectl rollout restart statefulset/openclaw-gateway -n <namespace>
 
 DevOpsEngineer also uses Sentry to correlate app errors with cluster events.
 
-**Sentry scan via heartbeat.** ReleaseEngineer does not wait for alerts — it runs on a schedule. We configure a per-agent heartbeat in `openclaw.json` so it fires every 15 minutes with a fixed prompt. No polling loop, no persistent process.
+**Sentry scan via heartbeat.** Gilfoyle Bertram does not wait for alerts — the heartbeat runs on a schedule. We configure a per-agent heartbeat in `openclaw.json` so it fires every 15 minutes with a fixed prompt. No polling loop, no persistent process.
 
 ```json
 {
   "agents": {
     "list": [
       {
-        "id": "release-engineer",
+        "id": "software-engineer",
         "heartbeat": {
           "every": "15m",
           "target": "slack",
@@ -472,7 +472,6 @@ Agents create and update issues through GraphQL mutations/queries.
 | **GrowthManager** | Grok-4.1 | High-volume, lower-risk workflow throughput |
 | **SoftwareEngineer** | GPT-5.3-Codex (xhigh reasoning) | Deep code reasoning for PRs and bug analysis |
 | **DevOpsEngineer** | GPT-5.3-Codex (xhigh reasoning) | Infra mistakes are expensive; requires careful multi-step analysis |
-| **ReleaseEngineer** | GPT-5.3-Codex (xhigh reasoning) | Incident triage needs precise root-cause reasoning |
 | **FinManager** | GPT-5.4 (high reasoning) | Accounting accuracy and tax doc correctness cannot be wrong |
 | **MarketingManager** | Grok-4.1 | Drafting/distribution speed matters most |
 

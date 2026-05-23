@@ -14,180 +14,84 @@ tags:
 published: true
 ---
 
-Vibe Technologies is one person — me — running a company with AI agents instead of employees. The agents have names and roles: Gilfoyle Bertram handles engineering, Jared Dunn handles customer support, Monica Hall runs growth, Einstein manages releases, and Harvey Specter covers legal. This post explains who each agent is, what they own, and how the system connects them — Slack, Linear, Chatwoot, and a dev workstation reachable from the cloud.
+I am one person running a company. No headcount, no plans for headcount. This post is the thesis I wrote for myself before founding Vibe Technologies — the bet I am making, the stack I started with, what I am building first, and where the gaps are today.
 
-## The Problem
+## Why Solo, Why Now
 
-Customer support, code review, incident response, and growth work all compete for the same hours. Running all of it manually would require three to five people. I have one. Before the agents, I handled triage, bug routing, email replies, and release coordination by hand — which meant each task blocked the others. The agents replace that headcount. We haven't measured time savings yet, but the forcing function is simple: the work would not get done otherwise.
+The constraint is not ideology. It is economics. Hiring engineers to build a browser co-pilot for AI agents would mean raising money, which means a board, which means quarterly targets, which means the product gets shaped by investors rather than by what agents actually need. I do not want that.
 
-## How the Pieces Fit Together
+The only viable alternative is to make the agents do most of the work.
 
-Before: I did everything manually — replied to support emails, routed bugs, kicked off deploys, and wrote release notes. After: named agents own each of those domains and execute autonomously, escalating to me only when human judgment or money movement is involved.
+AI coding tools in late 2025 are good enough that a single experienced engineer can multiply output by 5-10x if the tooling is wired correctly — parallelism, overnight runs, reflection loops to catch bad output. The agents are not autonomous yet; they need supervision and correction. But they are capable enough to hold down engineering velocity without a full team.
 
-Before the philosophy, the stack at a glance — so the rest of this series has a map to point at:
+That is the founding bet: the ratio of headcount required to output produced is changing fast enough that a solo founder with the right AI stack can build and ship production software, serve customers, and iterate — without hiring until revenue demands it.
 
-- **OpenClaw** — the operations brain in the cloud. Slack-facing, multi-role. Each "employee" is a named agent: Gilfoyle Bertram (SoftwareEngineer / Opus), Monica Hall (GrowthManager / GPT-5.4), Jared Dunn (SupportEngineer / GPT-5.4-mini), Einstein (ReleaseEngineer), Harvey Specter (LegalAdvisor / Opus). Explained in [Switching From OpenHands to VibeBrowser Agentic Team](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team).
-- **OpenCode** — the coding worker. Runs on a dev workstation, exposes `opencode serve` over HTTP, reachable from OpenClaw via Tailscale. Opus supervises, cheaper models execute. See [Vibe Engineering Stack](/blog/2025-11-10-vibe-engineering-stack-claude-code-to-opencode).
-- **docs.vibebrowser.app chat** — Azure AI Foundry RAG over our markdown docs. Tier-0 deflection. Escalates to email when stuck. See [the docs support chat post](/blog/2026-04-10-docs-support-chat-azure-ai-rag-supportengineer-escalation).
-- **Chatwoot** — self-hosted on AKS. Three inboxes: the web widget on openclaw.vibebrowser.app, Telegram, and email. AI bot handles tier-1; unresolved goes `needs-human` → Jared Dunn. See [the Chatwoot post](/blog/2026-04-25-chatwoot-ai-chatbot-openclaw-vibebrowser-app).
-<!-- TODO: add screenshot of Jared Dunn Slack message and Chatwoot conversation -->
-- **Gmail (support@vibebrowser.app)** — Jared Dunn's primary inbox for direct customer email.
-- **Linear** — every bug, feature request, or account issue above a routing threshold becomes a Linear issue. See [the Linear pipeline post](/blog/2026-05-22-linear-customer-support-pipeline-supportengineer-vibebrowser-copilot).
-- **VibeBrowser co-pilot chat** — the in-product chat where users can report issues directly to the team. End-to-end submit path is planned for Q3 2026; see the Linear pipeline post for the current state.
-- **Model routing** — DeepSeek-V4-Flash / GPT-5.4 / Opus selected per role. See [the DeepSeek switch](/blog/2026-05-01-switching-openclaw-operations-to-deepseek-v4-flash) and [token optimization](/blog/2026-05-15-token-optimization-opencode-lst-rtk-caveman).
+## The AI-Native Thesis
 
-Humans architect. Agents execute. The rest is plumbing.
+"AI-native" is overloaded, so I will define what I mean for Vibe Technologies.
 
-## How the Company Runs — End-to-End Process Picture
+Not: using GPT as a feature inside a product.
 
-The list above is the parts list. This section is the wiring diagram — what is connected to what, who owns each process, and where the human (me) sits on top.
+Not: automating one or two workflows with an LLM call.
 
-### System diagram
+AI-native means: every function that would normally require a person has a named agent or a defined process to handle it. Engineering, QA, incident response, customer triage, release coordination. These are not augmented with AI — they are owned by AI agents. I sit above them as architect and reviewer, not as the primary executor.
 
-```
-                          ┌──────────────────────────────────────────┐
-                          │           Dzianis (1.0 human)            │
-                          │      architect · review · approve        │
-                          └────────────────────┬─────────────────────┘
-                                               │
-                                       Slack (DM + channels)
-                                               │
-            ┌──────────────────────────────────┼──────────────────────────────────┐
-            │                                  │                                  │
-            ▼                                  ▼                                  ▼
-   ┌────────────────────┐         ┌────────────────────────┐         ┌──────────────────────┐
-   │  Inbound channels  │         │   OpenClaw (cloud)     │ Tailscale│ OpenCode (dev box)  │
-   │ ────────────────── │ ──────▶│  Slack-facing agents:  │◀────────▶│  opencode serve     │
-   │ docs.vibebrowser   │         │  • Gilfoyle Bertram    │  HTTPS   │  real working tree  │
-   │   (Azure RAG)      │         │     SoftwareEngineer   │          │  builds · tests · PR │
-   │ Chatwoot           │         │  • Jared Dunn          │          └──────────┬───────────┘
-   │   web/Telegram/    │         │     SupportEngineer    │                     │
-   │   email            │         │  • Einstein            │                     │ gh CLI
-   │ Gmail support@     │         │     ReleaseEngineer    │                     ▼
-   │ VibeBrowser        │         │  • Monica Hall         │             ┌──────────────┐
-   │   co-pilot chat    │         │     GrowthManager      │             │   GitHub     │
-   └──────────┬─────────┘         │  • Sam · MarketingMgr  │             │ PRs · CI     │
-              │                   │  • Jordan · ProductMgr │             └──────┬───────┘
-              │  webhooks /       │  • Harvey Specter      │                    │ merge
-              │  poll             │     LegalAdvisor       │                    ▼
-              │                   │  • Michael Burry       │             ┌──────────────┐
-              ▼                   │     Accountant         │             │  Deploy /    │
-   ┌────────────────────┐         └───────────┬────────────┘             │  Kubernetes  │
-   │  Cloud Chrome      │◀── CDP ────────────┘                           └──────┬───────┘
-   │  (per-agent        │                                                       │
-   │   profile)         │  cookies pushed by chrome-sync                        ▼
-   │  Stripe · Mercury  │  from local laptop ─────────────┐                ┌─────────┐
-   │  LinkedIn · GA     │                                  │                │ Sentry  │
-   └────────────────────┘                                  │                └────┬────┘
-                                                           │                     │ alert
-   ┌─────────────────────────── Internal systems ──────────┼─────────────────────┘
-   │                                                       │
-   │   Linear (issues + Finance receipts)   ◀──── all roles write here
-   │   Sentry (errors + alerts)             ◀──── Gilfoyle resolves
-   │   Stripe (revenue · read-only)         ◀──── Michael Burry reads
-   │   Mercury (banking · read-only)        ◀──── Michael Burry reads
-   │   GitHub (code · PRs)                  ◀──── Gilfoyle writes via OpenCode
-   │
-   └─────────────────────────────────────────────────────────────────────────────┘
-```
+The practical version of this in November 2025: a coding agent that writes code overnight while I sleep, and an operations agent skeleton that handles Slack triage, incident response, and customer routing. Neither is perfect. Both are good enough to save the hours that would otherwise block the company.
 
-A few things the diagram is trying to make obvious:
+## First Stack at Founding
 
-- **Slack is the central nervous system.** Every agent, every escalation, every approval flows through it. If Slack goes down, the company effectively pauses — which is a real risk and is one reason every role's `AGENTS.md` keeps a fallback contact (email) in scope.
-- **OpenClaw lives in the cloud; OpenCode lives on a desk.** The bridge between them is [Tailscale](https://tailscale.com), not a public endpoint. The dev workstation never opens a port to the internet.
-- **The browser layer is shared.** Cloud Chrome instances per agent profile, hydrated with my login state via [`@vibetechnologies/chrome-sync`](https://www.npmjs.com/package/@vibetechnologies/chrome-sync). That is what lets Monica Hall read Google Analytics and Michael Burry read Mercury without me handing over passwords.
-- **Linear is the universal substrate.** Bugs, features, support tickets, growth experiments, and receipts all live as Linear issues. One API, one mental model, one place to filter.
+Three pieces.
 
-### Process matrix
+**OpenCode** — the coding agent. Runs on a dev workstation, exposes `opencode serve` over HTTP, reachable over Tailscale from wherever I am. Model-agnostic: Opus for orchestration, cheaper models for execution. Open-source, which matters — I need to be able to add reflection layers, custom tools, GitHub integration. Closed coding agents lock you out of the internals at the moment you most need to debug them.
 
-Every named operational flow, who triggers it, who owns it, what tooling carries it, and where it escalates if the agent gets stuck:
+We also maintain a [fork of OpenCode](https://github.com/dzianisv/opencode) with specific changes: planning-loop detection, cross-model review (one model reviewing another's output), and a GitHub integration plugin.
 
-| Process | Trigger | Primary agent | Tooling | Escalation | Reference |
-|---|---|---|---|---|---|
-| Code change → PR → merge → deploy | Slack request or Linear issue | Gilfoyle Bertram (SoftwareEngineer) | OpenCode over Tailscale · `gh` CLI · reflection layer · Einstein for deploy | `@Dzianis` for any unreviewed merge; `@Einstein` for rollout questions | [Engineering Stack](/blog/2025-11-10-vibe-engineering-stack-claude-code-to-opencode) · [OpenClaw switch](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team) |
-| Customer email → triage → reply | New email at `support@vibebrowser.app` | Jared Dunn (SupportEngineer) | Gmail API · Linear · Sentry read · sandboxed browser | `@GilfoyleBertram` for bugs · `@Einstein` for outages · `@Dzianis` for refunds above threshold | [OpenClaw switch](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team) |
-| Customer chat (Chatwoot widget/Telegram/email) → bot → human-escalation | Inbound message on Chatwoot inbox | Chatwoot AI bot → Jared Dunn | Chatwoot · OpenClaw bridge · `needs-human` label | `@Dzianis` for anything financial or contractual | [Chatwoot AI Chatbot](/blog/2026-04-25-chatwoot-ai-chatbot-openclaw-vibebrowser-app) |
-| Customer report from VibeBrowser co-pilot → Linear issue | User clicks "report issue" in co-pilot chat | Jared Dunn (triage) → Gilfoyle Bertram (fix) | VibeBrowser API · Linear API · Slack | `@ProductManager` for repeated friction; `@Dzianis` for sensitive data | [Linear pipeline](/blog/2026-05-22-linear-customer-support-pipeline-supportengineer-vibebrowser-copilot) |
-| Docs chat (RAG) → escalation | User question on docs.vibebrowser.app | Azure AI Foundry RAG → Jared Dunn | Azure AI Foundry · markdown index · email handoff | Jared Dunn picks up via Gmail when RAG can't answer | [Docs Support Chat](/blog/2026-04-10-docs-support-chat-azure-ai-rag-supportengineer-escalation) |
-| Production incident (Sentry alert) → triage → fix → deploy | Sentry alert webhook | Jared Dunn (triage) → Gilfoyle Bertram (fix) → Einstein (deploy) | `sentry-cli` · OpenCode · `kubectl` · reflection review | `@Dzianis` for any destructive verb (`delete`, `drain`) | [OpenClaw switch](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team) |
-| Growth experiment → idea → run → measure → report | Weekly cron or Jared Dunn's repeated-request log | Monica Hall (GrowthManager) | Cloud Chrome · GA · Search Console · PostHog · chrome-sync | `@ProductManager` for recurring friction; `@Dzianis` for spend approvals | [OpenClaw switch · Monica Hall section](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team) |
-| Marketing content → draft → review → publish | Cron or shipped feature | Sam (MarketingManager) with Monica Hall on SEO | OpenCode for repo PR · Gilfoyle for tech accuracy review | `@Dzianis` for tone or strategic claims | [VibeTeam post](/blog/2025-11-20-vibeteam-openhand-ai-operations-agents) |
-| Receipt intake → Linear → quarterly close | Photo or email forwarded to `@MichaelBurry` | Michael Burry (Accountant) | Vision extraction · Linear Finance team · Stripe/Mercury read · CSV export | `@HarveySpecter` for legal classification; `@Dzianis` for payment approval | [OpenClaw switch · Michael Burry section](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team) |
-| Legal question (LLC / tax / contracts) → Harvey Specter → CPA/attorney | Slack `@HarveySpecter` mention or referral from Michael Burry | Harvey Specter (LegalAdvisor) | Doc search · contract templates · Linear `Legal` team | `@Dzianis` for any binding action; external attorney for filings | [OpenClaw switch](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team) |
-| Bill payment → review → approve → execute | Recurring vendor invoice | Michael Burry (prepare) → Dzianis (approve) | Mercury read · Linear · Slack approval thread | `@Dzianis` is always the executor for money movement | [OpenClaw switch · Michael Burry section](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team) |
+The orchestration model is explicit: an Opus-class orchestrator decomposes work, delegates to cheaper subagents running in parallel, and never writes code itself. Spec quality drives output quality. The orchestrator's job is turning a vague requirement into a precise spec the subagents can execute against.
 
-Two patterns repeat across the matrix:
+**VibeTeam** — the operations skeleton, forked from OpenHands. [github.com/VibeTechnologies/VibeTeam](https://github.com/VibeTechnologies/VibeTeam). OpenHands gives you a sandboxed agent runtime with tool access: bash, kubectl, web APIs, file system. We forked it to add operations-specific workflows — Slack integration, structured runbooks, webhook ingestion, PagerDuty-style alerting paths.
 
-1. **Every process has an explicit escalation target.** No agent is allowed to silently give up. Either it ships the work, hands off to a named role, or pings `@Dzianis`. "Stuck and quiet" is the failure mode this scaffolding exists to prevent.
-2. **Money movement and binding legal action are never agent-executed.** Michael Burry prepares payments, Harvey Specter drafts contracts, but the executor is always me. That is the one rule no agent can override and no skill can patch around.
+At founding, this is a skeleton, not a full team. There is a generic ops agent that handles Slack triage and basic incident runbooks. No named roster yet, no specialized roles per domain. The intent is to grow roles as I understand what each domain actually needs.
 
-The rest of this series fills in each row.
+**Slack** — the nervous system. Every agent posts here. I direct them from here. Incidents surface here. Escalations land here. When I am mobile, Slack is the control plane. The architecture is intentionally simple: if an agent needs to reach me, it sends a Slack message. If I need to direct an agent, I send a Slack message. No custom dashboards, no operator UI to maintain.
 
-We haven't measured deflection rate yet — that tracking starts in Q1 2026.
+## What We Are About to Build
 
-## The Company Structure
+The primary product is [VibeBrowser](https://vibebrowser.app) — a browser co-pilot that gives AI agents control of a real Chrome session.
 
-Vibe Technologies runs with:
+The problem it solves: most browser automation for AI agents relies on headless Chromium, HTML scraping, or Playwright scripts. Those break on dynamic pages, fail on sites that detect non-human behavior, and cannot handle authenticated workflows without brittle session management.
 
-- **1.0 human employee** — me, as architect and decision-maker
-- **AI engineering agents** — write code, run tests, submit PRs
-- **AI operations agents** — handle incident response, Slack communication, customer triage
+VibeBrowser is different. It connects to a real Chrome instance via Chrome DevTools Protocol, gives agents a proper accessibility tree plus screenshot context, and handles the authenticated state via the user's actual browser profile. The agent sees what a human sees and can interact the same way.
 
-This is not a side project. It ships production software, maintains infrastructure, and operates 24/7 without me at the keyboard.
+Use cases: automating complex authenticated workflows, navigating multi-step dynamic pages, running repeatable browser tasks that previously required a human at the keyboard.
 
-The agents are not magic. They fail, loop, and produce incorrect output. The discipline is in the scaffolding around them: failure detection, retry logic, escalation paths to me when human judgment is required.
-
-## What We Are Building
-
-Our primary product is [VibeBrowser](https://vibebrowser.app) — a browser co-pilot that gives AI agents control of a real Chrome session. Unlike headless browsers or HTML scrapers, VibeBrowser provides full JavaScript execution, authenticated sessions, and human-like interaction patterns.
-
-Use cases: automating complex authenticated workflows, navigating dynamic pages, running repeatable browser tasks that previously required a human at a keyboard.
+We are building the agent side of this — the co-pilot layer — first. The browser is the product, not an internal tool. Other companies building AI agents need this too.
 
 ## Core Principle: Minimum Proprietary Technology
 
 Every infrastructure decision defaults to open-source and self-hostable:
 
-- **AI coding**: Claude Code → OpenCode (open-source, multi-model)
-- **Operations agents**: custom OpenHands build — [VibeTeam](https://github.com/VibeTechnologies/VibeTeam)
-- **Browser protocol**: Chrome DevTools Protocol (open standard)
+- **AI coding**: OpenCode (open-source, multi-model) — not Claude Code alone
+- **Operations agents**: VibeTeam, forked from OpenHands — not a SaaS ops platform
+- **Browser protocol**: Chrome DevTools Protocol — open standard, not a vendor-specific SDK
 - **Model layer**: model-agnostic routing across Anthropic, OpenAI, Google, local Ollama
 - **Infrastructure**: Kubernetes, standard cloud primitives
 
-Proprietary SaaS is a liability for a one-person company. Open-source gives you escape hatches when vendors change pricing, deprecate APIs, or go down.
-
-## What Comes Next
-
-This is the first post in a series on how Vibe Technologies actually operates:
-
-1. **[The Engineering Stack](/blog/2025-11-10-vibe-engineering-stack-claude-code-to-opencode)** — moving from Claude Code to OpenCode, the orchestrator model, and how code ships without me writing it
-2. **[VibeTeam: AI Agents for Operations](/blog/2025-11-20-vibeteam-openhand-ai-operations-agents)** — the OpenHands-based agent team handling incidents, Slack, and customer communication
-
-Questions or building something similar: [dzianisvv@gmail.com](mailto:dzianisvv@gmail.com)
+Proprietary SaaS is a liability for a one-person company. When a vendor changes pricing, deprecates an API, or goes down, I have no leverage and no alternatives. Open-source defaults give escape hatches. The stack I build should be something I can run myself if every vendor disappeared tomorrow.
 
 ## What Does Not Work Yet
 
-- **No cross-source deduplication.** A customer who emails `support@vibebrowser.app` and also messages via Chatwoot creates two separate Linear issues. There is no merge logic today.
-- **No SLA tracking on Linear status.** Issues are created and assigned but there is no measurement of time-to-first-response or time-to-resolution against any target.
-- **Screenshots missing.** The UI flows described in this post (Jared Dunn Slack messages, Chatwoot conversation view) are not yet illustrated with real screenshots.
-- **Deflection rate not measured.** We haven't measured how often docs RAG or the Chatwoot bot resolves a question without reaching Jared Dunn — that tracking starts in Q1 2026.
+Honest accounting from November 2025:
 
-## Related reading
+- **The ops skeleton is thin.** VibeTeam handles Slack triage and runbook execution for known incident types. Novel incidents still land on me. Runbook coverage is the bottleneck, and I have maybe 40% of real incident types covered.
+- **No specialization in operations roles.** The generic ops agent handles everything from customer email routing to incident response. That works at low volume but will not scale — different domains need different context windows, different tool access, different escalation logic.
+- **Overnight coding runs fail silently sometimes.** OpenCode hits context limits on large refactors and stops without a clear error. I wake up to nothing merged. Detection and retry logic is partial.
+- **No measurement yet.** No deflection rate for customer triage, no latency benchmarks for the coding agent, no cost tracking per task. The signals are qualitative: the work gets done that otherwise would not. Numbers come later.
 
-The full `#ainativecompany` series:
+## What This Series Covers
 
-- **[Building Vibe Technologies: An AI-Native Startup](/blog/2025-11-01-building-vibe-technologies-ai-native-startup)**
-- [Vibe Engineering: From Claude Code to OpenCode](/blog/2025-11-10-vibe-engineering-stack-claude-code-to-opencode)
-- [VibeTeam: OpenHands AI Operations Agents](/blog/2025-11-20-vibeteam-openhand-ai-operations-agents)
-- [Switching From OpenHands to VibeBrowser Agentic Team](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team)
-- [Docs Support Chat: Azure AI RAG + SupportEngineer Escalation](/blog/2026-04-10-docs-support-chat-azure-ai-rag-supportengineer-escalation)
-- [Chatwoot AI Chatbot for openclaw.vibebrowser.app](/blog/2026-04-25-chatwoot-ai-chatbot-openclaw-vibebrowser-app)
-- [Switching OpenClaw Operations to DeepSeek-V4-Flash](/blog/2026-05-01-switching-openclaw-operations-to-deepseek-v4-flash)
-- [Token Optimization with OpenCode, LST, RTK, Caveman](/blog/2026-05-15-token-optimization-opencode-lst-rtk-caveman)
-- [Linear Customer Support Pipeline: From VibeBrowser Co-Pilot to Jared Dunn](/blog/2026-05-22-linear-customer-support-pipeline-supportengineer-vibebrowser-copilot)
-- [Agent Communication: Slack Apps, OpenClaw Bindings, AGENTS.md Handoff Matrix](/blog/2026-05-23-agent-communication-slack-openclaw-handoff-matrix) — how agents route work to each other
-- [Meet the Vibe Technologies Team: 10 AI Agents, One Human, One Framework](/blog/2026-05-24-vibe-technologies-agent-roster-nine-agents-one-framework) — full agent roster with roles, models, and channel bindings
-- [Two Layers of Agent Evaluation: Deployment Checks and Team Trace Review](/blog/2026-05-25-openclaw-eval-queue-yaml-based-agent-testing)
-- [OpenCode in Server Mode: Tailscale Access and AI Session Supervision](/blog/2026-05-26-opencode-server-tailscale-agent-supervision)
-- [Claude Code Remote Control: Managing Coding Sessions from Mobile](/blog/2026-05-27-claude-code-mobile-remote-control) — per-PR YAML eval queue plus Claw's Langfuse-backed team evaluation
+This is the first post in the `#ainativecompany` series. Follow-up posts cover the engineering stack in detail and the operations agent skeleton.
 
-*This is the first post in the series.*
+- [Vibe Engineering: From Claude Code to OpenCode](/blog/2025-11-10-vibe-engineering-stack-claude-code-to-opencode) — the coding agent setup, orchestrator model, and how code ships without me at the keyboard
+- [VibeTeam: AI Agents for Operations](/blog/2025-11-20-vibeteam-openhand-ai-operations-agents) — the OpenHands-based agent team handling incidents, Slack, and customer communication
+
+Questions or building something similar: [dzianisvv@gmail.com](mailto:dzianisvv@gmail.com)
