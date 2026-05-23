@@ -11,6 +11,7 @@ tags:
   - vibe-technologies
   - agent-roster
   - team-structure
+published: true
 ---
 
 Vibe Technologies has ten AI agents and one human. The agents do not share a brain or a model instance — each one runs as an independent OpenClaw process with its own workspace, its own channel bindings, and its own `AGENTS.md` persona file. The human (me) architects the system and handles things the agents explicitly cannot: legal sign-offs, Stripe disputes above $100, irreversible infrastructure changes.

@@ -11,6 +11,7 @@ tags:
   - founder
   - ai-agents
   - vibe-technologies
+published: true
 ---
 
 Vibe Technologies is one person — me — running a company with AI agents instead of employees. The agents have names and roles: Gilfoyle Bertram handles engineering, Jared Dunn handles customer support, Monica Hall runs growth, Einstein manages releases, and Harvey Specter covers legal. This post explains who each agent is, what they own, and how the system connects them — Slack, Linear, Chatwoot, and a dev workstation reachable from the cloud.

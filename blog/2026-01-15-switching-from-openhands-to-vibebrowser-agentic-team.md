@@ -13,6 +13,7 @@ tags:
   - slack
   - openhands
   - vibe-technologies
+published: true
 ---
 
 We switched from our custom OpenHands-based VibeTeam to a new agent stack built on OpenClaw and hosted at vibebrowser.app/agentic-team. Agent task failure dropped from 40% to under 10%. Each agent now has a named identity, a specific role, and a persistent Slack presence. This post explains what broke, what we built, and how eight named agents now run daily operations over Slack.

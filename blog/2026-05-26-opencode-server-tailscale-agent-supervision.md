@@ -12,6 +12,7 @@ tags:
   - ai-agents
   - software-engineer
   - vibe-technologies
+published: true
 ---
 
 Running OpenCode as a CLI tool means one session, one terminal, one project at a time. That works for a human who sits at a desk. It does not work for an AI agent that needs to manage multiple coding tasks in parallel, check back on a session it started an hour ago, and follow up when a test fails.

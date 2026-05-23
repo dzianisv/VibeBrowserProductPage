@@ -13,6 +13,7 @@ tags:
   - model-routing
   - vibe-technologies
   - agentic-coding
+published: true
 ---
 
 Vibe Technologies runs its customer operations through a team of named AI agents. OpenClaw is the bot platform they run on. We just retired GPT-5.4 high reasoning from our [OpenClaw operations team](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team) and moved every operational role to **DeepSeek-V4-Flash** in max-reasoning mode. The switch landed last week. The honest verdict: we are happier with both speed and how the agents act. Reasoning-heavy roles — code review, architecture decisions — stayed on Claude Opus. The model routing config is in the "How To Try It Yourself" section below.

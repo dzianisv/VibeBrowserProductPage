@@ -14,6 +14,7 @@ tags:
   - lst
   - subagents
   - vibe-technologies
+published: true
 ---
 
 Vibe Technologies is a one-person company. There is me, and there is a fleet of [OpenCode](https://opencode.ai) coding agents running 24/7 on a handful of remote VMs. The headcount is "1.0 human." The actual operating cost is not salaries. It is the token bill.

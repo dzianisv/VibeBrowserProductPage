@@ -12,6 +12,7 @@ tags:
   - tailscale
   - opencode
   - vibe-technologies
+published: true
 ---
 
 Running 10 AI agents from one laptop works fine at a desk. It falls apart the moment you step away. A session stalls, an agent hits a blocking question, a build breaks — and the only way to react is to be in front of a screen.

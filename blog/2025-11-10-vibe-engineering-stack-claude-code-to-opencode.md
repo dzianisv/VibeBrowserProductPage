@@ -12,6 +12,7 @@ tags:
   - ai-agents
   - vibe-technologies
   - developer-tools
+published: true
 ---
 
 We run a multi-agent engineering team on OpenCode. Each agent gets a role, a model, and a task queue — an Opus-class orchestrator decomposes work and delegates to specialized subagents running in parallel, overnight, without me at the keyboard. This post covers the stack we built, what drove us off Claude Code alone, and how the orchestrator model actually works.

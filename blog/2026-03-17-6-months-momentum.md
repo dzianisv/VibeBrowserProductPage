@@ -3,6 +3,7 @@ title: "6 Months of Momentum: Advancing Agentic Browsing and AI Infrastructure a
 date: "2026-03-17"
 author: "Den"
 tags: ["ainativecompany", "vibe-technologies", "browser-agent", "opencode", "kubernetes"]
+published: true
 ---
 
 Over six months we shipped a working browser co-pilot, a support pipeline run by AI, and a team of AI agents writing code. Each piece is running in production. This post documents what shipped, with evidence where we have it.

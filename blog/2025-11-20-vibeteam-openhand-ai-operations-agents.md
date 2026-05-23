@@ -13,6 +13,7 @@ tags:
   - ai-native
   - vibe-technologies
   - automation
+published: true
 ---
 
 Vibe Technologies runs on one human and a team of AI agents. The agents own incident response, Slack triage, customer routing, and code review — the work that would normally require a full ops team. Below is a breakdown of which agent handles what, and how they hand off work to each other.

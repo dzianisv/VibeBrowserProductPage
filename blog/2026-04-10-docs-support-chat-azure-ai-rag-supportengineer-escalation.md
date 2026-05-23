@@ -13,6 +13,7 @@ tags:
   - vibe-technologies
   - openclaw
   - customer-support
+published: true
 ---
 
 We built a RAG support chat on [docs.vibebrowser.app](https://docs.vibebrowser.app) backed by Azure AI Search — it reads our markdown docs, answers grounded questions, and escalates unresolved issues to [Jared Dunn, our SupportEngineer agent](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team) via email. The goal: deflect the majority of inbound support questions before they reach a human.

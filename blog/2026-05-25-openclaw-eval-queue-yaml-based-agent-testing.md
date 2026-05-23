@@ -12,6 +12,7 @@ tags:
   - eval
   - langfuse
   - vibe-technologies
+published: true
 ---
 
 Evaluating a ten-agent AI team requires two distinct approaches. The first is deployment verification — did OpenClaw start correctly, can agents use their tools, does the model routing work? The second is team evaluation — did the multi-agent task actually complete, or is a session stuck somewhere in the handoff chain?

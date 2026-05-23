@@ -12,6 +12,7 @@ tags:
   - customer-support
   - self-hosted
   - vibe-technologies
+published: true
 ---
 
 When [openclaw.vibebrowser.app](https://openclaw.vibebrowser.app) started seeing real users last quarter, it needed a real chat surface. Not a "send us an email and we will get back to you in 24 hours" link. An actual chat widget, with conversation history, agent handoff, attachments, the works. And — because Vibe Technologies is a one-person company with a team of AI agents — most of the replies needed to come from a bot, not a human.

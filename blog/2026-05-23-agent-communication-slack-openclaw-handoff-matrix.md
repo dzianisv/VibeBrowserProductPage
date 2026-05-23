@@ -12,6 +12,7 @@ tags:
   - software-engineer
   - vibe-technologies
   - operations
+published: true
 ---
 
 Vibe Technologies has one human and ten AI agents. The human rarely coordinates handoffs directly — agents hand off to each other. Jared Dunn (SupportEngineer) escalates to Gilfoyle Bertram (SoftwareEngineer), who hands off to the CTO when the fix requires architecture authority. This post explains the exact mechanism: one Slack app per agent, one OpenClaw channel binding per agent, and a per-workspace `AGENTS.md` that every agent reads at session start.

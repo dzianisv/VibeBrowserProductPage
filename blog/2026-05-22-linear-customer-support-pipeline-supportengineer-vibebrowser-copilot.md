@@ -13,6 +13,7 @@ tags:
   - vibebrowser
   - support-pipeline
   - vibe-technologies
+published: true
 ---
 
 Vibe Technologies has one human (me) and a team of named AI agents. Anything that touches a customer eventually crosses [Jared Dunn](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team), our SupportEngineer agent. Anything that needs to be fixed — a bug, a missing feature, an account-specific snarl — has to live somewhere a future agent or human can find it.
