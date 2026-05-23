@@ -1,7 +1,7 @@
 ---
 title: "Claude Code Remote Control: Managing Coding Sessions from Mobile"
 description: "OpenCode's web UI isn't mobile-friendly. Here's how Claude Code remote control over Tailscale became the interim solution for managing AI coding sessions from a phone."
-date: "2026-05-27"
+date: "2026-05-23"
 author: "Dzianis Vashchuk"
 authorUrl: "https://linkedin.com/in/dzianisv"
 tags:

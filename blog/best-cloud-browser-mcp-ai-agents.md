@@ -1,7 +1,7 @@
 ---
 title: "Best Cloud Browser MCP for AI Agents (2025 Comparison)"
 description: "Comparing VibeBrowser Cloud, Claude for Chrome, Browserbase, Browserless, Steel.dev, Anchor, and Hyperbrowser for AI agent browser automation via MCP. Pricing, cloud vs local, and quick-start guide."
-date: "2026-07-15"
+date: "2026-05-18"
 tags: ["cloud browser", "MCP", "browser automation", "AI agents", "Browserbase alternative", "Claude for Chrome alternative"]
 published: true
 author: "VibeBrowser Team"
