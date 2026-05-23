@@ -52,7 +52,7 @@ Orchestrator (Claude Opus)
 └── SEOEngineer       (Gemini)      — release notes, blog posts, SEO
 ```
 
-The orchestrator never writes code. Its system prompt is explicit:
+The orchestrator never writes code. Its system prompt is explicit:<!-- TODO: link to orchestrator system prompt in repo -->
 
 > 1. When given a task, create a GitHub issue first.
 > 2. Keep the issue updated throughout.
@@ -78,7 +78,7 @@ This is not expensive in practice. Diff review is a small context window. The ca
 The `opencode serve` command runs a persistent session on a remote VM (DigitalOcean, ~$12/month). I send tasks from:
 
 - Terminal on the work machine
-- Mobile via voice → TypeWhisper transcribes → sends to the remote session
+- Mobile via voice → TypeWhisper transcribes → sends to the remote session<!-- TODO: screenshot of TypeWhisper voice input in action -->
 - Other agents (VibeTeam operations agents can spawn coding tasks)
 
 I check in asynchronously. Most mornings start with reviewing what the agents shipped overnight.
@@ -97,6 +97,16 @@ Before this setup, a feature from spec to merged PR required me at the keyboard 
 
 The bottleneck shifted from coding to reviewing. That is the right bottleneck for a product company.
 
+## Evidence It Works
+
+We haven't measured this yet — no latency benchmarks or cost deltas captured at time of writing. OpenCode *feels* faster for context switching but we have no numbers.
+
+## What Does Not Work Yet
+
+- **TypeWhisper voice interface is unstable on long sessions**: transcription drops or the connection to the remote session resets after 20–30 minutes, requiring a manual reconnect.
+- **Orchestrator model selection is manual**: choosing which model handles which subagent role is hand-tuned config, not automatic. There is no runtime mechanism that reassigns a role to a cheaper model when cost spikes.
+- **No objective model benchmark**: the model assignments in the diagram above are based on intuition and informal testing, not a controlled benchmark. A cheaper model might do just as well for several of those roles.
+
 ## Next in This Series
 
 [VibeTeam: How We Run Operations with AI Agents →](/blog/2025-11-20-vibeteam-openhand-ai-operations-agents)
@@ -114,3 +124,5 @@ The full `#ainativecompany` series:
 - [Switching OpenClaw Operations to DeepSeek-V4-Flash](/blog/2026-05-01-switching-openclaw-operations-to-deepseek-v4-flash)
 - [Token Optimization with OpenCode, LST, RTK, Caveman](/blog/2026-05-15-token-optimization-opencode-lst-rtk-caveman)
 - [Linear Customer Support Pipeline: From VibeBrowser Co-Pilot to Jared Dunn](/blog/2026-05-22-linear-customer-support-pipeline-supportengineer-vibebrowser-copilot)
+
+*Previous in series: [Building Vibe Technologies: An AI-Native Startup →](/blog/2025-11-01-building-vibe-technologies-ai-native-startup)*

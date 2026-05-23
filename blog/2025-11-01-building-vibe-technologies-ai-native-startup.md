@@ -13,7 +13,7 @@ tags:
   - vibe-technologies
 ---
 
-I am Dzianis Vashchuk. I founded Vibe Technologies in 2025 to build AI-native products — starting with an agentic browser co-pilot. This post explains what "AI-native" actually means in practice, and why one person with the right agent stack can do what used to require a full engineering team.
+Vibe Technologies is one human and a team of named AI agents. Anything a customer touches eventually crosses Jared Dunn, our SupportEngineer. Every bug and feature request lands in Linear. This post explains the exact pipeline between the two — and how a solo founder runs engineering, operations, and support without hiring.
 
 ## How the Pieces Fit Together
 
@@ -23,6 +23,7 @@ Before the philosophy, the stack at a glance — so the rest of this series has 
 - **OpenCode** — the coding worker. Runs on a dev workstation, exposes `opencode serve` over HTTP, reachable from OpenClaw via Tailscale. Opus supervises, cheaper models execute. See [Vibe Engineering Stack](/blog/2025-11-10-vibe-engineering-stack-claude-code-to-opencode).
 - **docs.vibebrowser.app chat** — Azure AI Foundry RAG over our markdown docs. Tier-0 deflection. Escalates to email when stuck. See [the docs support chat post](/blog/2026-04-10-docs-support-chat-azure-ai-rag-supportengineer-escalation).
 - **Chatwoot** — self-hosted on AKS. Three inboxes: the web widget on openclaw.vibebrowser.app, Telegram, and email. AI bot handles tier-1; unresolved goes `needs-human` → Jared Dunn. See [the Chatwoot post](/blog/2026-04-25-chatwoot-ai-chatbot-openclaw-vibebrowser-app).
+<!-- TODO: add screenshot of Jared Dunn Slack message and Chatwoot conversation -->
 - **Gmail (support@vibebrowser.app)** — Jared Dunn's primary inbox for direct customer email.
 - **Linear** — every bug, feature request, or account issue above a routing threshold becomes a Linear issue. See [the Linear pipeline post](/blog/2026-05-22-linear-customer-support-pipeline-supportengineer-vibebrowser-copilot).
 - **VibeBrowser co-pilot chat** — the in-product chat where users can report issues directly to the team. End-to-end submit path is planned for Q3 2026; see the Linear pipeline post for the current state.
@@ -115,6 +116,8 @@ Two patterns repeat across the matrix:
 
 The rest of this series fills in each row.
 
+We haven't measured deflection rate yet — that tracking starts in Q1 2026.
+
 ## What AI-Native Means (Not What You Think)
 
 AI-native is not using Copilot in VS Code. It is not asking ChatGPT to explain an error. Those are AI-assisted workflows — humans still drive every decision and write most of the code.
@@ -167,11 +170,18 @@ This is the first post in a series on how Vibe Technologies actually operates:
 
 Questions or building something similar: [dzianisvv@gmail.com](mailto:dzianisvv@gmail.com)
 
+## What Does Not Work Yet
+
+- **No cross-source deduplication.** A customer who emails `support@vibebrowser.app` and also messages via Chatwoot creates two separate Linear issues. There is no merge logic today.
+- **No SLA tracking on Linear status.** Issues are created and assigned but there is no measurement of time-to-first-response or time-to-resolution against any target.
+- **Screenshots missing.** The UI flows described in this post (Jared Dunn Slack messages, Chatwoot conversation view) are not yet illustrated with real screenshots.
+- **Deflection rate not measured.** We haven't measured how often docs RAG or the Chatwoot bot resolves a question without reaching Jared Dunn — that tracking starts in Q1 2026.
+
 ## Related reading
 
 The full `#ainativecompany` series:
 
-- **You are here** — [Building Vibe Technologies: An AI-Native Startup](/blog/2025-11-01-building-vibe-technologies-ai-native-startup)
+- **[Building Vibe Technologies: An AI-Native Startup](/blog/2025-11-01-building-vibe-technologies-ai-native-startup)**
 - [Vibe Engineering: From Claude Code to OpenCode](/blog/2025-11-10-vibe-engineering-stack-claude-code-to-opencode)
 - [VibeTeam: OpenHands AI Operations Agents](/blog/2025-11-20-vibeteam-openhand-ai-operations-agents)
 - [Switching From OpenHands to VibeBrowser Agentic Team](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team)
@@ -180,3 +190,5 @@ The full `#ainativecompany` series:
 - [Switching OpenClaw Operations to DeepSeek-V4-Flash](/blog/2026-05-01-switching-openclaw-operations-to-deepseek-v4-flash)
 - [Token Optimization with OpenCode, LST, RTK, Caveman](/blog/2026-05-15-token-optimization-opencode-lst-rtk-caveman)
 - [Linear Customer Support Pipeline: From VibeBrowser Co-Pilot to Jared Dunn](/blog/2026-05-22-linear-customer-support-pipeline-supportengineer-vibebrowser-copilot)
+
+*This is the first post in the series.*

@@ -227,6 +227,8 @@ The one extra hop: when the docs bot's escalation includes the conversation tran
 
 This is the source that went from "roadmap" to "shipped" by the time this post was written. The co-pilot chat in the product has a flag button in the toolbar (`ChatPage.tsx`). Clicking it opens `FeedbackModal.tsx` — five predefined categories ("Agent didn't complete task", "Wrong action taken", "Slow response", "Incorrect information", "Other") plus an optional free-text field.
 
+<!-- TODO: screenshot of flag button and FeedbackModal — save as public/blog/images/2026-05-22-feedback-modal.png -->
+
 On submit, the extension background worker collects context — user email, plan tier, model, extension version, current page URL, Langfuse session ID for the trace, and the last five chat messages — and POSTs to `POST /api/feedback` on the stripe-service backend (PR #1259, merged).
 
 The endpoint:
@@ -324,6 +326,7 @@ Honest accounting, same shape as every other post in this series:
 
 - **No automatic cross-source dedup.** The four sources create Linear issues independently: co-pilot's `POST /api/feedback` fires immediately on submit and creates a Linear ticket directly; Chatwoot and Gmail go through Jared Dunn who creates a ticket after triage. If the same user hits the flag button in co-pilot and then emails support about the same bug, two Linear issues land with no automatic join. The contact identity model does not unify `co-pilot session ID` with `email` with `Chatwoot contact ID`. Workaround: Jared adds a `duplicate-of` comment when he spots the overlap.
 - **Chatwoot-to-email continuity is a one-way door — for now.** When Jared replies to a Chatwoot conversation via Gmail (for customers who escalate to email), that email reply does not automatically post back as a note in the originating Chatwoot thread. The reverse path is wired in `AGENTS.md`: when the originating channel is a Chatwoot conversation URL, Jared posts the email content as a private Chatwoot note via API. But this is a runbook step, not an automated sync — if Jared skips it, the Chatwoot thread goes stale.
+- **Metrics not yet collected.** We haven't measured ticket deflection rate or time-to-resolution yet — instrumentation planned for next sprint.
 
 ## Why Bother With This Much Plumbing
 
@@ -352,3 +355,5 @@ The full `#ainativecompany` series:
 - **You are here** — Linear Customer Support Pipeline
 
 Questions or running a similar setup: [dzianisvv@gmail.com](mailto:dzianisvv@gmail.com)
+
+*Previous in series: [Token Optimization with OpenCode, LST, RTK, Caveman →](/blog/2026-05-15-token-optimization-opencode-lst-rtk-caveman)*

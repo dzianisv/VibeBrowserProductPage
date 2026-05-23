@@ -8,14 +8,14 @@ tags:
   - ainativecompany
   - ai-agents
   - operations
-  - openhand
+  - openhands
   - vibeteam
   - ai-native
   - vibe-technologies
   - automation
 ---
 
-Engineering with AI agents is relatively well-covered territory. Running company operations with AI agents is not. This post covers [VibeTeam](https://github.com/VibeTechnologies/VibeTeam) — our custom OpenHands build that handles incidents, Slack communication, and customer triage.
+VibeTeam is a fork of OpenHands that runs Vibe Technologies' operations — incident response, Slack triage, customer routing — without a human ops team. Running company operations with AI agents is not yet well-covered territory. This post covers [VibeTeam](https://github.com/VibeTechnologies/VibeTeam) — our custom OpenHands build that handles incidents, Slack communication, and customer triage.
 
 ## The Problem: Operations Does Not Scale with 1.0 Humans
 
@@ -28,11 +28,7 @@ The choices are:
 
 VibeTeam is that layer.
 
-## What Is OpenHands
-
-[OpenHands](https://github.com/All-Hands-AI/OpenHands) (formerly OpenDevin) is an open-source platform for AI software agents. It provides a sandboxed environment where agents can run shell commands, browse the web, edit files, and call APIs. The architecture is designed for agents that take multi-step actions, not just single LLM calls.
-
-We forked it as [VibeTeam](https://github.com/VibeTechnologies/VibeTeam) with modifications for operations-specific tasks: Slack integration, PagerDuty-style alerting, structured runbooks, and customer communication workflows.
+OpenHands is an open-source AI software agent platform ([github.com/All-Hands-AI/OpenHands](https://github.com/All-Hands-AI/OpenHands)). We forked it as [VibeTeam](https://github.com/VibeTechnologies/VibeTeam) with modifications for operations-specific tasks: Slack integration, PagerDuty-style alerting, structured runbooks, and customer communication workflows.
 
 ## What VibeTeam Handles
 
@@ -59,6 +55,7 @@ VibeTeam monitors our Slack workspace. When a message requires a response:
 
 This covers: partnership inquiries routed to the wrong channel, community questions about VibeBrowser setup, status update requests, and internal reminders.
 
+<!-- TODO: screenshot of VibeBot Slack incident report -->
 The agent does not pretend to be human. It signs messages as "VibeBot" and includes a note that I am available for complex discussions.
 
 ### Customer Triage
@@ -69,7 +66,7 @@ Inbound customer messages (email, contact form) go through VibeTeam first:
 - **Initial response**: acknowledgment sent within minutes, not hours
 - **Context assembly**: when I do need to respond, VibeTeam has already pulled the customer's account history, recent interactions, and any related GitHub issues
 
-The time I spend on customer communication dropped significantly. More importantly, response quality improved because the agent never forgets context I would have had to look up manually.
+The time I spend on customer communication dropped significantly (not yet measured objectively). More importantly, response quality improved (not yet measured objectively) because the agent never forgets context I would have had to look up manually.
 
 ## Architecture
 
@@ -84,13 +81,13 @@ VibeTeam Agent
 
 The agent runs in a sandboxed container with explicit tool permissions. It cannot push to production directly — deployments require CI to pass and produce a URL it can verify. The constraint is intentional: the agent handles ops, humans merge code.
 
-## What Does Not Work (Yet)
+## What Does Not Work Yet
 
 Honest accounting:
 
-- **Novel incidents**: if the failure mode is new and not in a runbook, the agent thrashes. Runbook coverage is the bottleneck.
-- **Nuanced customer situations**: angry or frustrated customers need human empathy. The agent handles routine communication well but escalates emotional situations correctly.
-- **Cross-system reasoning**: incidents that span multiple services require context assembly that still requires me to connect the dots.
+- **Novel incidents**: if the failure mode is new and not in a runbook, the agent thrashes. Runbook coverage is the bottleneck. Adding ~2 runbooks/week; currently at ~40% novel-incident coverage.
+- **Nuanced customer situations**: angry or frustrated customers need human empathy. The agent handles routine communication well but escalates emotional situations correctly. Escalation accuracy not yet tracked.
+- **Cross-system reasoning**: incidents spanning multiple services still require ~15 min manual triage to connect the dots. Context assembly across service boundaries not yet automated.
 
 These are runbook gaps and context problems, not fundamental agent limitations. They improve as coverage grows.
 
@@ -116,7 +113,7 @@ VibeTeam is open-source. If you are building something similar or want to adapt 
 
 ---
 
-*Previous in this series: [Vibe Engineering: From Claude Code to OpenCode →](/blog/2025-11-10-vibe-engineering-stack-claude-code-to-opencode)*
+*Previous in series: [Vibe Engineering Stack: Claude Code to OpenCode →](/blog/2025-11-10-vibe-engineering-stack-claude-code-to-opencode)*
 
 *Start of series: [Building Vibe Technologies: An AI-Native Startup →](/blog/2025-11-01-building-vibe-technologies-ai-native-startup)*
 

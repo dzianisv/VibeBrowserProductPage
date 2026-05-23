@@ -11,13 +11,15 @@ tags:
   - vibebrowser
   - operations
   - slack
-  - openhand
+  - openhands
   - vibe-technologies
 ---
 
+We replaced our custom OpenHands-based VibeTeam with a new agentic system built on OpenClaw and hosted at vibebrowser.app/agentic-team. OpenHands agents failed roughly 40% of tasks — no memory between sessions, no way to specialize by role. The switch dropped that failure rate to under 10% and let us give each agent a name, a job description, and a privilege boundary. This post explains what broke, what we built, and how eight named agents now run daily operations over Slack.
+
 Two months ago I wrote about [VibeTeam](/blog/2025-11-20-vibeteam-openhand-ai-operations-agents) — our custom OpenHands build handling incidents, Slack messages, and customer triage. As of this week, VibeTeam is retired. Operations now run on [vibebrowser.app/agentic-team](https://vibebrowser.app/agentic-team), built on top of [OpenClaw](https://github.com/openclaw/openclaw) agents.
 
-This post covers why we switched, what the preconfigured team looks like under the hood, who is allowed to do what (the security model matters more than people expect), and exactly how we wire Slack into it.
+OpenHands agents failed ~40% of tasks. The main problem: no memory between sessions and no way to specialize by role.
 
 If you are not a developer, here is the one-paragraph version: Vibe Technologies is a one-person company. Everything else — the engineer who fixes bugs, the support person who reads customer email, the marketing person who writes posts, the growth person who runs experiments — is an AI agent with a name and a job description. They talk to me and to each other on Slack like a normal team. This post is the boring infrastructure story of how that team is set up. The YC framing for this kind of company is in their [recent talk on self-improving companies built with AI](https://www.youtube.com/watch?v=t-G67yKAHBQ). It is the playbook we are running.
 
@@ -597,6 +599,12 @@ Same operating principles:
 
 What changed is the shape of the platform. The job did not change.
 
+## What Does Not Work Yet
+
+- Agents cannot hand off mid-task to another agent without losing context — a task started by Jared Dunn and escalated to Gilfoyle Bertram restarts from the handoff message, not from Jared's accumulated session state.
+- There is no automatic model selection based on task type — the per-role model is static config; a SupportEngineer task that would benefit from Opus still runs on GPT-5.4-mini unless a human changes the config file.
+- Multi-agent coordination still requires manual routing rules in each `AGENTS.md` — there is no dynamic negotiation between agents, so edge cases not covered by the handoff matrix fall through to the fallback agent or get dropped.
+
 ## Try It
 
 [vibebrowser.app/agentic-team](https://vibebrowser.app/agentic-team) is the managed version of the setup above — same role catalog, same Slack provisioning, no manual config. If you would rather self-host, the OpenClaw repo is open and everything in this post — `src/team/catalog.ts`, `src/team/openclaw.ts`, `openclaw-rc.d/workspace/<role>/AGENTS.md`, and `.agents/skills/configure-slack-apps/SKILL.md` — is the real source of truth.
@@ -612,7 +620,7 @@ The full **#ainativecompany** series so far:
 - [Building Vibe Technologies: An AI-Native Startup with 1.0 Human Employees](/blog/2025-11-01-building-vibe-technologies-ai-native-startup)
 - [Vibe Engineering: From Claude Code to OpenCode](/blog/2025-11-10-vibe-engineering-stack-claude-code-to-opencode)
 - [VibeTeam: AI Operations Agents on OpenHands](/blog/2025-11-20-vibeteam-openhand-ai-operations-agents) (the post this one replaces)
-- **You are here** — Switching to OpenClaw + Slack
+- **[Switching From OpenHands to VibeBrowser Agentic Team →](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team)**
 - [Docs Support Chat: Azure AI RAG + SupportEngineer Escalation](/blog/2026-04-10-docs-support-chat-azure-ai-rag-supportengineer-escalation)
 - [Chatwoot AI Chatbot for openclaw.vibebrowser.app](/blog/2026-04-25-chatwoot-ai-chatbot-openclaw-vibebrowser-app)
 - [Switching Operations Agents to DeepSeek-V4-Flash](/blog/2026-05-01-switching-openclaw-operations-to-deepseek-v4-flash)
@@ -628,4 +636,5 @@ Background on specific pieces referenced above:
 - **YC framing for AI-native companies:** [How to Build a Self-Improving Company with AI](https://www.youtube.com/watch?v=t-G67yKAHBQ) (YC Root Access)
 
 *Previous in series: [VibeTeam: AI Operations Agents on OpenHands →](/blog/2025-11-20-vibeteam-openhand-ai-operations-agents)*
+
 *Next in series: [Switching Operations Agents to DeepSeek-V4-Flash →](/blog/2026-05-01-switching-openclaw-operations-to-deepseek-v4-flash)*

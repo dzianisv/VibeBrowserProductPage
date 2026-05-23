@@ -15,13 +15,7 @@ tags:
   - customer-support
 ---
 
-Most customer email at Vibe Technologies starts the same way: "how do I do X with VibeBrowser?" The answer is almost always in the docs. The customer did not find it — or did not want to read a page when typing a sentence felt faster.
-
-So a few weeks ago we shipped a support chat on [docs.vibebrowser.app](https://docs.vibebrowser.app). It is a RAG (retrieval-augmented generation, meaning: the model is forced to answer from a specific set of documents rather than from its training) chatbot, backed by Azure AI services, that reads our markdown docs and answers from them. When it cannot resolve a question, it escalates to email — and the email is picked up by [Jared Dunn, our SupportEngineer agent](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team). The customer never sees the boundary between the chat bot and the agent. They get one continuous conversation.
-
-This post covers the architecture, the system prompt, the escalation flow, why we chose Azure for this one product surface (we are generally model-agnostic — see the [DeepSeek switch](/blog/2026-05-01-switching-openclaw-operations-to-deepseek-v4-flash)), and what did not work the first time around.
-
-If you have not seen the framing for Vibe Technologies before: it is a one-person company where every other "role" — engineer, support, marketing, growth — is an AI agent with a Slack handle and a job description. The longer story is in the YC [self-improving companies talk](https://www.youtube.com/watch?v=t-G67yKAHBQ) and in our [ainativecompany series](/blog/2025-11-01-building-vibe-technologies-ai-native-startup).
+We built a RAG support chat on [docs.vibebrowser.app](https://docs.vibebrowser.app) backed by Azure AI Search — it reads our markdown docs, answers grounded questions, and escalates unresolved issues to [Jared Dunn, our SupportEngineer agent](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team) via email. The goal: deflect the majority of inbound support questions before they reach a human.
 
 ## Why a Docs Chat At All
 
@@ -48,6 +42,7 @@ The whole thing is small enough to fit on one slide. Source of truth → ingesti
 
 The chunker is a ~120-line TypeScript file. Representative shape:
 
+<!-- TODO: link to actual source file on GitHub -->
 ```ts
 // docs-chunker/chunk.ts — representative, not the full file
 export function chunkMarkdown(md: string, pagePath: string): Chunk[] {
@@ -186,7 +181,7 @@ The mechanical flow:
 
 When `@GilfoyleBertram` closes the implementing PR linked to the Linear issue, the issue moves to **Done**, Jared gets a Slack mention from the Linear webhook, and he sends the customer a status update through the same Gmail thread. One ticket, one trail, two automatic notifications — no manual stitching.
 
-The full mechanics of the Linear pipeline (templates, MCP tooling, the reverse path from PR close to customer notification) live in [the Linear customer support pipeline post](/blog/2026-05-22-linear-customer-support-pipeline-supportengineer-vibebrowser-copilot). The docs chat is one of four sources that feed it.
+The full mechanics of the Linear pipeline (templates, MCP tooling, the reverse path from PR close to customer notification) are documented in the Linear customer support pipeline post (published May 2026). The docs chat is one of four sources that feed it.
 
 ## Why Azure, Not OpenAI Direct, Not Anthropic
 
@@ -200,21 +195,19 @@ Three reasons, ranked by how much they actually drove the decision:
 
 For the operations agents — Jared Dunn, Gilfoyle Bertram, Einstein — model-of-the-month matters because they reason about incidents and code. For the docs chat, what matters is that retrieval is good, grounding is enforced, and the answer is consistent. Those are different problems.
 
-## What Did Not Work
+## What Does Not Work Yet
 
 This is the part I always want from other people's blog posts, so I will pay it forward.
 
-**The first chunker was naive.** One chunk per page. Cosine similarity over those big chunks returned the right page, sometimes, but the model had no idea which section to read. Specific questions got generic page-level answers. Fixed by header-aware chunking with overlap.
+**Freshness on high-churn pages.** The indexer runs on every push to `main`, but pages like pricing and release notes can lag the live site by minutes to hours depending on push frequency. The canonical pricing page is now fetched live (cached for 5 minutes), but other high-churn pages are still index-only. A scheduled freshness check for flagged pages is on the roadmap.
 
-**Code blocks got split mid-block.** Customers asking "what's the exact command to do X" got citations that pointed at half a curl command. Citations broke trust. Fixed by detecting fenced code blocks and keeping them atomic — a chunk is never allowed to split across a \`\`\` boundary, even if it goes over the token budget.
+**Multi-turn context across sessions.** Session id is stored in `localStorage`. If a customer opens a new browser tab, the conversation resets. Returning customers with unresolved issues have to re-explain. We have not wired persistent session storage yet.
 
-**Outdated pricing answers.** The docs repo had stale pricing examples in a tutorial. The chat happily quoted them. We now treat the canonical pricing page as a separate, freshness-checked source — the chat fetches it live (cached for 5 minutes) rather than relying on the indexed version. If the indexed version disagrees with the live page, the live page wins and a warning fires.
+**Escalation transcript linkage.** When a customer replies to the escalation email and then returns to the chat, the two threads are not linked. The agent has the email thread; the chat has the session. Bridging them requires matching the customer email to the session id on both sides — not done.
 
-**The first escalation forgot the transcript.** Embarrassing. The first version of the escalation email included the question and the email, but not the conversation. Jared Dunn replied to the customer asking them to repeat the question — he is reliable and organized, but he can only work with what is in the payload. Customer was not delighted. Fixed: the transcript is now required in the escalation payload, and the gateway rejects escalations that arrive without one.
+**Hybrid retrieval latency.** Running both BM25 and vector search on every query adds latency compared to vector-only. On P95 this is acceptable; on P99 it is visible. We have not tuned the query unit budget or added a cache layer for repeated questions yet.
 
-**Hybrid retrieval is not free.** We initially ran vector-only. Customers pasting exact error strings got bad matches because the embedding fuzzed away the specifics. Turning on the BM25 keyword leg of hybrid search fixed it. Worth the latency and the extra query unit cost.
-
-**System prompt regressions.** We rewrote the system prompt mid-week to be terser. It started inventing flags again. The fix was not the prompt — it was an automated eval that runs the bot against a fixed set of "tricky" questions on every prompt change. If invented-flag rate goes up, the deploy is blocked.
+**System prompt eval coverage.** The automated eval runs on prompt changes but not on doc changes. A doc update that contradicts a previously-safe answer will not be caught until a customer surfaces it.
 
 ## What Comes Next
 
@@ -233,7 +226,7 @@ The full `#ainativecompany` series:
 - [Vibe Engineering: From Claude Code to OpenCode](/blog/2025-11-10-vibe-engineering-stack-claude-code-to-opencode) — coding stack
 - [VibeTeam: OpenHands AI Operations Agents](/blog/2025-11-20-vibeteam-openhand-ai-operations-agents) — the first ops attempt
 - [Switching From OpenHands to VibeBrowser Agentic Team](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team) — Jared Dunn and the OpenClaw team are defined here
-- **You are here** — Docs Support Chat with Azure AI RAG
+- **[Docs Support Chat with Azure AI RAG →](/blog/2026-04-10-docs-support-chat-azure-ai-rag-supportengineer-escalation)**
 - [Chatwoot AI Chatbot for openclaw.vibebrowser.app](/blog/2026-04-25-chatwoot-ai-chatbot-openclaw-vibebrowser-app) — the other support surface
 - [Switching OpenClaw Operations to DeepSeek-V4-Flash](/blog/2026-05-01-switching-openclaw-operations-to-deepseek-v4-flash) — model routing for ops
 - [Token Optimization with OpenCode, LST, RTK, Caveman](/blog/2026-05-15-token-optimization-opencode-lst-rtk-caveman) — keeping the bill sane
@@ -247,3 +240,5 @@ Other relevant posts:
 - [Vibe May 2026 Progress Update](/blog/vibe-may-2026-progress-update)
 
 External framing: the YC talk on [self-improving companies built with AI](https://www.youtube.com/watch?v=t-G67yKAHBQ) is the playbook we are running.
+
+*Previous in series: [Six Months of Momentum →](/blog/2026-03-17-6-months-momentum)*

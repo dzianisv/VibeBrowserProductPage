@@ -346,7 +346,7 @@ The full Linear pipeline — issue templates, MCP tooling, the reverse path mech
 
 The Chatwoot "private message" feature also turned out to be load-bearing here. Jared Dunn uses it to leave a one-line context note on the conversation ("checked vibe-api-gateway logs, OOM on stripe-service, handed to Einstein, ETA 1h"), so when he comes back two hours later he does not have to re-derive what he already figured out. It is the agent equivalent of a code comment — written by an LLM, for an LLM, but the format makes it readable for me too when I drop in.
 
-## What did not work
+## What Does Not Work Yet
 
 In rough order of how stupid I felt:
 
@@ -373,7 +373,7 @@ The full `#ainativecompany` series:
 - [VibeTeam: OpenHands AI operations agents](/blog/2025-11-20-vibeteam-openhand-ai-operations-agents) — the predecessor architecture
 - [Switching from OpenHands to VibeBrowser agentic team](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team) — Jared Dunn and the OpenClaw team are defined here
 - [Docs Support Chat: Azure AI RAG + SupportEngineer Escalation](/blog/2026-04-10-docs-support-chat-azure-ai-rag-supportengineer-escalation) — the docs-side support surface
-- **You are here** — Chatwoot AI Chatbot for openclaw.vibebrowser.app
+- **[Chatwoot AI Chatbot for openclaw.vibebrowser.app →](/blog/2026-04-25-chatwoot-ai-chatbot-openclaw-vibebrowser-app)**
 - [Switching OpenClaw operations to DeepSeek V4 Flash](/blog/2026-05-01-switching-openclaw-operations-to-deepseek-v4-flash) — what model actually answers the chats
 - [Token Optimization with OpenCode, LST, RTK, Caveman](/blog/2026-05-15-token-optimization-opencode-lst-rtk-caveman) — keeping the bill sane
 - [Linear Customer Support Pipeline: From VibeBrowser Co-Pilot to Jared Dunn](/blog/2026-05-22-linear-customer-support-pipeline-supportengineer-vibebrowser-copilot) — where Chatwoot escalations become tracked issues
@@ -385,3 +385,5 @@ Background:
 - YC's [How to Build a Self-Improving Company with AI](https://www.youtube.com/watch?v=t-G67yKAHBQ) — the playbook this whole #ainativecompany series is running
 
 If you want to see the chat for yourself, open [openclaw.vibebrowser.app](https://openclaw.vibebrowser.app) and click the bubble. The first reply is from the bot. If you ask something it cannot confidently answer, Jared Dunn will pick it up. If he needs to ship code, he will tag Gilfoyle Bertram. Eventually it gets to me — but most days, it does not have to.
+
+*Previous in series: [Docs Support Chat with Azure AI RAG →](/blog/2026-04-10-docs-support-chat-azure-ai-rag-supportengineer-escalation)*

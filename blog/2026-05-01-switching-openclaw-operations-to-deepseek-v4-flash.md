@@ -15,7 +15,7 @@ tags:
   - agentic-coding
 ---
 
-We just retired GPT-5.4 high reasoning from our [OpenClaw operations team](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team) and moved every operational role to **DeepSeek-V4-Flash** in max-reasoning mode. The switch landed last week. The honest verdict: we are happier with both speed and how the agents act.
+Vibe Technologies runs its customer operations through a team of named AI agents. OpenClaw is the bot platform they run on. We just retired GPT-5.4 high reasoning from our [OpenClaw operations team](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team) and moved every operational role to **DeepSeek-V4-Flash** in max-reasoning mode. The switch landed last week. The honest verdict: we are happier with both speed and how the agents act.
 
 This post explains what changed, what the DeepSeek-V4 release brought to the table, and what running operations on it actually feels like.
 
@@ -89,7 +89,7 @@ The maturation, in one sentence: starting all of operations on Flash gave us a c
 
 Model-agnostic routing was always the point. The DeepSeek-V4 release expanded the open-source side of that routing matrix meaningfully — and the per-role assignment above is what "model-agnostic" looks like in production once a new model has settled in.
 
-## What Did Not Change
+## What We Kept
 
 Same operating principles:
 
@@ -105,6 +105,16 @@ If you run an agent ops setup and have been on GPT-5.4 high reasoning:
 2. Enable Thinking mode for reasoning-heavy roles, Non-Thinking for routine
 3. Run a week of real load in parallel before cutting over
 4. Watch first-response latency and per-action token counts — that is where the delta shows up first
+
+The model override in OpenClaw config looks like this:
+
+```json
+// openclaw config: model routing override
+{
+  "operations_model": "deepseek/deepseek-chat",
+  "reasoning_model": "anthropic/claude-opus-4"
+}
+```
 
 Release reference: [api-docs.deepseek.com/news/news260424](https://api-docs.deepseek.com/news/news260424)
 
@@ -122,7 +132,7 @@ The full `#ainativecompany` series:
 - [Switching From OpenHands to VibeBrowser Agentic Team](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team) — Gilfoyle Bertram, Monica Hall, Jared Dunn, Einstein, Harvey Specter, and Michael Burry defined
 - [Docs Support Chat: Azure AI RAG + SupportEngineer Escalation](/blog/2026-04-10-docs-support-chat-azure-ai-rag-supportengineer-escalation)
 - [Chatwoot AI Chatbot for openclaw.vibebrowser.app](/blog/2026-04-25-chatwoot-ai-chatbot-openclaw-vibebrowser-app)
-- **You are here** — Switching OpenClaw Operations to DeepSeek-V4-Flash
+- **[Switching OpenClaw Operations to DeepSeek-V4-Flash →](/blog/2026-05-01-switching-openclaw-operations-to-deepseek-v4-flash)**
 - [Token Optimization with OpenCode, LST, RTK, Caveman](/blog/2026-05-15-token-optimization-opencode-lst-rtk-caveman)
 - [Linear Customer Support Pipeline: From VibeBrowser Co-Pilot to Jared Dunn](/blog/2026-05-22-linear-customer-support-pipeline-supportengineer-vibebrowser-copilot)
 
