@@ -5,6 +5,7 @@ date: "2025-11-10"
 author: "Dzianis Vashchuk"
 authorUrl: "https://linkedin.com/in/dzianisv"
 tags:
+  - ainativecompany
   - ai-engineering
   - claude-code
   - opencode
@@ -82,6 +83,8 @@ The `opencode serve` command runs a persistent session on a remote VM (DigitalOc
 
 I check in asynchronously. Most mornings start with reviewing what the agents shipped overnight.
 
+**Forward note (Jan 2026+):** the current production setup moved OpenCode off the DigitalOcean VM and onto a real dev workstation. `opencode serve` still exposes the session over HTTP — but instead of a cloud VM, it runs on a workstation sitting on my desk. The cloud-side OpenClaw SoftwareEngineer agent (Gilfoyle Bertram) reaches that endpoint over [Tailscale](https://tailscale.com), so the dev box has no public ingress. Gilfoyle Bertram is the supervisor in the cloud; OpenCode on the dev machine is the worker. Full architecture is in [Switching From OpenHands to VibeBrowser Agentic Team](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team).
+
 ## What This Replaces
 
 Before this setup, a feature from spec to merged PR required me at the keyboard for several hours. Now:
@@ -97,3 +100,17 @@ The bottleneck shifted from coding to reviewing. That is the right bottleneck fo
 ## Next in This Series
 
 [VibeTeam: How We Run Operations with AI Agents →](/blog/2025-11-20-vibeteam-openhand-ai-operations-agents)
+
+## Related reading
+
+The full `#ainativecompany` series:
+
+- [Building Vibe Technologies: An AI-Native Startup](/blog/2025-11-01-building-vibe-technologies-ai-native-startup)
+- **You are here** — [Vibe Engineering: From Claude Code to OpenCode](/blog/2025-11-10-vibe-engineering-stack-claude-code-to-opencode)
+- [VibeTeam: OpenHands AI Operations Agents](/blog/2025-11-20-vibeteam-openhand-ai-operations-agents)
+- [Switching From OpenHands to VibeBrowser Agentic Team](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team)
+- [Docs Support Chat: Azure AI RAG + SupportEngineer Escalation](/blog/2026-04-10-docs-support-chat-azure-ai-rag-supportengineer-escalation)
+- [Chatwoot AI Chatbot for openclaw.vibebrowser.app](/blog/2026-04-25-chatwoot-ai-chatbot-openclaw-vibebrowser-app)
+- [Switching OpenClaw Operations to DeepSeek-V4-Flash](/blog/2026-05-01-switching-openclaw-operations-to-deepseek-v4-flash)
+- [Token Optimization with OpenCode, LST, RTK, Caveman](/blog/2026-05-15-token-optimization-opencode-lst-rtk-caveman)
+- [Linear Customer Support Pipeline: From VibeBrowser Co-Pilot to Jared Dunn](/blog/2026-05-22-linear-customer-support-pipeline-supportengineer-vibebrowser-copilot)

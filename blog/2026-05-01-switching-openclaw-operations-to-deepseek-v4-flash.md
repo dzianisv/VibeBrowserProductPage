@@ -5,6 +5,7 @@ date: "2026-05-01"
 author: "Dzianis Vashchuk"
 authorUrl: "https://linkedin.com/in/dzianisv"
 tags:
+  - ainativecompany
   - deepseek
   - openclaw
   - ai-agents
@@ -70,16 +71,23 @@ Two things we did not expect:
 
 2. **Cost dropped sharply.** Active parameter count + sparse attention means the per-token economics are very different from GPT-5.4 high reasoning. Operations is now a small line item where it used to be a noticeable one.
 
-## What We Kept on Other Models
+## What We Kept on Other Models — and How the Per-Role Split Matured
 
-This is not a full migration. The picture across Vibe Technologies looks like:
+This is not a full migration, and the picture is more nuanced than "everyone moved to DeepSeek." We ran a couple of weeks with every operations role on DeepSeek-V4-Flash to learn the model, and then production settled into a per-role split that takes the best part of each model. Reading this as a contradiction with the "we moved operations to Flash" framing would miss the point — Flash earned its place in the routing matrix, and the per-role tuning is what comes after.
 
-- **Operations agents (OpenClaw team)** — DeepSeek-V4-Flash with max reasoning
-- **Engineering orchestrator (OpenCode)** — still Claude Opus class for spec decomposition; cross-model review unchanged
-- **Coding subagents** — mix of DeepSeek-V4-Pro (heavier tasks) and Claude Sonnet (quick edits)
-- **Frontend-specific tasks** — Gemini stays in the rotation for UI work where it has a real edge
+Where the operations team actually landed:
 
-Model-agnostic routing was always the point. The DeepSeek-V4 release expanded the open-source side of that routing matrix meaningfully.
+- **Jared Dunn (SupportEngineer)** — **GPT-5.4-mini**. Customer triage is latency-sensitive and high-volume. Mini is fast and cheap, and the support-engineer prompts/runbooks do not need deep reasoning to be correct. This is the role where shaving a second off first-response actually matters to customers.
+- **Monica Hall (GrowthManager)** — **GPT-5.4** (full, not mini). Growth work is drafting, planning, channel reasoning, and SEO writing. The depth of GPT-5.4 over mini is worth the latency cost here — Monica Hall's outputs go on the website or go to other people, so quality dominates speed.
+- **Gilfoyle Bertram (SoftwareEngineer)** — **Claude Opus**. Code reasoning, PR review, reflection passes. The most expensive model on the most leveraged role. Opus is also what supervises the OpenCode session on the dev workstation (see [the Jan 15 post](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team) for that delegation setup) — Opus decomposes, OpenCode executes.
+- **DeepSeek-V4-Flash** — kept in the routing matrix as a **fallback** and for specific **reasoning-heavy ad-hoc steps** where its Thinking mode is competitive with the GPT-class models at a fraction of the cost. When an operations agent needs an extended-reasoning pass on incident root-cause or pulling structure out of a long Sentry trace, Flash in max-reasoning mode is what gets routed in.
+- **Engineering orchestrator (OpenCode)** — still Claude Opus class for spec decomposition; cross-model review unchanged.
+- **Coding subagents** — mix of DeepSeek-V4-Pro (heavier tasks) and Claude Sonnet (quick edits).
+- **Frontend-specific tasks** — Gemini stays in the rotation for UI work where it has a real edge.
+
+The maturation, in one sentence: starting all of operations on Flash gave us a clean baseline, and from that baseline we routed each role to the model that fits its actual workload — speed for Jared Dunn, depth for Monica Hall, code reasoning for Gilfoyle Bertram, Flash as the cost-efficient fallback that still earns its keep on reasoning-heavy ad-hoc steps.
+
+Model-agnostic routing was always the point. The DeepSeek-V4 release expanded the open-source side of that routing matrix meaningfully — and the per-role assignment above is what "model-agnostic" looks like in production once a new model has settled in.
 
 ## What Did Not Change
 
@@ -103,5 +111,19 @@ Release reference: [api-docs.deepseek.com/news/news260424](https://api-docs.deep
 Questions or running a similar setup: [dzianisvv@gmail.com](mailto:dzianisvv@gmail.com)
 
 ---
+
+## Related reading
+
+The full `#ainativecompany` series:
+
+- [Building Vibe Technologies: An AI-Native Startup with 1.0 Human Employees](/blog/2025-11-01-building-vibe-technologies-ai-native-startup) — the series root
+- [Vibe Engineering: From Claude Code to OpenCode](/blog/2025-11-10-vibe-engineering-stack-claude-code-to-opencode)
+- [VibeTeam: OpenHands AI Operations Agents](/blog/2025-11-20-vibeteam-openhand-ai-operations-agents)
+- [Switching From OpenHands to VibeBrowser Agentic Team](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team) — Gilfoyle Bertram, Monica Hall, Jared Dunn, Einstein, Harvey Specter, and Michael Burry defined
+- [Docs Support Chat: Azure AI RAG + SupportEngineer Escalation](/blog/2026-04-10-docs-support-chat-azure-ai-rag-supportengineer-escalation)
+- [Chatwoot AI Chatbot for openclaw.vibebrowser.app](/blog/2026-04-25-chatwoot-ai-chatbot-openclaw-vibebrowser-app)
+- **You are here** — Switching OpenClaw Operations to DeepSeek-V4-Flash
+- [Token Optimization with OpenCode, LST, RTK, Caveman](/blog/2026-05-15-token-optimization-opencode-lst-rtk-caveman)
+- [Linear Customer Support Pipeline: From VibeBrowser Co-Pilot to Jared Dunn](/blog/2026-05-22-linear-customer-support-pipeline-supportengineer-vibebrowser-copilot)
 
 *Previous in series: [Switching From OpenHands to VibeBrowser Agentic Team →](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team)*

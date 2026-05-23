@@ -5,6 +5,7 @@ date: "2025-11-20"
 author: "Dzianis Vashchuk"
 authorUrl: "https://linkedin.com/in/dzianisv"
 tags:
+  - ainativecompany
   - ai-agents
   - operations
   - openhand
@@ -118,3 +119,17 @@ VibeTeam is open-source. If you are building something similar or want to adapt 
 *Previous in this series: [Vibe Engineering: From Claude Code to OpenCode →](/blog/2025-11-10-vibe-engineering-stack-claude-code-to-opencode)*
 
 *Start of series: [Building Vibe Technologies: An AI-Native Startup →](/blog/2025-11-01-building-vibe-technologies-ai-native-startup)*
+
+## Related reading
+
+The full `#ainativecompany` series:
+
+- [Building Vibe Technologies: An AI-Native Startup](/blog/2025-11-01-building-vibe-technologies-ai-native-startup)
+- [Vibe Engineering: From Claude Code to OpenCode](/blog/2025-11-10-vibe-engineering-stack-claude-code-to-opencode)
+- **You are here** — [VibeTeam: OpenHands AI Operations Agents](/blog/2025-11-20-vibeteam-openhand-ai-operations-agents)
+- [Switching From OpenHands to VibeBrowser Agentic Team](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team) — the post that replaces this one
+- [Docs Support Chat: Azure AI RAG + SupportEngineer Escalation](/blog/2026-04-10-docs-support-chat-azure-ai-rag-supportengineer-escalation)
+- [Chatwoot AI Chatbot for openclaw.vibebrowser.app](/blog/2026-04-25-chatwoot-ai-chatbot-openclaw-vibebrowser-app)
+- [Switching OpenClaw Operations to DeepSeek-V4-Flash](/blog/2026-05-01-switching-openclaw-operations-to-deepseek-v4-flash)
+- [Token Optimization with OpenCode, LST, RTK, Caveman](/blog/2026-05-15-token-optimization-opencode-lst-rtk-caveman)
+- [Linear Customer Support Pipeline: From VibeBrowser Co-Pilot to Jared Dunn](/blog/2026-05-22-linear-customer-support-pipeline-supportengineer-vibebrowser-copilot)
