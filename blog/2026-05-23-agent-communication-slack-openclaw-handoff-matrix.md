@@ -111,7 +111,7 @@ Every agent workspace contains an `AGENTS.md`. At session start, the agent reads
 
 | Situation | Handoff To | Example |
 |-----------|------------|---------|
-| Infrastructure outage (5xx errors) | @ReleaseEngineer | "API returning 503. @ReleaseEngineer check service health." |
+| Infrastructure outage (5xx errors) | @GilfoyleBertram | "API returning 503. @GilfoyleBertram check service health." |
 | Code bug or feature request | @SoftwareEngineer | "Found login bug. @SoftwareEngineer investigate issue #345." |
 | Product prioritization | @ProductManager | "Customer asking about roadmap. @ProductManager advise on timeline." |
 | Public announcement needed | @MarketingManager | "Outage resolved. @MarketingManager post status update." |

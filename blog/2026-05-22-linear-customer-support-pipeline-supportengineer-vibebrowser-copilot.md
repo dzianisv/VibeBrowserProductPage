@@ -124,7 +124,7 @@ Jared does not free-form Linear issues. Every issue he creates uses one of four 
 <logs, screenshots, Sentry issue links, transcript excerpts>
 
 ### Suggested owner
-@GilfoyleBertram / @ReleaseEngineer
+@GilfoyleBertram
 ```
 
 Labels: `customer-bug`, `severity:<level>`, `channel:<source>`.

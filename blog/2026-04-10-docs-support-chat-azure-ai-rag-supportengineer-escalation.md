@@ -165,7 +165,7 @@ What he does next is the normal flow:
 - Look up the customer in Stripe if it is a billing question.
 - Check Sentry if the transcript mentions an error. His runbook has the direct API call: `curl -sS "https://sentry.io/api/0/projects/vibebrowser/vibe-api-gateway/issues/?query=is:unresolved..."`.
 - If it is a bug, hand off to `@GilfoyleBertram` (SoftwareEngineer, DeepSeek-V4-Flash) via Slack @mention, per his [handoff matrix](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team).
-- If it is an infrastructure issue, hand off to `@ReleaseEngineer` (Einstein, DeepSeek-V4-Flash).
+- If it is an infrastructure issue, hand off to `@GilfoyleBertram` (Gilfoyle Bertram, SoftwareEngineer).
 - Draft and send the reply from `support@vibebrowser.app`. The customer sees a regular human-toned email.
 
 The customer never sees the boundary. They see: chat with a bot → bot says "let me escalate, you'll hear back by email" → email arrives an hour later from a person named Jared Dunn at support@vibebrowser.app → resolution. That continuity matters more than I expected.
@@ -196,7 +196,7 @@ Three reasons, ranked by how much they actually drove the decision:
 2. **The data-path story for B2B procurement.** When a customer asks "what's the data path? Where does my support question go? Is it used to train models?" — having a single Azure resource group with a clear "no training" configuration is a much shorter answer than "well, we use these five providers depending on..."
 3. **Model swap-ability is preserved.** Azure OpenAI ships the recent GPT-4o/GPT-5.x family. We can A/B route to other providers through our LiteLLM gateway for evals without rebuilding the retrieval layer.
 
-For the operations agents — Jared Dunn (SupportEngineer, DeepSeek-V4-Flash), Gilfoyle Bertram (SoftwareEngineer, DeepSeek-V4-Flash), Einstein (ReleaseEngineer, DeepSeek-V4-Flash) — model-of-the-month matters because they reason about incidents and code. For the docs chat, what matters is that retrieval is good, grounding is enforced, and the answer is consistent. Those are different problems.
+For the operations agents — Jared Dunn (SupportEngineer, DeepSeek-V4-Flash), Gilfoyle Bertram (SoftwareEngineer, DeepSeek-V4-Flash) — model-of-the-month matters because they reason about incidents and code. For the docs chat, what matters is that retrieval is good, grounding is enforced, and the answer is consistent. Those are different problems.
 
 ## Evidence It Works
 

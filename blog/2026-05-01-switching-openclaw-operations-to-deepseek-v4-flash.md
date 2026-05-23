@@ -144,7 +144,7 @@ The full `#ainativecompany` series:
 - [Building Vibe Technologies: An AI-Native Startup with 1.0 Human Employees](/blog/2025-11-01-building-vibe-technologies-ai-native-startup) — the series root
 - [Vibe Engineering: From Claude Code to OpenCode](/blog/2025-11-10-vibe-engineering-stack-claude-code-to-opencode)
 - [VibeTeam: OpenHands AI Operations Agents](/blog/2025-11-20-vibeteam-openhand-ai-operations-agents)
-- [Switching From OpenHands to VibeBrowser Agentic Team](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team) — Gilfoyle Bertram, Monica Hall, Jared Dunn, Einstein, Harvey Specter, and Michael Burry defined
+- [Switching From OpenHands to VibeBrowser Agentic Team](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team) — Gilfoyle Bertram, Monica Hall, Jared Dunn, Harvey Specter, and Michael Burry defined
 - [Docs Support Chat: Azure AI RAG + SupportEngineer Escalation](/blog/2026-04-10-docs-support-chat-azure-ai-rag-supportengineer-escalation)
 - [Chatwoot AI Chatbot for openclaw.vibebrowser.app](/blog/2026-04-25-chatwoot-ai-chatbot-openclaw-vibebrowser-app)
 - **[Switching OpenClaw Operations to DeepSeek-V4-Flash →](/blog/2026-05-01-switching-openclaw-operations-to-deepseek-v4-flash)**
