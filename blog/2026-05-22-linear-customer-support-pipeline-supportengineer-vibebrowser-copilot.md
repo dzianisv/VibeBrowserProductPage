@@ -34,49 +34,53 @@ The shortlist when we picked a tracker:
 Linear earned the pick on three properties:
 
 1. **Open API and webhooks.** Issues, comments, labels, projects — all reachable from a single REST + GraphQL surface. Webhooks fire on status change. That is everything we need.
-2. **MCP server support.** Linear ships an [official MCP server](https://linear.app/docs/mcp) (`mcp__claude_ai_Linear__*` in our toolchain). Jared Dunn's runtime can call `save_issue`, `save_comment`, `list_issues` as first-class tools without us shipping a bespoke client.
+2. **openclaw-linearj integration.** We wire Linear into OpenClaw via [openclaw-linearj](https://github.com/stepandel/openclaw-linearj) — a purpose-built OpenClaw integration that gives agents typed Linear actions (create issue, comment, update status, list) without us shipping a bespoke client or running a separate MCP sidecar.
 3. **No per-seat tax at our scale.** Linear's free tier covers a one-human company with a fleet of bot identities; we are not adding a $20/month/agent line item for Michael Burry to lecture me about.
 
 The principle from [the founding post](/blog/2025-11-01-building-vibe-technologies-ai-native-startup) holds: minimum proprietary technology, no per-seat lock-in, API-first.
 
 ## How Jared Dunn Is Wired Into Linear
 
-The path from "Jared Dunn drafted a Slack reply" to "Linear issue exists" is three hops: API token, MCP server entry, role permissions.
+The path from "Jared Dunn drafted a Slack reply" to "Linear issue exists" is three hops: API token, integration config, role permissions.
 
 ### API token
 
 A single Linear API token, scoped to the `support` team, lives in our secret store and is mounted into Jared's OpenClaw sandbox at session start. The token has write access to issues and comments on the support team and read-only on other teams (so he can link to engineering issues without modifying them).
 
-### MCP entry in `openclaw.json`
+### Integration: openclaw-linearj
 
-The MCP surface is declared in the per-role `openclaw.json` under `mcp.servers`. For Jared:
+Linear is not wired in as a generic MCP sidecar — it uses [openclaw-linearj](https://github.com/stepandel/openclaw-linearj), a purpose-built OpenClaw integration. It registers as an integration entry (not an `mcp.servers` stdio process) in the per-role `openclaw.json`:
 
 ```json
 {
-  "mcp": {
-    "servers": {
-      "linear": {
-        "transport": "stdio",
-        "command": "npx",
-        "args": ["-y", "@linear/mcp-server"],
-        "env": {
-          "LINEAR_API_KEY": "${LINEAR_SUPPORT_TOKEN}"
-        }
+  "integrations": {
+    "linear": {
+      "type": "openclaw-linearj",
+      "env": {
+        "LINEAR_API_KEY": "${LINEAR_SUPPORT_TOKEN}"
       }
     }
   }
 }
 ```
 
-That gives him the standard Linear MCP toolset:
+That gives Jared typed Linear actions surfaced as agent tools:
 
-- `linear_issue.create` — open a new issue with description, labels, team, priority.
-- `linear_issue.update` — change status (`In Progress`, `Done`), reassign, retag.
-- `linear_issue.add_comment` — add a comment, used for cross-channel links and customer-thread metadata.
-- `linear_issue.list` — query by label, status, recent activity.
-- `linear_project.list` — scope queries to the right project.
+- `linear.createIssue` — open a new issue with description, labels, team, priority.
+- `linear.updateIssue` — change status (`In Progress`, `Done`), reassign, retag.
+- `linear.addComment` — add a comment, used for cross-channel links and customer-thread metadata.
+- `linear.listIssues` — query by label, status, recent activity.
+- `linear.listProjects` — scope queries to the right project.
 
-The same MCP server is mounted (read-only) on Gilfoyle Bertram, so when he opens a PR he can pull the linked issue and write status comments back.
+The same integration is mounted read-only on Gilfoyle Bertram's role so when he opens a PR he can pull the linked issue and write status comments back.
+
+### Other integrations on the support role
+
+Jared also gets three other integrations to assemble context before creating a ticket:
+
+- **GitHub** via [clawhub.ai/steipete/github](https://clawhub.ai/steipete/github) — read-only access to issues and PRs so he can check whether a reported bug already has an open issue or a recent fix.
+- **Notion** via [clawhub.ai/steipete/notion](https://clawhub.ai/steipete/notion) — read-only access to the internal knowledge base (runbooks, FAQ, known issues).
+- **Gmail** via the [OpenClaw Gmail PubSub integration](https://docs.openclaw.ai/automation/cron-jobs#gmail-pubsub-integration) — push delivery of new `support@vibebrowser.app` messages into Jared's event queue rather than polling. No new email lands in the inbox without him seeing it within seconds.
 
 > **Heads-up to anyone retracing this:** the support-engineer role file in the OpenClawBot repo today still names the persona `Grace`. The catalog and the rest of the operations literature have moved to `Jared Dunn`. The text in this post matches the catalog. If you grep the `AGENTS.md`, expect to find `Grace` until that file is renamed. The role behavior is the same — only the persona label is in flight.
 
@@ -191,10 +195,10 @@ The templates exist because the same five facts (customer identifier, originatin
 
 ### 1. Gmail (support@vibebrowser.app)
 
-Jared owns the inbox. His existing runbook in [`openclaw-rc.d/workspace/support-engineer/AGENTS.md`](https://github.com/openclaw/openclaw/blob/main/openclaw-rc.d/workspace/support-engineer/AGENTS.md) already covers email triage. The Linear step is the addition:
+Jared owns the inbox. Email arrives via the [OpenClaw Gmail PubSub integration](https://docs.openclaw.ai/automation/cron-jobs#gmail-pubsub-integration) — Google pushes new messages to a Cloud Pub/Sub topic which delivers them into Jared's event queue. No polling, no missed emails on a slow cron cycle. His existing runbook in [`openclaw-rc.d/workspace/support-engineer/AGENTS.md`](https://github.com/openclaw/openclaw/blob/main/openclaw-rc.d/workspace/support-engineer/AGENTS.md) already covers email triage. The Linear step is the addition:
 
 1. He reads the email and classifies it (bug / feature / account / billing / "answer in line, no ticket").
-2. For any class except the last, he calls `linear_issue.create` with the matching template.
+2. For any class except the last, he calls `linear.createIssue` with the matching template.
 3. He posts the Linear issue URL back into the Gmail thread as the last line of his reply — `Tracking this as <project>-<number>` — so the link survives even if Linear changes URLs.
 4. He sends the customer-facing reply with an acknowledgment plus, where the issue is public, the issue URL.
 
@@ -207,7 +211,7 @@ The mechanics are documented in detail in [the Chatwoot post](/blog/2026-04-25-c
 When Jared takes over a `needs-human`-tagged conversation:
 
 1. He reads the transcript and the contact's `additional_attributes` (plan, subdomain, tenant status) from the Chatwoot sidebar.
-2. He classifies and calls `linear_issue.create` with the template.
+2. He classifies and calls `linear.createIssue` with the template.
 3. He pastes the Linear issue URL into the conversation as a **Chatwoot private note**, not a customer-visible message. Any agent jumping in later sees the existing ticket immediately.
 4. He sends the customer reply through the same Chatwoot conversation — the channel-appropriate way (DM in Telegram, web message, or email).
 
@@ -236,7 +240,7 @@ The short version: **the in-product report-issue path does not exist yet.** When
 1. A `Report issue` action in the co-pilot chat command palette and in the chat's overflow menu.
 2. A modal that collects: one-paragraph description, optional screenshot from the current tab (Chrome DevTools Protocol screenshot, which the product already takes for agent context), severity, and consent to include the last N agent steps as repro context.
 3. A POST to `https://app.vibebrowser.app/api/support/report-issue` with the payload, authenticated by the user's existing session.
-4. Server-side handler that constructs the Linear `Bug` template (filling `Originating channel: copilot-session:<id>`), calls `linear_issue.create` via the same MCP token Jared uses, and posts the new issue URL into Slack `#support-escalations` so Jared sees it land.
+4. Server-side handler that constructs the Linear `Bug` template (filling `Originating channel: copilot-session:<id>`), calls `linear.createIssue` via the same openclaw-linearj integration Jared uses, and posts the new issue URL into Slack `#support-escalations` so Jared sees it land.
 5. The user gets a confirmation in the co-pilot chat with the issue URL.
 
 Same templates, same Jared, same Slack channel, same Linear team — just a new source feeding it. The reason this is not built yet is product priority, not design uncertainty. When it ships, this section gets rewritten with file paths and code, not roadmap.
@@ -278,7 +282,7 @@ The same reverse path runs for non-engineering closures. An account issue resolv
 │                       │   (OpenClaw)   │                        │
 │                       └───────┬────────┘                        │
 │                               │                                 │
-│                  linear_issue.create (MCP)                      │
+│                  linear.createIssue (openclaw-linearj)                      │
 │                               ▼                                 │
 │              ┌─────────────────────────────────┐                │
 │              │   Linear — support team         │                │
@@ -310,7 +314,7 @@ Honest accounting, same shape as every other post in this series:
 - **The co-pilot in-product report-issue path is not built.** Q3 2026 target. Today the user emails or opens Chatwoot.
 - **No automatic dedup across sources.** If the same user files via Chatwoot Monday and emails Tuesday, Jared notices the duplicate because he reads both — but the system does not link them automatically. The contact identity model differs by source (`telegram:<id>` vs email vs Chatwoot contact ID), and we have not wired the join. Workaround: Jared adds a `duplicate-of` comment when he spots it.
 - **No SLA tracking on Linear status.** The webhook fires on `Done`. It does not fire when a `P0` issue has been open for more than the SLA. We use a daily cron that posts an "aging tickets" report into Slack instead. Crude but works.
-- **Cross-team Linear access is wider than I love.** Jared's MCP token has read on all teams so he can link to engineering issues without me copy-pasting URLs. The blast radius if his sandbox is compromised includes "can read engineering roadmap." Acceptable trade-off today, will narrow when Linear ships per-team token scopes.
+- **Cross-team Linear access is wider than I love.** Jared's Linear token has read on all teams so he can link to engineering issues without me copy-pasting URLs. The blast radius if his sandbox is compromised includes "can read engineering roadmap." Acceptable trade-off today, will narrow when Linear ships per-team token scopes.
 - **The persona rename from `Grace` to `Jared Dunn` is still in flight in one role file.** Listed above. Cosmetic — same behavior.
 
 ## Why Bother With This Much Plumbing
@@ -319,7 +323,7 @@ Because the alternative is what every solo founder discovers six months in: cust
 
 A one-person company cannot afford that overhead. An AI-native company cannot either — agents need a shared substrate to coordinate around, and natural-language threads are not a substrate. Linear issues are.
 
-The principle from [the founding post](/blog/2025-11-01-building-vibe-technologies-ai-native-startup) shows up again: **humans architect, agents execute.** Jared Dunn does not invent the support process. The process is `AGENTS.md`, templates, MCP entries, webhooks. He runs it. When the process needs to change — a new source comes online, a new template type is needed, the reverse path needs a new hop — that is my call. The execution is his.
+The principle from [the founding post](/blog/2025-11-01-building-vibe-technologies-ai-native-startup) shows up again: **humans architect, agents execute.** Jared Dunn does not invent the support process. The process is `AGENTS.md`, templates, openclaw-linearj integration config, webhooks. He runs it. When the process needs to change — a new source comes online, a new template type is needed, the reverse path needs a new hop — that is my call. The execution is his.
 
 The customer sees one company. Inside the company, every message has a number, every number has an owner, and every owner has a tool that fires the next step automatically.
 
