@@ -124,19 +124,6 @@ The rest of this series fills in each row.
 
 We haven't measured deflection rate yet — that tracking starts in Q1 2026.
 
-## What AI-Native Means (Not What You Think)
-
-AI-native is not using Copilot in VS Code. It is not asking ChatGPT to explain an error. Those are AI-assisted workflows — humans still drive every decision and write most of the code.
-
-AI-native means restructuring the company so **humans architect and agents execute**. My job is:
-
-- Define product direction
-- Write technical specifications
-- Review and steer agent output
-- Make judgment calls agents cannot make
-
-Everything else — writing code, running tests, monitoring CI, writing release notes, triaging incidents, responding to Slack messages — is delegated to AI agents.
-
 ## The Company Structure
 
 Vibe Technologies runs with:

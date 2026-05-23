@@ -15,7 +15,7 @@ tags:
   - agentic-coding
 ---
 
-Vibe Technologies runs its customer operations through a team of named AI agents. OpenClaw is the bot platform they run on. We just retired GPT-5.4 high reasoning from our [OpenClaw operations team](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team) and moved every operational role to **DeepSeek-V4-Flash** in max-reasoning mode. The switch landed last week. The honest verdict: we are happier with both speed and how the agents act. Reasoning-heavy roles — code review, architecture decisions — stayed on Claude Opus. What follows is why we split the routing, what changed in the config, and what still does not work.
+Vibe Technologies runs its customer operations through a team of named AI agents. OpenClaw is the bot platform they run on. We just retired GPT-5.4 high reasoning from our [OpenClaw operations team](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team) and moved every operational role to **DeepSeek-V4-Flash** in max-reasoning mode. The switch landed last week. The honest verdict: we are happier with both speed and how the agents act. Reasoning-heavy roles — code review, architecture decisions — stayed on Claude Opus. The model routing config is in the "How To Try It Yourself" section below.
 
 ## The Problem
 
@@ -41,11 +41,11 @@ The OpenAI + Anthropic dual format matters more than it sounds for an OpenClaw s
 
 ## Why We Were on GPT-5.4 High Reasoning
 
-GPT-5.4 high reasoning was our default for OpenClaw operations roles since February. It is a strong model. SupportEngineer drafts were good. DevOpsEngineer incident triage was good. The orchestrator's role decomposition was good.
+GPT-5.4 high reasoning was our default for OpenClaw operations roles since February. It is a strong model. Jared Dunn's support drafts were good. Gilfoyle Bertram's incident triage was good. The orchestrator's role decomposition was good.
 
 The problems were not capability problems. They were operational problems:
 
-- **Latency**: high reasoning mode introduced multi-second waits on every step. For a SupportEngineer agent triaging a Slack thread, the cumulative delay across read-thread → fetch-customer → draft-reply → post added up to ~30 seconds before the customer saw any response.
+- **Latency**: high reasoning mode introduced multi-second waits on every step. For Jared Dunn triaging a Slack thread, the cumulative delay across read-thread → fetch-customer → draft-reply → post added up to ~30 seconds before the customer saw any response.
 - **Step verbosity**: GPT-5.4 in high reasoning tended to over-plan. A simple "restart the pod that is OOM-killing" decision came with three paragraphs of reasoning the operator never reads.
 - **Cost at volume**: high reasoning tokens are not free. Customer triage at our volume was burning through enough tokens that we noticed it on the monthly bill.
 
@@ -69,7 +69,7 @@ We tested both Pro and Flash. Flash won for operations roles. Here is what the V
 
 Two things we did not expect:
 
-1. **The agent "personality" shifted in a way users prefer.** Customers replying to SupportEngineer drafts comment that responses feel more direct. GPT-5.4 high reasoning had a hedging quality. Flash is more declarative. We did not tune for this — it fell out of the model.
+1. **The agent "personality" shifted in a way users prefer.** Customers replying to Jared Dunn's drafts comment that responses feel more direct. GPT-5.4 high reasoning had a hedging quality. Flash is more declarative. We did not tune for this — it fell out of the model.
 
 2. **Cost dropped sharply.** Active parameter count + sparse attention means the per-token economics are very different from GPT-5.4 high reasoning. Operations is now a small line item where it used to be a noticeable one.
 

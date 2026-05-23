@@ -138,20 +138,20 @@ The setup:
 
 ```
 Orchestrator (Claude Opus, max context, max reasoning)
-├── BackendDeveloper  (GPT-5.3-Codex) — APIs, databases, server-side logic
-├── FrontendDeveloper (Gemini-3.1-Pro) — UI, styling, client-side
-├── QAEngineer        (mixed)         — writing and running tests, edge cases
-├── DevOpsEngineer    (Sonnet-4.6)    — CI/CD, infrastructure, deployments
-└── SEOEngineer       (Gemini-3.1-Pro) — release notes, blog posts, changelogs, SEO
+├── BackendDeveloper  (GPT-4o)        — APIs, databases, server-side logic
+├── FrontendDeveloper (Gemini)        — UI, styling, client-side
+├── QAEngineer        (Sonnet-4.6)   — writing and running tests, edge cases
+├── DevOpsEngineer    (Sonnet-4.6)   — CI/CD, infrastructure, deployments
+└── SEOEngineer       (Gemini)       — release notes, blog posts, changelogs, SEO
 ```
 
 The orchestrator's primary rule, repeated in every system prompt:
 
 > **Never implement changes yourself — your role is to design, delegate, and review.**
 
-This is the rule that pays for everything. Opus is the most expensive token I buy. I do not want Opus writing a CSS tweak. I want Opus turning "the pricing page feels off" into a clean spec, picking the right subagent, and reviewing the diff. The subagent — Gemini Pro at a fraction of the per-token cost — does the actual edit.
+This is the rule that pays for everything. Opus is the most expensive token I buy. I do not want Opus writing a CSS tweak. I want Opus turning "the pricing page feels off" into a clean spec, picking the right subagent, and reviewing the diff. The subagent — a cheaper specialized model at a fraction of the per-token cost — does the actual edit.
 
-Cross-model review on top of this is cheap and catches a lot. After a subagent submits a PR, the orchestrator routes the diff to a *different* model: "Codex, do you agree with what Gemini wrote here?" Diff review is small context. They disagree often enough to surface real issues. We use the same pattern documented in our [reflection layer post](/blog/reflection-verification-layer).
+Cross-model review on top of this is cheap and catches a lot. After a subagent submits a PR, the orchestrator routes the diff to a *different* model: "GPT-4o, do you agree with what Gemini wrote here?" Diff review is small context. They disagree often enough to surface real issues. We use the same pattern documented in our [reflection layer post](/blog/reflection-verification-layer).
 
 The role split is the macro optimization. Caveman, RTK, and LST are the micro optimizations inside each agent. They compound.
 
@@ -209,7 +209,7 @@ This is the optimization layer of a stack I have been documenting for six months
 - [The Reflection / Verification Layer](/blog/reflection-verification-layer) — the cross-model review pattern in detail
 - [We Forked OpenCode — Here's What We Changed](/blog/we-forked-opencode-heres-what-we-changed) — the fork that hosts most of this
 
-The takeaway from all of these is the same: at 1.0-human headcount, you do not scale by hiring. You scale by making the agents you already run cost less per useful unit of work. LST, RTK, Caveman, and the orchestrator role split are how that math closes.
+The takeaway from all of these is the same: at 1.0-human headcount, we didn't scale by hiring — we scaled by making the agents we already run cost less per useful unit of work. LST, RTK, Caveman, and the orchestrator role split are how that math closed.
 
 Brain stay big. Mouth stay small. Token bill stay flat.
 

@@ -14,7 +14,7 @@ tags:
   - developer-tools
 ---
 
-When I started Vibe Technologies, my coding setup was simple: Claude Code in the terminal, me typing prompts, agents writing code. Three months later, the setup looks very different. This post covers the evolution, why I switched, and how the current orchestrator model works.
+We run a multi-agent engineering team on OpenCode. Each agent gets a role, a model, and a task queue — an Opus-class orchestrator decomposes work and delegates to specialized subagents running in parallel, overnight, without me at the keyboard. This post covers the stack we built, what drove us off Claude Code alone, and how the orchestrator model actually works.
 
 ## Starting Point: Claude Code
 
@@ -38,7 +38,7 @@ Claude Code remains excellent for complex reasoning tasks. But as an orchestrati
 - **Remote serve mode**: `opencode serve` exposes a session over HTTP — I can send tasks from mobile, route tasks from other agents, run 24/7 on a remote VM
 - **Community ecosystem**: problems I hit have usually been solved already
 
-We also maintain a [fork of OpenCode](https://github.com/dzianisv/opencode) with specific changes: planning-loop detection, cross-model review (Claude reviewing Codex output), GitHub integration plugin, and self-healing Cloudflare tunnel watchdogs for the remote serve layer.
+We also maintain a [fork of OpenCode](https://github.com/dzianisv/opencode) with specific changes: planning-loop detection, cross-model review (Claude reviewing GPT-4o output), GitHub integration plugin, and self-healing Cloudflare tunnel watchdogs for the remote serve layer.
 
 ## The Orchestrator Model
 
@@ -46,7 +46,7 @@ The current setup runs one **Opus-class orchestrator** and multiple specialized 
 
 ```
 Orchestrator (Claude Opus)
-├── BackendDeveloper  (GPT-5 Codex) — APIs, databases, server logic
+├── BackendDeveloper  (GPT-4o)      — APIs, databases, server logic
 ├── FrontendDeveloper (Gemini Pro)  — UI, styling, client-side
 ├── QAEngineer        (MiniMax)     — tests, edge cases, validation
 ├── DevOpsEngineer    (Claude Sonnet) — CI/CD, infra, deployments
@@ -70,7 +70,7 @@ Expensive models (Opus) doing expensive reasoning. Cheap models doing execution.
 
 One quality gate that consistently catches issues: having one model review another's output.
 
-After a subagent submits a PR, the orchestrator sends the diff to a different model: "Codex, do you agree with what Claude wrote here?" They usually do not agree completely. The disagreements surface real issues — logic gaps, missing edge cases, incorrect assumptions.
+After a subagent submits a PR, the orchestrator sends the diff to a different model: "GPT-4o, do you agree with what Claude wrote here?" They usually do not agree completely. The disagreements surface real issues — logic gaps, missing edge cases, incorrect assumptions.
 
 This is not expensive in practice. Diff review is a small context window. The catch rate justifies the cost.
 
@@ -82,9 +82,7 @@ The `opencode serve` command runs a persistent session on a remote VM (DigitalOc
 - Mobile via voice → TypeWhisper transcribes → sends to the remote session<!-- TODO: screenshot of TypeWhisper voice input in action -->
 - Other agents (VibeTeam operations agents can spawn coding tasks)
 
-I check in asynchronously. Most mornings start with reviewing what the agents shipped overnight.
-
-**Forward note (Jan 2026+):** the current production setup moved OpenCode off the DigitalOcean VM and onto a real dev workstation. `opencode serve` still exposes the session over HTTP — but instead of a cloud VM, it runs on a workstation sitting on my desk. The cloud-side OpenClaw SoftwareEngineer agent (Gilfoyle Bertram) reaches that endpoint over [Tailscale](https://tailscale.com), so the dev box has no public ingress. Gilfoyle Bertram is the supervisor in the cloud; OpenCode on the dev machine is the worker. Full architecture is in [Switching From OpenHands to VibeBrowser Agentic Team](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team).
+I check in asynchronously. The expectation is that most mornings start with reviewing what the agents shipped overnight — in practice we haven't tracked this systematically, but that is the pattern when overnight runs complete cleanly.
 
 ## What This Replaces
 
@@ -107,6 +105,8 @@ We haven't measured this yet — no latency benchmarks or cost deltas captured a
 - **TypeWhisper voice interface is unstable on long sessions**: transcription drops or the connection to the remote session resets after 20–30 minutes, requiring a manual reconnect.
 - **Orchestrator model selection is manual**: choosing which model handles which subagent role is hand-tuned config, not automatic. There is no runtime mechanism that reassigns a role to a cheaper model when cost spikes.
 - **No objective model benchmark**: the model assignments in the diagram above are based on intuition and informal testing, not a controlled benchmark. A cheaper model might do just as well for several of those roles.
+
+> **Update (Jan 2026):** The production setup moved OpenCode off the DigitalOcean VM and onto a real dev workstation. `opencode serve` still exposes the session over HTTP — but instead of a cloud VM, it runs on a workstation on my desk. The cloud-side OpenClaw SoftwareEngineer agent (Gilfoyle Bertram) reaches that endpoint over [Tailscale](https://tailscale.com), so the dev box has no public ingress. Gilfoyle Bertram is the supervisor in the cloud; OpenCode on the dev machine is the worker. Full architecture is in [Switching From OpenHands to VibeBrowser Agentic Team](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team).
 
 ## Next in This Series
 

@@ -245,7 +245,7 @@ The one subtlety: inbound identification differs by channel. The website widget 
                                 ▼
                           ┌──────────────┐
                           │ LiteLLM      │
-                          │ gateway      │ ─ gpt-5.3-codex etc.
+                          │ gateway      │ ─ DeepSeek V4 Flash
                           └──────┬───────┘
                                  │
                   not confident? │ confident
@@ -349,6 +349,10 @@ When `@GilfoyleBertram` closes the implementing PR linked to the Linear issue, t
 The full Linear pipeline — issue templates, MCP tooling, the reverse path mechanics — is in [the Linear customer support pipeline post](/blog/2026-05-22-linear-customer-support-pipeline-supportengineer-vibebrowser-copilot).
 
 The Chatwoot "private message" feature also turned out to be load-bearing here. Jared Dunn uses it to leave a one-line context note on the conversation ("checked vibe-api-gateway logs, OOM on stripe-service, handed to Einstein, ETA 1h"), so when he comes back two hours later he does not have to re-derive what he already figured out. It is the agent equivalent of a code comment — written by an LLM, for an LLM, but the format makes it readable for me too when I drop in.
+
+## Evidence It Works
+
+We haven't measured bot answer rate, escalation rate, or resolution time. The system has been live for less than a month. Cost: $30–$40/month for Chatwoot hosting. We will publish deflection metrics after 60 days of traffic.
 
 ## What Does Not Work Yet
 

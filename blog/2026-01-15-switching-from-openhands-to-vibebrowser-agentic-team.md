@@ -15,11 +15,11 @@ tags:
   - vibe-technologies
 ---
 
-We replaced our custom OpenHands-based VibeTeam with a new agentic system built on OpenClaw and hosted at vibebrowser.app/agentic-team. OpenHands agents failed roughly 40% of tasks — no memory between sessions, no way to specialize by role. The switch dropped that failure rate to under 10% and let us give each agent a name, a job description, and a privilege boundary. This post explains what broke, what we built, and how eight named agents now run daily operations over Slack.
+We switched from our custom OpenHands-based VibeTeam to a new agent stack built on OpenClaw and hosted at vibebrowser.app/agentic-team. Agent task failure dropped from 40% to under 10%. Each agent now has a named identity, a specific role, and a persistent Slack presence. This post explains what broke, what we built, and how eight named agents now run daily operations over Slack.
 
 Two months ago I wrote about [VibeTeam](/blog/2025-11-20-vibeteam-openhand-ai-operations-agents) — our custom OpenHands build handling incidents, Slack messages, and customer triage. As of this week, VibeTeam is retired. Operations now run on [vibebrowser.app/agentic-team](https://vibebrowser.app/agentic-team), built on top of [OpenClaw](https://github.com/openclaw/openclaw) agents.
 
-OpenHands agents failed ~40% of tasks. The main problem: no memory between sessions and no way to specialize by role.
+OpenHands agents failed ~40% of tasks. The main problem: no memory between sessions and no way to specialize by role. In practice, 40% failure meant roughly 4 in 10 overnight tasks produced no output, an error, or a stalled session. We had no way to know until we checked manually in the morning.
 
 If you are not a developer, here is the one-paragraph version: Vibe Technologies is a one-person company. Everything else — the engineer who fixes bugs, the support person who reads customer email, the marketing person who writes posts, the growth person who runs experiments — is an AI agent with a name and a job description. They talk to me and to each other on Slack like a normal team. This post is the boring infrastructure story of how that team is set up. The YC framing for this kind of company is in their [recent talk on self-improving companies built with AI](https://www.youtube.com/watch?v=t-G67yKAHBQ). It is the playbook we are running.
 

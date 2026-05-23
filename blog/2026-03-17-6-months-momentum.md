@@ -5,7 +5,7 @@ author: "Den"
 tags: ["ainativecompany", "vibe-technologies", "browser-agent", "opencode", "kubernetes"]
 ---
 
-Over six months we shipped a working browser co-pilot, an agentic support pipeline, and a multi-agent engineering team. Each piece is running in production. This post documents what shipped, with evidence where we have it.
+Over six months we shipped a working browser co-pilot, a support pipeline run by AI, and a team of AI agents writing code. Each piece is running in production. This post documents what shipped, with evidence where we have it.
 
 ## The Problem
 
@@ -26,18 +26,18 @@ A major milestone was the introduction of Chromium init containers, allowing hea
 ### Pushing the OpenCode Ecosystem Forward
 Our internal development velocity relies heavily on the OpenCode ecosystem, and we dedicated substantial time to improving these open-source tools.
 
-AI agents are prone to getting stuck in planning loops. To solve this, we introduced reflection mechanisms in `opencode-plugins`. The system now detects planning loops, escalates feedback, and performs cross-model reviews — for example, using Claude (Sonnet 3.7) to review GPT-Codex outputs — to break out of dead ends.
+AI agents are prone to getting stuck in planning loops. To solve this, we introduced reflection mechanisms in `opencode-plugins`. The plugin escalates feedback when an agent stalls; cross-model review (planned) — e.g., using Claude Sonnet 3.7 to review GPT-Codex outputs — is not yet automated.
 
 We also shipped a GitHub integration plugin that monitors issue threads and injects actionable directives directly into the agent's context. The `opencode-manager` received a stability upgrade with self-healing Cloudflare tunnel watchdogs and integrated voice control using Coqui TTS and Faster-Whisper.
 
 ### Agent Architecture
 
 ```
-[Customer] → Chatwoot → Jared Dunn (SupportEngineer)
-                              ↓
-                        Linear issue created
-                              ↓
-                        Gilfoyle Bertram (SoftwareEngineer) notified
+[Customer email] → Chatwoot → Jared Dunn (SupportEngineer / model TBD)
+                                      ↓
+                              Linear issue created
+                                      ↓
+                    Gilfoyle Bertram (SoftwareEngineer / model TBD) → PR
 ```
 
 ## Evidence It Works

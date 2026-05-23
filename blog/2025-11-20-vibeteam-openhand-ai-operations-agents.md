@@ -28,6 +28,8 @@ The choices are:
 
 VibeTeam is that layer.
 
+We had no incident count, no SLA data, and no ops time tracking before building VibeTeam. The pain was qualitative: every customer issue and every infrastructure alert landed in Dzianis's personal queue.
+
 OpenHands is an open-source AI software agent platform ([github.com/All-Hands-AI/OpenHands](https://github.com/All-Hands-AI/OpenHands)). We forked it as [VibeTeam](https://github.com/VibeTechnologies/VibeTeam) with modifications for operations-specific tasks: Slack integration, PagerDuty-style alerting, structured runbooks, and customer communication workflows.
 
 ## What VibeTeam Handles
@@ -56,7 +58,7 @@ VibeTeam monitors our Slack workspace. When a message requires a response:
 This covers: partnership inquiries routed to the wrong channel, community questions about VibeBrowser setup, status update requests, and internal reminders.
 
 <!-- TODO: screenshot of VibeBot Slack incident report -->
-The agent does not pretend to be human. It signs messages as "VibeBot" and includes a note that I am available for complex discussions.
+The agent does not pretend to be human. It signs messages as "VibeBot" (model: varies by task — Claude Sonnet or GPT-4o depending on routing config) and includes a note that I am available for complex discussions.
 
 ### Customer Triage
 
@@ -66,7 +68,7 @@ Inbound customer messages (email, contact form) go through VibeTeam first:
 - **Initial response**: acknowledgment sent within minutes, not hours
 - **Context assembly**: when I do need to respond, VibeTeam has already pulled the customer's account history, recent interactions, and any related GitHub issues
 
-The time I spend on customer communication dropped significantly (not yet measured objectively). More importantly, response quality improved (not yet measured objectively) because the agent never forgets context I would have had to look up manually.
+We haven't measured this. The perception is faster — not a number. Response quality feels better because the agent never forgets context I would have had to look up manually — but that is also not measured.
 
 ## Architecture
 
@@ -96,7 +98,7 @@ These are runbook gaps and context problems, not fundamental agent limitations. 
 VibeTeam is built on entirely open-source foundations:
 
 - [OpenHands](https://github.com/All-Hands-AI/OpenHands) — agent runtime
-- Model-agnostic: routes to Claude, GPT, or local models based on task type
+- Model-agnostic: routes to Claude Sonnet or GPT-4o depending on task type (routing config determines which; not hardcoded)
 - Slack API (Bolt SDK)
 - Standard Kubernetes tooling for infra operations
 - GitHub API for issue management
@@ -105,7 +107,7 @@ No vendor-specific ops platforms. No $500/month incident management SaaS. The op
 
 ## Why This Matters Beyond Vibe Technologies
 
-The operations agent model is not just a startup hack. It is a preview of how engineering organizations will run.
+The operations agent model is not just a startup hack. It is how we run ours today.
 
 Every engineering team has an operations burden that consumes engineering time: incident response, on-call, status updates, runbook execution, triage. AI agents do not replace good engineering judgment — they eliminate the routine execution that distracts from it.
 
