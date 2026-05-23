@@ -68,6 +68,13 @@ export default async function BlogIndexPage({ searchParams }: BlogIndexPageProps
     ? allTags.find((t) => t.tag.toLowerCase() === activeTag.toLowerCase())?.tag ?? null
     : null
 
+  const TAG_LIMIT = 10
+  const topTags = allTags.slice(0, TAG_LIMIT)
+  const visibleTags =
+    matchedTag && !topTags.some((t) => t.tag === matchedTag)
+      ? [...topTags, allTags.find((t) => t.tag === matchedTag)!]
+      : topTags
+
   const posts = matchedTag ? getBlogPostsByTag(matchedTag) : getAllBlogPosts()
 
   return (
@@ -124,7 +131,7 @@ export default async function BlogIndexPage({ searchParams }: BlogIndexPageProps
               >
                 All <span className="ml-1.5 opacity-70">{getAllBlogPosts().length}</span>
               </Link>
-              {allTags.map(({ tag, count }) => {
+              {visibleTags.map(({ tag, count }) => {
                 const isActive = matchedTag === tag
                 return (
                   <Link
