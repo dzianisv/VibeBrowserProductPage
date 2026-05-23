@@ -1,7 +1,7 @@
 ---
 title: "Two Layers of Agent Evaluation at Vibe Technologies: Deployment Checks and Team Trace Review"
 description: "How Vibe Technologies evaluates its ten AI agents at two levels: a YAML-based deployment verification suite that runs per-PR, and a Langfuse-backed team evaluation loop where Claw reviews cross-agent traces, checks for stuck sessions, and pushes agents to complete their tasks."
-date: "2026-05-25"
+date: "2026-05-21"
 author: "Dzianis Vashchuk"
 authorUrl: "https://linkedin.com/in/dzianisv"
 tags:

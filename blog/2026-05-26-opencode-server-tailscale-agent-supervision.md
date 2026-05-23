@@ -1,7 +1,7 @@
 ---
 title: "OpenCode in Server Mode: Tailscale Access and AI Session Supervision"
 description: "Running OpenCode in server mode on a VM and exposing it via Tailscale turns it from a one-person CLI tool into a persistent coding service. The software-engineer agent on OpenClaw can then open sessions, supervise progress, and follow up — acting more like a staff engineer than a solo coder."
-date: "2026-05-26"
+date: "2026-05-22"
 author: "Dzianis Vashchuk"
 authorUrl: "https://linkedin.com/in/dzianisv"
 tags:

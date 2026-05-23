@@ -1,7 +1,7 @@
 ---
 title: "Meet the Vibe Technologies Team: 10 AI Agents, One Human, One Framework"
 description: "A complete roster of the ten AI agents running on OpenClaw at Vibe Technologies — their names, roles, primary model, and how they divide responsibility for customer support, engineering, product, growth, legal, finance, and operations."
-date: "2026-05-24"
+date: "2026-05-20"
 author: "Dzianis Vashchuk"
 authorUrl: "https://linkedin.com/in/dzianisv"
 tags:

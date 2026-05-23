@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { SiteNav } from '@/components/site-nav'
 import { SiteFooter } from '@/components/site-footer'
 import { MailingListSubscribe } from '@/components/mailing-list-subscribe'
-import { getAllBlogPosts } from '@/lib/blog'
+import { getAllBlogPosts, getAllBlogTags, getBlogPostsByTag } from '@/lib/blog'
 
 const blogTitle = 'AI Browser Automation Blog'
 const blogDescription =
@@ -54,8 +54,21 @@ export const metadata: Metadata = {
   },
 }
 
-export default function BlogIndexPage() {
-  const posts = getAllBlogPosts()
+interface BlogIndexPageProps {
+  searchParams: Promise<{ tag?: string | string[] }>
+}
+
+export default async function BlogIndexPage({ searchParams }: BlogIndexPageProps) {
+  const params = await searchParams
+  const rawTag = Array.isArray(params.tag) ? params.tag[0] : params.tag
+  const activeTag = rawTag?.trim() || null
+
+  const allTags = getAllBlogTags()
+  const matchedTag = activeTag
+    ? allTags.find((t) => t.tag.toLowerCase() === activeTag.toLowerCase())?.tag ?? null
+    : null
+
+  const posts = matchedTag ? getBlogPostsByTag(matchedTag) : getAllBlogPosts()
 
   return (
     <div className="min-h-screen bg-[#202124] text-[#e8eaed] font-sans">
@@ -85,6 +98,61 @@ export default function BlogIndexPage() {
           </div>
         </div>
 
+        {allTags.length > 0 && (
+          <div className="mb-8">
+            <div className="mb-3 flex items-center justify-between gap-3">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#9aa0a6]">
+                Filter by tag
+              </p>
+              {matchedTag && (
+                <Link
+                  href="/blog"
+                  className="text-xs font-medium text-[#8ab4f8] hover:text-[#aecbfa]"
+                >
+                  Clear filter
+                </Link>
+              )}
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <Link
+                href="/blog"
+                className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+                  matchedTag
+                    ? 'bg-[#3c4043] text-[#e8eaed] hover:bg-[#5f6368]'
+                    : 'bg-[#8ab4f8] text-[#202124]'
+                }`}
+              >
+                All <span className="ml-1.5 opacity-70">{getAllBlogPosts().length}</span>
+              </Link>
+              {allTags.map(({ tag, count }) => {
+                const isActive = matchedTag === tag
+                return (
+                  <Link
+                    key={tag}
+                    href={`/blog?tag=${encodeURIComponent(tag)}`}
+                    className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+                      isActive
+                        ? 'bg-[#8ab4f8] text-[#202124]'
+                        : 'bg-[#3c4043] text-[#e8eaed] hover:bg-[#5f6368]'
+                    }`}
+                  >
+                    {tag} <span className="ml-1.5 opacity-70">{count}</span>
+                  </Link>
+                )
+              })}
+            </div>
+          </div>
+        )}
+
+        {activeTag && !matchedTag && (
+          <div className="mb-6 rounded-xl border border-[#3c4043] bg-[#3c4043]/30 p-4 text-sm text-[#9aa0a6]">
+            No posts found for tag <span className="font-semibold text-[#e8eaed]">{activeTag}</span>.{' '}
+            <Link href="/blog" className="text-[#8ab4f8] hover:text-[#aecbfa]">
+              View all posts →
+            </Link>
+          </div>
+        )}
+
         {posts.length === 0 ? (
           <div className="rounded-xl border border-[#3c4043] bg-[#3c4043]/30 p-6 text-[#9aa0a6]">
             No published posts yet.
@@ -97,7 +165,7 @@ export default function BlogIndexPage() {
                 className="group py-7 md:py-9"
               >
                 <div className="flex flex-wrap items-center gap-2 text-sm text-[#9aa0a6]">
-                  {index === 0 && (
+                  {index === 0 && !matchedTag && (
                     <span className="inline-flex rounded-full bg-[#3c4043] px-2.5 py-1 text-xs font-semibold text-[#8ab4f8]">
                       Latest post
                     </span>
@@ -128,14 +196,22 @@ export default function BlogIndexPage() {
 
                 {post.tags.length > 0 && (
                   <div className="mt-4 flex flex-wrap gap-2">
-                    {post.tags.map((tag) => (
-                      <span
-                        key={`${post.slug}-${tag}`}
-                        className="inline-flex rounded-full bg-[#3c4043] px-3 py-1 text-xs font-medium text-[#e8eaed]"
-                      >
-                        {tag}
-                      </span>
-                    ))}
+                    {post.tags.map((tag) => {
+                      const isActive = matchedTag === tag
+                      return (
+                        <Link
+                          key={`${post.slug}-${tag}`}
+                          href={`/blog?tag=${encodeURIComponent(tag)}`}
+                          className={`inline-flex rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+                            isActive
+                              ? 'bg-[#8ab4f8] text-[#202124]'
+                              : 'bg-[#3c4043] text-[#e8eaed] hover:bg-[#5f6368]'
+                          }`}
+                        >
+                          {tag}
+                        </Link>
+                      )
+                    })}
                   </div>
                 )}
 
