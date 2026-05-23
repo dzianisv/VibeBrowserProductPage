@@ -156,7 +156,7 @@ function toPost(fileName: string): BlogPost | null {
   const raw = fs.readFileSync(fullPath, 'utf8')
   const { frontmatter, content } = parseFrontmatter(raw)
 
-  const published = frontmatter.published === true
+  const published = frontmatter.published !== false
 
   return {
     slug,
