@@ -4,129 +4,65 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    types: [opened, synchronize, reopened]
   workflow_dispatch:
-
-env:
-  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
 jobs:
   deploy-production:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    permissions:
-      contents: write
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install Vercel CLI
-        run: npm install --global vercel@latest
-
-      - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Restore Next.js build cache
-        uses: actions/cache@v4
-        with:
-          path: .next/cache
-          key: nextjs-prod-${{ hashFiles('package-lock.json') }}-${{ hashFiles('src/**/*.ts', 'src/**/*.tsx', 'src/**/*.js', 'src/**/*.jsx') }}
-          restore-keys: nextjs-prod-${{ hashFiles('package-lock.json') }}-
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build Project Artifacts
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Strip video files from build output
-        run: find .vercel/output -name "*.mp4" -o -name "*.webm" | xargs rm -f 2>/dev/null || true
-
-      - name: Deploy to Vercel Production
-        run: |
-          OUTPUT=$(vercel deploy --prebuilt --archive=tgz --prod --token=${{ secrets.VERCEL_TOKEN }})
-          echo "Deployment URL: $OUTPUT"
-          echo "deployment_url=$OUTPUT" >> $GITHUB_OUTPUT
-        id: deploy
-
-      - name: Comment deployment URL on commit
-        if: success()
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            github.rest.repos.createCommitComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              commit_sha: context.sha,
-              body: '✅ Deployed to production: ${{ steps.deploy.outputs.deployment_url }}'
-            })
-
-  deploy-preview:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    if: github.event_name == 'pull_request'
+    timeout-minutes: 10
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
     permissions:
       contents: read
-      pull-requests: write
-      issues: write
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install Vercel CLI
-        run: npm install --global vercel@latest
-
-      - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Restore Next.js build cache
-        uses: actions/cache@v4
-        with:
-          path: .next/cache
-          key: nextjs-preview-${{ hashFiles('package-lock.json') }}-${{ hashFiles('src/**/*.ts', 'src/**/*.tsx', 'src/**/*.js', 'src/**/*.jsx') }}
-          restore-keys: nextjs-preview-${{ hashFiles('package-lock.json') }}-
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build Project Artifacts
-        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Strip video files from build output
-        run: find .vercel/output -name "*.mp4" -o -name "*.webm" | xargs rm -f 2>/dev/null || true
-
-      - name: Deploy to Vercel Preview
+      - name: Deploy via Vercel git-source API
         run: |
-          OUTPUT=$(vercel deploy --prebuilt --archive=tgz --token=${{ secrets.VERCEL_TOKEN }})
-          echo "Preview URL: $OUTPUT"
-          echo "preview_url=$OUTPUT" >> $GITHUB_OUTPUT
-        id: deploy
+          RESPONSE=$(curl -s -X POST \
+            "https://api.vercel.com/v13/deployments?teamId=${{ secrets.VERCEL_ORG_ID }}&forceNew=1" \
+            -H "Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"name\": \"vibebrowser.app\",
+              \"project\": \"${{ secrets.VERCEL_PROJECT_ID }}\",
+              \"target\": \"production\",
+              \"gitSource\": {
+                \"type\": \"github\",
+                \"org\": \"${{ github.repository_owner }}\",
+                \"repo\": \"${{ github.event.repository.name }}\",
+                \"ref\": \"main\",
+                \"sha\": \"${{ github.sha }}\"
+              }
+            }")
 
-      - name: Comment preview URL on PR
-        if: success()
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: '🔍 Preview deployment: ${{ steps.deploy.outputs.preview_url }}'
-            })
+          DEPLOY_ID=$(echo "$RESPONSE" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('id',''))")
+          DEPLOY_URL=$(echo "$RESPONSE" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('url',''))")
+
+          if [ -z "$DEPLOY_ID" ]; then
+            echo "Failed to create deployment:"
+            echo "$RESPONSE"
+            exit 1
+          fi
+
+          echo "Deployment ID: $DEPLOY_ID"
+          echo "Preview URL: $DEPLOY_URL"
+
+          # Poll until ready
+          for i in $(seq 1 30); do
+            sleep 15
+            STATUS=$(curl -s \
+              "https://api.vercel.com/v13/deployments/$DEPLOY_ID?teamId=${{ secrets.VERCEL_ORG_ID }}" \
+              -H "Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}" \
+              | python3 -c "import sys,json; print(json.load(sys.stdin).get('readyState',''))")
+            echo "[$i] $STATUS"
+            if [ "$STATUS" = "READY" ]; then
+              echo "deployment_url=https://$DEPLOY_URL" >> $GITHUB_OUTPUT
+              echo "Deployed: https://www.vibebrowser.app"
+              exit 0
+            elif [ "$STATUS" = "ERROR" ] || [ "$STATUS" = "CANCELED" ]; then
+              echo "Deployment failed with status: $STATUS"
+              exit 1
+            fi
+          done
+
+          echo "Timed out waiting for deployment"
+          exit 1
+        id: deploy
