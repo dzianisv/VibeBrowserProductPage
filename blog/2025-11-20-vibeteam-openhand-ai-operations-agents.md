@@ -15,7 +15,7 @@ tags:
   - automation
 ---
 
-VibeTeam is a fork of OpenHands that runs Vibe Technologies' operations — incident response, Slack triage, customer routing — without a human ops team. Running company operations with AI agents is not yet well-covered territory. This post covers [VibeTeam](https://github.com/VibeTechnologies/VibeTeam) — our custom OpenHands build that handles incidents, Slack communication, and customer triage.
+Vibe Technologies runs on one human and a team of AI agents. The agents own incident response, Slack triage, customer routing, and code review — the work that would normally require a full ops team. Below is a breakdown of which agent handles what, and how they hand off work to each other.
 
 ## The Problem: Operations Does Not Scale with 1.0 Humans
 

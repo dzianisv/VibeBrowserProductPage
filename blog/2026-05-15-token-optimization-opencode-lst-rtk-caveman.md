@@ -22,6 +22,14 @@ When you run an orchestrator plus five specialized subagents around the clock, t
 
 This post is the honest accounting of the four optimizations I run on every OpenCode worker today. None of them are clever individually. They stack.
 
+Running AI agents full-time is expensive. This post covers four changes that cut token usage across every OpenCode worker: LST compresses what the agent reads from code and the web, RTK compresses shell command output before it enters context, Caveman mode makes the agent write shorter replies, and a deliberate orchestrator/subagent split keeps expensive models off cheap work. We don't have a single combined metric yet, but each layer has measurable impact and none of them overlap.
+
+## The Problem
+
+The cost is not obvious until it is. When you run an orchestrator plus specialized subagents around the clock, every turn burns tokens: the system prompt, the tool call, the tool output, the model's response. Most of that content is noise the agent didn't need.
+
+We didn't track a clean baseline — costs just climbed as agent session volume grew. What we noticed first was the shape of the waste: a frontier model reading fifty lines of `git status` to extract three. An Opus-class orchestrator reasoning through a `find` result it never had to see. A subagent writing three paragraphs when the orchestrator needed one line. At a certain scale, token cost exceeds the value of marginal quality improvements. These four optimizations are the answer to each of those failure modes.
+
 ## The Four Optimizations
 
 ### 1. LST — Compressing What the Agent Has to Read

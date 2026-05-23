@@ -13,9 +13,15 @@ tags:
   - vibe-technologies
 ---
 
-Vibe Technologies is one human and a team of named AI agents. Anything a customer touches eventually crosses Jared Dunn, our SupportEngineer. Every bug and feature request lands in Linear. This post explains the exact pipeline between the two — and how a solo founder runs engineering, operations, and support without hiring.
+Vibe Technologies is one person — me — running a company with AI agents instead of employees. The agents have names and roles: Gilfoyle Bertram handles engineering, Jared Dunn handles customer support, Monica Hall runs growth, Einstein manages releases, and Harvey Specter covers legal. This post explains who each agent is, what they own, and how the system connects them — Slack, Linear, Chatwoot, and a dev workstation reachable from the cloud.
+
+## The Problem
+
+Customer support, code review, incident response, and growth work all compete for the same hours. Running all of it manually would require three to five people. I have one. Before the agents, I handled triage, bug routing, email replies, and release coordination by hand — which meant each task blocked the others. The agents replace that headcount. We haven't measured time savings yet, but the forcing function is simple: the work would not get done otherwise.
 
 ## How the Pieces Fit Together
+
+Before: I did everything manually — replied to support emails, routed bugs, kicked off deploys, and wrote release notes. After: named agents own each of those domains and execute autonomously, escalating to me only when human judgment or money movement is involved.
 
 Before the philosophy, the stack at a glance — so the rest of this series has a map to point at:
 

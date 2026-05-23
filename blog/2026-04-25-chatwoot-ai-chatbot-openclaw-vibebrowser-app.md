@@ -22,6 +22,10 @@ This post is the boring infrastructure story: how Chatwoot is deployed, the actu
 
 If you are not a developer, the one-paragraph version: a customer opens a chat bubble on our product page; an AI bot answers from our docs; if the bot is not sure, the conversation moves to an AI support engineer who can read Sentry, Kubernetes, and the Stripe dashboard, and either resolves the issue or hands it to the right specialist agent. The customer never has to know which part was bot, which part was agent, and which part was me. The [YC framing](https://www.youtube.com/watch?v=t-G67yKAHBQ) for this kind of company is "self-improving company built with AI." Chatwoot is one of the load-bearing pieces.
 
+## The Problem
+
+When openclaw.vibebrowser.app started getting real users, customer questions arrived via email with no structured routing, no response SLA, and no way for Jared Dunn to handle volume during overnight runs. We had no SLA data for response times before Chatwoot — the pain was qualitative: questions arriving overnight sat until Dzianis checked email. Every question required a human context switch. That does not scale even when the human is available, and it definitely does not scale when the human is asleep.
+
 ## Why Chatwoot (vs. Intercom, Zendesk, Crisp)
 
 The shortlist:

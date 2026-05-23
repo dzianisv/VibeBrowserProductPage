@@ -9,7 +9,7 @@ Over six months we shipped a working browser co-pilot, an agentic support pipeli
 
 ## The Problem
 
-No structured way to track what shipped. Agents ran but we had no dashboard, no metrics, no record of what actually worked.
+Before this period, customer issues arrived as raw emails — no ticketing, no routing, no record of resolution. When agents ran overnight, we had no way to see what they did or whether anything broke; Sentry wasn't wired up, so pod restarts and gateway errors surfaced only when a user complained. Bug reports lived in inboxes, not in Linear, so there was no link between a support complaint and an engineering fix. We didn't track any of this systematically, which is why Chatwoot, the Linear pipeline, and Sentry telemetry were the first things we wired up.
 
 ### Making the AI Co-Pilot Smarter and Safer
 A browser agent is only as good as its understanding of the DOM and its context of the user. In the `vibe` repository, we overhauled how our agent perceives web pages. We transitioned our accessibility tree snapshots to utilize the Chrome DevTools Protocol (CDP) debugger, improving the accuracy of element targeting.

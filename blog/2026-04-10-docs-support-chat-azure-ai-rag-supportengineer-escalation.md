@@ -21,6 +21,8 @@ We built a RAG support chat on [docs.vibebrowser.app](https://docs.vibebrowser.a
 
 The hypothesis was simple: most of the customer email Jared Dunn handles is deflectable. People ask things like "how do I run VibeBrowser headless?", "where is the API key?", "can I use my own profile?" These have answers in the docs. They are not bugs, not billing, not anything that needs a human (or an agent acting as a human). They need a search engine that can read.
 
+We had no data on question volume before building this — the motivation was qualitative: Jared was answering the same setup questions repeatedly. How many per week? We did not measure. Were they repetitive? Yes, noticeably so. Did the docs already answer them? Usually.
+
 The internal target we set was **~70% of inbound questions deflected before they reach support@vibebrowser.app**. That is a hypothesis, not a measurement. We will have honest numbers after another month of traffic; until then I will not pretend.
 
 The product constraint: this had to feel like a chat, not a search box. People ask questions in fragments. They follow up. They paste an error message. A list of doc links is not the right answer.
@@ -194,6 +196,12 @@ Three reasons, ranked by how much they actually drove the decision:
 3. **Model swap-ability is preserved.** Azure OpenAI ships the recent GPT-4o/GPT-5.x family. We can A/B route to other providers through our LiteLLM gateway for evals without rebuilding the retrieval layer.
 
 For the operations agents — Jared Dunn, Gilfoyle Bertram, Einstein — model-of-the-month matters because they reason about incidents and code. For the docs chat, what matters is that retrieval is good, grounding is enforced, and the answer is consistent. Those are different problems.
+
+## Evidence It Works
+
+We do not have deflection metrics yet — the chat has been live for less than a month. The 70% hypothesis comes from comparable RAG deployments on similar doc-heavy surfaces, not our own data. We will publish real numbers after 30 days of traffic; if deflection is nowhere near 70%, that will be in the post too.
+
+What we do have: escalation volume since launch is lower than the pre-chat email rate to `support@vibebrowser.app` for setup questions. That is anecdotal, not a controlled measurement. Take it as a directional signal, not a result.
 
 ## What Does Not Work Yet
 

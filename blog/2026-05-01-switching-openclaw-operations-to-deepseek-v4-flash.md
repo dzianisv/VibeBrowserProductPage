@@ -15,9 +15,11 @@ tags:
   - agentic-coding
 ---
 
-Vibe Technologies runs its customer operations through a team of named AI agents. OpenClaw is the bot platform they run on. We just retired GPT-5.4 high reasoning from our [OpenClaw operations team](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team) and moved every operational role to **DeepSeek-V4-Flash** in max-reasoning mode. The switch landed last week. The honest verdict: we are happier with both speed and how the agents act.
+Vibe Technologies runs its customer operations through a team of named AI agents. OpenClaw is the bot platform they run on. We just retired GPT-5.4 high reasoning from our [OpenClaw operations team](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team) and moved every operational role to **DeepSeek-V4-Flash** in max-reasoning mode. The switch landed last week. The honest verdict: we are happier with both speed and how the agents act. Reasoning-heavy roles — code review, architecture decisions — stayed on Claude Opus. What follows is why we split the routing, what changed in the config, and what still does not work.
 
-This post explains what changed, what the DeepSeek-V4 release brought to the table, and what running operations on it actually feels like.
+## The Problem
+
+GPT-5.4 high reasoning was capable, but it was wrong for routine operations tasks. Email triage, Sentry alert routing, and Slack status updates do not require reasoning-level quality — they require speed and low cost. High reasoning mode introduced multi-second waits on every step: the cumulative delay across read-thread → fetch-customer → draft-reply → post added up to ~30 seconds before a customer saw any response. Latency was noticeable; we didn't measure it systematically against a baseline, but operators felt it. Per-token cost for high reasoning was also meaningful at our volume — operations was a visible line item on the monthly bill for work that didn't need it.
 
 ## DeepSeek-V4: What Shipped
 
@@ -71,6 +73,10 @@ Two things we did not expect:
 
 2. **Cost dropped sharply.** Active parameter count + sparse attention means the per-token economics are very different from GPT-5.4 high reasoning. Operations is now a small line item where it used to be a noticeable one.
 
+## Evidence It Works
+
+Cost dropped — we estimate 70-80% reduction for operations tasks based on per-token pricing differences between GPT-5.4 high reasoning and DeepSeek-V4-Flash, but we haven't pulled actual invoice deltas yet. Speed improved noticeably for triage tasks: SupportEngineer's first-token-to-Slack-reply window shrank to single-digit seconds. We haven't run a controlled latency benchmark. The qualitative signal is that operators stopped commenting on agent slowness, which was a frequent complaint before the switch.
+
 ## What We Kept on Other Models — and How the Per-Role Split Matured
 
 This is not a full migration, and the picture is more nuanced than "everyone moved to DeepSeek." We ran a couple of weeks with every operations role on DeepSeek-V4-Flash to learn the model, and then production settled into a per-role split that takes the best part of each model. Reading this as a contradiction with the "we moved operations to Flash" framing would miss the point — Flash earned its place in the routing matrix, and the per-role tuning is what comes after.
@@ -119,6 +125,12 @@ The model override in OpenClaw config looks like this:
 Release reference: [api-docs.deepseek.com/news/news260424](https://api-docs.deepseek.com/news/news260424)
 
 Questions or running a similar setup: [dzianisvv@gmail.com](mailto:dzianisvv@gmail.com)
+
+## What Does Not Work Yet
+
+- **Long Sentry traces hit context limits in practice.** The 1M context window is the spec, but structured Sentry payloads with full stack traces, breadcrumbs, and session data across multiple events can still exceed what fits cleanly in a single routed call once the surrounding agent context is included. We route Flash for ad-hoc reasoning on these, but we occasionally have to trim or paginate the trace manually.
+- **JSON formatting consistency is not Claude-level.** DeepSeek-V4-Flash occasionally produces inconsistent JSON in structured outputs — extra whitespace, trailing commas, or field order that differs from the schema. Our parsers handle it, but it adds defensive code that wasn't needed with Claude.
+- **Multi-step tool-call reliability is not at parity with Claude for complex tasks.** For straightforward sequences (fetch → filter → post) Flash is solid. For longer chains with conditional branching, we see more aborted plans and retry loops than we saw with Claude Opus on the same prompts. This is why Gilfoyle Bertram stayed on Opus.
 
 ---
 

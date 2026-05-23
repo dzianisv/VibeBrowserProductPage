@@ -22,9 +22,10 @@ Claude Code was the right first tool. It understands large codebases, reasons ab
 
 The friction points appeared as the workload scaled:
 
-- **Provider lock-in**: Claude Code runs on Anthropic models only. I needed to route different tasks to different models based on cost and capability — GPT for code generation, Gemini for UI, cheaper models for tests.
-- **Closed internals**: when I wanted to add reflection layers (detecting when an agent is stuck in a loop) or custom task automation, Claude Code's architecture made it difficult.
-- **Single session**: no way to run multiple agents in parallel on independent tasks.
+- **Provider lock-in**: Claude Code runs on Anthropic models only. I needed to route different tasks to different models based on cost and capability — GPT for code generation, Gemini for UI, cheaper models for tests. Every overnight run went through a single provider at full Opus pricing with no way to downgrade individual steps.
+- **Context limit failures on long tasks**: Claude Code would hit context limits mid-task on large refactors, dropping state and requiring a manual restart. Overnight runs failed silently — I'd wake up to nothing merged and no clear error.
+- **Closed internals**: when I wanted to add reflection layers (detecting when an agent is stuck in a loop) or custom task automation, Claude Code's architecture made it difficult. We had no exact cost baseline — we just knew overnight runs were failing and we couldn't tell why.
+- **Single session**: no way to run multiple agents in parallel on independent tasks. Tasks queued instead of running concurrently, which made the async-overnight model unworkable.
 
 Claude Code remains excellent for complex reasoning tasks. But as an orchestration substrate for a multi-agent company, it was the wrong layer.
 

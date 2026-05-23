@@ -23,6 +23,12 @@ This post is the boring-but-load-bearing infrastructure story of how every custo
 
 If you have not read the rest of the series, the elevator version: every other "employee" at Vibe Technologies is an agent with a Slack handle and a job description. Jared Dunn reads support email. Gilfoyle Bertram fixes bugs. Linear is the substrate that joins their work. That is the whole post in one sentence. The rest is mechanism.
 
+## The Problem
+
+Before this pipeline, customer complaints lived only in Gmail threads. No issue was tracked to resolution. We had no data on how many reports turned into fixes.
+
+Jared Dunn read and triaged each email, but there was no persistent record of whether a given issue was ever resolved, no way to link a customer complaint to a specific code change, and no visibility into whether the same problem was hitting multiple users. The same bug could be reported four times by four different customers and we would have no way to know. Linear solved the persistence problem.
+
 ## Why Linear
 
 The shortlist when we picked a tracker:
@@ -320,13 +326,16 @@ The same reverse path runs for non-engineering closures. An account issue resolv
 
 One ticket. One trail. Two automatic notifications. Every customer-facing message references the same Linear ID. When I want to know "what is broken for paying customers this week?", the answer is one Linear filter (`customer-bug`, `severity:P0/P1`, status open, last 7 days).
 
+## Evidence It Works
+
+Metrics not yet collected — the pipeline has been live for less than a week. We can confirm: Jared now creates Linear issues from email automatically, and Gilfoyle receives structured handoffs. We will publish resolution-time data after 30 days.
+
 ## What Does Not Work Yet
 
 Honest accounting, same shape as every other post in this series:
 
 - **No automatic cross-source dedup.** The four sources create Linear issues independently: co-pilot's `POST /api/feedback` fires immediately on submit and creates a Linear ticket directly; Chatwoot and Gmail go through Jared Dunn who creates a ticket after triage. If the same user hits the flag button in co-pilot and then emails support about the same bug, two Linear issues land with no automatic join. The contact identity model does not unify `co-pilot session ID` with `email` with `Chatwoot contact ID`. Workaround: Jared adds a `duplicate-of` comment when he spots the overlap.
 - **Chatwoot-to-email continuity is a one-way door — for now.** When Jared replies to a Chatwoot conversation via Gmail (for customers who escalate to email), that email reply does not automatically post back as a note in the originating Chatwoot thread. The reverse path is wired in `AGENTS.md`: when the originating channel is a Chatwoot conversation URL, Jared posts the email content as a private Chatwoot note via API. But this is a runbook step, not an automated sync — if Jared skips it, the Chatwoot thread goes stale.
-- **Metrics not yet collected.** We haven't measured ticket deflection rate or time-to-resolution yet — instrumentation planned for next sprint.
 
 ## Why Bother With This Much Plumbing
 

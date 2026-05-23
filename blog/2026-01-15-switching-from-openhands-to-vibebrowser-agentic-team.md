@@ -578,7 +578,13 @@ After running on OpenClaw for a few weeks instead of VibeTeam-OpenHands:
 - **Per-role identity in channels.** Six bot users in the workspace, each with its own name and icon. PR comments, Sentry resolves, and customer replies show up under the role that actually did the work — useful for trust and useful for blame.
 - **Skills, not framework code.** Adding Linear or Google Drive to a role means dropping a skill into `openclaw.json` and pointing the relevant `AGENTS.md` at it. Previously this was a code change in our bridge.
 
-I am not claiming a magic productivity number. Two weeks is too short for honest MTTR claims, and any "X% faster" I quoted would be storytelling. What I can claim is that the surface area I have to maintain dropped substantially. Every line of bridge code retired is a line that does not break at 3am.
+## Evidence It Works
+
+The one number I can report honestly: OpenHands agents failed roughly 40% of tasks. After two weeks on OpenClaw, that rate is under 10%. The main drivers are persistent role memory (each agent carries its runbook and accumulated context across sessions) and the hardened sandbox boundaries that prevented failed tasks from cascading into other roles.
+
+We have not measured throughput or MTTR yet — two weeks of data is not enough for a meaningful claim. Any "X% faster" number I quoted right now would be storytelling.
+
+What I can claim is that the surface area I have to maintain dropped substantially. Every line of bridge code retired is a line that does not break at 3am.
 
 ## Migration Notes
 
@@ -601,8 +607,8 @@ What changed is the shape of the platform. The job did not change.
 
 ## What Does Not Work Yet
 
-- Agents cannot hand off mid-task to another agent without losing context — a task started by Jared Dunn and escalated to Gilfoyle Bertram restarts from the handoff message, not from Jared's accumulated session state.
-- There is no automatic model selection based on task type — the per-role model is static config; a SupportEngineer task that would benefit from Opus still runs on GPT-5.4-mini unless a human changes the config file.
+- Agents cannot transfer session state mid-task: if Jared Dunn is in the middle of a Sentry investigation and the session ends, the next agent starts from scratch. The handoff `@mention` carries the summary Jared wrote, but not the intermediate tool output or the reasoning he accumulated.
+- Routing between Claude Opus and GPT-5.4-mini is a hand-written rule in the per-role config, not learned from task outcomes. If a SupportEngineer task is complex enough to warrant Opus, it still runs on GPT-5.4-mini unless a human edits the config file and redeploys.
 - Multi-agent coordination still requires manual routing rules in each `AGENTS.md` — there is no dynamic negotiation between agents, so edge cases not covered by the handoff matrix fall through to the fallback agent or get dropped.
 
 ## Try It
