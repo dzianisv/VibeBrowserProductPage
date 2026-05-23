@@ -233,6 +233,8 @@ The full `#ainativecompany` series:
 - [Agent Communication: Slack Apps, OpenClaw Bindings, AGENTS.md Handoff Matrix](/blog/2026-05-23-agent-communication-slack-openclaw-handoff-matrix) — how agents route work to each other
 - **You are here** — Agent Roster: 10 Agents, One Framework
 - [OpenClaw Eval Queue: YAML-Based Agent Testing](/blog/2026-05-25-openclaw-eval-queue-yaml-based-agent-testing) — how we test all ten agents before every merge
+- [OpenCode in Server Mode: Tailscale Access and AI Session Supervision](/blog/2026-05-26-opencode-server-tailscale-agent-supervision)
+- [Claude Code Remote Control: Managing Coding Sessions from Mobile](/blog/2026-05-27-claude-code-mobile-remote-control)
 
 Questions or running a similar setup: [dzianisvv@gmail.com](mailto:dzianisvv@gmail.com)
 

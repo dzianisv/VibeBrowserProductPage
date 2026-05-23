@@ -177,7 +177,11 @@ The full `#ainativecompany` series:
 - [Agent Communication: Slack Apps, OpenClaw Bindings, AGENTS.md Handoff Matrix](/blog/2026-05-23-agent-communication-slack-openclaw-handoff-matrix) — how agents route work to each other
 - [Meet the Vibe Technologies Team: 10 AI Agents, One Human, One Framework](/blog/2026-05-24-vibe-technologies-agent-roster-nine-agents-one-framework) — full agent roster
 - **You are here** — Two Layers of Agent Evaluation: Deployment Checks and Team Trace Review
+- [OpenCode in Server Mode: Tailscale Access and AI Session Supervision](/blog/2026-05-26-opencode-server-tailscale-agent-supervision)
+- [Claude Code Remote Control: Managing Coding Sessions from Mobile](/blog/2026-05-27-claude-code-mobile-remote-control)
 
 Questions or running a similar setup: [dzianisvv@gmail.com](mailto:dzianisvv@gmail.com)
 
 *Previous in series: [Meet the Vibe Technologies Team: 10 AI Agents, One Human, One Framework →](/blog/2026-05-24-vibe-technologies-agent-roster-nine-agents-one-framework)*
+
+*Next in series: [OpenCode in Server Mode: Tailscale Access and AI Session Supervision →](/blog/2026-05-26-opencode-server-tailscale-agent-supervision)*
