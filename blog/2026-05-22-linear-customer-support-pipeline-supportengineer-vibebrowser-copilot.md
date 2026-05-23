@@ -322,10 +322,8 @@ One ticket. One trail. Two automatic notifications. Every customer-facing messag
 
 Honest accounting, same shape as every other post in this series:
 
-- **No automatic dedup across sources.** If the same user files via Chatwoot Monday and emails Tuesday, Jared notices the duplicate because he reads both — but the system does not link them automatically. The contact identity model differs by source (`telegram:<id>` vs email vs Chatwoot contact ID), and we have not wired the join. Workaround: Jared adds a `duplicate-of` comment when he spots it.
-- **No SLA tracking on Linear status.** The webhook fires on `Done`. It does not fire when a `P0` issue has been open for more than the SLA. We use a daily cron that posts an "aging tickets" report into Slack instead. Crude but works.
-- **Cross-team Linear access is wider than I love.** Jared's Linear token has read on all teams so he can link to engineering issues without me copy-pasting URLs. The blast radius if his sandbox is compromised includes "can read engineering roadmap." Acceptable trade-off today, will narrow when Linear ships per-team token scopes.
-- **One stale `Grace` reference remains in the agents-catalog SKILL.md.** Cosmetic — `support-engineer/AGENTS.md` already says `Jared Dunn`. Persona names are community-editable defaults anyway.
+- **No automatic cross-source dedup.** The four sources create Linear issues independently: co-pilot's `POST /api/feedback` fires immediately on submit and creates a Linear ticket directly; Chatwoot and Gmail go through Jared Dunn who creates a ticket after triage. If the same user hits the flag button in co-pilot and then emails support about the same bug, two Linear issues land with no automatic join. The contact identity model does not unify `co-pilot session ID` with `email` with `Chatwoot contact ID`. Workaround: Jared adds a `duplicate-of` comment when he spots the overlap.
+- **Chatwoot-to-email continuity is a one-way door — for now.** When Jared replies to a Chatwoot conversation via Gmail (for customers who escalate to email), that email reply does not automatically post back as a note in the originating Chatwoot thread. The reverse path is wired in `AGENTS.md`: when the originating channel is a Chatwoot conversation URL, Jared posts the email content as a private Chatwoot note via API. But this is a runbook step, not an automated sync — if Jared skips it, the Chatwoot thread goes stale.
 
 ## Why Bother With This Much Plumbing
 
