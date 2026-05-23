@@ -40,7 +40,11 @@ jobs:
       - name: Deploy prebuilt
         id: deploy
         run: |
-          URL=$(npx vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }} 2>&1 | tail -1)
+          set -euo pipefail
+          npx vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }} \
+            >/tmp/vercel-deploy.log 2>&1
+          cat /tmp/vercel-deploy.log
+          URL=$(grep -E '^https://' /tmp/vercel-deploy.log | tail -1)
           echo "deployment_url=$URL" >> $GITHUB_OUTPUT
           echo "Deployed: $URL"
         env:
