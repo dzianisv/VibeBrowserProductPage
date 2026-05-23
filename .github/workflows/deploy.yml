@@ -53,7 +53,7 @@ jobs:
 
       - name: Deploy to Vercel Production
         run: |
-          OUTPUT=$(vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }})
+          OUTPUT=$(vercel deploy --prebuilt --archive=tgz --prod --token=${{ secrets.VERCEL_TOKEN }})
           echo "Deployment URL: $OUTPUT"
           echo "deployment_url=$OUTPUT" >> $GITHUB_OUTPUT
         id: deploy
@@ -113,7 +113,7 @@ jobs:
 
       - name: Deploy to Vercel Preview
         run: |
-          OUTPUT=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})
+          OUTPUT=$(vercel deploy --prebuilt --archive=tgz --token=${{ secrets.VERCEL_TOKEN }})
           echo "Preview URL: $OUTPUT"
           echo "preview_url=$OUTPUT" >> $GITHUB_OUTPUT
         id: deploy

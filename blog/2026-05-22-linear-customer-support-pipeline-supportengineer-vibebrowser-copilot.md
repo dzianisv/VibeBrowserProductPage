@@ -19,7 +19,7 @@ Vibe Technologies has one human (me) and a team of named AI agents. Anything tha
 
 That somewhere is **Linear**.
 
-This post is the boring-but-load-bearing infrastructure story of how every customer support thread becomes a tracked Linear issue, who creates it, what the templates look like, and how the loop closes when [Gilfoyle Bertram](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team) (SoftwareEngineer) ships the fix. It also covers the in-product VibeBrowser co-pilot chat as a fourth source — including the honest accounting that the end-to-end submit path is not built yet.
+This post is the boring-but-load-bearing infrastructure story of how every customer support thread becomes a tracked Linear issue, who creates it, what the templates look like, and how the loop closes when [Gilfoyle Bertram](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team) (SoftwareEngineer) ships the fix. It also covers the in-product VibeBrowser co-pilot chat as a fourth source — including the flag button and `POST /api/feedback` endpoint that create Linear tickets directly from inside the product.
 
 If you have not read the rest of the series, the elevator version: every other "employee" at Vibe Technologies is an agent with a Slack handle and a job description. Jared Dunn reads support email. Gilfoyle Bertram fixes bugs. Linear is the substrate that joins their work. That is the whole post in one sentence. The rest is mechanism.
 
@@ -82,7 +82,7 @@ Jared also gets three other integrations to assemble context before creating a t
 - **Notion** via [clawhub.ai/steipete/notion](https://clawhub.ai/steipete/notion) — read-only access to the internal knowledge base (runbooks, FAQ, known issues).
 - **Gmail** via the [OpenClaw Gmail PubSub integration](https://docs.openclaw.ai/automation/cron-jobs#gmail-pubsub-integration) — push delivery of new `support@vibebrowser.app` messages into Jared's event queue rather than polling. No new email lands in the inbox without him seeing it within seconds.
 
-> **Heads-up to anyone retracing this:** the support-engineer role file in the OpenClawBot repo today still names the persona `Grace`. The catalog and the rest of the operations literature have moved to `Jared Dunn`. The text in this post matches the catalog. If you grep the `AGENTS.md`, expect to find `Grace` until that file is renamed. The role behavior is the same — only the persona label is in flight.
+> **Note:** Role persona names are community-editable defaults — anyone can change them in their own deployment. The `agents-catalog` SKILL.md still references `Grace` in one place, but `support-engineer/AGENTS.md` already reads `Jared Dunn`.
 
 ### Permissions, the OpenClaw way
 
@@ -223,27 +223,38 @@ Covered in [the docs support chat post](/blog/2026-04-10-docs-support-chat-azure
 
 The one extra hop: when the docs bot's escalation includes the conversation transcript, Jared copies the relevant excerpts into the `Evidence` block of the Linear template. The full transcript stays in the Gmail thread (it is long) but the smoking gun lands on the issue.
 
-### 4. VibeBrowser co-pilot chat — what exists today, what is planned
+### 4. VibeBrowser co-pilot chat → /api/feedback → Linear
 
-This is the source I want to be honest about. The VibeBrowser product itself has a co-pilot chat — the chat UI inside the browser that drives agentic tasks. The hypothesis on the roadmap is: a user inside that chat should be able to type "report this bug" or "send feedback" and have it land as a Linear issue in our support pipeline without leaving the product.
+This is the source that went from "roadmap" to "shipped" by the time this post was written. The co-pilot chat in the product has a flag button in the toolbar (`ChatPage.tsx`). Clicking it opens `FeedbackModal.tsx` — five predefined categories ("Agent didn't complete task", "Wrong action taken", "Slow response", "Incorrect information", "Other") plus an optional free-text field.
 
-**What exists today.** I went looking in the [vibe](https://github.com/VibeTechnologies/vibe) repository for a feedback / report-issue / support endpoint. Concrete findings:
+On submit, the extension background worker collects context — user email, plan tier, model, extension version, current page URL, Langfuse session ID for the trace, and the last five chat messages — and POSTs to `POST /api/feedback` on the stripe-service backend (PR #1259, merged).
 
-- The current co-pilot chat lives in `apps/chat4/src/` (a Next.js app — `app/`, `components/`, `services/`). There is no `feedback`, `report-issue`, `support`, or `ticket` component, route, or service in that tree.
-- The Chromium-fork side (`AiAgent.ts`, `background.ts`) has agent-orchestration code but no path that emits a ticket-shaped payload to an HTTP endpoint. The only "report" reference is an internal error-reporting pipe between content scripts and the background worker (`background.ts` around the error-reporting branch), which is for our own telemetry, not customer-facing feedback.
-- There is no `/feedback`, `/support`, `/ticket`, or `/report` API route in the product's Next.js server, no Slack webhook hooked into a co-pilot UI button, and no Linear MCP call from inside the product app.
+The endpoint:
 
-The short version: **the in-product report-issue path does not exist yet.** When a user wants to file a bug from the co-pilot today, they either click through to `support@vibebrowser.app` (manual email) or open the Chatwoot widget on `openclaw.vibebrowser.app`. Either way the ticket enters the pipeline through one of the three sources above.
+```
+POST /api/feedback
+Rate limit: 5 reports/hour/user
 
-**What is planned (Q3 2026).** The intended shape, when we build it, is small:
+Body:
+{
+  "category":        "Agent didn't complete task",
+  "feedback":        "...",
+  "userId":          "...",
+  "email":           "...",
+  "tier":            "pro",
+  "model":           "claude-opus-4-5",
+  "extensionVersion":"1.4.2",
+  "pageUrl":         "https://...",
+  "sessionId":       "<langfuse-session-id>",
+  "messages":        [ ...last 5 messages... ]
+}
+```
 
-1. A `Report issue` action in the co-pilot chat command palette and in the chat's overflow menu.
-2. A modal that collects: one-paragraph description, optional screenshot from the current tab (Chrome DevTools Protocol screenshot, which the product already takes for agent context), severity, and consent to include the last N agent steps as repro context.
-3. A POST to `https://app.vibebrowser.app/api/support/report-issue` with the payload, authenticated by the user's existing session.
-4. Server-side handler that constructs the Linear `Bug` template (filling `Originating channel: copilot-session:<id>`), calls `linear.createIssue` via the same openclaw-linearj integration Jared uses, and posts the new issue URL into Slack `#support-escalations` so Jared sees it land.
-5. The user gets a confirmation in the co-pilot chat with the issue URL.
+Server side calls the Linear GraphQL API directly (`https://api.linear.app/graphql`) using `LINEAR_API_KEY` + `LINEAR_TEAM_ID` injected into the k8s deployment. The issue title is `[Feedback] ${category} - ${email} - ${timestamp}`. Description includes all the context above, plus a Langfuse trace link so Gilfoyle Bertram can replay the exact agent session that broke. Priority defaults to Medium.
 
-Same templates, same Jared, same Slack channel, same Linear team — just a new source feeding it. The reason this is not built yet is product priority, not design uncertainty. When it ships, this section gets rewritten with file paths and code, not roadmap.
+The user sees a "Thank you — we'll investigate" confirmation in the modal. The Linear issue lands in the support team immediately, with `Originating channel: copilot-session:<langfuse-session-id>` so the reverse-path notification finds the right customer.
+
+Same Linear team, same Jared triage flow, same reverse-path webhook — source #4 is just a thinner submission surface than email or Chatwoot.
 
 ## The Reverse Path — From PR Close to Customer Update
 
@@ -257,7 +268,7 @@ The pipeline is only useful if status flows back to the customer. The loop:
    - Gmail thread — he sends a reply with the resolution summary.
    - Chatwoot conversation — he posts a message through the Chatwoot API (channel-appropriate; for Telegram it goes out as a DM, for the email inbox it goes out as email, for the web widget it appears in the open conversation).
    - docs chat escalation — same as Gmail (the docs chat path is email-based).
-   - Co-pilot report (once shipped) — the confirmation channel will be the same in-product chat the issue was filed from.
+   - Co-pilot report — the modal shows "Thank you — we'll investigate" inline; Jared follows up via email once the issue resolves.
 5. He closes his own task by adding a comment to the Linear issue: `customer notified via <channel> on <date>`.
 
 The two automatic notifications — Linear webhook → Slack, Slack mention → Jared — are what make this not require my attention. The customer gets a status update because the system fires it, not because anyone remembered.
@@ -272,7 +283,7 @@ The same reverse path runs for non-engineering closures. An account issue resolv
 │                                                                 │
 │  Gmail            Chatwoot         docs.vibebrowser    Co-pilot │
 │  support@…       web / Telegram   .app chat            chat     │
-│                  / email                               (planned)│
+│                  / email                               flag btn  │
 │      │               │                   │                │     │
 │      └───────────────┴─────────┬─────────┴────────────────┘     │
 │                                ▼                                │
@@ -311,11 +322,10 @@ One ticket. One trail. Two automatic notifications. Every customer-facing messag
 
 Honest accounting, same shape as every other post in this series:
 
-- **The co-pilot in-product report-issue path is not built.** Q3 2026 target. Today the user emails or opens Chatwoot.
 - **No automatic dedup across sources.** If the same user files via Chatwoot Monday and emails Tuesday, Jared notices the duplicate because he reads both — but the system does not link them automatically. The contact identity model differs by source (`telegram:<id>` vs email vs Chatwoot contact ID), and we have not wired the join. Workaround: Jared adds a `duplicate-of` comment when he spots it.
 - **No SLA tracking on Linear status.** The webhook fires on `Done`. It does not fire when a `P0` issue has been open for more than the SLA. We use a daily cron that posts an "aging tickets" report into Slack instead. Crude but works.
 - **Cross-team Linear access is wider than I love.** Jared's Linear token has read on all teams so he can link to engineering issues without me copy-pasting URLs. The blast radius if his sandbox is compromised includes "can read engineering roadmap." Acceptable trade-off today, will narrow when Linear ships per-team token scopes.
-- **The persona rename from `Grace` to `Jared Dunn` is still in flight in one role file.** Listed above. Cosmetic — same behavior.
+- **One stale `Grace` reference remains in the agents-catalog SKILL.md.** Cosmetic — `support-engineer/AGENTS.md` already says `Jared Dunn`. Persona names are community-editable defaults anyway.
 
 ## Why Bother With This Much Plumbing
 
