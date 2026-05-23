@@ -14,7 +14,7 @@ tags:
   - operations
 ---
 
-Vibe Technologies has one human and nine AI agents. The human rarely coordinates handoffs directly — agents hand off to each other. Jared Dunn (SupportEngineer) escalates to Gilfoyle Bertram (SoftwareEngineer), who hands off to Einstein (ReleaseEngineer) when the fix involves infrastructure. This post explains the exact mechanism: one Slack app per agent, one OpenClaw channel binding per agent, and a per-workspace `AGENTS.md` that every agent reads at session start.
+Vibe Technologies has one human and ten AI agents. The human rarely coordinates handoffs directly — agents hand off to each other. Jared Dunn (SupportEngineer) escalates to Gilfoyle Bertram (SoftwareEngineer), who hands off to the CTO when the fix requires architecture authority. This post explains the exact mechanism: one Slack app per agent, one OpenClaw channel binding per agent, and a per-workspace `AGENTS.md` that every agent reads at session start.
 
 > **Note on the previous architecture:** Earlier in the series ([VibeTeam: OpenHands AI Operations Agents](/blog/2025-11-20-vibeteam-openhand-ai-operations-agents)), agents were wired through a custom FastAPI gateway (`vibeteam-gateway`) with per-agent `agents.yaml` definitions. That is the OpenHands-era stack. Everything described in this post is the current OpenClaw stack.
 
@@ -48,6 +48,7 @@ All agents are declared in `openclaw.json` under `agents.list`. Each entry has a
       { "id": "cto",               "workspace": "~/.openclaw/workspace/cto" },
       { "id": "investor",          "workspace": "~/.openclaw/workspace/investor" },
       { "id": "taxadvisor",        "workspace": "~/.openclaw/workspace/taxadvisor" },
+      { "id": "immigration-lawyer","workspace": "~/.openclaw/workspace/immigration-lawyer" },
       { "id": "claw",              "workspace": "~/.openclaw/workspace/claw", "default": true }
     ]
   }
@@ -128,7 +129,7 @@ Each agent also carries its own GitHub App credentials in its binding config. PR
 We haven't measured handoff latency systematically. What we can confirm:
 
 - Jared Dunn escalates to Gilfoyle Bertram via @mention multiple times per week without human involvement.
-- `openclaw agents list --bindings` shows all nine agents active with their respective Slack bindings.
+- `openclaw agents list --bindings` shows all ten agents active with their respective Slack bindings.
 - Each agent's GitHub PRs appear under the correct bot identity — no mixed authorship.
 
 ## What Does Not Work Yet
@@ -153,7 +154,11 @@ The full `#ainativecompany` series:
 - [Token Optimization with OpenCode, LST, RTK, Caveman](/blog/2026-05-15-token-optimization-opencode-lst-rtk-caveman) — keeping agent costs flat
 - [Linear Customer Support Pipeline](/blog/2026-05-22-linear-customer-support-pipeline-supportengineer-vibebrowser-copilot) — how Jared's handoffs land in Linear
 - **You are here** — Agent Communication: Slack Apps, OpenClaw Bindings, AGENTS.md Handoff Matrix
+- [Meet the Vibe Technologies Team: 10 AI Agents, One Human, One Framework](/blog/2026-05-24-vibe-technologies-agent-roster-nine-agents-one-framework) — full agent roster with roles, models, and channel bindings
+- [Two Layers of Agent Evaluation: Deployment Checks and Team Trace Review](/blog/2026-05-25-openclaw-eval-queue-yaml-based-agent-testing) — per-PR YAML eval queue plus Claw's Langfuse-backed team evaluation
 
 Questions or running a similar setup: [dzianisvv@gmail.com](mailto:dzianisvv@gmail.com)
 
 *Previous in series: [Linear Customer Support Pipeline →](/blog/2026-05-22-linear-customer-support-pipeline-supportengineer-vibebrowser-copilot)*
+
+*Next in series: [Meet the Vibe Technologies Team: 10 AI Agents, One Human, One Framework →](/blog/2026-05-24-vibe-technologies-agent-roster-nine-agents-one-framework)*

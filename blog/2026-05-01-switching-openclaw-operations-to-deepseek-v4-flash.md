@@ -95,6 +95,8 @@ The maturation, in one sentence: starting all of operations on Flash gave us a c
 
 Model-agnostic routing was always the point. The DeepSeek-V4 release expanded the open-source side of that routing matrix meaningfully — and the per-role assignment above is what "model-agnostic" looks like in production once a new model has settled in.
 
+> **Update — May 2026:** The per-role model split described above was a snapshot from early May. By late May, after evaluating multi-model routing complexity against the stability gains, we unified all ten agents to a single primary model: `litellm/gpt-5.3-codex` with `litellm/gpt-5.1` → `litellm/gpt-4.1` fallbacks via LiteLLM proxy. See [Meet the Vibe Technologies Team: 10 AI Agents, One Human, One Framework](/blog/2026-05-24-vibe-technologies-agent-roster-nine-agents-one-framework) for the current config.
+
 ## What We Kept
 
 Same operating principles:
@@ -147,5 +149,8 @@ The full `#ainativecompany` series:
 - **[Switching OpenClaw Operations to DeepSeek-V4-Flash →](/blog/2026-05-01-switching-openclaw-operations-to-deepseek-v4-flash)**
 - [Token Optimization with OpenCode, LST, RTK, Caveman](/blog/2026-05-15-token-optimization-opencode-lst-rtk-caveman)
 - [Linear Customer Support Pipeline: From VibeBrowser Co-Pilot to Jared Dunn](/blog/2026-05-22-linear-customer-support-pipeline-supportengineer-vibebrowser-copilot)
+- [Agent Communication: Slack Apps, OpenClaw Bindings, AGENTS.md Handoff Matrix](/blog/2026-05-23-agent-communication-slack-openclaw-handoff-matrix) — how agents route work to each other
+- [Meet the Vibe Technologies Team: 10 AI Agents, One Human, One Framework](/blog/2026-05-24-vibe-technologies-agent-roster-nine-agents-one-framework) — full agent roster with roles, models, and channel bindings
+- [Two Layers of Agent Evaluation: Deployment Checks and Team Trace Review](/blog/2026-05-25-openclaw-eval-queue-yaml-based-agent-testing) — per-PR YAML eval queue plus Claw's Langfuse-backed team evaluation
 
 *Previous in series: [Switching From OpenHands to VibeBrowser Agentic Team →](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team)*

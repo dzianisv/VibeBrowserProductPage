@@ -363,7 +363,11 @@ The full `#ainativecompany` series:
 - [Token Optimization with OpenCode, LST, RTK, Caveman](/blog/2026-05-15-token-optimization-opencode-lst-rtk-caveman) — keeping the agent cost flat as ticket volume grows
 - **You are here** — Linear Customer Support Pipeline
 - [Agent Communication: Slack Apps, OpenClaw Channels, AGENTS.md Handoff Matrix](/blog/2026-05-23-agent-communication-slack-openclaw-handoff-matrix) — how agents route work to each other
+- [Meet the Vibe Technologies Team: 10 AI Agents, One Human, One Framework](/blog/2026-05-24-vibe-technologies-agent-roster-nine-agents-one-framework) — full agent roster with roles, models, and channel bindings
+- [Two Layers of Agent Evaluation: Deployment Checks and Team Trace Review](/blog/2026-05-25-openclaw-eval-queue-yaml-based-agent-testing) — per-PR YAML eval queue plus Claw's Langfuse-backed team evaluation
 
 Questions or running a similar setup: [dzianisvv@gmail.com](mailto:dzianisvv@gmail.com)
 
 *Previous in series: [Token Optimization with OpenCode, LST, RTK, Caveman →](/blog/2026-05-15-token-optimization-opencode-lst-rtk-caveman)*
+
+*Next in series: [Agent Communication: Slack Apps, OpenClaw Bindings, AGENTS.md Handoff Matrix →](/blog/2026-05-23-agent-communication-slack-openclaw-handoff-matrix)*
