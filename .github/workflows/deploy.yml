@@ -41,7 +41,8 @@ jobs:
         id: deploy
         run: |
           set -euo pipefail
-          npx vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }} \
+          npx vercel deploy --prebuilt --prod --archive=tgz \
+            --token=${{ secrets.VERCEL_TOKEN }} \
             2>&1 | tee /tmp/vercel-deploy.log; EXIT=${PIPESTATUS[0]}
           if [ "$EXIT" -ne 0 ]; then
             echo "::error::vercel deploy failed with exit code $EXIT"
