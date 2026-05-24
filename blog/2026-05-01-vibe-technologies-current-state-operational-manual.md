@@ -65,6 +65,8 @@ The thesis held. The implementation changed significantly.
               │                   │     LegalAdvisor       │             └──────┬───────┘
               │  webhooks /       │  • Michael Burry       │                    │ merge
               │  poll             │     Accountant         │                    ▼
+              │                   │  • Gordon Gekko        │
+              │                   │     PaymentsGate       │
               │                   └───────────┬────────────┘             ┌──────────────┐
               ▼                               │                          │  Deploy /    │
    ┌────────────────────┐◀── CDP ────────────┘                           │  Kubernetes  │
@@ -95,7 +97,7 @@ A few things the diagram makes obvious:
 
 ## Agent Roster
 
-Seven production agents. Roster as of May 2026:
+Eight production agents. Roster as of May 2026:
 
 | Agent | Role | Model | Owns |
 |---|---|---|---|
@@ -104,6 +106,7 @@ Seven production agents. Roster as of May 2026:
 | Monica Hall | GrowthManager | GPT-5.4 | GA, Search Console, PostHog, growth experiments |
 | Harvey Specter | LegalAdvisor | Claude Opus | LLC questions, contracts, tax classification |
 | Michael Burry | Accountant | Claude Opus | Receipts, Stripe read, Mercury read, quarterly close |
+| Gordon Gekko | PaymentsGate | Claude Opus | Virtual card issuance, payment approvals under monthly budget cap |
 | Sam | MarketingManager | — | Content drafts, blog posts, SEO |
 | Jordan | ProductManager | — | Roadmap triage, repeated-friction patterns |
 
@@ -125,12 +128,12 @@ Every named operational flow — who triggers it, who owns it, what tooling carr
 | Marketing content → draft → review → publish | Cron or shipped feature | Sam (MarketingManager) with Monica Hall on SEO | OpenCode for repo PR · Gilfoyle for tech accuracy review | `@Dzianis` for tone or strategic claims | [VibeTeam post](/blog/2025-11-20-vibeteam-openhand-ai-operations-agents) |
 | Receipt intake → Linear → quarterly close | Photo or email forwarded to `@MichaelBurry` | Michael Burry (Accountant) | Vision extraction · Linear Finance team · Stripe/Mercury read · CSV export | `@HarveySpecter` for legal classification; `@Dzianis` for payment approval | [OpenClaw switch · Michael Burry section](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team) |
 | Legal question (LLC / tax / contracts) → Harvey Specter → CPA/attorney | Slack `@HarveySpecter` mention or referral from Michael Burry | Harvey Specter (LegalAdvisor) | Doc search · contract templates · Linear `Legal` team | `@Dzianis` for any binding action; external attorney for filings | [OpenClaw switch](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team) |
-| Bill payment → review → approve → execute | Recurring vendor invoice | Michael Burry (prepare) → Dzianis (approve) | Mercury read · Linear · Slack approval thread | `@Dzianis` is always the executor for money movement | [OpenClaw switch · Michael Burry section](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team) |
+| Bill payment → review → approve → execute | Recurring vendor invoice | Michael Burry (prepare) → Gordon Gekko (auto-approve under cap) → Dzianis (above cap) | Mercury virtual cards · monthly budget ledger · Linear · Slack approval thread | `@Dzianis` for cap-raise or new vendor; Gordon Gekko refuses anything that would breach the monthly cap | [OpenClaw switch · Michael Burry section](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team) |
 
 Two patterns repeat across the matrix:
 
 1. **Every process has an explicit escalation target.** No agent is allowed to silently give up. Either it ships the work, hands off to a named role, or pings `@Dzianis`. "Stuck and quiet" is the failure mode this scaffolding exists to prevent.
-2. **Money movement and binding legal action are never agent-executed.** Michael Burry prepares payments, Harvey Specter drafts contracts, but the executor is always me. That is the one rule no agent can override.
+2. **Money movement above the cap and binding legal action remain human-executed.** This is an evolution from the original rule. Routine recurring payments — LLM API bills, cloud, SaaS subscriptions — are now agent-executed by Gordon Gekko, but only up to a hard monthly budget cap. Above the cap, or for any new vendor, the executor is still me. Harvey Specter drafts contracts; I sign them. The structural guardrail (a budget ceiling Gordon Gekko enforces by refusing, not just flagging) replaces the blanket prohibition on agent-executed payments for the routine case.
 
 ## What Changed Since November 2025
 
@@ -141,6 +144,7 @@ Concrete delta from founding plan to current state:
 - **ReleaseEngineer role eliminated.** Einstein was a separate agent whose only job was deploys. In practice, Gilfoyle Bertram already owned the code and the PR — handing deploy to a separate agent created a handoff with no benefit. Gilfoyle now runs the full cycle. One fewer Slack thread, one fewer escalation path.
 - **Model routing matured past intuition.** Started with Opus everywhere (safe, expensive). Now: Opus for Gilfoyle, Harvey, Michael — roles where errors compound. GPT-5.4-mini for Jared — high volume, lower stakes per message. GPT-5.4 for Monica — quality matters but not at Opus cost. The routing is driven by observed output quality on real tasks, not benchmarks.
 - **Chatwoot + Azure RAG added.** In November 2025 customer support was just email and Slack. Now there are three Chatwoot inboxes and a docs RAG layer doing tier-0 deflection. The escalation chain got longer but more of it resolves without me.
+- **Gordon Gekko (PaymentsGate) added.** Recurring vendor payments — LLM API bills, cloud, SaaS subscriptions — were the largest manual-toil item left after support automation. Gordon Gekko now executes payments under a hard monthly cap, refuses anything that would breach it, and escalates new vendors or cap-raise requests to me. Routine money movement is no longer a human chokepoint.
 
 ## What Still Does Not Work
 
@@ -148,6 +152,7 @@ Concrete delta from founding plan to current state:
 - **No SLA tracking on Linear status.** Issues are created and assigned but there is no measurement of time-to-first-response or time-to-resolution against any target.
 - **Screenshots missing.** The UI flows described in this post (Jared Dunn Slack messages, Chatwoot conversation view) are not yet illustrated with real screenshots.
 - **Deflection rate not measured.** We do not know how often docs RAG or the Chatwoot bot resolves a question without reaching Jared Dunn. The plumbing to track it is not in place.
+- **No cross-vendor anomaly detection.** Gordon Gekko enforces a monthly cap but won't catch a sudden 10x spike on a single recurring vendor unless I look at the ledger. The cap is a blunt instrument — a line-item spike within the cap goes unnoticed until the quarterly close with Michael Burry.
 
 ## Related Reading
 
