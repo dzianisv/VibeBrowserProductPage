@@ -563,6 +563,32 @@ export default function Component() {
                 Explore full comparison →
               </Link>
             </div>
+
+            <div className="mt-6 rounded-xl border border-purple-100 bg-gradient-to-r from-purple-50/70 to-pink-50/70 p-5 shadow-sm">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-purple-700">#ainativecompany</p>
+                  <h3 className="text-lg font-bold tracking-tight text-slate-900">From the AI-native company playbook</h3>
+                </div>
+                <Link href="/blog?tag=ainativecompany" className="text-sm font-semibold text-purple-700 hover:text-purple-800">
+                  View all posts →
+                </Link>
+              </div>
+              <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                <Link href="/blog/2026-05-28-why-opencode-not-claude-code" className="rounded-lg border border-purple-100 bg-white/90 px-3 py-2 text-sm text-slate-700 hover:border-purple-200 hover:text-purple-700">
+                  Why OpenCode, not Claude Code
+                </Link>
+                <Link href="/blog/2026-05-27-claude-code-mobile-remote-control" className="rounded-lg border border-purple-100 bg-white/90 px-3 py-2 text-sm text-slate-700 hover:border-purple-200 hover:text-purple-700">
+                  Claude Code Mobile Remote Control
+                </Link>
+                <Link href="/blog/2026-05-24-vibe-technologies-agent-roster-nine-agents-one-framework" className="rounded-lg border border-purple-100 bg-white/90 px-3 py-2 text-sm text-slate-700 hover:border-purple-200 hover:text-purple-700">
+                  Nine Agents, One Framework
+                </Link>
+                <Link href="/blog/2026-05-22-linear-customer-support-pipeline-supportengineer-vibebrowser-copilot" className="rounded-lg border border-purple-100 bg-white/90 px-3 py-2 text-sm text-slate-700 hover:border-purple-200 hover:text-purple-700">
+                  Linear Customer Support Pipeline
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </div>
