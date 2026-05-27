@@ -8,6 +8,7 @@
 - phase: 5-group-B-done
 - phase: 5b-pass
 - phase: 5c-pass
+- phase: 5-implemented-committed
 - issue: #111
 - started: 2026-05-26T23:24:26Z
 - supervisor: gpt-5.3-codex
