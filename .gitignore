@@ -32,6 +32,8 @@ next-env.d.ts
 !.opencode/skills/
 !.agents/
 !.agents/**
+!.tasks/
+!.tasks/**
 !app/blog/
 !app/blog/**
 .env
