@@ -11,6 +11,7 @@
 - phase: 5-implemented-committed
 - phase: 6-pr-open
 - pr: #112
+- phase: 7-ship-recommended
 - issue: #111
 - started: 2026-05-26T23:24:26Z
 - supervisor: gpt-5.3-codex

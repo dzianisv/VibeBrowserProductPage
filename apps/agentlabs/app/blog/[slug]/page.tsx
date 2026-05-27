@@ -9,13 +9,14 @@ import {
 import { AgentlabsBlogNav } from '../../../components/blog/nav'
 import { AgentlabsBlogFooter } from '../../../components/blog/footer'
 import { AgentlabsBlogMailingListSubscribe } from '../../../components/blog/mailing-list-subscribe'
+import { AGENTLABS_BLOG_DIRECTORY } from '../../../lib/blog-directory'
 
 type Params = {
   slug: string
 }
 
 const repository = createBlogRepository({
-  blogDirectory: '../../blog',
+  blogDirectory: AGENTLABS_BLOG_DIRECTORY,
 })
 
 export async function generateStaticParams(): Promise<Params[]> {
