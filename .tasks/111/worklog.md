@@ -10,3 +10,4 @@
 - 2026-05-27: Phase 5c pass. Executed real feature tests against live local servers on ports 3400/3401 with HTTP assertions for required routes/content; all checks passed.
 - 2026-05-27: Phase 6 started. Committed implementation, pushed branch `own/111-shared-template-agentlabs-blog`, and opened PR #112 linked to issue #111.
 - 2026-05-27: Phase 7 pass after one loop. Final review initially blocked on AgentLabs blog runtime path ambiguity; fixed with `apps/agentlabs/lib/blog-directory.ts` + tracing root, reran builds and real tests, then final review returned `FINAL: ship`.
+- 2026-05-27: Phase 8 gate reached. PR #112 is clean; no required checks configured and `main` branch is unprotected, so merge requires explicit human confirmation before running non-auto squash merge.

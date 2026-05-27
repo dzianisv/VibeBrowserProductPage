@@ -43,3 +43,13 @@
 - evidence:
   - Build failure log: module not found for `@shared/*` in `apps/agentlabs`.
   - Build pass after reverting to relative imports.
+
+## 2026-05-27 - Merge command safety on unprotected main
+- question: Use `gh pr merge --auto` or direct merge command?
+- decision: Do not use `--auto`; use explicit non-auto merge only after user confirmation.
+- reasoning: Branch protection API returns 404 (unprotected). On unprotected branches, `--auto` merges immediately and bypasses intended human merge gate.
+- alternatives:
+  - `gh pr merge --squash --delete-branch --auto`
+  - Hold PR open without prompting.
+- evidence:
+  - `gh api repos/dzianisv/VibeBrowserProductPage/branches/main/protection` => 404 Branch not protected.
