@@ -36,11 +36,11 @@ export const metadata: Metadata = {
     "developer tools android",
   ],
   alternates: {
-    canonical: "https://agentlabs.cc/opencode",
+    canonical: "https://www.vibebrowser.app/opencode",
   },
   openGraph: {
     type: "website",
-    url: "https://agentlabs.cc/opencode",
+    url: "https://www.vibebrowser.app/opencode",
     siteName: "Agent Labs",
     title: "OpenCode — AI Coding Agent on Your Phone",
     description:
@@ -78,14 +78,14 @@ const softwareJsonLd = {
   operatingSystem: "Android",
   description:
     "Free, open-source Android client for self-hosted opencode AI coding agents. Connect over LAN, Cloudflare Tunnel, ngrok, or Tailscale. Real-time streaming chat, file diff viewer, tool call approval, biometric unlock.",
-  url: "https://agentlabs.cc/opencode",
+  url: "https://www.vibebrowser.app/opencode",
   downloadUrl: "https://play.google.com/store/apps/details?id=cc.agentlabs.opencode",
   installUrl: "https://play.google.com/store/apps/details?id=cc.agentlabs.opencode",
   identifier: "cc.agentlabs.opencode",
   author: {
     "@type": "Organization",
     name: "Vibe Technologies LLC",
-    url: "https://agentlabs.cc",
+    url: "https://www.vibebrowser.app",
   },
   offers: {
     "@type": "Offer",
@@ -105,9 +105,9 @@ const softwareJsonLd = {
     "Free and open source (MIT license)",
   ],
   screenshot: [
-    "https://agentlabs.cc/images/opencode/phone-01.png",
-    "https://agentlabs.cc/images/opencode/phone-02.png",
-    "https://agentlabs.cc/images/opencode/phone-03.png",
+    "https://www.vibebrowser.app/images/opencode/phone-01.png",
+    "https://www.vibebrowser.app/images/opencode/phone-02.png",
+    "https://www.vibebrowser.app/images/opencode/phone-03.png",
   ],
   softwareVersion: "1.0",
   datePublished: "2026-05-24",

@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description:
     "Privacy policy for OpenCode Mobile (cc.agentlabs.opencode). We do not collect your code, prompts, or AI responses. Anonymous crash diagnostics via Sentry, opt-in only.",
   alternates: {
-    canonical: "https://agentlabs.cc/opencode/privacy",
+    canonical: "https://www.vibebrowser.app/opencode/privacy",
   },
   robots: {
     index: true,
@@ -316,7 +316,7 @@ export default function OpenCodePrivacyPage() {
               top of this page and, where feasible, notify users via an in-app notice. The latest
               version is always available at{" "}
               <Link href="/opencode/privacy" className="text-[#8ab4f8] hover:text-[#aecbfa]">
-                agentlabs.cc/opencode/privacy
+                www.vibebrowser.app/opencode/privacy
               </Link>
               .
             </p>
