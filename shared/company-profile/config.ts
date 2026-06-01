@@ -307,3 +307,19 @@ agentlabsCompanyProfileConfig.contacts = [
 ]
 agentlabsCompanyProfileConfig.heroContactHref = "mailto:info@agentlabs.cc"
 agentlabsCompanyProfileConfig.footerContactHref = "mailto:info@agentlabs.cc"
+agentlabsCompanyProfileConfig.headerBackgroundClassName =
+  "bg-[#2f2f2f]/95 supports-[backdrop-filter]:bg-[#2f2f2f]/80"
+
+// Add internal "Learn More" link for the Opencode Mobile product card on agentlabs.cc
+agentlabsCompanyProfileConfig.products = agentlabsCompanyProfileConfig.products.map((product) => {
+  if (product.title === "Opencode Mobile") {
+    return {
+      ...product,
+      actions: [
+        { href: "/opencode-mobile", label: "Learn More", colorClass: "text-[#81c995]" },
+        ...product.actions,
+      ],
+    }
+  }
+  return product
+})

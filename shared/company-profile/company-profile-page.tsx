@@ -49,10 +49,12 @@ function useTypewriter(words: string[], typingSpeed = 80, deletingSpeed = 50, pa
 
 export function CompanyProfilePage({ config }: { config: CompanyProfileConfig }) {
   const rotatingWord = useTypewriter(config.rotatingWords, 100, 60, 2500)
+  const headerBackgroundClassName =
+    config.headerBackgroundClassName ?? "bg-[#0a0a0a]/95 supports-[backdrop-filter]:bg-[#0a0a0a]/60"
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-[#e8eaed]">
-      <header className="sticky top-0 z-50 w-full border-b border-[#3c4043] bg-[#0a0a0a]/95 backdrop-blur supports-[backdrop-filter]:bg-[#0a0a0a]/60">
+      <header className={`sticky top-0 z-50 w-full border-b border-[#3c4043] backdrop-blur ${headerBackgroundClassName}`}>
         <div className="container mx-auto flex h-16 max-w-6xl items-center justify-between px-4 md:px-6">
           <Link href="/aboutus" className="flex items-center gap-3">
             <img src="/vibebrowser-logo.png" alt="Vibe Technologies" className="h-10 w-10 object-contain" />

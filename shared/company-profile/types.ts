@@ -58,4 +58,5 @@ export type CompanyProfileConfig = {
   contacts: CompanyProfileContact[]
   heroContactHref: string
   footerContactHref: string
+  headerBackgroundClassName?: string
 }

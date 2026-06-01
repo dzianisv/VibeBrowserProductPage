@@ -1,7 +1,10 @@
 import type { Metadata } from 'next'
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
+import Script from 'next/script'
 import './globals.css'
+
+const GA_ID = 'G-EYZHHTHR57'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://agentlabs.cc'),
@@ -70,7 +73,7 @@ export const viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
-  themeColor: '#0a0a0a',
+  themeColor: '#2f2f2f',
 }
 
 const organizationJsonLd = {
@@ -82,7 +85,7 @@ const organizationJsonLd = {
   description: 'Building agentic AI products: OpenClaw infra, AI hedge funds, and multi-agent browser automation.',
   contactPoint: {
     '@type': 'ContactPoint',
-    email: 'info@vibebrowser.app',
+    email: 'info@agentlabs.cc',
     contactType: 'customer support',
     availableLanguage: 'English',
   },
@@ -101,6 +104,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
+      <head>
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="ga-init" strategy="afterInteractive">
+          {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}');`}
+        </Script>
+      </head>
       <body>
         <script
           type="application/ld+json"
