@@ -14,6 +14,29 @@ all deploys go through GitHub Actions, so secrets are the only source of truth.
 > cannot deploy the other. `agentlabs` is under the `bison` account; the local
 > `vercel` CLI (logged in as `dzianisv`) **cannot** reach it — deploy only via CI.
 
+## Accounts & where credentials live (read this first)
+
+Things that are non-obvious and have caused repeated confusion:
+
+- **Two Vercel accounts are involved.**
+  - `vibebrowser.app` → Vercel team **`dzianisvs-projects`** (login `dzianisv`). The
+    local `vercel` CLI on the dev machine is logged into this account.
+  - `agentlabs.cc` → Vercel team **`bison-s-projects`** /
+    `team_b6V25Bg4KWMiEIfaa5s3nmFX`, dashboard
+    https://vercel.com/bison-s-projects/agentlabs. This is the **bison** account
+    (`vibeteaichnologies@gmail.com`), a Hobby plan. **`dzianisv` is NOT a member**,
+    so `vercel --prod` from the CLI fails with "scope does not exist" /
+    "Could not retrieve Project Settings". Deploy it **only via CI**.
+  - The browser (Chrome on the dev machine) IS logged into the bison Vercel
+    account — that's how the `AGENTLABS_VERCEL_TOKEN` was minted (Account →
+    Settings → Tokens).
+- **Secrets of record:** GitHub Actions repo secrets (`gh secret list`). Backup
+  copy in Bitwarden (account `vibeteaichnologies@gmail.com`, item
+  `agentlabs-vercel-token`).
+- **`agentlabs` is the project at the repo root `.vercel/`** (projectName
+  `agentlabs`, projectId `prj_aupLFb5NjTy7tomL9DYmHjlTt84T`). Don't be fooled —
+  that link is to the bison project the CLI can't reach.
+
 ## GitHub secrets
 
 Set on the repo (`gh secret list`):
