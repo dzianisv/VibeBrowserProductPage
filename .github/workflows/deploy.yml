@@ -71,6 +71,14 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
+
+      # shared/ components (imported by apps/agentlabs) resolve their npm deps
+      # (marked, lucide-react, ...) from the repo-root node_modules, so install
+      # them before building. Without this the agentlabs build fails with
+      # "Module not found: 'marked'" in shared/blog/repository.ts.
+      - name: Install root dependencies
+        run: npm ci
 
       - name: Pull Vercel project settings
         run: npx vercel pull --yes --environment=production --token=${{ secrets.AGENTLABS_VERCEL_TOKEN }}

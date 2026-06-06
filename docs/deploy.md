@@ -45,6 +45,15 @@ npx vercel deploy --prebuilt --prod --archive=tgz --token=$TOKEN # upload prebui
 `shared/` (enabled by `externalDir: true` + `outputFileTracingRoot: ../..` in
 `apps/agentlabs/next.config.ts`).
 
+**The agentlabs job runs `npm ci` at the repo root before `vercel build`.** The
+`shared/` code imports npm packages (`marked`, `lucide-react`, …) but `shared`
+has no `node_modules` of its own — Node resolves them from the **repo-root**
+`node_modules`. `vercel build` only installs `apps/agentlabs`'s own deps (into
+`apps/agentlabs/node_modules`, which is NOT on `shared/`'s resolution path), so
+without the root install the build fails with `Module not found: 'marked'` in
+`shared/blog/repository.ts`. Any new npm dep used by `shared/` must be added to
+the **root** `package.json`.
+
 ## Tailwind + shared components (gotcha)
 
 `apps/agentlabs` renders the same company-profile / blog pages as the main site
