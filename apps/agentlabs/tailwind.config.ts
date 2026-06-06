@@ -6,7 +6,13 @@ const config: Config = {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "*.{js,ts,jsx,tsx,mdx}"
+    "*.{js,ts,jsx,tsx,mdx}",
+    // Shared page components (company-profile, blog) live outside this app dir.
+    // Without scanning them Tailwind purges their utility classes and the
+    // rendered layout breaks. Scope to source subdirs (NOT shared/** — that
+    // would crawl shared/node_modules and stall the build). Relative to apps/agentlabs.
+    "../../shared/company-profile/**/*.{js,ts,jsx,tsx,mdx}",
+    "../../shared/blog/**/*.{js,ts,jsx,tsx,mdx}"
   ],
   theme: {
     extend: {
