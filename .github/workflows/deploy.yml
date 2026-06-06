@@ -54,3 +54,50 @@ jobs:
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+  # agentlabs.cc is a SEPARATE Vercel project (rootDirectory apps/agentlabs) under
+  # a different Vercel account/team than vibebrowser.app. It has its own token +
+  # org/project secrets (AGENTLABS_*). See docs/deploy.md.
+  deploy-agentlabs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Pull Vercel project settings
+        run: npx vercel pull --yes --environment=production --token=${{ secrets.AGENTLABS_VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.AGENTLABS_VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.AGENTLABS_VERCEL_PROJECT_ID }}
+
+      - name: Build
+        run: npx vercel build --prod --token=${{ secrets.AGENTLABS_VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.AGENTLABS_VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.AGENTLABS_VERCEL_PROJECT_ID }}
+
+      - name: Deploy prebuilt
+        id: deploy
+        run: |
+          set -euo pipefail
+          npx vercel deploy --prebuilt --prod --archive=tgz \
+            --token=${{ secrets.AGENTLABS_VERCEL_TOKEN }} \
+            2>&1 | tee /tmp/vercel-agentlabs-deploy.log; EXIT=${PIPESTATUS[0]}
+          if [ "$EXIT" -ne 0 ]; then
+            echo "::error::agentlabs vercel deploy failed with exit code $EXIT"
+            exit "$EXIT"
+          fi
+          URL=$(grep -E '^https://' /tmp/vercel-agentlabs-deploy.log | tail -1)
+          echo "deployment_url=$URL" >> $GITHUB_OUTPUT
+          echo "Deployed agentlabs: $URL"
+        env:
+          VERCEL_ORG_ID: ${{ secrets.AGENTLABS_VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.AGENTLABS_VERCEL_PROJECT_ID }}

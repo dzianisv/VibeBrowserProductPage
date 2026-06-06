@@ -25,13 +25,19 @@ git config user.email "2119348+dzianisv@users.noreply.github.com"
 ## Quick Deploy & Test
 
 ### 1. Deploy to Vercel
-```bash
-# Link project (first time only)
-vercel link
 
-# Deploy to production
-vercel --prod
-```
+**Deploys run via GitHub Actions on push to `main`** (`.github/workflows/deploy.yml`).
+There is no Vercel native Git integration. This repo ships **two** sites to **two**
+separate Vercel projects/accounts:
+
+- **vibebrowser.app** — repo root, `dzianisvs-projects` account, `VERCEL_*` secrets.
+- **agentlabs.cc** — `apps/agentlabs`, `bison-s-projects` account, `AGENTLABS_VERCEL_*` secrets.
+
+The local `vercel` CLI (logged in as `dzianisv`) **cannot** deploy agentlabs.cc —
+it lives under a different account. To ship either site: **push to `main`**.
+
+See **[docs/deploy.md](docs/deploy.md)** for full details, secrets, token rotation,
+and the Tailwind `shared/` gotcha.
 
 ### 2. Environment Variables
 Required in Vercel dashboard:
