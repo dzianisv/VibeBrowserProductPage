@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ArrowRight, CheckCircle, Chrome, Code2, GitBranch, Globe, Layers, Shield, Terminal } from 'lucide-react'
+import { ArrowRight, CheckCircle, Chrome, Code2, Cpu, GitBranch, Globe, Layers, Shield, Terminal } from 'lucide-react'
 import { SiteNav } from '@/components/site-nav'
 import { SiteFooter } from '@/components/site-footer'
 import { Badge } from '@/components/ui/badge'
@@ -11,6 +11,26 @@ const FULL_PACKAGE_SPEC = '@vibebrowser/mcp@latest'
 const CLI_BASE = `npx -y ${PACKAGE_SPEC}`
 const CLI_REMOTE = `${CLI_BASE} --remote YOUR_UUID_OR_WSS_URL --json status`
 const MCP_OPENCLAW = `npx -y -p ${FULL_PACKAGE_SPEC} vibebrowser-mcp openclaw --remote YOUR_UUID`
+
+const AGENT_INSTALL_PROMPT = `You are setting yourself up to control my real Chrome through Vibe Browser. Work through the steps in order, and after each step confirm it worked before moving on. Do not claim a step is done until you have proven it.
+
+1. Install the "vibebrowser" skill for your runtime, then confirm it is listed:
+   - OpenClaw:  npx -y skills add VibeTechnologies/vibe-mcp -s vibebrowser -a openclaw -g -y --copy --dangerously-accept-openclaw-risks
+                then run \`openclaw skills list\` and confirm a "vibebrowser" row shows "ready".
+   - Hermes:    npx -y skills add VibeTechnologies/vibe-mcp -s vibebrowser -y
+                then run \`npx -y skills list\` and confirm a "vibebrowser" row.
+
+2. Remember my remote so I only give it to you once. Save it to a file \`vibebrowser-cli.md\` in your persistent agent workspace root as a line \`remote: <value>\`; if your runtime can also write memory keys, additionally store it under \`vibebrowser_remote\`. On every later command — including the first message of a new conversation — load it back from that file and reuse it without asking me again.
+
+3. Record a standing rule so you route correctly later: whenever I ask you to do anything in MY browser / MY Chrome / MY tabs / the page I'm on, use this vibebrowser skill to drive my REAL browser — never your built-in, headless, or in-pod browser, and never web-fetch instead. Save this rule wherever your standing instructions/memory live so it applies in future conversations.
+
+4. Confirm you can control my Chrome, retrying on "Extension reconnecting" (wait 3s, up to 5x):
+   npx -y @vibebrowser/cli@latest --remote "<my remote>" --json status --wait-for-extension --wait-timeout 20000
+   npx -y @vibebrowser/cli@latest --remote "<my remote>" --json snapshot --format aria
+
+Then report: (1) is vibebrowser listed, (2) is extensionConnected true, (3) did the snapshot return my real page content?
+
+My remote: <PASTE YOUR UUID OR wss:// URL HERE>`
 
 const GITHUB_MCP_URL = 'https://github.com/VibeTechnologies/vibe-mcp'
 const GITHUB_CLI_URL = 'https://github.com/VibeTechnologies/vibe-mcp/blob/main/src/browser-main.ts'
@@ -31,6 +51,11 @@ const commandSurfaces = [
     title: 'Run the same flow remotely',
     description: 'Swap local control for UUID or full WSS URL relay access when the browser and agent are on different machines.',
     command: CLI_REMOTE,
+  },
+  {
+    title: 'Direct Chrome DevTools mode',
+    description: 'Bypass the extension relay entirely. Connect to your running Chrome over CDP — useful when you cannot install the extension.',
+    command: `${CLI_BASE} --devtools --json snapshot`,
   },
 ]
 
@@ -105,7 +130,7 @@ export default function CliPage() {
 
         <section className="border-b border-[rgba(136,146,176,0.15)] py-16 md:py-20">
           <div className="container mx-auto max-w-6xl px-6">
-            <div className="grid gap-6 md:grid-cols-3">
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
               <Card className="border-[rgba(136,146,176,0.15)] bg-[rgba(10,15,29,0.92)]">
                 <CardContent className="p-6">
                   <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-[rgba(255,77,77,0.12)]">
@@ -137,6 +162,17 @@ export default function CliPage() {
                   <p className="text-sm text-[#b7c0db]">
                     Use <code className="rounded bg-[rgba(158,158,255,0.1)] px-1 text-[#b4b4ff]">vibebrowser-cli</code> for shell flows
                     and <code className="rounded bg-[rgba(158,158,255,0.1)] px-1 text-[#b4b4ff]">vibebrowser-mcp</code> when orchestration grows.
+                  </p>
+                </CardContent>
+              </Card>
+              <Card className="border-[rgba(136,146,176,0.15)] bg-[rgba(10,15,29,0.92)]">
+                <CardContent className="p-6">
+                  <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-[rgba(129,201,149,0.12)]">
+                    <Cpu className="h-5 w-5 text-[#81c995]" />
+                  </div>
+                  <h2 className="mb-2 text-lg font-medium text-[#f0f4ff]">Direct DevTools mode</h2>
+                  <p className="text-sm text-[#b7c0db]">
+                    Use <code className="rounded bg-[rgba(158,158,255,0.1)] px-1 text-[#b4b4ff]">--devtools</code> to bypass the extension relay and drive Chrome directly over the DevTools Protocol — no extension required.
                   </p>
                 </CardContent>
               </Card>
@@ -231,6 +267,30 @@ export default function CliPage() {
                 </Card>
               ))}
             </div>
+          </div>
+        </section>
+
+        <section className="border-b border-[rgba(136,146,176,0.15)] bg-[rgba(8,12,24,0.88)] py-16 md:py-24">
+          <div className="container mx-auto max-w-6xl px-6">
+            <div className="mx-auto mb-12 max-w-3xl text-center">
+              <p className="text-xs uppercase tracking-[0.26em] text-[#7f8aa8]">Agent setup</p>
+              <h2 className="mt-4 text-3xl font-normal text-[#f0f4ff]" style={{ fontFamily: "'Clash Display', 'Satoshi', system-ui, sans-serif" }}>
+                One-shot install prompt
+              </h2>
+              <p className="mt-4 text-[#c4cbe0]">
+                Paste this block into your OpenClaw or Hermes agent. It installs the skill, saves your relay UUID for future conversations, and confirms the connection.
+              </p>
+            </div>
+            <Card className="mx-auto max-w-4xl border-[rgba(136,146,176,0.15)] bg-[rgba(5,8,16,0.96)]">
+              <CardContent className="p-0">
+                <div className="border-b border-[rgba(136,146,176,0.15)] bg-[rgba(11,16,32,0.94)] px-5 py-3 text-sm text-[#b7c0db]">
+                  Agent install prompt
+                </div>
+                <pre className="overflow-x-auto p-5 text-sm text-[#b4b4ff] whitespace-pre-wrap">
+                  <code>{AGENT_INSTALL_PROMPT}</code>
+                </pre>
+              </CardContent>
+            </Card>
           </div>
         </section>
 

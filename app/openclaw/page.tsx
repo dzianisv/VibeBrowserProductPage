@@ -83,6 +83,26 @@ const commandSurfaces = [
   },
 ]
 
+const AGENT_INSTALL_PROMPT = `You are setting yourself up to control my real Chrome through Vibe Browser. Work through the steps in order, and after each step confirm it worked before moving on. Do not claim a step is done until you have proven it.
+
+1. Install the "vibebrowser" skill for your runtime, then confirm it is listed:
+   - OpenClaw:  npx -y skills add VibeTechnologies/vibe-mcp -s vibebrowser -a openclaw -g -y --copy --dangerously-accept-openclaw-risks
+                then run \`openclaw skills list\` and confirm a "vibebrowser" row shows "ready".
+   - Hermes:    npx -y skills add VibeTechnologies/vibe-mcp -s vibebrowser -y
+                then run \`npx -y skills list\` and confirm a "vibebrowser" row.
+
+2. Remember my remote so I only give it to you once. Save it to a file \`vibebrowser-cli.md\` in your persistent agent workspace root as a line \`remote: <value>\`; if your runtime can also write memory keys, additionally store it under \`vibebrowser_remote\`. On every later command — including the first message of a new conversation — load it back from that file and reuse it without asking me again.
+
+3. Record a standing rule so you route correctly later: whenever I ask you to do anything in MY browser / MY Chrome / MY tabs / the page I'm on, use this vibebrowser skill to drive my REAL browser — never your built-in, headless, or in-pod browser, and never web-fetch instead. Save this rule wherever your standing instructions/memory live so it applies in future conversations.
+
+4. Confirm you can control my Chrome, retrying on "Extension reconnecting" (wait 3s, up to 5x):
+   npx -y @vibebrowser/cli@latest --remote "<my remote>" --json status --wait-for-extension --wait-timeout 20000
+   npx -y @vibebrowser/cli@latest --remote "<my remote>" --json snapshot --format aria
+
+Then report: (1) is vibebrowser listed, (2) is extensionConnected true, (3) did the snapshot return my real page content?
+
+My remote: <PASTE YOUR UUID OR wss:// URL HERE>`
+
 const operatorPatterns = [
   {
     eyebrow: 'Operator pattern',
@@ -229,8 +249,7 @@ export default function OpenClawPage() {
                 Package the OpenClaw surface as explicit verbs
               </h2>
               <p className="mt-4 text-[#c4cbe0]">
-                This is where a Tavily-style lesson actually applies. Not the branding, but the discipline:
-                name the surfaces clearly so technical buyers understand what the route is for in under a minute.
+                Four explicit surfaces — observe, act, relay, escalate — so the route is clear in under a minute.
               </p>
             </div>
 
@@ -341,6 +360,30 @@ export default function OpenClawPage() {
                 </Card>
               </div>
             </div>
+          </div>
+        </section>
+
+        <section className="border-b border-[rgba(136,146,176,0.15)] bg-[rgba(8,12,24,0.88)] py-16 md:py-24">
+          <div className="container mx-auto max-w-6xl px-6">
+            <div className="mx-auto mb-12 max-w-3xl text-center">
+              <p className="text-xs uppercase tracking-[0.26em] text-[#7f8aa8]">Agent setup</p>
+              <h2 className="mt-4 text-3xl font-normal text-[#f0f4ff]" style={{ fontFamily: "'Clash Display', 'Satoshi', system-ui, sans-serif" }}>
+                One-shot install prompt
+              </h2>
+              <p className="mt-4 text-[#c4cbe0]">
+                Paste this block into your OpenClaw or Hermes agent. It installs the vibebrowser skill, saves your relay UUID for future conversations, and confirms the live connection.
+              </p>
+            </div>
+            <Card className="mx-auto max-w-4xl border-[rgba(136,146,176,0.15)] bg-[rgba(5,8,16,0.96)]">
+              <CardContent className="p-0">
+                <div className="border-b border-[rgba(136,146,176,0.15)] bg-[rgba(11,16,32,0.94)] px-5 py-3 text-sm text-[#b7c0db]">
+                  Agent install prompt
+                </div>
+                <pre className="overflow-x-auto p-5 text-sm text-[#b4b4ff] whitespace-pre-wrap">
+                  <code>{AGENT_INSTALL_PROMPT}</code>
+                </pre>
+              </CardContent>
+            </Card>
           </div>
         </section>
 
