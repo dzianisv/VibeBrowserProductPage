@@ -79,6 +79,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'claude',
     'gemini',
     'codex',
+    'chatgpt',
+    'grok',
     'people',
     'lawyers',
     'recruiters',
@@ -91,6 +93,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'agentic-team',
     'mobile',
     'mom',
+    'multi-agent',
   ]
 
   const professionSitemap: MetadataRoute.Sitemap = professionPages.map((page) => ({

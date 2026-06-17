@@ -10,10 +10,10 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { WaitlistDialogIncognito } from '@/components/waitlist-dialog-incognito'
 import { SiteFooter } from '@/components/site-footer'
-import { ArrowRight, CheckCircle, Shield, Lock, FileText, Scale, Eye, Server, Building2, Clock, Globe, Mail, Calendar, Search, Database, BookOpen, Bookmark, TrendingUp, Users, UserPlus, Target, Bell, Code, Terminal, Plug, Cloud, Workflow, DollarSign, Microscope, Library, Zap, MessageSquare, Linkedin, ShoppingCart, Briefcase, Plane, UserMinus, Phone, Stethoscope, Headphones, Building, RefreshCw, Wallet, Download, Smartphone, Chrome, Calculator, ChevronLeft, ChevronRight, Package } from 'lucide-react'
+import { ArrowRight, CheckCircle, Shield, Lock, FileText, Scale, Eye, Server, Building2, Clock, Globe, Mail, Calendar, Search, Database, BookOpen, Bookmark, TrendingUp, Users, UserPlus, Target, Bell, Code, Terminal, Plug, Cloud, Workflow, DollarSign, Microscope, Library, Zap, MessageSquare, Linkedin, ShoppingCart, Briefcase, Plane, UserMinus, Phone, Stethoscope, Headphones, Building, RefreshCw, Wallet, Download, Smartphone, Chrome, Calculator, ChevronLeft, ChevronRight, Package, Layers } from 'lucide-react'
 
 const iconMap: Record<string, React.ElementType> = {
-  Shield, Lock, FileText, Scale, Eye, Server, Building2, Clock, Globe, Mail, Calendar, Search, Database, BookOpen, Bookmark, TrendingUp, Users, UserPlus, Target, Bell, Code, Terminal, Plug, Cloud, Workflow, DollarSign, Microscope, Library, Zap, MessageSquare, Linkedin, ShoppingCart, Briefcase, Plane, UserMinus, Phone, Stethoscope, Headphones, Building, RefreshCw, Wallet, Download, Smartphone, Chrome, Calculator, Package
+  Shield, Lock, FileText, Scale, Eye, Server, Building2, Clock, Globe, Mail, Calendar, Search, Database, BookOpen, Bookmark, TrendingUp, Users, UserPlus, Target, Bell, Code, Terminal, Plug, Cloud, Workflow, DollarSign, Microscope, Library, Zap, MessageSquare, Linkedin, ShoppingCart, Briefcase, Plane, UserMinus, Phone, Stethoscope, Headphones, Building, RefreshCw, Wallet, Download, Smartphone, Chrome, Calculator, Package, Layers
 }
 
 export interface ProfessionFeature {

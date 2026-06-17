@@ -50,6 +50,8 @@ export function SiteFooter() {
                 { href: '/claude', label: 'Claude Users' },
                 { href: '/gemini', label: 'Gemini Users' },
                 { href: '/codex', label: 'Codex Users' },
+                { href: '/chatgpt', label: 'ChatGPT Users' },
+                { href: '/grok', label: 'Grok Users' },
                 { href: '/people', label: 'People' },
                 { href: '/lawyers', label: 'Lawyers' },
                 { href: '/recruiters', label: 'Recruiters' },
