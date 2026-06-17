@@ -23,6 +23,12 @@
       }
     ],
     "paths": {
+      "next": [
+        "./node_modules/next"
+      ],
+      "next/*": [
+        "./node_modules/next/*"
+      ],
       "@/*": [
         "./*"
       ]
@@ -37,6 +43,7 @@
   ],
   "exclude": [
     "node_modules",
+    "apps/agentlabs",
     "supabase/functions"
   ]
 }

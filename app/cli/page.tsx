@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { ArrowRight, CheckCircle, Chrome, Code2, Cpu, GitBranch, Globe, Layers, Shield, Terminal } from 'lucide-react'
 import { SiteNav } from '@/components/site-nav'
 import { SiteFooter } from '@/components/site-footer'
+import { CopyablePrompt } from '@/components/copyable-prompt'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -9,26 +10,29 @@ import { Card, CardContent } from '@/components/ui/card'
 const PACKAGE_SPEC = '@vibebrowser/cli@latest'
 const FULL_PACKAGE_SPEC = '@vibebrowser/mcp@latest'
 const CLI_BASE = `npx -y ${PACKAGE_SPEC}`
-const CLI_REMOTE = `${CLI_BASE} --remote YOUR_UUID_OR_WSS_URL --json status`
-const MCP_OPENCLAW = `npx -y -p ${FULL_PACKAGE_SPEC} vibebrowser-mcp openclaw --remote YOUR_UUID`
+const CLI_REMOTE = `${CLI_BASE} --remote "<my remote>" --json status --wait-for-extension --wait-timeout 20000`
+const CLI_SNAPSHOT = `${CLI_BASE} --remote "<my remote>" --json snapshot --format aria`
+const MCP_OPENCLAW = `npx -y -p ${FULL_PACKAGE_SPEC} vibebrowser-mcp openclaw --remote "<my remote>"`
 
-const AGENT_INSTALL_PROMPT = `You are setting yourself up to control my real Chrome through Vibe Browser. Work through the steps in order, and after each step confirm it worked before moving on. Do not claim a step is done until you have proven it.
+const AGENT_INSTALL_PROMPT = `You are setting yourself up to control my real Chrome through Vibe Browser. Work through the steps in order. Do not claim a step is done until you have proven it.
 
 1. Install the "vibebrowser" skill for your runtime, then confirm it is listed:
    - OpenClaw:  npx -y skills add VibeTechnologies/vibe-mcp -s vibebrowser -a openclaw -g -y --copy --dangerously-accept-openclaw-risks
-                then run \`openclaw skills list\` and confirm a "vibebrowser" row shows "ready".
+                then run \`openclaw skills list\`. You may report the vibebrowser row only if you actually checked it.
    - Hermes:    npx -y skills add VibeTechnologies/vibe-mcp -s vibebrowser -y
-                then run \`npx -y skills list\` and confirm a "vibebrowser" row.
+                Do not treat \`npx -y skills list\` as proof that browser control works. A listed row is only a skill listing.
 
 2. Remember my remote so I only give it to you once. Save it to a file \`vibebrowser-cli.md\` in your persistent agent workspace root as a line \`remote: <value>\`; if your runtime can also write memory keys, additionally store it under \`vibebrowser_remote\`. On every later command — including the first message of a new conversation — load it back from that file and reuse it without asking me again.
 
-3. Record a standing rule so you route correctly later: whenever I ask you to do anything in MY browser / MY Chrome / MY tabs / the page I'm on, use this vibebrowser skill to drive my REAL browser — never your built-in, headless, or in-pod browser, and never web-fetch instead. Save this rule wherever your standing instructions/memory live so it applies in future conversations.
+3. Record these standing rules so you route correctly later:
+   - Whenever I ask you to do anything in MY browser / MY Chrome / MY tabs / the page I'm on, use the vibebrowser skill to drive my REAL browser, not your built-in, headless, or in-pod browser, and not web-fetch.
+   - Never run \`vibebrowser\` directly. Always run \`npx -y @vibebrowser/cli@latest\` for direct CLI verification commands.
 
 4. Confirm you can control my Chrome, retrying on "Extension reconnecting" (wait 3s, up to 5x):
    npx -y @vibebrowser/cli@latest --remote "<my remote>" --json status --wait-for-extension --wait-timeout 20000
    npx -y @vibebrowser/cli@latest --remote "<my remote>" --json snapshot --format aria
 
-Then report: (1) is vibebrowser listed, (2) is extensionConnected true, (3) did the snapshot return my real page content?
+Then report the real proof: extensionConnected is true, and the snapshot returned real page content from my browser. For OpenClaw only, also report the skill listing if you checked it. Do not claim Hermes browser control works because a skill row exists.
 
 My remote: <PASTE YOUR UUID OR wss:// URL HERE>`
 
@@ -38,39 +42,24 @@ const SKILL_URL = 'https://skills.sh/vibetechnologies/agent-skills/vibebrowser'
 
 const commandSurfaces = [
   {
-    title: 'Inspect browser state',
-    description: 'Confirm a live connection and capture machine-readable page state before acting.',
-    command: `${CLI_BASE} --json snapshot`,
-  },
-  {
-    title: 'Execute explicit browser actions',
-    description: 'Use open, click, and type verbs against your real session without launching a disposable browser.',
-    command: `${CLI_BASE} click A12`,
-  },
-  {
-    title: 'Run the same flow remotely',
-    description: 'Swap local control for UUID or full WSS URL relay access when the browser and agent are on different machines.',
+    title: 'Verify the relay',
+    description: 'Wait for the extension and confirm the browser is connected.',
     command: CLI_REMOTE,
   },
   {
-    title: 'Direct Chrome DevTools mode',
-    description: 'Bypass the extension relay entirely. Connect to your running Chrome over CDP — useful when you cannot install the extension.',
-    command: `${CLI_BASE} --devtools --json snapshot`,
-  },
-]
-
-const runtimeTargets = [
-  {
-    title: 'OpenClaw workflows',
-    description: 'Keep OpenClaw-style command flows, but execute against your real logged-in browser state.',
+    title: 'Read the real page',
+    description: 'Capture an accessibility snapshot from the actual browser tab.',
+    command: CLI_SNAPSHOT,
   },
   {
-    title: 'Custom agent runners',
-    description: 'Use the CLI in shell scripts, task runners, and operator runbooks with deterministic steps.',
+    title: 'Open a URL',
+    description: 'Use an explicit CLI verb against your live session.',
+    command: `${CLI_BASE} --remote "<my remote>" open https://example.com`,
   },
   {
-    title: 'MCP-connected coding agents',
-    description: 'Escalate from CLI commands to MCP tooling with the same published package when needed.',
+    title: 'Click a snapshot ref',
+    description: 'Act only after a snapshot gives you a stable ref.',
+    command: `${CLI_BASE} --remote "<my remote>" click A12`,
   },
 ]
 
@@ -97,7 +86,7 @@ export default function CliPage() {
                 Vibe Browser CLI for <span className="text-[#ff4d4d]">any agent runtime</span>
               </h1>
               <p className="mx-auto mt-6 max-w-3xl text-lg text-[#c4cbe0] md:text-xl">
-                One command surface for OpenClaw, custom operators, and MCP-connected agents. Install the lightweight <code className="rounded bg-[rgba(158,158,255,0.1)] px-1 text-[#b4b4ff]">@vibebrowser/cli</code> package or the full <code className="rounded bg-[rgba(158,158,255,0.1)] px-1 text-[#b4b4ff]">@vibebrowser/mcp</code> — both use your real logged-in browser session locally or through remote relay.
+                A small <code className="rounded bg-[rgba(158,158,255,0.1)] px-1 text-[#b4b4ff]">npx</code> command surface for checking status, reading snapshots, and acting on your real logged-in Chrome through Vibe Browser relay.
               </p>
               <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
                 <Link href="https://docs.vibebrowser.app/getting-started/extension#option-2-developer-version-advanced" target="_blank">
@@ -118,7 +107,7 @@ export default function CliPage() {
                   vibebrowser-mcp (GitHub)
                 </Link>
                 <Link href={GITHUB_CLI_URL} target="_blank" className="hover:text-[#f0f4ff] hover:underline">
-                  vibebrowser-cli (GitHub)
+                  @vibebrowser/cli source
                 </Link>
                 <Link href={SKILL_URL} target="_blank" className="hover:text-[#f0f4ff] hover:underline">
                   VibeBrowser skill
@@ -160,7 +149,7 @@ export default function CliPage() {
                   </div>
                   <h2 className="mb-2 text-lg font-medium text-[#f0f4ff]">CLI + MCP in one package</h2>
                   <p className="text-sm text-[#b7c0db]">
-                    Use <code className="rounded bg-[rgba(158,158,255,0.1)] px-1 text-[#b4b4ff]">vibebrowser-cli</code> for shell flows
+                    Use <code className="rounded bg-[rgba(158,158,255,0.1)] px-1 text-[#b4b4ff]">npx -y @vibebrowser/cli@latest</code> for shell flows
                     and <code className="rounded bg-[rgba(158,158,255,0.1)] px-1 text-[#b4b4ff]">vibebrowser-mcp</code> when orchestration grows.
                   </p>
                 </CardContent>
@@ -191,7 +180,7 @@ export default function CliPage() {
                 CLI commands that stay explicit
               </h2>
               <p className="mt-4 text-[#c4cbe0]">
-                Start with simple browser verbs, then move to the OpenClaw bridge command if your runtime expects it.
+                Use the published package every time: <code className="rounded bg-[rgba(158,158,255,0.1)] px-1.5 py-0.5 text-[#b4b4ff]">npx -y @vibebrowser/cli@latest</code>. Do not run a bare <code className="rounded bg-[rgba(158,158,255,0.1)] px-1.5 py-0.5 text-[#b4b4ff]">vibebrowser</code> binary.
               </p>
             </div>
 
@@ -247,29 +236,6 @@ export default function CliPage() {
           </div>
         </section>
 
-        <section className="border-b border-[rgba(136,146,176,0.15)] py-16 md:py-20">
-          <div className="container mx-auto max-w-6xl px-6">
-            <div className="mx-auto mb-12 max-w-3xl text-center">
-              <h2
-                className="text-3xl font-normal text-[#f0f4ff]"
-                style={{ fontFamily: "'Clash Display', 'Satoshi', system-ui, sans-serif" }}
-              >
-                Built for more than one agent ecosystem
-              </h2>
-            </div>
-            <div className="grid gap-6 md:grid-cols-3">
-              {runtimeTargets.map((target) => (
-                <Card key={target.title} className="border-[rgba(136,146,176,0.15)] bg-[rgba(10,15,29,0.92)]">
-                  <CardContent className="p-6">
-                    <h3 className="text-lg font-medium text-[#f0f4ff]">{target.title}</h3>
-                    <p className="mt-3 text-sm leading-6 text-[#b7c0db]">{target.description}</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </section>
-
         <section className="border-b border-[rgba(136,146,176,0.15)] bg-[rgba(8,12,24,0.88)] py-16 md:py-24">
           <div className="container mx-auto max-w-6xl px-6">
             <div className="mx-auto mb-12 max-w-3xl text-center">
@@ -278,19 +244,10 @@ export default function CliPage() {
                 One-shot install prompt
               </h2>
               <p className="mt-4 text-[#c4cbe0]">
-                Paste this block into your OpenClaw or Hermes agent. It installs the skill, saves your relay UUID for future conversations, and confirms the connection.
+                Paste this block into your OpenClaw or Hermes agent. The button copies the full prompt so users do not have to select text manually.
               </p>
             </div>
-            <Card className="mx-auto max-w-4xl border-[rgba(136,146,176,0.15)] bg-[rgba(5,8,16,0.96)]">
-              <CardContent className="p-0">
-                <div className="border-b border-[rgba(136,146,176,0.15)] bg-[rgba(11,16,32,0.94)] px-5 py-3 text-sm text-[#b7c0db]">
-                  Agent install prompt
-                </div>
-                <pre className="overflow-x-auto p-5 text-sm text-[#b4b4ff] whitespace-pre-wrap">
-                  <code>{AGENT_INSTALL_PROMPT}</code>
-                </pre>
-              </CardContent>
-            </Card>
+            <CopyablePrompt text={AGENT_INSTALL_PROMPT} title="Agent install prompt" className="mx-auto max-w-4xl" />
           </div>
         </section>
 
@@ -311,7 +268,7 @@ export default function CliPage() {
                 <p className="mt-1 text-xs text-[#b7c0db]">GitHub repository for MCP server + relay commands.</p>
               </Link>
               <Link href={GITHUB_CLI_URL} target="_blank" className="rounded-xl border border-[rgba(136,146,176,0.2)] bg-[rgba(10,15,29,0.92)] p-4 text-left hover:border-[rgba(158,158,255,0.35)]">
-                <p className="text-sm font-medium text-[#f0f4ff]">vibebrowser-cli</p>
+                <p className="text-sm font-medium text-[#f0f4ff]">@vibebrowser/cli</p>
                 <p className="mt-1 text-xs text-[#b7c0db]">CLI entrypoint source in the public repo.</p>
               </Link>
               <Link href={SKILL_URL} target="_blank" className="rounded-xl border border-[rgba(136,146,176,0.2)] bg-[rgba(10,15,29,0.92)] p-4 text-left hover:border-[rgba(158,158,255,0.35)]">
