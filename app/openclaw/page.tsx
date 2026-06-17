@@ -1,7 +1,8 @@
 import Link from 'next/link'
-import { ArrowRight, CheckCircle, Chrome, Eye, GitBranch, Globe, Layers, MousePointerClick, Shield, Terminal } from 'lucide-react'
+import { ArrowRight, CheckCircle, Chrome, GitBranch, Globe, Shield, Terminal } from 'lucide-react'
 import { SiteNav } from '@/components/site-nav'
 import { SiteFooter } from '@/components/site-footer'
+import { CopyablePrompt } from '@/components/copyable-prompt'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -9,135 +10,52 @@ import { Card, CardContent } from '@/components/ui/card'
 const PACKAGE_SPEC = '@vibebrowser/cli@latest'
 const FULL_PACKAGE_SPEC = '@vibebrowser/mcp@latest'
 const CLI_BASE = `npx -y ${PACKAGE_SPEC}`
-const MCP_BROWSER_ALIAS = `npx -y -p ${FULL_PACKAGE_SPEC} vibebrowser-mcp browser`
 const GITHUB_MCP_URL = 'https://github.com/VibeTechnologies/vibe-mcp'
 const GITHUB_CLI_URL = 'https://github.com/VibeTechnologies/vibe-mcp/blob/main/src/browser-main.ts'
 const SKILL_URL = 'https://skills.sh/vibetechnologies/agent-skills/vibebrowser'
 
 const quickstartCommands = [
   {
-    label: 'Check the local bridge',
-    command: `${CLI_BASE} --json status`,
+    label: 'Verify the relay',
+    command: `${CLI_BASE} --remote "<my remote>" --json status --wait-for-extension --wait-timeout 20000`,
   },
   {
-    label: 'Open a page',
-    command: `${CLI_BASE} open https://example.com`,
+    label: 'Read the real page',
+    command: `${CLI_BASE} --remote "<my remote>" --json snapshot --format aria`,
   },
   {
-    label: 'Capture an indexed snapshot',
-    command: `${CLI_BASE} --json snapshot`,
+    label: 'Open a URL',
+    command: `${CLI_BASE} --remote "<my remote>" open https://example.com`,
   },
   {
-    label: 'Click by ref',
-    command: `${CLI_BASE} click A12`,
-  },
-  {
-    label: 'Type into a field',
-    command: `${CLI_BASE} type A13 "hello world"`,
+    label: 'Click by ref after a snapshot',
+    command: `${CLI_BASE} --remote "<my remote>" click A12`,
   },
 ]
 
-const remoteCommand = `${CLI_BASE} --remote YOUR_UUID_OR_WSS_URL --json status`
-const aliasCommand = `${MCP_BROWSER_ALIAS} --json status`
+const remoteCommand = `${CLI_BASE} --remote "<my remote>" --json status --wait-for-extension --wait-timeout 20000`
 
-const commandSurfaces = [
-  {
-    label: 'Observe',
-    title: 'Read browser state before acting',
-    description:
-      'Command-oriented flows work when the operator can inspect the live page first. Status and indexed snapshots make the next action explicit instead of guessy.',
-    commands: [`${CLI_BASE} --json status`, `${CLI_BASE} --json snapshot`],
-    note: 'Best for bug reproduction, portal triage, and any runbook that needs stable refs before the next click.',
-    icon: Eye,
-    tone: 'bg-[rgba(158,158,255,0.12)] text-[#9e9eff]',
-  },
-  {
-    label: 'Act',
-    title: 'Use explicit verbs against the live page',
-    description:
-      'Open a page, click by ref, and type by ref with a thin command surface that still talks to the real browser session your team already uses.',
-    commands: [`${CLI_BASE} open https://example.com`, `${CLI_BASE} click A12`, `${CLI_BASE} type A13 "hello world"`],
-    note: 'Good when you want shell-friendly control without turning the task into a full MCP integration yet.',
-    icon: MousePointerClick,
-    tone: 'bg-[rgba(255,77,77,0.12)] text-[#ff6b6b]',
-  },
-  {
-    label: 'Relay',
-    title: 'Point the same flow at a remote browser',
-    description:
-      'When the browser lives on another machine, keep the same command shape and swap in a UUID-backed remote relay instead of rewriting the workflow.',
-    commands: [remoteCommand],
-    note: 'Useful for home-office browser access, remote operators, and hosted runners that still need the human browser state.',
-    icon: GitBranch,
-    tone: 'bg-[rgba(129,201,149,0.12)] text-[#81c995]',
-  },
-  {
-    label: 'Escalate',
-    title: 'Move to MCP without changing the package',
-    description:
-      'The CLI is the thin command surface. When the job becomes richer, use the same published package to expose the browser to MCP agents.',
-    commands: [aliasCommand],
-    note: 'That lets OpenClaw-style command flows and broader agent systems share one execution layer instead of fragmenting the product story.',
-    icon: Layers,
-    tone: 'bg-[rgba(255,138,138,0.12)] text-[#ff8a8a]',
-  },
-]
-
-const AGENT_INSTALL_PROMPT = `You are setting yourself up to control my real Chrome through Vibe Browser. Work through the steps in order, and after each step confirm it worked before moving on. Do not claim a step is done until you have proven it.
+const AGENT_INSTALL_PROMPT = `You are setting yourself up to control my real Chrome through Vibe Browser. Work through the steps in order. Do not claim a step is done until you have proven it.
 
 1. Install the "vibebrowser" skill for your runtime, then confirm it is listed:
    - OpenClaw:  npx -y skills add VibeTechnologies/vibe-mcp -s vibebrowser -a openclaw -g -y --copy --dangerously-accept-openclaw-risks
-                then run \`openclaw skills list\` and confirm a "vibebrowser" row shows "ready".
+                then run \`openclaw skills list\`. You may report the vibebrowser row only if you actually checked it.
    - Hermes:    npx -y skills add VibeTechnologies/vibe-mcp -s vibebrowser -y
-                then run \`npx -y skills list\` and confirm a "vibebrowser" row.
+                Do not treat \`npx -y skills list\` as proof that browser control works. A listed row is only a skill listing.
 
 2. Remember my remote so I only give it to you once. Save it to a file \`vibebrowser-cli.md\` in your persistent agent workspace root as a line \`remote: <value>\`; if your runtime can also write memory keys, additionally store it under \`vibebrowser_remote\`. On every later command — including the first message of a new conversation — load it back from that file and reuse it without asking me again.
 
-3. Record a standing rule so you route correctly later: whenever I ask you to do anything in MY browser / MY Chrome / MY tabs / the page I'm on, use this vibebrowser skill to drive my REAL browser — never your built-in, headless, or in-pod browser, and never web-fetch instead. Save this rule wherever your standing instructions/memory live so it applies in future conversations.
+3. Record these standing rules so you route correctly later:
+   - Whenever I ask you to do anything in MY browser / MY Chrome / MY tabs / the page I'm on, use the vibebrowser skill to drive my REAL browser, not your built-in, headless, or in-pod browser, and not web-fetch.
+   - Never run \`vibebrowser\` directly. Always run \`npx -y @vibebrowser/cli@latest\` for direct CLI verification commands.
 
 4. Confirm you can control my Chrome, retrying on "Extension reconnecting" (wait 3s, up to 5x):
    npx -y @vibebrowser/cli@latest --remote "<my remote>" --json status --wait-for-extension --wait-timeout 20000
    npx -y @vibebrowser/cli@latest --remote "<my remote>" --json snapshot --format aria
 
-Then report: (1) is vibebrowser listed, (2) is extensionConnected true, (3) did the snapshot return my real page content?
+Then report the real proof: extensionConnected is true, and the snapshot returned real page content from my browser. For OpenClaw only, also report the skill listing if you checked it. Do not claim Hermes browser control works because a skill row exists.
 
 My remote: <PASTE YOUR UUID OR wss:// URL HERE>`
-
-const operatorPatterns = [
-  {
-    eyebrow: 'Operator pattern',
-    title: 'Browser bug reproduction loop',
-    description:
-      'Open the failing route, capture a snapshot, click the suspect control, and hand the resulting evidence to a coding agent. This keeps the browser runbook explicit and replayable.',
-    outputs: [
-      'Deterministic command history',
-      'Snapshot refs an agent can reuse immediately',
-      'A cleaner handoff into richer MCP tooling when debugging expands',
-    ],
-  },
-  {
-    eyebrow: 'Operator pattern',
-    title: 'Portal runbooks with a real session',
-    description:
-      'For internal tools and authenticated portals, one human logs in once and the CLI reuses that exact browser state across repeated open, snapshot, click, and type steps.',
-    outputs: [
-      'No disposable browser profile to babysit',
-      'A shell-friendly interface for repeatable portal rituals',
-      'Lower ceremony than full custom automation stacks',
-    ],
-  },
-  {
-    eyebrow: 'Operator pattern',
-    title: 'Remote browser, local commands',
-    description:
-      'The browser can sit on a different machine while the command runner lives elsewhere. The remote relay keeps the flow thin without pretending the browser moved into the terminal.',
-    outputs: [
-      'Same CLI shape in local and remote modes',
-      'Better fit for distributed operators and hosted agents',
-      'A clear upgrade path into /mcp when more orchestration is needed',
-    ],
-  },
-]
 
 export default function OpenClawPage() {
   return (
@@ -162,7 +80,7 @@ export default function OpenClawPage() {
                 Give your agents a <span className="text-[#ff4d4d]">command line to the web</span>
               </h1>
               <p className="mx-auto mt-6 max-w-3xl text-lg text-[#c4cbe0] md:text-xl">
-                One npx command. No Browserbase account. No per-session billing. OpenClaw-friendly by default, but built for any CLI-driven agent runtime using your real logged-in browser.
+                OpenClaw-friendly commands for verifying relay status, reading the real page, and acting against your logged-in Chrome. Always run the published package through <code className="rounded bg-[rgba(158,158,255,0.1)] px-1 text-[#b4b4ff]">npx -y @vibebrowser/cli@latest</code>.
               </p>
               <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
                 <Link href="https://docs.vibebrowser.app/getting-started/extension#option-2-developer-version-advanced" target="_blank">
@@ -188,7 +106,7 @@ export default function OpenClawPage() {
                   vibebrowser-mcp (GitHub)
                 </Link>
                 <Link href={GITHUB_CLI_URL} target="_blank" className="hover:text-[#f0f4ff] hover:underline">
-                  vibebrowser-cli (GitHub)
+                  @vibebrowser/cli source
                 </Link>
                 <Link href={SKILL_URL} target="_blank" className="hover:text-[#f0f4ff] hover:underline">
                   VibeBrowser skill
@@ -241,54 +159,6 @@ export default function OpenClawPage() {
         <section className="border-b border-[rgba(136,146,176,0.15)] bg-[rgba(8,12,24,0.88)] py-16 md:py-24">
           <div className="container mx-auto max-w-6xl px-6">
             <div className="mx-auto mb-12 max-w-3xl text-center">
-              <p className="text-xs uppercase tracking-[0.26em] text-[#7f8aa8]">Command surfaces</p>
-              <h2
-                className="mt-4 text-3xl font-normal text-[#f0f4ff]"
-                style={{ fontFamily: "'Clash Display', 'Satoshi', system-ui, sans-serif" }}
-              >
-                Package the OpenClaw surface as explicit verbs
-              </h2>
-              <p className="mt-4 text-[#c4cbe0]">
-                Four explicit surfaces — observe, act, relay, escalate — so the route is clear in under a minute.
-              </p>
-            </div>
-
-            <div className="grid gap-6 md:grid-cols-2">
-              {commandSurfaces.map((surface) => {
-                const Icon = surface.icon
-                return (
-                  <Card key={surface.label} className="min-w-0 border-[rgba(136,146,176,0.15)] bg-[rgba(5,8,16,0.96)]">
-                    <CardContent className="p-6">
-                      <div className={`mb-4 flex h-11 w-11 items-center justify-center rounded-xl ${surface.tone}`}>
-                        <Icon className="h-5 w-5" />
-                      </div>
-                      <p className="text-[11px] uppercase tracking-[0.22em] text-[#7f8aa8]">{surface.label}</p>
-                      <h3 className="mt-2 text-xl font-medium text-[#f0f4ff]">{surface.title}</h3>
-                      <p className="mt-3 text-sm leading-6 text-[#b7c0db]">{surface.description}</p>
-
-                      <div className="mt-5 space-y-3">
-                        {surface.commands.map((command) => (
-                          <pre
-                            key={command}
-                            className="overflow-x-auto rounded-lg border border-[rgba(136,146,176,0.15)] bg-[rgba(11,16,32,0.9)] p-4 text-sm text-[#b4b4ff]"
-                          >
-                            <code>{command}</code>
-                          </pre>
-                        ))}
-                      </div>
-
-                      <p className="mt-4 text-sm leading-6 text-[#c4cbe0]">{surface.note}</p>
-                    </CardContent>
-                  </Card>
-                )
-              })}
-            </div>
-          </div>
-        </section>
-
-        <section className="border-b border-[rgba(136,146,176,0.15)] bg-[rgba(8,12,24,0.88)] py-16 md:py-24">
-          <div className="container mx-auto max-w-6xl px-6">
-            <div className="mx-auto mb-12 max-w-3xl text-center">
               <h2
                 className="text-3xl font-normal text-[#f0f4ff]"
                 style={{ fontFamily: "'Clash Display', 'Satoshi', system-ui, sans-serif" }}
@@ -296,7 +166,7 @@ export default function OpenClawPage() {
                 Quick start for OpenClaw-style flows
               </h2>
               <p className="mt-4 text-[#c4cbe0]">
-                These are the real published commands from <code className="rounded bg-[rgba(158,158,255,0.1)] px-1.5 py-0.5 text-[#b4b4ff]">@vibebrowser/cli</code>. Start with the CLI, then layer your OpenClaw skill or workflow on top.
+                These are the direct CLI checks that prove browser control. A skill listing is not enough; verify <code className="rounded bg-[rgba(158,158,255,0.1)] px-1.5 py-0.5 text-[#b4b4ff]">extensionConnected</code> and a real page snapshot.
               </p>
             </div>
 
@@ -337,21 +207,6 @@ export default function OpenClawPage() {
 
                 <Card className="min-w-0 border-[rgba(136,146,176,0.15)] bg-[rgba(5,8,16,0.96)]">
                   <CardContent className="p-6">
-                    <div className="mb-3 flex items-center gap-2 text-sm font-medium text-[#ff8a8a]">
-                      <Terminal className="h-4 w-4" />
-                      Alias through the MCP binary
-                    </div>
-                    <p className="mb-3 text-sm text-[#b7c0db]">
-                      If you prefer one binary, the same command surface is also available as a subcommand on the MCP executable:
-                    </p>
-                    <pre className="overflow-x-auto rounded-lg border border-[rgba(136,146,176,0.15)] bg-[rgba(11,16,32,0.9)] p-4 text-sm text-[#b4b4ff]">
-                      <code>{aliasCommand}</code>
-                    </pre>
-                  </CardContent>
-                </Card>
-
-                <Card className="min-w-0 border-[rgba(136,146,176,0.15)] bg-[rgba(5,8,16,0.96)]">
-                  <CardContent className="p-6">
                     <h3 className="mb-3 text-lg font-medium text-[#f0f4ff]">What this page is for</h3>
                     <p className="text-sm text-[#b7c0db]">
                       Use this route when you want OpenClaw-first command workflows. If you need a broader CLI positioning for non-OpenClaw runtimes, use <Link href="/cli" className="text-[#b4b4ff] hover:text-[#d8dcff] hover:underline">/cli</Link>. For JSON MCP config blocks (Claude Code, Codex, Cursor, VS Code), use <Link href="/mcp" className="text-[#b4b4ff] hover:text-[#d8dcff] hover:underline">Vibe Browser for Agents</Link>.
@@ -371,57 +226,10 @@ export default function OpenClawPage() {
                 One-shot install prompt
               </h2>
               <p className="mt-4 text-[#c4cbe0]">
-                Paste this block into your OpenClaw or Hermes agent. It installs the vibebrowser skill, saves your relay UUID for future conversations, and confirms the live connection.
+                Paste this block into your OpenClaw or Hermes agent. The button copies the full prompt so users do not have to select text manually.
               </p>
             </div>
-            <Card className="mx-auto max-w-4xl border-[rgba(136,146,176,0.15)] bg-[rgba(5,8,16,0.96)]">
-              <CardContent className="p-0">
-                <div className="border-b border-[rgba(136,146,176,0.15)] bg-[rgba(11,16,32,0.94)] px-5 py-3 text-sm text-[#b7c0db]">
-                  Agent install prompt
-                </div>
-                <pre className="overflow-x-auto p-5 text-sm text-[#b4b4ff] whitespace-pre-wrap">
-                  <code>{AGENT_INSTALL_PROMPT}</code>
-                </pre>
-              </CardContent>
-            </Card>
-          </div>
-        </section>
-
-        <section className="border-b border-[rgba(136,146,176,0.15)] py-16 md:py-20">
-          <div className="container mx-auto max-w-6xl px-6">
-            <div className="mx-auto mb-12 max-w-3xl text-center">
-              <p className="text-xs uppercase tracking-[0.26em] text-[#7f8aa8]">Where it wins</p>
-              <h2
-                className="mt-4 text-3xl font-normal text-[#f0f4ff]"
-                style={{ fontFamily: "'Clash Display', 'Satoshi', system-ui, sans-serif" }}
-              >
-                OpenClaw-style command flows for real operator work
-              </h2>
-              <p className="mt-4 text-[#c4cbe0]">
-                This route should not read like a generic browser automation page. It is for operators who
-                want a thin, explicit command layer on top of a real browser session.
-              </p>
-            </div>
-
-            <div className="grid gap-6 md:grid-cols-3">
-              {operatorPatterns.map((pattern) => (
-                <Card key={pattern.title} className="border-[rgba(136,146,176,0.15)] bg-[rgba(10,15,29,0.92)]">
-                  <CardContent className="p-6">
-                    <p className="text-[11px] uppercase tracking-[0.22em] text-[#7f8aa8]">{pattern.eyebrow}</p>
-                    <h3 className="mt-3 text-lg font-medium text-[#f0f4ff]">{pattern.title}</h3>
-                    <p className="mt-4 text-sm leading-6 text-[#b7c0db]">{pattern.description}</p>
-                    <div className="mt-5 space-y-2">
-                      {pattern.outputs.map((output) => (
-                        <div key={output} className="flex items-start gap-2">
-                          <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-[#81c995]" />
-                          <span className="text-sm text-[#c4cbe0]">{output}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+            <CopyablePrompt text={AGENT_INSTALL_PROMPT} title="Agent install prompt" className="mx-auto max-w-4xl" />
           </div>
         </section>
 
