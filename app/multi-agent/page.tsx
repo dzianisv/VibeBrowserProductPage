@@ -111,8 +111,8 @@ const config: ProfessionConfig = {
         { kind: 'output', text: '# Chrome silently drops Agent A', lineKind: 'info' },
         { kind: 'pause', ms: 300 },
         { kind: 'output', text: 'Agent A tries to navigate...', lineKind: 'info' },
-        { kind: 'output', text: '✗ ProtocolError: Target closed', lineKind: 'error' } as unknown as Step,
-        { kind: 'output', text: '✗ Session invalidated — restart required', lineKind: 'error' } as unknown as Step,
+        { kind: 'output', text: '✗ ProtocolError: Target closed' },
+        { kind: 'output', text: '✗ Session invalidated — restart required' },
         { kind: 'pause', ms: 2000 },
       ] as Step[],
       After: [
