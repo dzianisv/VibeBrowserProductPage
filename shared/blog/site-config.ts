@@ -15,6 +15,8 @@ export interface BlogSiteConfig {
   organizationLogoPath: string
   basePath?: string
   defaultKeywords: string[]
+  /** Path to the RSS feed (e.g. '/rss.xml'). When absent the RSS link is hidden. */
+  rssPath?: string
 }
 
 export function withLeadingSlash(pathname: string): string {

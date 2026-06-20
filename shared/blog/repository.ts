@@ -14,6 +14,7 @@ export interface BlogPost {
   published: boolean
   content: string
   html: string
+  wordCount: number
   readingTimeMinutes: number
 }
 
@@ -73,9 +74,12 @@ marked.use({
   },
 })
 
+function countWords(content: string): number {
+  return content.trim().split(/\s+/).filter(Boolean).length
+}
+
 function estimateReadingTime(content: string): number {
-  const words = content.trim().split(/\s+/).filter(Boolean).length
-  return Math.max(1, Math.ceil(words / 220))
+  return Math.max(1, Math.ceil(countWords(content) / 220))
 }
 
 function stripWrappingQuotes(value: string): string {
@@ -202,6 +206,7 @@ export function createBlogRepository(options: CreateBlogRepositoryOptions = {}):
       published,
       content,
       html: markdownToHtml(content),
+      wordCount: countWords(content),
       readingTimeMinutes: estimateReadingTime(content),
     }
   }

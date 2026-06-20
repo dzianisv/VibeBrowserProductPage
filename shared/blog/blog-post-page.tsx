@@ -101,13 +101,13 @@ export async function SharedBlogPostPage({
   }
 
   if (post.slug !== slug) {
-    redirect(`/blog/${post.slug}`)
+    redirect(`${config.basePath || ''}/blog/${post.slug}`)
   }
 
   const postUrl = buildSiteUrl(config.siteUrl, `${config.basePath || ''}/blog/${post.slug}`)
   const postImageUrl = getBlogPostImageUrl(config, post.slug)
   const publishedTime = new Date(post.date).toISOString()
-  const wordCount = post.content.trim().split(/\s+/).filter(Boolean).length
+  const wordCount = post.wordCount
   const relatedPosts = repository.getRelatedBlogPosts(post.slug, 3)
   const articleJsonLd = {
     '@context': 'https://schema.org',
@@ -176,7 +176,7 @@ export async function SharedBlogPostPage({
             dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
           />
           <Link
-            href="/blog"
+            href={`${config.basePath || ''}/blog`}
             className="inline-flex items-center text-sm font-medium text-[#8ab4f8] transition-colors hover:text-[#aecbfa]"
           >
             ← Back to blog
@@ -214,7 +214,7 @@ export async function SharedBlogPostPage({
                   {post.tags.map((tag) => (
                     <Link
                       key={`${post.slug}-${tag}`}
-                      href={`/blog?tag=${encodeURIComponent(tag)}`}
+                      href={`${config.basePath || ''}/blog?tag=${encodeURIComponent(tag)}`}
                       className="inline-flex rounded-full bg-[#3c4043] px-3 py-1 text-xs font-medium text-[#e8eaed] transition-colors hover:bg-[#5f6368]"
                     >
                       {tag}
@@ -256,7 +256,7 @@ export async function SharedBlogPostPage({
                     </div>
                     <h3 className="mt-3 font-serif text-2xl font-semibold tracking-tight text-[#e8eaed]">
                       <Link
-                        href={`/blog/${relatedPost.slug}`}
+                        href={`${config.basePath || ''}/blog/${relatedPost.slug}`}
                         className="transition-colors hover:text-[#8ab4f8]"
                       >
                         {relatedPost.title}
@@ -265,7 +265,7 @@ export async function SharedBlogPostPage({
                     <p className="mt-3 text-base leading-7 text-[#9aa0a6]">{relatedPost.description}</p>
                     <div className="mt-4">
                       <Link
-                        href={`/blog/${relatedPost.slug}`}
+                        href={`${config.basePath || ''}/blog/${relatedPost.slug}`}
                         className="inline-flex items-center text-sm font-semibold text-[#8ab4f8] transition-colors hover:text-[#aecbfa]"
                       >
                         Read article
@@ -289,13 +289,15 @@ export async function SharedBlogPostPage({
             <div className="mt-4">
               <MailingListSubscribe />
             </div>
-            <p className="mt-4 text-sm text-[#9aa0a6]">
-              Prefer a reader?{' '}
-              <Link href="/rss.xml" className="font-medium text-[#8ab4f8] transition-colors hover:text-[#aecbfa]">
-                Subscribe via RSS
-              </Link>
-              .
-            </p>
+            {config.rssPath && (
+              <p className="mt-4 text-sm text-[#9aa0a6]">
+                Prefer a reader?{' '}
+                <Link href={config.rssPath} className="font-medium text-[#8ab4f8] transition-colors hover:text-[#aecbfa]">
+                  Subscribe via RSS
+                </Link>
+                .
+              </p>
+            )}
           </aside>
         </div>
       </main>

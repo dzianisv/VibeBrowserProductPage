@@ -79,7 +79,8 @@ export async function SharedBlogIndexPage({
       ? [...topTags, allTags.find((t) => t.tag === matchedTag)!]
       : topTags
 
-  const posts = matchedTag ? repository.getBlogPostsByTag(matchedTag) : repository.getAllBlogPosts()
+  const allPosts = repository.getAllBlogPosts()
+  const posts = matchedTag ? repository.getBlogPostsByTag(matchedTag) : allPosts
 
   return (
     <div className="min-h-screen bg-[#202124] text-[#e8eaed] font-sans">
@@ -116,28 +117,28 @@ export async function SharedBlogIndexPage({
                 Filter by tag
               </p>
               {matchedTag && (
-                <Link href="/blog" className="text-xs font-medium text-[#8ab4f8] hover:text-[#aecbfa]">
+                <Link href={`${config.basePath || ''}/blog`} className="text-xs font-medium text-[#8ab4f8] hover:text-[#aecbfa]">
                   Clear filter
                 </Link>
               )}
             </div>
             <div className="flex flex-wrap gap-2">
               <Link
-                href="/blog"
+                href={`${config.basePath || ''}/blog`}
                 className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium transition-colors ${
                   matchedTag
                     ? 'bg-[#3c4043] text-[#e8eaed] hover:bg-[#5f6368]'
                     : 'bg-[#8ab4f8] text-[#202124]'
                 }`}
               >
-                All <span className="ml-1.5 opacity-70">{repository.getAllBlogPosts().length}</span>
+                All <span className="ml-1.5 opacity-70">{allPosts.length}</span>
               </Link>
               {visibleTags.map(({ tag, count }) => {
                 const isActive = matchedTag === tag
                 return (
                   <Link
                     key={tag}
-                    href={`/blog?tag=${encodeURIComponent(tag)}`}
+                    href={`${config.basePath || ''}/blog?tag=${encodeURIComponent(tag)}`}
                     className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium transition-colors ${
                       isActive
                         ? 'bg-[#8ab4f8] text-[#202124]'
@@ -155,7 +156,7 @@ export async function SharedBlogIndexPage({
         {activeTag && !matchedTag && (
           <div className="mb-6 rounded-xl border border-[#3c4043] bg-[#3c4043]/30 p-4 text-sm text-[#9aa0a6]">
             No posts found for tag <span className="font-semibold text-[#e8eaed]">{activeTag}</span>.{' '}
-            <Link href="/blog" className="text-[#8ab4f8] hover:text-[#aecbfa]">
+            <Link href={`${config.basePath || ''}/blog`} className="text-[#8ab4f8] hover:text-[#aecbfa]">
               View all posts →
             </Link>
           </div>
@@ -193,7 +194,7 @@ export async function SharedBlogIndexPage({
                   • {post.readingTimeMinutes} min read
                 </div>
                 <h2 className="mt-4 font-serif text-2xl font-semibold tracking-tight text-[#e8eaed] transition-colors group-hover:text-[#8ab4f8] md:text-[2rem]">
-                  <Link href={`/blog/${post.slug}`} className="transition-colors group-hover:text-[#8ab4f8]">
+                  <Link href={`${config.basePath || ''}/blog/${post.slug}`} className="transition-colors group-hover:text-[#8ab4f8]">
                     {post.title}
                   </Link>
                 </h2>
@@ -206,7 +207,7 @@ export async function SharedBlogIndexPage({
                       return (
                         <Link
                           key={`${post.slug}-${tag}`}
-                          href={`/blog?tag=${encodeURIComponent(tag)}`}
+                          href={`${config.basePath || ''}/blog?tag=${encodeURIComponent(tag)}`}
                           className={`inline-flex rounded-full px-3 py-1 text-xs font-medium transition-colors ${
                             isActive
                               ? 'bg-[#8ab4f8] text-[#202124]'
@@ -222,7 +223,7 @@ export async function SharedBlogIndexPage({
 
                 <div className="mt-5">
                   <Link
-                    href={`/blog/${post.slug}`}
+                    href={`${config.basePath || ''}/blog/${post.slug}`}
                     className="inline-flex items-center text-sm font-semibold text-[#8ab4f8] transition-colors hover:text-[#aecbfa]"
                   >
                     Read article
