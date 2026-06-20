@@ -14,6 +14,8 @@ export interface BlogSiteConfig {
   organizationName: string
   organizationLogoPath: string
   basePath?: string
+  /** Path to the RSS feed (e.g. '/rss.xml'). When absent the RSS link is hidden. */
+  rssPath?: string
   defaultKeywords: string[]
 }
 
