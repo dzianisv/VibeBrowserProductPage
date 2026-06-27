@@ -29,9 +29,9 @@ export const metadata: Metadata = {
       "Test Android apps and browser extensions with a computer-use agent — it drives the real UI like a user and checks the result.",
     images: [
       {
-        url: "/images/agentprobe/og.png",
-        width: 1200,
-        height: 630,
+        url: "/vibebrowser-logo.png",
+        width: 512,
+        height: 512,
         alt: "agentprobe — Computer-Use Testing for Android Apps and Browser Extensions",
       },
     ],
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     title: "Computer-Use Testing — agentprobe",
     description:
       "Test Android apps and browser extensions with a computer-use agent. MIT licensed, self-hostable.",
-    images: ["/images/agentprobe/og.png"],
+    images: ["/vibebrowser-logo.png"],
     creator: "@vibebrowserapp",
   },
 }
@@ -186,7 +186,7 @@ export default function ComputerUseTestingPage() {
                 </div>
                 <pre className="font-mono text-sm text-[#9aa0a6] leading-loose overflow-x-auto">{`adb screencap → base64 PNG
        ↓
-  vision model (GPT-4o / Gemini / Claude)
+  vision model (Azure / OpenAI / Gemini / xAI)
        ↓
   adb shell input (tap / type / swipe / key)
        ↓
