@@ -50,6 +50,18 @@ curl -X POST https://mkt.agentlabs.cc/alerts \\
 curl https://mkt.agentlabs.cc/notifications \\
   -H "Authorization: Bearer $MKT_TOKEN"`
 
+const SKILL_CODE = `# Install as a Claude Code skill (agents can then set alerts automatically)
+npx -y skills add github.com/dzianisv/mkt-alerts -s mkt-alerts
+
+# Or point your agent at the hosted instance
+# Skill reads auth from ~/.config/mkt-watch/auth.json
+# Request access → ai@agentlabs.cc
+
+# After install, agents (stocks-advisor, crypto-advisor, etc.) can call:
+# → set_alert({ symbol: "BTC-USD", condition: "below", value: 90000, reason: "..." })
+# → list_alerts()
+# → remove_alert({ id: "..." })`
+
 const ALERT_CONDITIONS = [
   { condition: "above / below", type: "Price", example: "BTC-USD below 90000" },
   { condition: "pct_up / pct_down", type: "% move", example: "AAPL pct_down 5%" },
@@ -59,7 +71,7 @@ const ALERT_CONDITIONS = [
   { condition: "volume_above", type: "Volume spike", example: "NVDA volume_above 50M" },
 ]
 
-type Tab = "mcp" | "cli" | "api"
+type Tab = "mcp" | "cli" | "api" | "skill"
 
 export default function MarketDataPage() {
   const [activeTab, setActiveTab] = useState<Tab>("mcp")
@@ -68,6 +80,7 @@ export default function MarketDataPage() {
     mcp: MCP_CODE,
     cli: CLI_CODE,
     api: API_CODE,
+    skill: SKILL_CODE,
   }
 
   return (
@@ -189,7 +202,7 @@ export default function MarketDataPage() {
           </p>
 
           <div className="flex gap-2 mb-4">
-            {(["mcp", "cli", "api"] as Tab[]).map((tab) => (
+            {(["mcp", "cli", "api", "skill"] as Tab[]).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -199,7 +212,7 @@ export default function MarketDataPage() {
                     : "bg-[#1a1a1a] text-[#9aa0a6] hover:bg-[#222222]"
                 }`}
               >
-                {tab === "mcp" ? "MCP" : tab === "cli" ? "CLI" : "HTTP API"}
+                {tab === "mcp" ? "MCP" : tab === "cli" ? "CLI" : tab === "api" ? "HTTP API" : "Claude Skill"}
               </button>
             ))}
           </div>
