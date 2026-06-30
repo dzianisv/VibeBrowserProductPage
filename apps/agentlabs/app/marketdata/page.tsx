@@ -3,7 +3,6 @@
 import React, { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import { Terminal, Code2, Zap, Github } from "lucide-react"
 
 const MCP_CODE = `# Add to your MCP config (Claude Desktop, Cursor, etc.)
@@ -101,9 +100,9 @@ export default function MarketDataPage() {
       {/* Hero */}
       <section className="py-16 md:py-24 bg-white">
         <div className="max-w-5xl mx-auto px-4">
-          <Badge className="mb-4 bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-50">
+          <span className="inline-block mb-4 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-medium">
             Live at mkt.agentlabs.cc
-          </Badge>
+          </span>
           <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
             Market data and alerts for AI agents
           </h1>
