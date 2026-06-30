@@ -26,6 +26,7 @@ const pageNames: Record<string, string> = {
   '/investors': 'for Investors',
   '/crypto': 'for Crypto & DeFi',
   '/tax': 'for Tax',
+  '/amazon': 'for Amazon Sellers',
   '/mom': 'for Everyone',
 }
 
@@ -49,6 +50,7 @@ const forPages = [
   { href: '/investors', label: 'Investors' },
   { href: '/crypto', label: 'Crypto & DeFi' },
   { href: '/tax', label: 'Tax' },
+  { href: '/amazon', label: 'Amazon Sellers' },
   { href: '/mom', label: 'Everyone' },
 ]
 

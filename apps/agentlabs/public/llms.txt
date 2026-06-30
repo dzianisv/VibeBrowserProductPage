@@ -6,8 +6,8 @@
 
 - [Agents Data & Alerts API](https://agentlabs.cc/agentsdata): Real-time stock and crypto prices, RSI/SMA/MACD indicators, and programmable price alerts via MCP server, HTTP REST API, and CLI. Designed for AI agents. MIT licensed, self-hostable. GitHub: https://github.com/dzianisv/mkt-alerts. Live API: https://mkt.agentlabs.cc.
 - [Vibe Co-Pilot](https://agentlabs.cc/): AI-powered browser automation. Chrome extension or standalone Chromium browser. Natural language control for any website. Any LLM, including local AI. Teams and enterprise editions with SSO and TEE security.
-- [Vibe Agentic Team](https://agentlabs.cc/agentic-team): Multi-agent AI system over Slack. Specialized agents collaborate with defined roles, tools, and context windows. Configurable for any workflow.
-- [VibeBrowser Cloud](https://agentlabs.cc/cloud): Chrome DevTools Protocol MCP server in the cloud. Deploy Chrome instances globally. Connect AI agents to real browser sessions over HTTPS.
+- [Vibe Agentic Team](https://vibebrowser.app/agentic-team): Multi-agent AI system over Slack. Specialized agents collaborate with defined roles, tools, and context windows. Configurable for any workflow.
+- [VibeBrowser Cloud](https://vibebrowser.app/cloud): Chrome DevTools Protocol MCP server in the cloud. Deploy Chrome instances globally. Connect AI agents to real browser sessions over HTTPS.
 - [Vibe Co-Pilot MCP](https://vibebrowser.app/mcp): Open-source MCP server with 25+ tools that connects AI coding agents to your real browser. Works with Claude, Cursor, and VS Code.
 - [Opencode Mobile](https://opencode.agentlabs.cc): iOS/Android app for self-hosted OpenCode AI coding agents. Streaming, diffs, tool approval, biometric unlock.
 - [QuantArena](https://quantarena.xyz): Live leaderboard for AlphaVibe, an AI-native hedge fund. Multi-model trading arena, live P&L charts.
@@ -43,8 +43,10 @@ Alert conditions supported: above, below, pct_up, pct_down, rsi_above, rsi_below
 
 - [Home](https://agentlabs.cc/): Agent Labs company page. Full product portfolio.
 - [Market Data](https://agentlabs.cc/agentsdata): Market data and alerts API for AI agents.
-- [Agentic Team](https://agentlabs.cc/agentic-team): Multi-agent Slack automation.
-- [Cloud](https://agentlabs.cc/cloud): VibeBrowser Cloud — agentic browser infrastructure.
+- [Agentic Team](https://vibebrowser.app/agentic-team): Multi-agent Slack automation.
+- [Cloud](https://vibebrowser.app/cloud): VibeBrowser Cloud — agentic browser infrastructure.
+- [AgentProbe](https://agentlabs.cc/agentprobe): AI-driven UI testing for mobile and browser apps.
+- [Computer-Use Testing](https://agentlabs.cc/computer-use-testing): vision-loop CUA test framework.
 - [Blog](https://agentlabs.cc/blog): Technical blog on agentic AI, browser automation, and AI infrastructure.
 
 ## Open Source

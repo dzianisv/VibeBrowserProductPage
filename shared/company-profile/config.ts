@@ -391,3 +391,47 @@ agentlabsCompanyProfileConfig.products = [
     ],
   },
 ]
+
+agentlabsCompanyProfileConfig.desktopNav = [
+  { href: "/", label: "Home" },
+  { href: "https://vibebrowser.app/agentic-team", label: "Agentic Team" },
+  { href: "https://vibebrowser.app/enterprise", label: "Enterprise" },
+  { href: "https://vibebrowser.app/teams", label: "Team" },
+]
+agentlabsCompanyProfileConfig.mobileNav = [
+  { href: "/", label: "Home" },
+  { href: "https://vibebrowser.app/agentic-team", label: "Agentic" },
+  { href: "https://vibebrowser.app/enterprise", label: "Enterprise" },
+]
+
+agentlabsCompanyProfileConfig.products = agentlabsCompanyProfileConfig.products.map((product) => {
+  if (product.title === "Vibe Co-Pilot") {
+    return {
+      ...product,
+      actions: product.actions.map((action) => {
+        if (action.href === "/teams") return { ...action, href: "https://vibebrowser.app/teams", external: true }
+        if (action.href === "/enterprise") return { ...action, href: "https://vibebrowser.app/enterprise", external: true }
+        return action
+      }),
+    }
+  }
+  if (product.title === "Vibe Agentic Team") {
+    return {
+      ...product,
+      actions: product.actions.map((action) => {
+        if (action.href === "/agentic-team") return { ...action, href: "https://vibebrowser.app/agentic-team", external: true }
+        return action
+      }),
+    }
+  }
+  if (product.title === "VibeBrowser Cloud") {
+    return {
+      ...product,
+      actions: product.actions.map((action) => {
+        if (action.href === "/cloud") return { ...action, href: "https://vibebrowser.app/cloud", external: true }
+        return action
+      }),
+    }
+  }
+  return product
+})

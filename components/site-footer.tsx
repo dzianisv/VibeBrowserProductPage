@@ -61,6 +61,7 @@ export function SiteFooter() {
                 { href: '/investors', label: 'Investors' },
                 { href: '/crypto', label: 'Crypto & DeFi' },
                 { href: '/tax', label: 'Tax' },
+                { href: '/amazon', label: 'Amazon Sellers' },
                 { href: '/mom', label: 'Everyone' },
               ].map((page) => (
                 <Link 

@@ -72,6 +72,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
+    {
+      url: `${baseUrl}/opencode`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/tee`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
   ]
 
   const professionPages = [
@@ -94,6 +106,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'mobile',
     'mom',
     'multi-agent',
+    'amazon',
   ]
 
   const professionSitemap: MetadataRoute.Sitemap = professionPages.map((page) => ({
