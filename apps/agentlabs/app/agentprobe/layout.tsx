@@ -10,7 +10,7 @@ const softwareAppJsonLd = {
   operatingSystem: "Any",
   url: CANONICAL,
   description:
-    "Test Android apps and browser extensions with a computer-use agent. Vision-loop CUA framework for CI — drives real UI, judges results on screen.",
+    "Test mobile apps and browser apps with a computer-use agent. Vision-loop CUA framework for CI — drives real UI, judges results on screen.",
   offers: {
     "@type": "Offer",
     price: "0",
@@ -30,24 +30,24 @@ const softwareAppJsonLd = {
 
 export const metadata: Metadata = {
   title: {
-    absolute: "AgentProbe — AI-Driven UI Testing for Android & Browser | AgentLabs",
+    absolute: "AgentProbe — AI-Driven UI Testing for Mobile & Browser Apps | AgentLabs",
   },
   description:
-    "Test Android apps and browser extensions with a computer-use agent. Vision-loop CUA framework for CI — drives real UI, judges results on screen.",
+    "Test mobile apps and browser apps with a computer-use agent. Vision-loop CUA framework for CI — drives real UI, judges results on screen.",
   alternates: { canonical: CANONICAL },
   openGraph: {
-    title: "AgentProbe — AI-Driven UI Testing for Android & Browser",
+    title: "AgentProbe — AI-Driven UI Testing for Mobile & Browser Apps",
     description:
-      "Vision-loop CUA test framework. Drives real Android and browser UI, judges results on screen. CI-ready in one GitHub Actions step.",
+      "Vision-loop CUA test framework. Drives real mobile and browser app UI, judges results on screen. CI-ready in one GitHub Actions step.",
     url: CANONICAL,
     siteName: "Agent Labs",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "AgentProbe — AI-Driven UI Testing for Android & Browser",
+    title: "AgentProbe — AI-Driven UI Testing for Mobile & Browser Apps",
     description:
-      "Vision-loop CUA test framework. Drives real Android and browser UI, judges results on screen. CI-ready in one GitHub Actions step.",
+      "Vision-loop CUA test framework. Drives real mobile and browser app UI, judges results on screen. CI-ready in one GitHub Actions step.",
     creator: "@vibebrowserapp",
   },
   keywords: [
