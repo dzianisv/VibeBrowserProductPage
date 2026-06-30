@@ -71,15 +71,15 @@ export default function MarketDataPage() {
   }
 
   return (
-    <div className="bg-white min-h-screen text-gray-900">
+    <div className="bg-[#0a0a0a] min-h-screen text-[#e8eaed]">
       {/* Header */}
-      <header className="border-b border-gray-200">
+      <header className="border-b border-[#3c4043] bg-[#0a0a0a]">
         <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
-          <span className="font-semibold text-lg tracking-tight">AgentLabs Market Data</span>
+          <span className="font-semibold text-lg tracking-tight text-[#e8eaed]">AgentLabs Market Data</span>
           <div className="flex items-center gap-3">
             <Button
               asChild
-              className="bg-emerald-600 hover:bg-emerald-700 text-white text-sm"
+              className="bg-[#81c995] hover:bg-[#6db882] text-[#0a0a0a] text-sm font-medium"
               size="sm"
             >
               <a href="mailto:ai@agentlabs.cc">Request Demo</a>
@@ -88,7 +88,7 @@ export default function MarketDataPage() {
               href="https://github.com/dzianisv/mkt-alerts"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-500 hover:text-gray-900 transition-colors"
+              className="text-[#9aa0a6] hover:text-[#e8eaed] transition-colors"
               aria-label="GitHub"
             >
               <Github className="h-5 w-5" />
@@ -98,23 +98,23 @@ export default function MarketDataPage() {
       </header>
 
       {/* Hero */}
-      <section className="py-16 md:py-24 bg-white">
+      <section className="py-16 md:py-24 bg-[#0a0a0a]">
         <div className="max-w-5xl mx-auto px-4">
-          <span className="inline-block mb-4 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-medium">
+          <span className="inline-block mb-4 px-3 py-1 rounded-full bg-[#1e2b1e] text-[#81c995] border border-[#2a3f2a] text-xs font-medium">
             Live at mkt.agentlabs.cc
           </span>
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 text-[#e8eaed]">
             Market data and alerts for AI agents
           </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mb-8">
+          <p className="text-lg text-[#9aa0a6] max-w-2xl mb-8">
             Real-time prices and indicators for 10,000+ stocks and crypto, accessible via MCP, HTTP
             API, or CLI. Set alerts programmatically. No scraping.
           </p>
           <div className="flex flex-wrap gap-3 mb-6">
-            <Button asChild className="bg-emerald-600 hover:bg-emerald-700 text-white">
+            <Button asChild className="bg-[#81c995] hover:bg-[#6db882] text-[#0a0a0a] font-medium">
               <a href="mailto:ai@agentlabs.cc">Request Demo</a>
             </Button>
-            <Button asChild variant="outline">
+            <Button asChild className="border border-[#3c4043] bg-transparent text-[#e8eaed] hover:bg-[#1a1a1a]">
               <a
                 href="https://github.com/dzianisv/mkt-alerts"
                 target="_blank"
@@ -126,50 +126,50 @@ export default function MarketDataPage() {
               </a>
             </Button>
           </div>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-[#9aa0a6]">
             MIT licensed · Self-hostable · Live at mkt.agentlabs.cc
           </p>
         </div>
       </section>
 
       {/* Three feature columns */}
-      <section className="py-16 md:py-24 bg-gray-50">
+      <section className="py-16 md:py-24 bg-[#0d0d0d]">
         <div className="max-w-5xl mx-auto px-4">
           <div className="grid md:grid-cols-3 gap-8">
-            <Card className="border border-gray-200 shadow-none">
+            <Card className="border border-[#3c4043] bg-[#141414] shadow-none">
               <CardContent className="pt-6">
-                <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center mb-4">
-                  <Terminal className="h-5 w-5 text-emerald-600" />
+                <div className="w-10 h-10 rounded-lg bg-[#1e2b1e] flex items-center justify-center mb-4">
+                  <Terminal className="h-5 w-5 text-[#81c995]" />
                 </div>
-                <h3 className="font-semibold text-base mb-2">MCP Server</h3>
-                <p className="text-sm text-gray-600">
+                <h3 className="font-semibold text-base mb-2 text-[#e8eaed]">MCP Server</h3>
+                <p className="text-sm text-[#9aa0a6]">
                   Drop into any MCP-compatible agent. Claude, Cursor, any tool supporting the Model
                   Context Protocol.
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="border border-gray-200 shadow-none">
+            <Card className="border border-[#3c4043] bg-[#141414] shadow-none">
               <CardContent className="pt-6">
-                <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center mb-4">
-                  <Code2 className="h-5 w-5 text-emerald-600" />
+                <div className="w-10 h-10 rounded-lg bg-[#1e2b1e] flex items-center justify-center mb-4">
+                  <Code2 className="h-5 w-5 text-[#81c995]" />
                 </div>
-                <h3 className="font-semibold text-base mb-2">HTTP API</h3>
-                <p className="text-sm text-gray-600">
+                <h3 className="font-semibold text-base mb-2 text-[#e8eaed]">HTTP API</h3>
+                <p className="text-sm text-[#9aa0a6]">
                   Bearer-authenticated REST. GET /quotes, POST /alerts, GET /notifications. Works
                   from any language.
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="border border-gray-200 shadow-none">
+            <Card className="border border-[#3c4043] bg-[#141414] shadow-none">
               <CardContent className="pt-6">
-                <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center mb-4">
-                  <Zap className="h-5 w-5 text-emerald-600" />
+                <div className="w-10 h-10 rounded-lg bg-[#1e2b1e] flex items-center justify-center mb-4">
+                  <Zap className="h-5 w-5 text-[#81c995]" />
                 </div>
-                <h3 className="font-semibold text-base mb-2">CLI</h3>
-                <p className="text-sm text-gray-600">
-                  <code className="font-mono bg-gray-100 px-1 rounded text-xs">
+                <h3 className="font-semibold text-base mb-2 text-[#e8eaed]">CLI</h3>
+                <p className="text-sm text-[#9aa0a6]">
+                  <code className="font-mono bg-[#1a1a1a] px-1 rounded text-xs text-[#81c995]">
                     npx -y @vibetechnologies/mkt-alerts
                   </code>{" "}
                   — no install. Set alerts from your terminal or agent scripts.
@@ -181,10 +181,10 @@ export default function MarketDataPage() {
       </section>
 
       {/* How it works */}
-      <section className="py-16 md:py-24 bg-white">
+      <section className="py-16 md:py-24 bg-[#0d0d0d]">
         <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-2xl font-bold mb-2">How it works</h2>
-          <p className="text-gray-600 mb-8 text-sm">
+          <h2 className="text-2xl font-bold mb-2 text-[#e8eaed]">How it works</h2>
+          <p className="text-[#9aa0a6] mb-8 text-sm">
             Three integration paths, same data underneath.
           </p>
 
@@ -195,8 +195,8 @@ export default function MarketDataPage() {
                 onClick={() => setActiveTab(tab)}
                 className={`px-4 py-1.5 rounded text-sm font-medium transition-colors ${
                   activeTab === tab
-                    ? "bg-gray-900 text-white"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                    ? "bg-[#1e2b1e] text-[#81c995]"
+                    : "bg-[#1a1a1a] text-[#9aa0a6] hover:bg-[#222222]"
                 }`}
               >
                 {tab === "mcp" ? "MCP" : tab === "cli" ? "CLI" : "HTTP API"}
@@ -204,38 +204,38 @@ export default function MarketDataPage() {
             ))}
           </div>
 
-          <pre className="bg-gray-900 text-gray-100 rounded-lg p-4 font-mono text-sm overflow-x-auto leading-relaxed">
+          <pre className="bg-[#0d0d0d] border border-[#3c4043] text-[#e8eaed] rounded-lg p-4 font-mono text-sm overflow-x-auto leading-relaxed">
             {tabCode[activeTab]}
           </pre>
         </div>
       </section>
 
       {/* Alert conditions table */}
-      <section className="py-16 md:py-24 bg-gray-50">
+      <section className="py-16 md:py-24 bg-[#0a0a0a]">
         <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-2xl font-bold mb-2">Alert conditions</h2>
-          <p className="text-gray-600 mb-8 text-sm">
+          <h2 className="text-2xl font-bold mb-2 text-[#e8eaed]">Alert conditions</h2>
+          <p className="text-[#9aa0a6] mb-8 text-sm">
             Agents can subscribe to any of these conditions via the API or CLI.
           </p>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-gray-200">
-                  <th className="text-left py-3 pr-6 font-semibold text-gray-700">Condition</th>
-                  <th className="text-left py-3 pr-6 font-semibold text-gray-700">Type</th>
-                  <th className="text-left py-3 font-semibold text-gray-700">Example</th>
+                <tr className="border-b border-[#3c4043]">
+                  <th className="text-left py-3 pr-6 font-semibold text-[#9aa0a6]">Condition</th>
+                  <th className="text-left py-3 pr-6 font-semibold text-[#9aa0a6]">Type</th>
+                  <th className="text-left py-3 font-semibold text-[#9aa0a6]">Example</th>
                 </tr>
               </thead>
               <tbody>
                 {ALERT_CONDITIONS.map((row, i) => (
-                  <tr key={i} className="border-b border-gray-100">
+                  <tr key={i} className={`border-b border-[#3c4043] ${i % 2 === 0 ? "bg-[#0f0f0f]" : "bg-[#141414]"}`}>
                     <td className="py-3 pr-6">
-                      <code className="font-mono bg-gray-100 px-1.5 py-0.5 rounded text-xs text-gray-800">
+                      <code className="font-mono bg-[#1a1a1a] px-1.5 py-0.5 rounded text-xs text-[#81c995]">
                         {row.condition}
                       </code>
                     </td>
-                    <td className="py-3 pr-6 text-gray-600">{row.type}</td>
-                    <td className="py-3 text-gray-500 font-mono text-xs">{row.example}</td>
+                    <td className="py-3 pr-6 text-[#9aa0a6]">{row.type}</td>
+                    <td className="py-3 text-[#9aa0a6] font-mono text-xs">{row.example}</td>
                   </tr>
                 ))}
               </tbody>
@@ -245,49 +245,49 @@ export default function MarketDataPage() {
       </section>
 
       {/* Self-host */}
-      <section className="py-16 md:py-24 bg-gray-900 text-white">
+      <section className="py-16 md:py-24 bg-[#111111]">
         <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-2xl font-bold mb-2">Self-host in 10 minutes</h2>
-          <p className="text-gray-400 mb-8 text-sm">
+          <h2 className="text-2xl font-bold mb-2 text-[#e8eaed]">Self-host in 10 minutes</h2>
+          <p className="text-[#9aa0a6] mb-8 text-sm">
             MIT licensed. No vendor dependency. Bring your own infrastructure.
           </p>
-          <pre className="bg-black text-gray-100 rounded-lg p-4 font-mono text-sm overflow-x-auto leading-relaxed">
+          <pre className="bg-[#0a0a0a] border border-[#3c4043] text-[#e8eaed] rounded-lg p-4 font-mono text-sm overflow-x-auto leading-relaxed">
 {`git clone https://github.com/dzianisv/mkt-alerts
 cd mkt-alerts
 bash deploy.sh   # GCP e2-micro free tier + Cloudflare Tunnel`}
           </pre>
-          <p className="text-gray-400 text-sm mt-4">
+          <p className="text-[#9aa0a6] text-sm mt-4">
             Deploys to a free GCP e2-micro VM behind Cloudflare Tunnel. No open ports.
           </p>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-16 md:py-24 bg-white">
+      <section className="py-16 md:py-24 bg-[#0a0a0a]">
         <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-2xl font-bold mb-10 text-center">
+          <h2 className="text-2xl font-bold mb-10 text-center text-[#e8eaed]">
             Ready to give your agents market data?
           </h2>
           <div className="grid md:grid-cols-2 gap-6">
-            <Card className="border border-gray-200 shadow-none">
+            <Card className="border border-[#3c4043] bg-[#141414] shadow-none">
               <CardContent className="pt-6">
-                <h3 className="font-semibold text-base mb-1">Hosted</h3>
-                <p className="text-sm text-gray-600 mb-4">
+                <h3 className="font-semibold text-base mb-1 text-[#e8eaed]">Hosted</h3>
+                <p className="text-sm text-[#9aa0a6] mb-4">
                   Request access to the managed instance at mkt.agentlabs.cc. No setup required.
                 </p>
-                <Button asChild className="bg-emerald-600 hover:bg-emerald-700 text-white w-full">
+                <Button asChild className="bg-[#81c995] hover:bg-[#6db882] text-[#0a0a0a] font-medium w-full">
                   <a href="mailto:ai@agentlabs.cc">Request Access</a>
                 </Button>
               </CardContent>
             </Card>
 
-            <Card className="border border-gray-200 shadow-none">
+            <Card className="border border-[#3c4043] bg-[#141414] shadow-none">
               <CardContent className="pt-6">
-                <h3 className="font-semibold text-base mb-1">Self-hosted</h3>
-                <p className="text-sm text-gray-600 mb-4">
+                <h3 className="font-semibold text-base mb-1 text-[#e8eaed]">Self-hosted</h3>
+                <p className="text-sm text-[#9aa0a6] mb-4">
                   Clone and deploy in 10 minutes. MIT license. Full source on GitHub.
                 </p>
-                <Button asChild variant="outline" className="w-full">
+                <Button asChild className="border border-[#3c4043] bg-transparent text-[#e8eaed] hover:bg-[#1a1a1a] w-full">
                   <a
                     href="https://github.com/dzianisv/mkt-alerts"
                     target="_blank"
@@ -305,15 +305,15 @@ bash deploy.sh   # GCP e2-micro free tier + Cloudflare Tunnel`}
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-gray-200 py-8">
-        <div className="max-w-5xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-500">
+      <footer className="border-t border-[#3c4043] py-8">
+        <div className="max-w-5xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-[#9aa0a6]">
           <span>© 2026 AgentLabs · ai@agentlabs.cc · MIT License</span>
           <div className="flex items-center gap-4">
             <a
               href="https://github.com/dzianisv/mkt-alerts"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-gray-900 transition-colors"
+              className="hover:text-[#e8eaed] transition-colors"
             >
               GitHub
             </a>
@@ -321,7 +321,7 @@ bash deploy.sh   # GCP e2-micro free tier + Cloudflare Tunnel`}
               href="https://www.npmjs.com/package/@vibetechnologies/mkt-alerts"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-gray-900 transition-colors"
+              className="hover:text-[#e8eaed] transition-colors"
             >
               npm
             </a>
