@@ -63,3 +63,14 @@ Alert conditions supported: above, below, pct_up, pct_down, rsi_above, rsi_below
 - Twitter: https://x.com/vibebrowserapp
 - LinkedIn: https://linkedin.com/company/vibebrowser
 - Telegram: https://t.me/VibeBrowser
+
+## AgentProbe
+URL: https://agentlabs.cc/agentprobe
+GitHub: https://github.com/dzianisv/agentprobe
+Category: AI-Driven UI Testing Framework
+Install: pip install agentprobe
+Targets: Android (adb), Browser (CDP)
+Test format: Python TestCase or YAML
+CI: GitHub Actions reusable workflow (dzianisv/agentprobe/.github/actions/agentprobe-android@main)
+Output: demo.gif + result.json (verdict: pass/fail, reason, steps)
+Contact: ai@agentlabs.cc

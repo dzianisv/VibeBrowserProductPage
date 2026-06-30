@@ -324,6 +324,31 @@ agentlabsCompanyProfileConfig.products = agentlabsCompanyProfileConfig.products.
   return product
 })
 
+// Add AgentProbe product
+agentlabsCompanyProfileConfig.products = [
+  {
+    title: "AgentProbe",
+    badge: "Android · Browser · CI",
+    description:
+      "Test Android apps and browser extensions with a computer-use agent. Vision-loop CUA framework — drives real UI, judges on screen. One GitHub Actions line for CI.",
+    tags: ["CUA Testing", "Android", "Chrome Extensions", "GitHub Actions", "pip install", "Python + Bun"],
+    icon: Cpu,
+    iconColor: "text-[#4fc3f7]",
+    iconBg: "bg-[#4fc3f7]/10",
+    borderHoverClass: "hover:border-[#4fc3f7]/40",
+    actions: [
+      { href: "/agentprobe", label: "Learn More", colorClass: "text-[#4fc3f7]" },
+      {
+        href: "https://github.com/dzianisv/agentprobe",
+        label: "GitHub",
+        colorClass: "text-[#9aa0a6]",
+        external: true,
+      },
+    ],
+  },
+  ...agentlabsCompanyProfileConfig.products,
+]
+
 // Add Market Data product
 agentlabsCompanyProfileConfig.products = [
   {
