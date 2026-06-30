@@ -88,7 +88,7 @@ export default function AgentProbePage() {
           </span>
           <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-[#e8eaed] mb-6">
             AI-driven UI testing for{" "}
-            <span className="text-[#81c995]">Android and browser</span>
+            <span className="text-[#81c995]">Mobile Apps and Browser Apps</span>
           </h1>
           <p className="text-lg text-[#9aa0a6] mb-10 max-w-2xl mx-auto leading-relaxed">
             AgentProbe uses a computer-use agent to drive your real UI, then judges the result

@@ -310,28 +310,52 @@ agentlabsCompanyProfileConfig.footerContactHref = "mailto:info@agentlabs.cc"
 agentlabsCompanyProfileConfig.headerBackgroundClassName =
   "bg-[#2f2f2f]/95 supports-[backdrop-filter]:bg-[#2f2f2f]/80"
 
-// Add internal "Learn More" link for the Opencode Mobile product card on agentlabs.cc
+// Remove products that are not shown on agentlabs.cc
+agentlabsCompanyProfileConfig.products = agentlabsCompanyProfileConfig.products.filter(
+  (product) => product.title !== "OpenCode Manager" && product.title !== "LaMooM",
+)
+
+// agentlabs.cc-specific link adjustments
 agentlabsCompanyProfileConfig.products = agentlabsCompanyProfileConfig.products.map((product) => {
   if (product.title === "Opencode Mobile") {
     return {
       ...product,
       actions: [
-        { href: "/opencode-mobile", label: "Learn More", colorClass: "text-[#81c995]" },
+        {
+          href: "https://opencode.agentlabs.cc",
+          label: "Learn More",
+          colorClass: "text-[#81c995]",
+          external: true,
+        },
         ...product.actions,
+      ],
+    }
+  }
+  if (product.title === "Vibe Co-Pilot MCP") {
+    return {
+      ...product,
+      actions: [
+        {
+          href: "https://vibebrowser.app/mcp",
+          label: "Learn More",
+          colorClass: "text-[#c58af9]",
+          external: true,
+        },
       ],
     }
   }
   return product
 })
 
-// Add AgentProbe product
+// Append AgentProbe and Market Data at the bottom of the product list
 agentlabsCompanyProfileConfig.products = [
+  ...agentlabsCompanyProfileConfig.products,
   {
     title: "AgentProbe",
-    badge: "Android · Browser · CI",
+    badge: "Mobile · Browser · CI",
     description:
-      "Test Android apps and browser extensions with a computer-use agent. Vision-loop CUA framework — drives real UI, judges on screen. One GitHub Actions line for CI.",
-    tags: ["CUA Testing", "Android", "Chrome Extensions", "GitHub Actions", "pip install", "Python + Bun"],
+      "Test mobile apps and browser apps with a computer-use agent. Vision-loop CUA framework — drives real UI, judges on screen. One GitHub Actions line for CI.",
+    tags: ["CUA Testing", "Mobile Apps", "Browser Apps", "GitHub Actions", "pip install", "Python + Bun"],
     icon: Cpu,
     iconColor: "text-[#4fc3f7]",
     iconBg: "bg-[#4fc3f7]/10",
@@ -346,11 +370,6 @@ agentlabsCompanyProfileConfig.products = [
       },
     ],
   },
-  ...agentlabsCompanyProfileConfig.products,
-]
-
-// Add Market Data product
-agentlabsCompanyProfileConfig.products = [
   {
     title: "AgentLabs Agents Data",
     badge: "MCP · HTTP API · CLI",
@@ -371,5 +390,4 @@ agentlabsCompanyProfileConfig.products = [
       },
     ],
   },
-  ...agentlabsCompanyProfileConfig.products,
 ]
