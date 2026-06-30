@@ -327,7 +327,7 @@ agentlabsCompanyProfileConfig.products = agentlabsCompanyProfileConfig.products.
 // Add Market Data product
 agentlabsCompanyProfileConfig.products = [
   {
-    title: "AgentLabs Market Data",
+    title: "AgentLabs Agents Data",
     badge: "MCP · HTTP API · CLI",
     description:
       "Real-time prices and indicators for 10,000+ stocks and crypto, accessible by any AI agent. MCP server built in — drop it into Claude Desktop or Cursor with two lines. HTTP API for programmatic alert CRUD. CLI via npx. MIT licensed, self-hostable, or request a hosted instance.",
@@ -337,7 +337,7 @@ agentlabsCompanyProfileConfig.products = [
     iconBg: "bg-[#fdd663]/10",
     borderHoverClass: "hover:border-[#fdd663]/40",
     actions: [
-      { href: "/marketdata", label: "Learn More", colorClass: "text-[#fdd663]" },
+      { href: "/agentsdata", label: "Learn More", colorClass: "text-[#fdd663]" },
       {
         href: "https://github.com/dzianisv/mkt-alerts",
         label: "GitHub",

@@ -1,10 +1,5 @@
-"use client"
-
-import {
-  CompanyProfilePage,
-  vibebrowserCompanyProfileConfig,
-} from "../../shared/company-profile"
+import { redirect } from "next/navigation"
 
 export default function AboutUsPage() {
-  return <CompanyProfilePage config={vibebrowserCompanyProfileConfig} />
+  redirect("https://agentlabs.cc")
 }
