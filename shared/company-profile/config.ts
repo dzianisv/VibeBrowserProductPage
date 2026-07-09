@@ -486,3 +486,34 @@ agentlabsCompanyProfileConfig.products = agentlabsCompanyProfileConfig.products.
   }
   return product
 })
+
+// Feature AgentPod as a second, hero-weight main product on the
+// agentlabs.cc homepage (not just a card in the products grid).
+// Kept in sync with the "AgentPod" entry in the products grid above.
+agentlabsCompanyProfileConfig.spotlightProduct = {
+  eyebrow: "Featured Product - Private AI Cloud",
+  title: "AgentPod",
+  headline: "Your Own Private AI Cloud",
+  description:
+    "Run HermesAI, OpenClaw, and Paperclip inside LXD Linux containers - full isolation, security, privacy, and easy scalability. Browser and Google Workspace built in, with Composio to link hundreds of other services. Your private AI, fully managed.",
+  tags: [
+    "LXD Containers",
+    "HermesAI",
+    "OpenClaw",
+    "Paperclip",
+    "Google Workspace",
+    "Composio",
+    "Privacy",
+  ],
+  icon: MessageCircle,
+  iconColor: "text-[#fdd663]",
+  iconBg: "bg-[#fdd663]/10",
+  borderClassName: "border-[#fdd663]/20",
+  accentBgClass: "bg-[#fdd663]",
+  primaryAction: {
+    href: "https://agentpod.agentlabs.cc",
+    label: "Visit agentpod.agentlabs.cc",
+    colorClass: "text-[#fdd663]",
+    external: true,
+  },
+}

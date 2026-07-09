@@ -48,6 +48,25 @@ export type CompanyProfileContact = {
   external?: boolean
 }
 
+// A second, hero-weight product highlight rendered near the top of the page
+// (right after the page hero, above the products grid), for a product we
+// want to feature as prominently as the main hero rather than as just one
+// card among many in the grid.
+export type CompanyProfileSpotlightProduct = {
+  eyebrow: string
+  title: string
+  headline: string
+  description: string
+  tags: string[]
+  icon: LucideIcon
+  iconColor: string
+  iconBg: string
+  borderClassName: string
+  accentBgClass: string
+  primaryAction: CompanyProfileProductAction
+  secondaryAction?: CompanyProfileProductAction
+}
+
 export type CompanyProfileConfig = {
   rotatingWords: string[]
   desktopNav: CompanyProfileNavLink[]
@@ -59,4 +78,5 @@ export type CompanyProfileConfig = {
   heroContactHref: string
   footerContactHref: string
   headerBackgroundClassName?: string
+  spotlightProduct?: CompanyProfileSpotlightProduct
 }
