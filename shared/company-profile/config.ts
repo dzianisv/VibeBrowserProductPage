@@ -119,16 +119,16 @@ const baseCompanyProfileConfig: CompanyProfileConfig = {
       title: "OpenClaw Bot",
       badge: "Telegram Bot",
       description:
-        "AI-powered Telegram bot for task automation and intelligent conversations. Access powerful AI models directly from Telegram - research, summarize, translate, code, and more without leaving your chat.",
-      tags: ["Telegram", "Multi-Model", "Research", "Code Generation"],
+        "AI-powered Telegram bot for task automation and intelligent conversations. Deploy OpenClaw, Hermes AI, or Paperclip agents via Telegram - research, summarize, translate, code, and more without leaving your chat.",
+      tags: ["Telegram", "OpenClaw", "Hermes AI", "Paperclip", "Multi-Model"],
       icon: MessageCircle,
       iconColor: "text-[#fdd663]",
       iconBg: "bg-[#fdd663]/10",
       borderHoverClass: "hover:border-[#fdd663]/40",
       actions: [
         {
-          href: "https://oclawbox.com",
-          label: "Visit oclawbox.com",
+          href: "https://agihouse.agentlabs.cc",
+          label: "Visit agihouse.agentlabs.cc",
           colorClass: "text-[#fdd663]",
           external: true,
         },
@@ -435,3 +435,26 @@ agentlabsCompanyProfileConfig.products = agentlabsCompanyProfileConfig.products.
   }
   return product
 })
+
+// Feature OpenClaw Bot as a second, hero-weight main product on the
+// agentlabs.cc homepage (not just a card in the products grid), since
+// agihouse.agentlabs.cc is OpenClaw Bot's marketing subdomain.
+agentlabsCompanyProfileConfig.spotlightProduct = {
+  eyebrow: "Featured Product - Telegram Bot",
+  title: "OpenClaw Bot",
+  headline: "Run AI Agents From Telegram",
+  description:
+    "Deploy OpenClaw, Hermes AI, or Paperclip agents straight from your Telegram chat. Research, summarize, translate, code, and automate tasks with powerful AI models - no browser tab required.",
+  tags: ["Telegram", "OpenClaw", "Hermes AI", "Paperclip", "Multi-Model"],
+  icon: MessageCircle,
+  iconColor: "text-[#fdd663]",
+  iconBg: "bg-[#fdd663]/10",
+  borderClassName: "border-[#fdd663]/20",
+  accentBgClass: "bg-[#fdd663]",
+  primaryAction: {
+    href: "https://agihouse.agentlabs.cc",
+    label: "Visit agihouse.agentlabs.cc",
+    colorClass: "text-[#fdd663]",
+    external: true,
+  },
+}
