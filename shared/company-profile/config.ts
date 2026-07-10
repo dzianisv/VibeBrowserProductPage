@@ -116,10 +116,10 @@ const baseCompanyProfileConfig: CompanyProfileConfig = {
       actions: [{ href: "/cloud", label: "Learn More", colorClass: "text-[#8ab4f8]" }],
     },
     {
-      title: "OpenClaw Bot",
+      title: "OpenClaw Box",
       badge: "Telegram Bot",
       description:
-        "AI-powered Telegram bot for task automation and intelligent conversations. Access powerful AI models directly from Telegram - research, summarize, translate, code, and more without leaving your chat.",
+        "A private AI assistant that chats, researches, writes, and browses for you — fully managed in the cloud. Start in Telegram or your browser.",
       tags: ["Telegram", "Multi-Model", "Research", "Code Generation"],
       icon: MessageCircle,
       iconColor: "text-[#fdd663]",
@@ -127,8 +127,8 @@ const baseCompanyProfileConfig: CompanyProfileConfig = {
       borderHoverClass: "hover:border-[#fdd663]/40",
       actions: [
         {
-          href: "https://oclawbox.com",
-          label: "Visit oclawbox.com",
+          href: "https://openclaw.agentlabs.cc",
+          label: "Visit openclaw.agentlabs.cc",
           colorClass: "text-[#fdd663]",
           external: true,
         },
@@ -411,6 +411,7 @@ agentlabsCompanyProfileConfig.products = agentlabsCompanyProfileConfig.products.
       actions: product.actions.map((action) => {
         if (action.href === "/teams") return { ...action, href: "https://vibebrowser.app/teams", external: true }
         if (action.href === "/enterprise") return { ...action, href: "https://vibebrowser.app/enterprise", external: true }
+        if (action.href === "/") return { ...action, href: "https://vibebrowser.app/", external: true }
         return action
       }),
     }
