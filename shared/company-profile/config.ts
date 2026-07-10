@@ -92,7 +92,7 @@ const baseCompanyProfileConfig: CompanyProfileConfig = {
       ],
     },
     {
-      title: "AgiHouse",
+      title: "AgentPod",
       badge: "Private AI Cloud",
       description:
         "Run HermesAI, OpenClaw, and Paperclip inside LXD Linux containers — full isolation, security, privacy, and easy scalability. Browser and Google Workspace built in, with Composio to link hundreds of other services. Your private AI, fully managed.",
@@ -111,8 +111,8 @@ const baseCompanyProfileConfig: CompanyProfileConfig = {
       borderHoverClass: "hover:border-[#fdd663]/40",
       actions: [
         {
-          href: "https://agihouse.agentlabs.cc",
-          label: "Visit agihouse.agentlabs.cc",
+          href: "https://agentpod.agentlabs.cc",
+          label: "Visit agentpod.agentlabs.cc",
           colorClass: "text-[#fdd663]",
           external: true,
         },

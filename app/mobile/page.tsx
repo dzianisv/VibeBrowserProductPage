@@ -258,7 +258,7 @@ export default function MobilePage() {
               </Link>
               <Link href="https://openclaw.vibebrowser.app" target="_blank" rel="noopener noreferrer">
                 <Button size="lg" variant="outline" className="px-8 py-6 h-auto rounded-full text-base border-[#2a2a2a] bg-transparent hover:bg-[#111111] text-[#e8eaed]">
-                  See AgiHouse
+                  See AgentPod
                 </Button>
               </Link>
             </div>
@@ -327,7 +327,7 @@ export default function MobilePage() {
                   One Telegram thread is not the product.
                 </h2>
                 <p className="text-[#9aa0a6] leading-relaxed mb-4">
-                  Telegram is great as a transport layer — it works everywhere and users are already on it. And AgiHouse proved that people want a personal AI assistant they can reach from their phone.
+                  Telegram is great as a transport layer — it works everywhere and users are already on it. And AgentPod proved that people want a personal AI assistant they can reach from their phone.
                 </p>
                 <p className="text-[#9aa0a6] leading-relaxed">
                   But one endless chat thread is not a product. It is a workaround. When you are juggling inbox, travel, errands, and approvals at the same time, everything gets mixed together — context collapses, approvals disappear into scrollback, and re-entry means scrolling to find where you left off.
@@ -527,7 +527,7 @@ export default function MobilePage() {
                   What is OpenClaw Mobile?
                 </AccordionTrigger>
                 <AccordionContent className="text-[#9aa0a6] pb-5 leading-relaxed">
-                  OpenClaw Mobile is the phone-native version of OpenClaw — a personal AI assistant you can launch and use from your phone without buying hardware or managing a home server. It connects to a managed OpenClaw instance deployed on AgiHouse infrastructure.
+                  OpenClaw Mobile is the phone-native version of OpenClaw — a personal AI assistant you can launch and use from your phone without buying hardware or managing a home server. It connects to a managed OpenClaw instance deployed on AgentPod infrastructure.
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="vs-telegram" className="border border-[#1e1e1e] bg-[#111111] rounded-lg px-5">
@@ -551,7 +551,7 @@ export default function MobilePage() {
                   What does &quot;managed&quot; mean?
                 </AccordionTrigger>
                 <AccordionContent className="text-[#9aa0a6] pb-5 leading-relaxed">
-                  Your OpenClaw instance runs on cloud infrastructure managed by AgiHouse — the same managed hosting service that already handles Telegram-based deployments. You do not buy or maintain any hardware. The instance is always on, auto-updated, and monitored.
+                  Your OpenClaw instance runs on cloud infrastructure managed by AgentPod — the same managed hosting service that already handles Telegram-based deployments. You do not buy or maintain any hardware. The instance is always on, auto-updated, and monitored.
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="local" className="border border-[#1e1e1e] bg-[#111111] rounded-lg px-5">
@@ -622,7 +622,7 @@ export default function MobilePage() {
             <p className="mt-4 text-xs text-[#5f6368]">No spam. Just launch notes and early access.</p>
             <div className="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-2 text-sm text-[#5f6368]">
               <Link href="https://openclaw.vibebrowser.app" target="_blank" rel="noopener noreferrer" className="hover:text-[#9aa0a6] transition-colors">
-                AgiHouse →
+                AgentPod →
               </Link>
               <Link href="https://docs.openclaw.ai" target="_blank" rel="noopener noreferrer" className="hover:text-[#9aa0a6] transition-colors">
                 Documentation →
