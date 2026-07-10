@@ -92,6 +92,33 @@ const baseCompanyProfileConfig: CompanyProfileConfig = {
       ],
     },
     {
+      title: "AgiHouse",
+      badge: "Private AI Cloud",
+      description:
+        "Run HermesAI, OpenClaw, and Paperclip inside LXD Linux containers — full isolation, security, privacy, and easy scalability. Browser and Google Workspace built in, with Composio to link hundreds of other services. Your private AI, fully managed.",
+      tags: [
+        "LXD Containers",
+        "HermesAI",
+        "OpenClaw",
+        "Paperclip",
+        "Google Workspace",
+        "Composio",
+        "Privacy",
+      ],
+      icon: MessageCircle,
+      iconColor: "text-[#fdd663]",
+      iconBg: "bg-[#fdd663]/10",
+      borderHoverClass: "hover:border-[#fdd663]/40",
+      actions: [
+        {
+          href: "https://agihouse.agentlabs.cc",
+          label: "Visit agihouse.agentlabs.cc",
+          colorClass: "text-[#fdd663]",
+          external: true,
+        },
+      ],
+    },
+    {
       title: "Vibe Agentic Team",
       badge: "Multi-Agent",
       description:
@@ -116,25 +143,6 @@ const baseCompanyProfileConfig: CompanyProfileConfig = {
       actions: [{ href: "/cloud", label: "Learn More", colorClass: "text-[#8ab4f8]" }],
     },
     {
-      title: "OpenClaw Box",
-      badge: "Telegram Bot",
-      description:
-        "A private AI assistant that chats, researches, writes, and browses for you — fully managed in the cloud. Start in Telegram or your browser.",
-      tags: ["Telegram", "Multi-Model", "Research", "Code Generation"],
-      icon: MessageCircle,
-      iconColor: "text-[#fdd663]",
-      iconBg: "bg-[#fdd663]/10",
-      borderHoverClass: "hover:border-[#fdd663]/40",
-      actions: [
-        {
-          href: "https://openclaw.agentlabs.cc",
-          label: "Visit openclaw.agentlabs.cc",
-          colorClass: "text-[#fdd663]",
-          external: true,
-        },
-      ],
-    },
-    {
       title: "LaMooM",
       badge: "Built on OpenClaw",
       description:
@@ -157,8 +165,8 @@ const baseCompanyProfileConfig: CompanyProfileConfig = {
       title: "QuantArena",
       badge: "AI-Native Hedge Fund",
       description:
-        "Public performance leaderboard for AlphaVibe, our AI-native hedge fund. Tracks a multi-model trading arena and publishes live P&L charts, model results, and waitlist access.",
-      tags: ["Live Leaderboard", "Multi-Model Arena", "P&L Charts", "Crypto Perps"],
+        "AlphaVibe, our AI-native hedge fund's investment manager — one analyst for your whole book across equities, crypto, DeFi, and alts. A real-time multi-agent swarm (regime analyst, bull and bear researchers, risk officer, CIO) powered by TradingView data. Try the live chat demo and join the waitlist.",
+      tags: ["AI Investment Manager", "Multi-Agent Swarm", "TradingView Data", "Live Demo", "Waitlist"],
       icon: Cpu,
       iconColor: "text-[#8ab4f8]",
       iconBg: "bg-[#8ab4f8]/10",
