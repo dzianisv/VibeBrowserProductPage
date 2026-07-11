@@ -146,7 +146,15 @@ export function SiteFooter() {
 
         <div className={`mt-12 pt-8 border-t ${isOpenClaw ? 'border-[rgba(136,146,176,0.15)]' : isDark ? 'border-[#3c4043]' : 'border-slate-200'}`}>
           <p className={`text-xs text-center ${isOpenClaw ? 'text-[#7f8aa8]' : isDark ? 'text-[#5f6368]' : 'text-muted-foreground'}`}>
-            © 2026 VibeBrowser Co-Pilot. All rights reserved.
+            <Link
+              href="https://agentlabs.cc"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`underline transition-colors ${isOpenClaw ? 'hover:text-[#f0f4ff]' : isDark ? 'hover:text-[#e8eaed]' : 'hover:text-purple-600'}`}
+            >
+              A product of AgentLabs
+            </Link>
+            {' '}· © 2026 VibeBrowser Co-Pilot. All rights reserved.
           </p>
         </div>
       </div>
