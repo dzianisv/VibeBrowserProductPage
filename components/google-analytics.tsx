@@ -142,3 +142,22 @@ export function trackMailingListSignup(location: string) {
     location,
   })
 }
+
+// Track uninstall churn-survey submissions from the /uninstall page.
+// `v` and `src` come from the query string that chrome.runtime.setUninstallURL
+// appends (extension version + install source).
+export function trackUninstallFeedback(params: {
+  reason: string
+  otherReason?: string
+  v?: string | null
+  src?: string | null
+  email?: string | null
+}) {
+  trackEvent('uninstall_feedback', {
+    reason: params.reason,
+    other_reason: params.otherReason || '',
+    v: params.v || '',
+    src: params.src || '',
+    email: params.email || '',
+  })
+}

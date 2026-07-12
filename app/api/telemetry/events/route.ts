@@ -27,6 +27,7 @@ const ALLOWED_EVENT_PROPERTIES: Record<string, Set<string>> = {
     'utm_medium',
     'utm_campaign',
   ]),
+  uninstall_feedback: new Set(['reason', 'other_reason', 'v', 'src', 'email']),
 }
 
 function isNonEmptyString(value: unknown): value is string {
