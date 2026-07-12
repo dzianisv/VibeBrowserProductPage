@@ -1,8 +1,8 @@
 /**
- * Persistence + founder notification for the opencode.agentlabs.cc/beta
- * signup form. Mirrors the Supabase + Resend conventions already used by
- * actions/waitlist-supabase.ts (same env var names, same "resolve client
- * lazily, never throw across a signup" shape).
+ * Persistence + founder notification for the opencode.agentlabs.cc signup
+ * forms (closed beta + general news list). Mirrors the Supabase + Resend
+ * conventions already used by actions/waitlist-supabase.ts (same env var
+ * names, same "resolve client lazily, never throw across a signup" shape).
  */
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 
@@ -10,6 +10,7 @@ const TABLE = 'opencode_beta_signups'
 const PLAY_PACKAGE_NAME = 'cc.agentlabs.opencode'
 
 export type SignupStatus = 'pending' | 'enrolled'
+export type SignupList = 'beta' | 'news'
 
 export interface BetaSignupRow {
   id: string
@@ -19,6 +20,7 @@ export interface BetaSignupRow {
   user_agent: string | null
   status: SignupStatus
   enrolled_at: string | null
+  list: SignupList
 }
 
 function getSupabaseClient(): SupabaseClient {
@@ -73,6 +75,7 @@ export async function insertSignup(params: {
   email: string
   ip: string | null
   userAgent: string | null
+  list: SignupList
 }): Promise<InsertSignupResult> {
   const supabase = getSupabaseClient()
 
@@ -84,6 +87,7 @@ export async function insertSignup(params: {
         ip: params.ip,
         user_agent: params.userAgent,
         status: 'pending',
+        list: params.list,
       },
     ])
     .select()
@@ -142,7 +146,8 @@ function playConsoleTestersUrl(): string {
 export async function notifyFounder(params: {
   email: string
   createdAt: string
-  enrollResult: 'enrolled' | 'pending' | 'enrollment_failed'
+  list: SignupList
+  enrollResult: 'enrolled' | 'pending' | 'enrollment_failed' | 'not_applicable'
 }): Promise<void> {
   const resend = await getResendClient()
   if (!resend) {
@@ -150,37 +155,43 @@ export async function notifyFounder(params: {
   }
 
   const notifyEmail = process.env.BETA_NOTIFY_EMAIL || 'vibeteaichnologies@gmail.com'
-  const testersUrl = playConsoleTestersUrl()
+  const isBeta = params.list === 'beta'
 
-  const statusLine =
-    params.enrollResult === 'enrolled'
+  const statusLine = !isBeta
+    ? 'News list signup — no Play beta enrollment needed.'
+    : params.enrollResult === 'enrolled'
       ? 'Auto-enrolled into the beta-testers Google Group. No action needed.'
       : params.enrollResult === 'enrollment_failed'
         ? 'Auto-enroll FAILED — add them manually.'
         : 'Auto-enroll is not configured yet — add them manually.'
 
-  try {
-    await resend.emails.send({
-      from: 'OpenCode Mobile Beta <noreply@agentlabs.cc>',
-      to: [notifyEmail],
-      subject: 'New OpenCode Mobile beta tester',
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #81c995;">New Beta Signup</h2>
-          <p>A new tester signed up for the OpenCode Mobile closed beta:</p>
-          <div style="background-color: #f3f4f6; padding: 20px; border-radius: 8px; margin: 20px 0;">
-            <p><strong>Email:</strong> ${params.email}</p>
-            <p><strong>Signup Time:</strong> ${new Date(params.createdAt).toLocaleString()}</p>
-            <p><strong>Status:</strong> ${statusLine}</p>
-          </div>
+  const testersLink = isBeta
+    ? `
           <p>
-            <a href="${testersUrl}" style="display: inline-block; background-color: #81c995; color: #0a0a0a; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: 600;">
+            <a href="${playConsoleTestersUrl()}" style="display: inline-block; background-color: #81c995; color: #0a0a0a; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: 600;">
               Open Play Console testers
             </a>
-          </p>
+          </p>`
+    : ''
+
+  try {
+    await resend.emails.send({
+      from: 'OpenCode Mobile <noreply@agentlabs.cc>',
+      to: [notifyEmail],
+      subject: isBeta ? 'New OpenCode Mobile beta tester' : 'New OpenCode news list signup',
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #81c995;">New ${isBeta ? 'Beta' : 'News List'} Signup</h2>
+          <p>A new contact signed up for the OpenCode Mobile ${isBeta ? 'closed beta' : 'news list'}:</p>
+          <div style="background-color: #f3f4f6; padding: 20px; border-radius: 8px; margin: 20px 0;">
+            <p><strong>Email:</strong> ${params.email}</p>
+            <p><strong>List:</strong> ${params.list}</p>
+            <p><strong>Signup Time:</strong> ${new Date(params.createdAt).toLocaleString()}</p>
+            <p><strong>Status:</strong> ${statusLine}</p>
+          </div>${testersLink}
           <hr style="margin: 30px 0; border: none; border-top: 1px solid #e5e7eb;">
           <p style="color: #6b7280; font-size: 14px;">
-            This notification was sent automatically from the opencode.agentlabs.cc beta signup system.
+            This notification was sent automatically from the opencode.agentlabs.cc signup system.
           </p>
         </div>
       `,
