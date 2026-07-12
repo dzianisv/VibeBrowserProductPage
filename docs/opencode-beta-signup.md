@@ -1,47 +1,86 @@
-# opencode.agentlabs.cc beta signup
+# opencode.agentlabs.cc signup (beta + news)
 
-Runbook for the `/beta` signup form on `opencode.agentlabs.cc` (Google Play
-closed-testing beta for `cc.agentlabs.opencode`, github.com/dzianisv/opencode-mobile).
+Runbook for `POST /api/beta-signup` on `opencode.agentlabs.cc` — backs both
+the `/beta` Google Play closed-testing signup form (`cc.agentlabs.opencode`,
+github.com/dzianisv/opencode-mobile) and a general "opencode news" mailing
+list, disambiguated by an optional `list` field in the request body.
+
+## Two-list model
+
+Brevo holds two separate lists, each a distinct env-configured list id:
+
+| `list` value | Brevo list | Purpose | Google Group auto-enroll |
+|---|---|---|---|
+| `"beta"` (default) | `BREVO_OPENCODE_BETA_LIST_ID` | Google Play closed-testing beta | Yes (gated) |
+| `"news"` | `BREVO_OPENCODE_NEWS_LIST_ID` | General opencode news / newsletter | No — skipped entirely |
+
+List ids are **never hardcoded** — create both lists in the Brevo dashboard
+(Contacts → Lists → Create a list) and set their numeric ids as the env vars
+above.
+
+## Endpoint contract
+
+```
+POST /api/beta-signup
+Content-Type: application/json
+
+{ "email": "user@example.com", "list": "beta" | "news" }   // list optional, defaults to "beta"
+```
+
+`list: "news"` is what a newsletter/footer signup form should send — it
+persists the row, syncs to the news Brevo list, and notifies the founder,
+but skips the Google Group / Play beta auto-enroll step entirely. There is
+currently no newsletter UI wired to this on `app/opencode/` — any future
+newsletter form just needs to `fetch('/api/beta-signup', { method: 'POST',
+body: JSON.stringify({ email, list: 'news' }) })`.
 
 ## Architecture
 
 ```
-Browser (app/beta/page.tsx)
-  │  POST { email }
+Browser (app/beta/page.tsx, or a future newsletter form)
+  │  POST { email, list? }   ("beta" default | "news")
   ▼
 app/api/beta-signup/route.ts   (runtime = nodejs)
   │
-  ├─► Supabase: INSERT INTO opencode_beta_signups   (durable persistence, always)
-  │       ├─ duplicate email (23505)  → idempotent success, no further side effects
+  ├─► 1. Supabase: INSERT INTO opencode_beta_signups (..., list)   (durable persistence, always)
+  │       ├─ duplicate email (23505)  → idempotent success; still upserts Brevo, no notify/enroll
   │       └─ new row created           → continue
   │
-  ├─► lib/google-groups.ts: enrollBetaTester(email)   (GATED — see one-time setup)
+  ├─► 2. lib/brevo.ts: addContactToBrevo(email, listId)   (best-effort, never throws)
+  │       ├─ list="beta" → BREVO_OPENCODE_BETA_LIST_ID
+  │       └─ list="news" → BREVO_OPENCODE_NEWS_LIST_ID
+  │
+  ├─► 3. list==="beta" only — lib/google-groups.ts: enrollBetaTester(email)   (GATED — see one-time setup)
   │       ├─ env vars unset            → no-op, status stays 'pending'
   │       ├─ success / already member  → UPDATE row: status='enrolled', enrolled_at=now()
+  │       │                              + Brevo attribute PLAY_ENROLLED=true on the beta list
   │       └─ failure                   → logged only, never fails the response
   │
-  └─► lib/opencode-beta-signup.ts: notifyFounder(...)   (Resend, best-effort)
-          → emails BETA_NOTIFY_EMAIL with the tester's address, timestamp,
-            enrollment outcome, and a Play Console deep link
+  └─► 4. lib/opencode-beta-signup.ts: notifyFounder(...)   (Resend, best-effort)
+          → emails BETA_NOTIFY_EMAIL with the contact's address, which list,
+            timestamp, enrollment outcome (beta only), and a Play Console
+            deep link (beta only)
 ```
 
-Before this rework, `app/api/beta-signup/route.ts` only did `console.log(...)` —
-no persistence, no notification, no enrollment. Every signup was lost once the
-Vercel function log rotated. This closes that gap: every signup is durably
-stored in Supabase; the founder is notified per signup; and testers can be
-auto-added to the Google Play closed-testing track once the one-time Google
-Workspace setup below is done. Until that setup is done, the auto-enroll step
-is a silent no-op and everything else still works.
+Every step after the Supabase insert is wrapped independently — a Brevo,
+Google Group, or Resend failure never breaks the HTTP response or drops the
+signup, because the row is already durably persisted by step 1.
+
+Before the original rework, `app/api/beta-signup/route.ts` only did
+`console.log(...)` — no persistence, no notification, no enrollment, no
+mailing list sync. This closes that gap.
 
 ## Files
 
 | File | Purpose |
 |---|---|
-| `app/beta/page.tsx`, `app/beta/layout.tsx` | The signup form + metadata. Recovered from the live deployment (was previously uncommitted). |
-| `app/api/beta-signup/route.ts` | API route. `runtime = 'nodejs'` (was `edge`) — required because `googleapis` isn't Edge-compatible. |
+| `app/beta/page.tsx`, `app/beta/layout.tsx` | The signup form + metadata. Recovered from the live deployment (was previously uncommitted). Posts `{ email }` (implicit `list: "beta"`). |
+| `app/api/beta-signup/route.ts` | API route. `runtime = 'nodejs'` (was `edge`) — required because `googleapis` isn't Edge-compatible. Resolves `list` → the right Brevo list id, runs Google Group enroll only for `list==="beta"`. |
+| `lib/brevo.ts` | Shared Brevo helper — `addContactToBrevo(email, listId, attributes?)`. Upserts into whichever list id is passed in; never throws. Mirrors `actions/waitlist-supabase.ts`'s `addToBrevo` (same endpoint, same "400 already exists = success" idempotency), generalized to take a list id per call. |
 | `lib/opencode-beta-signup.ts` | Supabase persistence + Resend founder notification. Mirrors `actions/waitlist-supabase.ts`'s conventions (same env vars, same lazy-client pattern). |
-| `lib/google-groups.ts` | Gated Google Group auto-enroll via the Admin SDK Directory API (`members.insert`). |
+| `lib/google-groups.ts` | Gated Google Group auto-enroll via the Admin SDK Directory API (`members.insert`). Only invoked for `list==="beta"`. |
 | `supabase/migrations/20260711000000_create_opencode_beta_signups.sql` | Creates the `opencode_beta_signups` table. |
+| `supabase/migrations/20260712000000_add_list_to_opencode_beta_signups.sql` | Adds the `list` column (`'beta' \| 'news'`, default `'beta'`) so one table backs both signup flows. Idempotent (`ADD COLUMN IF NOT EXISTS`). |
 | `scripts/set-play-tester-group.mjs` | One-time script: points a Play closed-testing track's tester list at the Google Group. |
 
 ## Env vars
@@ -64,32 +103,58 @@ Set these on the Vercel project that serves `opencode.agentlabs.cc`
 |---|---|---|---|
 | `SUPABASE_PROJECT_URL` | Yes | Persistence | Same Supabase project as `vibebrowser_waitlist` (see `actions/waitlist-supabase.ts`), or a dedicated one — either works, the table is namespaced by name. |
 | `SUPABASE_API_KEY` | Yes | Persistence | Same key convention as the rest of this repo. |
+| `BREVO_API_KEY` | Yes (for mailing list sync) | Brevo auth | Same key as `actions/waitlist-supabase.ts` uses for `vibebrowser.app`. If unset, Brevo sync is silently skipped (signup still persists). |
+| `BREVO_OPENCODE_BETA_LIST_ID` | Yes (for beta list sync) | Brevo list id for `list==="beta"` | Numeric id of the "opencode beta" Brevo list. Create the list in Brevo first — never hardcode the id. |
+| `BREVO_OPENCODE_NEWS_LIST_ID` | Yes (for news list sync) | Brevo list id for `list==="news"` | Numeric id of the "opencode news" Brevo list. Create the list in Brevo first — never hardcode the id. |
 | `RESEND_API_KEY` | Yes (for notifications) | Founder email | If unset, notifications are silently skipped (signup still persists). |
 | `BETA_NOTIFY_EMAIL` | No | Founder email recipient | Defaults to `vibeteaichnologies@gmail.com`. |
-| `PLAY_CONSOLE_TESTERS_URL` | No | One-click link in the notification email | See "Getting the exact Testers URL" below. Falls back to a generic Play Console app-list search link if unset. |
-| `GOOGLE_GROUPS_SA_JSON` | No (gates auto-enroll) | Google Group auto-enroll | Service account JSON key, raw or base64. Unset = auto-enroll silently skipped. |
-| `PLAY_BETA_GROUP_EMAIL` | No (gates auto-enroll) | Google Group auto-enroll | e.g. `beta-testers@agentlabs.cc`. Unset = auto-enroll silently skipped. |
+| `PLAY_CONSOLE_TESTERS_URL` | No | One-click link in the notification email (beta only) | See "Getting the exact Testers URL" below. Falls back to a generic Play Console app-list search link if unset. |
+| `GOOGLE_GROUPS_SA_JSON` | No (gates auto-enroll) | Google Group auto-enroll (beta only) | Service account JSON key, raw or base64. Unset = auto-enroll silently skipped. |
+| `PLAY_BETA_GROUP_EMAIL` | No (gates auto-enroll) | Google Group auto-enroll (beta only) | e.g. `beta-testers@agentlabs.cc`. Unset = auto-enroll silently skipped. |
 | `GOOGLE_GROUPS_IMPERSONATE_EMAIL` | No | Domain-wide delegation subject | A real Workspace admin's email. Needed unless the service account was granted the Groups Admin role directly (see step (c) below). |
 
 Local dev: copy the block from `.env.example` into `.env.local` and fill in
 values (never commit real secrets — Bitwarden `dev` collection is the source
 of truth per this workspace's conventions).
 
+### Known gotcha: Brevo IP allowlisting
+
+Brevo accounts can have **IP allowlisting** enabled on the API key (Brevo
+dashboard → SMTP & API → API Keys → the key's IP restriction setting). If
+it's on, every API call from Vercel's dynamic egress IPs gets rejected —
+this fails **silently from the signup's perspective** (the route still
+returns 200, since Brevo failures are caught and logged, not surfaced) but
+contacts never show up in Brevo. Before relying on this in production,
+either:
+  - **Disable IP allowlisting** on the Brevo API key (simplest — Vercel's
+    serverless egress IPs aren't stable/enumerable), or
+  - Allowlist Vercel's outbound IP ranges if using an allowlist is a hard
+    requirement (requires a static outbound IP setup, e.g. Vercel's
+    [IP allowlist add-on](https://vercel.com/docs/security/ip-allowlist) —
+    not configured for this project as of this writing).
+
+Check the Vercel function logs for `[brevo] API error: 401 ...` if contacts
+aren't syncing — that's the signature of this gotcha.
+
 ## Database
 
-Apply the migration once against the Supabase project referenced by
+Apply both migrations, in order, against the Supabase project referenced by
 `SUPABASE_PROJECT_URL`:
 
 ```bash
 psql "$SUPABASE_DB_URL" -f supabase/migrations/20260711000000_create_opencode_beta_signups.sql
-# or paste the file into the Supabase SQL editor
+psql "$SUPABASE_DB_URL" -f supabase/migrations/20260712000000_add_list_to_opencode_beta_signups.sql
+# or paste each file into the Supabase SQL editor, in order
 ```
 
 Creates `opencode_beta_signups (id, email UNIQUE, created_at, ip, user_agent,
-status DEFAULT 'pending', enrolled_at)` with RLS enabled: public INSERT and
-UPDATE are allowed (the API route uses the same `SUPABASE_API_KEY` as the rest
-of the app to write its own rows), no public SELECT — read access should go
-through the Supabase **service_role** key (bypasses RLS), not the app's key.
+status DEFAULT 'pending', enrolled_at, list DEFAULT 'beta')` with RLS
+enabled: public INSERT and UPDATE are allowed (the API route uses the same
+`SUPABASE_API_KEY` as the rest of the app to write its own rows), no public
+SELECT — read access should go through the Supabase **service_role** key
+(bypasses RLS), not the app's key. The second migration is additive and
+idempotent (`ADD COLUMN IF NOT EXISTS`) — safe to run even if the first
+migration already applied in production.
 
 ## One-time setup: gated Google Play auto-enroll
 
@@ -171,6 +236,9 @@ Set env vars either via the dashboard or:
 ```bash
 npx vercel env add SUPABASE_PROJECT_URL production
 npx vercel env add SUPABASE_API_KEY production
+npx vercel env add BREVO_API_KEY production
+npx vercel env add BREVO_OPENCODE_BETA_LIST_ID production
+npx vercel env add BREVO_OPENCODE_NEWS_LIST_ID production
 npx vercel env add RESEND_API_KEY production
 npx vercel env add BETA_NOTIFY_EMAIL production
 npx vercel env add PLAY_CONSOLE_TESTERS_URL production
@@ -178,6 +246,11 @@ npx vercel env add GOOGLE_GROUPS_SA_JSON production
 npx vercel env add PLAY_BETA_GROUP_EMAIL production
 npx vercel env add GOOGLE_GROUPS_IMPERSONATE_EMAIL production
 ```
+
+Remember to also apply `supabase/migrations/20260712000000_add_list_to_opencode_beta_signups.sql`
+and, if IP allowlisting is enabled on the Brevo API key, disable it (see
+"Known gotcha: Brevo IP allowlisting" above) — otherwise contacts will never
+reach Brevo from production.
 
 Redeploy after adding/changing env vars — Vercel doesn't hot-reload them into
 an existing build.
