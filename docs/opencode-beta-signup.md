@@ -49,17 +49,16 @@ is a silent no-op and everything else still works.
 Set these on the Vercel project that serves `opencode.agentlabs.cc`
 (**Vercel dashboard → that project → Settings → Environment Variables**).
 
-> ⚠️ **Verify the project before setting anything.** The projectId
-> `prj_aupLFb5NjTy7tomL9DYmHjlTt84T` recorded during a previous investigation
-> for "opencode-mobile-site" is *identical* to the `agentlabs` project's ID
-> documented in `docs/deploy.md` (root dir `apps/agentlabs`, deployed via CI on
-> push to `main`, domain `agentlabs.cc`). Those cannot both be the real ID for
-> two different projects — one of the two records is wrong, most likely a
-> copy/paste conflation from the same `bison-s-projects` team. Run
-> `npx vercel project ls` / `npx vercel inspect` (logged into the **bison**
-> account, `vibeteaichnologies@gmail.com`) and confirm the actual project name,
-> ID, and root directory that serve `opencode.agentlabs.cc` before deploying or
-> setting env vars, so you don't set env vars on (or deploy) the wrong project.
+> **Target project (verified via Vercel API, 2026-07-12):**
+> `opencode.agentlabs.cc` is served by project **`opencode-mobile-site`**,
+> id **`prj_g2YpvqZ946ZwW524USdq9k88nrQv`**, team `bison-s-projects`
+> (`team_b6V25Bg4KWMiEIfaa5s3nmFX`, `vibeteaichnologies@gmail.com`), **root
+> directory = repo root**, deployed via `vercel` CLI (NOT git-connected — nothing
+> auto-deploys). Do **not** confuse it with the separate `agentlabs` project
+> (id `prj_aupLFb5NjTy7tomL9DYmHjlTt84T`, root dir `apps/agentlabs`, domain
+> `agentlabs.cc`, CI-deployed) — the Bitwarden `vercel-agentlabs` note records
+> the `agentlabs` id, which is why an earlier record conflated the two. Set the
+> env vars below on **`opencode-mobile-site`**.
 
 | Var | Required | Purpose | Notes |
 |---|---|---|---|
@@ -160,11 +159,10 @@ links straight there.
 ## Shipping
 
 This project has no Vercel Git integration — nothing auto-deploys on push.
-Ship with the Vercel CLI from the repo root (after confirming the correct
-project per the warning above):
+Ship with the Vercel CLI from the repo root:
 
 ```bash
-npx vercel link --project <confirmed-project-name>   # first time only
+npx vercel link --project opencode-mobile-site   # first time only
 npx vercel deploy --prod
 ```
 
