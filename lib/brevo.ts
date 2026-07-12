@@ -88,3 +88,58 @@ export async function addContactToBrevo(
     return { status: 'error', message }
   }
 }
+
+/**
+ * Sends a transactional email via Brevo's SMTP API. Used for the internal
+ * founder notification (no separate Resend key needed — Brevo is already
+ * the mailing platform). Never throws.
+ *
+ * `sender` must be a Brevo-verified sender. `BREVO_NOTIFY_SENDER` overrides
+ * the default (`support@vibebrowser.app`, verified on this account); the
+ * agentlabs.cc domain is not a verified Brevo sender, so notifications are
+ * sent from the vibebrowser.app identity by design.
+ */
+export async function sendTransactionalEmail(params: {
+  to: string
+  subject: string
+  htmlContent: string
+  senderName?: string
+}): Promise<{ status: 'sent' | 'skipped' | 'error'; message?: string }> {
+  const apiKey = process.env.BREVO_API_KEY
+  if (!apiKey) {
+    console.log('[brevo] BREVO_API_KEY not set - skipping notification email')
+    return { status: 'skipped', message: 'BREVO_API_KEY not set' }
+  }
+
+  const senderEmail = process.env.BREVO_NOTIFY_SENDER || 'support@vibebrowser.app'
+
+  try {
+    const res = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: {
+        accept: 'application/json',
+        'content-type': 'application/json',
+        'api-key': apiKey,
+      },
+      body: JSON.stringify({
+        sender: { email: senderEmail, name: params.senderName || 'OpenCode Signups' },
+        to: [{ email: params.to }],
+        subject: params.subject,
+        htmlContent: params.htmlContent,
+      }),
+    })
+
+    if (res.ok) {
+      console.log('[brevo] notification email sent to', params.to)
+      return { status: 'sent' }
+    }
+
+    const body = await res.text()
+    console.error('[brevo] transactional email error:', res.status, body)
+    return { status: 'error', message: `${res.status}: ${body}` }
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err)
+    console.error('[brevo] transactional email request failed:', message)
+    return { status: 'error', message }
+  }
+}

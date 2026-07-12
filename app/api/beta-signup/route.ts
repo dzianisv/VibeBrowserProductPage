@@ -49,23 +49,18 @@ export async function POST(request: NextRequest) {
     ip,
   }))
 
-  // 1. Persist to Supabase — the durable backstop. Must not be dropped.
-  let result
+  // 1. Persist to Supabase — a durable backstop when configured. Best-effort:
+  // Brevo (below) is the primary source of truth, so a missing table or
+  // Supabase outage must NOT drop the signup. `row` stays null when Supabase
+  // is unavailable; we only fail the request if Brevo ALSO fails.
+  let result: Awaited<ReturnType<typeof insertSignup>> | null = null
   try {
     result = await insertSignup({ email: normalized, ip, userAgent, list })
   } catch (err) {
-    // Supabase env vars missing/misconfigured, or the client threw. The
-    // signup would otherwise be lost entirely, so surface a real error
-    // instead of a false "success".
-    console.error('[beta-signup] insertSignup threw:', err)
-    return NextResponse.json({ error: 'Failed to sign up. Please try again.' }, { status: 500 })
+    console.error('[beta-signup] insertSignup threw (continuing, Brevo is primary):', err)
   }
 
-  if (result.outcome === 'error') {
-    return NextResponse.json({ error: 'Failed to sign up. Please try again.' }, { status: 500 })
-  }
-
-  if (result.outcome === 'duplicate') {
+  if (result?.outcome === 'duplicate') {
     // Idempotent: already recorded. Still sync to Brevo (upsert is safe
     // and cheap) but don't re-notify or re-enroll.
     try {
@@ -78,16 +73,24 @@ export async function POST(request: NextRequest) {
     })
   }
 
-  // New signup — persisted. Every remaining step is best-effort: a
-  // Brevo/enroll/notify failure must never break the response or the
-  // Supabase write, which is already durable at this point.
+  const row = result?.outcome === 'created' ? result.row : null
+  const supabaseOk = row !== null
 
-  // 2. Add to the correct Brevo list.
-  try {
-    await addContactToBrevo(normalized, resolveBrevoListId(list))
-  } catch (err) {
+  // 2. Add to the correct Brevo list — the primary store.
+  const brevo = await addContactToBrevo(normalized, resolveBrevoListId(list)).catch((err) => {
     console.error('[beta-signup] Brevo sync failed:', err)
+    return { status: 'error' as const, message: String(err) }
+  })
+  const brevoOk = brevo.status === 'added'
+
+  // If neither store captured the signup, it's truly lost — fail loudly.
+  if (!supabaseOk && !brevoOk) {
+    console.error('[beta-signup] BOTH Supabase and Brevo failed — signup lost:', normalized)
+    return NextResponse.json({ error: 'Failed to sign up. Please try again.' }, { status: 500 })
   }
+
+  // Captured. Every remaining step is best-effort — a failure here must
+  // never break the response.
 
   // 3. Beta-only: gated Google Group auto-enroll.
   let enrollOutcome: 'enrolled' | 'pending' | 'enrollment_failed' | 'not_applicable' = 'not_applicable'
@@ -97,7 +100,7 @@ export async function POST(request: NextRequest) {
       const enroll = await enrollBetaTester(normalized)
       if (enroll.attempted && enroll.success) {
         enrollOutcome = 'enrolled'
-        await markEnrolled(result.row.id)
+        if (row) await markEnrolled(row.id)
         try {
           await addContactToBrevo(normalized, resolveBrevoListId('beta'), { PLAY_ENROLLED: true })
         } catch (err) {
@@ -116,7 +119,7 @@ export async function POST(request: NextRequest) {
   try {
     await notifyFounder({
       email: normalized,
-      createdAt: result.row.created_at,
+      createdAt: row?.created_at ?? new Date().toISOString(),
       list,
       enrollResult: enrollOutcome,
     })

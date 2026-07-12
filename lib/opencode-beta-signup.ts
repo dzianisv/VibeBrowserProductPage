@@ -5,6 +5,7 @@
  * names, same "resolve client lazily, never throw across a signup" shape).
  */
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
+import { sendTransactionalEmail } from '@/lib/brevo'
 
 const TABLE = 'opencode_beta_signups'
 const PLAY_PACKAGE_NAME = 'cc.agentlabs.opencode'
@@ -34,30 +35,6 @@ function getSupabaseClient(): SupabaseClient {
   }
 
   return createClient(url, key)
-}
-
-type ResendLike = { emails: { send: (data: unknown) => Promise<unknown> } }
-
-let resendClient: ResendLike | null = null
-
-async function getResendClient(): Promise<ResendLike | null> {
-  if (resendClient) {
-    return resendClient
-  }
-
-  const apiKey = process.env.RESEND_API_KEY
-  if (!apiKey) {
-    return null
-  }
-
-  try {
-    const { Resend } = await import('resend')
-    resendClient = new Resend(apiKey) as unknown as ResendLike
-    return resendClient
-  } catch {
-    console.log('Resend not configured - beta signup notifications disabled')
-    return null
-  }
 }
 
 export type InsertSignupResult =
@@ -139,9 +116,9 @@ function playConsoleTestersUrl(): string {
 }
 
 /**
- * Notifies the founder of a new signup. Best-effort — errors are caught
- * and logged, never thrown, so a Resend outage can't break the signup
- * response.
+ * Notifies the founder of a new signup via Brevo transactional email
+ * (Brevo is already the mailing platform, so no separate Resend key is
+ * needed). Best-effort — sendTransactionalEmail never throws.
  */
 export async function notifyFounder(params: {
   email: string
@@ -149,11 +126,6 @@ export async function notifyFounder(params: {
   list: SignupList
   enrollResult: 'enrolled' | 'pending' | 'enrollment_failed' | 'not_applicable'
 }): Promise<void> {
-  const resend = await getResendClient()
-  if (!resend) {
-    return
-  }
-
   const notifyEmail = process.env.BETA_NOTIFY_EMAIL || 'vibeteaichnologies@gmail.com'
   const isBeta = params.list === 'beta'
 
@@ -174,12 +146,11 @@ export async function notifyFounder(params: {
           </p>`
     : ''
 
-  try {
-    await resend.emails.send({
-      from: 'OpenCode Mobile <noreply@agentlabs.cc>',
-      to: [notifyEmail],
-      subject: isBeta ? 'New OpenCode Mobile beta tester' : 'New OpenCode news list signup',
-      html: `
+  await sendTransactionalEmail({
+    to: notifyEmail,
+    senderName: 'OpenCode Signups',
+    subject: isBeta ? 'New OpenCode Mobile beta tester' : 'New OpenCode news list signup',
+    htmlContent: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #81c995;">New ${isBeta ? 'Beta' : 'News List'} Signup</h2>
           <p>A new contact signed up for the OpenCode Mobile ${isBeta ? 'closed beta' : 'news list'}:</p>
@@ -195,8 +166,5 @@ export async function notifyFounder(params: {
           </p>
         </div>
       `,
-    })
-  } catch (err) {
-    console.error('[beta-signup] Failed to send founder notification:', err)
-  }
+  })
 }
