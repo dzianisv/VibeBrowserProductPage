@@ -21,6 +21,7 @@
 | W3 | **Review warm-up progress** — is real Reddit account ready to post yet? |
 | W4 | **Post in one new community** (only if warm-up phase is complete) |
 | W5 | **Check backlinks + SEO** — any new organic traffic to blog posts? |
+| W6 | **Timely post from new intel** — if new intelligence/news/research reveals a theme relevant to VibeBrowser or AgentLabs, write a short source-cited post via `.agents/skills/blogpost` |
 
 ### Competitor Complaint Search Queries (run 3-5 per day)
 
