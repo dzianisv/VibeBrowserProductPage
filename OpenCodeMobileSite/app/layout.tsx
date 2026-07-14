@@ -8,11 +8,11 @@ import Footer from '@/components/Footer'
 export const metadata: Metadata = {
   metadataBase: new URL('https://opencode.agentlabs.cc'),
   title: {
-    default: 'OpenCode Mobile — Your AI Coding Agent, On the Go',
+    default: 'OpenCode Mobile — Android App, iOS Coming Soon',
     template: '%s | OpenCode Mobile',
   },
   description:
-    'OpenCode Mobile is a free, open-source Android & iOS client for the opencode AI coding agent. Connect to your own server, stream diffs, and code from anywhere.',
+    'OpenCode Mobile is the free, open-source Android client for the opencode AI coding agent. The iOS app is in development — join the waitlist for release updates.',
   keywords: [
     'opencode mobile',
     'AI coding agent',
@@ -21,6 +21,8 @@ export const metadata: Metadata = {
     'opencode client',
     'open source',
     'Android AI coding',
+    'opencode iOS',
+    'iOS waitlist',
   ],
   authors: [{ name: 'Vibe Technologies' }],
   creator: 'Vibe Technologies',
@@ -30,24 +32,15 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://opencode.agentlabs.cc',
     siteName: 'OpenCode Mobile',
-    title: 'OpenCode Mobile — Your AI Coding Agent, On the Go',
+    title: 'OpenCode Mobile — Android App, iOS Coming Soon',
     description:
-      'Free, open-source mobile client for opencode. Multi-connection, biometric unlock, streaming diffs — code from anywhere.',
-    images: [
-      {
-        url: '/og.png',
-        width: 1200,
-        height: 630,
-        alt: 'OpenCode Mobile',
-      },
-    ],
+      'The open-source opencode client is available for Android. Join the waitlist for the upcoming iOS release.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'OpenCode Mobile — Your AI Coding Agent, On the Go',
+    title: 'OpenCode Mobile — Android App, iOS Coming Soon',
     description:
-      'Free, open-source mobile client for opencode. Multi-connection, biometric unlock, streaming diffs.',
-    images: ['/og.png'],
+      'The open-source opencode client is available for Android. Join the waitlist for the upcoming iOS release.',
     creator: '@vibebrowserapp',
   },
   robots: {

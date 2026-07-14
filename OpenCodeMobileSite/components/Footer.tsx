@@ -26,6 +26,9 @@ export default function Footer() {
             <Link href="/privacy" className="hover:opacity-80 transition-colors">
               Privacy
             </Link>
+            <Link href="/ios" className="hover:opacity-80 transition-colors">
+              iOS Waitlist
+            </Link>
             <Link href="/terms" className="hover:opacity-80 transition-colors">
               Terms
             </Link>

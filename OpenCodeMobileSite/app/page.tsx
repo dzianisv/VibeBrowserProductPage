@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'OpenCode Mobile — The open source AI coding agent, on the go',
+  title: 'OpenCode Mobile — Android App, iOS Coming Soon',
   description:
-    'Free, open-source Android & iOS client for the opencode AI coding agent. Connect to your own server, stream diffs, and code from anywhere.',
+    'The free, open-source opencode client is available for Android. The iOS app is in development — join the waitlist for release updates.',
   alternates: { canonical: 'https://opencode.agentlabs.cc' },
 }
 
@@ -48,8 +48,8 @@ export default function HomePage() {
       <section className="pt-24 pb-20 md:pt-36 md:pb-28">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.1] tracking-tight mb-6" style={{ color: 'var(--fg)' }}>
-            The open source AI coding agent,<br />
-            <span style={{ color: 'var(--muted)' }}>on the go</span>
+            AI coding on Android.<br />
+            <span style={{ color: 'var(--muted)' }}>iOS is next.</span>
           </h1>
 
           <p className="text-lg sm:text-xl leading-relaxed mb-10 max-w-2xl" style={{ color: 'var(--muted)' }}>
@@ -59,6 +59,7 @@ export default function HomePage() {
               opencode
             </a>
             . Connect to your own server, stream diffs in real time, and review AI changes from anywhere.
+            The iOS app is now in active development.
           </p>
 
           {/* Install / Download */}
@@ -79,6 +80,9 @@ export default function HomePage() {
             >
               GitHub Releases
             </a>
+            <Link href="/ios" className="btn-secondary text-sm">
+              Join the iOS waitlist
+            </Link>
             <a
               href="https://dzianisv.github.io/opencode-mobile/fdroid/repo"
               target="_blank"
@@ -90,7 +94,7 @@ export default function HomePage() {
           </div>
 
           <p className="text-xs" style={{ color: 'var(--muted)' }}>
-            Android 8.0+ &nbsp;&middot;&nbsp; iOS coming soon
+            Android 8.0+ &nbsp;&middot;&nbsp; iOS in active development
           </p>
         </div>
       </section>
@@ -182,19 +186,37 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA */}
+      {/* Platform CTA */}
       <section className="py-20 border-t" style={{ borderColor: 'var(--border)' }}>
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <h2 className="text-2xl sm:text-3xl font-bold mb-4" style={{ color: 'var(--fg)' }}>
-            Join the beta
+            Choose your platform
           </h2>
-          <p className="text-sm mb-8 max-w-lg mx-auto" style={{ color: 'var(--muted)' }}>
-            We need 20 testers to unlock the public Google Play release.
-            Sign up and get early access today.
+          <p className="text-sm mb-8 max-w-lg" style={{ color: 'var(--muted)' }}>
+            Android is available now. Join the iOS waitlist and we will email you when the App Store release is ready.
           </p>
-          <Link href="/beta" className="btn-primary text-sm">
-            Join the closed beta
-          </Link>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="card">
+              <p className="text-xs font-mono mb-3" style={{ color: 'var(--green)' }}>AVAILABLE</p>
+              <h3 className="text-xl font-semibold mb-2">Android</h3>
+              <p className="text-sm mb-6" style={{ color: 'var(--muted)' }}>
+                Download from Google Play or join the testing group.
+              </p>
+              <Link href="/beta" className="btn-primary text-sm">
+                Get Android
+              </Link>
+            </div>
+            <div className="card">
+              <p className="text-xs font-mono mb-3" style={{ color: 'var(--muted)' }}>IN DEVELOPMENT</p>
+              <h3 className="text-xl font-semibold mb-2">iPhone and iPad</h3>
+              <p className="text-sm mb-6" style={{ color: 'var(--muted)' }}>
+                The same open-source opencode client, built for iOS.
+              </p>
+              <Link href="/ios" className="btn-secondary text-sm">
+                Join the iOS waitlist
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
     </>

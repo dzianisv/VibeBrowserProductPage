@@ -16,11 +16,11 @@ export default function Nav() {
         </Link>
 
         {/* Desktop links */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden md:flex items-center gap-5">
           {[
             { href: 'https://opencode.ai', label: 'Docs', external: true },
             { href: 'https://github.com/dzianisv/opencode-mobile', label: 'GitHub', external: true },
-            { href: '/beta', label: 'Beta' },
+            { href: '/beta', label: 'Android beta' },
           ].map((link) => (
             <Link
               key={link.href}
@@ -32,6 +32,13 @@ export default function Nav() {
               {link.label}
             </Link>
           ))}
+          <Link
+            href="/ios"
+            className="text-sm font-medium px-4 py-2 rounded-lg transition-all"
+            style={{ border: '1px solid var(--border)', color: 'var(--fg)' }}
+          >
+            iOS waitlist
+          </Link>
           <a
             href="https://play.google.com/store/apps/details?id=cc.agentlabs.opencode"
             target="_blank"
@@ -66,10 +73,11 @@ export default function Nav() {
       {open && (
         <div className="md:hidden border-t px-4 py-4 space-y-3" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg)' }}>
           {[
+            { href: '/ios', label: 'Join the iOS waitlist' },
             { href: 'https://opencode.ai', label: 'Docs', external: true },
             { href: 'https://github.com/dzianisv/opencode-mobile', label: 'GitHub', external: true },
-            { href: '/beta', label: 'Join Beta' },
-            { href: 'https://play.google.com/store/apps/details?id=cc.agentlabs.opencode', label: 'Download', external: true },
+            { href: '/beta', label: 'Join the Android beta' },
+            { href: 'https://play.google.com/store/apps/details?id=cc.agentlabs.opencode', label: 'Download Android', external: true },
           ].map((link) => (
             <Link
               key={link.href}
