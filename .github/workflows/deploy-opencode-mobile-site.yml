@@ -23,11 +23,11 @@ jobs:
       run:
         working-directory: OpenCodeMobileSite
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           lfs: true
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: '22'
           cache: 'npm'
@@ -39,13 +39,13 @@ jobs:
       # opencode.agentlabs.cc and agentlabs.cc use the same Vercel team token,
       # but deploy to separate projects.
       - name: Pull Vercel project settings
-        run: npx vercel pull --yes --environment=production --token=${{ secrets.AGENTLABS_VERCEL_TOKEN }}
+        run: npx --yes vercel@56.1.0 pull --yes --environment=production --token=${{ secrets.AGENTLABS_VERCEL_TOKEN }}
         env:
           VERCEL_ORG_ID: ${{ secrets.AGENTLABS_VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ vars.OPENCODE_VERCEL_PROJECT_ID }}
 
       - name: Build
-        run: npx vercel build --prod --token=${{ secrets.AGENTLABS_VERCEL_TOKEN }}
+        run: npx --yes vercel@56.1.0 build --prod --token=${{ secrets.AGENTLABS_VERCEL_TOKEN }}
         env:
           VERCEL_ORG_ID: ${{ secrets.AGENTLABS_VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ vars.OPENCODE_VERCEL_PROJECT_ID }}
@@ -55,7 +55,7 @@ jobs:
         run: |
           set -euo pipefail
           LOG="$RUNNER_TEMP/vercel-opencode-deploy.log"
-          npx vercel deploy --prebuilt --prod --archive=tgz \
+          npx --yes vercel@56.1.0 deploy --prebuilt --prod --archive=tgz \
             --token=${{ secrets.AGENTLABS_VERCEL_TOKEN }} \
             2>&1 | tee "$LOG"; EXIT=${PIPESTATUS[0]}
           if [ "$EXIT" -ne 0 ]; then
@@ -76,17 +76,84 @@ jobs:
       - name: Smoke test production
         run: |
           set -euo pipefail
-          PAGE="$RUNNER_TEMP/opencode-ios.html"
-          RESPONSE="$RUNNER_TEMP/opencode-ios-invalid.json"
+          PAGE="$RUNNER_TEMP/opencode-page.html"
+          RESPONSE="$RUNNER_TEMP/opencode-response.json"
+          ENV_FILE="$RUNNER_TEMP/opencode-production.env"
+          IOS_EMAIL="opencode-deploy-ios-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}@example.com"
+          BETA_EMAIL="opencode-deploy-beta-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}@example.com"
+
+          npx --yes vercel@56.1.0 env pull "$ENV_FILE" \
+            --environment=production \
+            --yes \
+            --token=${{ secrets.AGENTLABS_VERCEL_TOKEN }} >/dev/null
+          set -a
+          source "$ENV_FILE"
+          set +a
+          : "${BREVO_API_KEY:?BREVO_API_KEY is missing}"
+          : "${BREVO_OPENCODE_IOS_LIST_ID:?BREVO_OPENCODE_IOS_LIST_ID is missing}"
+          : "${BREVO_OPENCODE_BETA_LIST_ID:?BREVO_OPENCODE_BETA_LIST_ID is missing}"
+
+          cleanup() {
+            for email in "$IOS_EMAIL" "$BETA_EMAIL"; do
+              encoded=$(jq -rn --arg value "$email" '$value|@uri')
+              curl --silent --show-error --request DELETE \
+                "https://api.brevo.com/v3/contacts/${encoded}" \
+                --header "api-key: $BREVO_API_KEY" >/dev/null || true
+            done
+          }
+          trap cleanup EXIT
+
           curl --fail --show-error --silent \
+            --retry 5 --retry-delay 2 --retry-all-errors \
             https://opencode.agentlabs.cc/ios \
             --output "$PAGE"
           grep -q 'Join the iOS waitlist' "$PAGE"
-          STATUS=$(curl --show-error --silent \
-            --output "$RESPONSE" \
-            --write-out '%{http_code}' \
-            --request POST \
-            https://opencode.agentlabs.cc/api/ios-waitlist \
-            --header 'Content-Type: application/json' \
-            --data '{"email":"invalid"}')
-          test "$STATUS" = '400'
+          curl --fail --show-error --silent \
+            --retry 5 --retry-delay 2 --retry-all-errors \
+            https://opencode.agentlabs.cc/privacy \
+            --output "$PAGE"
+          grep -q 'Data We Do NOT Collect' "$PAGE"
+          ! grep -q 'Privacy policy document not found' "$PAGE"
+          curl --fail --show-error --silent \
+            https://opencode.agentlabs.cc/docs \
+            --output "$PAGE"
+          grep -q 'github.com/dzianisv/opencode-mobile/issues/new' "$PAGE"
+          curl --fail --show-error --silent --head \
+            https://opencode.agentlabs.cc/ \
+            | grep -qi '^x-content-type-options: nosniff'
+
+          for endpoint in ios-waitlist beta-signup; do
+            STATUS=$(curl --show-error --silent \
+              --output "$RESPONSE" \
+              --write-out '%{http_code}' \
+              --request POST \
+              "https://opencode.agentlabs.cc/api/${endpoint}" \
+              --header 'Content-Type: application/json' \
+              --data '{"email":"invalid"}')
+            test "$STATUS" = '400'
+          done
+
+          for spec in \
+            "ios-waitlist|$IOS_EMAIL|$BREVO_OPENCODE_IOS_LIST_ID" \
+            "beta-signup|$BETA_EMAIL|$BREVO_OPENCODE_BETA_LIST_ID"; do
+            IFS='|' read -r endpoint email list <<<"$spec"
+            STATUS=$(curl --show-error --silent \
+              --output "$RESPONSE" \
+              --write-out '%{http_code}' \
+              --request POST \
+              "https://opencode.agentlabs.cc/api/${endpoint}" \
+              --header 'Content-Type: application/json' \
+              --data "{\"email\":\"$email\"}")
+            test "$STATUS" = '200'
+            jq -e '.ok == true' "$RESPONSE" >/dev/null
+
+            encoded=$(jq -rn --arg value "$email" '$value|@uri')
+            CONTACT=$(curl --fail --show-error --silent \
+              "https://api.brevo.com/v3/contacts/${encoded}" \
+              --header "api-key: $BREVO_API_KEY")
+            jq -e --argjson list "$list" '.listIds | index($list) != null' \
+              <<<"$CONTACT" >/dev/null
+          done
+        env:
+          VERCEL_ORG_ID: ${{ secrets.AGENTLABS_VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ vars.OPENCODE_VERCEL_PROJECT_ID }}

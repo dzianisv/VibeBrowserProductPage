@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
@@ -106,7 +107,7 @@ export default function HomePage() {
             {['/screenshots/phone-01.png', '/screenshots/phone-02.png', '/screenshots/phone-03.png'].map((src, i) => (
               <div key={i} className="relative rounded-2xl overflow-hidden"
                 style={{ border: '1px solid var(--border)', maxWidth: 200 }}>
-                <img
+                <Image
                   src={src}
                   alt={`OpenCode Mobile screenshot ${i + 1}`}
                   width={200}

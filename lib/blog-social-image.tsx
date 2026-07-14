@@ -95,7 +95,6 @@ function renderCard({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          zIndex: 1,
         }}
       >
         <div
@@ -134,7 +133,6 @@ function renderCard({
           display: 'flex',
           flexDirection: 'column',
           gap: '22px',
-          zIndex: 1,
           maxWidth: '940px',
         }}
       >
@@ -166,7 +164,6 @@ function renderCard({
           alignItems: 'flex-end',
           justifyContent: 'space-between',
           gap: '24px',
-          zIndex: 1,
         }}
       >
         <div

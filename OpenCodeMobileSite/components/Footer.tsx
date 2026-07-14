@@ -15,14 +15,12 @@ export default function Footer() {
             >
               GitHub
             </a>
-            <a
-              href="https://opencode.ai"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:opacity-80 transition-colors"
-            >
+            <Link href="/docs" className="hover:opacity-80 transition-colors">
               Docs
-            </a>
+            </Link>
+            <Link href="/support" className="hover:opacity-80 transition-colors">
+              Support
+            </Link>
             <Link href="/privacy" className="hover:opacity-80 transition-colors">
               Privacy
             </Link>

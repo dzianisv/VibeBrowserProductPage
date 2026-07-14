@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 const faqs = [
   {
     q: 'How do I connect the app to my opencode server?',
-    a: `Open the app, tap the "+" button on the connections screen, and enter your server URL (e.g., https://your-server.example.com or http://192.168.1.x:3000 for local). The app connects over HTTP/HTTPS to the standard opencode REST/WebSocket API. For remote access, we recommend running your server behind Tailscale or a reverse proxy with TLS.`,
+    a: `Open the app, tap the "+" button on the connections screen, and enter your server URL (e.g., https://your-server.example.com or http://192.168.1.x:4096 for local). The app connects over HTTP/HTTPS to the standard opencode REST and SSE APIs. For remote access, we recommend running your server behind Tailscale or a reverse proxy with TLS.`,
   },
   {
     q: 'Is my code sent to Vibe Technologies?',
@@ -23,7 +23,7 @@ const faqs = [
   },
   {
     q: 'Can I self-host the backend?',
-    a: `Yes — that's the primary use case. OpenCode Mobile is a client for the open-source opencode server (github.com/sst/opencode). You run the server wherever you like: your laptop, a VPS, a home server, or a cloud VM. The app simply connects to whatever URL you configure.`,
+    a: `Yes — that's the primary use case. OpenCode Mobile is a client for the open-source opencode server (github.com/anomalyco/opencode). You run the server wherever you like: your laptop, a VPS, a home server, or a cloud VM. The app simply connects to whatever URL you configure.`,
   },
   {
     q: 'Is the app really free? What\'s the catch?',
@@ -48,7 +48,7 @@ export default function SupportPage() {
       {/* Contact cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-16">
         <a
-          href="mailto:support@vibebrowser.app"
+          href="mailto:support@agentlabs.cc"
           className="card flex items-start gap-4 hover:border-blue-500/60 transition-colors"
           style={{ textDecoration: 'none' }}
         >
@@ -61,7 +61,7 @@ export default function SupportPage() {
           </div>
           <div>
             <p className="font-semibold mb-1" style={{ color: 'var(--fg)' }}>Email Support</p>
-            <p className="text-sm" style={{ color: 'var(--muted)' }}>support@vibebrowser.app</p>
+            <p className="text-sm" style={{ color: 'var(--muted)' }}>support@agentlabs.cc</p>
           </div>
         </a>
 
@@ -111,8 +111,8 @@ export default function SupportPage() {
           GitHub Issue
         </a>{' '}
         or email{' '}
-        <a href="mailto:support@vibebrowser.app" style={{ color: 'var(--accent)' }}>
-          support@vibebrowser.app
+        <a href="mailto:support@agentlabs.cc" style={{ color: 'var(--accent)' }}>
+          support@agentlabs.cc
         </a>.
         Include your device, OS version, and app version for fastest resolution.
       </div>
