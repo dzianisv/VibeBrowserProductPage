@@ -228,7 +228,7 @@ export default function SparkPage() {
             <code className="text-[#81c995]">spark.ts</code>. No plugins to install.
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {TOOLS.map(({ name, desc, color, bg }) => (
+            {TOOLS.map(({ name, desc, color }) => (
               <Card key={name} className="bg-[#141414] border-[#3c4043]">
                 <CardContent className="p-5">
                   <h3 className={`font-mono font-semibold text-sm mb-2 ${color}`}>{name}</h3>

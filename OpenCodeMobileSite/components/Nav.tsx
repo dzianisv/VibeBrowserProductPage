@@ -18,7 +18,8 @@ export default function Nav() {
         {/* Desktop links */}
         <div className="hidden md:flex items-center gap-5">
           {[
-            { href: 'https://opencode.ai', label: 'Docs', external: true },
+            { href: '/docs', label: 'Docs' },
+            { href: '/support', label: 'Support' },
             { href: 'https://github.com/dzianisv/opencode-mobile', label: 'GitHub', external: true },
             { href: '/beta', label: 'Android beta' },
           ].map((link) => (
@@ -74,7 +75,8 @@ export default function Nav() {
         <div className="md:hidden border-t px-4 py-4 space-y-3" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg)' }}>
           {[
             { href: '/ios', label: 'Join the iOS waitlist' },
-            { href: 'https://opencode.ai', label: 'Docs', external: true },
+            { href: '/docs', label: 'Docs' },
+            { href: '/support', label: 'Support' },
             { href: 'https://github.com/dzianisv/opencode-mobile', label: 'GitHub', external: true },
             { href: '/beta', label: 'Join the Android beta' },
             { href: 'https://play.google.com/store/apps/details?id=cc.agentlabs.opencode', label: 'Download Android', external: true },

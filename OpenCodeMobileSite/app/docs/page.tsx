@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'Documentation',
@@ -93,12 +92,12 @@ export default function DocsPage() {
           and the opencode Cloud. Want to help write docs?
         </p>
         <a
-          href="https://github.com/dzianisv/opencode-mobile/discussions"
+          href="https://github.com/dzianisv/opencode-mobile/issues/new"
           target="_blank"
           rel="noopener noreferrer"
           className="btn-primary text-sm"
         >
-          Join the Discussion
+          Open a docs issue
         </a>
       </div>
     </div>

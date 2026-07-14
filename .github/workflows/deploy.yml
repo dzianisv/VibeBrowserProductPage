@@ -8,6 +8,10 @@ on:
       - 'OpenCodeMobileSite/**'
   workflow_dispatch:
 
+concurrency:
+  group: deploy-sites-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   deploy-production:
     runs-on: ubuntu-latest
@@ -15,26 +19,26 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           lfs: true
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
 
       - name: Pull Vercel project settings
-        run: npx vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+        run: npx --yes vercel@56.1.0 pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
       - name: Build
-        run: npx vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+        run: npx --yes vercel@56.1.0 build --prod --token=${{ secrets.VERCEL_TOKEN }}
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
@@ -43,19 +47,33 @@ jobs:
         id: deploy
         run: |
           set -euo pipefail
-          npx vercel deploy --prebuilt --prod --archive=tgz \
+          LOG="$RUNNER_TEMP/vercel-deploy.log"
+          npx --yes vercel@56.1.0 deploy --prebuilt --prod --archive=tgz \
             --token=${{ secrets.VERCEL_TOKEN }} \
-            2>&1 | tee /tmp/vercel-deploy.log; EXIT=${PIPESTATUS[0]}
+            2>&1 | tee "$LOG"; EXIT=${PIPESTATUS[0]}
           if [ "$EXIT" -ne 0 ]; then
             echo "::error::vercel deploy failed with exit code $EXIT"
             exit "$EXIT"
           fi
-          URL=$(grep -E '^https://' /tmp/vercel-deploy.log | tail -1)
-          echo "deployment_url=$URL" >> $GITHUB_OUTPUT
+          URL=$(grep -Eo 'https://[[:alnum:].-]+\.vercel\.app' "$LOG" | tail -1)
+          if [ -z "$URL" ]; then
+            echo "::error::Vercel did not return a deployment URL"
+            exit 1
+          fi
+          echo "deployment_url=$URL" >> "$GITHUB_OUTPUT"
           echo "Deployed: $URL"
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      - name: Smoke test production
+        run: |
+          set -euo pipefail
+          curl --fail --location --show-error --silent \
+            --retry 5 --retry-delay 2 --retry-all-errors \
+            https://www.vibebrowser.app/ \
+            --output "$RUNNER_TEMP/vibebrowser-home.html"
+          grep -qi 'Vibe' "$RUNNER_TEMP/vibebrowser-home.html"
 
   # agentlabs.cc is a SEPARATE Vercel project (rootDirectory apps/agentlabs) under
   # a different Vercel account/team than vibebrowser.app. It has its own token +
@@ -66,13 +84,13 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           lfs: true
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
 
       # shared/ components (imported by apps/agentlabs) resolve their npm deps
@@ -83,13 +101,13 @@ jobs:
         run: npm ci
 
       - name: Pull Vercel project settings
-        run: npx vercel pull --yes --environment=production --token=${{ secrets.AGENTLABS_VERCEL_TOKEN }}
+        run: npx --yes vercel@56.1.0 pull --yes --environment=production --token=${{ secrets.AGENTLABS_VERCEL_TOKEN }}
         env:
           VERCEL_ORG_ID: ${{ secrets.AGENTLABS_VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.AGENTLABS_VERCEL_PROJECT_ID }}
 
       - name: Build
-        run: npx vercel build --prod --token=${{ secrets.AGENTLABS_VERCEL_TOKEN }}
+        run: npx --yes vercel@56.1.0 build --prod --token=${{ secrets.AGENTLABS_VERCEL_TOKEN }}
         env:
           VERCEL_ORG_ID: ${{ secrets.AGENTLABS_VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.AGENTLABS_VERCEL_PROJECT_ID }}
@@ -98,16 +116,30 @@ jobs:
         id: deploy
         run: |
           set -euo pipefail
-          npx vercel deploy --prebuilt --prod --archive=tgz \
+          LOG="$RUNNER_TEMP/vercel-agentlabs-deploy.log"
+          npx --yes vercel@56.1.0 deploy --prebuilt --prod --archive=tgz \
             --token=${{ secrets.AGENTLABS_VERCEL_TOKEN }} \
-            2>&1 | tee /tmp/vercel-agentlabs-deploy.log; EXIT=${PIPESTATUS[0]}
+            2>&1 | tee "$LOG"; EXIT=${PIPESTATUS[0]}
           if [ "$EXIT" -ne 0 ]; then
             echo "::error::agentlabs vercel deploy failed with exit code $EXIT"
             exit "$EXIT"
           fi
-          URL=$(grep -E '^https://' /tmp/vercel-agentlabs-deploy.log | tail -1)
-          echo "deployment_url=$URL" >> $GITHUB_OUTPUT
+          URL=$(grep -Eo 'https://[[:alnum:].-]+\.vercel\.app' "$LOG" | tail -1)
+          if [ -z "$URL" ]; then
+            echo "::error::Vercel did not return a deployment URL"
+            exit 1
+          fi
+          echo "deployment_url=$URL" >> "$GITHUB_OUTPUT"
           echo "Deployed agentlabs: $URL"
         env:
           VERCEL_ORG_ID: ${{ secrets.AGENTLABS_VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.AGENTLABS_VERCEL_PROJECT_ID }}
+
+      - name: Smoke test production
+        run: |
+          set -euo pipefail
+          curl --fail --location --show-error --silent \
+            --retry 5 --retry-delay 2 --retry-all-errors \
+            https://agentlabs.cc/a-test \
+            --output "$RUNNER_TEMP/agentlabs-a-test.html"
+          grep -q 'dzianisv/a-test' "$RUNNER_TEMP/agentlabs-a-test.html"

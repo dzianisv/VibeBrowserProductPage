@@ -23,11 +23,11 @@ jobs:
       run:
         working-directory: OpenCodeMobileSite
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           lfs: true
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: '22'
           cache: 'npm'
@@ -39,13 +39,13 @@ jobs:
       # opencode.agentlabs.cc and agentlabs.cc use the same Vercel team token,
       # but deploy to separate projects.
       - name: Pull Vercel project settings
-        run: npx vercel pull --yes --environment=production --token=${{ secrets.AGENTLABS_VERCEL_TOKEN }}
+        run: npx --yes vercel@56.1.0 pull --yes --environment=production --token=${{ secrets.AGENTLABS_VERCEL_TOKEN }}
         env:
           VERCEL_ORG_ID: ${{ secrets.AGENTLABS_VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ vars.OPENCODE_VERCEL_PROJECT_ID }}
 
       - name: Build
-        run: npx vercel build --prod --token=${{ secrets.AGENTLABS_VERCEL_TOKEN }}
+        run: npx --yes vercel@56.1.0 build --prod --token=${{ secrets.AGENTLABS_VERCEL_TOKEN }}
         env:
           VERCEL_ORG_ID: ${{ secrets.AGENTLABS_VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ vars.OPENCODE_VERCEL_PROJECT_ID }}
@@ -55,7 +55,7 @@ jobs:
         run: |
           set -euo pipefail
           LOG="$RUNNER_TEMP/vercel-opencode-deploy.log"
-          npx vercel deploy --prebuilt --prod --archive=tgz \
+          npx --yes vercel@56.1.0 deploy --prebuilt --prod --archive=tgz \
             --token=${{ secrets.AGENTLABS_VERCEL_TOKEN }} \
             2>&1 | tee "$LOG"; EXIT=${PIPESTATUS[0]}
           if [ "$EXIT" -ne 0 ]; then
@@ -76,17 +76,125 @@ jobs:
       - name: Smoke test production
         run: |
           set -euo pipefail
-          PAGE="$RUNNER_TEMP/opencode-ios.html"
-          RESPONSE="$RUNNER_TEMP/opencode-ios-invalid.json"
+          PAGE="$RUNNER_TEMP/opencode-page.html"
+          RESPONSE="$RUNNER_TEMP/opencode-response.json"
+          ENV_FILE="$RUNNER_TEMP/opencode-production.env"
+
+          npx --yes vercel@56.1.0 env pull "$ENV_FILE" \
+            --environment=production \
+            --yes \
+            --token=${{ secrets.AGENTLABS_VERCEL_TOKEN }} >/dev/null
+
           curl --fail --show-error --silent \
+            --retry 5 --retry-delay 2 --retry-all-errors \
             https://opencode.agentlabs.cc/ios \
             --output "$PAGE"
           grep -q 'Join the iOS waitlist' "$PAGE"
-          STATUS=$(curl --show-error --silent \
-            --output "$RESPONSE" \
-            --write-out '%{http_code}' \
-            --request POST \
-            https://opencode.agentlabs.cc/api/ios-waitlist \
-            --header 'Content-Type: application/json' \
-            --data '{"email":"invalid"}')
-          test "$STATUS" = '400'
+          curl --fail --show-error --silent \
+            --retry 5 --retry-delay 2 --retry-all-errors \
+            https://opencode.agentlabs.cc/privacy \
+            --output "$PAGE"
+          grep -q 'Data We Do NOT Collect' "$PAGE"
+          if grep -q 'Privacy policy document not found' "$PAGE"; then
+            echo "::error::Production privacy policy rendered its fallback"
+            exit 1
+          fi
+          curl --fail --show-error --silent \
+            https://opencode.agentlabs.cc/docs \
+            --output "$PAGE"
+          grep -q 'github.com/dzianisv/opencode-mobile/issues/new' "$PAGE"
+          curl --fail --show-error --silent --head \
+            https://opencode.agentlabs.cc/ \
+            | grep -qi '^x-content-type-options: nosniff'
+
+          for endpoint in ios-waitlist beta-signup; do
+            STATUS=$(curl --show-error --silent \
+              --output "$RESPONSE" \
+              --write-out '%{http_code}' \
+              --request POST \
+              "https://opencode.agentlabs.cc/api/${endpoint}" \
+              --header 'Content-Type: application/json' \
+              --data '{"email":"invalid"}')
+            test "$STATUS" = '400'
+          done
+
+          node --input-type=module --env-file="$ENV_FILE" <<'NODE'
+          const key = process.env.BREVO_API_KEY
+          const run = `${process.env.GITHUB_RUN_ID}-${process.env.GITHUB_RUN_ATTEMPT}`
+          const targets = [
+            {
+              endpoint: 'ios-waitlist',
+              email: `opencode-deploy-ios-${run}@example.com`,
+              list: Number.parseInt(process.env.BREVO_OPENCODE_IOS_LIST_ID ?? '', 10),
+            },
+            {
+              endpoint: 'beta-signup',
+              email: `opencode-deploy-beta-${run}@example.com`,
+              list: Number.parseInt(process.env.BREVO_OPENCODE_BETA_LIST_ID ?? '', 10),
+            },
+          ]
+
+          if (!key || targets.some(({ list }) => !Number.isInteger(list) || list < 1)) {
+            throw new Error('Brevo production environment is incomplete')
+          }
+
+          const delay = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds))
+          const contactUrl = (email) =>
+            `https://api.brevo.com/v3/contacts/${encodeURIComponent(email)}`
+          const brevoHeaders = { 'api-key': key }
+
+          async function verify(target) {
+            const signup = await fetch(
+              `https://opencode.agentlabs.cc/api/${target.endpoint}`,
+              {
+                method: 'POST',
+                headers: { 'content-type': 'application/json' },
+                body: JSON.stringify({ email: target.email }),
+              },
+            )
+
+            if (!signup.ok || !(await signup.json()).ok) {
+              throw new Error(`${target.endpoint} signup failed with ${signup.status}`)
+            }
+
+            for (let attempt = 1; attempt <= 5; attempt += 1) {
+              const response = await fetch(contactUrl(target.email), { headers: brevoHeaders })
+
+              if (response.ok) {
+                const contact = await response.json()
+
+                if (contact.listIds?.includes(target.list)) {
+                  return
+                }
+              }
+
+              if (attempt < 5) {
+                await delay(1_000)
+              }
+            }
+
+            throw new Error(`${target.endpoint} contact was not persisted to list ${target.list}`)
+          }
+
+          async function cleanup(target) {
+            const response = await fetch(contactUrl(target.email), {
+              method: 'DELETE',
+              headers: brevoHeaders,
+            })
+
+            if (response.status !== 204 && response.status !== 404) {
+              throw new Error(`Could not remove ${target.endpoint} smoke-test contact`)
+            }
+          }
+
+          try {
+            for (const target of targets) {
+              await verify(target)
+            }
+          } finally {
+            await Promise.all(targets.map(cleanup))
+          }
+          NODE
+        env:
+          VERCEL_ORG_ID: ${{ secrets.AGENTLABS_VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ vars.OPENCODE_VERCEL_PROJECT_ID }}
