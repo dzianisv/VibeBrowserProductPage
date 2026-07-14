@@ -3,16 +3,11 @@ import {
   SharedBlogIndexPage,
   agentlabsBlogConfig,
   buildBlogIndexMetadata,
-  createBlogRepository,
 } from '../../../../shared/blog'
 import { AgentlabsBlogNav } from '../../components/blog/nav'
 import { AgentlabsBlogFooter } from '../../components/blog/footer'
 import { AgentlabsBlogMailingListSubscribe } from '../../components/blog/mailing-list-subscribe'
-import { AGENTLABS_BLOG_DIRECTORY } from '../../lib/blog-directory'
-
-const repository = createBlogRepository({
-  blogDirectory: AGENTLABS_BLOG_DIRECTORY,
-})
+import { agentlabsBlogRepository } from '../../lib/blog-repository'
 
 export const metadata: Metadata = buildBlogIndexMetadata(agentlabsBlogConfig)
 
@@ -25,7 +20,7 @@ export default function AgentlabsBlogIndexPage({ searchParams }: BlogIndexPagePr
     <SharedBlogIndexPage
       searchParams={searchParams}
       config={agentlabsBlogConfig}
-      repository={repository}
+      repository={agentlabsBlogRepository}
       nav={AgentlabsBlogNav}
       footer={AgentlabsBlogFooter}
       mailingListSubscribe={AgentlabsBlogMailingListSubscribe}

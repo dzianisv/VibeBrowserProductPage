@@ -36,6 +36,10 @@ next-env.d.ts
 !.tasks/**
 !app/blog/
 !app/blog/**
+!blog/
+!blog/**
+!apps/agentlabs/app/blog/
+!apps/agentlabs/app/blog/**
 .env
 .env.*
 !.env.example
