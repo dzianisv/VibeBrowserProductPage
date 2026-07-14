@@ -127,5 +127,5 @@ Try VibeBrowser MCP at [vibebrowser.app/mcp](https://www.vibebrowser.app/mcp), o
 
 ## References
 
-- GitHub issue: [VibeWebAgent #1283](https://github.com/VibeTechnologies/VibeWebAgent/issues/1283)
+- Internal tracking issue: VibeWebAgent #1283
 - VibeBrowser MCP: [https://www.vibebrowser.app/mcp](https://www.vibebrowser.app/mcp)

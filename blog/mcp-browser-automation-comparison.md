@@ -217,7 +217,7 @@ This is the most DevTools-native option here. It can launch Chrome for you, or a
 
 The upside is obvious once you look at the tool surface: console inspection, network requests, Lighthouse, performance traces, memory snapshots, and a direct AX-tree snapshot. It feels more like giving an AI assistant a remote DevTools session than giving it an agent-native browser abstraction.
 
-The catch? It has a nasty habit of leaking memory over time. If you leave it running, it will eventually drag your system to a halt. (I actually wrote a whole separate post diving into the [Chrome DevTools MCP memory issues](/blog/chromeDevtoolsMcpIssue.medium) if you want the gory details).
+The catch? It has a nasty habit of leaking memory over time. If you leave it running, it will eventually drag your system to a halt.
 
 ### 4. Playwright MCP (microsoft/playwright-mcp)
 **Ease of Setup:** ⭐⭐⭐⭐ | **Daily Use:** ⭐⭐⭐

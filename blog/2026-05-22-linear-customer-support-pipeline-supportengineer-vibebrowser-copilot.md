@@ -41,7 +41,7 @@ The shortlist when we picked a tracker:
 Linear earned the pick on three properties:
 
 1. **Open API and webhooks.** Issues, comments, labels, projects — all reachable from a single REST + GraphQL surface. Webhooks fire on status change. That is everything we need.
-2. **openclaw-linearj integration.** We wire Linear into OpenClaw via [openclaw-linearj](https://github.com/stepandel/openclaw-linearj) — a purpose-built OpenClaw integration that gives agents typed Linear actions (create issue, comment, update status, list) without us shipping a bespoke client or running a separate MCP sidecar.
+2. **openclaw-linearj integration.** We wire Linear into OpenClaw via `openclaw-linearj` — a purpose-built OpenClaw integration that gives agents typed Linear actions (create issue, comment, update status, list) without us shipping a bespoke client or running a separate MCP sidecar.
 3. **No per-seat tax at our scale.** Linear's free tier covers a one-human company with a fleet of bot identities; we are not adding a $20/month/agent line item for Michael Burry to lecture me about.
 
 The principle from [the founding post](/blog/2025-11-01-building-vibe-technologies-ai-native-startup) holds: minimum proprietary technology, no per-seat lock-in, API-first.
@@ -56,7 +56,7 @@ A single Linear API token, scoped to the `support` team, lives in our secret sto
 
 ### Integration: openclaw-linearj
 
-Linear is not wired in as a generic MCP sidecar — it uses [openclaw-linearj](https://github.com/stepandel/openclaw-linearj), a purpose-built OpenClaw integration. It registers as an integration entry (not an `mcp.servers` stdio process) in the per-role `openclaw.json`:
+Linear is not wired in as a generic MCP sidecar — it uses `openclaw-linearj`, a purpose-built OpenClaw integration. It registers as an integration entry (not an `mcp.servers` stdio process) in the per-role `openclaw.json`:
 
 ```json
 {
@@ -202,7 +202,7 @@ The templates exist because the same five facts (customer identifier, originatin
 
 ### 1. Gmail (support@vibebrowser.app)
 
-Jared owns the inbox. Email arrives via the [OpenClaw Gmail PubSub integration](https://docs.openclaw.ai/automation/cron-jobs#gmail-pubsub-integration) — Google pushes new messages to a Cloud Pub/Sub topic which delivers them into Jared's event queue. No polling, no missed emails on a slow cron cycle. His existing runbook in [`openclaw-rc.d/workspace/support-engineer/AGENTS.md`](https://github.com/openclaw/openclaw/blob/main/openclaw-rc.d/workspace/support-engineer/AGENTS.md) already covers email triage. The Linear step is the addition:
+Jared owns the inbox. Email arrives via the [OpenClaw Gmail PubSub integration](https://docs.openclaw.ai/automation/cron-jobs#gmail-pubsub-integration) — Google pushes new messages to a Cloud Pub/Sub topic which delivers them into Jared's event queue. No polling, no missed emails on a slow cron cycle. His existing runbook in `openclaw-rc.d/workspace/support-engineer/AGENTS.md` already covers email triage. The Linear step is the addition:
 
 1. He reads the email and classifies it (bug / feature / account / billing / "answer in line, no ticket").
 2. For any class except the last, he calls `linear.createIssue` with the matching template.

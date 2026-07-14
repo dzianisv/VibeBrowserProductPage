@@ -28,7 +28,7 @@ We wanted the agent to accumulate knowledge over time, like a colleague who lear
 
 ## What we learned from OpenClaw
 
-[OpenClaw](https://github.com/nichochar/openclaw) is an open-source AI coding agent with one of the best memory implementations we've seen. We studied its architecture closely before building ours.
+[OpenClaw](https://github.com/openclaw/openclaw) is an open-source AI coding agent with one of the best memory implementations we've seen. We studied its architecture closely before building ours.
 
 ### OpenClaw's dual memory model
 

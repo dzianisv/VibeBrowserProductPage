@@ -337,7 +337,7 @@ It is the combination of:
 
 That is the stack we think matters most for the next wave of agent systems.
 
-If you want the shortest next step, start here: [Vibe MCP](/mcp).
+If you want the shortest next step, start here: [Vibe MCP](https://www.vibebrowser.app/mcp).
 
 ## References
 

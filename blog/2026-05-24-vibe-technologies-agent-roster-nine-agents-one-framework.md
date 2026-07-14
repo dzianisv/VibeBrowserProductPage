@@ -20,7 +20,7 @@ This post documents the full roster: who each agent is, what they own, and what 
 
 ## The Framework: OpenClaw
 
-Every agent in this list runs on [OpenClaw](https://openclaw.vibebrowser.app). Each is declared in `openclaw.json` under `agents.list` with an ID and an isolated workspace path:
+Every agent in this list runs on [OpenClaw](https://github.com/openclaw/openclaw). Each is declared in `openclaw.json` under `agents.list` with an ID and an isolated workspace path:
 
 ```json
 {

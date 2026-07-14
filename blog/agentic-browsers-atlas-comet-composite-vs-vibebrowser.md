@@ -147,7 +147,7 @@ https://comet-help.perplexity.ai/en/articles/11734716-extensions
 https://composite.com/
 
 [8] TechCrunch: Composite funding and positioning  
-https://techcrunch.com/2025/01/30/sales-ai-startup-composite-raises-3m/
+https://techcrunch.com/2025/09/30/composite-gets-backing-from-nfdg-for-its-cross-browser-agent-tool/
 
 [9] Brave: indirect prompt injection against Comet  
 https://brave.com/blog/comet-prompt-injection/

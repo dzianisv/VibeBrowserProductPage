@@ -15,7 +15,7 @@ tags:
 published: true
 ---
 
-When [openclaw.vibebrowser.app](https://openclaw.vibebrowser.app) started seeing real users last quarter, it needed a real chat surface. Not a "send us an email and we will get back to you in 24 hours" link. An actual chat widget, with conversation history, agent handoff, attachments, the works. And — because Vibe Technologies is a one-person company with a team of AI agents — most of the replies needed to come from a bot, not a human.
+When the managed agent service now available as [AgentPod](https://agentpod.agentlabs.cc) started seeing real users, it needed a real chat surface. Not a "send us an email and we will get back to you in 24 hours" link. An actual chat widget, with conversation history, agent handoff, attachments, the works. And — because Vibe Technologies is a one-person company with a team of AI agents — most of the replies needed to come from a bot, not a human.
 
 We picked [Chatwoot](https://www.chatwoot.com/). Open source, self-hostable, REST + webhooks, no per-seat pricing. That matches a principle I wrote about when we started: [minimum proprietary technology](/blog/2025-11-01-building-vibe-technologies-ai-native-startup). Every piece of the stack we depend on should either be ours or be something we can run ourselves the day a vendor changes their mind. Intercom and Zendesk are great products. They are also expensive, closed, and fundamentally not built for a company where most of the support headcount is an LLM.
 
@@ -40,7 +40,7 @@ For a one-person company that runs everything on its own [AKS cluster](/blog/202
 
 ## Deployment — the actual script
 
-The deploy is a single bash script: [`scripts/deploy-chatwoot.sh`](https://github.com/openclaw/openclaw/blob/main/scripts/deploy-chatwoot.sh) in the OpenClawBot repo. It is 110 lines. The interesting parts:
+The deploy is a single bash script: `scripts/deploy-chatwoot.sh` in the OpenClawBot repo. It is 110 lines. The interesting parts:
 
 It is a **Helm install onto AKS**, not Docker Compose, not bare metal. The official chart bundles Rails + Sidekiq + Postgres + Redis, which is exactly what Chatwoot needs:
 
@@ -76,7 +76,7 @@ if [[ -z "$AZURE_KEY" ]]; then
 fi
 ```
 
-The Helm `values.yaml` ([`k8s/chatwoot/values.yaml`](https://github.com/openclaw/openclaw/blob/main/k8s/chatwoot/values.yaml)) pins specific versions and resources rather than letting the chart pick defaults:
+The Helm `values.yaml` (`k8s/chatwoot/values.yaml`) pins specific versions and resources rather than letting the chart pick defaults:
 
 ```yaml
 image:
@@ -134,9 +134,9 @@ ingress:
   enabled: false
 ```
 
-…and then a separate `IngressRoute` CRD ([`k8s/chatwoot/ingress.yaml`](https://github.com/openclaw/openclaw/blob/main/k8s/chatwoot/ingress.yaml)) routes `support.openclaw.vibebrowser.app` to the in-cluster service. TLS comes from a wildcard cert for `*.openclaw.vibebrowser.app` already attached to the Traefik entrypoint, so the IngressRoute does not need to provision its own.
+…and then a separate `IngressRoute` CRD (`k8s/chatwoot/ingress.yaml`) routes `support.openclaw.vibebrowser.app` to the in-cluster service. TLS comes from a wildcard cert for `*.openclaw.vibebrowser.app` already attached to the Traefik entrypoint, so the IngressRoute does not need to provision its own.
 
-Net result: one command, ten minutes, full Chatwoot stack up at `https://support.openclaw.vibebrowser.app`. The dashboard for agents is at the same URL; the customer-facing widget is embedded into [openclaw.vibebrowser.app](https://openclaw.vibebrowser.app) via the standard Chatwoot website SDK snippet.
+Net result: one command, ten minutes, full Chatwoot stack up at `https://support.openclaw.vibebrowser.app`. The dashboard for agents is at the same URL; the customer-facing widget is embedded into [AgentPod](https://agentpod.agentlabs.cc) via the standard Chatwoot website SDK snippet.
 
 ## The AI chatbot inside Chatwoot
 
@@ -151,7 +151,7 @@ CHATWOOT_ACCOUNT_ID=1      # Chatwoot account ID (default: 1)
 CHATWOOT_INBOX_ID=         # API Channel inbox ID
 ```
 
-The client lives in [`src/chatwoot/client.ts`](https://github.com/openclaw/openclaw/blob/main/src/chatwoot/client.ts). It is intentionally small — a couple hundred lines of `fetch` calls and an `enabled` flag so the bot is a no-op if any of the four config values is missing:
+The client lives in `src/chatwoot/client.ts`. It is intentionally small — a couple hundred lines of `fetch` calls and an `enabled` flag so the bot is a no-op if any of the four config values is missing:
 
 ```ts
 get enabled(): boolean {
@@ -272,7 +272,7 @@ The shape to notice: the customer only ever talks to one URL — the widget on o
 
 ## Sync — what `chatwoot-sync` actually does
 
-`chatwoot-sync` is the half of the integration that pushes the other direction: from our database into Chatwoot. The scheduler ([`src/scheduler/chatwoot-sync.ts`](https://github.com/openclaw/openclaw/blob/main/src/scheduler/chatwoot-sync.ts)) runs once on startup and then every 24 hours by default:
+`chatwoot-sync` is the half of the integration that pushes the other direction: from our database into Chatwoot. The scheduler (`src/scheduler/chatwoot-sync.ts`) runs once on startup and then every 24 hours by default:
 
 ```ts
 const DEFAULT_INTERVAL_MS = 24 * 60 * 60 * 1000;
@@ -296,14 +296,14 @@ return {
 };
 ```
 
-The tests at [`tests/unit/chatwoot-sync.test.ts`](https://github.com/openclaw/openclaw/blob/main/tests/unit/chatwoot-sync.test.ts) pin the expected behavior, and they tell you what the integration cares about:
+The tests at `tests/unit/chatwoot-sync.test.ts` pin the expected behavior, and they tell you what the integration cares about:
 
 - "calls sync immediately on start" — fresh customers visible to support without waiting a day.
 - "calls sync again after the interval elapses" — drift between our DB and Chatwoot is bounded.
 - "returns a stop function that cancels the interval" — graceful shutdown matters.
 - "does not throw when sync throws an error" — one bad DB row must not kill the scheduler.
 
-And the matching client tests at [`tests/unit/chatwoot-client.test.ts`](https://github.com/openclaw/openclaw/blob/main/tests/unit/chatwoot-client.test.ts) lock the upsert semantics: empty search → POST `/contacts`, non-empty search → PATCH `/contacts/{id}`, and the PATCH body carries `additional_attributes.plan`, `additional_attributes.subdomain`, `additional_attributes.tenant_status`. That last bit is the load-bearing part — those attributes are what surface to the agent in the Chatwoot UI when a customer opens a chat. Without them, the bot and Jared Dunn would both be guessing.
+And the matching client tests at `tests/unit/chatwoot-client.test.ts` lock the upsert semantics: empty search → POST `/contacts`, non-empty search → PATCH `/contacts/{id}`, and the PATCH body carries `additional_attributes.plan`, `additional_attributes.subdomain`, `additional_attributes.tenant_status`. That last bit is the load-bearing part — those attributes are what surface to the agent in the Chatwoot UI when a customer opens a chat. Without them, the bot and Jared Dunn would both be guessing.
 
 The sync is currently **one-way: our DB → Chatwoot**. There is no return path that updates our DB based on Chatwoot conversation state. We considered bidirectional — closing a Chatwoot conversation could mark an incident resolved — but every time we sketched it, the bidirectional version added more failure modes than it removed. One-way is enough.
 
@@ -325,7 +325,7 @@ The two-bucket output — `answer` vs `escalate` — is the part I would not ski
 
 When the bot tags `needs-human`, a second Chatwoot webhook (subscribed to `conversation_updated`) fires our gateway, which posts a structured message into Slack `#support-escalations` with the conversation transcript URL and the contact's plan/subdomain/status.
 
-[Jared Dunn](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team) — our SupportEngineer agent — picks it up the same way he picks up everything else: a Slack listener, the [agent prompt in `openclaw-rc.d/workspace/support-engineer/AGENTS.md`](https://github.com/openclaw/openclaw/blob/main/openclaw-rc.d/workspace/support-engineer/AGENTS.md), and the same toolchain (`kubectl`, `sentry-cli`, Gmail, `gh`) he uses for ticket triage. His instructions explicitly route follow-up code work and infrastructure work to `@GilfoyleBertram` (SoftwareEngineer):
+[Jared Dunn](/blog/2026-01-15-switching-from-openhands-to-vibebrowser-agentic-team) — our SupportEngineer agent — picks it up the same way he picks up everything else: a Slack listener, the agent prompt in `openclaw-rc.d/workspace/support-engineer/AGENTS.md`, and the same toolchain (`kubectl`, `sentry-cli`, Gmail, `gh`) he uses for ticket triage. His instructions explicitly route follow-up code work and infrastructure work to `@GilfoyleBertram` (SoftwareEngineer):
 
 | Situation | Handoff To |
 |---|---|
@@ -398,6 +398,6 @@ Background:
 - [Six months of momentum](/blog/2026-03-17-6-months-momentum) — the company context this all fits into
 - YC's [How to Build a Self-Improving Company with AI](https://www.youtube.com/watch?v=t-G67yKAHBQ) — the playbook this whole #ainativecompany series is running
 
-If you want to see the chat for yourself, open [openclaw.vibebrowser.app](https://openclaw.vibebrowser.app) and click the bubble. The first reply is from the bot. If you ask something it cannot confidently answer, Jared Dunn will pick it up. If he needs to ship code, he will tag Gilfoyle Bertram. Eventually it gets to me — but most days, it does not have to.
+If you want to see the current product, open [AgentPod](https://agentpod.agentlabs.cc). The managed service is the successor to the deployment described in this post.
 
 *Previous in series: [Docs Support Chat with Azure AI RAG →](/blog/2026-04-10-docs-support-chat-azure-ai-rag-supportengineer-escalation)*

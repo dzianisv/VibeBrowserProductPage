@@ -24,8 +24,8 @@ Use these as the baseline source pack when writing market-state blog posts.
 
 ## Composite
 - Company site: https://www.composite.global/
-- TechCrunch funding/context: https://techcrunch.com/2025/01/30/sales-ai-startup-composite-raises-3m/
-- Launch announcement (extension + CRM): https://www.prnewswire.com/news-releases/composite-launches-browser-extension-enabling-ai-powered-task-automation-for-sales-teams-302602003.html
+- TechCrunch funding/context: https://techcrunch.com/2025/09/30/composite-gets-backing-from-nfdg-for-its-cross-browser-agent-tool/
+- Funding announcement: https://www.prnewswire.com/news-releases/composite-raises-5-6m-to-liberate-professionals-from-tedious-grunt-work-302572973.html
 
 ## Writing constraints
 - Prefer first-party sources.
