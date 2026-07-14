@@ -64,7 +64,7 @@ This is the input-side optimization. Everything below is the output and executio
 
 Once you have stopped the agent from reading too much, the next bleed is the shell. Coding agents call `git status`, `ls -la`, `find`, `cat`, `tail` constantly. Each of those returns more text than the agent needed. The agent reads it, summarizes it, holds it in context.
 
-[RTK](https://github.com/dzianisv/rtk) (Rust Token Killer) is a CLI proxy. It intercepts common dev commands and returns a compressed, agent-friendly version of the output before it ever enters the context window. Claimed savings on the install doc: **60–90% on dev operations**.
+RTK (Rust Token Killer) is a CLI proxy. It intercepts common dev commands and returns a compressed, agent-friendly version of the output before it ever enters the context window. Claimed savings on the install doc: **60–90% on dev operations**.
 
 The meta commands the agent itself can call:
 

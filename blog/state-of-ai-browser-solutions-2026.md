@@ -155,9 +155,9 @@ If your team needs durable leverage rather than one-shot novelty, benchmark agai
 - Strawberry: setup  
   https://strawberrybrowser.com/tutorials/getting-started/setup
 - Composite coverage (market context)  
-  https://techcrunch.com/2025/01/30/sales-ai-startup-composite-raises-3m/
-- Composite launch announcement (extension + CRM context)  
-  https://www.prnewswire.com/news-releases/composite-launches-browser-extension-enabling-ai-powered-task-automation-for-sales-teams-302602003.html
+  https://techcrunch.com/2025/09/30/composite-gets-backing-from-nfdg-for-its-cross-browser-agent-tool/
+- Composite funding announcement
+  https://www.prnewswire.com/news-releases/composite-raises-5-6m-to-liberate-professionals-from-tedious-grunt-work-302572973.html
 - Vibe comparison page with first-party source mapping  
   https://www.vibebrowser.app/compare
 

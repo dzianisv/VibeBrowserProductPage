@@ -37,7 +37,7 @@ Nothing about OpenHands was broken. It was the wrong shape for the job.
 
 ## The Preconfigured Team
 
-OpenClaw ships the team as data, not framework hooks. The canonical role list lives in [`src/team/catalog.ts`](https://github.com/openclaw/openclaw/blob/main/src/team/catalog.ts) and is the single source of truth that downstream provisioning, Slack routing, and agent directories all read from.
+OpenClaw ships the team as data, not framework hooks. The canonical role list lives in `src/team/catalog.ts` and is the single source of truth that downstream provisioning, Slack routing, and agent directories all read from.
 
 The roles, exactly as defined in the catalog:
 
@@ -77,7 +77,7 @@ The per-role model split is deliberate: Gilfoyle Bertram (SoftwareEngineer) runs
 
 ### Roles, in practice
 
-The role `AGENTS.md` files are not abstract personas — they are operational runbooks. A concrete example from [`openclaw-rc.d/workspace/support-engineer/AGENTS.md`](https://github.com/openclaw/openclaw/blob/main/openclaw-rc.d/workspace/support-engineer/AGENTS.md): SupportEngineer (Jared Dunn) has a hard-coded Sentry triage path that does not ask the user for an issue ID:
+The role `AGENTS.md` files are not abstract personas — they are operational runbooks. A concrete example from `openclaw-rc.d/workspace/support-engineer/AGENTS.md`: SupportEngineer (Jared Dunn) has a hard-coded Sentry triage path that does not ask the user for an issue ID:
 
 ```bash
 curl -sS "https://sentry.io/api/0/projects/vibebrowser/vibe-api-gateway/issues/?query=is:unresolved&sort=date&limit=5" \
@@ -106,7 +106,7 @@ Handoff is not a framework primitive — it is `@RoleName` in a Slack message, p
 | Roadmap question | `@ProductManager` |
 | Public announcement | `@MarketingManager` |
 
-The rule in [`openclaw-rc.d/workspace/AGENTS.md`](https://github.com/openclaw/openclaw/blob/main/openclaw-rc.d/workspace/AGENTS.md) (shared by all roles): an `@mention` is ownership transfer, not FYI. No self-mentions. Include evidence + requested output + done condition.
+The rule in `openclaw-rc.d/workspace/AGENTS.md` (shared by all roles): an `@mention` is ownership transfer, not FYI. No self-mentions. Include evidence + requested output + done condition.
 
 ### Tool surface per role
 
@@ -194,7 +194,7 @@ For non-developers: imagine a senior engineer (Gilfoyle Bertram) sitting in a me
 
 ## Monica Hall (GrowthManager) — Cloud Chrome, Growth Hacking, and the chrome-sync Trick
 
-Monica Hall is the GrowthManager (`growth_manager` role id; persona shown in Slack as "OpenClaw GrowthManager", handle `@MonicaHall`). She runs growth experiments, drafts outreach, tracks signups, and publishes SEO content. Her two mounted skills are [`growth-hacking`](https://github.com/openclaw/openclaw/blob/main/openclaw-rc.d/skills/growth-hacking/SKILL.md) (experiment design, retention loops, channel scaling) and [`seo`](https://github.com/openclaw/openclaw/blob/main/openclaw-rc.d/skills/seo/SKILL.md) (keyword research, content briefs, indexing pings).
+Monica Hall is the GrowthManager (`growth_manager` role id; persona shown in Slack as "OpenClaw GrowthManager", handle `@MonicaHall`). She runs growth experiments, drafts outreach, tracks signups, and publishes SEO content. Her two mounted skills are `growth-hacking` (experiment design, retention loops, channel scaling) and `seo` (keyword research, content briefs, indexing pings).
 
 The interesting part is how she operates a browser without me babysitting her.
 
@@ -237,7 +237,7 @@ Monica has her own cloud-hosted Chrome — a real Chrome running in a Kubernetes
 
 Here is the wrinkle: Google, LinkedIn, Vercel, and almost every other SaaS have anti-bot heuristics that flag a cloud Chrome the first time it tries to sign in. They see a brand-new browser fingerprint from a datacenter IP and demand 2FA, device verification, or a CAPTCHA. Monica cannot solve those alone. She is in a datacenter.
 
-The solution we ship is [`chrome-sync`](https://github.com/openclaw/openclaw/blob/main/openclaw-rc.d/skills/chrome-sync/SKILL.md) — an open-source CLI at [`@vibetechnologies/chrome-sync`](https://www.npmjs.com/package/@vibetechnologies/chrome-sync). I run it on my laptop. It:
+The solution we ship is `chrome-sync` — an open-source CLI at [`@vibetechnologies/chrome-sync`](https://www.npmjs.com/package/@vibetechnologies/chrome-sync). I run it on my laptop. It:
 
 1. Talks to my **already-signed-in local Chrome** over CDP (`DevToolsActivePort` discovery on `127.0.0.1`).
 2. Reads cookies via `Storage.getCookies` / `Network.getAllCookies`.
@@ -374,7 +374,7 @@ For non-developers: Harvey is the in-house counsel who reads the contracts befor
 
 ## How We Create Slack Apps and Integrate Them With OpenClaw
 
-This is the part that previously cost us the most code. With OpenClaw, the procedure is mechanical and most of it is documented inside the repo's own provisioning skill at [`.agents/skills/configure-slack-apps/SKILL.md`](https://github.com/openclaw/openclaw/blob/main/.agents/skills/configure-slack-apps/SKILL.md). I am paraphrasing that skill below — it is what we actually run.
+This is the part that previously cost us the most code. With OpenClaw, the procedure is mechanical and most of it is documented inside the repo's own provisioning skill at `.agents/skills/configure-slack-apps/SKILL.md`. I am paraphrasing that skill below — it is what we actually run.
 
 ### 1. One Slack app per role
 
@@ -492,7 +492,7 @@ TEAM_SLACK_SUPPORT_ENGINEER_BOT_TOKEN=xoxb-...
 # ... and same shape for MARKETING_MANAGER, PRODUCT_MANAGER, GROWTH_MANAGER
 ```
 
-Second, push the config into the live tenant. [`src/team/openclaw.ts`](https://github.com/openclaw/openclaw/blob/main/src/team/openclaw.ts) writes one Slack `account` block per role into the tenant `openclaw.json`. The shape it produces is:
+Second, push the config into the live tenant. `src/team/openclaw.ts` writes one Slack `account` block per role into the tenant `openclaw.json`. The shape it produces is:
 
 ```json
 {

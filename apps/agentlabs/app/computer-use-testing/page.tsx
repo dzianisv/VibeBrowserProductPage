@@ -14,7 +14,7 @@ import {
 } from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "Computer-Use Testing — agentprobe",
+  title: "Computer-Use Testing — a-test",
   description:
     "Test Android apps and browser extensions with a computer-use agent — it drives the real UI like a user and checks the result. Open source, MIT licensed, runs on your own CI.",
   alternates: {
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     type: "website",
     url: "https://agentlabs.cc/computer-use-testing",
     siteName: "Agent Labs",
-    title: "Computer-Use Testing — agentprobe",
+    title: "Computer-Use Testing — a-test",
     description:
       "Test Android apps and browser extensions with a computer-use agent — it drives the real UI like a user and checks the result.",
     images: [
@@ -32,13 +32,13 @@ export const metadata: Metadata = {
         url: "/vibebrowser-logo.png",
         width: 512,
         height: 512,
-        alt: "agentprobe — Computer-Use Testing for Android Apps and Browser Extensions",
+        alt: "a-test — Computer-Use Testing for Android Apps and Browser Extensions",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Computer-Use Testing — agentprobe",
+    title: "Computer-Use Testing — a-test",
     description:
       "Test Android apps and browser extensions with a computer-use agent. MIT licensed, self-hostable.",
     images: ["/vibebrowser-logo.png"],
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   },
 }
 
-const GITHUB_URL = "https://github.com/dzianisv/agentprobe"
+const GITHUB_URL = "https://github.com/dzianisv/a-test"
 
 const features = [
   {
@@ -149,10 +149,10 @@ export default function ComputerUseTestingPage() {
 
               <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-sm text-[#9aa0a6]">
                 <span className="font-mono bg-[#1a1a1a] border border-[#3c4043] rounded px-3 py-1.5 text-[#81c995]">
-                  pip install agentprobe
+                  Install from GitHub
                 </span>
                 <span className="font-mono bg-[#1a1a1a] border border-[#3c4043] rounded px-3 py-1.5 text-[#9aa0a6]">
-                  agentprobe run --target android|browser --case &lt;path&gt;
+                  a-test run --target android|browser --case &lt;path&gt;
                 </span>
               </div>
             </div>
@@ -172,7 +172,7 @@ export default function ComputerUseTestingPage() {
               Two backends. One CLI.
             </h2>
             <p className="text-[#9aa0a6] mb-10">
-              agentprobe ships an Android backend driven by adb and a browser backend driven by
+              a-test ships an Android backend driven by adb and a browser backend driven by
               Chrome CDP. Both feed screenshots to a vision model and translate its decisions into
               real UI actions.
             </p>
@@ -257,7 +257,7 @@ export default function ComputerUseTestingPage() {
             <p className="text-[#9aa0a6] mb-8">
               Android tests run inside{" "}
               <code className="text-[#81c995] font-mono text-sm">android-emulator-runner</code>{" "}
-              (API 28). Browser tests run in a containerized Chrome instance. Both targets emit JUnit
+              (API 33 by default). Browser tests run in Chrome on Xvfb. Both targets emit JUnit
               XML and a screen GIF.
             </p>
 
@@ -271,16 +271,16 @@ export default function ComputerUseTestingPage() {
                 </span>
               </div>
               <pre className="p-6 font-mono text-sm text-[#9aa0a6] leading-relaxed overflow-x-auto">{`# .github/workflows/android-cua.yml
-- uses: reactivecircus/android-emulator-runner@v2
+- uses: dzianisv/a-test/.github/actions/a-test-android@main
   with:
-    api-level: 28
-    script: agentprobe run --target android --case cases/onboarding.yaml
+   case: cases/onboarding.yaml
+   output-dir: artifacts
 
 # For browser extensions:
-- run: |
-    agentprobe run --target browser \\
-      --extension ./my-extension.crx \\
-      --case cases/sidepanel.yaml`}</pre>
+- uses: dzianisv/a-test/.github/actions/a-test-browser@main
+ with:
+   case: cases/install-extension.yaml
+   output-dir: artifacts`}</pre>
             </div>
           </div>
         </section>
@@ -353,7 +353,7 @@ verification:
               MIT licensed. No agent infra in the middle.
             </h2>
             <p className="text-[#9aa0a6] leading-relaxed max-w-2xl mb-6">
-              agentprobe is MIT licensed and entirely self-hostable. It runs on your own GitHub
+              a-test is MIT licensed and entirely self-hostable. It runs on your own GitHub
               Actions runner — there is no Agent Labs infrastructure between your test runner and
               your app. Your screenshots, your API keys, and your source code stay on your machines.
             </p>
@@ -369,7 +369,7 @@ verification:
                 <ArrowRight size={15} />
               </a>
               <div className="inline-flex items-center gap-2 rounded-lg border border-[#3c4043] px-6 py-3 text-sm text-[#9aa0a6]">
-                <code className="font-mono text-[#81c995]">pip install agentprobe</code>
+                <code className="font-mono text-[#81c995]">Install from GitHub</code>
               </div>
             </div>
           </div>

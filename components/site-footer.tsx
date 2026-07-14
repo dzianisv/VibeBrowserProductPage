@@ -127,7 +127,7 @@ export function SiteFooter() {
               <Link href="https://x.com/vibebrowserapp" target="_blank" rel="noopener noreferrer" className={`text-sm transition-colors ${isOpenClaw ? 'text-[#b7c0db] hover:text-[#f0f4ff]' : isDark ? 'text-[#9aa0a6] hover:text-[#e8eaed]' : 'text-muted-foreground hover:text-purple-600'}`}>
                 X (Twitter)
               </Link>
-              <Link href="https://t.me/VibeBrowser" target="_blank" rel="noopener noreferrer" className={`text-sm transition-colors ${isOpenClaw ? 'text-[#b7c0db] hover:text-[#f0f4ff]' : isDark ? 'text-[#9aa0a6] hover:text-[#e8eaed]' : 'text-muted-foreground hover:text-purple-600'}`}>
+              <Link href="https://telegram.me/VibeBrowser" target="_blank" rel="noopener noreferrer" className={`text-sm transition-colors ${isOpenClaw ? 'text-[#b7c0db] hover:text-[#f0f4ff]' : isDark ? 'text-[#9aa0a6] hover:text-[#e8eaed]' : 'text-muted-foreground hover:text-purple-600'}`}>
                 Telegram Community
               </Link>
               <Link href="/aboutus" className={`text-sm transition-colors ${isOpenClaw ? 'text-[#b7c0db] hover:text-[#f0f4ff]' : isDark ? 'text-[#9aa0a6] hover:text-[#e8eaed]' : 'text-muted-foreground hover:text-purple-600'}`}>

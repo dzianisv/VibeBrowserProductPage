@@ -56,4 +56,4 @@ You can now switch AI models mid-session and Vibe remembers the choice correctly
 
 ---
 
-Questions? Reach out at [info@vibebrowser.app](mailto:info@vibebrowser.app) or join our [Telegram community](https://t.me/VibeBrowser).
+Questions? Reach out at [info@vibebrowser.app](mailto:info@vibebrowser.app) or join our [Telegram community](https://telegram.me/VibeBrowser).

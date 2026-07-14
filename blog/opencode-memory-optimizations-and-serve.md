@@ -208,5 +208,5 @@ If you are building AI-powered workflows that touch the browser — testing, scr
 - [anomalyco/opencode#16697](https://github.com/anomalyco/opencode/issues/16697) — upstream memory issue with field evidence
 - [ChromeDevTools/chrome-devtools-mcp#1192](https://github.com/ChromeDevTools/chrome-devtools-mcp/issues/1192) — MCP server memory leak report
 - [Vibe Browser](https://vibebrowser.app) — browser automation without the MCP memory trap
-- [Memory Forensics for opencode serve](https://github.com/dzianisv/opencode/blob/dev/docs/memory-forensics.md)
+- Internal guide: Memory Forensics for `opencode serve`
 - [Fork README](https://github.com/dzianisv/opencode/blob/dev/README.md) — full diff from upstream

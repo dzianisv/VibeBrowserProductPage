@@ -133,7 +133,7 @@ Try it on a real workflow you've been running on another model and compare. The 
 - xAI Grok-4.1 Fast Non-Reasoning on Azure AI Foundry  
   https://ai.azure.com/catalog/models/grok-4-1-fast-non-reasoning
 - xAI model pricing  
-  https://azure.microsoft.com/pricing/details/ai-foundry-models/
+  https://azure.microsoft.com/en-us/pricing/details/ai-foundry-models/microsoft/
 - BrowseComp benchmark  
   https://arxiv.org/abs/2504.12516
 
