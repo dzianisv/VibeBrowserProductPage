@@ -289,13 +289,18 @@ export async function SharedBlogPostPage({
             <div className="mt-4">
               <MailingListSubscribe />
             </div>
-            <p className="mt-4 text-sm text-[#9aa0a6]">
-              Prefer a reader?{' '}
-              <Link href="/rss.xml" className="font-medium text-[#8ab4f8] transition-colors hover:text-[#aecbfa]">
-                Subscribe via RSS
-              </Link>
-              .
-            </p>
+            {config.rssPath && (
+              <p className="mt-4 text-sm text-[#9aa0a6]">
+                Prefer a reader?{' '}
+                <Link
+                  href={config.rssPath}
+                  className="font-medium text-[#8ab4f8] transition-colors hover:text-[#aecbfa]"
+                >
+                  Subscribe via RSS
+                </Link>
+                .
+              </p>
+            )}
           </aside>
         </div>
       </main>

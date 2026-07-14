@@ -279,7 +279,7 @@ const baseCompanyProfileConfig: CompanyProfileConfig = {
       external: true,
     },
     { label: "X", href: "https://x.com/vibebrowserapp", external: true },
-    { label: "Telegram", href: "https://t.me/VibeBrowser", icon: MessageCircle, external: true },
+    { label: "Telegram", href: "https://telegram.me/VibeBrowser", icon: MessageCircle, external: true },
   ],
   heroContactHref: "mailto:info@vibebrowser.app",
   footerContactHref: "mailto:info@vibebrowser.app",
@@ -311,7 +311,7 @@ agentlabsCompanyProfileConfig.contacts = [
     external: true,
   },
   { label: "X", href: "https://x.com/vibebrowserapp", external: true },
-  { label: "Telegram", href: "https://t.me/VibeBrowser", icon: MessageCircle, external: true },
+  { label: "Telegram", href: "https://telegram.me/VibeBrowser", icon: MessageCircle, external: true },
 ]
 agentlabsCompanyProfileConfig.heroContactHref = "mailto:info@agentlabs.cc"
 agentlabsCompanyProfileConfig.footerContactHref = "mailto:info@agentlabs.cc"
@@ -355,23 +355,23 @@ agentlabsCompanyProfileConfig.products = agentlabsCompanyProfileConfig.products.
   return product
 })
 
-// Append AgentProbe and Market Data at the bottom of the product list
+// Append a-test and Market Data at the bottom of the product list
 agentlabsCompanyProfileConfig.products = [
   ...agentlabsCompanyProfileConfig.products,
   {
-    title: "AgentProbe",
+    title: "a-test",
     badge: "Mobile · Browser · CI",
     description:
       "Test mobile apps and browser apps with a computer-use agent. Vision-loop CUA framework — drives real UI, judges on screen. One GitHub Actions line for CI.",
-    tags: ["CUA Testing", "Mobile Apps", "Browser Apps", "GitHub Actions", "pip install", "Python + Bun"],
+    tags: ["CUA Testing", "Mobile Apps", "Browser Apps", "GitHub Actions", "Open Source", "Python + Bun"],
     icon: Cpu,
     iconColor: "text-[#4fc3f7]",
     iconBg: "bg-[#4fc3f7]/10",
     borderHoverClass: "hover:border-[#4fc3f7]/40",
     actions: [
-      { href: "/agentprobe", label: "Learn More", colorClass: "text-[#4fc3f7]" },
+      { href: "/a-test", label: "Learn More", colorClass: "text-[#4fc3f7]" },
       {
-        href: "https://github.com/dzianisv/agentprobe",
+        href: "https://github.com/dzianisv/a-test",
         label: "GitHub",
         colorClass: "text-[#9aa0a6]",
         external: true,

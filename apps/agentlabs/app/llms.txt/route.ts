@@ -6,7 +6,7 @@ const primaryPages = [
   { label: 'Homepage', url: `${siteUrl}/` },
   { label: 'Agent performance benchmarks and dataset', url: `${siteUrl}/agentsdata` },
   { label: 'Computer-use testing with browser and mobile agents', url: `${siteUrl}/computer-use-testing` },
-  { label: 'AgentProbe open-source CUA test harness', url: `${siteUrl}/agentprobe` },
+  { label: 'a-test open-source CUA test harness', url: `${siteUrl}/a-test` },
   { label: 'Spark for decentralized exchange execution', url: `${siteUrl}/spark` },
   { label: 'Blog index', url: `${siteUrl}/blog` },
 ]
@@ -21,7 +21,7 @@ export function GET() {
     '',
     '## Product summary',
     '',
-    '- Agent Labs is the product and research site for Vibe Technologies LLC projects such as AgentProbe, OpenClaw workflows, and multi-agent browser automation.',
+    '- Agent Labs is the product and research site for Vibe Technologies LLC projects such as a-test, OpenClaw workflows, and multi-agent browser automation.',
     '- The public blog publishes release notes, implementation playbooks, and market analysis relevant to building agentic AI systems.',
     '',
     '## Canonical public URLs',

@@ -1,0 +1,92 @@
+name: Deploy OpenCode Mobile Site
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'OpenCodeMobileSite/**'
+      - '.github/workflows/deploy-opencode-mobile-site.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-opencode-mobile-site
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: OpenCodeMobileSite
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: OpenCodeMobileSite/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      # opencode.agentlabs.cc and agentlabs.cc use the same Vercel team token,
+      # but deploy to separate projects.
+      - name: Pull Vercel project settings
+        run: npx vercel pull --yes --environment=production --token=${{ secrets.AGENTLABS_VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.AGENTLABS_VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ vars.OPENCODE_VERCEL_PROJECT_ID }}
+
+      - name: Build
+        run: npx vercel build --prod --token=${{ secrets.AGENTLABS_VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.AGENTLABS_VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ vars.OPENCODE_VERCEL_PROJECT_ID }}
+
+      - name: Deploy production
+        id: deploy
+        run: |
+          set -euo pipefail
+          LOG="$RUNNER_TEMP/vercel-opencode-deploy.log"
+          npx vercel deploy --prebuilt --prod --archive=tgz \
+            --token=${{ secrets.AGENTLABS_VERCEL_TOKEN }} \
+            2>&1 | tee "$LOG"; EXIT=${PIPESTATUS[0]}
+          if [ "$EXIT" -ne 0 ]; then
+            echo "::error::OpenCode Mobile deploy failed with exit code $EXIT"
+            exit "$EXIT"
+          fi
+          URL=$(grep -Eo 'https://[[:alnum:].-]+\.vercel\.app' "$LOG" | tail -1)
+          if [ -z "$URL" ]; then
+            echo "::error::Vercel did not return a deployment URL"
+            exit 1
+          fi
+          echo "deployment_url=$URL" >> "$GITHUB_OUTPUT"
+          echo "Deployed: $URL"
+        env:
+          VERCEL_ORG_ID: ${{ secrets.AGENTLABS_VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ vars.OPENCODE_VERCEL_PROJECT_ID }}
+
+      - name: Smoke test production
+        run: |
+          set -euo pipefail
+          PAGE="$RUNNER_TEMP/opencode-ios.html"
+          RESPONSE="$RUNNER_TEMP/opencode-ios-invalid.json"
+          curl --fail --show-error --silent \
+            https://opencode.agentlabs.cc/ios \
+            --output "$PAGE"
+          grep -q 'Join the iOS waitlist' "$PAGE"
+          STATUS=$(curl --show-error --silent \
+            --output "$RESPONSE" \
+            --write-out '%{http_code}' \
+            --request POST \
+            https://opencode.agentlabs.cc/api/ios-waitlist \
+            --header 'Content-Type: application/json' \
+            --data '{"email":"invalid"}')
+          test "$STATUS" = '400'

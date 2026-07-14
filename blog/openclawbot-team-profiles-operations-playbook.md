@@ -23,9 +23,9 @@ Once the fix was live and Sentry confirmed error rates back to baseline, DevOpsE
 
 I saw the closed loop in Slack. I didn't touch it.
 
-That is how **OpenClawBot team profiles** work for us: one cloud-managed [OpenClaw](https://github.com/openclaw/openclaw) deployment at [openclaw.vibebrowser.app](https://openclaw.vibebrowser.app), six role-specific agents, clear ownership, and strict handoff rules.
+That is how **OpenClawBot team profiles** work for us: one cloud-managed [OpenClaw](https://github.com/openclaw/openclaw) deployment, now available as [AgentPod](https://agentpod.agentlabs.cc), six role-specific agents, clear ownership, and strict handoff rules.
 
-I wrote this post as an implementation guide, not a concept piece. It has two parts: **operating model** (how the roles, skills, and handoffs are designed) and **integration setup** (how to wire each role into Slack, GitHub, Sentry, Linear, and Google Drive). If you just want the managed version without manual config, skip to [Hire the team](#hire-the-team--invite-them-to-your-slack).
+I wrote this post as an implementation guide, not a concept piece. It has two parts: **operating model** (how the roles, skills, and handoffs are designed) and **integration setup** (how to wire each role into Slack, GitHub, Sentry, Linear, and Google Drive). If you just want the managed version without manual config, skip to [Hire the team](#hire-the-team-invite-them-to-your-slack).
 
 ---
 
@@ -35,7 +35,7 @@ I wrote this post as an implementation guide, not a concept piece. It has two pa
 - Each role has locked tool access, a skills list, and explicit handoff rules. Agents cannot drift into each other's lanes.
 - Gilfoyle Bertram carries the scheduled heartbeat for DevOps incident scanning — it checks Sentry every 15 minutes and delegates, not just alerts.
 - GPT-5.3-Codex (xhigh reasoning) for engineering roles, GPT-5.4 for support and finance, Grok-4.1 for speed. Model choice is per-role, not per-request.
-- **Want this without the setup work?** → [openclaw.vibebrowser.app](https://openclaw.vibebrowser.app)
+- **Want this without the setup work?** → [agentpod.agentlabs.cc](https://agentpod.agentlabs.cc)
 
 ---
 
@@ -58,7 +58,7 @@ I wrote this post as an implementation guide, not a concept piece. It has two pa
 
 **Part 3 — Putting it together**
 - [Example workflow](#example-workflow-complaint---fix---customer-confirmation)
-- [Hire the team (managed shortcut)](#hire-the-team--invite-them-to-your-slack)
+- [Hire the team (managed shortcut)](#hire-the-team-invite-them-to-your-slack)
 - [Should you adopt this?](#should-you-adopt-this-architecture)
 
 ---
@@ -91,7 +91,7 @@ The narrow scope is intentional. It keeps prompts shorter, decisions clearer, an
 
 ## Team setup in the console
 
-Create a Team tenant at [console.openclaw.vibebrowser.app](https://console.openclaw.vibebrowser.app). You get a `TEAM_TOKEN` that secures the team API.
+Create a Team tenant in the [AgentPod console](https://agentpod.agentlabs.cc/console/). You get a `TEAM_TOKEN` that secures the team API.
 
 Two config layers matter:
 
@@ -398,7 +398,7 @@ Install to selected repos and note the installation ID.
 
 Store the app credentials in `openclaw.json`. The exact config shape depends on the OpenClaw skills that handle GitHub — typically the skill reads `GITHUB_APP_ID`, `GITHUB_PRIVATE_KEY`, and `GITHUB_INSTALLATION_ID` from the agent sandbox environment.
 
-For the cloud-managed product at [openclaw.vibebrowser.app](https://openclaw.vibebrowser.app), paste the App ID, Installation ID, and private key into the console — it handles the env injection.
+For the cloud-managed [AgentPod](https://agentpod.agentlabs.cc) product, paste the App ID, Installation ID, and private key into the console — it handles the env injection.
 
 Identity check: open a DM with the agent and ask it to comment on a test issue. Confirm the comment appears under the app's bot identity.
 
@@ -510,11 +510,11 @@ That full loop is the core metric for this setup.
 
 We turned this exact setup into a product.
 
-**[OpenClawBot](https://openclaw.vibebrowser.app)** lets you hire a team of agents — SupportEngineer, DevOpsEngineer, SoftwareEngineer, GrowthManager, MarketingManager, FinManager — and invite them into your Slack workspace in minutes. No infrastructure to manage. No prompt engineering from scratch. The roles, skills, handoff rules, and integrations (GitHub, Sentry, Linear, Gmail, Google Drive) are pre-configured and ready to run.
+**[AgentPod](https://agentpod.agentlabs.cc)** lets you hire a team of agents — SupportEngineer, DevOpsEngineer, SoftwareEngineer, GrowthManager, MarketingManager, FinManager — and invite them into your Slack workspace in minutes. No infrastructure to manage. No prompt engineering from scratch. The roles, skills, handoff rules, and integrations (GitHub, Sentry, Linear, Gmail, Google Drive) are pre-configured and ready to run.
 
 It works like adding a new hire:
 
-1. Go to [openclaw.vibebrowser.app](https://openclaw.vibebrowser.app)
+1. Go to [agentpod.agentlabs.cc](https://agentpod.agentlabs.cc)
 2. Pick the roles you need
 3. Connect your tools (one OAuth flow per integration)
 4. Invite the bot to your Slack channel
@@ -539,7 +539,7 @@ Start with one role and one recurring workflow. Measure loop completion quality 
 
 ## References
 
-- [OpenClawBot (hire your agent team)](https://openclaw.vibebrowser.app)
+- [AgentPod (hire your agent team)](https://agentpod.agentlabs.cc)
 - [Vibe Browser for OpenClaw](https://www.vibebrowser.app/openclaw)
 - [OpenClaw project](https://github.com/openclaw/openclaw)
 - [GPT-5.4 support in Vibe](https://www.vibebrowser.app/blog/gpt-5-4-support-and-kimi-k2-5-free-tier)
@@ -547,7 +547,7 @@ Start with one role and one recurring workflow. Measure loop completion quality 
 - [GitHub Issues docs](https://docs.github.com/en/issues)
 - [Linear docs](https://linear.app/docs)
 - [Sentry docs](https://docs.sentry.io/)
-- [Gmail docs](https://support.google.com/mail/)
+- [Gmail developer docs](https://developers.google.com/workspace/gmail)
 
 ---
 

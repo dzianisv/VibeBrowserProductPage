@@ -9,7 +9,7 @@ tags:
   - browser-extensions
   - computer-use
   - ci
-  - agentprobe
+  - a-test
   - open-source
 published: true
 ---
@@ -72,7 +72,7 @@ The `instruction` is natural language. The `verification.prompt` is a yes/no que
 
 ## Running on GitHub Actions
 
-The actual workflow uses a Docker container (Xvfb + Chrome + the runtime) so there's no display setup leak between steps:
+The reusable browser action installs a-test, Bun, Chrome dependencies, Xvfb, xdotool, scrot, and ffmpeg before running the case:
 
 ```yaml
 # .github/workflows/browser-cua.yml
@@ -84,21 +84,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Build extension
-        run: npm run build
-      - name: Install agentprobe
-        run: pip install agentprobe
-      - name: Run computer-use tests
+      - name: Run a-test in Chrome
+        uses: dzianisv/a-test/.github/actions/a-test-browser@main
+        with:
+          case: cases/install-extension.yaml
+          output-dir: artifacts
         env:
           AZURE_CUA_API_KEY: ${{ secrets.AZURE_CUA_API_KEY }}
           AZURE_CUA_BASE_URL: ${{ secrets.AZURE_CUA_BASE_URL }}
-        run: |
-          Xvfb :99 -screen 0 1920x1080x24 &
-          DISPLAY=:99 agentprobe run \
-            --target browser \
-            --extension ./dist \
-            --case cases/sidepanel.yaml \
-            --output-dir artifacts/
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -106,7 +99,7 @@ jobs:
           path: artifacts/
 ```
 
-The `DISPLAY=:99` points all X11 calls (scrot, xdotool, Chrome) at the virtual framebuffer. No display server leaks between jobs. If the test fails, the artifacts directory has every screenshot plus the verification result JSON.
+The action points all X11 calls (scrot, xdotool, Chrome) at its virtual framebuffer. If the test fails, the artifacts directory has every screenshot plus the verification result JSON.
 
 ## GIF Artifacts for PR Review
 
@@ -119,7 +112,7 @@ Post that GIF in the PR comment. Reviewers see exactly what the agent saw and wh
 On Android the screen capture path is `adb screencap -p`, the action path is `adb shell input tap x y` / `adb shell input text`, and the emulator is `android-emulator-runner@v2` (API 28). The vision model is the same.
 
 ```bash
-DISPLAY=:99 agentprobe run \
+DISPLAY=:99 a-test run \
   --target android \
   --avd pixel_4_api28 \
   --case cases/mobile-flow.yaml \
@@ -136,7 +129,7 @@ Running both in parallel — model-driven interaction plus deterministic asserti
 
 ## BYOK and Why It Matters
 
-`agentprobe` brings your own API key. Azure AI Foundry, OpenAI, Gemini via `--model` flag. The test runner runs on your CI runner. Nothing goes through a vendor's test infrastructure.
+`a-test` brings your own API key. Azure AI Foundry, OpenAI, Gemini via `--model` flag. The test runner runs on your CI runner. Nothing goes through a vendor's test infrastructure.
 
 For teams with security requirements or air-gapped CI, that matters. The extension code and the test credentials stay in your pipeline. MIT licensed.
 
@@ -148,4 +141,4 @@ For this case — verifying that an extension sidepanel opens and shows the righ
 
 ---
 
-The full tooling, including test case schema, runner, and GitHub Actions templates, is at [https://github.com/dzianisv/agentprobe](https://github.com/dzianisv/agentprobe).
+The full tooling, including test case schema, runner, and GitHub Actions templates, is at [https://github.com/dzianisv/a-test](https://github.com/dzianisv/a-test).

@@ -157,8 +157,6 @@ That is also why our team keeps working on this custom `codex` fork directly. We
 
 ## References
 
-- `feat: add GitHub Copilot provider and device-code login`  
-  https://github.com/dzianisv/codex/commit/ab7e5d013b7c2f4258e80a4ba3b326f5040e93a4
 - `feat: github copilot model discovery and reflection toggle persistence`  
   https://github.com/dzianisv/codex/commit/41a47906c259e67cbf391d7888793f76c33198fd
 - `fix: strip Openai-Intent header from /models request to show all Copilot models`  
@@ -173,11 +171,5 @@ That is also why our team keeps working on this custom `codex` fork directly. We
   https://github.com/dzianisv/codex/commit/3e01ad6ccdfd46e0e1eeeafcb0111a70b8859e41
 - `feat: experimental reflection enable/disable and verdict pipeline`  
   https://github.com/dzianisv/codex/commit/08e9a1ee58ea103a946e2dee0277624093cb71dc
-- `core: refine reflection runtime and config wiring`  
-  https://github.com/dzianisv/codex/commit/65adfe7fe6e308df63e9e21ae54d27feefb01add
-- `app-server-protocol: expose reflection verdict event in schemas`  
-  https://github.com/dzianisv/codex/commit/9aa087b5c2e4a4cb336ca1c79518024e1f965a08
-- `tui: fix /experimental reflection enabled state`  
-  https://github.com/dzianisv/codex/commit/a4300402e22c0357f37eaef4e0e3d1de7ceb4a2f
 - `Reflection Layer` docs  
   https://github.com/dzianisv/codex/blob/main/docs/reflection.md

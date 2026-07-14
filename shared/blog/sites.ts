@@ -16,6 +16,7 @@ export const vibebrowserBlogConfig: BlogSiteConfig = {
   twitterCreator: '@vibebrowserapp',
   organizationName: 'Vibe Technologies',
   organizationLogoPath: '/vibebrowser-logo.png',
+  rssPath: '/rss.xml',
   defaultKeywords: [
     'Vibe Blog',
     'AI browser automation',
@@ -47,6 +48,7 @@ export const agentlabsBlogConfig: BlogSiteConfig = {
   twitterCreator: '@vibebrowserapp',
   organizationName: 'Vibe Technologies LLC',
   organizationLogoPath: '/vibebrowser-logo.png',
+  rssPath: '/rss.xml',
   defaultKeywords: [
     'Agent Labs',
     'Agent Labs Blog',

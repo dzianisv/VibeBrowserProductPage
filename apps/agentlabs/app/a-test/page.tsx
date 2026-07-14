@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Terminal, Code2, Zap, Github, Cpu, Monitor, Smartphone, CheckCircle2, Globe } from "lucide-react"
 
-const ANDROID_CODE = `from agentprobe import TestCase, run_case
+const ANDROID_CODE = `from a_test import TestCase, run_case
 
 case = TestCase(
     name="basic_smoke",
@@ -16,7 +16,7 @@ case = TestCase(
     maxSteps=15,
 )
 
-result = run_case(case, output_dir="./agentprobe-output")
+result = run_case(case, output_dir="./a-test-output")
 print(result["verdict"], "--", result["reason"])
 # pass -- YES. The calculator shows 8 after tapping 5 + 3 =.`
 
@@ -29,9 +29,9 @@ successCriteria:
   - "Search input is present"
 maxSteps: 10`
 
-const BROWSER_RUN = `agentprobe run --target browser --case examples/open-weather.yaml --output-dir ./output`
+const BROWSER_RUN = `a-test run --target browser --case examples/open-weather.yaml --output-dir ./output`
 
-const CI_CODE = `- uses: dzianisv/agentprobe/.github/actions/agentprobe-android@main
+const CI_CODE = `- uses: dzianisv/a-test/.github/actions/a-test-android@main
   with:
     case: examples/android/basic_smoke.py
     api-level: '33'
@@ -45,12 +45,12 @@ const RESULT_JSON = `{
   "verdict": "pass",
   "reason": "YES. The calculator shows 8 after tapping 5 + 3 =.",
   "steps": 7,
-  "gif": "./agentprobe-output/demo.gif"
+  "gif": "./a-test-output/demo.gif"
 }`
 
 type Tab = "android" | "browser" | "ci"
 
-export default function AgentProbePage() {
+export default function ATestPage() {
   const [activeTab, setActiveTab] = useState<Tab>("android")
 
   return (
@@ -58,7 +58,7 @@ export default function AgentProbePage() {
       {/* Header */}
       <header className="border-b border-[#3c4043] bg-[#0a0a0a]">
         <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
-          <span className="font-semibold text-lg tracking-tight text-[#e8eaed]">AgentProbe</span>
+          <span className="font-semibold text-lg tracking-tight text-[#e8eaed]">a-test</span>
           <div className="flex items-center gap-3">
             <Button
               asChild
@@ -68,11 +68,11 @@ export default function AgentProbePage() {
               <a href="mailto:ai@agentlabs.cc">Request Demo</a>
             </Button>
             <a
-              href="https://github.com/dzianisv/agentprobe"
+              href="https://github.com/dzianisv/a-test"
               target="_blank"
               rel="noopener noreferrer"
               className="text-[#9aa0a6] hover:text-[#e8eaed] transition-colors"
-              aria-label="View AgentProbe on GitHub"
+              aria-label="View a-test on GitHub"
             >
               <Github className="w-5 h-5" />
             </a>
@@ -84,14 +84,14 @@ export default function AgentProbePage() {
       <section className="bg-[#0a0a0a] py-20 px-4">
         <div className="max-w-3xl mx-auto text-center">
           <span className="inline-block mb-4 px-3 py-1 rounded-full bg-[#1e2b1e] text-[#81c995] border border-[#2a3f2a] text-xs font-medium">
-            Available on PyPI
+            Open source on GitHub
           </span>
           <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-[#e8eaed] mb-6">
             AI-driven UI testing for{" "}
             <span className="text-[#81c995]">Mobile Apps and Browser Apps</span>
           </h1>
           <p className="text-lg text-[#9aa0a6] mb-10 max-w-2xl mx-auto leading-relaxed">
-            AgentProbe uses a computer-use agent to drive your real UI, then judges the result
+            a-test uses a computer-use agent to drive your real UI, then judges the result
             against your success criteria using a vision-loop LLM call. No mocks. No record-and-replay.
             Just a GIF and a verdict.
           </p>
@@ -101,7 +101,7 @@ export default function AgentProbePage() {
               className="bg-[#81c995] hover:bg-[#6db882] text-[#0a0a0a] font-medium"
             >
               <a
-                href="https://github.com/dzianisv/agentprobe#quickstart"
+                href="https://github.com/dzianisv/a-test#quickstart-android"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -114,7 +114,7 @@ export default function AgentProbePage() {
               className="border-[#3c4043] text-[#e8eaed] hover:bg-[#1a1a1a] hover:text-[#e8eaed]"
             >
               <a
-                href="https://github.com/dzianisv/agentprobe"
+                href="https://github.com/dzianisv/a-test"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2"
@@ -317,7 +317,7 @@ export default function AgentProbePage() {
             Ready to test your UI with an agent?
           </h2>
           <p className="text-[#9aa0a6] mb-10">
-            Open source and available on PyPI. Drop it in CI or run locally in minutes.
+            Open source and available on GitHub. Install from a pinned commit until the first PyPI release.
           </p>
           <div className="grid sm:grid-cols-2 gap-4 max-w-xl mx-auto">
             <Card className="bg-[#141414] border-[#3c4043] hover:border-[#81c995]/40 transition-colors">
@@ -325,10 +325,10 @@ export default function AgentProbePage() {
                 <div className="w-9 h-9 rounded-lg bg-[#81c995]/10 flex items-center justify-center mb-4">
                   <Terminal className="w-4 h-4 text-[#81c995]" />
                 </div>
-                <h3 className="font-semibold text-[#e8eaed] mb-1">Install from PyPI</h3>
-                <p className="text-[#9aa0a6] text-xs mb-4">Get started in your environment in seconds.</p>
-                <pre className="bg-[#0d0d0d] border border-[#3c4043] text-[#81c995] rounded p-3 font-mono text-xs">
-                  pip install agentprobe
+                <h3 className="font-semibold text-[#e8eaed] mb-1">Install from source</h3>
+                <p className="text-[#9aa0a6] text-xs mb-4">Pin installation to a Git commit for reproducible CI.</p>
+                <pre className="overflow-x-auto bg-[#0d0d0d] border border-[#3c4043] text-[#81c995] rounded p-3 font-mono text-xs">
+                  pip install &quot;git+https://github.com/dzianisv/a-test.git@&lt;commit-sha&gt;&quot;
                 </pre>
               </CardContent>
             </Card>
@@ -341,13 +341,13 @@ export default function AgentProbePage() {
                 <h3 className="font-semibold text-[#e8eaed] mb-1">View on GitHub</h3>
                 <p className="text-[#9aa0a6] text-xs mb-4">Source, docs, and examples in one place.</p>
                 <a
-                  href="https://github.com/dzianisv/agentprobe"
+                  href="https://github.com/dzianisv/a-test"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-[#4fc3f7] text-sm hover:underline"
                 >
                   <Github className="w-4 h-4" />
-                  dzianisv/agentprobe
+                  dzianisv/a-test
                 </a>
               </CardContent>
             </Card>

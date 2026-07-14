@@ -221,4 +221,4 @@ If you want the deeper comparison context, see:
 
 - [The Great Browser MCP Showdown](/blog/mcp-browser-automation-comparison)
 - [chrome-devtools-mcp vs playwright-mcp](/blog/chrome-devtools-mcp-vs-playwright-mcp)
-- [Vibe MCP docs](/mcp)
+- [Vibe MCP docs](https://www.vibebrowser.app/mcp)
