@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import ScreenshotCarousel from '@/components/ScreenshotCarousel'
+import ShowcaseVideo from '@/components/ShowcaseVideo'
 
 export const metadata: Metadata = {
   title: 'OpenCode Mobile — Android App, iOS Coming Soon',
@@ -102,21 +104,7 @@ export default function HomePage() {
       {/* Screenshots */}
       <section className="pb-24">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <div className="flex justify-center gap-4 sm:gap-6 flex-wrap">
-            {['/screenshots/phone-01.png', '/screenshots/phone-02.png', '/screenshots/phone-03.png'].map((src, i) => (
-              <div key={i} className="relative rounded-2xl overflow-hidden"
-                style={{ border: '1px solid var(--border)', maxWidth: 200 }}>
-                <img
-                  src={src}
-                  alt={`OpenCode Mobile screenshot ${i + 1}`}
-                  width={200}
-                  height={400}
-                  className="object-cover"
-                  style={{ display: 'block' }}
-                />
-              </div>
-            ))}
-          </div>
+          <ScreenshotCarousel />
         </div>
       </section>
 
@@ -124,20 +112,12 @@ export default function HomePage() {
       <section className="pb-24">
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
           <h2 className="text-2xl font-bold mb-6 text-center" style={{ color: 'var(--fg)' }}>
-            See it in action
+            10× end-to-end CUA demo
           </h2>
-          <div className="relative rounded-2xl overflow-hidden" style={{ border: '1px solid var(--border)' }}>
-            <video
-              src="/cua-showcase.mp4"
-              controls
-              muted
-              playsInline
-              poster="/screenshots/phone-01.png"
-              style={{ width: '100%', display: 'block' }}
-            >
-              Your browser does not support the video tag.
-            </video>
-          </div>
+          <p className="text-sm text-center mb-6" style={{ color: 'var(--muted)' }}>
+            Full onboarding-to-task CUA run accelerated 10× for a quick real-world walkthrough.
+          </p>
+          <ShowcaseVideo />
         </div>
       </section>
 
