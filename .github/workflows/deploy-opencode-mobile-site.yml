@@ -62,7 +62,7 @@ jobs:
             echo "::error::OpenCode Mobile deploy failed with exit code $EXIT"
             exit "$EXIT"
           fi
-          URL=$(grep -E '^https://' "$LOG" | tail -1)
+          URL=$(grep -Eo 'https://[[:alnum:].-]+\.vercel\.app' "$LOG" | tail -1)
           if [ -z "$URL" ]; then
             echo "::error::Vercel did not return a deployment URL"
             exit 1
