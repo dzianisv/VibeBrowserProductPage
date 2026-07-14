@@ -25,8 +25,8 @@ The endpoint returns an error when Brevo is unavailable or misconfigured so the 
 The production Vercel project is `opencode-mobile-site`.
 Pushes to `main` that change `OpenCodeMobileSite/**` deploy automatically through
 `.github/workflows/deploy-opencode-mobile-site.yml`. The workflow builds the
-standalone project, promotes the deployment to `opencode.agentlabs.cc`, and
-checks the iOS page and signup validation route.
+standalone project, deploys it to the `opencode.agentlabs.cc` production alias,
+and checks the iOS page and signup validation route.
 
 The workflow uses `AGENTLABS_VERCEL_TOKEN` and `AGENTLABS_VERCEL_ORG_ID` because
 both sites share the same Vercel team. Set the repository variable
