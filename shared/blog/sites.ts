@@ -48,6 +48,7 @@ export const agentlabsBlogConfig: BlogSiteConfig = {
   twitterCreator: '@vibebrowserapp',
   organizationName: 'Vibe Technologies LLC',
   organizationLogoPath: '/vibebrowser-logo.png',
+  rssPath: '/rss.xml',
   defaultKeywords: [
     'Agent Labs',
     'Agent Labs Blog',
