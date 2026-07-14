@@ -6,6 +6,15 @@ const nextConfig: NextConfig = {
   experimental: {
     externalDir: true,
   },
+  async redirects() {
+    return [
+      {
+        source: "/opencode",
+        destination: "https://opencode.agentlabs.cc",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
