@@ -22,6 +22,33 @@ git config user.email "2119348+dzianisv@users.noreply.github.com"
 - **Domain/DNS Operations**: See @docs/domain-management.md for Spaceship registrar and DNS procedures.
 - **Growth Hacking**: All experiments, GA4 analytics findings, and optimization work tracked in [GitHub Issue #8](https://github.com/dzianisv/vibebrowser-pitch/issues/8). Update with comments when running experiments or discovering new insights.
 
+## Definition of Done
+
+A task, issue, PR, blog post, or growth change is **not complete** at any of these
+states, no matter how the work reads in a summary:
+
+- committed to a branch
+- opened as a pull request
+- approved / reviewed
+- merged to `main`
+- "PR-ready" / "ready for review" / build or lint green locally or in CI
+
+**Completion requires all of the following:**
+
+1. The change is merged to `main`.
+2. The GitHub Actions deploy workflow (`.github/workflows/deploy.yml`) has run and
+   succeeded for every affected site (`vibebrowser.app` and/or `agentlabs.cc`).
+3. The change has been verified **live on the actual production URL** — a real
+   HTTPS/browser check against production (not localhost, not a preview
+   deployment, not "should work") confirming the requested behavior is visible
+   and functional.
+
+Do not report a task, PR, or issue as "done", "complete", or "shipped" in
+`STATE.md`, worklogs, or `.agents/memory/*.md` until steps 1-3 above are true.
+This mirrors the existing `.tasks/<id>/STATE.md` convention used on this project
+(`phase: 10-closed` + `verify.md` ending in `PROD: pass`) — apply that same bar
+to any completion claim, even outside the `.tasks/` workflow.
+
 ## Quick Deploy & Test
 
 ### 1. Deploy to Vercel
