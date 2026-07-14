@@ -13,6 +13,11 @@ const nextConfig: NextConfig = {
         destination: "https://opencode.agentlabs.cc",
         permanent: true,
       },
+      {
+        source: "/agentprobe",
+        destination: "/a-test",
+        permanent: true,
+      },
     ];
   },
 };

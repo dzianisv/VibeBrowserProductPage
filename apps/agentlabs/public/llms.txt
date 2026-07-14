@@ -45,7 +45,7 @@ Alert conditions supported: above, below, pct_up, pct_down, rsi_above, rsi_below
 - [Market Data](https://agentlabs.cc/agentsdata): Market data and alerts API for AI agents.
 - [Agentic Team](https://vibebrowser.app/agentic-team): Multi-agent Slack automation.
 - [Cloud](https://vibebrowser.app/cloud): VibeBrowser Cloud — agentic browser infrastructure.
-- [AgentProbe](https://agentlabs.cc/agentprobe): AI-driven UI testing for mobile and browser apps.
+- [a-test](https://agentlabs.cc/a-test): AI-driven UI testing for mobile and browser apps.
 - [Computer-Use Testing](https://agentlabs.cc/computer-use-testing): vision-loop CUA test framework.
 - [Blog](https://agentlabs.cc/blog): Technical blog on agentic AI, browser automation, and AI infrastructure.
 
@@ -63,15 +63,15 @@ Alert conditions supported: above, below, pct_up, pct_down, rsi_above, rsi_below
 - Sales: sales@agentlabs.cc
 - Twitter: https://x.com/vibebrowserapp
 - LinkedIn: https://linkedin.com/company/vibebrowser
-- Telegram: https://t.me/VibeBrowser
+- Telegram: https://telegram.me/VibeBrowser
 
-## AgentProbe
-URL: https://agentlabs.cc/agentprobe
-GitHub: https://github.com/dzianisv/agentprobe
+## a-test
+URL: https://agentlabs.cc/a-test
+GitHub: https://github.com/dzianisv/a-test
 Category: AI-Driven UI Testing Framework
-Install: pip install agentprobe
+Install: pip install "git+https://github.com/dzianisv/a-test.git@<commit-sha>"
 Targets: Android (adb), Browser (CDP)
 Test format: Python TestCase or YAML
-CI: GitHub Actions reusable workflow (dzianisv/agentprobe/.github/actions/agentprobe-android@main)
+CI: GitHub Actions reusable workflows under dzianisv/a-test/.github/actions/
 Output: demo.gif + result.json (verdict: pass/fail, reason, steps)
 Contact: ai@agentlabs.cc

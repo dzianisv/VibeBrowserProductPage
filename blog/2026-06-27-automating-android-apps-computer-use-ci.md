@@ -9,7 +9,7 @@ tags:
   - android
   - computer-use
   - ci
-  - agentprobe
+  - a-test
   - open-source
   - adb
 published: true
@@ -21,7 +21,7 @@ That's the failure mode we kept hitting. The test taps by element ID. The elemen
 
 We built a different kind of test loop: take a screenshot of the device, send it to a vision model, let the model decide what to tap, execute the tap via adb, repeat. The model sees a rendered frame, not an element tree. It can tell when a button looks unresponsive. It can read a loading spinner. It fails when the UX fails.
 
-We called this [agentprobe](https://github.com/dzianisv/agentprobe).
+We called this [a-test](https://github.com/dzianisv/a-test).
 
 ## Why Espresso Misses Real Bugs
 
@@ -139,29 +139,19 @@ on: [push, pull_request]
 
 jobs:
   android-cua:
-    runs-on: macos-latest  # KVM acceleration via macOS runner
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Run a-test on Android
+        uses: dzianisv/a-test/.github/actions/a-test-android@main
         with:
-          python-version: '3.11'
-      - name: Install agentprobe
-        run: pip install agentprobe
-      - name: Run CUA tests
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 28
-          arch: x86_64
-          profile: Nexus 6
-          script: |
-            agentprobe run \
-              --target android \
-              --case cases/onboarding.yaml \
-              --model azure-gpt-4o \
-              --output-dir artifacts/
+          case: cases/onboarding.yaml
+          api-level: '33'
+          output-dir: artifacts
+          model: gpt-5.4
         env:
-          AZURE_DEV_AI_API_KEY: ${{ secrets.AZURE_DEV_AI_API_KEY }}
-          AZURE_DEV_AI_BASE_URL: ${{ secrets.AZURE_DEV_AI_BASE_URL }}
+          AZURE_CUA_API_KEY: ${{ secrets.AZURE_CUA_API_KEY }}
+          AZURE_CUA_BASE_URL: ${{ secrets.AZURE_CUA_BASE_URL }}
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -169,23 +159,24 @@ jobs:
           path: artifacts/
 ```
 
-`macos-latest` for KVM hardware acceleration — Linux runners don't support nested virtualization for Android at this scale. `api-level: 28` is the practical sweet spot: stable, fast boot, covers the API range most production apps still support.
+The reusable action installs a-test from the same pinned action revision, enables KVM, boots an API 33 x86_64 emulator, runs the case, and writes the screenshots, GIF, and verdict into the requested output directory.
 
 ## pytest Integration
 
-The framework ships a pytest plugin. Drop `@agentprobe.case(target="android")` on a test function; return a case dict or a path to a YAML file. JUnit XML emits automatically so CI picks it up as a test result.
+The framework ships a pytest plugin with a `cua_case` fixture. Pass it a `TestCase`, then assert on the returned verdict alongside the rest of your pytest suite.
 
 ```python
-import agentprobe
+from a_test import TestCase
 
-@agentprobe.case(target="android")
-def test_onboarding():
-    return {
-        "name": "onboarding-complete",
-        "instruction": "Complete onboarding and reach the dashboard",
-        "successCriteria": "Dashboard is visible",
-        "maxSteps": 40,
-    }
+def test_onboarding(cua_case):
+    result = cua_case(TestCase(
+        name="onboarding-complete",
+        package="com.example.app",
+        instruction="Complete onboarding and reach the dashboard",
+        successCriteria=["Dashboard is visible"],
+        maxSteps=40,
+    ))
+    assert result["verdict"] == "pass"
 ```
 
 CUA cases run inside your existing pytest suite. They appear in the same test report, annotated with the GIF artifact path.
@@ -206,11 +197,11 @@ The right breakdown: unit tests own behavior, Espresso owns component rendering,
 
 ## Get Started
 
-Repo: [https://github.com/dzianisv/agentprobe](https://github.com/dzianisv/agentprobe)
+Repo: [https://github.com/dzianisv/a-test](https://github.com/dzianisv/a-test)
 
 ```sh
-pip install agentprobe
-agentprobe run --target android --case cases/onboarding.yaml --model azure-gpt-4o
+pip install "git+https://github.com/dzianisv/a-test.git@<commit-sha>"
+a-test run --target android --case cases/onboarding.yaml --model gpt-5.4
 ```
 
 MIT licensed. Fork it, add action types, wire a new provider. We use the same code internally — the public repo is the production version.
