@@ -79,29 +79,11 @@ jobs:
           PAGE="$RUNNER_TEMP/opencode-page.html"
           RESPONSE="$RUNNER_TEMP/opencode-response.json"
           ENV_FILE="$RUNNER_TEMP/opencode-production.env"
-          IOS_EMAIL="opencode-deploy-ios-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}@example.com"
-          BETA_EMAIL="opencode-deploy-beta-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}@example.com"
 
           npx --yes vercel@56.1.0 env pull "$ENV_FILE" \
             --environment=production \
             --yes \
             --token=${{ secrets.AGENTLABS_VERCEL_TOKEN }} >/dev/null
-          set -a
-          source "$ENV_FILE"
-          set +a
-          : "${BREVO_API_KEY:?BREVO_API_KEY is missing}"
-          : "${BREVO_OPENCODE_IOS_LIST_ID:?BREVO_OPENCODE_IOS_LIST_ID is missing}"
-          : "${BREVO_OPENCODE_BETA_LIST_ID:?BREVO_OPENCODE_BETA_LIST_ID is missing}"
-
-          cleanup() {
-            for email in "$IOS_EMAIL" "$BETA_EMAIL"; do
-              encoded=$(jq -rn --arg value "$email" '$value|@uri')
-              curl --silent --show-error --request DELETE \
-                "https://api.brevo.com/v3/contacts/${encoded}" \
-                --header "api-key: $BREVO_API_KEY" >/dev/null || true
-            done
-          }
-          trap cleanup EXIT
 
           curl --fail --show-error --silent \
             --retry 5 --retry-delay 2 --retry-all-errors \
@@ -136,27 +118,83 @@ jobs:
             test "$STATUS" = '400'
           done
 
-          for spec in \
-            "ios-waitlist|$IOS_EMAIL|$BREVO_OPENCODE_IOS_LIST_ID" \
-            "beta-signup|$BETA_EMAIL|$BREVO_OPENCODE_BETA_LIST_ID"; do
-            IFS='|' read -r endpoint email list <<<"$spec"
-            STATUS=$(curl --show-error --silent \
-              --output "$RESPONSE" \
-              --write-out '%{http_code}' \
-              --request POST \
-              "https://opencode.agentlabs.cc/api/${endpoint}" \
-              --header 'Content-Type: application/json' \
-              --data "{\"email\":\"$email\"}")
-            test "$STATUS" = '200'
-            jq -e '.ok == true' "$RESPONSE" >/dev/null
+          node --input-type=module --env-file="$ENV_FILE" <<'NODE'
+          const key = process.env.BREVO_API_KEY
+          const run = `${process.env.GITHUB_RUN_ID}-${process.env.GITHUB_RUN_ATTEMPT}`
+          const targets = [
+            {
+              endpoint: 'ios-waitlist',
+              email: `opencode-deploy-ios-${run}@example.com`,
+              list: Number.parseInt(process.env.BREVO_OPENCODE_IOS_LIST_ID ?? '', 10),
+            },
+            {
+              endpoint: 'beta-signup',
+              email: `opencode-deploy-beta-${run}@example.com`,
+              list: Number.parseInt(process.env.BREVO_OPENCODE_BETA_LIST_ID ?? '', 10),
+            },
+          ]
 
-            encoded=$(jq -rn --arg value "$email" '$value|@uri')
-            CONTACT=$(curl --fail --show-error --silent \
-              "https://api.brevo.com/v3/contacts/${encoded}" \
-              --header "api-key: $BREVO_API_KEY")
-            jq -e --argjson list "$list" '.listIds | index($list) != null' \
-              <<<"$CONTACT" >/dev/null
-          done
+          if (!key || targets.some(({ list }) => !Number.isInteger(list) || list < 1)) {
+            throw new Error('Brevo production environment is incomplete')
+          }
+
+          const delay = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds))
+          const contactUrl = (email) =>
+            `https://api.brevo.com/v3/contacts/${encodeURIComponent(email)}`
+          const brevoHeaders = { 'api-key': key }
+
+          async function verify(target) {
+            const signup = await fetch(
+              `https://opencode.agentlabs.cc/api/${target.endpoint}`,
+              {
+                method: 'POST',
+                headers: { 'content-type': 'application/json' },
+                body: JSON.stringify({ email: target.email }),
+              },
+            )
+
+            if (!signup.ok || !(await signup.json()).ok) {
+              throw new Error(`${target.endpoint} signup failed with ${signup.status}`)
+            }
+
+            for (let attempt = 1; attempt <= 5; attempt += 1) {
+              const response = await fetch(contactUrl(target.email), { headers: brevoHeaders })
+
+              if (response.ok) {
+                const contact = await response.json()
+
+                if (contact.listIds?.includes(target.list)) {
+                  return
+                }
+              }
+
+              if (attempt < 5) {
+                await delay(1_000)
+              }
+            }
+
+            throw new Error(`${target.endpoint} contact was not persisted to list ${target.list}`)
+          }
+
+          async function cleanup(target) {
+            const response = await fetch(contactUrl(target.email), {
+              method: 'DELETE',
+              headers: brevoHeaders,
+            })
+
+            if (response.status !== 204 && response.status !== 404) {
+              throw new Error(`Could not remove ${target.endpoint} smoke-test contact`)
+            }
+          }
+
+          try {
+            for (const target of targets) {
+              await verify(target)
+            }
+          } finally {
+            await Promise.all(targets.map(cleanup))
+          }
+          NODE
         env:
           VERCEL_ORG_ID: ${{ secrets.AGENTLABS_VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ vars.OPENCODE_VERCEL_PROJECT_ID }}
