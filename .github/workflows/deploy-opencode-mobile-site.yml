@@ -50,7 +50,7 @@ jobs:
           VERCEL_ORG_ID: ${{ secrets.AGENTLABS_VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ vars.OPENCODE_VERCEL_PROJECT_ID }}
 
-      - name: Deploy and promote
+      - name: Deploy production
         id: deploy
         run: |
           set -euo pipefail
@@ -67,10 +67,8 @@ jobs:
             echo "::error::Vercel did not return a deployment URL"
             exit 1
           fi
-          npx vercel promote "$URL" --yes \
-            --token=${{ secrets.AGENTLABS_VERCEL_TOKEN }}
           echo "deployment_url=$URL" >> "$GITHUB_OUTPUT"
-          echo "Deployed and promoted: $URL"
+          echo "Deployed: $URL"
         env:
           VERCEL_ORG_ID: ${{ secrets.AGENTLABS_VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ vars.OPENCODE_VERCEL_PROJECT_ID }}
