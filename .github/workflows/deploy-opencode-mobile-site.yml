@@ -113,7 +113,10 @@ jobs:
             https://opencode.agentlabs.cc/privacy \
             --output "$PAGE"
           grep -q 'Data We Do NOT Collect' "$PAGE"
-          ! grep -q 'Privacy policy document not found' "$PAGE"
+          if grep -q 'Privacy policy document not found' "$PAGE"; then
+            echo "::error::Production privacy policy rendered its fallback"
+            exit 1
+          fi
           curl --fail --show-error --silent \
             https://opencode.agentlabs.cc/docs \
             --output "$PAGE"
