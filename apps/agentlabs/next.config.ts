@@ -3,6 +3,9 @@ import path from "node:path";
 
 const nextConfig: NextConfig = {
   outputFileTracingRoot: path.resolve(import.meta.dirname, "../.."),
+  outputFileTracingIncludes: {
+    '/*': ['../../blog/**/*.md'],
+  },
   experimental: {
     externalDir: true,
   },

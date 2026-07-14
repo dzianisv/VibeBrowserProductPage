@@ -1,5 +1,5 @@
 import type { ReactElement } from 'react'
-import type { BlogPost } from '@/lib/blog'
+import type { BlogPost } from '../shared/blog'
 
 export const BLOG_SOCIAL_IMAGE_SIZE = {
   width: 1200,
@@ -7,6 +7,36 @@ export const BLOG_SOCIAL_IMAGE_SIZE = {
 }
 
 export const BLOG_SOCIAL_IMAGE_CONTENT_TYPE = 'image/png'
+
+export interface BlogSocialImageOptions {
+  eyebrow: string
+  brandName: string
+  indexTitle: string
+  indexDescription: string
+  indexFooter: string
+  indexTags: string[]
+  fallbackTag: string
+  postFooterBasePath: string
+}
+
+const DEFAULT_BLOG_SOCIAL_IMAGE_OPTIONS: BlogSocialImageOptions = {
+  eyebrow: 'Vibe Blog',
+  brandName: 'Vibe Co-Pilot',
+  indexTitle: 'AI browser automation insights, release notes, and practical playbooks',
+  indexDescription:
+    'Research, product updates, coding-tool experiments, and operator workflows from the team building Vibe Co-Pilot.',
+  indexFooter: 'vibebrowser.app/blog',
+  indexTags: ['AI browser automation', 'Release notes', 'Engineering'],
+  fallbackTag: 'Vibe Blog',
+  postFooterBasePath: 'vibebrowser.app/blog',
+}
+
+function resolveOptions(options?: Partial<BlogSocialImageOptions>): BlogSocialImageOptions {
+  return {
+    ...DEFAULT_BLOG_SOCIAL_IMAGE_OPTIONS,
+    ...options,
+  }
+}
 
 function clampText(value: string, maxLength: number): string {
   if (value.length <= maxLength) {
@@ -40,12 +70,14 @@ function renderTag(tag: string): ReactElement {
 
 function renderCard({
   eyebrow,
+  brandName,
   title,
   description,
   footer,
   tags,
 }: {
   eyebrow: string
+  brandName: string
   title: string
   description: string
   footer: string
@@ -124,7 +156,7 @@ function renderCard({
             fontWeight: 700,
           }}
         >
-          Vibe Co-Pilot
+          {brandName}
         </div>
       </div>
 
@@ -190,29 +222,37 @@ function renderCard({
   )
 }
 
-export function renderBlogIndexSocialImage(): ReactElement {
+export function renderBlogIndexSocialImage(optionsOverride?: Partial<BlogSocialImageOptions>): ReactElement {
+  const options = resolveOptions(optionsOverride)
+
   return renderCard({
-    eyebrow: 'Vibe Blog',
-    title: 'AI browser automation insights, release notes, and practical playbooks',
-    description:
-      'Research, product updates, coding-tool experiments, and operator workflows from the team building Vibe Co-Pilot.',
-    footer: 'vibebrowser.app/blog',
-    tags: ['AI browser automation', 'Release notes', 'Engineering'],
+    eyebrow: options.eyebrow,
+    brandName: options.brandName,
+    title: options.indexTitle,
+    description: options.indexDescription,
+    footer: options.indexFooter,
+    tags: options.indexTags,
   })
 }
 
-export function renderBlogPostSocialImage(post: BlogPost | null): ReactElement {
+export function renderBlogPostSocialImage(
+  post: BlogPost | null,
+  optionsOverride?: Partial<BlogSocialImageOptions>,
+): ReactElement {
+  const options = resolveOptions(optionsOverride)
+
   if (!post) {
-    return renderBlogIndexSocialImage()
+    return renderBlogIndexSocialImage(options)
   }
 
-  const tags = post.tags.length > 0 ? post.tags.slice(0, 3) : ['Vibe Blog']
+  const tags = post.tags.length > 0 ? post.tags.slice(0, 3) : [options.fallbackTag]
 
   return renderCard({
-    eyebrow: 'Vibe Blog',
+    eyebrow: options.eyebrow,
+    brandName: options.brandName,
     title: clampText(post.title, 96),
     description: clampText(post.description, 170),
-    footer: `vibebrowser.app/blog/${post.slug}`,
+    footer: `${options.postFooterBasePath}/${post.slug}`,
     tags,
   })
 }

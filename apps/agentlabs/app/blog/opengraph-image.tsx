@@ -1,0 +1,17 @@
+import { ImageResponse } from 'next/og'
+import {
+  BLOG_SOCIAL_IMAGE_CONTENT_TYPE,
+  BLOG_SOCIAL_IMAGE_SIZE,
+  renderBlogIndexSocialImage,
+} from '../../../../lib/blog-social-image'
+import { agentlabsBlogSocialImageOptions } from '../../lib/blog-social-image-options'
+
+export const alt = 'Agent Labs Blog'
+export const size = BLOG_SOCIAL_IMAGE_SIZE
+export const contentType = BLOG_SOCIAL_IMAGE_CONTENT_TYPE
+
+export default function Image() {
+  return new ImageResponse(renderBlogIndexSocialImage(agentlabsBlogSocialImageOptions), {
+    ...size,
+  })
+}
