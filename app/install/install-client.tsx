@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import { GA_MEASUREMENT_ID } from '@/components/google-analytics'
+import { hasAnalyticsConsent } from '@/lib/analytics-consent'
 
 /**
  * `/install` welcome page — the browser-side half of the issue #1546 GA4 identity
@@ -114,7 +115,11 @@ export function InstallClient() {
         // stays strictly utm_source-gated in proxy.ts and is unaffected by this.
         const clientId = await getGaClientId()
 
-        if (clientId) {
+        // Same consent hook as the global gtag loader (lib/analytics-consent.ts).
+        // Returns true today, so the handoff behaves exactly as before; this is the
+        // one place the /install nonce issuance would be gated by a future consent
+        // mechanism. Fails open into the redirect below regardless.
+        if (clientId && hasAnalyticsConsent()) {
           const controller = new AbortController()
           const fetchTimer = setTimeout(() => controller.abort(), NONCE_FETCH_TIMEOUT_MS)
           try {

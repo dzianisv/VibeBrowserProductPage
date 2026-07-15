@@ -195,6 +195,89 @@ async function runScenario(browser, { title, query, mode, expect }) {
   await context.close()
 }
 
+// --- FINDING 1: same-origin enforcement on POST /api/install/nonce ----------
+// Real HTTP requests straight to the route (Node fetch does NOT auto-send Origin,
+// so we control every header) proving the cross-site identity-poisoning attack is
+// blocked and the legitimate same-origin call is unaffected.
+async function runOriginScenarios() {
+  const NONCE_URL = `${BASE}/api/install/nonce`
+  const SAME_ORIGIN = BASE // http://localhost:<port> — what the real /install fetch sends
+
+  // (a) Forged/attacker Origin -> 403, no cookie, upstream relay NEVER called.
+  console.log('\n=== Scenario: SecA/forged-origin ===')
+  mockMode = 'success'
+  mockNonce = `nonce_${Math.random().toString(36).slice(2)}`
+  lastIssueBody = null
+  {
+    const res = await fetch(NONCE_URL, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', origin: 'https://evil.example' },
+      body: JSON.stringify({ client_id: '1234567890.1234567890' }),
+    })
+    let json = null
+    try {
+      json = await res.json()
+    } catch {}
+    check('SecA: forged Origin rejected 403', res.status === 403, `status=${res.status}`)
+    check('SecA: error=cross_origin_forbidden', json && json.error === 'cross_origin_forbidden', `body=${JSON.stringify(json)}`)
+    check('SecA: no vibe_ga_nonce Set-Cookie', !/vibe_ga_nonce=/.test(res.headers.get('set-cookie') || ''), `set-cookie=${res.headers.get('set-cookie')}`)
+    check('SecA: upstream relay NOT called', lastIssueBody === null, `lastIssueBody=${JSON.stringify(lastIssueBody)}`)
+  }
+
+  // (b) Correct same-origin Origin -> 200, cookie set, relay called (no regression).
+  console.log('\n=== Scenario: SecB/same-origin-success ===')
+  mockMode = 'success'
+  mockNonce = `nonce_${Math.random().toString(36).slice(2)}`
+  lastIssueBody = null
+  {
+    const clientId = '9876543210.9876543210'
+    const res = await fetch(NONCE_URL, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        origin: SAME_ORIGIN,
+        'sec-fetch-site': 'same-origin',
+      },
+      body: JSON.stringify({ client_id: clientId, utm_source: 'hn' }),
+    })
+    let json = null
+    try {
+      json = await res.json()
+    } catch {}
+    const setCookie = res.headers.get('set-cookie') || ''
+    check('SecB: same-origin accepted 200', res.status === 200, `status=${res.status}`)
+    check('SecB: ok=true', json && json.ok === true, `body=${JSON.stringify(json)}`)
+    check('SecB: vibe_ga_nonce Set-Cookie present', new RegExp(`vibe_ga_nonce=${mockNonce}`).test(setCookie), `set-cookie=${setCookie}`)
+    check('SecB: nonce cookie HttpOnly+Secure', /HttpOnly/i.test(setCookie) && /Secure/i.test(setCookie), `set-cookie=${setCookie}`)
+    check('SecB: upstream relay called with real client_id', !!lastIssueBody && lastIssueBody.client_id === clientId, `lastIssueBody=${JSON.stringify(lastIssueBody)}`)
+  }
+
+  // (c) Sec-Fetch-Site: cross-site -> rejected even if Origin is missing/spoofed.
+  console.log('\n=== Scenario: SecC/sec-fetch-cross-site ===')
+  mockMode = 'success'
+  mockNonce = `nonce_${Math.random().toString(36).slice(2)}`
+  lastIssueBody = null
+  {
+    const res = await fetch(NONCE_URL, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        // Origin omitted entirely AND an explicit cross-site fetch metadata header.
+        'sec-fetch-site': 'cross-site',
+      },
+      body: JSON.stringify({ client_id: '1111111111.2222222222' }),
+    })
+    let json = null
+    try {
+      json = await res.json()
+    } catch {}
+    check('SecC: Sec-Fetch-Site cross-site rejected 403', res.status === 403, `status=${res.status}`)
+    check('SecC: error=cross_origin_forbidden', json && json.error === 'cross_origin_forbidden', `body=${JSON.stringify(json)}`)
+    check('SecC: no vibe_ga_nonce Set-Cookie', !/vibe_ga_nonce=/.test(res.headers.get('set-cookie') || ''), `set-cookie=${res.headers.get('set-cookie')}`)
+    check('SecC: upstream relay NOT called', lastIssueBody === null, `lastIssueBody=${JSON.stringify(lastIssueBody)}`)
+  }
+}
+
 ;(async () => {
   await new Promise((r) => mock.listen(MOCK_PORT, '127.0.0.1', r))
   console.log(`[mock] relay listening on http://127.0.0.1:${MOCK_PORT}`)
@@ -247,6 +330,9 @@ async function runScenario(browser, { title, query, mode, expect }) {
       mode: 'timeout',
       expect: { attribution: 'hn', nonce: false },
     })
+
+    // FINDING 1 — same-origin enforcement (raw HTTP, controlled headers).
+    await runOriginScenarios()
   } catch (err) {
     console.error('FATAL:', err && err.stack ? err.stack : err)
     results.push({ name: 'harness', ok: false, detail: String(err) })
