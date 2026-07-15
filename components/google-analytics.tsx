@@ -5,7 +5,7 @@ import Script from 'next/script'
 import { usePathname } from 'next/navigation'
 import { useEffect } from 'react'
 
-const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-EYZHHTHR57'
+export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-EYZHHTHR57'
 const TELEMETRY_EVENTS_ENDPOINT = '/api/telemetry/events'
 
 type TelemetryEventValue = string | number | boolean | null
