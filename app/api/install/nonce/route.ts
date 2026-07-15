@@ -22,7 +22,7 @@ export const dynamic = 'force-dynamic'
  */
 
 const NONCE_COOKIE_NAME = 'vibe_ga_nonce'
-const NONCE_COOKIE_MAX_AGE = 300 // 5 minutes — matches the relay nonce TTL (PR #1551)
+const NONCE_COOKIE_MAX_AGE = 1800 // 30 minutes — matches the relay nonce TTL (PR #1551)
 
 // Server-to-server relay base (never exposed to the browser). Defaults to prod;
 // overridable via env for local tests that mock the PR #1551 boundary.
@@ -137,7 +137,9 @@ export async function POST(request: Request) {
 
     const response = NextResponse.json({ ok: true })
     // Mirrors the old `vibe_attribution` cookie mechanics (path=/, host-only, Secure,
-    // HttpOnly, SameSite=Lax) but with the nonce-only value and a short 5-min TTL.
+    // HttpOnly, SameSite=Lax) but with the nonce-only value and a 30-min TTL that
+    // matches the relay nonce TTL (PR #1551) — long enough for a real user to read
+    // reviews / get distracted between /install and clicking Install on the CWS listing.
     response.cookies.set(NONCE_COOKIE_NAME, nonce, {
       path: '/',
       maxAge: NONCE_COOKIE_MAX_AGE,

@@ -15,6 +15,27 @@ export function proxy(request: NextRequest) {
   const hostname = request.headers.get('host') || ''
   const pathname = request.nextUrl.pathname
 
+  // Canonical apex -> www redirect as an explicit, code-level guarantee — NOT a
+  // reliance on external Cloudflare/DNS/Vercel domain config (which is out-of-band
+  // and could silently break/misconfigure). This install funnel's cookies
+  // (`vibe_ga_nonce`, `vibe_attribution`) are host-only, scoped to
+  // www.vibebrowser.app, and the extension reads `vibe_ga_nonce` from
+  // https://www.vibebrowser.app/ via chrome.cookies.get. Every visitor MUST
+  // therefore reach /install's logic on the www host, never the bare apex.
+  // Running this BEFORE the /install cookie-setting below also guarantees those
+  // cookies are never mistakenly written on the apex origin. Only the exact bare
+  // apex `vibebrowser.app` is redirected; `www.`, `enterprise.`, `teams.`, and
+  // preview/localhost hosts are untouched. Full path + query string are preserved
+  // (critical: utm_* attribution params must survive). 308 is the permanent,
+  // method-preserving counterpart of the 307 the external infra currently emits —
+  // canonical/SEO-friendly and correct for any request type.
+  const bareHost = hostname.split(':')[0]
+  if (bareHost === 'vibebrowser.app') {
+    const targetHost = hostname.replace(/^vibebrowser\.app/, 'www.vibebrowser.app')
+    const location = `https://${targetHost}${pathname}${request.nextUrl.search}`
+    return NextResponse.redirect(location, 308)
+  }
+
   if (pathname === '/v2') {
     return NextResponse.redirect(new URL('/enterprise', request.url))
   }

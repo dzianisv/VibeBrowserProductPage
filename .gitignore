@@ -37,3 +37,6 @@ next-env.d.ts
 old-waitlist-backup.json
 tmp/
 .netlify/
+
+# Ephemeral self-signed cert for scripts/test-install-nonce.cjs apex->www TLS proxy
+.test-tls/
