@@ -57,32 +57,63 @@ function readClientIdFromGaCookie(): string | null {
   return /^\d+\.\d+$/.test(clientId) ? clientId : null
 }
 
+// How often we re-check for `window.gtag` while waiting for the async gtag.js
+// loader (mounted by <GoogleAnalytics/> via Next <Script strategy="afterInteractive">)
+// to finish. Small enough to catch it the moment it lands, well within budget.
+const GTAG_POLL_INTERVAL_MS = 25
+
 function getGaClientId(): Promise<string | null> {
   return new Promise((resolve) => {
     let settled = false
+    let pollTimer: ReturnType<typeof setTimeout> | undefined
     const finish = (value: string | null) => {
       if (settled) return
       settled = true
+      if (pollTimer) clearTimeout(pollTimer)
+      clearTimeout(backstop)
       resolve(value)
     }
 
-    const timer = setTimeout(() => finish(readClientIdFromGaCookie()), CLIENT_ID_TIMEOUT_MS)
+    // Single absolute backstop bounding the WHOLE operation to CLIENT_ID_TIMEOUT_MS,
+    // no matter which slow path we're on. It covers BOTH failure modes:
+    //   (a) gtag.js never becomes available within the budget, and
+    //   (b) gtag becomes available but its get-callback never fires.
+    // On a genuine cold start (first navigation straight to /install) `window.gtag`
+    // is very likely still undefined when this runs, because gtag.js loads
+    // asynchronously — so we must WAIT for it rather than give up instantly. If the
+    // budget elapses we fall back to parsing the `_ga` cookie (which itself only
+    // exists once gtag.js has run at least once).
+    const backstop = setTimeout(() => finish(readClientIdFromGaCookie()), CLIENT_ID_TIMEOUT_MS)
 
-    try {
-      const gtag = (window as Window & { gtag?: GtagFn }).gtag
-      if (typeof gtag !== 'function') {
-        clearTimeout(timer)
+    const tryGtag = () => {
+      if (settled) return
+
+      let gtag: GtagFn | undefined
+      try {
+        gtag = (window as Window & { gtag?: GtagFn }).gtag
+      } catch {
         finish(readClientIdFromGaCookie())
         return
       }
-      gtag('get', GA_MEASUREMENT_ID, 'client_id', (value: string) => {
-        clearTimeout(timer)
-        finish(typeof value === 'string' && value.length > 0 ? value : readClientIdFromGaCookie())
-      })
-    } catch {
-      clearTimeout(timer)
-      finish(readClientIdFromGaCookie())
+
+      if (typeof gtag === 'function') {
+        // gtag is ready — ask it for the real client_id right now. The backstop
+        // still guards against the callback never firing.
+        try {
+          gtag('get', GA_MEASUREMENT_ID, 'client_id', (value: string) => {
+            finish(typeof value === 'string' && value.length > 0 ? value : readClientIdFromGaCookie())
+          })
+        } catch {
+          finish(readClientIdFromGaCookie())
+        }
+        return
+      }
+
+      // Not available yet — keep polling until gtag lands or the backstop fires.
+      pollTimer = setTimeout(tryGtag, GTAG_POLL_INTERVAL_MS)
     }
+
+    tryGtag()
   })
 }
 

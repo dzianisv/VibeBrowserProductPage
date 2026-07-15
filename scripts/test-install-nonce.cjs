@@ -128,22 +128,13 @@ async function runScenario(browser, { title, query, mode, expect }) {
     } catch {}
   })
 
-  // Pre-warm gtag on the homepage so a real `_ga` cookie / client_id exists before
-  // we hit /install (removes the first-load network race; the client_id is still the
-  // genuine gtag.js one). middleware only matches /install, so `/` sets no cookies.
-  await page.goto(`${BASE}/`, { waitUntil: 'networkidle2', timeout: 45000 }).catch(() => {})
-
-  let gaClientId = null
-  const gaDeadline = Date.now() + 10000
-  while (Date.now() < gaDeadline) {
-    const cookies = await page.cookies(BASE)
-    const ga = cookies.find((c) => c.name === '_ga')
-    gaClientId = parseGaClientId(ga && ga.value)
-    if (gaClientId) break
-    await sleep(300)
-  }
-
-  // Navigate to /install; the page will attempt the handoff then redirect to CWS.
+  // COLD START — the whole point of issue #1546's real target scenario. The FIRST
+  // navigation in this fresh browser context goes straight to /install, with NO
+  // prior visit to `/`. This mirrors a genuine first-touch install-funnel visitor
+  // (an ad / HN / Reddit link opened directly on /install). gtag.js therefore loads
+  // and mints the real `_ga` cookie / client_id for the FIRST time ON /install
+  // itself — a true first_visit — which is exactly the race a `/`-prewarm used to
+  // hide. install-client.tsx must wait for gtag within its budget and still hand off.
   tStart = Date.now()
   await page
     .goto(`${BASE}/install${query}`, { waitUntil: 'domcontentloaded', timeout: 45000 })
@@ -155,6 +146,22 @@ async function runScenario(browser, { title, query, mode, expect }) {
     await sleep(50)
   }
 
+  // Ground truth: read the cold-start-minted `_ga` client_id AFTER /install's own
+  // gtag.js has run. This is the first (and only) place `_ga` is ever set in this
+  // context, so it is a genuinely cold first_visit value — not a warmed-up
+  // approximation. We then assert this exact value is what got forwarded to the
+  // relay (lastIssueBody.client_id), which is what actually proves the fix works.
+  // The CWS-abort keeps us on /install, so page.cookies() still sees `_ga`.
+  let gaClientId = null
+  const gaDeadline = Date.now() + 5000
+  while (Date.now() < gaDeadline) {
+    const c = await page.cookies(BASE)
+    const ga = c.find((ck) => ck.name === '_ga')
+    gaClientId = parseGaClientId(ga && ga.value)
+    if (gaClientId) break
+    await sleep(100)
+  }
+
   const cookies = await page.cookies(BASE)
   const attrib = cookies.find((c) => c.name === 'vibe_attribution')
   const nonce = cookies.find((c) => c.name === 'vibe_ga_nonce')
@@ -163,7 +170,27 @@ async function runScenario(browser, { title, query, mode, expect }) {
   check(`${title}: real gtag.js client_id captured`, !!gaClientId, `client_id=${gaClientId}`)
   check(`${title}: redirected to Chrome Web Store`, cwsRequested, `after ${cwsAt ? cwsAt - tStart : 'n/a'}ms`)
   if (cwsRequested) {
-    check(`${title}: redirect within time budget (<3000ms)`, cwsAt - tStart < 3000, `${cwsAt - tStart}ms`)
+    // Enforce the ACTUAL documented contract: install-client.tsx caps the redirect at
+    // MAX_REDIRECT_DELAY_MS = 1200ms *from component mount*. We measure from tStart
+    // (set just before page.goto), so the delta additionally includes navigation +
+    // hydration that happen before the effect mounts. We therefore allow a small,
+    // explicitly-justified margin on top of the 1200ms cap:
+    //   1200ms  — the real hard cap (MAX_REDIRECT_DELAY_MS), measured from mount
+    //   + 300ms — pre-mount nav/hydration + request-interception & Chrome cold-start
+    //             jitter in this CI/test harness (tStart precedes mount).
+    // Observed across repeated cold-start runs: happy path ~240-540ms, and the
+    // worst case (C2, relay-timeout path that deliberately burns the full 800ms
+    // upstream-abort budget) settles at ~1060-1081ms — comfortably under 1500ms yet
+    // far below the old 3000ms bound, so a real regression of the 1200ms guarantee
+    // (e.g. creeping toward 2s+) would now actually fail this assertion.
+    const MAX_REDIRECT_DELAY_MS = 1200
+    const HARNESS_MARGIN_MS = 300
+    const budget = MAX_REDIRECT_DELAY_MS + HARNESS_MARGIN_MS
+    check(
+      `${title}: redirect within time budget (<=${budget}ms = 1200ms cap + ${HARNESS_MARGIN_MS}ms nav/CI margin)`,
+      cwsAt - tStart <= budget,
+      `${cwsAt - tStart}ms`
+    )
   }
 
   if (expect.attribution) {
@@ -295,7 +322,9 @@ async function runOriginScenarios() {
 
     browser = await puppeteer.launch({
       headless: true,
-      args: ['--no-sandbox'],
+      // --no-sandbox + --disable-setuid-sandbox are required for Chromium inside an
+      // unprivileged CI container (GitHub Actions ubuntu-latest); harmless locally.
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
       executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || undefined,
     })
 

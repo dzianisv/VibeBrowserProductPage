@@ -49,6 +49,31 @@ jobs:
       - run: npm run lint --prefix apps/agentlabs
       - run: npm run build --prefix apps/agentlabs
 
+  install-nonce-e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          lfs: true
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22'
+          cache: 'npm'
+      - run: npm ci
+      # Ensure Puppeteer's bundled Chromium is present in the CI cache dir.
+      - run: npx puppeteer browsers install chrome
+      - run: npm run build
+      # Real-browser E2E for the /install gtag.js -> nonce handoff (issue #1546):
+      # spawns `next start` against the production build, drives real Chromium via
+      # Puppeteer, loads the site's real gtag.js, and asserts the cold-start
+      # client_id -> nonce flow + same-origin protection. Exits non-zero on any
+      # failed assertion, which fails this required check. The only mocked boundary
+      # is PR #1551's relay, stood up locally via ANALYTICS_API_BASE inside the script.
+      - run: node scripts/test-install-nonce.cjs
+
   opencode-mobile-site:
     runs-on: ubuntu-latest
     timeout-minutes: 20
