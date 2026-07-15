@@ -40,6 +40,14 @@ const BASE = `http://localhost:${NEXT_PORT}`
 const TLS_APEX_BASE = `https://vibebrowser.app:${TLS_PORT}`
 const TLS_WWW_BASE = `https://www.vibebrowser.app:${TLS_PORT}`
 const CWS_PREFIX = 'https://chromewebstore.google.com'
+// The two SEPARATE GA4 properties this handoff must exercise:
+//   WEBSITE   — site-wide "VibeBrowser Website" stream, fired on every page by
+//               <GoogleAnalytics/> (must remain unaffected / still firing).
+//   EXTENSION — SEPARATE "VibeBrowser Extension" property (538007690), opened as a
+//               second stream by /install so a REAL first_visit lands there and its
+//               client_id is what the nonce hands off.
+const WEBSITE_TID = 'G-EYZHHTHR57'
+const EXTENSION_TID = 'G-LP618JZN7X'
 const REPO_ROOT = path.resolve(__dirname, '..')
 const TLS_DIR = path.join(REPO_ROOT, '.test-tls')
 
@@ -151,6 +159,30 @@ function parseGaClientId(gaValue) {
   return /^\d+\.\d+$/.test(c) ? c : null
 }
 
+// Matches the real GA4 gtag.js measurement-protocol endpoints observed in-browser
+// (`https://<region>.google-analytics.com/g/collect?...` and the `/j/collect` +
+// legacy `/collect` variants). We capture these REAL outgoing hits to prove which
+// GA4 property/stream (`tid`) actually received a hit and under which `cid`.
+const GA_COLLECT_RE = /google-analytics\.com\/(?:[a-z]\/)?collect(?:[/?]|$)/
+
+function parseGaCollect(url) {
+  try {
+    const u = new URL(url)
+    return {
+      url,
+      tid: u.searchParams.get('tid'),
+      cid: u.searchParams.get('cid'),
+      en: u.searchParams.get('en'),
+      // Real debug flag gtag.js appends when a stream is configured with
+      // `debug_mode: true` — observed empirically as `ep.debug_mode=true` (NOT guessed).
+      debug: u.searchParams.get('ep.debug_mode') === 'true' || u.search.includes('ep.debug_mode=true'),
+      search: u.search,
+    }
+  } catch {
+    return null
+  }
+}
+
 const results = []
 function check(name, cond, detail) {
   const ok = !!cond
@@ -170,6 +202,7 @@ async function runScenario(browser, { title, query, mode, expect }) {
   let cwsRequested = false
   let cwsAt = 0
   let tStart = 0
+  const collectHits = []
   await page.setRequestInterception(true)
   page.on('request', (req) => {
     const url = req.url()
@@ -180,6 +213,12 @@ async function runScenario(browser, { title, query, mode, expect }) {
         req.abort()
       } catch {}
       return
+    }
+    // Record REAL GA4 measurement-protocol hits (unmocked, sent by the site's own
+    // gtag.js to Google) so we can prove which stream/property received a hit.
+    if (GA_COLLECT_RE.test(url)) {
+      const hit = parseGaCollect(url)
+      if (hit) collectHits.push(hit)
     }
     try {
       req.continue()
@@ -275,6 +314,39 @@ async function runScenario(browser, { title, query, mode, expect }) {
     for (const [k, v] of Object.entries(expect.utmForwarded)) {
       check(`${title}: relay received ${k}=${v}`, !!lastIssueBody && lastIssueBody[k] === v, `got=${lastIssueBody && lastIssueBody[k]}`)
     }
+  }
+
+  // --- DUAL-STREAM: prove BOTH GA4 properties get a REAL hit under one client_id ---
+  // (issue #1546 core fix). These assertions read the ACTUAL unmocked /g/collect
+  // requests the site's gtag.js sent to Google during this real cold-start run.
+  if (expect.dualStream) {
+    // The extension config fires inside install-client's client_id budget; its
+    // /collect beacon can land just after the CWS-abort keeps us on /install, so give
+    // gtag.js a moment to emit BOTH streams' hits before asserting.
+    const hitDeadline = Date.now() + 4000
+    while (Date.now() < hitDeadline) {
+      if (collectHits.some((h) => h.tid === WEBSITE_TID) && collectHits.some((h) => h.tid === EXTENSION_TID)) break
+      await sleep(100)
+    }
+    const webHits = collectHits.filter((h) => h.tid === WEBSITE_TID)
+    const extHits = collectHits.filter((h) => h.tid === EXTENSION_TID)
+    const webCid = webHits[0] && webHits[0].cid
+    const extCid = extHits[0] && extHits[0].cid
+
+    // (a) website stream (G-EYZHHTHR57) unaffected — still firing its own real hit.
+    check(`${title}: (a) website stream hit sent (tid=${WEBSITE_TID})`, webHits.length > 0, `hits=${webHits.length} cid=${webCid}`)
+    // (b) NEW extension stream (G-LP618JZN7X) received a real, SEPARATE hit -> genuine
+    // first_visit created in property 538007690.
+    check(`${title}: (b) extension stream hit sent (tid=${EXTENSION_TID})`, extHits.length > 0, `hits=${extHits.length} cid=${extCid}`)
+    // (c) IDENTICAL client_id on both streams (shared top-level _ga cookie continuity),
+    // and it equals the ground-truth _ga client_id read from the cookie.
+    check(`${title}: (c) identical cid across both streams`, !!webCid && !!extCid && webCid === extCid, `web=${webCid} ext=${extCid}`)
+    check(`${title}: (c) cid == ground-truth _ga client_id`, !!extCid && extCid === gaClientId, `cid=${extCid} ga=${gaClientId}`)
+    // (d) the SAME cid that just got the real extension-property hit is what was handed
+    // off to /api/install/nonce.
+    check(`${title}: (d) same cid forwarded to /api/install/nonce`, !!lastIssueBody && lastIssueBody.client_id === extCid, `forwarded=${lastIssueBody && lastIssueBody.client_id} cid=${extCid}`)
+    // Debug OFF by default: extension hit must NOT carry ep.debug_mode without ?ga_debug=1.
+    check(`${title}: extension hit has NO debug flag (ga_debug absent)`, extHits.length > 0 && extHits.every((h) => !h.debug), `debugHits=${extHits.filter((h) => h.debug).length}`)
   }
 
   await context.close()
@@ -578,6 +650,132 @@ async function runOriginScenarios() {
   }
 }
 
+// --- CONSENT WITHHELD: the extension-stream config + nonce must BOTH stay silent ---
+// Mirrors "stubbing hasAnalyticsConsent() -> false" by setting the install-client's
+// deny-only test override BEFORE any script runs. The global <GoogleAnalytics/> loader
+// is intentionally left alone (it reads the raw hook, which is true today) so the
+// WEBSITE stream still fires — this isolates and proves exactly the two things the new
+// consent gate controls: the SECOND (extension) stream config hit and the nonce POST.
+async function runConsentWithheldScenario(browser) {
+  const title = 'F/consent-withheld'
+  console.log(`\n=== Scenario: ${title} ===`)
+  mockMode = 'success'
+  mockNonce = `nonce_${Math.random().toString(36).slice(2)}_${Date.now()}`
+  lastIssueBody = null
+
+  const context = await browser.createBrowserContext()
+  const page = await context.newPage()
+
+  // Deny-only override, injected before app JS — the legitimate way to exercise the
+  // consent-withheld branch of OUR OWN gate (never fakes external data).
+  await page.evaluateOnNewDocument(() => {
+    window.__vibeInstallAnalyticsConsent = false
+  })
+
+  let cwsRequested = false
+  const collectHits = []
+  await page.setRequestInterception(true)
+  page.on('request', (req) => {
+    const url = req.url()
+    if (url.startsWith(CWS_PREFIX)) {
+      cwsRequested = true
+      try {
+        req.abort()
+      } catch {}
+      return
+    }
+    if (GA_COLLECT_RE.test(url)) {
+      const hit = parseGaCollect(url)
+      if (hit) collectHits.push(hit)
+    }
+    try {
+      req.continue()
+    } catch {}
+  })
+
+  await page.goto(`${BASE}/install?utm_source=hn`, { waitUntil: 'domcontentloaded', timeout: 45000 }).catch(() => {})
+
+  // Wait for the redirect (fail-open must still happen), then give gtag.js ample time
+  // to have emitted any hit it was going to, so "extension hit absent" is meaningful.
+  const redirectDeadline = Date.now() + 8000
+  while (Date.now() < redirectDeadline && !cwsRequested) await sleep(50)
+  await sleep(2500)
+
+  const cookies = await page.cookies(BASE)
+  const nonce = cookies.find((c) => c.name === 'vibe_ga_nonce')
+  const extHits = collectHits.filter((h) => h.tid === EXTENSION_TID)
+
+  // Fail-open redirect still guaranteed even with consent withheld.
+  check(`${title}: still redirected to Chrome Web Store`, cwsRequested, 'ok')
+  // The NEW extension-stream config hit must NOT fire without consent.
+  check(`${title}: NO extension-stream hit (tid=${EXTENSION_TID})`, extHits.length === 0, `extHits=${extHits.length}`)
+  // The nonce POST must NOT fire -> relay never called, no cookie set.
+  check(`${title}: /api/install/nonce NOT called`, lastIssueBody === null, `lastIssueBody=${JSON.stringify(lastIssueBody)}`)
+  check(`${title}: NO vibe_ga_nonce cookie`, !nonce, nonce ? `unexpected=${nonce.value}` : 'absent')
+
+  await context.close()
+}
+
+// --- DEBUG TOGGLE: /install?ga_debug=1 marks ONLY the extension stream for DebugView --
+// Proves the opt-in debug flag is (1) real and observable on the extension hit as the
+// empirically-confirmed `ep.debug_mode=true` param, and (2) scoped — it never touches
+// the website stream's hit. (The OFF-by-default case is asserted in scenario A.)
+async function runDebugModeScenario(browser) {
+  const title = 'G/ga_debug toggle'
+  console.log(`\n=== Scenario: ${title} ===`)
+  mockMode = 'success'
+  mockNonce = `nonce_${Math.random().toString(36).slice(2)}_${Date.now()}`
+  lastIssueBody = null
+
+  const context = await browser.createBrowserContext()
+  const page = await context.newPage()
+
+  let cwsRequested = false
+  const collectHits = []
+  await page.setRequestInterception(true)
+  page.on('request', (req) => {
+    const url = req.url()
+    if (url.startsWith(CWS_PREFIX)) {
+      cwsRequested = true
+      try {
+        req.abort()
+      } catch {}
+      return
+    }
+    if (GA_COLLECT_RE.test(url)) {
+      const hit = parseGaCollect(url)
+      if (hit) collectHits.push(hit)
+    }
+    try {
+      req.continue()
+    } catch {}
+  })
+
+  await page
+    .goto(`${BASE}/install?ga_debug=1&utm_source=test`, { waitUntil: 'domcontentloaded', timeout: 45000 })
+    .catch(() => {})
+
+  const redirectDeadline = Date.now() + 8000
+  while (Date.now() < redirectDeadline && !cwsRequested) await sleep(50)
+  // Wait for BOTH streams' hits to land.
+  const hitDeadline = Date.now() + 4000
+  while (Date.now() < hitDeadline) {
+    if (collectHits.some((h) => h.tid === WEBSITE_TID) && collectHits.some((h) => h.tid === EXTENSION_TID)) break
+    await sleep(100)
+  }
+
+  const webHits = collectHits.filter((h) => h.tid === WEBSITE_TID)
+  const extHits = collectHits.filter((h) => h.tid === EXTENSION_TID)
+
+  check(`${title}: extension stream hit sent (tid=${EXTENSION_TID})`, extHits.length > 0, `hits=${extHits.length}`)
+  // Debug flag present on the extension hit — real observed param `ep.debug_mode=true`.
+  check(`${title}: extension hit carries ep.debug_mode=true`, extHits.length > 0 && extHits.some((h) => h.debug), `debugHits=${extHits.filter((h) => h.debug).length}`)
+  // Scoped: the website stream hit must NOT be marked debug (we never touched it).
+  check(`${title}: website hit NOT marked debug (tid=${WEBSITE_TID})`, webHits.length > 0 && webHits.every((h) => !h.debug), `webDebugHits=${webHits.filter((h) => h.debug).length}`)
+
+  await context.close()
+}
+
 ;(async () => {
   await new Promise((r) => mock.listen(MOCK_PORT, '127.0.0.1', r))
   console.log(`[mock] relay listening on http://127.0.0.1:${MOCK_PORT}`)
@@ -624,6 +822,7 @@ async function runOriginScenarios() {
       expect: {
         attribution: 'hn',
         nonce: true,
+        dualStream: true,
         utmForwarded: { utm_source: 'hn', utm_medium: 'social', utm_campaign: 'launch' },
       },
     })
@@ -651,6 +850,11 @@ async function runOriginScenarios() {
 
     // FINDING 1 — same-origin enforcement (raw HTTP, controlled headers).
     await runOriginScenarios()
+
+    // Issue #1546 core fix — consent gating + debug toggle for the SECOND (extension)
+    // GA4 stream. Run same-origin (localhost) like scenarios A-C2.
+    await runConsentWithheldScenario(browser)
+    await runDebugModeScenario(browser)
 
     // ITEM 2 — canonical apex->www redirect (code-level guarantee) + confirmation
     // that www-direct and enterprise./teams. routing are unaffected.

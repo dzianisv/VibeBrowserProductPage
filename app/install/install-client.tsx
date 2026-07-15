@@ -31,18 +31,68 @@ import { hasAnalyticsConsent } from '@/lib/analytics-consent'
 const CHROME_WEB_STORE_URL =
   'https://chromewebstore.google.com/detail/vibe-ai-browser-co-pilot/djodpgokbmobeclicaicnnidccoinado'
 
+// SEPARATE "VibeBrowser Extension" GA4 property (property id 538007690, data stream
+// 14889947093) — NOT the site-wide "VibeBrowser Website" property that
+// `GA_MEASUREMENT_ID` (G-EYZHHTHR57) already tracks on every page via
+// <GoogleAnalytics/>. This page opens a SECOND, independent gtag.js stream for the
+// extension property on the same load so a genuine first_visit/session_start is
+// created SPECIFICALLY in property 538007690 (the property the backend relay,
+// VibeTechnologies/VibeWebAgent#1551, forwards extension events to). Reusing the same
+// client_id string does NOT transfer "New user" status across GA4 properties — each
+// property independently decides whether it has seen a client_id before — so the
+// extension property must receive its own real hit here, or it will never recognize
+// the install.
+//
+// This is a PUBLIC, non-secret client-side identifier (same class as the
+// `GA_MEASUREMENT_ID` default 'G-EYZHHTHR57' committed in components/google-analytics.tsx),
+// so hardcoding the default is consistent with existing convention, not a secret.
+const EXTENSION_GA_MEASUREMENT_ID =
+  process.env.NEXT_PUBLIC_GA_EXTENSION_MEASUREMENT_ID || 'G-LP618JZN7X'
+
 const CLIENT_ID_TIMEOUT_MS = 500
 const NONCE_FETCH_TIMEOUT_MS = 800
 const MAX_REDIRECT_DELAY_MS = 1200
 
 const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'] as const
 
-type GtagFn = (
-  command: 'get',
-  target: string,
-  field: 'client_id',
-  callback: (value: string) => void
-) => void
+// gtag.js command surface used by this page. We need BOTH the existing
+// `get`/`client_id` read AND the `config` command that opens the second (extension)
+// stream, so the type carries both call signatures.
+interface GtagFn {
+  (command: 'get', target: string, field: 'client_id', callback: (value: string) => void): void
+  (command: 'config', target: string, params?: Record<string, unknown>): void
+}
+
+// Guards the one-time `gtag('config', EXTENSION_GA_MEASUREMENT_ID)` call so the second
+// stream is opened at most once per page load even if `tryGtag` were re-entered.
+let extensionStreamConfigured = false
+
+// Debug-mode toggle (OFF by default). Only when an operator explicitly opens
+// `/install?ga_debug=1` do we tag the extension stream's hits with `debug_mode`, so a
+// developer with GA4 Admin/DebugView access to property 538007690 can watch the real
+// first_visit land in DebugView. Absent the param, production traffic is untouched.
+function isGaDebugRequested(): boolean {
+  try {
+    return new URLSearchParams(window.location.search).get('ga_debug') === '1'
+  } catch {
+    return false
+  }
+}
+
+// Consent resolution for the /install handoff. In all real usage this is exactly
+// `hasAnalyticsConsent()`. The `window.__vibeInstallAnalyticsConsent === false`
+// override exists ONLY so the automated test suite can exercise the consent-withheld
+// path deterministically; it can only DENY consent (force false), never grant it, so
+// it can never expand tracking in production.
+function installAnalyticsConsentGranted(): boolean {
+  if (
+    typeof window !== 'undefined' &&
+    (window as Window & { __vibeInstallAnalyticsConsent?: boolean }).__vibeInstallAnalyticsConsent === false
+  ) {
+    return false
+  }
+  return hasAnalyticsConsent()
+}
 
 // GA4 `_ga` cookie format: `GA1.<subdomainDepth>.<clientId1>.<clientId2>`, where the
 // real client_id is `<clientId1>.<clientId2>`. This is the documented fallback when
@@ -97,10 +147,42 @@ function getGaClientId(): Promise<string | null> {
       }
 
       if (typeof gtag === 'function') {
-        // gtag is ready — ask it for the real client_id right now. The backstop
-        // still guards against the callback never firing.
+        // gtag is ready. Open the SECOND (extension) GA4 stream, then ask it for the
+        // real client_id. The backstop still guards against the get-callback never firing.
         try {
-          gtag('get', GA_MEASUREMENT_ID, 'client_id', (value: string) => {
+          const consented = installAnalyticsConsentGranted()
+
+          // Consent gating (same gate as the /api/install/nonce POST below):
+          // `gtag('config', EXTENSION_GA_MEASUREMENT_ID)` opens a real second GA4 stream
+          // and sends a genuine network hit to Google (creating the first_visit/
+          // session_start in property 538007690), so it must NOT fire without analytics
+          // consent — never silently expand tracking beyond what is already consented.
+          // Fired exactly once per page load (extensionStreamConfigured guard). This is
+          // ADDITIVE: the site-wide website stream (GA_MEASUREMENT_ID) keeps firing on
+          // every page via <GoogleAnalytics/>, completely unaffected.
+          if (consented && !extensionStreamConfigured) {
+            extensionStreamConfigured = true
+            const configParams: Record<string, unknown> = {}
+            if (isGaDebugRequested()) {
+              configParams.debug_mode = true
+            }
+            if (Object.keys(configParams).length > 0) {
+              gtag('config', EXTENSION_GA_MEASUREMENT_ID, configParams)
+            } else {
+              gtag('config', EXTENSION_GA_MEASUREMENT_ID)
+            }
+          }
+
+          // Read the client_id FOR the stream we hand off. When consented we read it
+          // from the extension stream we just opened — its hits are what create the
+          // real first_visit in property 538007690, and per Google's documented cookie
+          // model the shared top-level `_ga` cookie makes this identical to the website
+          // stream's client_id, so user continuity is preserved. When consent is
+          // withheld the extension stream is never opened, so we read from the website
+          // measurement id purely to resolve a value promptly; it is never handed off
+          // because the nonce POST below is itself consent-gated.
+          const clientIdTarget = consented ? EXTENSION_GA_MEASUREMENT_ID : GA_MEASUREMENT_ID
+          gtag('get', clientIdTarget, 'client_id', (value: string) => {
             finish(typeof value === 'string' && value.length > 0 ? value : readClientIdFromGaCookie())
           })
         } catch {
@@ -146,11 +228,11 @@ export function InstallClient() {
         // stays strictly utm_source-gated in proxy.ts and is unaffected by this.
         const clientId = await getGaClientId()
 
-        // Same consent hook as the global gtag loader (lib/analytics-consent.ts).
-        // Returns true today, so the handoff behaves exactly as before; this is the
-        // one place the /install nonce issuance would be gated by a future consent
-        // mechanism. Fails open into the redirect below regardless.
-        if (clientId && hasAnalyticsConsent()) {
+        // Same consent gate as the extension-stream config above and the global gtag
+        // loader (lib/analytics-consent.ts). Returns true today, so the handoff behaves
+        // exactly as before; this is the one place the /install nonce issuance is gated
+        // by a future consent mechanism. Fails open into the redirect below regardless.
+        if (clientId && installAnalyticsConsentGranted()) {
           const controller = new AbortController()
           const fetchTimer = setTimeout(() => controller.abort(), NONCE_FETCH_TIMEOUT_MS)
           try {
