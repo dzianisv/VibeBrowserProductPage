@@ -10,6 +10,7 @@
     "dev": "next dev",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "start": "next start",
+    "test": "node --test lib/*.test.ts",
     "indexnow:ping": "node scripts/indexnow-ping.js",
     "waitlist": "node scripts/get-waitlist.js",
     "waitlist:stats": "node scripts/get-waitlist.js --stats",

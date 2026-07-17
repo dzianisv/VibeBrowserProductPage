@@ -10,6 +10,22 @@ import { sendTransactionalEmail } from '@/lib/brevo'
 const TABLE = 'opencode_beta_signups'
 const PLAY_PACKAGE_NAME = 'cc.agentlabs.opencode'
 
+// PRIVACY — retention & access control (see docs/opencode-beta-signup.md
+// "Privacy, Consent, Retention" for the full policy):
+//   - This table stores email + ip + user_agent in plaintext (not hashed —
+//     unlike server logs, this row has real access controls: RLS is
+//     enabled, only INSERT/UPDATE are publicly allowed, there is no public
+//     SELECT policy, and read access requires the Supabase service_role
+//     key). ip/user_agent exist for dedup/anti-abuse, not marketing.
+//   - Retention: rows are kept for as long as the signup is "active" —
+//     status='pending' rows past ~24 months (beta program stalled/replaced)
+//     should be purged in a periodic manual review; there is no automated
+//     purge job configured yet. `enrolled` rows may be kept for the
+//     lifetime of the beta program.
+//   - Deletion on request: remove the row here + the Brevo contact + the
+//     Google Group membership (see docs/opencode-beta-signup.md "Your
+//     Rights" workflow). Route deletion requests to support@vibebrowser.app.
+
 export type SignupStatus = 'pending' | 'enrolled'
 export type SignupList = 'beta' | 'news'
 

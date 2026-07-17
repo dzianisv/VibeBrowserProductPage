@@ -4,7 +4,7 @@ import Link from "next/link"
 export const metadata: Metadata = {
   title: "Privacy Policy — OpenCode Mobile",
   description:
-    "Privacy policy for OpenCode Mobile (cc.agentlabs.opencode). We do not collect your code, prompts, or AI responses. Anonymous crash diagnostics via Sentry, opt-in only.",
+    "Privacy policy for OpenCode Mobile (cc.agentlabs.opencode). We do not collect your code, prompts, or AI responses. Anonymous crash diagnostics via Sentry, opt-in only. Beta/newsletter signup email is collected only if you opt in.",
   alternates: {
     canonical: "https://www.vibebrowser.app/opencode/privacy",
   },
@@ -97,7 +97,7 @@ export default function OpenCodePrivacyPage() {
                 "Your prompts, chat messages, or AI responses",
                 "Your opencode server URL, IP address, or hostname",
                 "Authentication tokens, API keys, or credentials you enter",
-                "Account information, email addresses, or names",
+                "Account information, email addresses, or names — except when you explicitly sign up for the closed beta or mailing list at opencode.agentlabs.cc/beta (see Section 3, \"Beta Program & Mailing List Signups\")",
                 "Location data",
                 "Photos, microphone recordings, or camera data (unless you attach them to a message, in which case they go only to your own server)",
                 "Contacts, calendar, or any other personal data",
@@ -117,7 +117,64 @@ export default function OpenCodePrivacyPage() {
 
           <section>
             <h2 className="text-xl font-bold text-[#e8eaed] mb-4 flex items-center gap-2">
-              <span className="text-[#81c995]">3.</span> Data We Do Collect (Crash Diagnostics)
+              <span className="text-[#81c995]">3.</span> Beta Program &amp; Mailing List Signups
+            </h2>
+            <p className="leading-relaxed mb-4">
+              The closed-beta and news-list signup form at{" "}
+              <a
+                href="https://opencode.agentlabs.cc/beta"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#8ab4f8] hover:text-[#aecbfa]"
+              >
+                opencode.agentlabs.cc/beta
+              </a>{" "}
+              is a separate, opt-in flow from the app itself. Submitting the form is your consent
+              to the collection described here.
+            </p>
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse text-sm">
+                <thead>
+                  <tr>
+                    <th className="border border-[#3c4043] bg-[#1a1a1a] p-3 text-left text-[#e8eaed] font-semibold">
+                      Data type
+                    </th>
+                    <th className="border border-[#3c4043] bg-[#1a1a1a] p-3 text-left text-[#e8eaed] font-semibold">
+                      Why we collect it
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    {
+                      type: "Email address",
+                      why: "Required. Used to send your Google Play beta invite (closed beta) or news updates (mailing list), and to add you to the corresponding Brevo mailing list. Beta signups are also added to a Google Group used solely to manage the Play closed-testing tester list.",
+                    },
+                    {
+                      type: "IP address, browser user agent",
+                      why: "Collected at signup for spam/duplicate-signup prevention only. Server logs never contain the raw address — logged values are hashed (email) or truncated (IP) so they cannot identify you from the logs alone. The raw values are stored only in our access-controlled database (see Section 8, Access Controls).",
+                    },
+                  ].map((row) => (
+                    <tr key={row.type} className="even:bg-[#111111]">
+                      <td className="border border-[#3c4043] p-3 text-[#e8eaed] font-medium align-top">
+                        {row.type}
+                      </td>
+                      <td className="border border-[#3c4043] p-3 align-top">{row.why}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p className="leading-relaxed mt-4 text-sm">
+              See Section 7 (Data Retention) for how long this data is kept, Section 8 (Access
+              Controls) for who can read it, and Section 9 (Your Rights) for how to request
+              deletion.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-xl font-bold text-[#e8eaed] mb-4 flex items-center gap-2">
+              <span className="text-[#81c995]">4.</span> Data We Do Collect (Crash Diagnostics)
             </h2>
             <p className="leading-relaxed mb-6">
               With your explicit consent (shown at first launch), we collect anonymous crash
@@ -184,7 +241,7 @@ export default function OpenCodePrivacyPage() {
 
           <section>
             <h2 className="text-xl font-bold text-[#e8eaed] mb-4 flex items-center gap-2">
-              <span className="text-[#81c995]">4.</span> Consent and Control
+              <span className="text-[#81c995]">5.</span> Consent and Control
             </h2>
             <p className="leading-relaxed mb-3">
               Crash reporting is <strong className="text-[#e8eaed]">opt-in and off by default</strong>.
@@ -207,10 +264,10 @@ export default function OpenCodePrivacyPage() {
 
           <section>
             <h2 className="text-xl font-bold text-[#e8eaed] mb-4 flex items-center gap-2">
-              <span className="text-[#81c995]">5.</span> Third-Party Services
+              <span className="text-[#81c995]">6.</span> Third-Party Services
             </h2>
-            <p className="leading-relaxed mb-3">We use one third-party service for diagnostics:</p>
-            <div className="rounded-xl border border-[#3c4043] bg-[#111111] p-5 text-sm">
+            <p className="leading-relaxed mb-3">We use these third-party services:</p>
+            <div className="rounded-xl border border-[#3c4043] bg-[#111111] p-5 text-sm mb-4">
               <p className="font-semibold text-[#e8eaed] mb-1">Sentry — crash and error monitoring</p>
               <p className="mb-1">
                 Privacy policy:{" "}
@@ -228,27 +285,117 @@ export default function OpenCodePrivacyPage() {
                 Sentry's default data-retention policy.
               </p>
             </div>
+            <div className="rounded-xl border border-[#3c4043] bg-[#111111] p-5 text-sm mb-4">
+              <p className="font-semibold text-[#e8eaed] mb-1">
+                Brevo — mailing list &amp; transactional email (beta/news signups only)
+              </p>
+              <p>
+                Privacy policy:{" "}
+                <a
+                  href="https://www.brevo.com/legal/privacypolicy/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#8ab4f8] hover:text-[#aecbfa]"
+                >
+                  brevo.com/legal/privacypolicy
+                </a>
+              </p>
+            </div>
+            <div className="rounded-xl border border-[#3c4043] bg-[#111111] p-5 text-sm mb-4">
+              <p className="font-semibold text-[#e8eaed] mb-1">
+                Supabase — signup database (beta/news signups only)
+              </p>
+              <p>
+                Privacy policy:{" "}
+                <a
+                  href="https://supabase.com/privacy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#8ab4f8] hover:text-[#aecbfa]"
+                >
+                  supabase.com/privacy
+                </a>
+              </p>
+            </div>
+            <div className="rounded-xl border border-[#3c4043] bg-[#111111] p-5 text-sm">
+              <p className="font-semibold text-[#e8eaed] mb-1">
+                Google Groups — closed-beta tester list (beta signups only)
+              </p>
+              <p>
+                Used exclusively to manage the Google Play closed-testing tester list. Privacy
+                policy:{" "}
+                <a
+                  href="https://policies.google.com/privacy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#8ab4f8] hover:text-[#aecbfa]"
+                >
+                  policies.google.com/privacy
+                </a>
+              </p>
+            </div>
             <p className="leading-relaxed mt-4 text-sm">
               We use no advertising networks, analytics platforms, social SDKs, or any other
-              third-party data collection services. The app contains no ads and no ad SDKs.
+              third-party data collection services. The app itself contains no ads and no ad SDKs.
             </p>
           </section>
 
           <section>
             <h2 className="text-xl font-bold text-[#e8eaed] mb-4 flex items-center gap-2">
-              <span className="text-[#81c995]">6.</span> Data Retention
+              <span className="text-[#81c995]">7.</span> Data Retention
             </h2>
-            <p className="leading-relaxed">
+            <p className="leading-relaxed mb-3">
               Crash reports sent to Sentry are retained for approximately 90 days, after which they
               are automatically deleted per Sentry's retention defaults. We do not operate our own
-              servers that store your data; there is no VIBE TECHNOLOGIES back end involved in
-              normal app usage.
+              servers that store your data as part of normal app usage.
+            </p>
+            <p className="leading-relaxed">
+              Beta/mailing-list signup rows (email, IP, user agent) are retained in our database for
+              as long as your signup is active. Inactive (`pending`, never enrolled) rows older than
+              roughly 24 months are purged in a periodic manual review — there is no automated purge
+              job yet. You can request earlier deletion at any time (see Section 9, Your Rights).
+              Removing yourself from the Brevo list (unsubscribe link in any email) or leaving the
+              Google Group also removes you from that respective system immediately.
             </p>
           </section>
 
           <section>
             <h2 className="text-xl font-bold text-[#e8eaed] mb-4 flex items-center gap-2">
-              <span className="text-[#81c995]">7.</span> Your Rights
+              <span className="text-[#81c995]">8.</span> Access Controls
+            </h2>
+            <p className="leading-relaxed mb-3">
+              Beta/mailing-list signup data is protected as follows:
+            </p>
+            <ul className="space-y-2 pl-4 text-sm">
+              <li className="flex items-start gap-2">
+                <span className="text-[#81c995] mt-0.5 shrink-0">·</span>
+                <span>
+                  The database table has row-level security enabled. The public API can only insert
+                  a new row or update the status of the row it just created — there is no public
+                  read (SELECT) policy. Reading the table requires our Supabase service_role key,
+                  which is never shipped to the app or the browser.
+                </span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-[#81c995] mt-0.5 shrink-0">·</span>
+                <span>
+                  All API keys used by the signup backend (Supabase, Brevo, Google service account)
+                  are server-only environment variables — none are exposed as `NEXT_PUBLIC_*` or
+                  otherwise sent to the client.
+                </span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-[#81c995] mt-0.5 shrink-0">·</span>
+                <span>
+                  Server logs never contain your raw email or full IP address — see Section 3.
+                </span>
+              </li>
+            </ul>
+          </section>
+
+          <section>
+            <h2 className="text-xl font-bold text-[#e8eaed] mb-4 flex items-center gap-2">
+              <span className="text-[#81c995]">9.</span> Your Rights
             </h2>
             <p className="leading-relaxed mb-3">You have the right to:</p>
             <ul className="space-y-2 pl-4 text-sm">
@@ -256,7 +403,8 @@ export default function OpenCodePrivacyPage() {
                 <span className="text-[#81c995] mt-0.5 shrink-0">·</span>
                 <span>
                   <strong className="text-[#e8eaed]">Opt out</strong> — disable crash reporting at
-                  any time in Settings → Privacy.
+                  any time in Settings → Privacy, or unsubscribe from beta/news emails via the link
+                  in any email we send.
                 </span>
               </li>
               <li className="flex items-start gap-2">
@@ -266,15 +414,16 @@ export default function OpenCodePrivacyPage() {
                   <a href="mailto:support@vibebrowser.app" className="text-[#8ab4f8] hover:text-[#aecbfa]">
                     support@vibebrowser.app
                   </a>{" "}
-                  with subject "Data deletion request" and we will request deletion of any crash
-                  events associated with your device from Sentry.
+                  with subject "Data deletion request" and we will delete your crash events from
+                  Sentry and/or your beta/news signup row, Brevo contact, and Google Group
+                  membership, as applicable.
                 </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-[#81c995] mt-0.5 shrink-0">·</span>
                 <span>
                   <strong className="text-[#e8eaed]">Access</strong> — request a summary of what
-                  diagnostic data (if any) we hold about your device by emailing the same address.
+                  data (diagnostic or signup) we hold about you by emailing the same address.
                 </span>
               </li>
             </ul>
@@ -286,7 +435,7 @@ export default function OpenCodePrivacyPage() {
 
           <section>
             <h2 className="text-xl font-bold text-[#e8eaed] mb-4 flex items-center gap-2">
-              <span className="text-[#81c995]">8.</span> Children
+              <span className="text-[#81c995]">10.</span> Children
             </h2>
             <p className="leading-relaxed">
               OpenCode Mobile is a developer tool intended for users aged 18 and over. We do not
@@ -297,19 +446,19 @@ export default function OpenCodePrivacyPage() {
 
           <section>
             <h2 className="text-xl font-bold text-[#e8eaed] mb-4 flex items-center gap-2">
-              <span className="text-[#81c995]">9.</span> Security
+              <span className="text-[#81c995]">11.</span> Security
             </h2>
             <p className="leading-relaxed">
-              All diagnostic data is transmitted over HTTPS (TLS 1.2+) to Sentry. We do not
-              transmit any data over unencrypted connections. Your opencode server traffic uses
-              whatever transport security your server provides — we recommend HTTPS for all
-              self-hosted deployments.
+              All diagnostic data is transmitted over HTTPS (TLS 1.2+) to Sentry, and all signup
+              data is transmitted over HTTPS to our backend. We do not transmit any data over
+              unencrypted connections. Your opencode server traffic uses whatever transport
+              security your server provides — we recommend HTTPS for all self-hosted deployments.
             </p>
           </section>
 
           <section>
             <h2 className="text-xl font-bold text-[#e8eaed] mb-4 flex items-center gap-2">
-              <span className="text-[#81c995]">10.</span> Changes to This Policy
+              <span className="text-[#81c995]">12.</span> Changes to This Policy
             </h2>
             <p className="leading-relaxed">
               If we make material changes to this policy, we will update the effective date at the
@@ -324,7 +473,7 @@ export default function OpenCodePrivacyPage() {
 
           <section>
             <h2 className="text-xl font-bold text-[#e8eaed] mb-4 flex items-center gap-2">
-              <span className="text-[#81c995]">11.</span> Contact
+              <span className="text-[#81c995]">13.</span> Contact
             </h2>
             <div className="rounded-xl border border-[#3c4043] bg-[#111111] p-5 text-sm">
               <p className="text-[#e8eaed] font-semibold mb-2">VIBE TECHNOLOGIES, LLC</p>
