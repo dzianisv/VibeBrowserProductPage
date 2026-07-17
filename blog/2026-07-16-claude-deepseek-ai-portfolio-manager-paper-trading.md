@@ -16,7 +16,7 @@ published: true
 
 Apps like Autopilot proved people want to watch AI models trade — their GPT, Claude, DeepSeek and Grok portfolios hold about $150M of mirrored retail money. But their published returns are undated marketing numbers ("+76.4% all-time"), and the engineering is a black box.
 
-We added the same idea to QuantArena, our agentic hedge-fund project, with one difference: every decision is a line in an append-only ledger, timestamped by a public git commit. You can audit the whole track record, losing days included.
+We added the same idea to QuantArena, our agentic hedge-fund project, with one difference: every decision is a line in an append-only, git-timestamped ledger, and the full decision log — losing days included — is published on the track-record page. When the repository goes public, the git history itself becomes independently auditable.
 
 ## The problem
 
