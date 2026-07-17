@@ -180,15 +180,27 @@ this route silently.
 
 **Logging.** Server logs (Vercel) must never contain a raw email or full
 client IP — they have no retention/access controls of their own, unlike the
-Supabase row (see Access Controls below). `app/api/beta-signup/route.ts` and
-`lib/brevo.ts` log via `lib/privacy-log.ts`:
+Supabase row (see Access Controls below). `app/api/beta-signup/route.ts`,
+`lib/brevo.ts`, and the sibling `actions/waitlist-supabase.ts` log via
+`lib/privacy-log.ts`:
   - `hashEmailForLog(email)` — first 12 hex chars of SHA-256, for dedup
     correlation across log lines without exposing the address.
   - `anonymizeIp(ip)` — drops the last IPv4 octet / last ~80 bits of IPv6.
+  - `redactForLog(x)` — coerces any value (string, `Error`, serialized
+    object) to a string and replaces every email-like substring with
+    `<email:HASH>`. **Critical for upstream error bodies:** Brevo (and
+    Supabase, in `Key (email)=(...)` constraint errors) echo the offending
+    address back in validation errors, so a malformed-email signup would
+    otherwise land the raw address in the logs verbatim. Every
+    `console.error` that logs a response body or a caught error/exception in
+    these flows is wrapped in `redactForLog(...)`.
 
-If you add a new log line touching `email` or `ip` in this flow, route it
-through these helpers. Unit tests: `lib/privacy-log.test.ts`
-(`npm run test`, Node's built-in test runner — no new dependency).
+If you add a new log line touching `email`/`ip` (use `hashEmailForLog` /
+`anonymizeIp`) or any upstream response body / caught error (use
+`redactForLog`) in these flows, route it through these helpers. Unit tests:
+`lib/privacy-log.test.ts` (`npm run test`, Node's built-in test runner — no
+new dependency), including redaction cases for raw error bodies, `Error`
+objects, and serialized rows.
 
 **Retention.** No automated purge job exists yet. Rows with
 `status='pending'` (never enrolled/never re-engaged) older than ~24 months

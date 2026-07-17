@@ -56,3 +56,34 @@ export function anonymizeIp(ip: string | null | undefined): string | null {
 
   return null
 }
+
+// Matches an email-like substring anywhere in a larger string. Deliberately
+// broad (catches the local part + domain) so it strips addresses out of
+// upstream API error bodies, serialized error objects, etc.
+const EMAIL_RE = /[^\s"'<>@]+@[^\s"'<>@]+\.[^\s"'<>@]+/g
+
+/**
+ * Redacts email addresses from an arbitrary string before it's logged.
+ * Third-party APIs (e.g. Brevo) echo the offending email back in validation
+ * error bodies, so raw upstream responses must be scrubbed before they hit
+ * the logs. Each email is replaced with `<email:HASH>` where HASH is
+ * hashEmailForLog(), preserving dedup correlation without exposing the
+ * address. Non-string input (an Error, a serialized row) is coerced to
+ * string first so `console.error(redactForLog(err))` is always safe.
+ */
+export function redactForLog(input: unknown): string {
+  const str =
+    typeof input === 'string'
+      ? input
+      : input instanceof Error
+        ? `${input.name}: ${input.message}`
+        : (() => {
+            try {
+              return JSON.stringify(input)
+            } catch {
+              return String(input)
+            }
+          })()
+
+  return str.replace(EMAIL_RE, (match) => `<email:${hashEmailForLog(match)}>`)
+}

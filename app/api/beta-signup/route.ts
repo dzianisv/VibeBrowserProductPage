@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { insertSignup, markEnrolled, notifyFounder, type SignupList } from '@/lib/opencode-beta-signup'
 import { enrollBetaTester } from '@/lib/google-groups'
 import { addContactToBrevo } from '@/lib/brevo'
-import { anonymizeIp, hashEmailForLog } from '@/lib/privacy-log'
+import { anonymizeIp, hashEmailForLog, redactForLog } from '@/lib/privacy-log'
 
 // googleapis (used by the gated Google Group auto-enroll) requires the
 // Node.js runtime — it isn't Edge-compatible.
@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
   try {
     result = await insertSignup({ email: normalized, ip, userAgent, list })
   } catch (err) {
-    console.error('[beta-signup] insertSignup threw (continuing, Brevo is primary):', err)
+    console.error('[beta-signup] insertSignup threw (continuing, Brevo is primary):', redactForLog(err))
   }
 
   if (result?.outcome === 'duplicate') {
@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
     try {
       await addContactToBrevo(normalized, resolveBrevoListId(list))
     } catch (err) {
-      console.error('[beta-signup] Brevo sync (duplicate path) failed:', err)
+      console.error('[beta-signup] Brevo sync (duplicate path) failed:', redactForLog(err))
     }
     return NextResponse.json({
       message: list === 'beta' ? "You're already on the beta list." : "You're already subscribed.",
@@ -85,7 +85,7 @@ export async function POST(request: NextRequest) {
 
   // 2. Add to the correct Brevo list — the primary store.
   const brevo = await addContactToBrevo(normalized, resolveBrevoListId(list)).catch((err) => {
-    console.error('[beta-signup] Brevo sync failed:', err)
+    console.error('[beta-signup] Brevo sync failed:', redactForLog(err))
     return { status: 'error' as const, message: String(err) }
   })
   const brevoOk = brevo.status === 'added'
@@ -111,13 +111,13 @@ export async function POST(request: NextRequest) {
         try {
           await addContactToBrevo(normalized, resolveBrevoListId('beta'), { PLAY_ENROLLED: true })
         } catch (err) {
-          console.error('[beta-signup] Brevo PLAY_ENROLLED attribute update failed:', err)
+          console.error('[beta-signup] Brevo PLAY_ENROLLED attribute update failed:', redactForLog(err))
         }
       } else if (enroll.attempted && !enroll.success) {
         enrollOutcome = 'enrollment_failed'
       }
     } catch (err) {
-      console.error('[beta-signup] Google Group enroll threw:', err)
+      console.error('[beta-signup] Google Group enroll threw:', redactForLog(err))
       enrollOutcome = 'enrollment_failed'
     }
   }
@@ -131,7 +131,7 @@ export async function POST(request: NextRequest) {
       enrollResult: enrollOutcome,
     })
   } catch (err) {
-    console.error('[beta-signup] notifyFounder threw:', err)
+    console.error('[beta-signup] notifyFounder threw:', redactForLog(err))
   }
 
   return NextResponse.json({ message: 'Signed up successfully' })

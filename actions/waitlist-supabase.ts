@@ -1,6 +1,7 @@
 "use server"
 
 import { createClient } from '@supabase/supabase-js'
+import { hashEmailForLog, redactForLog } from '@/lib/privacy-log'
 
 // Helper function to get Supabase client
 function getSupabaseClient() {
@@ -66,13 +67,15 @@ async function addToBrevo(email: string, attributes?: Record<string, string | nu
     })
 
     if (!res.ok) {
+      // Brevo echoes the offending email back in validation errors — redact
+      // before logging (see lib/privacy-log.ts).
       const body = await res.text()
-      console.error("Brevo API error:", res.status, body)
+      console.error("Brevo API error:", res.status, redactForLog(body))
     } else {
-      console.log("Brevo: contact added/updated", email)
+      console.log("Brevo: contact added/updated", hashEmailForLog(email))
     }
   } catch (err) {
-    console.error("Brevo sync failed:", err)
+    console.error("Brevo sync failed:", redactForLog(err))
     // Don't fail the signup if Brevo fails
   }
 }
@@ -136,10 +139,12 @@ export async function joinWaitlist(
         }
       }
       
-      console.error('Supabase error:', error)
-      return { 
+      // Supabase errors can serialize row data (e.g. "Key (email)=(...)")
+      // — redact before logging.
+      console.error('Supabase error:', redactForLog(error))
+      return {
         success: false,
-        message: 'Failed to join waitlist. Please try again.' 
+        message: 'Failed to join waitlist. Please try again.'
       }
     }
 
@@ -183,14 +188,14 @@ export async function joinWaitlist(
         })
         console.log("Notification email sent successfully")
       } catch (emailError) {
-        console.error("Failed to send notification email:", emailError)
+        console.error("Failed to send notification email:", redactForLog(emailError))
         // Don't fail the signup if email fails
       }
     }
 
     return { success: true, message: "Successfully joined the waitlist!" }
   } catch (error) {
-    console.error("Error joining waitlist:", error)
+    console.error("Error joining waitlist:", redactForLog(error))
     return { success: false, message: "Failed to join waitlist. Please try again." }
   }
 }
@@ -205,13 +210,13 @@ export async function getWaitlistSignups() {
       .order('created_at', { ascending: false })
 
     if (error) {
-      console.error("Error fetching waitlist signups:", error)
+      console.error("Error fetching waitlist signups:", redactForLog(error))
       return { success: false, message: "Failed to fetch signups." }
     }
 
     return { success: true, data: signups }
   } catch (error) {
-    console.error("Error fetching waitlist signups:", error)
+    console.error("Error fetching waitlist signups:", redactForLog(error))
     return { success: false, message: "Failed to fetch signups." }
   }
 }
@@ -286,7 +291,7 @@ export async function getWaitlistStats() {
       },
     }
   } catch (error) {
-    console.error("Error fetching waitlist stats:", error)
+    console.error("Error fetching waitlist stats:", redactForLog(error))
     return { success: false, message: "Failed to fetch stats." }
   }
 }
@@ -301,7 +306,7 @@ export async function subscribeToMailingList(email: string) {
     await addToBrevo(email.toLowerCase(), { SOURCE: "mailing_list" })
     return { success: true, message: "You're subscribed! Check your inbox." }
   } catch (error) {
-    console.error("Mailing list subscribe error:", error)
+    console.error("Mailing list subscribe error:", redactForLog(error))
     return { success: false, message: "Failed to subscribe. Please try again." }
   }
 }
@@ -346,7 +351,7 @@ export async function exportWaitlistToCSV() {
       filename: `vibebrowser-waitlist-${new Date().toISOString().split('T')[0]}.csv`
     }
   } catch (error) {
-    console.error("Error exporting waitlist:", error)
+    console.error("Error exporting waitlist:", redactForLog(error))
     return { success: false, message: "Failed to export waitlist." }
   }
 }

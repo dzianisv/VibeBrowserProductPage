@@ -13,7 +13,7 @@
  * see lib/privacy-log.ts for why.
  */
 
-import { hashEmailForLog } from './privacy-log'
+import { hashEmailForLog, redactForLog } from './privacy-log'
 
 export type AddContactOutcome =
   | { status: 'added' }
@@ -85,11 +85,16 @@ export async function addContactToBrevo(
       return { status: 'added' }
     }
 
-    console.error('[brevo] API error:', res.status, body)
+    // Brevo echoes the offending email back in validation error bodies —
+    // redact before logging so raw addresses never reach the logs. The
+    // returned `message` keeps the raw body for the in-process caller (it is
+    // only ever passed back through this function's return value, never
+    // logged downstream).
+    console.error('[brevo] API error:', res.status, redactForLog(body))
     return { status: 'error', message: `${res.status}: ${body}` }
   } catch (err) {
+    console.error('[brevo] request failed:', redactForLog(err))
     const message = err instanceof Error ? err.message : String(err)
-    console.error('[brevo] request failed:', message)
     return { status: 'error', message }
   }
 }
@@ -135,16 +140,16 @@ export async function sendTransactionalEmail(params: {
     })
 
     if (res.ok) {
-      console.log('[brevo] notification email sent to', params.to)
+      console.log('[brevo] notification email sent to', hashEmailForLog(params.to))
       return { status: 'sent' }
     }
 
     const body = await res.text()
-    console.error('[brevo] transactional email error:', res.status, body)
+    console.error('[brevo] transactional email error:', res.status, redactForLog(body))
     return { status: 'error', message: `${res.status}: ${body}` }
   } catch (err) {
+    console.error('[brevo] transactional email request failed:', redactForLog(err))
     const message = err instanceof Error ? err.message : String(err)
-    console.error('[brevo] transactional email request failed:', message)
     return { status: 'error', message }
   }
 }

@@ -6,7 +6,7 @@
  */
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { hashEmailForLog, anonymizeIp } from './privacy-log.ts'
+import { hashEmailForLog, anonymizeIp, redactForLog } from './privacy-log.ts'
 
 test('hashEmailForLog never returns the raw email', () => {
   const hash = hashEmailForLog('User@Example.com')
@@ -46,4 +46,38 @@ test('anonymizeIp returns null for missing input', () => {
 
 test('anonymizeIp returns null for unparseable input', () => {
   assert.equal(anonymizeIp('not-an-ip'), null)
+})
+
+test('redactForLog strips an email out of an upstream error body', () => {
+  const body = '{"code":"invalid_parameter","message":"Invalid email address: jane@example.com"}'
+  const out = redactForLog(body)
+  assert.equal(out.includes('jane@example.com'), false)
+  assert.match(out, /<email:[0-9a-f]{12}>/)
+})
+
+test('redactForLog replaces the email with its correlation hash', () => {
+  const out = redactForLog('contact jane@example.com failed')
+  assert.equal(out, `contact <email:${hashEmailForLog('jane@example.com')}> failed`)
+})
+
+test('redactForLog strips every email when several are present', () => {
+  const out = redactForLog('a@b.com and c@d.com')
+  assert.equal(out.includes('@b.com'), false)
+  assert.equal(out.includes('@d.com'), false)
+  assert.equal((out.match(/<email:[0-9a-f]{12}>/g) || []).length, 2)
+})
+
+test('redactForLog handles Error objects without leaking the email', () => {
+  const out = redactForLog(new Error('Brevo rejected user@example.com'))
+  assert.equal(out.includes('user@example.com'), false)
+  assert.match(out, /<email:[0-9a-f]{12}>/)
+})
+
+test('redactForLog handles serialized objects (e.g. a Supabase error row)', () => {
+  const out = redactForLog({ code: '23505', details: 'Key (email)=(user@example.com) already exists' })
+  assert.equal(out.includes('user@example.com'), false)
+})
+
+test('redactForLog leaves email-free strings untouched', () => {
+  assert.equal(redactForLog('401: IP address not allowlisted'), '401: IP address not allowlisted')
 })
