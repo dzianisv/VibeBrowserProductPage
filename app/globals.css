@@ -90,3 +90,47 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* OpenCode Mobile beta page — Google Material dark palette,
+   scoped to .beta-page so it never leaks into other routes.
+   Matches the palette already used on app/opencode/page.tsx
+   (bg #0a0a0a, fg #e8eaed, muted #9aa0a6, border #3c4043, accent #81c995). */
+.beta-page {
+  --fg: #e8eaed;
+  --muted: #9aa0a6;
+  --card: #202124;
+  --border: #3c4043;
+  --green: #81c995;
+  min-height: 100vh;
+  background-color: #0a0a0a;
+  color: var(--fg);
+}
+
+.beta-page .card {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+
+.beta-page .btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  background-color: var(--green);
+  color: #0a0a0a;
+  transition: background-color 0.15s ease;
+}
+
+.beta-page .btn-primary:hover:not(:disabled) {
+  background-color: #a8d5b5;
+}
+
+.beta-page .btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
