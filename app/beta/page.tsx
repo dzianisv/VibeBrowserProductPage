@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, FormEvent } from 'react'
+import Link from 'next/link'
 
 export default function BetaPage() {
   const [email, setEmail] = useState('')
@@ -101,6 +102,14 @@ export default function BetaPage() {
 
           <p className="mt-4 text-xs" style={{ color: 'var(--muted)' }}>
             Use the Gmail linked to your Google Play account. No spam, no commitment.
+          </p>
+          <p className="mt-2 text-xs" style={{ color: 'var(--muted)' }}>
+            By signing up you consent to us storing your email (and, briefly, your IP address for
+            spam prevention) to send your beta invite and occasional OpenCode Mobile updates. See our{' '}
+            <Link href="/opencode/privacy" className="underline hover:no-underline">
+              Privacy Policy
+            </Link>{' '}
+            for details on data retention and your rights.
           </p>
         </div>
       </section>

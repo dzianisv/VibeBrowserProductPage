@@ -8,7 +8,12 @@
  * Never throws — a Brevo outage or misconfiguration must never break the
  * caller's signup flow. Every outcome is reported via the return value
  * and logged.
+ *
+ * PRIVACY: log lines below use hashEmailForLog(), never the raw address —
+ * see lib/privacy-log.ts for why.
  */
+
+import { hashEmailForLog } from './privacy-log'
 
 export type AddContactOutcome =
   | { status: 'added' }
@@ -68,7 +73,7 @@ export async function addContactToBrevo(
     })
 
     if (res.ok) {
-      console.log('[brevo] contact added/updated', email, 'list', numericListId)
+      console.log('[brevo] contact added/updated', hashEmailForLog(email), 'list', numericListId)
       return { status: 'added' }
     }
 
@@ -76,7 +81,7 @@ export async function addContactToBrevo(
 
     // Brevo's "contact already exists" error — idempotent, treat as success.
     if (res.status === 400 && /already exist/i.test(body)) {
-      console.log('[brevo] contact already exists (treated as success)', email)
+      console.log('[brevo] contact already exists (treated as success)', hashEmailForLog(email))
       return { status: 'added' }
     }
 

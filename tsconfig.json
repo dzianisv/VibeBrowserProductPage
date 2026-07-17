@@ -44,6 +44,7 @@
   "exclude": [
     "node_modules",
     "apps/agentlabs",
-    "supabase/functions"
+    "supabase/functions",
+    "**/*.test.ts"
   ]
 }

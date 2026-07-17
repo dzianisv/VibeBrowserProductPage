@@ -78,6 +78,7 @@ mailing list sync. This closes that gap.
 | `app/api/beta-signup/route.ts` | API route. `runtime = 'nodejs'` (was `edge`) — required because `googleapis` isn't Edge-compatible. Resolves `list` → the right Brevo list id, runs Google Group enroll only for `list==="beta"`. |
 | `lib/brevo.ts` | Shared Brevo helper — `addContactToBrevo(email, listId, attributes?)`. Upserts into whichever list id is passed in; never throws. Mirrors `actions/waitlist-supabase.ts`'s `addToBrevo` (same endpoint, same "400 already exists = success" idempotency), generalized to take a list id per call. |
 | `lib/opencode-beta-signup.ts` | Supabase persistence + Resend founder notification. Mirrors `actions/waitlist-supabase.ts`'s conventions (same env vars, same lazy-client pattern). |
+| `lib/privacy-log.ts` | Pure helpers (`hashEmailForLog`, `anonymizeIp`) so this flow never logs a raw email or full IP. Tested by `lib/privacy-log.test.ts`. |
 | `lib/google-groups.ts` | Gated Google Group auto-enroll via the Admin SDK Directory API (`members.insert`). Only invoked for `list==="beta"`. |
 | `supabase/migrations/20260711000000_create_opencode_beta_signups.sql` | Creates the `opencode_beta_signups` table. |
 | `supabase/migrations/20260712000000_add_list_to_opencode_beta_signups.sql` | Adds the `list` column (`'beta' \| 'news'`, default `'beta'`) so one table backs both signup flows. Idempotent (`ADD COLUMN IF NOT EXISTS`). |
@@ -155,6 +156,67 @@ SELECT — read access should go through the Supabase **service_role** key
 (bypasses RLS), not the app's key. The second migration is additive and
 idempotent (`ADD COLUMN IF NOT EXISTS`) — safe to run even if the first
 migration already applied in production.
+
+## Privacy, Consent, Retention
+
+Full user-facing policy: [`/opencode/privacy`](https://www.vibebrowser.app/opencode/privacy)
+(Section 3 "Beta Program & Mailing List Signups", Section 7 "Data Retention",
+Section 8 "Access Controls", Section 9 "Your Rights"). This section is the
+engineering-facing summary for anyone touching this flow.
+
+**What's collected and why**
+
+| Field | Where it's stored | Why |
+|---|---|---|
+| `email` | Supabase (`opencode_beta_signups`), Brevo list, Google Group (beta only) | Required — beta invite / news delivery, mailing list membership, Play tester group membership. |
+| `ip`, `user_agent` | Supabase only | Anti-abuse / duplicate-signup detection. Never sent to Brevo or Google. |
+| `list` (`beta`\|`news`) | Supabase, routes to the right Brevo list | Distinguishes closed-beta testers from general newsletter subscribers. |
+
+**Consent.** The signup form (`app/beta/page.tsx`) shows a consent line next
+to the submit button linking to the privacy policy above before the user
+submits their email. Any future newsletter form reusing this endpoint
+(`list: "news"`) must show equivalent consent copy — don't wire a form to
+this route silently.
+
+**Logging.** Server logs (Vercel) must never contain a raw email or full
+client IP — they have no retention/access controls of their own, unlike the
+Supabase row (see Access Controls below). `app/api/beta-signup/route.ts` and
+`lib/brevo.ts` log via `lib/privacy-log.ts`:
+  - `hashEmailForLog(email)` — first 12 hex chars of SHA-256, for dedup
+    correlation across log lines without exposing the address.
+  - `anonymizeIp(ip)` — drops the last IPv4 octet / last ~80 bits of IPv6.
+
+If you add a new log line touching `email` or `ip` in this flow, route it
+through these helpers. Unit tests: `lib/privacy-log.test.ts`
+(`npm run test`, Node's built-in test runner — no new dependency).
+
+**Retention.** No automated purge job exists yet. Rows with
+`status='pending'` (never enrolled/never re-engaged) older than ~24 months
+should be purged in a periodic manual review. `enrolled` rows may be kept
+for the life of the beta program. Brevo/Google retention follow those
+platforms' own list-membership semantics — removing a contact from the list
+(unsubscribe) or the Google Group removes it from that system immediately;
+it does not by itself delete the Supabase row.
+
+**Access controls.**
+  - `SUPABASE_API_KEY` / `SUPABASE_PROJECT_URL`, `BREVO_API_KEY`,
+    `GOOGLE_GROUPS_SA_JSON` are server-only env vars — never prefixed
+    `NEXT_PUBLIC_*`, never sent to the client bundle. Verified: no
+    `NEXT_PUBLIC_SUPABASE_*` / `NEXT_PUBLIC_BREVO_*` var exists in this repo.
+  - Supabase RLS is enabled on `opencode_beta_signups`: the app's key can
+    only `INSERT` a new row or `UPDATE` the row it just created — there is
+    no public `SELECT` policy. Reading the table (e.g. for `npm run
+    waitlist`-style exports, if ever added for this table) requires the
+    Supabase **service_role** key, which bypasses RLS and must stay out of
+    Vercel's client-exposed env and out of this repo.
+  - The API route validates `email` with a regex before doing anything else
+    (see `route.ts`); it also caps input to a JSON body with `email`/`list`
+    only — no other fields are persisted.
+
+**Deletion requests.** Route to `support@vibebrowser.app` (same address as
+the `/opencode/privacy` policy). Action: delete the Supabase row, remove the
+Brevo contact from the relevant list, and remove Google Group membership if
+applicable.
 
 ## One-time setup: gated Google Play auto-enroll
 
