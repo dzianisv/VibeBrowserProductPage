@@ -4,8 +4,9 @@ import posthog from 'posthog-js'
 import Script from 'next/script'
 import { usePathname } from 'next/navigation'
 import { useEffect } from 'react'
+import { hasAnalyticsConsent } from '@/lib/analytics-consent'
 
-const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-EYZHHTHR57'
+export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-EYZHHTHR57'
 const TELEMETRY_EVENTS_ENDPOINT = '/api/telemetry/events'
 
 type TelemetryEventValue = string | number | boolean | null
@@ -62,6 +63,13 @@ function GAPageTracker() {
 }
 
 export function GoogleAnalytics() {
+  // Single consent hook (see lib/analytics-consent.ts). Returns true today, so gtag.js
+  // still loads sitewide exactly as before; this is the one place a future consent
+  // mechanism would gate the loader.
+  if (!hasAnalyticsConsent()) {
+    return null
+  }
+
   return (
     <>
       <Script
