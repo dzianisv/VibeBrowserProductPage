@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ArrowRight, CheckCircle, Chrome, Code2, Cpu, GitBranch, Globe, Layers, Shield, Terminal } from 'lucide-react'
+import { ArrowRight, CheckCircle, Chrome, Code2, Cpu, GitBranch, Globe, KeyRound, Layers, Settings, Shield, Terminal } from 'lucide-react'
 import { SiteNav } from '@/components/site-nav'
 import { SiteFooter } from '@/components/site-footer'
 import { CopyablePrompt } from '@/components/copyable-prompt'
@@ -13,6 +13,13 @@ const CLI_BASE = `npx -y ${PACKAGE_SPEC}`
 const CLI_REMOTE = `${CLI_BASE} --remote "<my remote>" --json status --wait-for-extension --wait-timeout 20000`
 const CLI_SNAPSHOT = `${CLI_BASE} --remote "<my remote>" --json snapshot --format aria`
 const MCP_OPENCLAW = `npx -y -p ${FULL_PACKAGE_SPEC} vibebrowser-mcp openclaw --remote "<my remote>"`
+
+const RELAY_HOST = 'relay.api.vibebrowser.app'
+const RELAY_URL_PLACEHOLDER = `wss://${RELAY_HOST}/<uuid>`
+const REMOTE_ENV_COMMAND = `# Bare UUID or full relay URL both work — set it once, reuse it:
+export VIBE_REMOTE_URL="<uuid-or-${RELAY_URL_PLACEHOLDER}>"
+
+${CLI_BASE} --remote "$VIBE_REMOTE_URL" --json status --wait-for-extension --wait-timeout 20000`
 
 const AGENT_INSTALL_PROMPT = `You are setting yourself up to control my real Chrome through Vibe Browser. Work through the steps in order. Do not claim a step is done until you have proven it.
 
@@ -165,6 +172,95 @@ export default function CliPage() {
                   </p>
                 </CardContent>
               </Card>
+            </div>
+          </div>
+        </section>
+
+        <section className="border-b border-[rgba(136,146,176,0.15)] bg-[rgba(8,12,24,0.88)] py-16 md:py-24">
+          <div className="container mx-auto max-w-6xl px-6">
+            <div className="mx-auto mb-12 max-w-3xl text-center">
+              <p className="text-xs uppercase tracking-[0.26em] text-[#7f8aa8]">How it works</p>
+              <h2
+                className="mt-4 text-3xl font-normal text-[#f0f4ff]"
+                style={{ fontFamily: "'Clash Display', 'Satoshi', system-ui, sans-serif" }}
+              >
+                What <code className="rounded bg-[rgba(158,158,255,0.1)] px-1.5 py-0.5 text-[#b4b4ff]">--remote</code> actually connects to
+              </h2>
+              <p className="mt-4 text-[#c4cbe0]">
+                Every command on this page needs a remote value. This is where it comes from, what forms it takes, and what it grants.
+              </p>
+            </div>
+
+            <div className="grid gap-6 lg:grid-cols-2">
+              <Card className="min-w-0 border-[rgba(136,146,176,0.15)] bg-[rgba(5,8,16,0.96)]">
+                <CardContent className="p-0">
+                  <div className="flex items-center gap-2 border-b border-[rgba(136,146,176,0.15)] bg-[rgba(11,16,32,0.94)] px-5 py-3 text-sm text-[#b7c0db]">
+                    <Globe className="h-4 w-4 text-[#9e9eff]" />
+                    Relay path
+                  </div>
+                  <pre className="overflow-x-auto p-5 text-xs leading-relaxed text-[#9aa0a6]">
+                    <code>{`  @vibebrowser/cli  (laptop, CI runner, or any host)
+        │
+        │  --remote "<uuid-or-full-relay-url>"
+        ▼
+  wss://relay.api.vibebrowser.app/<uuid>   ← hosted by Vibe, routes by UUID
+        │
+        ▼
+  Vibe extension in your real Chrome   ← set to "Remote (internet)"`}</code>
+                  </pre>
+                  <div className="border-t border-[rgba(136,146,176,0.15)] px-5 py-4 text-sm text-[#b7c0db]">
+                    Local mode talks to the extension on your machine and never leaves it. Remote mode routes every command through Vibe&apos;s hosted relay over the internet — the two are different trust boundaries, not equivalent ones.
+                  </div>
+                </CardContent>
+              </Card>
+
+              <div className="min-w-0 space-y-6">
+                <Card className="min-w-0 border-[rgba(136,146,176,0.15)] bg-[rgba(5,8,16,0.96)]">
+                  <CardContent className="p-6">
+                    <div className="mb-3 flex items-center gap-2 text-sm font-medium text-[#9e9eff]">
+                      <Settings className="h-4 w-4" />
+                      Where the value comes from
+                    </div>
+                    <p className="mb-4 text-sm text-[#b7c0db]">
+                      In the Vibe extension: <span className="text-[#f0f4ff]">Settings → AI Agent Control → Remote (internet) → Relay access</span>. Turn it on, then copy the value shown there.
+                    </p>
+                    <p className="mb-2 text-sm text-[#b7c0db]">Both accepted forms route to the same place:</p>
+                    <ul className="space-y-1.5 text-sm">
+                      <li>
+                        <code className="rounded bg-[rgba(158,158,255,0.1)] px-1.5 py-0.5 text-[#b4b4ff]">{'<uuid>'}</code>{' '}
+                        <span className="text-[#9aa0a6]">— bare UUID</span>
+                      </li>
+                      <li>
+                        <code className="rounded bg-[rgba(158,158,255,0.1)] px-1.5 py-0.5 text-[#b4b4ff]">{RELAY_URL_PLACEHOLDER}</code>{' '}
+                        <span className="text-[#9aa0a6]">— full relay URL</span>
+                      </li>
+                    </ul>
+                  </CardContent>
+                </Card>
+
+                <Card className="min-w-0 border-[rgba(255,77,77,0.2)] bg-[rgba(5,8,16,0.96)]">
+                  <CardContent className="p-6">
+                    <div className="mb-3 flex items-center gap-2 text-sm font-medium text-[#ff8a8a]">
+                      <KeyRound className="h-4 w-4" />
+                      Treat it like a password
+                    </div>
+                    <p className="text-sm text-[#b7c0db]">
+                      Either form is the sole credential that authorizes a relay connection to your browser — whoever holds it can read tabs, take screenshots, and act as you in that session.
+                    </p>
+                    <p className="mt-3 text-sm text-[#b7c0db]">
+                      Never commit it, paste it into a public chat, or share it with anyone you don&apos;t want controlling your browser. If it ever leaks, regenerate it from the same Settings page.
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+
+            <div className="mx-auto mt-8 flex items-center gap-2 text-xs text-[#7f8aa8]">
+              <Shield className="h-3.5 w-3.5 shrink-0" />
+              <span>Values shown here are placeholders. Never paste a real UUID or relay URL into a shared doc, ticket, or chat.</span>
+            </div>
+            <div className="mx-auto mt-4 max-w-4xl">
+              <CopyablePrompt text={REMOTE_ENV_COMMAND} title="Set it once, reuse it" className="mx-auto" />
             </div>
           </div>
         </section>
