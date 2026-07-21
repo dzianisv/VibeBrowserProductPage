@@ -255,8 +255,8 @@ const howToJsonLd = {
     },
     {
       '@type': 'HowToStep',
-      name: 'Enable MCP External Control',
-      text: 'Click the Vibe extension icon, go to Settings, and enable MCP External Control. Status should show Connected (green).',
+      name: 'Enable Remote Relay Access',
+      text: 'Click the Vibe extension icon, open Settings, go to AI Agent Control, select Remote (internet), and enable Relay access. Status should show Connected (green).',
     },
     {
       '@type': 'HowToStep',
