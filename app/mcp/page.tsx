@@ -990,14 +990,14 @@ export default function McpPage() {
                 <div className="flex items-start gap-3">
                   <span className="text-[#8ab4f8] font-mono text-sm font-bold mt-0.5 flex-shrink-0">1.</span>
                   <div>
-                    <p className="text-sm text-[#e8eaed]">In the Vibe extension, go to <strong>Settings → AI Agent Control → Remote (internet)</strong> and turn on Relay access</p>
+                    <p className="text-sm text-[#e8eaed]">In the Vibe extension, go to <strong>Settings → AI Agent Control</strong>, turn on <strong>Enable external AI agent control</strong>, then select <strong>Remote (internet)</strong></p>
                     <p className="text-xs text-[#5f6368] mt-1">This connects your browser to relay.api.vibebrowser.app and generates a unique UUID</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <span className="text-[#8ab4f8] font-mono text-sm font-bold mt-0.5 flex-shrink-0">2.</span>
                   <div>
-                    <p className="text-sm text-[#e8eaed]">Copy your UUID from the extension settings page</p>
+                    <p className="text-sm text-[#e8eaed]">Copy the UUID/relay URL shown under <strong>Relay access</strong></p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">

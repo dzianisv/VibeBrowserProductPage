@@ -222,7 +222,7 @@ export default function CliPage() {
                       Where the value comes from
                     </div>
                     <p className="mb-4 text-sm text-[#b7c0db]">
-                      In the Vibe extension: <span className="text-[#f0f4ff]">Settings → AI Agent Control → Remote (internet) → Relay access</span>. Turn it on, then copy the value shown there.
+                      In the Vibe extension: <span className="text-[#f0f4ff]">Settings → AI Agent Control</span>. Turn on <span className="text-[#f0f4ff]">Enable external AI agent control</span>, select <span className="text-[#f0f4ff]">Remote (internet)</span>, then copy the UUID/relay URL from <span className="text-[#f0f4ff]">Relay access</span>.
                     </p>
                     <p className="mb-2 text-sm text-[#b7c0db]">Both accepted forms route to the same place:</p>
                     <ul className="space-y-1.5 text-sm">

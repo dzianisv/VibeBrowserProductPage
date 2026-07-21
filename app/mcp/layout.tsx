@@ -255,8 +255,8 @@ const howToJsonLd = {
     },
     {
       '@type': 'HowToStep',
-      name: 'Enable Remote Relay Access',
-      text: 'Click the Vibe extension icon, open Settings, go to AI Agent Control, select Remote (internet), and enable Relay access. Status should show Connected (green).',
+      name: 'Turn on external AI agent control and select Remote (internet)',
+      text: 'Click the Vibe extension icon, open Settings, go to AI Agent Control, turn on Enable external AI agent control, select Remote (internet) as the connection mode, then copy the UUID/relay URL shown under Relay access. Status should show Connected (green).',
     },
     {
       '@type': 'HowToStep',
