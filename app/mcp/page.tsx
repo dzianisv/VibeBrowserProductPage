@@ -143,6 +143,26 @@ const LOCAL_MCP_COMMAND = `npx -y -p ${MCP_PACKAGE_SPEC} ${MCP_SERVER_BINARY}`
 const REMOTE_MCP_COMMAND = `${LOCAL_MCP_COMMAND} --remote YOUR_UUID`
 const REMOTE_MCP_DISPLAY_COMMAND = `${LOCAL_MCP_COMMAND} --remote <uuid>`
 
+// Direct remote MCP endpoint (Streamable HTTP) — no local vibebrowser-mcp
+// process and no Vibe Studio required. Distinct from the local-bridge
+// "Remote mode" above, which still runs vibebrowser-mcp on-machine and
+// dials out to wss://relay.vibebrowser.app.
+const DIRECT_MCP_ENDPOINT = "https://relay.api.vibebrowser.app/mcp"
+const DIRECT_MCP_SESSION_HEADER = "X-Remote-Session"
+const DIRECT_MCP_ATTACH_HEADER = "X-Vibe-Attach-Token"
+const DIRECT_MCP_CLI_COMMAND = `claude mcp add --transport http --scope user vibe-remote ${DIRECT_MCP_ENDPOINT} --header "${DIRECT_MCP_SESSION_HEADER}: <uuid>"`
+const DIRECT_MCP_JSON_CONFIG = `{
+  "mcpServers": {
+    "vibe-remote": {
+      "type": "http",
+      "url": "${DIRECT_MCP_ENDPOINT}",
+      "headers": {
+        "${DIRECT_MCP_SESSION_HEADER}": "<uuid>"
+      }
+    }
+  }
+}`
+
 interface ToolDef {
   name: string
   description: string
@@ -429,6 +449,23 @@ const SETUP_CONFIGS: SetupConfig[] = [
   },
 ]
 
+// Direct remote MCP (Streamable HTTP) configs — no local process, connects
+// straight to the hosted relay endpoint using header-based auth.
+const DIRECT_REMOTE_SETUP_CONFIGS: SetupConfig[] = [
+  {
+    agent: "Claude Code",
+    file: "CLI",
+    config: DIRECT_MCP_CLI_COMMAND,
+    note: `Add a second --header "${DIRECT_MCP_ATTACH_HEADER}: <token>" flag only if you enabled the optional attach token in Settings.`,
+  },
+  {
+    agent: "JSON (mcpServers)",
+    file: "mcp.json / claude_desktop_config.json",
+    config: DIRECT_MCP_JSON_CONFIG,
+    note: `Add "${DIRECT_MCP_ATTACH_HEADER}": "<token>" inside headers only if the optional attach token is enabled. Never put the UUID or token in the URL or a query string.`,
+  },
+]
+
 // ----- Components -----
 
 function CopyButton({ text }: { text: string }) {
@@ -485,6 +522,7 @@ export default function McpPage() {
   const [activeAgent, setActiveAgent] = useState(0)
   const [activeSurface, setActiveSurface] = useState(0)
   const [heroAgent, setHeroAgent] = useState(0) // index into SETUP_CONFIGS for hero split button
+  const [directRemoteAgent, setDirectRemoteAgent] = useState(0) // index into DIRECT_REMOTE_SETUP_CONFIGS
   const [agentDropdownOpen, setAgentDropdownOpen] = useState(false)
   const agentDropdownRef = useRef<HTMLDivElement>(null)
   const rotatingAgent = useTypewriter(ROTATING_AGENTS, 100, 60, 2500)
@@ -1169,6 +1207,167 @@ export default function McpPage() {
                   {SETUP_CONFIGS[activeAgent].note}
                 </div>
               )}
+            </div>
+          </div>
+        </section>
+
+        {/* Direct Remote MCP (Streamable HTTP) — no local process, no Studio */}
+        <section id="direct-remote" className="w-full py-16 md:py-24 border-t border-[#1e1e1e]">
+          <div className="container max-w-4xl px-4 md:px-6 mx-auto">
+            <div className="text-center mb-10">
+              <Badge variant="secondary" className="mb-4 px-3 py-1 text-xs bg-[#fdd663]/10 text-[#fdd663] border-[#fdd663]/20">
+                No local install required
+              </Badge>
+              <h2 className="text-2xl md:text-3xl font-normal text-[#e8eaed] mb-4">
+                Direct remote MCP endpoint <span className="text-sm text-[#5f6368] font-normal">(Streamable HTTP)</span>
+              </h2>
+              <p className="text-[#9aa0a6] max-w-2xl mx-auto">
+                This is an additional path, not a replacement for local stdio above. Skip the local{" "}
+                <code className="text-[#9aa0a6]">{MCP_SERVER_BINARY}</code> bridge and Vibe Studio entirely — any MCP
+                client that speaks HTTP JSON-RPC (the Streamable HTTP transport) calls our hosted relay directly and
+                controls your logged-in browser from anywhere.
+              </p>
+            </div>
+
+            {/* Contrast: local stdio vs direct remote HTTP */}
+            <div className="grid md:grid-cols-2 gap-6 mb-10">
+              <div className="bg-[#111111] rounded-lg border border-[#2a2a2a] p-5">
+                <h3 className="font-medium text-[#e8eaed] mb-2 flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-[#81c995]" /> Local stdio (default)
+                </h3>
+                <ul className="text-sm text-[#9aa0a6] space-y-1.5 list-disc list-inside">
+                  <li>Runs <code className="text-[#8ab4f8]">{MCP_SERVER_BINARY}</code> as a child process next to your agent</li>
+                  <li>Talks to the extension over localhost only — nothing leaves your machine</li>
+                  <li>Safest default when the agent and browser run on the same computer</li>
+                </ul>
+              </div>
+              <div className="bg-[#111111] rounded-lg border border-[#fdd663]/30 p-5">
+                <h3 className="font-medium text-[#e8eaed] mb-2 flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-[#fdd663]" /> Direct remote HTTP
+                </h3>
+                <ul className="text-sm text-[#9aa0a6] space-y-1.5 list-disc list-inside">
+                  <li>No local process, no <code className="text-[#8ab4f8]">{MCP_SERVER_BINARY}</code> install, no Vibe Studio</li>
+                  <li>Agent calls <code className="text-[#8ab4f8] break-all">{DIRECT_MCP_ENDPOINT}</code> over HTTPS from anywhere</li>
+                  <li>Your UUID (and attach token, if enabled) is a bearer credential for your real browser</li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Diagram */}
+            <div className="bg-[#111111] rounded-lg border border-[#fdd663]/30 overflow-hidden max-w-3xl mx-auto mb-10">
+              <div className="flex items-center gap-2 px-4 py-3 bg-[#1a1a1a] border-b border-[#2a2a2a]">
+                <div className="w-3 h-3 rounded-full bg-[#f28b82]" />
+                <div className="w-3 h-3 rounded-full bg-[#fdd663]" />
+                <div className="w-3 h-3 rounded-full bg-[#81c995]" />
+                <span className="text-xs text-[#5f6368] ml-2">{DIRECT_MCP_ENDPOINT}</span>
+              </div>
+              <pre className="p-6 text-sm font-mono text-[#9aa0a6] overflow-x-auto leading-relaxed">
+{`  Any HTTP MCP client — cloud runner, CI, or laptop, no local bridge
+       │  POST /mcp   header: ${DIRECT_MCP_SESSION_HEADER}: <uuid>
+       │  (optional)  header: ${DIRECT_MCP_ATTACH_HEADER}: <token>
+       ▼
+   ${DIRECT_MCP_ENDPOINT}
+       │
+       ▼
+ ┌───────────────────────────┐
+ │     Public Relay Server    │  ← hosted by Vibe, HTTP JSON-RPC
+ │  relay.api.vibebrowser.app │     (Streamable HTTP), UUID-authenticated
+ └───────────────────────────┘
+       │
+       ▼
+ ┌──────────────────┐
+ │  Vibe Extension  │  ← your real Chrome browser
+ │   (at home)      │     Settings → AI Agent Control → Remote (internet)
+ └──────────────────┘        → Relay access`}
+              </pre>
+            </div>
+
+            {/* Setup steps */}
+            <div className="bg-[#111111] rounded-lg border border-[#2a2a2a] p-6 max-w-3xl mx-auto mb-10">
+              <h4 className="font-medium text-[#e8eaed] mb-4 flex items-center gap-2">
+                <Terminal className="w-5 h-5 text-[#fdd663]" />
+                Direct remote setup
+              </h4>
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <span className="text-[#fdd663] font-mono text-sm font-bold mt-0.5 flex-shrink-0">1.</span>
+                  <div>
+                    <p className="text-sm text-[#e8eaed]">
+                      In the Vibe extension, open <strong>Settings → AI Agent Control → Remote (internet) → Relay
+                      access</strong> and copy your UUID
+                    </p>
+                    <p className="text-xs text-[#5f6368] mt-1">
+                      This is the same relay access UUID used by <code className="text-[#9aa0a6]">--remote</code>{" "}
+                      above — here it is sent as a header instead of a CLI flag, and no local process is involved.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="text-[#fdd663] font-mono text-sm font-bold mt-0.5 flex-shrink-0">2.</span>
+                  <div>
+                    <p className="text-sm text-[#e8eaed]">
+                      Optional: enable the second factor in the same settings screen to require an attach token
+                    </p>
+                    <p className="text-xs text-[#5f6368] mt-1">
+                      Send it as the <code className="text-[#9aa0a6]">{DIRECT_MCP_ATTACH_HEADER}</code> request
+                      header — never in the URL or a query string.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="text-[#fdd663] font-mono text-sm font-bold mt-0.5 flex-shrink-0">3.</span>
+                  <div className="w-full">
+                    <p className="text-sm text-[#e8eaed] mb-2">
+                      Point your agent at the endpoint with{" "}
+                      <code className="text-[#fdd663] bg-[#fdd663]/5 px-1.5 py-0.5 rounded">{DIRECT_MCP_SESSION_HEADER}</code>{" "}
+                      set to your UUID:
+                    </p>
+                    <div className="flex flex-wrap gap-2 mb-3">
+                      {DIRECT_REMOTE_SETUP_CONFIGS.map((cfg, i) => (
+                        <button
+                          key={cfg.agent}
+                          onClick={() => setDirectRemoteAgent(i)}
+                          className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                            directRemoteAgent === i
+                              ? "bg-[#fdd663] text-[#0a0a0a]"
+                              : "bg-[#1a1a1a] text-[#9aa0a6] hover:text-[#e8eaed] border border-[#2a2a2a]"
+                          }`}
+                        >
+                          {cfg.agent}
+                        </button>
+                      ))}
+                    </div>
+                    <div className="bg-[#0a0a0a] rounded border border-[#2a2a2a] overflow-hidden">
+                      <div className="flex items-center justify-between px-3 py-1.5 bg-[#1a1a1a] border-b border-[#2a2a2a]">
+                        <span className="text-xs text-[#5f6368] font-mono">
+                          {DIRECT_REMOTE_SETUP_CONFIGS[directRemoteAgent].file}
+                        </span>
+                        <CopyButton text={DIRECT_REMOTE_SETUP_CONFIGS[directRemoteAgent].config} />
+                      </div>
+                      <pre className="px-3 py-2 text-sm font-mono text-[#e8eaed] overflow-x-auto whitespace-pre-wrap break-all">
+                        <code>{DIRECT_REMOTE_SETUP_CONFIGS[directRemoteAgent].config}</code>
+                      </pre>
+                    </div>
+                    {DIRECT_REMOTE_SETUP_CONFIGS[directRemoteAgent].note && (
+                      <p className="text-xs text-[#5f6368] mt-2">
+                        {DIRECT_REMOTE_SETUP_CONFIGS[directRemoteAgent].note}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Security callout */}
+            <div className="rounded-lg border border-[#fdd663]/30 bg-[#fdd663]/5 p-5 max-w-3xl mx-auto flex gap-3">
+              <Shield className="w-5 h-5 text-[#fdd663] flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-[#9aa0a6]">
+                <strong className="text-[#e8eaed]">Security tradeoff:</strong> local stdio never leaves your machine.
+                Direct remote HTTP sends a bearer credential (the UUID, plus the attach token if enabled) over the
+                internet on every request — whoever holds it can drive your real, logged-in browser. Keep both
+                headers out of shared chat logs, screenshots, and public repos, and prefer local stdio whenever your
+                agent runs on the same machine as your browser.
+              </p>
             </div>
           </div>
         </section>
