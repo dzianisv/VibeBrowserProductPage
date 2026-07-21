@@ -145,11 +145,11 @@ const REMOTE_MCP_DISPLAY_COMMAND = `${LOCAL_MCP_COMMAND} --remote <uuid>`
 
 // Direct remote MCP endpoint (Streamable HTTP) — no local vibebrowser-mcp
 // process and no Vibe Studio required. Distinct from the local-bridge
-// "Remote mode" above, which still runs vibebrowser-mcp on-machine and
-// dials out to wss://relay.vibebrowser.app.
+// "Remote mode" above, which still runs vibebrowser-mcp on-machine.
+// Auth is UUID-only: the relay authenticates requests via the
+// X-Remote-Session header, no second factor.
 const DIRECT_MCP_ENDPOINT = "https://relay.api.vibebrowser.app/mcp"
 const DIRECT_MCP_SESSION_HEADER = "X-Remote-Session"
-const DIRECT_MCP_ATTACH_HEADER = "X-Vibe-Attach-Token"
 const DIRECT_MCP_CLI_COMMAND = `claude mcp add --transport http --scope user vibe-remote ${DIRECT_MCP_ENDPOINT} --header "${DIRECT_MCP_SESSION_HEADER}: <uuid>"`
 const DIRECT_MCP_JSON_CONFIG = `{
   "mcpServers": {
@@ -456,13 +456,12 @@ const DIRECT_REMOTE_SETUP_CONFIGS: SetupConfig[] = [
     agent: "Claude Code",
     file: "CLI",
     config: DIRECT_MCP_CLI_COMMAND,
-    note: `Add a second --header "${DIRECT_MCP_ATTACH_HEADER}: <token>" flag only if you enabled the optional attach token in Settings.`,
   },
   {
     agent: "JSON (mcpServers)",
     file: "mcp.json / claude_desktop_config.json",
     config: DIRECT_MCP_JSON_CONFIG,
-    note: `Add "${DIRECT_MCP_ATTACH_HEADER}": "<token>" inside headers only if the optional attach token is enabled. Never put the UUID or token in the URL or a query string.`,
+    note: `Never put the UUID in the URL or a query string — send it only as the ${DIRECT_MCP_SESSION_HEADER} header.`,
   },
 ]
 
@@ -1248,7 +1247,7 @@ export default function McpPage() {
                 <ul className="text-sm text-[#9aa0a6] space-y-1.5 list-disc list-inside">
                   <li>No local process, no <code className="text-[#8ab4f8]">{MCP_SERVER_BINARY}</code> install, no Vibe Studio</li>
                   <li>Agent calls <code className="text-[#8ab4f8] break-all">{DIRECT_MCP_ENDPOINT}</code> over HTTPS from anywhere</li>
-                  <li>Your UUID (and attach token, if enabled) is a bearer credential for your real browser</li>
+                  <li>Your UUID is a bearer credential for your real browser</li>
                 </ul>
               </div>
             </div>
@@ -1264,7 +1263,6 @@ export default function McpPage() {
               <pre className="p-6 text-sm font-mono text-[#9aa0a6] overflow-x-auto leading-relaxed">
 {`  Any HTTP MCP client — cloud runner, CI, or laptop, no local bridge
        │  POST /mcp   header: ${DIRECT_MCP_SESSION_HEADER}: <uuid>
-       │  (optional)  header: ${DIRECT_MCP_ATTACH_HEADER}: <token>
        ▼
    ${DIRECT_MCP_ENDPOINT}
        │
@@ -1304,18 +1302,6 @@ export default function McpPage() {
                 </div>
                 <div className="flex items-start gap-3">
                   <span className="text-[#fdd663] font-mono text-sm font-bold mt-0.5 flex-shrink-0">2.</span>
-                  <div>
-                    <p className="text-sm text-[#e8eaed]">
-                      Optional: enable the second factor in the same settings screen to require an attach token
-                    </p>
-                    <p className="text-xs text-[#5f6368] mt-1">
-                      Send it as the <code className="text-[#9aa0a6]">{DIRECT_MCP_ATTACH_HEADER}</code> request
-                      header — never in the URL or a query string.
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <span className="text-[#fdd663] font-mono text-sm font-bold mt-0.5 flex-shrink-0">3.</span>
                   <div className="w-full">
                     <p className="text-sm text-[#e8eaed] mb-2">
                       Point your agent at the endpoint with{" "}
@@ -1363,10 +1349,11 @@ export default function McpPage() {
               <Shield className="w-5 h-5 text-[#fdd663] flex-shrink-0 mt-0.5" />
               <p className="text-sm text-[#9aa0a6]">
                 <strong className="text-[#e8eaed]">Security tradeoff:</strong> local stdio never leaves your machine.
-                Direct remote HTTP sends a bearer credential (the UUID, plus the attach token if enabled) over the
-                internet on every request — whoever holds it can drive your real, logged-in browser. Keep both
-                headers out of shared chat logs, screenshots, and public repos, and prefer local stdio whenever your
-                agent runs on the same machine as your browser.
+                Direct remote HTTP sends a bearer credential (your UUID) over the internet on every request —
+                whoever holds it can drive your real, logged-in browser. Keep the{" "}
+                <code className="text-[#9aa0a6]">{DIRECT_MCP_SESSION_HEADER}</code> header out of shared chat logs,
+                screenshots, and public repos, and prefer local stdio whenever your agent runs on the same machine
+                as your browser.
               </p>
             </div>
           </div>
