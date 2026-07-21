@@ -459,9 +459,9 @@ const DIRECT_REMOTE_SETUP_CONFIGS: SetupConfig[] = [
   },
   {
     agent: "JSON (mcpServers)",
-    file: "mcp.json / claude_desktop_config.json",
+    file: "mcp.json",
     config: DIRECT_MCP_JSON_CONFIG,
-    note: `Never put the UUID in the URL or a query string — send it only as the ${DIRECT_MCP_SESSION_HEADER} header.`,
+    note: `For MCP clients configured via a JSON mcpServers block that supports the Streamable HTTP transport (e.g. Cursor, Windsurf) — not a CLI command. Never put the UUID in the URL or a query string — send it only as the ${DIRECT_MCP_SESSION_HEADER} header.`,
   },
 ]
 
@@ -961,15 +961,15 @@ export default function McpPage() {
        │                      │                       │
        └──────────────────────┼───────────────────────┘
                               │
-                    wss://relay.vibebrowser.app/<uuid>
+                    wss://relay.api.vibebrowser.app/<uuid>
                               │
                               ▼
-                 ┌────────────────────────┐
-                 │    Public Relay Server  │  ← hosted by Vibe
-                 │  relay.vibebrowser.app  │     UUID-authenticated
-                 └────────────────────────┘
+                 ┌────────────────────────────┐
+                 │    Public Relay Server      │  ← hosted by Vibe
+                 │  relay.api.vibebrowser.app  │     UUID-authenticated
+                 └────────────────────────────┘
                               │
-                    wss://relay.vibebrowser.app
+                    wss://relay.api.vibebrowser.app
                               │
                               ▼
                  ┌──────────────────┐
@@ -990,8 +990,8 @@ export default function McpPage() {
                 <div className="flex items-start gap-3">
                   <span className="text-[#8ab4f8] font-mono text-sm font-bold mt-0.5 flex-shrink-0">1.</span>
                   <div>
-                    <p className="text-sm text-[#e8eaed]">In the Vibe extension, go to Settings and enable MCP External Control in <strong>Remote</strong> mode</p>
-                    <p className="text-xs text-[#5f6368] mt-1">This connects your browser to relay.vibebrowser.app and generates a unique UUID</p>
+                    <p className="text-sm text-[#e8eaed]">In the Vibe extension, go to <strong>Settings → AI Agent Control → Remote (internet)</strong> and turn on Relay access</p>
+                    <p className="text-xs text-[#5f6368] mt-1">This connects your browser to relay.api.vibebrowser.app and generates a unique UUID</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
@@ -1140,7 +1140,7 @@ export default function McpPage() {
                 </div>
                 <h3 className="font-medium text-[#e8eaed] mb-2">Install Extension</h3>
                 <p className="text-sm text-[#9aa0a6]">
-                  Install the <Link href="https://docs.vibebrowser.app/getting-started/extension#option-2-developer-version-advanced" target="_blank" className="text-[#8ab4f8] hover:underline">Vibe AI Browser extension</Link> and enable MCP External Control in Settings.
+                  Install the <Link href="https://docs.vibebrowser.app/getting-started/extension#option-2-developer-version-advanced" target="_blank" className="text-[#8ab4f8] hover:underline">Vibe AI Browser extension</Link> and enable AI Agent Control in Settings.
                 </p>
               </div>
               <div className="text-center">
