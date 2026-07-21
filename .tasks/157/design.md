@@ -25,8 +25,8 @@ security boundaries for browser-control credentials.
 - Add a concise relay-flow section to `/cli` with an extension-to-relay-to-agent
   diagram, settings path, accepted remote input forms, and copyable safe commands.
 - Add a separate direct remote MCP section to `/mcp`, clearly contrasted with local
-  stdio. Include the endpoint and supported client configurations only after source
-  validation confirms their exact contract.
+  stdio. It uses `https://relay.api.vibebrowser.app/mcp` with the extension UUID in
+  the `X-Remote-Session` header; no Studio or local bridge process is needed.
 - Never put a real UUID, WebSocket URL, or remote secret in page source.
 
 ## Alternatives Considered
@@ -38,10 +38,12 @@ security boundaries for browser-control credentials.
 
 ## Risks and Mitigations
 
-- Incorrect endpoint documentation: validate against relay implementation and a live
-  endpoint before editing or deploying.
+- Incorrect endpoint or auth documentation: validate against the deployed relay
+  implementation and live unauthenticated endpoint before editing or deploying.
 - Credential disclosure: use non-routable placeholders and state that relay values
   grant browser control.
+- Obsolete second-factor documentation: the deployed relay is UUID-only; do not
+  document attach-token headers or a Settings toggle that no longer exists.
 - Configuration drift: retain local setup and label its transport distinctly.
 
 ## Touched Surface
