@@ -197,9 +197,9 @@ export default function CloudPage() {
               </Button>
             </WaitlistDialogIncognito>
             <Button asChild size="lg" variant="outline" className="border-slate-700 bg-transparent hover:bg-slate-800 text-slate-300 rounded-full px-8 font-semibold h-14 text-lg">
-              <Link href="https://github.com/ChromeDevTools/chrome-devtools-mcp" target="_blank" rel="noopener noreferrer">
+              <Link href="/mcp">
                 <Code className="mr-2 h-5 w-5" />
-                View MCP Protocol
+                View MCP Setup
               </Link>
             </Button>
           </div>
