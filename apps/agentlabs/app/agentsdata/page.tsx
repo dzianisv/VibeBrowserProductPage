@@ -14,7 +14,7 @@ const MCP_CODE = `# Add to your MCP config (Claude Desktop, Cursor, etc.)
     }
   }
 }
-# Agent can now call: get_quote("BTC-USD"), get_rsi("AAPL"), set_alert(...)`
+# Agent can now call: get_quote("BTC-USD"), get_alerts(), query_history(...), get_portfolio()`
 
 const CLI_CODE = `# Install once
 npm install -g @vibetechnologies/mkt-alerts
@@ -57,10 +57,11 @@ npx -y skills add github.com/dzianisv/mkt-alerts -s mkt-alerts
 # Skill reads auth from ~/.config/mkt-watch/auth.json
 # Request access → ai@agentlabs.cc
 
-# After install, agents (stocks-advisor, crypto-advisor, etc.) can call:
-# → set_alert({ symbol: "BTC-USD", condition: "below", value: 90000, reason: "..." })
-# → list_alerts()
-# → remove_alert({ id: "..." })`
+# After install, agents (stocks-advisor, crypto-advisor, etc.) run the mkt-alerts CLI,
+# which talks to the hosted daemon's REST API:
+# → mkt-alerts add --symbol BTC-USD --condition below --value 90000 --reason "..."
+# → mkt-alerts list
+# → mkt-alerts remove --id "..."`
 
 const PINE_CODE = `# golden-cross.pine — plot a "signal" series; positive = fire
 //@version=5
