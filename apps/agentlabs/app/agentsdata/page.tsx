@@ -62,6 +62,18 @@ npx -y skills add github.com/dzianisv/mkt-alerts -s mkt-alerts
 # → list_alerts()
 # → remove_alert({ id: "..." })`
 
+const PINE_CODE = `# golden-cross.pine — plot a "signal" series; positive = fire
+//@version=5
+indicator("golden cross")
+plot(ta.sma(close, 20) - ta.sma(close, 50), "signal")
+
+# Arm it — runs off TradingView, fires when SMA20 crosses above SMA50
+mkt-alerts add \\
+  --symbol BTC-USD \\
+  --pine golden-cross.pine \\
+  --fire-on cross_up \\
+  --reason "Trend flip confirmation"`
+
 const ALERT_CONDITIONS = [
   { condition: "above / below", type: "Price", example: "BTC-USD below 90000" },
   { condition: "pct_up / pct_down", type: "% move", example: "AAPL pct_down 5%" },
@@ -69,6 +81,7 @@ const ALERT_CONDITIONS = [
   { condition: "sma_cross_above / sma_cross_below", type: "SMA cross", example: "SOL-USD sma_cross_above" },
   { condition: "macd_cross", type: "MACD", example: "BTC-USD macd_cross" },
   { condition: "volume_above", type: "Volume spike", example: "NVDA volume_above 50M" },
+  { condition: "pine", type: "Pine Script v5", example: "custom indicator, any period" },
 ]
 
 type Tab = "mcp" | "cli" | "api" | "skill"
@@ -121,7 +134,8 @@ export default function MarketDataPage() {
           </h1>
           <p className="text-lg text-[#9aa0a6] max-w-2xl mb-8">
             Real-time prices and indicators for 10,000+ stocks and crypto, accessible via MCP, HTTP
-            API, or CLI. Set alerts programmatically. No scraping.
+            API, or CLI. Set alerts programmatically. No scraping. Now runs Pine Script v5 for custom
+            indicators — no TradingView.
           </p>
           <div className="flex flex-wrap gap-3 mb-6">
             <Button asChild className="bg-[#81c995] hover:bg-[#6db882] text-[#0a0a0a] font-medium">
@@ -254,6 +268,29 @@ export default function MarketDataPage() {
               </tbody>
             </table>
           </div>
+        </div>
+      </section>
+
+      {/* Pine Script alerts */}
+      <section className="py-16 md:py-24 bg-[#0d0d0d]">
+        <div className="max-w-5xl mx-auto px-4">
+          <span className="inline-block mb-4 px-3 py-1 rounded-full bg-[#1e2b1e] text-[#81c995] border border-[#2a3f2a] text-xs font-medium">
+            New
+          </span>
+          <h2 className="text-2xl font-bold mb-2 text-[#e8eaed]">Pine Script alerts</h2>
+          <p className="text-[#9aa0a6] mb-8 text-sm max-w-2xl">
+            Bring any custom indicator. Write Pine Script v5, we run it off TradingView through an
+            isolated engine against live OHLCV, and fire when your signal crosses. No fixed periods,
+            no TradingView account.
+          </p>
+          <pre className="bg-[#0a0a0a] border border-[#3c4043] text-[#e8eaed] rounded-lg p-4 font-mono text-sm overflow-x-auto leading-relaxed">
+            {PINE_CODE}
+          </pre>
+          <p className="text-[#9aa0a6] text-sm mt-4">
+            Plot a <code className="font-mono bg-[#1a1a1a] px-1 rounded text-xs text-[#81c995]">signal</code> series — positive means fire.
+            Choose <code className="font-mono bg-[#1a1a1a] px-1 rounded text-xs text-[#81c995]">--fire-on cross_up</code> for edge events or{" "}
+            <code className="font-mono bg-[#1a1a1a] px-1 rounded text-xs text-[#81c995]">truthy</code> for state.
+          </p>
         </div>
       </section>
 

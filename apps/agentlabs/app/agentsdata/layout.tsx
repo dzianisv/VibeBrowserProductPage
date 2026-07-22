@@ -10,7 +10,7 @@ const softwareAppJsonLd = {
   operatingSystem: "Any",
   url: CANONICAL,
   description:
-    "Real-time stock and crypto prices, RSI/SMA/MACD indicators, and programmable alerts via MCP, HTTP API, and CLI. Built for AI agents.",
+    "Real-time stock and crypto prices, RSI/SMA/MACD indicators, and programmable alerts via MCP, HTTP API, and CLI. Built for AI agents. Now with Pine Script v5 alerts.",
   offers: {
     "@type": "Offer",
     price: "0",
@@ -24,7 +24,7 @@ const softwareAppJsonLd = {
   },
   codeRepository: "https://github.com/dzianisv/mkt-alerts",
   license: "https://opensource.org/licenses/MIT",
-  keywords: "market data API, price alerts, MCP server, AI agent, stock prices, crypto prices, RSI, MACD",
+  keywords: "market data API, price alerts, MCP server, AI agent, stock prices, crypto prices, RSI, MACD, Pine Script alerts, TradingView alternative",
 }
 
 export const metadata: Metadata = {
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     absolute: "Market Data & Alerts API for AI Agents | AgentLabs",
   },
   description:
-    "Real-time stock and crypto prices, RSI/SMA/MACD indicators, and programmable alerts via MCP, HTTP API, and CLI. Built for AI agents.",
+    "Real-time stock and crypto prices, RSI/SMA/MACD indicators, and programmable alerts via MCP, HTTP API, and CLI. Built for AI agents. Now with Pine Script v5 alerts.",
   alternates: { canonical: CANONICAL },
   openGraph: {
     title: "Market Data & Alerts API for AI Agents",
@@ -57,6 +57,9 @@ export const metadata: Metadata = {
     "crypto price API",
     "RSI alerts",
     "programmatic alerts",
+    "Pine Script alerts",
+    "TradingView alternative",
+    "custom indicator alerts",
   ],
 }
 
