@@ -31,6 +31,34 @@ export const metadata: Metadata = {
   title: 'Vibe vs Browserbase | Real-Session Browser Automation',
   description:
     'See why teams choose Vibe for first-party browser workflows: no stealth/proxy stack required, fewer infra headaches, and dramatically lower cost.',
+  alternates: {
+    canonical: 'https://www.vibebrowser.app/section',
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://www.vibebrowser.app/section',
+    siteName: 'Vibe Browser',
+    title: 'Vibe vs Browserbase | Real-Session Browser Automation',
+    description:
+      'Why teams move browser automation to Vibe: no stealth overhead, no infra drag, no model lock-in.',
+    images: [
+      {
+        url: '/og/home.svg',
+        width: 1200,
+        height: 630,
+        alt: 'Vibe vs Browserbase',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Vibe vs Browserbase | Real-Session Browser Automation',
+    description:
+      'First-party browser workflows run in your own accounts — no stealth stack, fewer infra headaches, lower cost.',
+    images: ['/og/home.svg'],
+    creator: '@vibebrowserapp',
+  },
 }
 
 export default function SectionPage() {

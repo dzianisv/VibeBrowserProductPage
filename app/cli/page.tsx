@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowRight, CheckCircle, Chrome, Code2, Cpu, GitBranch, Globe, KeyRound, Layers, Settings, Shield, Terminal } from 'lucide-react'
 import { SiteNav } from '@/components/site-nav'
@@ -69,6 +70,40 @@ const commandSurfaces = [
     command: `${CLI_BASE} --remote "<my remote>" click A12`,
   },
 ]
+
+export const metadata: Metadata = {
+  title: 'Vibe Browser CLI for Any Agent Runtime | @vibebrowser/cli',
+  description:
+    'A small npx command surface for checking status, reading snapshots, and acting on your real logged-in Chrome through the Vibe Browser relay. Works with Claude, GitHub Copilot, Codex, Gemini CLI, and OpenClaw.',
+  alternates: {
+    canonical: 'https://www.vibebrowser.app/cli',
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://www.vibebrowser.app/cli',
+    siteName: 'Vibe Browser',
+    title: 'Vibe Browser CLI for Any Agent Runtime | @vibebrowser/cli',
+    description:
+      'Check status, read snapshots, and act on your real logged-in Chrome through the Vibe Browser relay using a small npx command surface.',
+    images: [
+      {
+        url: '/og/home.svg',
+        width: 1200,
+        height: 630,
+        alt: 'Vibe Browser CLI',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Vibe Browser CLI for Any Agent Runtime | @vibebrowser/cli',
+    description:
+      'A small npx command surface for status, snapshots, and actions against your real logged-in Chrome via the Vibe Browser relay.',
+    images: ['/og/home.svg'],
+    creator: '@vibebrowserapp',
+  },
+}
 
 export default function CliPage() {
   return (
