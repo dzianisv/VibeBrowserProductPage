@@ -32,7 +32,7 @@ export function PricingSection() {
             className="bg-white text-purple-600 hover:bg-slate-100 text-xl px-12 py-8 font-bold shadow-2xl"
             onClick={() => {
               trackCTAClick('install_extension', 'pricing_primary')
-              window.open('https://chromewebstore.google.com/detail/vibe-ai-browser-co-pilot/djodpgokbmobeclicaicnnidccoinado', '_blank')
+              window.open('/install?utm_source=pricing_section', '_blank')
             }}
           >
             Install Extension

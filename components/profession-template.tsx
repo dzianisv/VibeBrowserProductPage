@@ -79,8 +79,6 @@ interface ProfessionTemplateProps {
   config: ProfessionConfig
 }
 
-const CHROME_WEB_STORE_URL = 'https://chromewebstore.google.com/detail/vibe-ai-browser-co-pilot/djodpgokbmobeclicaicnnidccoinado'
-
 const ECOSYSTEM_ADVANTAGES: ProfessionFeature[] = [
   {
     icon: 'Mail',
@@ -161,6 +159,7 @@ export default function ProfessionTemplate({ config }: ProfessionTemplateProps) 
   const [currentDemo, setCurrentDemo] = useState(0)
   const videoRef = useRef<HTMLVideoElement>(null)
   const installLocation = `${config.slug}_install`
+  const installHref = `/install?utm_source=${installLocation}`
 
   const nextDemo = () => {
     if (config.demos) {
@@ -205,7 +204,7 @@ export default function ProfessionTemplate({ config }: ProfessionTemplateProps) 
               {config.showDownloadButtons ? (
                 <>
                   <Button size="lg" className={`${config.gradientFrom.replace('from-', 'bg-')} hover:opacity-90 text-white rounded-full px-8 font-semibold`}>
-                    <a href={CHROME_WEB_STORE_URL} target="_blank" rel="noreferrer" onClick={handleInstallClick} className="flex items-center">
+                    <a href={installHref} target="_blank" rel="noreferrer" onClick={handleInstallClick} className="flex items-center">
                       <Chrome className="mr-2 h-5 w-5" />
                       Chrome Extension
                     </a>
@@ -247,7 +246,7 @@ export default function ProfessionTemplate({ config }: ProfessionTemplateProps) 
           <div className="container mx-auto px-6">
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild size="lg" className={`${config.gradientFrom.replace('from-', 'bg-')} hover:opacity-90 text-white rounded-full px-8 font-semibold`}>
-                <a href={CHROME_WEB_STORE_URL} target="_blank" rel="noreferrer" onClick={handleInstallClick}>
+                <a href={installHref} target="_blank" rel="noreferrer" onClick={handleInstallClick}>
                   <Chrome className="mr-2 h-5 w-5" />
                   Download for Chrome
                 </a>

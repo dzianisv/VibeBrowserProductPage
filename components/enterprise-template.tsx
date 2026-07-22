@@ -48,8 +48,6 @@ const iconMap: Record<string, React.ElementType> = {
   Shield, Lock, CheckCircle, XCircle, Server, ArrowRight, HardDrive, ChevronRight, Download, Brain, Zap, AlertTriangle, ShieldCheck, FileCheck, LineChart, Gavel, Receipt, Users, Settings, CreditCard, Building2, Key, BarChart3, Share2, Globe, EyeOff, Mail
 }
 
-const CHROME_WEB_STORE_URL = 'https://chromewebstore.google.com/detail/vibe-ai-browser-co-pilot/djodpgokbmobeclicaicnnidccoinado'
-
 interface EnterpriseFeature {
   icon: string
   title: string
@@ -763,7 +761,7 @@ export default function EnterpriseTemplate({ config }: EnterpriseTemplateProps) 
                         Community support
                       </li>
                     </ul>
-                    <Link href={CHROME_WEB_STORE_URL} target="_blank" rel="noreferrer" onClick={() => trackCTAClick('install_extension_chrome_web_store', `${config.slug}_pricing`)}>
+                    <Link href={`/install?utm_source=${config.slug}_pricing`} target="_blank" rel="noreferrer" onClick={() => trackCTAClick('install_extension_chrome_web_store', `${config.slug}_pricing`)}>
                       <Button variant="outline" className="w-full border-[#5f6368] bg-transparent hover:bg-[#3c4043] text-[#e8eaed]">
                         Download
                       </Button>

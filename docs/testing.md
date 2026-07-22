@@ -21,7 +21,7 @@ node scripts/test-layout.js https://www.vibebrowser.app
 ### 1. Hero Section
 
 - [ ] **Install Extension Button**
-  - [ ] Main button opens Chrome Web Store: `https://chromewebstore.google.com/detail/vibe-ai-browser-co-pilot/djodpgokbmobeclicaicnnidccoinado`
+  - [ ] Main button routes through `/install?utm_source=homepage_hero_primary`, which then redirects to Chrome Web Store: `https://chromewebstore.google.com/detail/vibe-ai-browser-co-pilot/djodpgokbmobeclicaicnnidccoinado`
   - [ ] Chevron dropdown opens on click
   - [ ] "Chrome Web Store" option opens correct URL
   - [ ] "Developer Version" option opens: `https://docs.vibebrowser.app/getting-started/extension`
@@ -83,7 +83,7 @@ node scripts/test-layout.js https://www.vibebrowser.app
 ### 6. Pricing Section
 
 - [ ] All 3 pricing tiers display
-- [ ] "Install Extension" button opens Chrome Web Store
+- [ ] "Install Extension" button routes through `/install?utm_source=pricing_section` before reaching Chrome Web Store
 - [ ] Secondary link "Already subscribed? Manage billing" opens Stripe portal
 
 ### 7. Footer

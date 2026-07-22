@@ -279,7 +279,7 @@ export default function Component() {
         </nav>
         {/* Install CTA */}
         <a
-          href="https://chromewebstore.google.com/detail/vibe-ai-browser-co-pilot/djodpgokbmobeclicaicnnidccoinado"
+          href="/install?utm_source=homepage_sticky_header"
           target="_blank"
           rel="noopener noreferrer"
           onClick={() => trackCTAClick('install_extension', 'sticky_header')}
@@ -331,7 +331,7 @@ export default function Component() {
                   className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-r-none"
                   onClick={() => {
                     trackCTAClick('install_extension', 'hero_primary')
-                    window.open('https://chromewebstore.google.com/detail/vibe-ai-browser-co-pilot/djodpgokbmobeclicaicnnidccoinado', '_blank')
+                    window.open('/install?utm_source=homepage_hero_primary', '_blank')
                   }}
                 >
                   <Chrome className="mr-2 h-4 w-4" />
@@ -351,7 +351,7 @@ export default function Component() {
                     className="w-full px-4 py-3 text-left text-sm hover:bg-gray-50 flex items-center gap-3 border-b border-gray-100"
                     onClick={() => {
                       trackCTAClick('install_extension_chrome_web_store', 'hero_dropdown')
-                      window.open('https://chromewebstore.google.com/detail/vibe-ai-browser-co-pilot/djodpgokbmobeclicaicnnidccoinado', '_blank')
+                      window.open('/install?utm_source=homepage_hero_dropdown', '_blank')
                       setInstallDropdownOpen(false)
                     }}
                   >
