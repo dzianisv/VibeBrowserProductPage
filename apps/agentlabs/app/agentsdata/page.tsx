@@ -201,6 +201,21 @@ export default function AgentsDataPage() {
             <pre className="p-6 font-mono text-sm text-[#e8eaed] leading-relaxed overflow-x-auto">{TRIAL_CODE}</pre>
           </div>
 
+          <figure className="rounded-xl border border-[#3c4043] bg-[#111111] overflow-hidden mb-6 max-w-2xl">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/mkt-alerts-demo.gif"
+              alt="mkt-alerts one-command trial: npx github:dzianisv/mkt-alerts try fires a live BTC-USD alert"
+              width={1200}
+              height={700}
+              loading="lazy"
+              className="w-full h-auto"
+            />
+            <figcaption className="px-4 py-3 border-t border-[#3c4043] bg-[#1a1a1a] text-xs text-[#9aa0a6] font-mono">
+              One command — no signup — fires a live alert in seconds.
+            </figcaption>
+          </figure>
+
           <div className="flex flex-wrap gap-3 mb-6">
             <Button asChild className="bg-[#81c995] hover:bg-[#6db882] text-[#0a0a0a] font-medium">
               <a href="mailto:ai@agentlabs.cc" className="flex items-center gap-2">
