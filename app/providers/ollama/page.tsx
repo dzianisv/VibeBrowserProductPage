@@ -15,9 +15,6 @@ import {
   Server,
 } from "lucide-react"
 
-const CHROME_WEB_STORE_URL =
-  "https://chromewebstore.google.com/detail/vibe-ai-browser-co-pilot/djodpgokbmobeclicaicnnidccoinado"
-
 export default function OllamaProviderPage() {
   return (
     <div className="flex flex-col min-h-screen bg-[#0a0a0a] text-[#e8eaed] overflow-x-hidden">
@@ -51,7 +48,7 @@ export default function OllamaProviderPage() {
           >
             Vibe Co-Pilot
           </Link>
-          <Link href={CHROME_WEB_STORE_URL} target="_blank" rel="noopener noreferrer">
+          <Link href="/install?utm_source=ollama_header" target="_blank" rel="noopener noreferrer">
             <Button
               size="sm"
               className="bg-[#8ab4f8] hover:bg-[#aecbfa] text-[#0a0a0a] font-medium rounded-full"
@@ -389,7 +386,7 @@ export default function OllamaProviderPage() {
                 with zero data leaving your machine.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link href={CHROME_WEB_STORE_URL} target="_blank" rel="noopener noreferrer">
+                <Link href="/install?utm_source=ollama_cta" target="_blank" rel="noopener noreferrer">
                   <Button
                     size="lg"
                     className="bg-[#8ab4f8] hover:bg-[#aecbfa] text-[#0a0a0a] font-medium px-8 py-6 h-auto rounded-full"

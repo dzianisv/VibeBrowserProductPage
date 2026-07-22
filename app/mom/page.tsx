@@ -14,7 +14,7 @@ const momConfig: ProfessionConfig = {
   rotatingWords: ['Book Flights', 'Compare Prices', 'Plan Meals', 'Find Dentists', 'Draft Emails', 'Track Deals', 'Fill Forms', 'Research Schools'],
   description: 'There are dozens of AI agents now. Claude Code, OpenClaw, Codex, Cursor. They\'re all incredible -- and they all need a developer to set them up. VibeBrowser is the one that doesn\'t. Install from Chrome Web Store. Type what you want. It works. No strings attached.',
   ctaText: 'Add to Chrome -- Free',
-  ctaLink: 'https://chromewebstore.google.com/detail/vibebrowser/djodpgokbmobeclicaicnnidccoinado',
+  ctaLink: '/install?utm_source=mom_install',
   ctaIsWaitlist: false,
   showDownloadButtons: true,
   features: [

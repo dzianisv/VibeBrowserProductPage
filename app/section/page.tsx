@@ -150,7 +150,7 @@ export default function SectionPage() {
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-3">
-                <Link href="https://chromewebstore.google.com/detail/vibe-ai-browser-co-pilot/djodpgokbmobeclicaicnnidccoinado" target="_blank" rel="noopener noreferrer">
+                <Link href="/install?utm_source=section_vs_browserbase" target="_blank" rel="noopener noreferrer">
                   <Button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white">
                     Install Extension
                     <ArrowRight className="ml-2 h-4 w-4" />
