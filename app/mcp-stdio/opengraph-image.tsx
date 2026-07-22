@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og'
 
-export const alt = 'Vibe Browser for Agents - Hosted Remote MCP (Streamable HTTP)'
+export const alt = 'Vibe Browser for Agents - MCP over stdio (Local)'
 export const size = {
   width: 1200,
   height: 630,
@@ -12,7 +12,7 @@ export default async function Image() {
     (
       <div
         style={{
-          background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%)',
+          background: 'linear-gradient(135deg, #0a0a0a 0%, #14231a 50%, #0a0a0a 100%)',
           width: '100%',
           height: '100%',
           display: 'flex',
@@ -31,7 +31,7 @@ export default async function Image() {
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundImage: 'linear-gradient(rgba(138, 180, 248, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(138, 180, 248, 0.03) 1px, transparent 1px)',
+            backgroundImage: 'linear-gradient(rgba(129, 201, 149, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(129, 201, 149, 0.03) 1px, transparent 1px)',
             backgroundSize: '40px 40px',
           }}
         />
@@ -42,14 +42,14 @@ export default async function Image() {
             display: 'flex',
             alignItems: 'center',
             gap: '8px',
-            background: 'rgba(138, 180, 248, 0.1)',
-            border: '1px solid rgba(138, 180, 248, 0.2)',
+            background: 'rgba(129, 201, 149, 0.1)',
+            border: '1px solid rgba(129, 201, 149, 0.2)',
             borderRadius: '20px',
             padding: '8px 20px',
             marginBottom: '32px',
           }}
         >
-          <span style={{ color: '#8ab4f8', fontSize: '18px', fontWeight: 600 }}>
+          <span style={{ color: '#81c995', fontSize: '18px', fontWeight: 600 }}>
             Vibe Browser for Agents
           </span>
         </div>
@@ -72,18 +72,18 @@ export default async function Image() {
               lineHeight: 1.2,
             }}
           >
-            Control Your Browser from
+            MCP over stdio
           </span>
           <span
             style={{
               fontSize: '56px',
               fontWeight: 400,
-              color: '#8ab4f8',
+              color: '#81c995',
               textAlign: 'center',
               lineHeight: 1.2,
             }}
           >
-            Any AI Agent
+            Runs on your machine
           </span>
         </div>
 
@@ -97,7 +97,7 @@ export default async function Image() {
             maxWidth: '800px',
           }}
         >
-          Hosted · Streamable HTTP · No local process
+          Local process · No Vibe internet relay · Bridge stays on your machine
         </span>
 
         {/* Agent badges */}
@@ -110,7 +110,7 @@ export default async function Image() {
             justifyContent: 'center',
           }}
         >
-          {['Claude Code', 'Codex CLI', 'Copilot', 'Cursor', 'OpenCode'].map((agent) => (
+          {['Claude Code', 'Cursor', 'VS Code', 'OpenCode', 'Windsurf', 'Gemini'].map((agent) => (
             <div
               key={agent}
               style={{
@@ -137,9 +137,9 @@ export default async function Image() {
             gap: '12px',
           }}
         >
-          <span style={{ color: '#9aa0a6', fontSize: '16px' }}>vibebrowser.app/mcp</span>
+          <span style={{ color: '#9aa0a6', fontSize: '16px' }}>vibebrowser.app/mcp-stdio</span>
           <span style={{ color: '#3c4043' }}>|</span>
-          <span style={{ color: '#81c995', fontSize: '16px', fontFamily: 'monospace' }}>relay.api.vibebrowser.app</span>
+          <span style={{ color: '#81c995', fontSize: '16px', fontFamily: 'monospace' }}>vibebrowser-mcp</span>
         </div>
       </div>
     ),

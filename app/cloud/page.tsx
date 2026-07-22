@@ -536,7 +536,7 @@ npx @vibebrowser/mcp --remote YOUR_UUID
                 ))}
               </ul>
               <Button asChild variant="outline" className="border-slate-600 bg-transparent hover:bg-slate-700 text-slate-200 rounded-full w-full">
-                <Link href="/mcp">Get the extension →</Link>
+                <Link href="/mcp-stdio">Get the extension →</Link>
               </Button>
             </div>
 

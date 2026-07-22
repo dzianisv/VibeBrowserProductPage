@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { MailingListSubscribe } from './mailing-list-subscribe'
 
-const darkPages = ['/mcp', '/openclaw', '/cli', '/teams', '/enterprise', '/providers/ollama']
+const darkPages = ['/mcp', '/mcp-stdio', '/openclaw', '/cli', '/teams', '/enterprise', '/providers/ollama']
 
 export function SiteFooter() {
   const pathname = usePathname()
@@ -80,7 +80,8 @@ export function SiteFooter() {
             <h3 className={`font-semibold text-sm ${isOpenClaw ? 'text-[#f0f4ff]' : isDark ? 'text-[#e8eaed]' : ''}`}>Resources</h3>
             <nav className="flex flex-col gap-2">
               {[
-                { href: '/mcp', label: 'MCP for Agents' },
+                { href: '/mcp', label: 'Remote MCP' },
+                { href: '/mcp-stdio', label: 'Local MCP over stdio' },
                 { href: '/section', label: 'Platform Breakdown' },
                 { href: '/cli', label: 'Browser CLI' },
                 { href: '/providers/ollama', label: 'Ollama Integration' },

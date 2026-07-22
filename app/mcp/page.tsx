@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect } from "react"
 import Link from "next/link"
 import { SiteNav } from "@/components/site-nav"
 import { SiteFooter } from "@/components/site-footer"
@@ -21,7 +21,7 @@ import {
   MinusCircle,
   Copy,
   Check,
-  Terminal,
+  AlertCircle,
   Globe,
   MousePointerClick,
   Layers,
@@ -34,24 +34,23 @@ import {
   Code2,
   Keyboard,
   ScrollText,
-  Search,
   Shield,
-  ChevronDown,
+  ShieldCheck,
   Cpu,
   Chrome,
 } from "lucide-react"
 
-// Rotating agent names for the hero typewriter animation
+// Rotating agent names for the hero typewriter animation — mirrors the 7
+// named clients in the remote agent selector below (Pi excluded: it has no
+// native MCP support, see REMOTE_AGENT_CARDS).
 const ROTATING_AGENTS = [
-  "Any AI Agent",
-  "OpenCode",
   "Claude Code",
-  "Gemini CLI",
-  "Claude Desktop",
-  "Codex",
-  "Cursor",
+  "Codex CLI",
   "GitHub Copilot",
-  "Windsurf",
+  "GitHub Copilot CLI",
+  "Cursor",
+  "OpenCode",
+  "Any MCP Client",
 ]
 
 // Typewriter hook with delete and retype animation
@@ -94,17 +93,6 @@ function useTypewriter(words: string[], typingSpeed = 80, deletingSpeed = 50, pa
 
 // ----- Data -----
 
-const COMPATIBLE_AGENTS = [
-  { name: "Claude Code", icon: "claudecode" },
-  { name: "OpenCode", icon: "opencode" },
-  { name: "Cursor", icon: "cursor" },
-  { name: "Claude Desktop", icon: "anthropic" },
-  { name: "VS Code", icon: "vscode" },
-  { name: "Windsurf", icon: "windsurf" },
-  { name: "Gemini CLI", icon: "gemini" },
-  { name: "Codex", icon: "codex" },
-]
-
 type CellValue = true | false | "partial" | string
 
 interface ComparisonRow {
@@ -119,13 +107,13 @@ interface ComparisonRow {
 const COMPARISON_ROWS: ComparisonRow[] = [
   { feature: "Uses your logged-in browser", vibe: true, playwright: "partial", devtools: false, browsermcp: true, detail: "Playwright supports this via its extension mode, but defaults to launching a separate browser instance" },
   { feature: "No debug port required", vibe: true, playwright: "partial", devtools: false, browsermcp: true, detail: "Playwright's default mode requires --remote-debugging-port; extension mode avoids this but adds token auth setup" },
-  { feature: "Multi-agent support", vibe: true, playwright: false, devtools: false, browsermcp: false, detail: "Multiple AI agents control the same browser simultaneously via relay daemon" },
-  { feature: "Internet-exposed relay", vibe: true, playwright: false, devtools: false, browsermcp: false, detail: "Expose your relay to the internet so remote agents can connect to your local browser from anywhere" },
+  { feature: "Multi-agent support", vibe: true, playwright: false, devtools: false, browsermcp: false, detail: "Multiple AI agents control the same browser simultaneously — via the local relay daemon (stdio) or independent hosted HTTP sessions (remote)" },
+  { feature: "Internet-exposed relay", vibe: true, playwright: false, devtools: false, browsermcp: false, detail: "Reach your browser over the internet — via the hosted Direct HTTP endpoint on this page, or an optional relay-exposed stdio bridge on /mcp-stdio" },
   { feature: "Google Workspace integration", vibe: true, playwright: false, devtools: false, browsermcp: false, detail: "Gmail search/send/draft/thread/message plus Calendar view/create/delete — 8 native tools" },
   { feature: "Credential vault", vibe: true, playwright: false, devtools: false, browsermcp: false, detail: "Secure password manager that never exposes secrets to the LLM" },
   { feature: "Sub-agent orchestration", vibe: true, playwright: false, devtools: false, browsermcp: false, detail: "Spawn sub-agents with isolated context and parallel tool execution" },
   { feature: "Standalone AI browser", vibe: true, playwright: false, devtools: false, browsermcp: false, detail: "Also works as a standalone AI co-pilot directly in your browser" },
-  { feature: "Open source", vibe: "partial", playwright: true, devtools: true, browsermcp: "partial", detail: "Vibe's npm package (@vibebrowser/mcp) ships vibebrowser-mcp and the vibe-mcp compatibility alias as open-source binaries; the browser extension is not. BrowserMCP is similar" },
+  { feature: "Open source", vibe: "partial", playwright: true, devtools: true, browsermcp: "partial", detail: "Vibe's npm package (@vibebrowser/mcp) ships the vibebrowser-mcp binary as open source; the browser extension is not. BrowserMCP is similar" },
   { feature: "Telemetry to vendor", vibe: false, playwright: false, devtools: true, browsermcp: false, detail: "Chrome DevTools MCP sends usage statistics and CrUX API calls to Google by default" },
 ]
 
@@ -136,32 +124,23 @@ const COMPETITOR_COLS = [
   { key: "browsermcp" as const, label: "Browser MCP", color: "text-[#9aa0a6]" },
 ]
 
-const MCP_PACKAGE_SPEC = "@vibebrowser/mcp@latest"
+// Published npm package identity — still referenced by the open-source FAQ
+// entry on this page even though the local install command itself now lives
+// on /mcp-stdio only. Scoped package only: the unscoped "vibe-mcp" name on
+// npm is an unrelated third-party package and must never be published here
+// as an installable command or alias.
 const MCP_SERVER_BINARY = "vibebrowser-mcp"
-const MCP_COMPAT_ALIAS = "vibe-mcp"
-const LOCAL_MCP_COMMAND = `npx -y -p ${MCP_PACKAGE_SPEC} ${MCP_SERVER_BINARY}`
-const REMOTE_MCP_COMMAND = `${LOCAL_MCP_COMMAND} --remote YOUR_UUID`
-const REMOTE_MCP_DISPLAY_COMMAND = `${LOCAL_MCP_COMMAND} --remote <uuid>`
 
-// Direct remote MCP endpoint (Streamable HTTP) — no local vibebrowser-mcp
-// process and no Vibe Studio required. Distinct from the local-bridge
-// "Remote mode" above, which still runs vibebrowser-mcp on-machine.
-// Auth is UUID-only: the relay authenticates requests via the
-// X-Remote-Session header, no second factor.
+// Direct remote MCP endpoint (Streamable HTTP) — the only connection model
+// this page shows. No local vibebrowser-mcp process, no daemon, no ws port,
+// no --remote bridge. Auth is a UUID-only bearer credential sent via the
+// X-Remote-Session header.
 const DIRECT_MCP_ENDPOINT = "https://relay.api.vibebrowser.app/mcp"
 const DIRECT_MCP_SESSION_HEADER = "X-Remote-Session"
-const DIRECT_MCP_CLI_COMMAND = `claude mcp add --transport http --scope user vibe-remote ${DIRECT_MCP_ENDPOINT} --header "${DIRECT_MCP_SESSION_HEADER}: <uuid>"`
-const DIRECT_MCP_JSON_CONFIG = `{
-  "mcpServers": {
-    "vibe-remote": {
-      "type": "http",
-      "url": "${DIRECT_MCP_ENDPOINT}",
-      "headers": {
-        "${DIRECT_MCP_SESSION_HEADER}": "<uuid>"
-      }
-    }
-  }
-}`
+// Canonical form the extension's "Relay access" control may also hand back —
+// the header accepts either the bare UUID above or this full wss:// URL.
+const DIRECT_MCP_CANONICAL_HEADER_VALUE = "wss://relay.api.vibebrowser.app/YOUR-SESSION-UUID"
+const DIRECT_MCP_CLI_COMMAND = `claude mcp add --transport http --scope user vibebrowser ${DIRECT_MCP_ENDPOINT} --header "${DIRECT_MCP_SESSION_HEADER}: <uuid>"`
 
 interface ToolDef {
   name: string
@@ -349,137 +328,218 @@ const TOOL_CATEGORIES: { category: string; icon: React.ReactNode; tools: ToolDef
   },
 ]
 
-interface SetupConfig {
+// Status badge for each card in the remote agent selector. "verified" means
+// the exact config shape below is confirmed against that client's own
+// current official documentation (doc source recorded in the comment above
+// each entry). "generic" is the catch-all Streamable HTTP contract for any
+// other MCP-compatible client. "no-mcp" is Pi only — see anti-pattern #3/#5
+// in the UI spec: neutral styling, no fabricated config.
+type RemoteCardStatus = "verified" | "generic" | "no-mcp"
+
+interface RemoteAgentCard {
   agent: string
-  file: string
-  config: string
+  icon: string
+  status: RemoteCardStatus
+  summary: string
+  file?: string
+  config?: string
   note?: string
 }
 
-const SETUP_CONFIGS: SetupConfig[] = [
+const REMOTE_AGENT_CARDS: RemoteAgentCard[] = [
+  // Doc source: docs.claude.com/en/docs/claude-code/mcp — "Option 1: Add a
+  // remote HTTP server" and "Environment variable expansion in .mcp.json"
+  // (headers is a listed expansion location for HTTP server types).
   {
     agent: "Claude Code",
-    file: "CLI",
-    config: `claude mcp add --transport stdio --scope user vibe -- ${LOCAL_MCP_COMMAND}`,
-    note: "Or add to project-level .mcp.json",
+    icon: "claudecode",
+    status: "verified",
+    summary: "Streamable HTTP entry in .mcp.json or ~/.claude.json.",
+    file: ".mcp.json (or ~/.claude.json)",
+    config: `{
+  "mcpServers": {
+    "vibebrowser": {
+      "type": "http",
+      "url": "${DIRECT_MCP_ENDPOINT}",
+      "headers": {
+        "${DIRECT_MCP_SESSION_HEADER}": "\${VIBE_REMOTE_UUID}"
+      }
+    }
+  }
+}`,
+    note: `Claude Code expands \${VAR} inside .mcp.json's headers field for HTTP servers — set VIBE_REMOTE_UUID in your shell, never hardcode the UUID in a committed file. Or run: ${DIRECT_MCP_CLI_COMMAND}`,
   },
+  // Doc source: developers.openai.com/codex/mcp — "Configure with
+  // config.toml" → Streamable HTTP servers: url, env_http_headers (map of
+  // header name to environment variable name).
+  {
+    agent: "Codex CLI",
+    icon: "codex-cli",
+    status: "verified",
+    summary: "[mcp_servers.vibebrowser] table in config.toml.",
+    file: "~/.codex/config.toml",
+    config: `[mcp_servers.vibebrowser]
+url = "${DIRECT_MCP_ENDPOINT}"
+env_http_headers = { "${DIRECT_MCP_SESSION_HEADER}" = "VIBE_REMOTE_UUID" }`,
+    note: "env_http_headers maps the header name to an environment variable name — Codex reads the UUID from VIBE_REMOTE_UUID at runtime, never from the file itself.",
+  },
+  // Doc source: code.visualstudio.com/docs/agents/reference/mcp-configuration
+  // — "HTTP and Server-Sent Events (SSE) servers" (type/url/headers) and
+  // "Input variables for sensitive data" (promptString + password: true).
+  {
+    agent: "GitHub Copilot (VS Code)",
+    icon: "copilot-vscode",
+    status: "verified",
+    summary: "settings.json-style mcp.json entry with a password input.",
+    file: ".vscode/mcp.json (or user mcp.json)",
+    config: `{
+  "inputs": [
+    {
+      "type": "promptString",
+      "id": "vibe-remote-uuid",
+      "description": "Paste the Vibe relay UUID",
+      "password": true
+    }
+  ],
+  "servers": {
+    "vibebrowser": {
+      "type": "http",
+      "url": "${DIRECT_MCP_ENDPOINT}",
+      "headers": {
+        "${DIRECT_MCP_SESSION_HEADER}": "\${input:vibe-remote-uuid}"
+      }
+    }
+  }
+}`,
+    note: "VS Code prompts for the UUID the first time this server starts and stores it securely — it is never written into mcp.json.",
+  },
+  // Doc source: docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-mcp-servers
+  // — "Editing the configuration file" (~/.copilot/mcp-config.json,
+  // mcpServers.<name>.headers as literal values; no documented env
+  // interpolation for header values).
+  {
+    agent: "GitHub Copilot CLI",
+    icon: "copilot-cli",
+    status: "verified",
+    summary: "Remote HTTP entry in ~/.copilot/mcp-config.json.",
+    file: "~/.copilot/mcp-config.json",
+    config: `{
+  "mcpServers": {
+    "vibebrowser": {
+      "type": "http",
+      "url": "${DIRECT_MCP_ENDPOINT}",
+      "headers": {
+        "${DIRECT_MCP_SESSION_HEADER}": "YOUR-SESSION-UUID"
+      }
+    }
+  }
+}`,
+    note: "Published docs show a literal header value here, not environment-variable interpolation — keep this file private with restrictive permissions (chmod 600) instead of committing it. This is the Copilot CLI's local config file, distinct from GitHub's cloud coding agent.",
+  },
+  // Doc source: cursor.com/docs/mcp — "Config interpolation" (headers is a
+  // resolved field; supported syntax includes ${env:NAME}).
+  {
+    agent: "Cursor",
+    icon: "cursor",
+    status: "verified",
+    summary: "mcp.json entry using Cursor's ${env:NAME} interpolation.",
+    file: "~/.cursor/mcp.json (or .cursor/mcp.json)",
+    config: `{
+  "mcpServers": {
+    "vibebrowser": {
+      "url": "${DIRECT_MCP_ENDPOINT}",
+      "headers": {
+        "${DIRECT_MCP_SESSION_HEADER}": "\${env:VIBE_REMOTE_UUID}"
+      }
+    }
+  }
+}`,
+    note: "Cursor resolves ${env:NAME} inside mcp.json's url and headers fields — set VIBE_REMOTE_UUID in your shell profile, not in the file.",
+  },
+  // Doc source: opencode.ai/docs/mcp-servers — "Remote" (type/url/headers),
+  // "Disabling OAuth" (oauth: false + headers), and the {env:NAME} syntax
+  // shown under "Pre-registered" OAuth credentials.
   {
     agent: "OpenCode",
+    icon: "opencode",
+    status: "verified",
+    summary: "Remote MCP entry in opencode.json with OAuth disabled.",
     file: "~/.config/opencode/opencode.json",
     config: `{
   "$schema": "https://opencode.ai/config.json",
   "mcp": {
-    "vibe": {
-      "type": "local",
-      "command": ["npx", "-y", "-p", "@vibebrowser/mcp@latest", "vibebrowser-mcp"],
+    "vibebrowser": {
+      "type": "remote",
+      "url": "${DIRECT_MCP_ENDPOINT}",
+      "headers": {
+        "${DIRECT_MCP_SESSION_HEADER}": "{env:VIBE_REMOTE_UUID}"
+      },
+      "oauth": false,
       "enabled": true
     }
   }
 }`,
-    note: "Project-level config: ./opencode.json",
+    note: `"oauth": false tells OpenCode to send the header instead of starting its automatic OAuth flow.`,
   },
   {
-    agent: "Cursor",
-    file: "~/.cursor/mcp.json",
+    agent: "Generic MCP client",
+    icon: "generic",
+    status: "generic",
+    summary: "The underlying Streamable HTTP contract — syntax varies by client.",
+    file: "mcp.json (syntax varies by client)",
     config: `{
   "mcpServers": {
-    "vibe": {
-      "command": "npx",
-      "args": ["-y", "-p", "@vibebrowser/mcp@latest", "vibebrowser-mcp"]
+    "vibebrowser": {
+      "type": "http",
+      "url": "${DIRECT_MCP_ENDPOINT}",
+      "headers": {
+        "${DIRECT_MCP_SESSION_HEADER}": "<uuid>"
+      }
     }
   }
 }`,
-    note: "Or: Settings > MCP > Add Server (project-level: .cursor/mcp.json)",
+    note: "Any client that speaks the Streamable HTTP MCP transport can use this shape. Top-level key names (mcpServers vs servers) and environment-variable syntax vary — check your client's own docs before publishing a committed config.",
   },
   {
-    agent: "Claude Desktop",
-    file: "~/Library/Application Support/Claude/claude_desktop_config.json",
-    config: `{
-  "mcpServers": {
-    "vibe": {
-      "command": "npx",
-      "args": ["-y", "-p", "@vibebrowser/mcp@latest", "vibebrowser-mcp"]
-    }
-  }
-}`,
-    note: "Restart Claude Desktop after saving.",
-  },
-  {
-    agent: "VS Code",
-    file: "settings.json",
-    config: `{
-  "github.copilot.chat.mcpServers": {
-    "vibe": {
-      "command": "npx",
-      "args": ["-y", "-p", "@vibebrowser/mcp@latest", "vibebrowser-mcp"]
-    }
-  }
-}`,
-  },
-  {
-    agent: "Windsurf",
-    file: "~/.codeium/windsurf/mcp_config.json",
-    config: `{
-  "mcpServers": {
-    "vibe": {
-      "command": "npx",
-      "args": ["-y", "-p", "@vibebrowser/mcp@latest", "vibebrowser-mcp"]
-    }
-  }
-}`,
-  },
-  {
-    agent: "Gemini CLI",
-    file: "~/.gemini/settings.json",
-    config: `{
-  "mcpServers": {
-    "vibe": {
-      "command": "npx",
-      "args": ["-y", "-p", "@vibebrowser/mcp@latest", "vibebrowser-mcp"]
-    }
-  }
-}`,
-    note: "Project-level config: .gemini/settings.json",
-  },
-  {
-    agent: "Codex",
-    file: "CLI",
-    config: `codex mcp add vibe -- ${LOCAL_MCP_COMMAND}`,
-    note: "Or add to ~/.codex/config.toml (or .codex/config.toml): [mcp_servers.vibe] command = \"npx\" args = [\"-y\", \"-p\", \"@vibebrowser/mcp@latest\", \"vibebrowser-mcp\"]",
-  },
-]
-
-// Direct remote MCP (Streamable HTTP) configs — no local process, connects
-// straight to the hosted relay endpoint using header-based auth.
-const DIRECT_REMOTE_SETUP_CONFIGS: SetupConfig[] = [
-  {
-    agent: "Claude Code",
-    file: "CLI",
-    config: DIRECT_MCP_CLI_COMMAND,
-  },
-  {
-    agent: "JSON (mcpServers)",
-    file: "mcp.json",
-    config: DIRECT_MCP_JSON_CONFIG,
-    note: `For MCP clients configured via a JSON mcpServers block that supports the Streamable HTTP transport (e.g. Cursor, Windsurf) — not a CLI command. Never put the UUID in the URL or a query string — send it only as the ${DIRECT_MCP_SESSION_HEADER} header.`,
+    agent: "Pi",
+    icon: "pi",
+    status: "no-mcp",
+    summary: "No built-in MCP by design — custom/third-party extension only.",
   },
 ]
 
 // ----- Components -----
 
 function CopyButton({ text }: { text: string }) {
-  const [copied, setCopied] = useState(false)
+  const [status, setStatus] = useState<"idle" | "copied" | "error">("idle")
+
+  async function handleCopy() {
+    try {
+      await navigator.clipboard.writeText(text)
+      setStatus("copied")
+      window.setTimeout(() => setStatus("idle"), 2000)
+    } catch {
+      setStatus("error")
+      window.setTimeout(() => setStatus("idle"), 2500)
+    }
+  }
+
   return (
     <button
-      onClick={() => {
-        navigator.clipboard.writeText(text)
-        setCopied(true)
-        setTimeout(() => setCopied(false), 2000)
-      }}
-      className="p-1.5 rounded hover:bg-[#3c4043] text-[#9aa0a6] hover:text-[#e8eaed] transition-colors"
+      onClick={handleCopy}
+      className="flex items-center gap-1.5 p-1.5 rounded hover:bg-[#3c4043] text-[#9aa0a6] hover:text-[#e8eaed] transition-colors"
       aria-label="Copy to clipboard"
     >
-      {copied ? <Check className="w-4 h-4 text-[#81c995]" /> : <Copy className="w-4 h-4" />}
+      {status === "copied" ? (
+        <Check className="w-4 h-4 text-[#81c995]" />
+      ) : status === "error" ? (
+        <AlertCircle className="w-4 h-4 text-[#f28b82]" />
+      ) : (
+        <Copy className="w-4 h-4" />
+      )}
+      <span className="sr-only" aria-live="polite">
+        {status === "copied" ? "Copied" : status === "error" ? "Copy failed" : ""}
+      </span>
     </button>
   )
 }
@@ -487,29 +547,25 @@ function CopyButton({ text }: { text: string }) {
 function AgentIcon({ icon }: { icon: string }) {
   // Simple text-based icons since we don't have logos
   const labels: Record<string, string> = {
-    anthropic: "Claude",
-    cursor: "Cursor",
-    vscode: "VS Code",
     claudecode: "Claude Code",
+    "codex-cli": "Codex CLI",
+    "copilot-vscode": "Copilot",
+    "copilot-cli": "Copilot CLI",
+    cursor: "Cursor",
     opencode: "OpenCode",
-    windsurf: "Windsurf",
-    gemini: "Gemini",
-    codex: "Codex",
-    openclaw: "OpenClaw",
+    generic: "Generic",
   }
   const colors: Record<string, string> = {
-    anthropic: "bg-[#d4a574]",
-    cursor: "bg-[#8ab4f8]",
-    vscode: "bg-[#4fc1ff]",
     claudecode: "bg-[#d4a574]",
+    "codex-cli": "bg-[#a8dab5]",
+    "copilot-vscode": "bg-[#c9b3f0]",
+    "copilot-cli": "bg-[#b39ddb]",
+    cursor: "bg-[#8ab4f8]",
     opencode: "bg-[#81c995]",
-    windsurf: "bg-[#a8c7fa]",
-    gemini: "bg-[#f28b82]",
-    codex: "bg-[#a8dab5]",
-    openclaw: "bg-[#f0b27a]",
+    generic: "bg-[#9aa0a6]",
   }
   return (
-    <div className={`w-10 h-10 rounded-lg ${colors[icon] || "bg-[#5f6368]"} flex items-center justify-center`}>
+    <div className={`w-10 h-10 rounded-lg ${colors[icon] || "bg-[#9aa0a6]"} flex items-center justify-center flex-shrink-0`}>
       <span className="text-[#202124] font-bold text-sm">{(labels[icon] || icon)[0]}</span>
     </div>
   )
@@ -518,25 +574,11 @@ function AgentIcon({ icon }: { icon: string }) {
 // ----- Page -----
 
 export default function McpPage() {
-  const [activeAgent, setActiveAgent] = useState(0)
   const [activeSurface, setActiveSurface] = useState(0)
-  const [heroAgent, setHeroAgent] = useState(0) // index into SETUP_CONFIGS for hero split button
-  const [directRemoteAgent, setDirectRemoteAgent] = useState(0) // index into DIRECT_REMOTE_SETUP_CONFIGS
-  const [agentDropdownOpen, setAgentDropdownOpen] = useState(false)
-  const agentDropdownRef = useRef<HTMLDivElement>(null)
+  const [selectedCard, setSelectedCard] = useState(0) // index into REMOTE_AGENT_CARDS for the shared config panel
   const rotatingAgent = useTypewriter(ROTATING_AGENTS, 100, 60, 2500)
   const selectedSurface = CAPABILITY_SURFACES[activeSurface]
-
-  // Close dropdown on click outside
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (agentDropdownRef.current && !agentDropdownRef.current.contains(event.target as Node)) {
-        setAgentDropdownOpen(false)
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside)
-    return () => document.removeEventListener("mousedown", handleClickOutside)
-  }, [])
+  const selectedCardData = REMOTE_AGENT_CARDS[selectedCard]
 
   return (
     <div className="flex flex-col min-h-screen bg-[#0a0a0a] text-[#e8eaed] overflow-x-hidden">
@@ -549,7 +591,7 @@ export default function McpPage() {
             <div className="flex flex-col items-center gap-8 text-center">
               <Badge variant="secondary" className="px-4 py-2 text-sm font-medium bg-[#8ab4f8]/10 text-[#8ab4f8] border-[#8ab4f8]/20">
                 <Cpu className="w-4 h-4 mr-2" />
-                Real Browser MCP
+                Hosted · Streamable HTTP
               </Badge>
 
               <div className="space-y-4">
@@ -557,14 +599,14 @@ export default function McpPage() {
                   Give <span className="text-[#8ab4f8]">{rotatingAgent}</span>
                   <span className="animate-pulse text-[#8ab4f8]">|</span>
                   <br className="hidden sm:block" />
-                  a real browser
+                  a real browser — from anywhere
                 </h1>
                 <p className="text-xl text-[#9aa0a6] max-w-2xl mx-auto">
-                  Your real logged-in browser — connected directly to your AI agent. No Browserbase account. No stealth mode. No per-hour billing. Just your existing Chrome session, exposed as MCP.
+                  Your real logged-in browser, exposed as a hosted MCP endpoint. No local process, no port forwarding, no VPN.
                 </p>
               </div>
 
-              {/* Hero buttons: Install in Chrome + Install in [Agent] */}
+              {/* Hero CTAs: Install in Chrome + jump to the agent selector below */}
               <div className="flex flex-col sm:flex-row gap-4 mt-2 items-center">
                 <Link href="https://docs.vibebrowser.app/getting-started/extension#option-2-developer-version-advanced" target="_blank">
                   <Button
@@ -576,81 +618,16 @@ export default function McpPage() {
                     Install in Chrome
                   </Button>
                 </Link>
-
-                {/* Split button: Install in [Agent] + chevron dropdown */}
-                <div className="relative" ref={agentDropdownRef}>
-                  <div className="flex">
-                    <Button
-                      size="lg"
-                      variant="outline"
-                      className="px-6 py-6 h-auto rounded-full rounded-r-none border-[#2a2a2a] bg-transparent hover:bg-[#1a1a1a] text-[#8ab4f8] border-r-0"
-                      onClick={() => {
-                        const cfg = SETUP_CONFIGS[heroAgent]
-                        navigator.clipboard.writeText(cfg.config)
-                      }}
-                    >
-                      <Terminal className="mr-2 h-4 w-4" />
-                      Install in {SETUP_CONFIGS[heroAgent].agent}
-                    </Button>
-                    <Button
-                      size="lg"
-                      variant="outline"
-                      className="px-3 py-6 h-auto rounded-full rounded-l-none border-[#2a2a2a] bg-transparent hover:bg-[#1a1a1a] text-[#8ab4f8] border-l-[#3a3a3a]"
-                      onClick={() => setAgentDropdownOpen(!agentDropdownOpen)}
-                    >
-                      <ChevronDown className={`h-4 w-4 transition-transform ${agentDropdownOpen ? "rotate-180" : ""}`} />
-                    </Button>
-                  </div>
-                  {agentDropdownOpen && (
-                    <div className="absolute top-full left-0 right-0 mt-2 bg-[#1a1a1a] rounded-lg shadow-xl border border-[#2a2a2a] overflow-hidden z-50 min-w-[240px]">
-                      {SETUP_CONFIGS.map((cfg, i) => (
-                        <button
-                          key={cfg.agent}
-                          className={`w-full px-4 py-3 text-left text-sm hover:bg-[#2a2a2a] flex items-center gap-3 transition-colors ${
-                            i < SETUP_CONFIGS.length - 1 ? "border-b border-[#2a2a2a]" : ""
-                          } ${heroAgent === i ? "bg-[#8ab4f8]/10" : ""}`}
-                          onClick={() => {
-                            setHeroAgent(i)
-                            setActiveAgent(i) // also sync the setup section below
-                            setAgentDropdownOpen(false)
-                          }}
-                        >
-                          <Terminal className="h-4 w-4 text-[#8ab4f8] flex-shrink-0" />
-                          <div>
-                            <div className="font-medium text-[#e8eaed]">{cfg.agent}</div>
-                            <div className="text-xs text-[#5f6368]">{cfg.file}</div>
-                          </div>
-                          {heroAgent === i && <Check className="h-4 w-4 text-[#81c995] ml-auto" />}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* Selected agent config preview */}
-              <div className="w-full max-w-lg">
-                <div className="bg-[#1a1a1a] rounded-lg border border-[#2a2a2a] overflow-hidden">
-                  <div className="flex items-center justify-between px-4 py-2 bg-[#111111] border-b border-[#2a2a2a]">
-                    <div className="flex items-center gap-2">
-                      <ScrollText className="w-3.5 h-3.5 text-[#5f6368]" />
-                      <span className="text-xs text-[#9aa0a6] font-mono">{SETUP_CONFIGS[heroAgent].file}</span>
-                    </div>
-                    <CopyButton text={SETUP_CONFIGS[heroAgent].config} />
-                  </div>
-                  <pre className="px-4 py-3 text-sm font-mono text-[#e8eaed] text-left overflow-x-auto max-h-40 overflow-y-auto">
-                    <code>{SETUP_CONFIGS[heroAgent].config}</code>
-                  </pre>
-                  {SETUP_CONFIGS[heroAgent].note && (
-                    <div className="px-4 py-2 border-t border-[#2a2a2a] text-xs text-[#5f6368]">
-                      {SETUP_CONFIGS[heroAgent].note}
-                    </div>
-                  )}
-                </div>
-                <p className="text-xs text-[#5f6368] mt-2">Requires Node.js and the <Link href="https://docs.vibebrowser.app/getting-started/extension" target="_blank" className="text-[#8ab4f8] hover:underline">Vibe Browser extension</Link></p>
-                <p className="text-xs text-[#5f6368] mt-1">
-                  Published MCP binaries: <code className="text-[#9aa0a6]">{MCP_SERVER_BINARY}</code> and <code className="text-[#9aa0a6]">{MCP_COMPAT_ALIAS}</code>. For OpenClaw-style CLI flows, see <Link href="/openclaw" className="text-[#8ab4f8] hover:underline">the separate OpenClaw page</Link>.
-                </p>
+                <a href="#setup">
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="px-8 py-6 h-auto rounded-full border-[#2a2a2a] bg-transparent hover:bg-[#1a1a1a] text-[#8ab4f8]"
+                  >
+                    Jump to agent setup
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </a>
               </div>
 
               {/* Trust indicators */}
@@ -661,11 +638,11 @@ export default function McpPage() {
                 </span>
                 <span className="flex items-center gap-2">
                   <GitBranch className="w-4 h-4" />
-                  Multi-agent relay
+                  Multi-agent, no local daemon
                 </span>
                 <span className="flex items-center gap-2">
                   <Globe className="w-4 h-4" />
-                  Internet-exposed relay
+                  Hosted Streamable HTTP relay
                 </span>
                 <span className="flex items-center gap-2">
                   <Shield className="w-4 h-4" />
@@ -684,17 +661,200 @@ export default function McpPage() {
           </div>
         </section>
 
-        {/* Compatible Agents */}
-        <section className="w-full py-12 border-t border-[#1e1e1e]">
+        {/* Privacy / local-alternative callout — the single most important
+            non-CTA element on this page (UI spec §5): stands between the
+            hero and any endpoint detail. */}
+        <section id="local-alternative" className="w-full py-6 border-t border-b border-[#81c995]/20 bg-[#81c995]/5">
           <div className="container max-w-5xl px-4 md:px-6 mx-auto">
-            <p className="text-center text-sm text-[#5f6368] mb-6 uppercase tracking-wider">Works with any MCP-compatible agent</p>
-            <div className="flex flex-wrap justify-center gap-6">
-              {COMPATIBLE_AGENTS.map((agent) => (
-                <div key={agent.name} className="flex flex-col items-center gap-2 group">
-                  <AgentIcon icon={agent.icon} />
-                  <span className="text-xs text-[#9aa0a6] group-hover:text-[#e8eaed] transition-colors">{agent.name}</span>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
+              <ShieldCheck className="w-6 h-6 text-[#81c995] flex-shrink-0" />
+              <p className="text-sm text-[#e8eaed]">
+                <strong className="font-medium">Don&apos;t want browser-control traffic to touch the internet?</strong>{" "}
+                <span className="text-[#9aa0a6]">
+                  Run Vibe MCP locally instead — the MCP bridge and browser-control path stay on your machine, with no Vibe internet relay involved. See the{" "}
+                </span>
+                <Link href="/mcp-stdio" className="text-[#81c995] hover:underline font-medium">
+                  local stdio setup
+                </Link>
+                <span className="text-[#9aa0a6]">.</span>
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Remote endpoint quick-facts */}
+        <section className="w-full py-16 md:py-20 border-t border-[#1e1e1e]">
+          <div className="container max-w-4xl px-4 md:px-6 mx-auto">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl md:text-3xl font-normal text-[#e8eaed] mb-4">
+                One endpoint, one header
+              </h2>
+              <p className="text-[#9aa0a6] max-w-2xl mx-auto">
+                Every remote client — CLI, IDE, or cloud runner — talks to the same hosted endpoint with the same header.
+              </p>
+            </div>
+
+            <div className="bg-[#111111] rounded-lg border border-[#2a2a2a] overflow-hidden max-w-2xl mx-auto divide-y divide-[#2a2a2a]">
+              <div className="flex items-center justify-between px-5 py-4 gap-4">
+                <div className="min-w-0">
+                  <p className="text-[11px] uppercase tracking-[0.22em] text-[#9aa0a6]">Endpoint</p>
+                  <p className="text-sm font-mono text-[#e8eaed] break-all mt-1">{DIRECT_MCP_ENDPOINT}</p>
                 </div>
-              ))}
+                <CopyButton text={DIRECT_MCP_ENDPOINT} />
+              </div>
+              <div className="flex items-center justify-between px-5 py-4 gap-4">
+                <div className="min-w-0">
+                  <p className="text-[11px] uppercase tracking-[0.22em] text-[#9aa0a6]">Header</p>
+                  <p className="text-sm font-mono text-[#e8eaed] mt-1">{DIRECT_MCP_SESSION_HEADER}</p>
+                </div>
+                <CopyButton text={DIRECT_MCP_SESSION_HEADER} />
+              </div>
+              <div className="px-5 py-4">
+                <p className="text-[11px] uppercase tracking-[0.22em] text-[#9aa0a6]">Value</p>
+                <p className="text-sm text-[#e8eaed] mt-1">
+                  The UUID from Settings → AI Agent Control → Remote (internet) → Relay access.
+                </p>
+                <p className="text-xs text-[#9aa0a6] mt-2">
+                  The bare UUID is the primary, shortest form. The canonical{" "}
+                  <code className="text-[#9aa0a6] break-all">{DIRECT_MCP_CANONICAL_HEADER_VALUE}</code> URL shown by
+                  the same extension control is also an accepted header value — use whichever string the extension
+                  hands you.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Agent setup selector */}
+        <section id="setup" className="w-full py-16 md:py-24 border-t border-[#1e1e1e] bg-[#111111] scroll-mt-20">
+          <div className="container max-w-6xl px-4 md:px-6 mx-auto">
+            <div className="text-center mb-10">
+              <h2 className="text-2xl md:text-3xl font-normal text-[#e8eaed] mb-4">
+                Configuration for every agent
+              </h2>
+              <p className="text-[#9aa0a6]">
+                Click an agent to see its config. Copy, paste, add your UUID, done.
+              </p>
+            </div>
+
+            {/* Agent cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {REMOTE_AGENT_CARDS.map((card, i) => {
+                const isPi = card.status === "no-mcp"
+                const isSelected = !isPi && selectedCard === i
+                const statusBadge =
+                  card.status === "verified" ? (
+                    <Badge variant="secondary" className="bg-[#81c995]/10 text-[#81c995] border-[#81c995]/20 text-[10px]">
+                      Verified
+                    </Badge>
+                  ) : card.status === "generic" ? (
+                    <Badge variant="secondary" className="bg-[#8ab4f8]/10 text-[#8ab4f8] border-[#8ab4f8]/20 text-[10px]">
+                      Generic JSON
+                    </Badge>
+                  ) : (
+                    <Badge variant="secondary" className="bg-[#9aa0a6]/10 text-[#9aa0a6] border-[#9aa0a6]/20 text-[10px]">
+                      No built-in MCP
+                    </Badge>
+                  )
+                const cardHeader = (
+                  <>
+                    <div className="flex items-start justify-between gap-2">
+                      {isPi ? (
+                        <div className="w-10 h-10 rounded-lg bg-[#1a1a1a] border border-[#2a2a2a] flex items-center justify-center flex-shrink-0">
+                          <MinusCircle className="w-5 h-5 text-[#9aa0a6]" />
+                        </div>
+                      ) : (
+                        <AgentIcon icon={card.icon} />
+                      )}
+                      {statusBadge}
+                    </div>
+                    <div>
+                      <h3 className="font-medium text-[#e8eaed] text-base">{card.agent}</h3>
+                      <p className="text-xs text-[#9aa0a6] mt-1">{card.summary}</p>
+                    </div>
+                  </>
+                )
+                // Pi has no toggle action — it is not a <button> at all (its
+                // one real action is the co-pilot link below, and a <button>
+                // cannot legally contain a nested <a>/<Link>). The other 7
+                // cards are real toggle buttons driving the shared config
+                // panel underneath the grid.
+                if (isPi) {
+                  return (
+                    <div
+                      key={card.agent}
+                      className="text-left rounded-lg border border-[#2a2a2a] bg-[#0a0a0a] p-4 flex flex-col gap-3"
+                    >
+                      {cardHeader}
+                      <p className="text-xs text-[#9aa0a6] mt-1">
+                        Pi has no built-in MCP support by design — only a custom or third-party Pi extension could add it. Vibe also works as a{" "}
+                        <Link
+                          href="https://docs.vibebrowser.app/getting-started/extension#option-2-developer-version-advanced"
+                          target="_blank"
+                          className="text-[#8ab4f8] hover:underline"
+                        >
+                          standalone in-browser co-pilot
+                        </Link>{" "}
+                        — no MCP required.
+                      </p>
+                    </div>
+                  )
+                }
+                return (
+                  <button
+                    key={card.agent}
+                    type="button"
+                    aria-pressed={isSelected}
+                    onClick={() => setSelectedCard(i)}
+                    className={`text-left rounded-lg border p-4 transition-colors flex flex-col gap-3 ${
+                      isSelected
+                        ? "border-[#8ab4f8]/50 bg-[#8ab4f8]/10"
+                        : "border-[#2a2a2a] bg-[#0a0a0a] hover:border-[#3a3a3a]"
+                    }`}
+                  >
+                    {cardHeader}
+                  </button>
+                )
+              })}
+            </div>
+
+            {/* Shared config panel for the selected (non-Pi) card */}
+            <div className="mt-8 bg-[#0a0a0a] rounded-lg border border-[#2a2a2a] overflow-hidden max-w-3xl mx-auto">
+              <div className="flex items-center justify-between px-4 py-3 bg-[#1a1a1a] border-b border-[#2a2a2a]">
+                <div className="flex items-center gap-2">
+                  <ScrollText className="w-4 h-4 text-[#9aa0a6]" />
+                  <span className="text-xs text-[#9aa0a6] font-mono">{selectedCardData.file}</span>
+                </div>
+                {selectedCardData.config && <CopyButton text={selectedCardData.config} />}
+              </div>
+              <pre className="p-4 text-sm font-mono text-[#e8eaed] text-left overflow-x-auto whitespace-pre-wrap break-all">
+                <code>{selectedCardData.config}</code>
+              </pre>
+              {selectedCardData.note && (
+                <div className="px-4 py-2 border-t border-[#2a2a2a] text-xs text-[#9aa0a6]">
+                  {selectedCardData.note}
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+
+        {/* Security / credential-handling callout */}
+        <section className="w-full py-16 border-t border-[#1e1e1e]">
+          <div className="container max-w-4xl px-4 md:px-6 mx-auto">
+            <div className="rounded-lg border border-[#fdd663]/30 bg-[#fdd663]/5 p-5 max-w-3xl mx-auto flex gap-3">
+              <Shield className="w-5 h-5 text-[#fdd663] flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-[#9aa0a6]">
+                <strong className="text-[#e8eaed]">Handle your relay credential safely.</strong> Your{" "}
+                <code className="text-[#9aa0a6]">{DIRECT_MCP_SESSION_HEADER}</code> value is a bearer credential for
+                your real, logged-in browser — anyone who holds it can drive it. Keep it out of shared chat logs,
+                screenshots, and public repos, and never commit it to a config file. Prefer to keep this credential
+                off the internet entirely? See the{" "}
+                <Link href="/mcp-stdio" className="text-[#8ab4f8] hover:underline">
+                  local stdio setup
+                </Link>{" "}
+                instead.
+              </p>
             </div>
           </div>
         </section>
@@ -702,7 +862,7 @@ export default function McpPage() {
         <section className="w-full py-16 md:py-24 border-t border-[#1e1e1e] bg-[#111111]">
           <div className="container max-w-6xl px-4 md:px-6 mx-auto">
             <div className="mx-auto mb-10 max-w-3xl text-center">
-              <p className="text-xs uppercase tracking-[0.26em] text-[#5f6368]">Capability surfaces</p>
+              <p className="text-xs uppercase tracking-[0.26em] text-[#9aa0a6]">Capability surfaces</p>
               <h2 className="mt-4 text-2xl md:text-3xl font-normal text-[#e8eaed]">
                 What agents can actually do through Vibe Browser MCP
               </h2>
@@ -745,7 +905,7 @@ export default function McpPage() {
                   </p>
 
                   <div className="mt-6 rounded-2xl border border-[#2a2a2a] bg-[#111111] p-5">
-                    <p className="text-[11px] uppercase tracking-[0.22em] text-[#5f6368]">Why teams reach for this surface</p>
+                    <p className="text-[11px] uppercase tracking-[0.22em] text-[#9aa0a6]">Why teams reach for this surface</p>
                     <p className="mt-3 text-sm leading-7 text-[#c4cbe0]">{selectedSurface.proof}</p>
                   </div>
 
@@ -763,7 +923,7 @@ export default function McpPage() {
               <div className="space-y-6">
                 <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
                   <CardContent className="p-6">
-                    <p className="text-[11px] uppercase tracking-[0.22em] text-[#5f6368]">Representative tools</p>
+                    <p className="text-[11px] uppercase tracking-[0.22em] text-[#9aa0a6]">Representative tools</p>
                     <div className="mt-4 flex flex-wrap gap-2">
                       {selectedSurface.tools.map((tool) => (
                         <code
@@ -779,7 +939,7 @@ export default function McpPage() {
 
                 <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
                   <CardContent className="p-6">
-                    <p className="text-[11px] uppercase tracking-[0.22em] text-[#5f6368]">Packaging that technical buyers understand</p>
+                    <p className="text-[11px] uppercase tracking-[0.22em] text-[#9aa0a6]">Packaging that technical buyers understand</p>
                     <p className="mt-3 text-sm leading-7 text-[#9aa0a6]">
                       Tavily makes its product legible by naming a small set of surfaces clearly. The
                       equivalent move for Vibe is not “search” or “crawl”; it is browser control,
@@ -790,7 +950,7 @@ export default function McpPage() {
 
                 <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
                   <CardContent className="p-6">
-                    <p className="text-[11px] uppercase tracking-[0.22em] text-[#5f6368]">Proof points already present in this route</p>
+                    <p className="text-[11px] uppercase tracking-[0.22em] text-[#9aa0a6]">Proof points already present in this route</p>
                     <div className="mt-4 grid gap-3 sm:grid-cols-2">
                       <div className="rounded-xl border border-[#2a2a2a] bg-[#111111] p-4">
                         <p className="text-lg font-medium text-[#e8eaed]">25+</p>
@@ -811,238 +971,6 @@ export default function McpPage() {
                     </div>
                   </CardContent>
                 </Card>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Why Vibe Browser MCP */}
-        <section id="compare" className="w-full py-16 md:py-24 border-t border-[#1e1e1e] bg-[#111111]">
-          <div className="container max-w-6xl px-4 md:px-6 mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-2xl md:text-3xl font-normal text-[#e8eaed] mb-4">
-                How Vibe Browser MCP compares
-              </h2>
-              <p className="text-[#9aa0a6] max-w-2xl mx-auto">
-                Vibe Browser MCP is the only browser MCP that uses your real browser with all your logged-in sessions — no debug ports, no separate browser instance.
-              </p>
-            </div>
-
-            {/* Comparison table */}
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-[#2a2a2a]">
-                    <th className="text-left py-4 px-3 text-[#9aa0a6] font-medium">Feature</th>
-                    {COMPETITOR_COLS.map((col) => (
-                      <th key={col.key} className={`text-center py-4 px-3 ${col.color} font-medium min-w-[110px]`}>
-                        {col.label}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {COMPARISON_ROWS.map((row, i) => (
-                    <tr key={i} className="border-b border-[#1e1e1e] hover:bg-[#1a1a1a] transition-colors">
-                      <td className="py-3 px-3">
-                        <span className="text-[#e8eaed]">{row.feature}</span>
-                        {row.detail && <p className="text-xs text-[#5f6368] mt-0.5">{row.detail}</p>}
-                      </td>
-                      {COMPETITOR_COLS.map((col) => {
-                        const val = row[col.key]
-                        return (
-                          <td key={col.key} className="py-3 px-3 text-center">
-                            {val === true ? (
-                              <CheckCircle className="w-5 h-5 text-[#81c995] mx-auto" />
-                            ) : val === false ? (
-                              <XCircle className="w-5 h-5 text-[#f28b82] mx-auto" />
-                            ) : val === "partial" ? (
-                              <MinusCircle className="w-5 h-5 text-[#fdd663] mx-auto" />
-                            ) : (
-                              <span className="text-[#9aa0a6]">{val}</span>
-                            )}
-                          </td>
-                        )
-                      })}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            {/* Competitor context */}
-            <div className="grid md:grid-cols-3 gap-4 mt-10 text-xs text-[#5f6368]">
-              <div className="bg-[#0a0a0a] rounded-lg border border-[#2a2a2a] p-4">
-                <h4 className="text-[#9aa0a6] font-medium mb-1">Playwright MCP <span className="text-[#5f6368]">(Microsoft)</span></h4>
-                <p>Launches a separate Playwright-managed browser. Requires CDP for existing browser connection. 27k GitHub stars.</p>
-              </div>
-              <div className="bg-[#0a0a0a] rounded-lg border border-[#2a2a2a] p-4">
-                <h4 className="text-[#9aa0a6] font-medium mb-1">Chrome DevTools MCP <span className="text-[#5f6368]">(Google)</span></h4>
-                <p>Developer debugging tool using Puppeteer + CDP. Launches separate Chrome instance. Sends telemetry to Google by default. 25k GitHub stars.</p>
-              </div>
-              <div className="bg-[#0a0a0a] rounded-lg border border-[#2a2a2a] p-4">
-                <h4 className="text-[#9aa0a6] font-medium mb-1">Browser MCP <span className="text-[#5f6368]">(Namu)</span></h4>
-                <p>Chrome extension-based like Vibe. Single agent only. Extension is closed-source. 5.8k GitHub stars.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Architecture Diagram */}
-        <section className="w-full py-16 md:py-24 border-t border-[#1e1e1e]">
-          <div className="container max-w-5xl px-4 md:px-6 mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-2xl md:text-3xl font-normal text-[#e8eaed] mb-4">
-                Two ways to connect: local or remote
-              </h2>
-              <p className="text-[#9aa0a6] max-w-2xl mx-auto">
-                Run agents on your machine with the local relay, or connect any agent on the internet to your browser through our public relay server. Both support multiple agents simultaneously.
-              </p>
-            </div>
-
-            {/* Local mode diagram */}
-            <div className="mb-8">
-              <h3 className="text-lg font-medium text-[#e8eaed] mb-3 flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-[#81c995]" />
-                Local mode <span className="text-sm text-[#5f6368] font-normal">— agents on your machine</span>
-              </h3>
-              <div className="bg-[#111111] rounded-lg border border-[#2a2a2a] overflow-hidden max-w-3xl mx-auto">
-                <div className="flex items-center gap-2 px-4 py-3 bg-[#1a1a1a] border-b border-[#2a2a2a]">
-                  <div className="w-3 h-3 rounded-full bg-[#f28b82]" />
-                  <div className="w-3 h-3 rounded-full bg-[#fdd663]" />
-                  <div className="w-3 h-3 rounded-full bg-[#81c995]" />
-                  <span className="text-xs text-[#5f6368] ml-2">{LOCAL_MCP_COMMAND}</span>
-                </div>
-                <pre className="p-6 text-sm font-mono text-[#9aa0a6] overflow-x-auto leading-relaxed">
-{`  Claude Code          Cursor           OpenCode
-       │                  │                 │
-       ▼                  ▼                 ▼
-   [vibebrowser-mcp]  [vibebrowser-mcp] [vibebrowser-mcp] ← stdio MCP bridges
-       │                  │                 │
-       └──────────────────┼─────────────────┘
-                          │
-                   ws://localhost:19888
-                          │
-                          ▼
-                 ┌──────────────────┐
-                 │   Local Relay    │  ← auto-spawned daemon
-                 │  (localhost only) │
-                 └──────────────────┘
-                          │
-                   ws://localhost:19889
-                          │
-                          ▼
-                 ┌──────────────────┐
-                 │  Vibe Extension  │  ← your real Chrome browser
-                 └──────────────────┘`}
-                </pre>
-              </div>
-            </div>
-
-            {/* Remote mode diagram */}
-            <div className="mb-10">
-              <h3 className="text-lg font-medium text-[#e8eaed] mb-3 flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-[#8ab4f8]" />
-                Remote mode <Badge variant="secondary" className="ml-1 px-2 py-0.5 text-xs bg-[#8ab4f8]/10 text-[#8ab4f8] border-[#8ab4f8]/20">New</Badge> <span className="text-sm text-[#5f6368] font-normal">— agents anywhere on the internet</span>
-              </h3>
-              <div className="bg-[#111111] rounded-lg border border-[#8ab4f8]/30 overflow-hidden max-w-3xl mx-auto">
-                <div className="flex items-center gap-2 px-4 py-3 bg-[#1a1a1a] border-b border-[#2a2a2a]">
-                  <div className="w-3 h-3 rounded-full bg-[#f28b82]" />
-                  <div className="w-3 h-3 rounded-full bg-[#fdd663]" />
-                  <div className="w-3 h-3 rounded-full bg-[#81c995]" />
-                  <span className="text-xs text-[#5f6368] ml-2">{REMOTE_MCP_DISPLAY_COMMAND}</span>
-                </div>
-                <pre className="p-6 text-sm font-mono text-[#9aa0a6] overflow-x-auto leading-relaxed">
-{`  Cloud runner         Claude Code (laptop)     Cursor (office)
-       │                      │                       │
-       ▼                      ▼                       ▼
-   [vibebrowser-mcp      [vibebrowser-mcp      [vibebrowser-mcp
-    --remote <uuid>]         --remote <uuid>]         --remote <uuid>]
-       │                      │                       │
-       └──────────────────────┼───────────────────────┘
-                              │
-                    wss://relay.api.vibebrowser.app/<uuid>
-                              │
-                              ▼
-                 ┌────────────────────────────┐
-                 │    Public Relay Server      │  ← hosted by Vibe
-                 │  relay.api.vibebrowser.app  │     UUID-authenticated
-                 └────────────────────────────┘
-                              │
-                    wss://relay.api.vibebrowser.app
-                              │
-                              ▼
-                 ┌──────────────────┐
-                 │  Vibe Extension  │  ← your real Chrome browser
-                 │   (at home)      │     connects on "Remote" toggle
-                 └──────────────────┘`}
-                </pre>
-              </div>
-            </div>
-
-            {/* Remote mode setup instructions */}
-            <div className="bg-[#111111] rounded-lg border border-[#2a2a2a] p-6 max-w-3xl mx-auto mb-10">
-              <h4 className="font-medium text-[#e8eaed] mb-4 flex items-center gap-2">
-                <Terminal className="w-5 h-5 text-[#8ab4f8]" />
-                Remote mode setup
-              </h4>
-              <div className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <span className="text-[#8ab4f8] font-mono text-sm font-bold mt-0.5 flex-shrink-0">1.</span>
-                  <div>
-                    <p className="text-sm text-[#e8eaed]">In the Vibe extension, go to <strong>Settings → AI Agent Control</strong>, turn on <strong>Enable external AI agent control</strong>, then select <strong>Remote (internet)</strong></p>
-                    <p className="text-xs text-[#5f6368] mt-1">This connects your browser to relay.api.vibebrowser.app and generates a unique UUID</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <span className="text-[#8ab4f8] font-mono text-sm font-bold mt-0.5 flex-shrink-0">2.</span>
-                  <div>
-                    <p className="text-sm text-[#e8eaed]">Copy the UUID/relay URL shown under <strong>Relay access</strong></p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <span className="text-[#8ab4f8] font-mono text-sm font-bold mt-0.5 flex-shrink-0">3.</span>
-                  <div>
-                    <p className="text-sm text-[#e8eaed] mb-2">Configure your agent with the <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1.5 py-0.5 rounded">--remote</code> flag:</p>
-                    <div className="bg-[#0a0a0a] rounded border border-[#2a2a2a] overflow-hidden">
-                      <div className="flex items-center justify-between px-3 py-1.5 bg-[#1a1a1a] border-b border-[#2a2a2a]">
-                        <span className="text-xs text-[#5f6368] font-mono">CLI</span>
-                        <CopyButton text={REMOTE_MCP_COMMAND} />
-                      </div>
-                      <pre className="px-3 py-2 text-sm font-mono text-[#e8eaed] overflow-x-auto">
-                        <code>{REMOTE_MCP_COMMAND}</code>
-                      </pre>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <p className="text-xs text-[#5f6368] mt-4">
-                Share your UUID with any MCP-compatible agent on the internet. They connect to your browser through the relay — no port forwarding, no VPN, no firewall changes needed.
-              </p>
-            </div>
-
-            {/* Architecture highlights */}
-            <div className="grid md:grid-cols-3 gap-6 mt-10 max-w-3xl mx-auto">
-              <div className="text-center">
-                <div className="w-12 h-12 rounded-lg bg-[#8ab4f8]/10 flex items-center justify-center mx-auto mb-3">
-                  <GitBranch className="w-6 h-6 text-[#8ab4f8]" />
-                </div>
-                <h4 className="font-medium text-[#e8eaed] mb-1">Multi-Agent</h4>
-                <p className="text-xs text-[#9aa0a6]">Multiple agents connect simultaneously — local or remote, no conflicts</p>
-              </div>
-              <div className="text-center">
-                <div className="w-12 h-12 rounded-lg bg-[#81c995]/10 flex items-center justify-center mx-auto mb-3">
-                  <Globe className="w-6 h-6 text-[#81c995]" />
-                </div>
-                <h4 className="font-medium text-[#e8eaed] mb-1">Connect from Anywhere</h4>
-                <p className="text-xs text-[#9aa0a6]">Any agent on the internet can control your browser — just share your UUID</p>
-              </div>
-              <div className="text-center">
-                <div className="w-12 h-12 rounded-lg bg-[#fdd663]/10 flex items-center justify-center mx-auto mb-3">
-                  <Shield className="w-6 h-6 text-[#fdd663]" />
-                </div>
-                <h4 className="font-medium text-[#e8eaed] mb-1">Authenticated</h4>
-                <p className="text-xs text-[#9aa0a6]">UUID + secret authentication — only you control who connects</p>
               </div>
             </div>
           </div>
@@ -1077,7 +1005,7 @@ export default function McpPage() {
                       {cat.tools.map((tool) => (
                         <div key={tool.name} className="flex items-start gap-2 group">
                           <code className="text-xs text-[#8ab4f8] font-mono bg-[#8ab4f8]/5 px-1.5 py-0.5 rounded flex-shrink-0">{tool.name}</code>
-                          <span className="text-xs text-[#5f6368] group-hover:text-[#9aa0a6] transition-colors">{tool.description}</span>
+                          <span className="text-xs text-[#9aa0a6] group-hover:text-[#e8eaed] transition-colors">{tool.description}</span>
                         </div>
                       ))}
                     </div>
@@ -1124,318 +1052,73 @@ export default function McpPage() {
           </div>
         </section>
 
-        {/* How It Works */}
-        <section className="w-full py-16 md:py-24 border-t border-[#1e1e1e]">
-          <div className="container max-w-5xl px-4 md:px-6 mx-auto">
+        {/* Why Vibe Browser MCP */}
+        <section id="compare" className="w-full py-16 md:py-24 border-t border-[#1e1e1e] bg-[#111111]">
+          <div className="container max-w-6xl px-4 md:px-6 mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-2xl md:text-3xl font-normal text-[#e8eaed] mb-4">
-                Set up in under 2 minutes
-              </h2>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-12 max-w-3xl mx-auto">
-              <div className="text-center">
-                <div className="w-14 h-14 rounded-full bg-[#8ab4f8]/10 border border-[#8ab4f8]/20 flex items-center justify-center mx-auto mb-4">
-                  <span className="text-[#8ab4f8] font-mono text-lg font-bold">1</span>
-                </div>
-                <h3 className="font-medium text-[#e8eaed] mb-2">Install Extension</h3>
-                <p className="text-sm text-[#9aa0a6]">
-                  Install the <Link href="https://docs.vibebrowser.app/getting-started/extension#option-2-developer-version-advanced" target="_blank" className="text-[#8ab4f8] hover:underline">Vibe AI Browser extension</Link> and enable AI Agent Control in Settings.
-                </p>
-              </div>
-              <div className="text-center">
-                <div className="w-14 h-14 rounded-full bg-[#81c995]/10 border border-[#81c995]/20 flex items-center justify-center mx-auto mb-4">
-                  <span className="text-[#81c995] font-mono text-lg font-bold">2</span>
-                </div>
-                <h3 className="font-medium text-[#e8eaed] mb-2">Configure Your Agent</h3>
-                <p className="text-sm text-[#9aa0a6]">
-                  Add the MCP server config to your AI agent. <a href="#setup" className="text-[#8ab4f8] hover:underline">Pick your agent below</a> — copy, paste, done.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Setup Instructions */}
-        <section id="setup" className="w-full py-16 md:py-24 border-t border-[#1e1e1e] bg-[#111111]">
-          <div className="container max-w-4xl px-4 md:px-6 mx-auto">
-            <div className="text-center mb-10">
-              <h2 className="text-2xl md:text-3xl font-normal text-[#e8eaed] mb-4">
-                Configuration for every agent
-              </h2>
-              <p className="text-[#9aa0a6]">
-                Click an agent to see the config. Copy, paste, done.
-              </p>
-              <p className="text-xs text-[#5f6368] mt-3">
-                Local mode defaults to relay port <code className="text-[#9aa0a6]">19888</code> (no flag needed). The browser
-                extension listens on <code className="text-[#9aa0a6]">19889</code> — do not point the MCP server at the extension port.
-              </p>
-            </div>
-
-            {/* Agent tabs */}
-            <div className="flex flex-wrap gap-2 mb-6 justify-center">
-              {SETUP_CONFIGS.map((cfg, i) => (
-                <button
-                  key={cfg.agent}
-                  onClick={() => setActiveAgent(i)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                    activeAgent === i
-                      ? "bg-[#8ab4f8] text-[#0a0a0a]"
-                      : "bg-[#1a1a1a] text-[#9aa0a6] hover:text-[#e8eaed] border border-[#2a2a2a]"
-                  }`}
-                >
-                  {cfg.agent}
-                </button>
-              ))}
-            </div>
-
-            {/* Config display */}
-            <div className="bg-[#0a0a0a] rounded-lg border border-[#2a2a2a] overflow-hidden">
-              <div className="flex items-center justify-between px-4 py-3 bg-[#1a1a1a] border-b border-[#2a2a2a]">
-                <div className="flex items-center gap-2">
-                  <ScrollText className="w-4 h-4 text-[#5f6368]" />
-                  <span className="text-xs text-[#9aa0a6] font-mono">{SETUP_CONFIGS[activeAgent].file}</span>
-                </div>
-                <CopyButton text={SETUP_CONFIGS[activeAgent].config} />
-              </div>
-              <pre className="p-4 text-sm font-mono text-[#e8eaed] text-left overflow-x-auto">
-                <code>{SETUP_CONFIGS[activeAgent].config}</code>
-              </pre>
-              {SETUP_CONFIGS[activeAgent].note && (
-                <div className="px-4 py-2 border-t border-[#2a2a2a] text-xs text-[#5f6368]">
-                  {SETUP_CONFIGS[activeAgent].note}
-                </div>
-              )}
-            </div>
-          </div>
-        </section>
-
-        {/* Direct Remote MCP (Streamable HTTP) — no local process, no Studio */}
-        <section id="direct-remote" className="w-full py-16 md:py-24 border-t border-[#1e1e1e]">
-          <div className="container max-w-4xl px-4 md:px-6 mx-auto">
-            <div className="text-center mb-10">
-              <Badge variant="secondary" className="mb-4 px-3 py-1 text-xs bg-[#fdd663]/10 text-[#fdd663] border-[#fdd663]/20">
-                No local install required
-              </Badge>
-              <h2 className="text-2xl md:text-3xl font-normal text-[#e8eaed] mb-4">
-                Direct remote MCP endpoint <span className="text-sm text-[#5f6368] font-normal">(Streamable HTTP)</span>
+                How Vibe Browser MCP compares
               </h2>
               <p className="text-[#9aa0a6] max-w-2xl mx-auto">
-                This is an additional path, not a replacement for local stdio above. Skip the local{" "}
-                <code className="text-[#9aa0a6]">{MCP_SERVER_BINARY}</code> bridge and Vibe Studio entirely — any MCP
-                client that speaks HTTP JSON-RPC (the Streamable HTTP transport) calls our hosted relay directly and
-                controls your logged-in browser from anywhere.
+                Vibe Browser MCP is the only browser MCP that uses your real browser with all your logged-in sessions — no debug ports, no separate browser instance.
               </p>
             </div>
 
-            {/* Contrast: local stdio vs direct remote HTTP */}
-            <div className="grid md:grid-cols-2 gap-6 mb-10">
-              <div className="bg-[#111111] rounded-lg border border-[#2a2a2a] p-5">
-                <h3 className="font-medium text-[#e8eaed] mb-2 flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-[#81c995]" /> Local stdio (default)
-                </h3>
-                <ul className="text-sm text-[#9aa0a6] space-y-1.5 list-disc list-inside">
-                  <li>Runs <code className="text-[#8ab4f8]">{MCP_SERVER_BINARY}</code> as a child process next to your agent</li>
-                  <li>Talks to the extension over localhost only — nothing leaves your machine</li>
-                  <li>Safest default when the agent and browser run on the same computer</li>
-                </ul>
-              </div>
-              <div className="bg-[#111111] rounded-lg border border-[#fdd663]/30 p-5">
-                <h3 className="font-medium text-[#e8eaed] mb-2 flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-[#fdd663]" /> Direct remote HTTP
-                </h3>
-                <ul className="text-sm text-[#9aa0a6] space-y-1.5 list-disc list-inside">
-                  <li>No local process, no <code className="text-[#8ab4f8]">{MCP_SERVER_BINARY}</code> install, no Vibe Studio</li>
-                  <li>Agent calls <code className="text-[#8ab4f8] break-all">{DIRECT_MCP_ENDPOINT}</code> over HTTPS from anywhere</li>
-                  <li>Your UUID is a bearer credential for your real browser</li>
-                </ul>
-              </div>
+            {/* Comparison table */}
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-[#2a2a2a]">
+                    <th className="text-left py-4 px-3 text-[#9aa0a6] font-medium">Feature</th>
+                    {COMPETITOR_COLS.map((col) => (
+                      <th key={col.key} className={`text-center py-4 px-3 ${col.color} font-medium min-w-[110px]`}>
+                        {col.label}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {COMPARISON_ROWS.map((row, i) => (
+                    <tr key={i} className="border-b border-[#1e1e1e] hover:bg-[#1a1a1a] transition-colors">
+                      <td className="py-3 px-3">
+                        <span className="text-[#e8eaed]">{row.feature}</span>
+                        {row.detail && <p className="text-xs text-[#9aa0a6] mt-0.5">{row.detail}</p>}
+                      </td>
+                      {COMPETITOR_COLS.map((col) => {
+                        const val = row[col.key]
+                        return (
+                          <td key={col.key} className="py-3 px-3 text-center">
+                            {val === true ? (
+                              <CheckCircle className="w-5 h-5 text-[#81c995] mx-auto" />
+                            ) : val === false ? (
+                              <XCircle className="w-5 h-5 text-[#f28b82] mx-auto" />
+                            ) : val === "partial" ? (
+                              <MinusCircle className="w-5 h-5 text-[#fdd663] mx-auto" />
+                            ) : (
+                              <span className="text-[#9aa0a6]">{val}</span>
+                            )}
+                          </td>
+                        )
+                      })}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
 
-            {/* Diagram */}
-            <div className="bg-[#111111] rounded-lg border border-[#fdd663]/30 overflow-hidden max-w-3xl mx-auto mb-10">
-              <div className="flex items-center gap-2 px-4 py-3 bg-[#1a1a1a] border-b border-[#2a2a2a]">
-                <div className="w-3 h-3 rounded-full bg-[#f28b82]" />
-                <div className="w-3 h-3 rounded-full bg-[#fdd663]" />
-                <div className="w-3 h-3 rounded-full bg-[#81c995]" />
-                <span className="text-xs text-[#5f6368] ml-2">{DIRECT_MCP_ENDPOINT}</span>
+            {/* Competitor context */}
+            <div className="grid md:grid-cols-3 gap-4 mt-10 text-xs text-[#9aa0a6]">
+              <div className="bg-[#0a0a0a] rounded-lg border border-[#2a2a2a] p-4">
+                <h4 className="text-[#9aa0a6] font-medium mb-1">Playwright MCP <span className="text-[#9aa0a6]">(Microsoft)</span></h4>
+                <p>Launches a separate Playwright-managed browser. Requires CDP for existing browser connection. 27k GitHub stars.</p>
               </div>
-              <pre className="p-6 text-sm font-mono text-[#9aa0a6] overflow-x-auto leading-relaxed">
-{`  Any HTTP MCP client — cloud runner, CI, or laptop, no local bridge
-       │  POST /mcp   header: ${DIRECT_MCP_SESSION_HEADER}: <uuid>
-       ▼
-   ${DIRECT_MCP_ENDPOINT}
-       │
-       ▼
- ┌───────────────────────────┐
- │     Public Relay Server    │  ← hosted by Vibe, HTTP JSON-RPC
- │  relay.api.vibebrowser.app │     (Streamable HTTP), UUID-authenticated
- └───────────────────────────┘
-       │
-       ▼
- ┌──────────────────┐
- │  Vibe Extension  │  ← your real Chrome browser
- │   (at home)      │     Settings → AI Agent Control → Remote (internet)
- └──────────────────┘        → Relay access`}
-              </pre>
-            </div>
-
-            {/* Setup steps */}
-            <div className="bg-[#111111] rounded-lg border border-[#2a2a2a] p-6 max-w-3xl mx-auto mb-10">
-              <h4 className="font-medium text-[#e8eaed] mb-4 flex items-center gap-2">
-                <Terminal className="w-5 h-5 text-[#fdd663]" />
-                Direct remote setup
-              </h4>
-              <div className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <span className="text-[#fdd663] font-mono text-sm font-bold mt-0.5 flex-shrink-0">1.</span>
-                  <div>
-                    <p className="text-sm text-[#e8eaed]">
-                      In the Vibe extension, open <strong>Settings → AI Agent Control → Remote (internet) → Relay
-                      access</strong> and copy your UUID
-                    </p>
-                    <p className="text-xs text-[#5f6368] mt-1">
-                      This is the same relay access UUID used by <code className="text-[#9aa0a6]">--remote</code>{" "}
-                      above — here it is sent as a header instead of a CLI flag, and no local process is involved.
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <span className="text-[#fdd663] font-mono text-sm font-bold mt-0.5 flex-shrink-0">2.</span>
-                  <div className="w-full">
-                    <p className="text-sm text-[#e8eaed] mb-2">
-                      Point your agent at the endpoint with{" "}
-                      <code className="text-[#fdd663] bg-[#fdd663]/5 px-1.5 py-0.5 rounded">{DIRECT_MCP_SESSION_HEADER}</code>{" "}
-                      set to your UUID:
-                    </p>
-                    <div className="flex flex-wrap gap-2 mb-3">
-                      {DIRECT_REMOTE_SETUP_CONFIGS.map((cfg, i) => (
-                        <button
-                          key={cfg.agent}
-                          onClick={() => setDirectRemoteAgent(i)}
-                          className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
-                            directRemoteAgent === i
-                              ? "bg-[#fdd663] text-[#0a0a0a]"
-                              : "bg-[#1a1a1a] text-[#9aa0a6] hover:text-[#e8eaed] border border-[#2a2a2a]"
-                          }`}
-                        >
-                          {cfg.agent}
-                        </button>
-                      ))}
-                    </div>
-                    <div className="bg-[#0a0a0a] rounded border border-[#2a2a2a] overflow-hidden">
-                      <div className="flex items-center justify-between px-3 py-1.5 bg-[#1a1a1a] border-b border-[#2a2a2a]">
-                        <span className="text-xs text-[#5f6368] font-mono">
-                          {DIRECT_REMOTE_SETUP_CONFIGS[directRemoteAgent].file}
-                        </span>
-                        <CopyButton text={DIRECT_REMOTE_SETUP_CONFIGS[directRemoteAgent].config} />
-                      </div>
-                      <pre className="px-3 py-2 text-sm font-mono text-[#e8eaed] overflow-x-auto whitespace-pre-wrap break-all">
-                        <code>{DIRECT_REMOTE_SETUP_CONFIGS[directRemoteAgent].config}</code>
-                      </pre>
-                    </div>
-                    {DIRECT_REMOTE_SETUP_CONFIGS[directRemoteAgent].note && (
-                      <p className="text-xs text-[#5f6368] mt-2">
-                        {DIRECT_REMOTE_SETUP_CONFIGS[directRemoteAgent].note}
-                      </p>
-                    )}
-                  </div>
-                </div>
+              <div className="bg-[#0a0a0a] rounded-lg border border-[#2a2a2a] p-4">
+                <h4 className="text-[#9aa0a6] font-medium mb-1">Chrome DevTools MCP <span className="text-[#9aa0a6]">(Google)</span></h4>
+                <p>Developer debugging tool using Puppeteer + CDP. Launches separate Chrome instance. Sends telemetry to Google by default. 25k GitHub stars.</p>
               </div>
-            </div>
-
-            {/* Security callout */}
-            <div className="rounded-lg border border-[#fdd663]/30 bg-[#fdd663]/5 p-5 max-w-3xl mx-auto flex gap-3">
-              <Shield className="w-5 h-5 text-[#fdd663] flex-shrink-0 mt-0.5" />
-              <p className="text-sm text-[#9aa0a6]">
-                <strong className="text-[#e8eaed]">Security tradeoff:</strong> local stdio never leaves your machine.
-                Direct remote HTTP sends a bearer credential (your UUID) over the internet on every request —
-                whoever holds it can drive your real, logged-in browser. Keep the{" "}
-                <code className="text-[#9aa0a6]">{DIRECT_MCP_SESSION_HEADER}</code> header out of shared chat logs,
-                screenshots, and public repos, and prefer local stdio whenever your agent runs on the same machine
-                as your browser.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* How Page Content Works */}
-        <section className="w-full py-16 md:py-24 border-t border-[#1e1e1e]">
-          <div className="container max-w-5xl px-4 md:px-6 mx-auto">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <div>
-                <h2 className="text-2xl md:text-3xl font-normal text-[#e8eaed] mb-4">
-                  Markdown-indexed pages, not raw DOM
-                </h2>
-                <p className="text-[#9aa0a6] mb-6">
-                  Instead of dumping raw accessibility trees or DOM snapshots, Vibe extracts page content as clean markdown. Interactive elements get <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">[index:score]</code> labels that agents use to click, fill, and interact.
-                </p>
-
-                <div className="space-y-4">
-                  <div className="flex items-start gap-4 p-4 bg-[#111111] rounded-lg border border-[#2a2a2a]">
-                    <Search className="w-5 h-5 text-[#81c995] mt-0.5 flex-shrink-0" />
-                    <div>
-                      <h4 className="font-medium text-[#e8eaed] mb-1">Lower token usage</h4>
-                      <p className="text-sm text-[#9aa0a6]">
-                        Markdown is 3-5x smaller than raw DOM or accessibility trees
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-4 p-4 bg-[#111111] rounded-lg border border-[#2a2a2a]">
-                    <MousePointerClick className="w-5 h-5 text-[#81c995] mt-0.5 flex-shrink-0" />
-                    <div>
-                      <h4 className="font-medium text-[#e8eaed] mb-1">Scored interactions</h4>
-                      <p className="text-sm text-[#9aa0a6]">
-                        Elements scored by relevance — agents focus on what matters
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-4 p-4 bg-[#111111] rounded-lg border border-[#2a2a2a]">
-                    <Zap className="w-5 h-5 text-[#81c995] mt-0.5 flex-shrink-0" />
-                    <div>
-                      <h4 className="font-medium text-[#e8eaed] mb-1">Automatic delivery</h4>
-                      <p className="text-sm text-[#9aa0a6]">
-                        Page content sent before each agent turn — no tool call needed
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Example markdown output */}
-              <div className="bg-[#111111] rounded-lg border border-[#2a2a2a] overflow-hidden">
-                <div className="flex items-center gap-2 px-4 py-3 bg-[#1a1a1a] border-b border-[#2a2a2a]">
-                  <div className="w-3 h-3 rounded-full bg-[#5f6368]" />
-                  <div className="w-3 h-3 rounded-full bg-[#5f6368]" />
-                  <div className="w-3 h-3 rounded-full bg-[#5f6368]" />
-                  <span className="text-xs text-[#5f6368] ml-2">page content (auto)</span>
-                </div>
-                <pre className="p-4 text-sm font-mono text-[#9aa0a6] overflow-x-auto leading-relaxed">
-{`# @vibebrowser/mcp
-
-Browser automation MCP and CLI package.
-
-## Quick Start
-
-[1:0.9] Run vibebrowser-mcp
-[2:0.8] Run vibe-mcp
-[3:0.7] View documentation
-
-## Published binaries
-- vibebrowser-mcp
-- vibe-mcp (compatibility alias)
-
-## Features
-- Multi-agent relay
-- 25+ browser tools
-- Google Workspace integration
-
-[4:0.6] Sign in
-[5:0.5] Copy config
-[6:0.3] Enable remote mode`}
-                </pre>
+              <div className="bg-[#0a0a0a] rounded-lg border border-[#2a2a2a] p-4">
+                <h4 className="text-[#9aa0a6] font-medium mb-1">Browser MCP <span className="text-[#9aa0a6]">(Namu)</span></h4>
+                <p>Chrome extension-based like Vibe. Single agent only. Extension is closed-source. 5.8k GitHub stars.</p>
               </div>
             </div>
           </div>
@@ -1458,16 +1141,16 @@ Browser automation MCP and CLI package.
                   <br /><br />
                   <strong className="text-[#e8eaed]">vs BrowserMCP:</strong> Like Vibe, BrowserMCP is a Chrome extension that uses your real browser. However, it only supports a single agent at a time (new connections kill the previous one), has ~13 tools vs Vibe's 25+, lacks Google Workspace integration, credential vault, and sub-agent orchestration. Its extension is also closed-source.
                   <br /><br />
-                  <strong className="text-[#e8eaed]">Unique to Vibe:</strong> Multi-agent relay daemon, 25+ tools, native Gmail/Calendar integration, secure credential vault (<code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">typein_secret</code>), sub-agent orchestration, and indexed markdown snapshots for 3-5x lower token usage.
+                  <strong className="text-[#e8eaed]">Unique to Vibe:</strong> Multi-agent support, 25+ tools, native Gmail/Calendar integration, secure credential vault (<code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">typein_secret</code>), sub-agent orchestration, and indexed markdown snapshots for 3-5x lower token usage.
                 </AccordionContent>
               </AccordionItem>
 
               <AccordionItem value="item-2" className="border-[#2a2a2a] bg-[#0a0a0a] rounded-lg px-4">
                 <AccordionTrigger className="text-[#e8eaed] hover:no-underline">
-                  Can remote agents on the internet connect to my browser?
+                  I don&apos;t want my browser traffic to touch the internet — what should I use instead?
                 </AccordionTrigger>
                 <AccordionContent className="text-[#9aa0a6]">
-                  Yes. Vibe Browser MCP now supports exposing your relay daemon to the internet, so remote AI agents and cloud runners can connect to your local browser extension from anywhere. That includes OpenClaw-style remote flows, but the command-oriented setup lives on the dedicated <Link href="/openclaw" className="text-[#8ab4f8] hover:underline">OpenClaw page</Link>.
+                  Use local stdio MCP — it runs as a process on your machine and never sends browser-control traffic over the internet. See <Link href="/mcp-stdio" className="text-[#8ab4f8] hover:underline">/mcp-stdio</Link>.
                 </AccordionContent>
               </AccordionItem>
 
@@ -1476,7 +1159,7 @@ Browser automation MCP and CLI package.
                   Can multiple AI agents control the browser at the same time?
                 </AccordionTrigger>
                 <AccordionContent className="text-[#9aa0a6]">
-                  Yes. Vibe Browser MCP uses a relay daemon architecture where multiple AI clients (Claude, Cursor, VS Code, etc.) each connect via their own stdio MCP bridge to a shared relay on port 19888. The relay forwards requests to the Vibe extension on port 19889. Each agent operates independently without conflicts.
+                  Yes. Each agent sends its own <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">X-Remote-Session</code> header value to the hosted endpoint independently — there&apos;s no local daemon or port to share, so multiple direct HTTP clients (or a mix of direct HTTP and local stdio agents) can drive the browser without conflicting.
                 </AccordionContent>
               </AccordionItem>
 
@@ -1494,7 +1177,7 @@ Browser automation MCP and CLI package.
                   What AI agents work with Vibe Browser MCP?
                 </AccordionTrigger>
                 <AccordionContent className="text-[#9aa0a6]">
-                  Any MCP-compatible AI client — local or remote. We provide setup configs for Claude Desktop, Cursor, VS Code (GitHub Copilot), OpenCode, Claude Code, Windsurf, Gemini CLI, and Codex. If you are specifically wiring up OpenClaw or another command-oriented browser runtime, use the dedicated <Link href="/openclaw" className="text-[#8ab4f8] hover:underline">Vibe Browser for OpenClaw</Link> page.
+                  Any MCP client that supports the Streamable HTTP transport. We provide verified remote configs for Claude Code, Codex CLI, GitHub Copilot (VS Code and CLI), Cursor, and OpenCode, plus a generic JSON contract for any other Streamable HTTP client. Prefer to run your agent on the same machine as your browser? See the <Link href="/mcp-stdio" className="text-[#8ab4f8] hover:underline">local stdio setup</Link> instead.
                 </AccordionContent>
               </AccordionItem>
 
@@ -1512,7 +1195,7 @@ Browser automation MCP and CLI package.
                   Is Vibe Browser MCP open source?
                 </AccordionTrigger>
                 <AccordionContent className="text-[#9aa0a6]">
-                  Partially. The npm package (<code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">@vibebrowser/mcp</code>) is open source on GitHub and published on npm with <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">{MCP_SERVER_BINARY}</code> and the compatibility alias <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">{MCP_COMPAT_ALIAS}</code>. The Vibe Browser extension itself is not open source. Playwright MCP (Microsoft) and Chrome DevTools MCP (Google) are fully open source under Apache-2.0. BrowserMCP is in a similar position to Vibe — their MCP server is open source, but the Chrome extension is closed-source and the monorepo cannot be built standalone.
+                  Partially. The npm package (<code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">@vibebrowser/mcp</code>) is open source on GitHub and published on npm with the <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">{MCP_SERVER_BINARY}</code> binary. The Vibe Browser extension itself is not open source. Playwright MCP (Microsoft) and Chrome DevTools MCP (Google) are fully open source under Apache-2.0. BrowserMCP is in a similar position to Vibe — their MCP server is open source, but the Chrome extension is closed-source and the monorepo cannot be built standalone.
                 </AccordionContent>
               </AccordionItem>
 
@@ -1550,10 +1233,14 @@ Browser automation MCP and CLI package.
         <section className="w-full py-20 border-t border-[#1e1e1e]">
           <div className="container max-w-3xl px-4 md:px-6 mx-auto text-center">
             <h2 className="text-2xl md:text-3xl font-normal text-[#e8eaed] mb-4">
-              Ready to connect your AI agent to your browser?
+              Ready to connect your AI agent from anywhere?
             </h2>
             <p className="text-[#9aa0a6] mb-8 max-w-xl mx-auto">
-              Install the extension, add one config block, and start automating. Free, with an open source MCP package and browser CLI.
+              Grab your relay UUID from the extension, add one config block, and go. Prefer to stay fully local?{" "}
+              <Link href="/mcp-stdio" className="text-[#8ab4f8] hover:underline">
+                Use local stdio MCP instead
+              </Link>
+              .
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -1570,8 +1257,8 @@ Browser automation MCP and CLI package.
                 </Button>
               </a>
             </div>
-            <p className="text-xs text-[#5f6368] mt-8">
-              Questions? <a href="mailto:info@vibebrowser.app" className="text-[#8ab4f8] hover:underline">info@vibebrowser.app</a> · <Link href="https://github.com/VibeTechnologies/vibe-mcp" target="_blank" className="text-[#8ab4f8] hover:underline">GitHub</Link> · <Link href="https://www.npmjs.com/package/@vibebrowser/mcp" target="_blank" className="text-[#8ab4f8] hover:underline">npm</Link>
+            <p className="text-xs text-[#9aa0a6] mt-8">
+              Questions? <a href="mailto:info@vibebrowser.app" className="text-[#8ab4f8] hover:underline">info@vibebrowser.app</a> · <Link href="https://github.com/VibeTechnologies/vibe-mcp" target="_blank" className="text-[#8ab4f8] hover:underline">GitHub</Link> · <Link href="https://www.npmjs.com/package/@vibebrowser/mcp" target="_blank" className="text-[#8ab4f8] hover:underline">npm</Link> · <Link href="/mcp-stdio" className="text-[#8ab4f8] hover:underline">Local stdio setup</Link>
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-3 text-xs">
               <Link href="/people" className="text-[#8ab4f8] hover:underline">
