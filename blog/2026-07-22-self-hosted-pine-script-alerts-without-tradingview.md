@@ -88,7 +88,7 @@ npx -y github:dzianisv/mkt-alerts add \
 
 ## How an AI agent reads and uses this
 
-The daemon exposes three interfaces, and they are not interchangeable — this is the part worth getting precise about.
+There are three ways in — MCP, HTTP, and CLI — and they are not interchangeable; this is the part worth getting precise about.
 
 mkt-alerts itself does not run its own MCP server. It shells out to the third-party `mkt` engine's MCP mode (`mkt mcp`, from [github.com/stxkxs/mkt](https://github.com/stxkxs/mkt)) for market data, and that same MCP server is what an agent connects to directly:
 
@@ -102,6 +102,8 @@ mkt-alerts itself does not run its own MCP server. It shells out to the third-pa
   }
 }
 ```
+
+`mkt` is a standalone Go binary — install it on your PATH from the [stxkxs/mkt releases](https://github.com/stxkxs/mkt/releases) for the MCP config to resolve. (The `try` command downloads `mkt` into an internal cache to run the demo; it does not put it on your PATH.)
 
 It exposes exactly four **read-only** tools: `get_quote(symbol)`, `query_history(symbol, limit)`, `get_alerts()`, `get_portfolio(name)`. There is no `set_alert`, no `get_rsi`, and no write path over MCP at all — an agent cannot create or delete an alert through it. Writing an alert goes through the CLI (`mkt-alerts add`) or the bearer-authenticated HTTP API (`POST /alerts`, `DELETE /alerts`), the same paths a human uses.
 
