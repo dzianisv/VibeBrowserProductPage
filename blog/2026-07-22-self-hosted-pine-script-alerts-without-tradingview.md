@@ -23,7 +23,7 @@ We open-sourced [mkt-alerts](https://github.com/dzianisv/mkt-alerts) to close th
 TradingView is a genuinely good charting product, and its alert engine works — for a human clicking around the UI. It breaks down for a few specific things:
 
 - **Alert quotas are a pricing lever.** Free and lower paid tiers cap active alerts and check frequency, not because of a technical limit but because that's the upsell.
-- **Custom Pine Script alerts require an active paid plan**, and the script still runs on TradingView's own servers, on their schedule.
+- **Alert counts are capped on free and lower tiers**, and Pine-based alerts still run on TradingView's own servers, on their schedule — never on your own.
 - **There's no clean write API.** An agent that just formed a thesis — "BTC broke its 200-week support" — can't create the alert itself; a person has to go add it by hand.
 - **Your data stays in their account.** No git history, no exportable audit trail of why an alert exists.
 
@@ -45,8 +45,10 @@ No signup, no API key, no manual clone. It downloads the underlying `mkt` engine
 
 Most of what you actually want is a price level with a reason attached. mkt-alerts makes you write the reason down: any `above`/`below` alert requires a `--data-source` citing the evidence for the level. It's a small piece of friction that stops "vibes" support/resistance lines from silently becoming alert rules.
 
+> Only `try` is zero-config. Every `add` command below writes to *your own* deployed instance, so it needs a running daemon and `~/.config/mkt-watch/auth.json` first — see the [repo's deploy walkthrough](https://github.com/dzianisv/mkt-alerts#deploy-your-own-always-on-instance-optional). The commands run straight from GitHub via `npx` — no npm install needed.
+
 ```bash
-mkt-alerts add \
+npx -y github:dzianisv/mkt-alerts add \
   --symbol BTC-USD \
   --condition below --value 90000 \
   --reason "Support break — invalidates bull thesis" \
@@ -73,7 +75,7 @@ plot(fast - slow, "signal")   // >0 when fast is above slow
 Save that as `golden-cross.pine` and arm it:
 
 ```bash
-npx -y @vibetechnologies/mkt-alerts add \
+npx -y github:dzianisv/mkt-alerts add \
   --symbol BTC-USD \
   --pine golden-cross.pine \
   --signal signal \
@@ -114,7 +116,7 @@ Worth being blunt about, since the honest answer is more useful than a vague one
 - **No charts, no screener, no drawing tools.** mkt-alerts is an alerting engine, not a TradingView replacement. You still want a charting platform to look at price action; this just runs the alert once you've decided the level.
 - **Built-in indicator periods are fixed.** RSI is 14, SMA-cross is 20. Anything else needs Pine Script or a precomputed price level — there's no `--rsi-period` flag.
 - **Checks run on an interval, not tick-by-tick.** The reference deployment checks every 15 minutes. Fine for swing levels and Pine conditions; not a substitute for a real-time execution feed if you're scalping.
-- **You run it.** There's a hosted demo at `mkt.agentlabs.cc`, but the model is self-hosting on your own laptop or a free-tier VM — not a managed multi-tenant SaaS.
+- **You run it.** The model is self-hosting on your own laptop or a free-tier VM — not a managed multi-tenant SaaS. There's no open public demo endpoint; the `try` command is the zero-setup way to see it work.
 
 ## Try it
 
@@ -122,4 +124,4 @@ Worth being blunt about, since the honest answer is more useful than a vague one
 npx -y github:dzianisv/mkt-alerts try
 ```
 
-That's the whole trial — no signup, no key, and it fires a real alert against a live quote. From there: `npm install -g @vibetechnologies/mkt-alerts` for the full CLI, the [GitHub repo](https://github.com/dzianisv/mkt-alerts) for source, deploy scripts, and the Pine Script skill docs, or the [product page](/agentsdata) for the MCP config and API reference in one place.
+That's the whole trial — no signup, no key, and it fires a real alert against a live quote. From there: every command runs straight from GitHub via `npx -y github:dzianisv/mkt-alerts …` (npm publish is pending, so skip `npm install` for now), the [GitHub repo](https://github.com/dzianisv/mkt-alerts) for source, deploy scripts, and the Pine Script skill docs, or the [product page](/agentsdata) for the MCP config and API reference in one place.
