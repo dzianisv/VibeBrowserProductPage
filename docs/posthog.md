@@ -70,7 +70,7 @@ PostHog is installed globally for the live product site:
 
 - `app/layout.tsx` mounts the shared analytics layer for the whole App Router tree
 - `instrumentation-client.ts` initializes `posthog-js` client-side on routed pages
-- nested layouts such as `/mcp`, `/blog/*`, `/admin/*`, `/teams`, and `/enterprise` inherit the root layout rather than replacing it
+- nested layouts such as `/mcp`, `/mcp-stdio`, `/blog/*`, `/admin/*`, `/teams`, and `/enterprise` inherit the root layout rather than replacing it
 
 Representative local verification was completed on:
 
@@ -124,8 +124,8 @@ Explicit `cta_click` coverage was added for:
 - Homepage hero install button
 - Homepage hero dropdown -> Chrome Web Store
 - Homepage hero dropdown -> Developer Version
-- MCP page header install button
-- MCP page hero install button
+- MCP page header install button (remote `/mcp` page)
+- MCP page hero install button (remote `/mcp` page)
 - Profession landing page Chrome install buttons via `ProfessionTemplate`
 - Enterprise/teams contact-sales CTAs via `EnterpriseTemplate`
 
@@ -203,7 +203,7 @@ curl -I 'https://www.vibebrowser.app/ingest/static/surveys.js?v=1.360.2'
 
 ### Check MCP page install events
 
-1. Visit `https://www.vibebrowser.app/mcp`
+1. Visit `https://www.vibebrowser.app/mcp` (hosted remote Streamable HTTP page — the CTA analytics below apply to this route; `/mcp-stdio` is a separate local-setup route with no additional instrumentation claimed here)
 2. Click the header and hero install buttons
 3. Confirm `cta_click` events with:
     - `mcp_header`

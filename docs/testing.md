@@ -39,7 +39,8 @@ node scripts/test-layout.js https://www.vibebrowser.app
 ### 2. Navigation
 
 - [ ] Logo links work
-- [ ] "MCP" link opens `/mcp`
+- [ ] "MCP" link opens `/mcp` (hosted remote Streamable HTTP page)
+- [ ] Footer "Local MCP over stdio" link opens `/mcp-stdio`
 - [ ] "CLI Users" link opens `/cli`
 - [ ] "OpenClaw" link opens `/openclaw`
 - [ ] "Pricing" anchor link scrolls to section
@@ -116,7 +117,7 @@ Check for:
 - [ ] PostHog loads (check Network tab for `us.i.posthog.com`, `/decide`, `/flags`, or `/e/` requests)
 - [ ] Custom PostHog events fire on waitlist dialog open and successful signup
 - [ ] Proxied PostHog traffic flows through first-party `/ingest/*` requests on deployed environments
-- [ ] Install CTAs emit `cta_click` events for homepage and MCP page entry points
+- [ ] Install CTAs emit `cta_click` events for homepage and MCP page entry points (MCP page entry points now refer to the remote `/mcp` page; `/mcp-stdio` is a separate route with its own content)
 - [ ] Honeycomb telemetry routes return `202` after env vars are configured:
   ```bash
   curl -i -X POST http://localhost:3000/api/telemetry/events \

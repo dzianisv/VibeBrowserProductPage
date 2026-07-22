@@ -358,7 +358,7 @@ export default function CliPage() {
                       MCP escalation path
                     </div>
                     <p className="text-sm text-[#b7c0db]">
-                      Need richer tool orchestration? Use the same package via <Link href="/mcp" className="text-[#b4b4ff] hover:text-[#d8dcff] hover:underline">/mcp setup</Link> without changing the execution layer.
+                      Need richer tool orchestration? Use the same package via <Link href="/mcp-stdio" className="text-[#b4b4ff] hover:text-[#d8dcff] hover:underline">/mcp-stdio setup</Link> without changing the execution layer.
                     </p>
                   </CardContent>
                 </Card>

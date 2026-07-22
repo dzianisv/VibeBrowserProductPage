@@ -54,7 +54,7 @@ const forPages = [
   { href: '/mom', label: 'Everyone' },
 ]
 
-const darkPages = ['/cloud', '/mcp', '/openclaw', '/cli', '/teams', '/enterprise', '/providers/ollama']
+const darkPages = ['/cloud', '/mcp', '/mcp-stdio', '/openclaw', '/cli', '/teams', '/enterprise', '/providers/ollama']
 
 export function SiteNav() {
   const pathname = usePathname()

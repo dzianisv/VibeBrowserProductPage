@@ -9,17 +9,17 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.vibebrowser.app'),
-  title: 'Vibe Browser for Agents | Hosted Remote MCP (Streamable HTTP)',
-  description: 'Connect Claude Code, Codex CLI, GitHub Copilot, Cursor, OpenCode, and other Streamable HTTP MCP clients to your real browser over a hosted relay endpoint. No local install, no port forwarding, no VPN.',
+  title: 'Vibe Browser for Agents | MCP over stdio (Local)',
+  description: 'Run vibebrowser-mcp as a local stdio process for Claude Code, Cursor, Codex, VS Code, OpenCode, Windsurf, Gemini CLI, and Claude Desktop. The MCP bridge and browser-control path stay on your machine — no Vibe internet relay involved.',
   keywords: [
     // Primary MCP keywords
     'browser mcp server',
     'browser mcp',
     'mcp browser automation',
     'model context protocol browser',
-    'remote mcp server',
-    'hosted mcp server',
-    'streamable http mcp',
+    'mcp server chrome',
+    'local mcp server',
+    'mcp stdio',
     'browser automation mcp',
 
     // Competitor / alternative keywords
@@ -30,36 +30,39 @@ export const metadata: Metadata = {
     'chrome devtools mcp alternative',
     'playwright mcp vs vibe mcp',
     'chrome devtools mcp vs vibe mcp',
-    'playwright mcp vs browser mcp',
     'best browser mcp server',
     'mcp server for chrome',
 
     // Agent-specific keywords
-    'claude code remote mcp',
-    'codex cli remote mcp',
-    'cursor remote mcp',
-    'github copilot mcp',
-    'opencode remote mcp',
-    'copilot cli mcp',
+    'claude browser control',
+    'cursor browser automation',
+    'vscode browser mcp',
+    'copilot browser control',
+    'windsurf browser mcp',
+    'opencode browser mcp',
+    'claude code browser',
+    'gemini cli browser',
 
     // Feature keywords
     'multi agent browser control',
     'mcp browser tools',
     'ai browser automation',
-    'no local mcp server',
+    'chrome extension mcp',
+    'browser mcp no debug',
     'mcp google workspace',
     'mcp gmail integration',
     'mcp credential management',
     'mcp skills library',
     'mcp secrets vault',
     'claude max mcp',
+    'github copilot mcp',
     'byok mcp',
 
     // Technical keywords
-    'relay.api.vibebrowser.app',
+    'npx vibebrowser mcp',
     '@vibebrowser/mcp',
     'vibebrowser-mcp',
-    'x-remote-session header',
+    'mcp websocket relay',
     'ai coding agent browser',
     'browser control ai agent',
 
@@ -84,24 +87,15 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://www.vibebrowser.app/mcp',
+    url: 'https://www.vibebrowser.app/mcp-stdio',
     siteName: 'Vibe Browser',
-    title: 'Vibe Browser for Agents | Hosted Remote MCP (Streamable HTTP)',
-    description: 'Hosted · Streamable HTTP. Connect any remote MCP client to your real browser — no local process, no port forwarding, no VPN.',
-    images: [
-      {
-        url: '/og/mcp.svg',
-        width: 1200,
-        height: 630,
-        alt: 'Vibe Browser for Agents — hosted remote MCP',
-      },
-    ],
+    title: 'Vibe Browser for Agents | MCP over stdio (Local)',
+    description: 'Local · stdio process. Run vibebrowser-mcp next to Claude Code, Cursor, Codex, VS Code, OpenCode, and other MCP clients — the MCP bridge stays on your machine, no Vibe internet relay involved.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Vibe Browser for Agents | Hosted Remote MCP (Streamable HTTP)',
-    description: 'Hosted · Streamable HTTP. Connect any remote MCP client to your real browser from anywhere.',
-    images: ['/og/mcp.svg'],
+    title: 'Vibe Browser for Agents | MCP over stdio (Local)',
+    description: 'Local · stdio process. No Vibe internet relay involved.',
     creator: '@vibebrowserapp',
   },
   robots: {
@@ -116,21 +110,22 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: 'https://www.vibebrowser.app/mcp',
+    canonical: 'https://www.vibebrowser.app/mcp-stdio',
   },
   category: 'technology',
   classification: 'Developer Tools',
 }
 
-// JSON-LD Structured Data
+// JSON-LD Structured Data — distinct from /mcp's (app/mcp/layout.tsx): this
+// route is the local-process stdio guide, not the hosted remote endpoint.
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
   name: 'Vibe Browser for Agents',
   applicationCategory: 'DeveloperApplication',
   operatingSystem: 'Chrome, macOS, Windows, Linux',
-  description: 'Hosted remote MCP endpoint (Streamable HTTP) that exposes your real browser to AI agents over the internet — no local process required.',
-  url: 'https://www.vibebrowser.app/mcp',
+  description: 'Local stdio MCP process (vibebrowser-mcp) that exposes your real browser to AI agents over localhost only. Published npm package: @vibebrowser/mcp.',
+  url: 'https://www.vibebrowser.app/mcp-stdio',
   downloadUrl: 'https://www.npmjs.com/package/@vibebrowser/mcp',
   installUrl: 'https://docs.vibebrowser.app/getting-started/extension',
   author: {
@@ -142,11 +137,11 @@ const jsonLd = {
     '@type': 'Offer',
     price: '0',
     priceCurrency: 'USD',
-    description: 'Free hosted MCP endpoint for browser automation',
+    description: 'Free local MCP process for browser automation',
   },
   featureList: [
-    'Hosted Streamable HTTP MCP endpoint — no local process',
-    'Multi-agent simultaneous browser control',
+    'Local stdio MCP process — bridge and browser-control path stay on your machine',
+    'Multi-agent simultaneous browser control via a local relay daemon',
     '25+ browser automation and workspace tools',
     'Google Workspace integration (Gmail, Calendar)',
     'Skills library for reusable workflows',
@@ -154,11 +149,9 @@ const jsonLd = {
     'Password fill tool that hides secrets from the LLM',
     'No Chrome debug permissions required',
     'Markdown-indexed page content',
-    'Sub-agent orchestration',
-    'Parallel tool execution',
-    'Index-based interaction for low token usage',
+    'Optional --remote flag to reach a browser on another machine via the Vibe internet relay',
   ],
-  softwareRequirements: 'Chrome browser',
+  softwareRequirements: 'Chrome browser, Node.js',
   softwareHelp: {
     '@type': 'CreativeWork',
     url: 'https://docs.vibebrowser.app/mcp-integration',
@@ -184,9 +177,9 @@ const organizationJsonLd = {
   ],
 }
 
-// FAQPage entries mirror the remote-focused subset visible on /mcp (see
-// app/mcp/page.tsx's FAQ section) — the local-stdio subset lives in
-// app/mcp-stdio/layout.tsx instead, so the two routes never ship duplicate
+// FAQPage entries mirror the local-only subset visible on /mcp-stdio (see
+// app/mcp-stdio/page.tsx's FAQ section) — the remote-focused subset lives in
+// app/mcp/layout.tsx instead, so the two routes never ship duplicate
 // FAQPage structured data.
 const faqJsonLd = {
   '@context': 'https://schema.org',
@@ -194,26 +187,10 @@ const faqJsonLd = {
   mainEntity: [
     {
       '@type': 'Question',
-      name: 'How is Vibe Browser MCP different from Playwright MCP, Chrome DevTools MCP, and BrowserMCP?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Playwright MCP and Chrome DevTools MCP launch a separate browser by default. Playwright MCP can connect to your existing browser either through its Chrome extension mode or through an explicit --cdp-endpoint when Chrome remote debugging is already enabled, but that is still manual setup and it still lacks multi-agent support, Google Workspace tools, credential vault, and sub-agent orchestration. Chrome DevTools MCP requires --remote-debugging-port and sends telemetry to Google. BrowserMCP is a Chrome extension like Vibe but only supports a single agent, has ~13 tools, and its extension is closed-source. Vibe Browser MCP supports multiple agents simultaneously, offers 25+ tools, includes Google Workspace integration, a credential vault, sub-agent orchestration, and uses indexed markdown snapshots for lower token usage.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: "I don't want my browser traffic to touch the internet — what should I use instead?",
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Use local stdio MCP — it runs as a process on your machine and never sends browser-control traffic over the internet. See vibebrowser.app/mcp-stdio.',
-      },
-    },
-    {
-      '@type': 'Question',
       name: 'Can multiple AI agents control the browser at the same time?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: "Yes. Each agent sends its own X-Remote-Session header value to the hosted endpoint independently — there's no local daemon or port to share, so multiple direct HTTP clients (or a mix of direct HTTP and local stdio agents) can drive the browser without conflicting.",
+        text: 'Yes. Vibe MCP uses a relay daemon architecture where multiple AI clients (Claude, Cursor, VS Code, etc.) connect via their own stdio MCP bridge to a shared local relay on port 19888, which forwards requests to the Vibe extension on port 19889. Each agent operates independently without conflicts.',
       },
     },
     {
@@ -226,10 +203,10 @@ const faqJsonLd = {
     },
     {
       '@type': 'Question',
-      name: 'What AI agents work with Vibe Browser MCP over the hosted remote endpoint?',
+      name: 'Can I point my local bridge at a browser on another machine?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Any MCP client that supports the Streamable HTTP transport. Verified remote configs are published for Claude Code, Codex CLI, GitHub Copilot (VS Code and CLI), Cursor, and OpenCode, plus a generic JSON contract for any other Streamable HTTP client.',
+        text: 'Yes, optionally. The same local vibebrowser-mcp bridge can add a --remote <uuid> flag to dial out to a browser on another machine through the relay, instead of talking to a browser on this machine. It is still a local process. That includes OpenClaw-style remote flows; see the dedicated OpenClaw page for that command-oriented setup.',
       },
     },
     {
@@ -258,10 +235,10 @@ const faqJsonLd = {
     },
     {
       '@type': 'Question',
-      name: 'Why does it matter that Vibe uses my real browser?',
+      name: 'Can Vibe Browser MCP also work as a standalone browser?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Playwright MCP and Chrome DevTools MCP launch a fresh, separate browser by default with no sessions, cookies, or extensions. Vibe Browser MCP connects directly to the browser you are already using with zero configuration, so agents can interact with Gmail, Slack, GitHub, Jira, or any logged-in site without re-authenticating.',
+        text: 'Yes. Unlike Browser MCP which is MCP-only, Vibe also functions as a standalone AI co-pilot directly in your browser. Click the extension icon to chat, automate tasks, and get AI assistance — no external agent required.',
       },
     },
   ],
@@ -270,30 +247,30 @@ const faqJsonLd = {
 const howToJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'HowTo',
-  name: 'How to connect an AI agent to Vibe Browser over the hosted remote MCP endpoint',
-  description: 'Connect any Streamable HTTP MCP client to your real browser using the hosted relay.api.vibebrowser.app endpoint — no local process required.',
+  name: 'How to set up Vibe Browser for Agents locally (stdio)',
+  description: 'Connect your AI coding agent to your browser using the local vibebrowser-mcp stdio process in under 2 minutes.',
   step: [
     {
       '@type': 'HowToStep',
       name: 'Install the Vibe Browser extension',
-      text: 'Install the Vibe AI Browser extension from the Chrome Web Store or developer docs.',
+      text: 'Install the Vibe AI Browser extension from the Chrome Web Store or developer docs and enable AI Agent Control in Settings. Local is the default connection mode.',
       url: 'https://docs.vibebrowser.app/getting-started/extension',
     },
     {
       '@type': 'HowToStep',
-      name: 'Turn on external AI agent control and select Remote (internet)',
-      text: 'Click the Vibe extension icon, open Settings, go to AI Agent Control, turn on Enable external AI agent control, select Remote (internet) as the connection mode, then copy the UUID/relay URL shown under Relay access.',
+      name: 'Add vibebrowser-mcp to your AI client',
+      text: 'Add {"mcpServers":{"vibe":{"command":"npx","args":["-y","-p","@vibebrowser/mcp@latest","vibebrowser-mcp"]}}} to your AI client\'s MCP configuration file.',
     },
     {
       '@type': 'HowToStep',
-      name: 'Point your MCP client at the hosted endpoint',
-      text: 'Add {"mcpServers":{"vibebrowser":{"type":"http","url":"https://relay.api.vibebrowser.app/mcp","headers":{"X-Remote-Session":"<uuid>"}}}} to your AI client\'s MCP configuration — sent as an HTTP header, never in the URL.',
+      name: 'Confirm the local connection',
+      text: 'The vibebrowser-mcp process talks to the Vibe extension over localhost only — no internet relay, no bearer credential leaves your machine.',
     },
   ],
   totalTime: 'PT2M',
 }
 
-export default function McpLayout({
+export default function McpStdioLayout({
   children,
 }: {
   children: React.ReactNode

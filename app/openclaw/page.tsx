@@ -209,7 +209,7 @@ export default function OpenClawPage() {
                   <CardContent className="p-6">
                     <h3 className="mb-3 text-lg font-medium text-[#f0f4ff]">What this page is for</h3>
                     <p className="text-sm text-[#b7c0db]">
-                      Use this route when you want OpenClaw-first command workflows. If you need a broader CLI positioning for non-OpenClaw runtimes, use <Link href="/cli" className="text-[#b4b4ff] hover:text-[#d8dcff] hover:underline">/cli</Link>. For JSON MCP config blocks (Claude Code, Codex, Cursor, VS Code), use <Link href="/mcp" className="text-[#b4b4ff] hover:text-[#d8dcff] hover:underline">Vibe Browser for Agents</Link>.
+                      Use this route when you want OpenClaw-first command workflows. If you need a broader CLI positioning for non-OpenClaw runtimes, use <Link href="/cli" className="text-[#b4b4ff] hover:text-[#d8dcff] hover:underline">/cli</Link>. For JSON MCP config blocks (Claude Code, Codex, Cursor, VS Code), use <Link href="/mcp-stdio" className="text-[#b4b4ff] hover:text-[#d8dcff] hover:underline">Vibe Browser for Agents</Link>.
                     </p>
                   </CardContent>
                 </Card>
