@@ -88,7 +88,7 @@ export const metadata: Metadata = {
       'Check status, read snapshots, and act on your real logged-in Chrome through the Vibe Browser relay using a small npx command surface.',
     images: [
       {
-        url: '/og/mcp',
+        url: '/og/home',
         width: 1200,
         height: 630,
         alt: 'Vibe Browser CLI',
@@ -100,7 +100,7 @@ export const metadata: Metadata = {
     title: 'Vibe Browser CLI for Any Agent Runtime | @vibebrowser/cli',
     description:
       'A small npx command surface for status, snapshots, and actions against your real logged-in Chrome via the Vibe Browser relay.',
-    images: ['/og/mcp'],
+    images: ['/og/home'],
     creator: '@vibebrowserapp',
   },
 }

@@ -4,6 +4,140 @@ import { renderBlogIndexSocialImage } from '@/lib/blog-social-image'
 type OgImageDesign = () => ReactElement
 
 export const ogImageDesigns: Record<string, OgImageDesign> = {
+  home: () => (
+    <div
+      style={{
+        background: 'radial-gradient(circle at 18% 20%, rgba(138, 180, 248, 0.20), transparent 28%), radial-gradient(circle at 82% 16%, rgba(158, 158, 255, 0.18), transparent 30%), linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%)',
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '60px 80px',
+        position: 'relative',
+      }}
+    >
+      {/* Subtle grid pattern overlay */}
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundImage: 'linear-gradient(rgba(138, 180, 248, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(138, 180, 248, 0.03) 1px, transparent 1px)',
+          backgroundSize: '40px 40px',
+        }}
+      />
+
+      {/* Top badge */}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          background: 'rgba(138, 180, 248, 0.1)',
+          border: '1px solid rgba(138, 180, 248, 0.2)',
+          borderRadius: '20px',
+          padding: '8px 20px',
+          marginBottom: '32px',
+        }}
+      >
+        <span style={{ color: '#8ab4f8', fontSize: '18px', fontWeight: 600 }}>
+          Vibe Browser
+        </span>
+      </div>
+
+      {/* Main title */}
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '8px',
+        }}
+      >
+        <span
+          style={{
+            fontSize: '56px',
+            fontWeight: 400,
+            color: '#e8eaed',
+            textAlign: 'center',
+            lineHeight: 1.2,
+          }}
+        >
+          Real Browser
+        </span>
+        <span
+          style={{
+            fontSize: '56px',
+            fontWeight: 400,
+            color: '#8ab4f8',
+            textAlign: 'center',
+            lineHeight: 1.2,
+          }}
+        >
+          AI Automation
+        </span>
+      </div>
+
+      {/* Subtitle */}
+      <span
+        style={{
+          fontSize: '22px',
+          color: '#9aa0a6',
+          marginTop: '24px',
+          textAlign: 'center',
+          maxWidth: '820px',
+        }}
+      >
+        AI automation for your real, logged-in browser sessions
+      </span>
+
+      {/* Feature chips */}
+      <div
+        style={{
+          display: 'flex',
+          gap: '16px',
+          marginTop: '40px',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+        }}
+      >
+        {['Real logged-in sessions', 'MCP access', 'Reusable skills'].map((feature) => (
+          <div
+            key={feature}
+            style={{
+              background: 'rgba(255, 255, 255, 0.05)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              borderRadius: '8px',
+              padding: '6px 16px',
+              color: '#9aa0a6',
+              fontSize: '16px',
+            }}
+          >
+            {feature}
+          </div>
+        ))}
+      </div>
+
+      {/* Bottom bar */}
+      <div
+        style={{
+          position: 'absolute',
+          bottom: '32px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px',
+        }}
+      >
+        <span style={{ color: '#9aa0a6', fontSize: '16px' }}>vibebrowser.app</span>
+        <span style={{ color: '#3c4043' }}>|</span>
+        <span style={{ color: '#8ab4f8', fontSize: '16px', fontFamily: 'monospace' }}>Vibe Co-Pilot</span>
+      </div>
+    </div>
+  ),
   amazon: () => (
     <div
       style={{

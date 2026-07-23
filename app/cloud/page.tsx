@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     url: 'https://www.vibebrowser.app/cloud',
     images: [
       {
-        url: '/og/mcp',
+        url: '/og/home',
         width: 1200,
         height: 630,
         alt: 'VibeBrowser Cloud — Cloud Browser MCP for AI Agents',
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     title: 'VibeBrowser Cloud — Cloud Browser MCP for AI Agents | $9/mo',
     description:
       'Connect Claude, Copilot, or Gemini to a real cloud browser in one command. Pre-authenticated, markdown output, $9/mo.',
-    images: ['/og/mcp'],
+    images: ['/og/home'],
     creator: '@vibebrowserapp',
   },
 }

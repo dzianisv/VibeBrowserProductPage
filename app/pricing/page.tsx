@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     url: 'https://www.vibebrowser.app/pricing',
     images: [
       {
-        url: '/og/mcp',
+        url: '/og/home',
         width: 1200,
         height: 630,
         alt: 'VibeBrowser Co-Pilot Pricing',
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     title: 'Pricing — VibeBrowser Co-Pilot',
     description:
       'Free tier with unlimited local AI. Pro $25/mo. Max $99/mo. No credit card required to start.',
-    images: ['/og/mcp'],
+    images: ['/og/home'],
     creator: '@vibebrowserapp',
   },
 }

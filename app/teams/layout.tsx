@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     url: 'https://www.vibebrowser.app/teams',
     images: [
       {
-        url: '/og/mcp',
+        url: '/og/home',
         width: 1200,
         height: 630,
         alt: 'Vibe Browser for Teams',
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     title: 'Vibe Browser for Teams',
     description:
       'Shared AI browser automation with Google Workspace, MCP agent access, skills, and a secrets vault.',
-    images: ['/og/mcp'],
+    images: ['/og/home'],
     creator: '@vibebrowserapp',
   },
 }
