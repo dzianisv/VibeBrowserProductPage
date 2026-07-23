@@ -73,7 +73,7 @@ export function PricingSection() {
               <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-left">
                 <h4 className="text-xl font-bold mb-2">Free</h4>
                 <p className="text-sm opacity-90 mb-1">Perfect for getting started</p>
-                <p className="text-xs opacity-75 mb-4">Includes $1/day cloud AI usage (resets daily)</p>
+                <p className="text-xs opacity-75 mb-4">Cloud AI usage cap: $1/day (resets daily at midnight UTC)</p>
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
@@ -101,7 +101,7 @@ export function PricingSection() {
                 </div>
                 <p className="text-sm opacity-90 mb-1"><span className="text-2xl font-bold">$25</span>/month</p>
                 <p className="text-xs opacity-75 mb-1">Advanced AI models</p>
-                <p className="text-xs opacity-75 mb-4">Includes $25/month cloud AI usage (resets every 30 days)</p>
+                <p className="text-xs opacity-75 mb-4">Cloud AI usage cap: $25/mo (resets on the 1st of each month, UTC)</p>
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
@@ -134,7 +134,7 @@ export function PricingSection() {
                 <h4 className="text-xl font-bold mb-2">Max</h4>
                 <p className="text-sm opacity-90 mb-1"><span className="text-2xl font-bold">$99</span>/month</p>
                 <p className="text-xs opacity-75 mb-1">Premium AI with reasoning</p>
-                <p className="text-xs opacity-75 mb-4">Includes $99/month cloud AI usage (resets every 30 days)</p>
+                <p className="text-xs opacity-75 mb-4">Cloud AI usage cap: $99/mo (resets on the 1st of each month, UTC)</p>
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
@@ -164,7 +164,7 @@ export function PricingSection() {
               </div>
             </div>
             <p className="text-xs opacity-75 text-center mt-6 max-w-3xl mx-auto">
-              Cloud AI usage budgets cover metered calls to hosted models (OpenAI, xAI, DeepSeek, etc.) and reset on the schedule shown above. On-device AI (Gemini Nano) usage is unlimited on every tier and never counts against your budget.
+              Cloud AI usage caps cover metered calls to hosted models (OpenAI, xAI, DeepSeek, etc.) and are a separate spend limit from your subscription price. They reset at a fixed UTC clock time — daily at midnight for Free, on the 1st of the month for Pro and Max — not on a rolling window from your signup or billing date. On-device AI (Gemini Nano) usage is unlimited on every tier and never counts against your cap.
             </p>
           </div>
         </div>

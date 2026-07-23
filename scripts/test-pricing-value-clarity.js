@@ -37,28 +37,46 @@ function assert(name, condition) {
 
 // a. Free tier budget line
 assert(
-  'Free tier shows $1/day cloud AI budget that resets daily',
+  'Free tier shows $1/day cloud AI usage cap that resets daily at midnight UTC',
   pricingSection.includes('$1/day') &&
-    pricingSection.includes('Includes $1/day cloud AI usage (resets daily)')
+    pricingSection.includes('Cloud AI usage cap: $1/day (resets daily at midnight UTC)')
 )
 
 // b. Pro tier budget line (distinct from the $25 price line)
 assert(
-  'Pro tier shows Includes $25/month cloud AI usage budget line',
-  pricingSection.includes('Includes $25/month cloud AI usage (resets every 30 days)')
+  'Pro tier shows $25/mo cloud AI usage cap resetting on the 1st of each month (UTC)',
+  pricingSection.includes('Cloud AI usage cap: $25/mo (resets on the 1st of each month, UTC)')
 )
 
 // c. Max tier budget line
 assert(
-  'Max tier shows Includes $99/month cloud AI usage budget line',
-  pricingSection.includes('Includes $99/month cloud AI usage (resets every 30 days)')
+  'Max tier shows $99/mo cloud AI usage cap resetting on the 1st of each month (UTC)',
+  pricingSection.includes('Cloud AI usage cap: $99/mo (resets on the 1st of each month, UTC)')
+)
+
+// c2. "resets on the 1st of each month" appears exactly twice (Pro + Max)
+assert(
+  '"resets on the 1st of each month" appears twice (Pro and Max)',
+  (pricingSection.match(/resets on the 1st of each month/g) || []).length === 2
 )
 
 // d. On-device/local-AI footnote
 assert(
-  'Footnote clarifies on-device AI never counts against your budget',
-  pricingSection.includes('never counts against your budget') &&
+  'Footnote clarifies on-device AI never counts against your cap',
+  pricingSection.includes('never counts against your cap') &&
     pricingSection.includes('Gemini Nano')
+)
+
+// d2. Footnote makes the fixed-clock (not rolling window) reset explicit
+assert(
+  'Footnote states caps reset on a fixed clock, not a rolling window from signup/billing',
+  pricingSection.includes('not on a rolling window from your signup or billing date')
+)
+
+// d3. Footnote separates usage cap from subscription price
+assert(
+  'Footnote establishes usage cap is separate from subscription price',
+  pricingSection.includes('separate spend limit from your subscription price')
 )
 
 // e. Literal CWS URL
