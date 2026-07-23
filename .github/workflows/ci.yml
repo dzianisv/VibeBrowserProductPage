@@ -31,6 +31,16 @@ jobs:
       # so it doesn't need the build.
       - run: node scripts/test-pricing-value-clarity.js
       - run: npm run build
+      # Regression guard for the shared /og/[key] image route
+      # (app/og/[key]/route.tsx + lib/og-image-designs.tsx) introduced by the
+      # Vercel-function-budget consolidation. Statically verifies every
+      # /og/<key> reference under app/ and shared/ resolves to a real design
+      # key (catches typos/removed keys), then spawns `next start` and
+      # verifies every real key serves a valid 1200x630 PNG while
+      # prototype-chain keys (`constructor`, `toString`, `__proto__`, ...)
+      # and unknown keys get a clean, non-year-cached 404 instead of a 500 or
+      # a meaningless 200. Only needs Node's built-in fetch, no browser.
+      - run: node scripts/test-og-image-routing.cjs
 
   agentlabs:
     runs-on: ubuntu-latest
@@ -123,3 +133,30 @@ jobs:
       # present, not hidden, and scrollable into view. Exits non-zero on any
       # failed assertion, which fails this required check.
       - run: node scripts/test-pricing-responsive.cjs
+
+  vercel-function-budget:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          lfs: true
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22'
+          cache: 'npm'
+      - run: npm ci
+      # Guard against the Vercel Hobby-plan 12-Serverless-Function limit
+      # regressing (a `next` bump once broke opengraph-image/twitter-image
+      # metadata-route dedup, ballooning real functions 5 -> 21 and hard-failing
+      # every prod deploy). Builds the production deployment and counts the real
+      # (non-symlink) *.func bundles. On PRs without VERCEL_TOKEN it SKIPs the
+      # network build cleanly, but the deterministic self-test of the counting
+      # logic always runs. Exits non-zero if the real count exceeds 12.
+      - run: node scripts/check-vercel-function-budget.cjs
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}

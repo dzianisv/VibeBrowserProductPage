@@ -43,6 +43,17 @@ jobs:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
+      # Fail BEFORE any deploy/spend if the prebuilt output exceeds the Vercel
+      # Hobby-plan 12-Serverless-Function limit. Reuses the .vercel/output from
+      # the preceding Build step (--skip-build) instead of rebuilding, counting
+      # the real (non-symlink) *.func bundles. This ordering is deliberate: a
+      # future dedup regression must fail here, not surface as an opaque deploy.
+      - name: Check Vercel function budget
+        run: node scripts/check-vercel-function-budget.cjs --skip-build
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
       - name: Deploy prebuilt
         id: deploy
         run: |

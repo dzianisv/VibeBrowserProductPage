@@ -30,10 +30,11 @@ export const metadata: Metadata = {
     description: 'Command-oriented browser control for OpenClaw-style workflows using vibebrowser-cli and your real logged-in browser session.',
     images: [
       {
-        url: '/openclaw/opengraph-image',
+        url: '/og/openclaw',
         width: 1200,
         height: 630,
-        alt: 'Vibe Browser for OpenClaw',
+        alt: 'Vibe Browser for OpenClaw - Real Browser CLI',
+        type: 'image/png',
       },
     ],
   },
@@ -41,7 +42,15 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Vibe Browser for OpenClaw | Real Browser CLI',
     description: 'Command-oriented browser control for OpenClaw-style workflows using vibebrowser-cli.',
-    images: ['/openclaw/twitter-image'],
+    images: [
+      {
+        url: '/og/openclaw-twitter',
+        width: 1200,
+        height: 630,
+        alt: 'Vibe Browser for OpenClaw - Real Browser CLI',
+        type: 'image/png',
+      },
+    ],
     creator: '@vibebrowserapp',
   },
   alternates: {

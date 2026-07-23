@@ -40,3 +40,6 @@ tmp/
 
 # Ephemeral self-signed cert for scripts/test-install-nonce.cjs apex->www TLS proxy
 .test-tls/
+
+# Ephemeral scratch tree for scripts/check-vercel-function-budget.cjs self-test
+.vercel-budget-selftest-scratch/

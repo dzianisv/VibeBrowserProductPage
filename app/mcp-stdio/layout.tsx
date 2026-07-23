@@ -91,11 +91,29 @@ export const metadata: Metadata = {
     siteName: 'Vibe Browser',
     title: 'Vibe Browser for Agents | MCP over stdio (Local)',
     description: 'Local · stdio process. Run vibebrowser-mcp next to Claude Code, Cursor, Codex, VS Code, OpenCode, and other MCP clients — the MCP bridge stays on your machine, no Vibe internet relay involved.',
+    images: [
+      {
+        url: '/og/mcp-stdio',
+        width: 1200,
+        height: 630,
+        alt: 'Vibe Browser for Agents - MCP over stdio (Local)',
+        type: 'image/png',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Vibe Browser for Agents | MCP over stdio (Local)',
     description: 'Local · stdio process. No Vibe internet relay involved.',
+    images: [
+      {
+        url: '/og/mcp-stdio-twitter',
+        width: 1200,
+        height: 630,
+        alt: 'Vibe Browser for Agents - MCP over stdio (Local)',
+        type: 'image/png',
+      },
+    ],
     creator: '@vibebrowserapp',
   },
   robots: {
