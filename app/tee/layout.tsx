@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     type: 'article',
     images: [
       {
-        url: '/og/tee.svg',
+        url: '/og/mcp',
         width: 1200,
         height: 630,
         alt: 'Privacy-Preserving LLM Inference with Hardware-Attested TEEs — Vibe Technologies Whitepaper',
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     title: 'TEE Security Whitepaper — Privacy-Preserving LLM Inference',
     description:
       'Open-source infrastructure for LLM inference in Intel TDX TEEs with remote attestation. 12 tok/s CPU, 150+ tok/s GPU projected.',
-    images: ['/og/tee.svg'],
+    images: ['/og/mcp'],
     creator: '@vibebrowserapp',
   },
 }
@@ -82,10 +82,10 @@ const articleJsonLd = {
     url: 'https://www.vibebrowser.app',
     logo: {
       '@type': 'ImageObject',
-      url: 'https://www.vibebrowser.app/og/home.svg',
+      url: 'https://www.vibebrowser.app/og/mcp',
     },
   },
-  image: 'https://www.vibebrowser.app/og/tee.svg',
+  image: 'https://www.vibebrowser.app/og/mcp',
   mainEntityOfPage: {
     '@type': 'WebPage',
     '@id': 'https://www.vibebrowser.app/tee',

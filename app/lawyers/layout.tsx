@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/og/lawyers.svg',
+        url: '/og/mcp',
         width: 1200,
         height: 630,
         alt: 'Vibe Co-Pilot for Lawyers',
