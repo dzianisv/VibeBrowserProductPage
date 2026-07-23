@@ -31,6 +31,16 @@ jobs:
       # so it doesn't need the build.
       - run: node scripts/test-pricing-value-clarity.js
       - run: npm run build
+      # Regression guard for the shared /og/[key] image route
+      # (app/og/[key]/route.tsx + lib/og-image-designs.tsx) introduced by the
+      # Vercel-function-budget consolidation. Statically verifies every
+      # /og/<key> reference under app/ and shared/ resolves to a real design
+      # key (catches typos/removed keys), then spawns `next start` and
+      # verifies every real key serves a valid 1200x630 PNG while
+      # prototype-chain keys (`constructor`, `toString`, `__proto__`, ...)
+      # and unknown keys get a clean, non-year-cached 404 instead of a 500 or
+      # a meaningless 200. Only needs Node's built-in fetch, no browser.
+      - run: node scripts/test-og-image-routing.cjs
 
   agentlabs:
     runs-on: ubuntu-latest

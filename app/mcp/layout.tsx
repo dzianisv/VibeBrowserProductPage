@@ -93,7 +93,8 @@ export const metadata: Metadata = {
         url: '/og/mcp',
         width: 1200,
         height: 630,
-        alt: 'Vibe Browser for Agents — hosted remote MCP',
+        alt: 'Vibe Browser for Agents - Hosted Remote MCP (Streamable HTTP)',
+        type: 'image/png',
       },
     ],
   },
@@ -101,7 +102,15 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Vibe Browser for Agents | Hosted Remote MCP (Streamable HTTP)',
     description: 'Hosted · Streamable HTTP. Connect any remote MCP client to your real browser from anywhere.',
-    images: ['/og/mcp-twitter'],
+    images: [
+      {
+        url: '/og/mcp-twitter',
+        width: 1200,
+        height: 630,
+        alt: 'Vibe Browser for Agents - Hosted Remote MCP (Streamable HTTP)',
+        type: 'image/png',
+      },
+    ],
     creator: '@vibebrowserapp',
   },
   robots: {

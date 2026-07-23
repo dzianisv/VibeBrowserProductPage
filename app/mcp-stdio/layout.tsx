@@ -97,6 +97,7 @@ export const metadata: Metadata = {
         width: 1200,
         height: 630,
         alt: 'Vibe Browser for Agents - MCP over stdio (Local)',
+        type: 'image/png',
       },
     ],
   },
@@ -104,7 +105,15 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Vibe Browser for Agents | MCP over stdio (Local)',
     description: 'Local · stdio process. No Vibe internet relay involved.',
-    images: ['/og/mcp-stdio-twitter'],
+    images: [
+      {
+        url: '/og/mcp-stdio-twitter',
+        width: 1200,
+        height: 630,
+        alt: 'Vibe Browser for Agents - MCP over stdio (Local)',
+        type: 'image/png',
+      },
+    ],
     creator: '@vibebrowserapp',
   },
   robots: {

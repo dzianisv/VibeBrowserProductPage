@@ -25,6 +25,7 @@ export const metadata: Metadata = {
         width: 1200,
         height: 630,
         alt: 'Vibe Browser + Ollama - Private Local AI',
+        type: 'image/png',
       },
     ],
   },
@@ -33,7 +34,15 @@ export const metadata: Metadata = {
     title: 'Ollama — Private Local AI | Vibe Co-Pilot',
     description:
       'Run Vibe Browser with 100% private, local models via Ollama. Zero data leaves your machine.',
-    images: ['/og/ollama'],
+    images: [
+      {
+        url: '/og/ollama',
+        width: 1200,
+        height: 630,
+        alt: 'Vibe Browser + Ollama - Private Local AI',
+        type: 'image/png',
+      },
+    ],
     creator: '@vibebrowserapp',
   },
   alternates: {
