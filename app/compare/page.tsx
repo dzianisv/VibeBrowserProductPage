@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     url: 'https://www.vibebrowser.app/compare',
     images: [
       {
-        url: '/og/mcp',
+        url: '/og/home',
         width: 1200,
         height: 630,
         alt: 'Vibe AI Browser Comparison',
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     title: 'AI Browser Comparison: Vibe vs Atlas, Comet, Claude for Chrome',
     description:
       'Research-based comparison across automation capability, architecture, and deployment model.',
-    images: ['/og/mcp'],
+    images: ['/og/home'],
     creator: '@vibebrowserapp',
   },
 }

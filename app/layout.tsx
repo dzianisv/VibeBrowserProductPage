@@ -73,7 +73,7 @@ export const metadata: Metadata = {
       'AI browser automation for real logged-in browser sessions with MCP access, Google Workspace tools, and reusable skills.',
     images: [
       {
-        url: '/og/mcp',
+        url: '/og/home',
         width: 1200,
         height: 630,
         alt: 'Vibe Browser - AI Browser Co-Pilot',
@@ -85,7 +85,7 @@ export const metadata: Metadata = {
     title: 'Vibe Co-Pilot | Real Browser AI Automation',
     description:
       'AI browser automation for real logged-in browser sessions with MCP access, Google Workspace tools, and reusable skills.',
-    images: ['/og/mcp'],
+    images: ['/og/home'],
     creator: '@vibebrowserapp',
   },
   robots: {

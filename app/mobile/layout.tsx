@@ -17,7 +17,7 @@ export const metadata: Metadata = {
       'The phone-native way to launch, chat with, and control your own managed OpenClaw instance — no Mac mini, no home server, no remote-desktop ritual.',
     images: [
       {
-        url: '/og/mcp',
+        url: '/og/home',
         width: 1200,
         height: 630,
         alt: 'OpenClaw Mobile',
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     title: 'OpenClaw Mobile | Your Personal OpenClaw in Your Pocket',
     description:
       'Launch, chat with, and control your own managed OpenClaw instance from your phone — no Mac mini, no home server required.',
-    images: ['/og/mcp'],
+    images: ['/og/home'],
     creator: '@vibebrowserapp',
   },
 }
