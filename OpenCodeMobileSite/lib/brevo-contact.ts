@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const sourcePattern = /^[a-z0-9-]{1,64}$/
 
 type Options = {
   label: string
@@ -21,6 +22,16 @@ export async function addBrevoContact(request: Request, options: Options) {
   if (!email || email.length > 254 || !emailPattern.test(email)) {
     return NextResponse.json({ error: 'Enter a valid email address.' }, { status: 400 })
   }
+
+  const rawSource = (
+    typeof body === 'object'
+    && body !== null
+    && 'source' in body
+    && typeof body.source === 'string'
+  )
+    ? body.source.trim()
+    : ''
+  const source = sourcePattern.test(rawSource) ? rawSource : 'website'
 
   const key = process.env.BREVO_API_KEY
   const list = Number.parseInt(options.listId ?? '', 10)
@@ -44,6 +55,7 @@ export async function addBrevoContact(request: Request, options: Options) {
       email,
       listIds: [list],
       updateEnabled: true,
+      attributes: { SOURCE: source },
     }),
     cache: 'no-store',
   }).catch((error: unknown) => {
