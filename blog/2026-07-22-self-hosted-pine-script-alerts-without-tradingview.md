@@ -88,26 +88,26 @@ npx -y github:dzianisv/mkt-alerts add \
 
 ## How an AI agent reads and uses this
 
-There are three ways in — MCP, HTTP, and CLI — and they are not interchangeable; this is the part worth getting precise about.
+There are three ways in — MCP, HTTP, and CLI. The one worth getting precise about is MCP, because there are two different MCP surfaces.
 
-mkt-alerts itself does not run its own MCP server. It shells out to the third-party `mkt` engine's MCP mode (`mkt mcp`, from [github.com/stxkxs/mkt](https://github.com/stxkxs/mkt)) for market data, and that same MCP server is what an agent connects to directly:
+The primary one is mkt-alerts' **own** stdio MCP server, and it is **read/write** — an agent can list, create, and remove alerts through it:
 
 ```json
 {
   "mcpServers": {
-    "mkt": {
-      "command": "mkt",
-      "args": ["mcp"]
+    "mkt-alerts": {
+      "command": "npx",
+      "args": ["-y", "github:dzianisv/mkt-alerts", "mcp"]
     }
   }
 }
 ```
 
-`mkt` is a standalone Go binary — install it on your PATH from the [stxkxs/mkt releases](https://github.com/stxkxs/mkt/releases) for the MCP config to resolve. (The `try` command downloads `mkt` into an internal cache to run the demo; it does not put it on your PATH.)
+It exposes `list_alerts`, `add_alert`, and `remove_alert` — so an agent that just formed a thesis can set the alert itself, no human in the loop. The CLI (`npx -y github:dzianisv/mkt-alerts add`) and the bearer-authenticated HTTP API (`POST /alerts`, `DELETE /alerts/:id`) manage the same alerts, the same way a human does.
 
-It exposes exactly four **read-only** tools: `get_quote(symbol)`, `query_history(symbol, limit)`, `get_alerts()`, `get_portfolio(name)`. There is no `set_alert`, no `get_rsi`, and no write path over MCP at all — an agent cannot create or delete an alert through it. Writing an alert goes through the CLI (`mkt-alerts add`) or the bearer-authenticated HTTP API (`POST /alerts`, `DELETE /alerts`), the same paths a human uses.
+There's also an **optional, third-party** companion: the `mkt` Go binary ([github.com/stxkxs/mkt](https://github.com/stxkxs/mkt)) exposes a separate **read-only** MCP (`mkt mcp`) with four market-data tools — `get_quote`, `query_history`, `get_alerts`, `get_portfolio`. Install it on your PATH if you want an agent to ground its numbers against live quotes mid-analysis. It never writes alerts; that's what the mkt-alerts MCP, CLI, and HTTP API are for.
 
-In practice that means a research agent can call `get_quote`/`query_history` mid-analysis to ground its numbers, then — once it has an actual thesis — shell out to `mkt-alerts add` with a `--reason` and `--data-source` to leave a paper trail for why the alert exists. There's a [Claude Code skill](https://github.com/dzianisv/mkt-alerts/blob/main/skills/mkt-alerts/SKILL.md) (`npx skills add github.com/dzianisv/mkt-alerts/ -s mkt-alerts -y`) that wires this into an agent's toolset directly.
+In practice a research agent grounds its numbers (via either MCP's read tools), then — once it has an actual thesis — creates the alert with a `--reason` and `--data-source` to leave a paper trail for why it exists. There's a [Claude Code skill](https://github.com/dzianisv/mkt-alerts/blob/main/skills/mkt-alerts/SKILL.md) (`npx skills add github.com/dzianisv/mkt-alerts/ -s mkt-alerts -y`) that wires this into an agent's toolset directly.
 
 If you're building agents that reason about markets more generally, we've written before about the harder problem of letting an LLM make and track live decisions — see [How We Added Claude and DeepSeek Portfolio Managers to Our AI Agent](/blog/2026-07-16-claude-deepseek-ai-portfolio-manager-paper-trading), on running two models as competing paper-trading books against the same validated data.
 

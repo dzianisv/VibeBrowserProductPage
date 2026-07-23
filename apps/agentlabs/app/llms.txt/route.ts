@@ -4,7 +4,7 @@ const siteUrl = 'https://agentlabs.cc'
 
 const primaryPages = [
   { label: 'Homepage', url: `${siteUrl}/` },
-  { label: 'Agent performance benchmarks and dataset', url: `${siteUrl}/agentsdata` },
+  { label: 'Market price and Pine Script alerts for AI agents (mkt-alerts)', url: `${siteUrl}/agentsdata` },
   { label: 'Computer-use testing with browser and mobile agents', url: `${siteUrl}/computer-use-testing` },
   { label: 'a-test open-source CUA test harness', url: `${siteUrl}/a-test` },
   { label: 'Spark for decentralized exchange execution', url: `${siteUrl}/spark` },
