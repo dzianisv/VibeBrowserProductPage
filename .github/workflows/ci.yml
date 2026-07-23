@@ -25,6 +25,11 @@ jobs:
       - run: npm ci
       - run: npm audit --omit=dev --audit-level=high
       - run: npm run lint
+      # Source-string regression guard for the pricing value-clarity copy
+      # (per-tier cloud-AI usage caps, reset wording, CWS trust link, and the
+      # no-numeric-rating / no-aggregateRating guarantees). Reads source only,
+      # so it doesn't need the build.
+      - run: node scripts/test-pricing-value-clarity.js
       - run: npm run build
 
   agentlabs:
@@ -92,3 +97,29 @@ jobs:
       - run: npm audit --omit=dev --audit-level=high --prefix OpenCodeMobileSite
       - run: npm run lint --prefix OpenCodeMobileSite
       - run: npm run build --prefix OpenCodeMobileSite
+
+  pricing-responsive-e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          lfs: true
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22'
+          cache: 'npm'
+      - run: npm ci
+      # Ensure Puppeteer's bundled Chromium is present in the CI cache dir.
+      - run: npx puppeteer browsers install chrome
+      - run: npm run build
+      # Real-browser rendered/responsive check for the /pricing route: spawns
+      # `next start` against the production build and drives real Chromium via
+      # Puppeteer at three viewports (mobile 375, tablet 768, desktop 1440),
+      # asserting no horizontal overflow plus that the three per-tier cloud-AI
+      # usage-cap lines, the CWS trust link, and the reset-wording footnote are
+      # present, not hidden, and scrollable into view. Exits non-zero on any
+      # failed assertion, which fails this required check.
+      - run: node scripts/test-pricing-responsive.cjs
