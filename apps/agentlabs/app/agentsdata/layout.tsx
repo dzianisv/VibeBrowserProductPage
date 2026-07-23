@@ -5,7 +5,7 @@ const CANONICAL = "https://agentlabs.cc/agentsdata"
 const softwareAppJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "Market Data for Agents",
+  name: "Market Data and Alerts for Agents",
   applicationCategory: "FinanceApplication",
   operatingSystem: "Any",
   url: CANONICAL,
