@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { ArrowRight, CheckCircle, Sparkles } from "lucide-react"
+import { ArrowRight, CheckCircle, Sparkles, Star } from "lucide-react"
 import { trackCTAClick } from "@/components/google-analytics"
 
 // Shared pricing content — used on the homepage (#pricing anchor section)
@@ -41,6 +41,16 @@ export function PricingSection() {
           <Link href="https://billing.stripe.com/p/login/9B6bJ06iPcwL9VUa4yabK00" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-white/90 hover:text-white underline underline-offset-4">
             Already subscribed? Manage billing
           </Link>
+          <a
+            href="https://chromewebstore.google.com/detail/vibe-ai-browser-co-pilot/djodpgokbmobeclicaicnnidccoinado"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => trackCTAClick('view_cws_reviews', 'pricing_section')}
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-white/90 hover:text-white underline underline-offset-4"
+          >
+            <Star className="w-4 h-4" />
+            See reviews on the Chrome Web Store
+          </a>
 
           <div className="flex flex-col md:flex-row gap-8 items-center justify-center mt-8">
             <div className="flex items-center gap-2">
@@ -62,7 +72,8 @@ export function PricingSection() {
             <div className="grid md:grid-cols-3 gap-6">
               <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-left">
                 <h4 className="text-xl font-bold mb-2">Free</h4>
-                <p className="text-sm opacity-90 mb-4">Perfect for getting started</p>
+                <p className="text-sm opacity-90 mb-1">Perfect for getting started</p>
+                <p className="text-xs opacity-75 mb-4">Includes $1/day cloud AI usage (resets daily)</p>
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
@@ -89,7 +100,8 @@ export function PricingSection() {
                   <Badge className="bg-white/20 text-white border-white/30">Popular</Badge>
                 </div>
                 <p className="text-sm opacity-90 mb-1"><span className="text-2xl font-bold">$25</span>/month</p>
-                <p className="text-xs opacity-75 mb-4">Advanced AI models</p>
+                <p className="text-xs opacity-75 mb-1">Advanced AI models</p>
+                <p className="text-xs opacity-75 mb-4">Includes $25/month cloud AI usage (resets every 30 days)</p>
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
@@ -121,7 +133,8 @@ export function PricingSection() {
               <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-left">
                 <h4 className="text-xl font-bold mb-2">Max</h4>
                 <p className="text-sm opacity-90 mb-1"><span className="text-2xl font-bold">$99</span>/month</p>
-                <p className="text-xs opacity-75 mb-4">Premium AI with reasoning</p>
+                <p className="text-xs opacity-75 mb-1">Premium AI with reasoning</p>
+                <p className="text-xs opacity-75 mb-4">Includes $99/month cloud AI usage (resets every 30 days)</p>
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
@@ -150,6 +163,9 @@ export function PricingSection() {
                 </ul>
               </div>
             </div>
+            <p className="text-xs opacity-75 text-center mt-6 max-w-3xl mx-auto">
+              Cloud AI usage budgets cover metered calls to hosted models (OpenAI, xAI, DeepSeek, etc.) and reset on the schedule shown above. On-device AI (Gemini Nano) usage is unlimited on every tier and never counts against your budget.
+            </p>
           </div>
         </div>
       </div>
