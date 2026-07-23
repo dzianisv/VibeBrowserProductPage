@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/og/amazon.svg',
+        url: '/og/amazon',
         width: 1200,
         height: 630,
         alt: 'Vibe Co-Pilot for Amazon Sellers',
@@ -41,6 +41,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Vibe Co-Pilot for Amazon Sellers',
     description: 'AI automation for Amazon FBA with Google Workspace, MCP agent access, skills, and a secrets vault.',
+    images: ['/og/amazon'],
   },
   robots: {
     index: false,
