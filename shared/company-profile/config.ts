@@ -379,7 +379,7 @@ agentlabsCompanyProfileConfig.products = [
     ],
   },
   {
-    title: "AgentLabs Agents Data",
+    title: "Market Data for Agents",
     badge: "Pine Script · Agent-Wake · CLI",
     description:
       "Price, RSI/MACD/SMA, and full Pine Script v5 alerts on 10,000+ stocks and crypto — Pine runs off TradingView in an isolated PineTS subprocess, server-side. An OpenClaw plugin can wake your agent when the market hits your level. Its own MCP server manages alerts (add/remove) and reads them. Try it in one command with npx, no signup. MIT licensed and self-hostable; a private bearer-gated reference instance is available on request.",

@@ -168,7 +168,7 @@ export default function AgentsDataPage() {
       <header className="border-b border-[#3c4043] bg-[#0a0a0a]/95 backdrop-blur supports-[backdrop-filter]:bg-[#0a0a0a]/80 sticky top-0 z-50">
         <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="font-semibold text-lg tracking-tight text-[#e8eaed] hover:text-white transition-colors">
-            AgentLabs Agents Data
+            Market Data for Agents
           </Link>
           <div className="flex items-center gap-3">
             <Link href="/" className="hidden sm:inline text-sm text-[#9aa0a6] hover:text-[#e8eaed] transition-colors">
