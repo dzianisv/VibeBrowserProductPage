@@ -44,7 +44,7 @@ export const metadata: Metadata = {
       'Why teams move browser automation to Vibe: no stealth overhead, no infra drag, no model lock-in.',
     images: [
       {
-        url: '/og/home.svg',
+        url: '/og/mcp',
         width: 1200,
         height: 630,
         alt: 'Vibe vs Browserbase',
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     title: 'Vibe vs Browserbase | Real-Session Browser Automation',
     description:
       'First-party browser workflows run in your own accounts — no stealth stack, fewer infra headaches, lower cost.',
-    images: ['/og/home.svg'],
+    images: ['/og/mcp'],
     creator: '@vibebrowserapp',
   },
 }

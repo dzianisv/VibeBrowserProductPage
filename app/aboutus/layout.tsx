@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og/home.svg",
+        url: "/og/mcp",
         width: 1200,
         height: 630,
         alt: "About Vibe Technologies - The Team Behind the AI Browser Co-Pilot",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "About Us - Vibe Technologies",
     description: "A small team of engineers building AI tools that actually do the work. Meet the humans behind the agents.",
-    images: ["/og/home.svg"],
+    images: ["/og/mcp"],
     creator: "@vibebrowserapp",
   },
 }

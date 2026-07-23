@@ -80,7 +80,7 @@ export const metadata: Metadata = {
     description: '5 specialized AI agents coordinate over Slack to run your SaaS operations autonomously, with Google Workspace, MCP browser access, skills, and a secrets vault.',
     images: [
       {
-        url: '/og/agentic-team.svg',
+        url: '/og/mcp',
         width: 1200,
         height: 630,
         alt: 'Vibe Agentic Team - AI Operations Team',
@@ -91,7 +91,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Agentic Team - Autonomous AI Ops Team Powered by OpenClaw',
     description: '5 AI agents coordinate over Slack to run your SaaS with Google Workspace, MCP browser access, skills, and a secrets vault.',
-    images: ['/og/agentic-team.svg'],
+    images: ['/og/mcp'],
     creator: '@vibebrowserapp',
   },
   robots: {

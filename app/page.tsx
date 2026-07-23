@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     url: 'https://www.vibebrowser.app',
     images: [
       {
-        url: '/og/home.svg',
+        url: '/og/mcp',
         width: 1200,
         height: 630,
         alt: 'Vibe Browser - AI Browser Co-Pilot',
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     title: 'Vibe Co-Pilot | Real Browser AI Automation',
     description:
       'AI browser co-pilot with Google Workspace, MCP agent access, skills, and a secrets vault. Works with Vibe AI, Anthropic Claude Max, GitHub Copilot, Ollama local models, and BYOK providers. Self-hosted AI for complete privacy.',
-    images: ['/og/home.svg'],
+    images: ['/og/mcp'],
   },
 }
 
@@ -67,7 +67,7 @@ const jsonLd = {
     'Self-hosted local LLM via Ollama integration',
     'Private AI — no data leaves your machine',
   ],
-  screenshot: 'https://www.vibebrowser.app/og/home.svg',
+  screenshot: 'https://www.vibebrowser.app/og/mcp',
   softwareVersion: '1.0',
   datePublished: '2025-01-01',
   dateModified: '2026-02-15',

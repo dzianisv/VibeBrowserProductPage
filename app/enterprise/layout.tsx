@@ -80,7 +80,7 @@ export const metadata: Metadata = {
     description: 'Private AI browser automation with local, self-hosted, and TEE-ready deployment paths plus Google Workspace tools, MCP access, reusable skills, and a secrets vault.',
     images: [
       {
-        url: '/og/enterprise.svg',
+        url: '/og/mcp',
         width: 1200,
         height: 630,
         alt: 'Vibe AI Browser - Private Enterprise Edition',
@@ -91,7 +91,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Private AI for Financial Professionals | Vibe AI Browser',
     description: 'Private AI browser automation with local, self-hosted, and TEE-ready deployment paths plus Google Workspace tools, MCP access, reusable skills, and a secrets vault.',
-    images: ['/og/enterprise.svg'],
+    images: ['/og/mcp'],
     creator: '@vibebrowserapp',
   },
   robots: {
