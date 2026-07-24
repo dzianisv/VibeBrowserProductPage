@@ -1,9 +1,10 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import { track } from "@/lib/analytics"
 import {
   Smartphone,
   KeyRound,
@@ -132,7 +133,7 @@ const FAQ = [
 
 type FormState = "idle" | "loading" | "ok" | "error"
 
-function useEmailForm(endpoint: string) {
+function useEmailForm(endpoint: string, successEvent?: string) {
   const [email, setEmail] = useState("")
   const [state, setState] = useState<FormState>("idle")
   const [message, setMessage] = useState<string>("")
@@ -157,6 +158,7 @@ function useEmailForm(endpoint: string) {
       if (res.ok && data.ok) {
         setState("ok")
         if (data.optInUrl) setOptInUrl(data.optInUrl)
+        if (successEvent) track(successEvent, { page: "/mobile" })
       } else {
         setState("error")
         setMessage(data.error || "Something went wrong. Please try again.")
@@ -171,8 +173,15 @@ function useEmailForm(endpoint: string) {
 }
 
 export default function AgentPodMobilePage() {
-  const waitlist = useEmailForm("/api/waitlist")
-  const tester = useEmailForm("/api/play-tester")
+  const waitlist = useEmailForm("/api/waitlist", "waitlist_submitted")
+  const tester = useEmailForm("/api/play-tester", "play_tester_submitted")
+
+  useEffect(() => {
+    track("mobile_pageview", { page: "/mobile" })
+  }, [])
+
+  const onDownloadClick = (location: string) => () =>
+    track("apk_download_click", { page: "/mobile", location })
 
   const faqJsonLd = {
     "@context": "https://schema.org",
@@ -184,8 +193,46 @@ export default function AgentPodMobilePage() {
     })),
   }
 
+  const appJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "MobileApplication",
+    name: "AgentPod Mobile",
+    alternateName: "AgentPod",
+    applicationCategory: "DeveloperApplication",
+    applicationSubCategory: "AI coding agent",
+    operatingSystem: "Android 5.0+",
+    url: "https://agentpod.agentlabs.cc/mobile",
+    downloadUrl: "https://dl.agentlabs.cc/agentpod/openclaw-latest.apk",
+    installUrl: "https://agentpod.agentlabs.cc/mobile/download",
+    description:
+      "AgentPod Mobile is a private, bring-your-own-key AI coding and research agent for Android. It bundles a real Termux Linux runtime and a Node.js gateway on your device — your API key, your provider, no middleman.",
+    image: "https://agentlabs.cc/agentpod/chat-real.png",
+    screenshot: SCREENSHOTS.map((s) => `https://agentlabs.cc${s}`),
+    featureList: FEATURES.map((f) => f.title),
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+      availability: "https://schema.org/InStock",
+    },
+    author: {
+      "@type": "Organization",
+      name: "Vibe Technologies LLC",
+      url: "https://agentlabs.cc",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Vibe Technologies LLC",
+      url: "https://agentlabs.cc",
+    },
+  }
+
   return (
     <div className="bg-[#0a0a0a] min-h-screen text-[#e8eaed]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(appJsonLd) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
@@ -224,7 +271,7 @@ export default function AgentPodMobilePage() {
               className="bg-[#81c995] hover:bg-[#6db882] text-[#0a0a0a] text-sm font-medium"
               size="sm"
             >
-              <a href="/mobile/download">Download</a>
+              <a href="/mobile/download" onClick={onDownloadClick("header")}>Download</a>
             </Button>
           </div>
         </div>
@@ -260,7 +307,7 @@ export default function AgentPodMobilePage() {
                 className="bg-[#81c995] hover:bg-[#6db882] text-[#0a0a0a] font-medium"
                 size="lg"
               >
-                <a href="/mobile/download" className="flex items-center gap-2">
+                <a href="/mobile/download" onClick={onDownloadClick("hero")} className="flex items-center gap-2">
                   <Download className="h-4 w-4" />
                   Download
                 </a>
@@ -298,6 +345,7 @@ export default function AgentPodMobilePage() {
                 loop
                 playsInline
                 preload="metadata"
+                onPlay={() => track("demo_video_play", { page: "/mobile" })}
               />
               <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-[#fdd663] px-3 py-1 text-[11px] font-semibold text-[#0a0a0a] shadow-lg">
                 Real end-to-end demo · 10× speed
@@ -596,7 +644,7 @@ export default function AgentPodMobilePage() {
               className="bg-[#81c995] hover:bg-[#6db882] text-[#0a0a0a] font-medium"
               size="lg"
             >
-              <a href="/mobile/download" className="flex items-center gap-2">
+              <a href="/mobile/download" onClick={onDownloadClick("final_cta")} className="flex items-center gap-2">
                 <Download className="h-4 w-4" />
                 Download
               </a>

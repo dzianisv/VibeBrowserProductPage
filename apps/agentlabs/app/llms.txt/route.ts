@@ -8,6 +8,7 @@ const primaryPages = [
   { label: 'Computer-use testing with browser and mobile agents', url: `${siteUrl}/computer-use-testing` },
   { label: 'a-test open-source CUA test harness', url: `${siteUrl}/a-test` },
   { label: 'Spark for decentralized exchange execution', url: `${siteUrl}/spark` },
+  { label: 'AgentPod Mobile — on-device, BYOK AI coding agent for Android', url: 'https://agentpod.agentlabs.cc/mobile' },
   { label: 'Blog index', url: `${siteUrl}/blog` },
 ]
 
