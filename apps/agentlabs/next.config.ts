@@ -21,6 +21,14 @@ const nextConfig: NextConfig = {
         destination: "/a-test",
         permanent: true,
       },
+      // The agentpod.agentlabs.cc subdomain is dedicated to AgentPod Mobile:
+      // send its root straight to the product page.
+      {
+        source: "/",
+        has: [{ type: "host", value: "agentpod.agentlabs.cc" }],
+        destination: "/mobile",
+        permanent: false,
+      },
     ];
   },
 };
