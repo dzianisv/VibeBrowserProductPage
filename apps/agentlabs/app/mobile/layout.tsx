@@ -27,20 +27,13 @@ export const metadata: Metadata = {
     siteName: "Agent Labs",
     title,
     description,
-    images: [
-      {
-        url: "/agentpod/demo-poster.jpg",
-        width: 1080,
-        height: 1920,
-        alt: "AgentPod Mobile running on an Android phone",
-      },
-    ],
+    // OG/Twitter images are supplied by the file-based `opengraph-image.tsx`
+    // and `twitter-image.tsx` in this route (a proper 1200×630 social card).
   },
   twitter: {
     card: "summary_large_image",
     title,
     description,
-    images: ["/agentpod/demo-poster.jpg"],
     creator: "@vibebrowserapp",
   },
   robots: { index: true, follow: true },
