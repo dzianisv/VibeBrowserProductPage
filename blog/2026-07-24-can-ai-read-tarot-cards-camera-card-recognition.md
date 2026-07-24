@@ -16,7 +16,7 @@ published: true
 
 "Can AI read tarot cards?" is really two questions wearing one coat. Can a phone *recognize* which card you're holding from the camera? Yes — that's a solved computer-vision problem. Can it *read your future* from that card? No — and no honest app should claim it can. What it can do is generate a fluent, personalized *interpretation*, which is a very different thing from divination.
 
-This post pulls those two apart. It's a technical look at how an AI tarot card scanner actually works, grounded in how we built [Mystic Tarot](https://agentlabs.cc), and it's straight about where recognition ends and generation begins.
+This post pulls those two apart. It's a technical look at how an AI tarot card scanner actually works, grounded in how we built [Mystic Tarot](https://github.com/dzianisv/TaroAiScanner/releases/latest/download/mystic-tarot.apk), and it's straight about where recognition ends and generation begins.
 
 ## Two systems, one app
 
@@ -89,7 +89,7 @@ The clean mental model: **AI reads the card, not the future.** The camera-based 
 
 ## Try it
 
-Curious to point your camera at a real card and watch the recognition-plus-interpretation pipeline run? That's what [Mystic Tarot](https://agentlabs.cc) does — scan a physical card or draw a virtual one, then chat with an AI Tarot Master about the reading. It's one of the apps we build at AgentLabs.
+Curious to point your camera at a real card and watch the recognition-plus-interpretation pipeline run? That's what [Get Mystic Tarot](https://github.com/dzianisv/TaroAiScanner/releases/latest/download/mystic-tarot.apk) does — scan a physical card or draw a virtual one, then chat with an AI Tarot Master about the reading. It's one of the apps we build at AgentLabs.
 
 <script type="application/ld+json">
 {
