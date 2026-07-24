@@ -81,8 +81,8 @@ const STEPS = [
   {
     n: "03",
     title: "Chat with your model",
-    body: "Open Chat and start talking. Ask it to explain a bug, refactor a function, or run a sourced research query. Follow-up questions carry context across turns.",
-    shot: "/agentpod/screenshots/cua_step_009.png",
+    body: "Open Chat and ask a real question. Here it answers when the first GPT model was released with a sourced, bullet-point summary — the reply goes straight from your phone to your own model, and follow-ups keep context across turns.",
+    shot: "/agentpod/chat-real.png",
   },
 ]
 
