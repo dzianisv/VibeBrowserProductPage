@@ -411,12 +411,14 @@ agentlabsCompanyProfileConfig.products = [
 
 agentlabsCompanyProfileConfig.desktopNav = [
   { href: "/", label: "Home" },
+  { href: "/products", label: "Products" },
   { href: "https://vibebrowser.app/agentic-team", label: "Agentic Team" },
   { href: "https://vibebrowser.app/enterprise", label: "Enterprise" },
   { href: "https://vibebrowser.app/teams", label: "Team" },
 ]
 agentlabsCompanyProfileConfig.mobileNav = [
   { href: "/", label: "Home" },
+  { href: "/products", label: "Products" },
   { href: "https://vibebrowser.app/agentic-team", label: "Agentic" },
   { href: "https://vibebrowser.app/enterprise", label: "Enterprise" },
 ]
