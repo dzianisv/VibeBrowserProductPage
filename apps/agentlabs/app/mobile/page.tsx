@@ -10,7 +10,6 @@ import {
   ShieldCheck,
   TerminalSquare,
   Cpu,
-  Github,
   ArrowRight,
   Download,
   Check,
@@ -21,7 +20,6 @@ import {
 } from "lucide-react"
 
 const PLAY_OPT_IN_URL = "https://play.google.com/apps/internaltest/4701574809387172305"
-const GITHUB_URL = "https://github.com/VibeTechnologies/AgentPodMobile"
 
 const PROVIDERS = [
   "Azure OpenAI",
@@ -228,15 +226,6 @@ export default function AgentPodMobilePage() {
             >
               <a href="/mobile/download">Download</a>
             </Button>
-            <a
-              href={GITHUB_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[#9aa0a6] hover:text-[#e8eaed] transition-colors"
-              aria-label="GitHub"
-            >
-              <Github className="h-5 w-5" />
-            </a>
           </div>
         </div>
       </header>
@@ -637,14 +626,6 @@ export default function AgentPodMobilePage() {
             <Link href="/terms" className="hover:text-[#e8eaed] transition-colors">
               Terms
             </Link>
-            <a
-              href={GITHUB_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-[#e8eaed] transition-colors"
-            >
-              GitHub
-            </a>
           </div>
         </div>
       </footer>
