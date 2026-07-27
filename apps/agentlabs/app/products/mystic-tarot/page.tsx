@@ -18,8 +18,14 @@ import {
 
 const APK_URL =
   "https://github.com/dzianisv/TaroAiScanner/releases/latest/download/mystic-tarot.apk"
-// Placeholder — Mystic Tarot is in closed testing on Google Play; public listing not live yet.
-const PLAY_URL = "#"
+
+// Mystic Tarot is still in CLOSED TESTING on Google Play — the public listing for
+// com.aistudio.mystictarot.qxrptl returns 404, so there is deliberately no Play link
+// or Play badge on this page. Direct APK is the only honest channel right now.
+// TODO: switch to Play URL when com.aistudio.mystictarot.qxrptl goes public
+// (https://play.google.com/store/apps/details?id=com.aistudio.mystictarot.qxrptl),
+// then mirror the Kinetic page: Play primary + install-referrer attribution params,
+// APK demoted to a secondary "Direct APK" link.
 
 const FEATURES = [
   {
@@ -87,7 +93,7 @@ const FAQ = [
   },
   {
     q: "Is there a free tarot reading?",
-    a: "Yes. You can begin with free readings and daily guidance. Upgrade to Mystic Premium for unlimited AI interpretations, unlimited scans, and the full Tarot Master chat experience.",
+    a: "Yes. The early-access preview build is free and includes readings and daily guidance, with no in-app purchases. A Mystic Premium tier with unlimited AI interpretations, unlimited scans, and the full Tarot Master chat is planned for the Google Play release.",
   },
   {
     q: "Are my readings saved and private?",
@@ -187,7 +193,7 @@ export default function TarotProductPage() {
               AI card scanner
             </span>
             <span className="rounded-full bg-[#3c4043]/60 px-3 py-1 text-xs font-medium text-[#9aa0a6]">
-              Free readings to start
+              Early access
             </span>
           </div>
           <h1 className="text-4xl font-bold tracking-tight text-[#e8eaed] md:text-5xl lg:text-6xl mb-5">
@@ -203,7 +209,7 @@ export default function TarotProductPage() {
             <Button asChild className="bg-[#81c995] hover:bg-[#6db882] text-[#0a0a0a] font-medium" size="lg">
               <a href={APK_URL} className="flex items-center gap-2">
                 <Download className="h-4 w-4" />
-                Download APK
+                Download preview APK
               </a>
             </Button>
             <Button
@@ -211,15 +217,23 @@ export default function TarotProductPage() {
               className="border border-[#3c4043] bg-transparent text-[#e8eaed] hover:border-[#fdd663]/40 hover:bg-[#fdd663]/5"
               size="lg"
             >
-              {/* Placeholder: Mystic Tarot is in closed testing; public Play listing coming soon. */}
-              <a href={PLAY_URL} className="flex items-center gap-2">
-                <Play className="h-4 w-4" />
-                Get it on Google Play (soon)
+              <a href="#features" className="flex items-center gap-2">
+                See features
+                <ArrowRight className="h-4 w-4" />
               </a>
             </Button>
           </div>
-          <p className="text-sm text-[#9aa0a6]">
+          <p className="text-sm text-[#9aa0a6] mb-3">
             AI card scanner, AI Tarot Master chat, daily guidance &amp; a private offline journal. Android.
+          </p>
+          {/* Honest status. Do NOT add a Play badge or Play link: the public listing for
+              com.aistudio.mystictarot.qxrptl returns 404 (closed testing). */}
+          <p className="inline-flex max-w-xl items-start gap-2 rounded-lg border border-[#3c4043] bg-[#141414] px-3 py-2 text-xs text-[#9aa0a6] text-left">
+            <Play className="h-3 w-3 mt-0.5 shrink-0" />
+            <span>
+              Mystic Tarot is in early access and not on Google Play yet — the listing is still in closed testing. The
+              download above is a preview build for testing, not a finished release, and it has no in-app purchases.
+            </span>
           </p>
         </div>
       </section>
@@ -298,13 +312,14 @@ export default function TarotProductPage() {
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-2xl md:text-3xl font-bold mb-4 text-[#e8eaed]">Your cards are waiting</h2>
           <p className="text-[#9aa0a6] mb-8 max-w-xl mx-auto">
-            Download Mystic Tarot and get your first AI tarot reading now — scan a real card or draw the digital deck.
+            Try the early-access build of Mystic Tarot — scan a real card or draw the digital deck. Not on Google Play
+            yet; the listing is still in closed testing.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <Button asChild className="bg-[#81c995] hover:bg-[#6db882] text-[#0a0a0a] font-medium" size="lg">
               <a href={APK_URL} className="flex items-center gap-2">
                 <Download className="h-4 w-4" />
-                Download APK
+                Download preview APK
               </a>
             </Button>
             <Button asChild className="border border-[#3c4043] bg-transparent text-[#e8eaed] hover:border-[#fdd663]/40 hover:bg-[#fdd663]/5" size="lg">
