@@ -18,8 +18,30 @@ import {
 
 const APK_URL =
   "https://github.com/dzianisv/KineticAiCoach/releases/latest/download/kinetic-ai-coach.apk"
-// Placeholder — Kinetic is in closed testing on Google Play; public listing not live yet.
-const PLAY_URL = "#"
+
+/**
+ * HOLD: do not enable until the live Play AAB is verified to have a working proxy URL
+ * + paywall_enabled=true.
+ *
+ * The public Google Play listing for com.aistudio.aicoach.vtzrkm IS live and is the only
+ * channel that can transact Play Billing (the GitHub APK is signed with the upload key,
+ * so it can never process a subscription). We are deliberately NOT making it the primary
+ * CTA yet: a binary audit found the shipped build ships a placeholder Cloud Function URL
+ * (`your-project-id`), which nulls out the AI proxy, and the paywall is force-disabled in
+ * RemoteConfigManager. Driving installs to that build buys permanent 1-star Play reviews.
+ *
+ * To enable later, this is a one-line change: point the hero / header / final-CTA buttons
+ * at PLAY_URL. Install-referrer attribution is ready to append and intentionally not
+ * wired yet:
+ *   `${PLAY_URL}&referrer=utm_source%3Dagentlabs%26utm_medium%3D<page>%26utm_campaign%3Dproduct_page`
+ */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const PLAY_URL = "https://play.google.com/store/apps/details?id=com.aistudio.aicoach.vtzrkm"
+
+// Live Google Play subscription pricing for Kinetic Pro. Kept in sync with the Play
+// listing. NOTE: KineticAiCoach BillingConfig.kt still carries stale $7.25 / $43.50.
+const PRICE_MONTHLY = "7.49"
+const PRICE_YEARLY = "43.99"
 
 const FEATURES = [
   {
@@ -91,7 +113,7 @@ const FAQ = [
   },
   {
     q: "How much does Kinetic cost?",
-    a: "Kinetic includes a 3-day free trial. After the trial, continued access to Kinetic Pro coaching is a recurring subscription billed through Google Play. You can manage or cancel anytime in your Google Play account settings.",
+    a: `Kinetic Pro is $${PRICE_MONTHLY} per month or $${PRICE_YEARLY} per year after a 3-day free trial, billed through Google Play, and you can manage or cancel anytime in your Google Play account settings. Kinetic is currently in early access: the preview APK on this page is a free testing build with no in-app purchases.`,
   },
   {
     q: "Is Kinetic a medical device?",
@@ -111,12 +133,40 @@ export default function KineticProductPage() {
     description:
       "Kinetic is the AI personal trainer that watches your form, counts your reps, and coaches you out loud using just your phone's camera. Live on-device pose detection, AI form correction, and personalized workout plans.",
     featureList: FEATURES.map((f) => f.title),
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "USD",
-      availability: "https://schema.org/InStock",
-    },
+    offers: [
+      {
+        "@type": "Offer",
+        name: "Kinetic Pro — monthly",
+        price: PRICE_MONTHLY,
+        priceCurrency: "USD",
+        category: "subscription",
+        availability: "https://schema.org/InStock",
+        priceSpecification: {
+          "@type": "UnitPriceSpecification",
+          price: PRICE_MONTHLY,
+          priceCurrency: "USD",
+          billingDuration: 1,
+          billingIncrement: 1,
+          unitCode: "MON",
+        },
+      },
+      {
+        "@type": "Offer",
+        name: "Kinetic Pro — yearly",
+        price: PRICE_YEARLY,
+        priceCurrency: "USD",
+        category: "subscription",
+        availability: "https://schema.org/InStock",
+        priceSpecification: {
+          "@type": "UnitPriceSpecification",
+          price: PRICE_YEARLY,
+          priceCurrency: "USD",
+          billingDuration: 1,
+          billingIncrement: 1,
+          unitCode: "ANN",
+        },
+      },
+    ],
     author: {
       "@type": "Organization",
       name: "Vibe Technologies LLC",
@@ -187,7 +237,10 @@ export default function KineticProductPage() {
               On-device pose detection
             </span>
             <span className="rounded-full bg-[#3c4043]/60 px-3 py-1 text-xs font-medium text-[#9aa0a6]">
-              3-day free trial
+              Early access
+            </span>
+            <span className="rounded-full bg-[#3c4043]/60 px-3 py-1 text-xs font-medium text-[#9aa0a6]">
+              Pro: ${PRICE_MONTHLY}/mo · ${PRICE_YEARLY}/yr
             </span>
           </div>
           <h1 className="text-4xl font-bold tracking-tight text-[#e8eaed] md:text-5xl lg:text-6xl mb-5">
@@ -202,7 +255,7 @@ export default function KineticProductPage() {
             <Button asChild className="bg-[#81c995] hover:bg-[#6db882] text-[#0a0a0a] font-medium" size="lg">
               <a href={APK_URL} className="flex items-center gap-2">
                 <Download className="h-4 w-4" />
-                Download APK
+                Download preview APK
               </a>
             </Button>
             <Button
@@ -210,15 +263,24 @@ export default function KineticProductPage() {
               className="border border-[#3c4043] bg-transparent text-[#e8eaed] hover:border-[#fdd663]/40 hover:bg-[#fdd663]/5"
               size="lg"
             >
-              {/* Placeholder: Kinetic is in closed testing; public Play listing coming soon. */}
-              <a href={PLAY_URL} className="flex items-center gap-2">
-                <Play className="h-4 w-4" />
-                Get it on Google Play (soon)
+              <a href="#faq" className="flex items-center gap-2">
+                Pricing &amp; FAQ
+                <ArrowRight className="h-4 w-4" />
               </a>
             </Button>
           </div>
-          <p className="text-sm text-[#9aa0a6]">
+          <p className="text-sm text-[#9aa0a6] mb-3">
             Live pose detection, AI form correction &amp; a spoken rep counter. Android.
+          </p>
+          {/* Honest status. Do not turn this into a Play CTA — see the HOLD note on PLAY_URL. */}
+          <p className="inline-flex max-w-xl items-start gap-2 rounded-lg border border-[#3c4043] bg-[#141414] px-3 py-2 text-xs text-[#9aa0a6] text-left">
+            <Play className="h-3 w-3 mt-0.5 shrink-0" />
+            <span>
+              Kinetic is in early access. The download above is a preview build for testing — it has no in-app
+              purchases and is not the paid release. Planned Kinetic Pro pricing on Google Play is{" "}
+              <span className="text-[#e8eaed] font-medium">${PRICE_MONTHLY}/month</span> or{" "}
+              <span className="text-[#e8eaed] font-medium">${PRICE_YEARLY}/year</span> after a 3-day free trial.
+            </span>
           </p>
         </div>
       </section>
@@ -297,14 +359,15 @@ export default function KineticProductPage() {
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-2xl md:text-3xl font-bold mb-4 text-[#e8eaed]">Turn your camera into your coach</h2>
           <p className="text-[#9aa0a6] mb-8 max-w-xl mx-auto">
-            Start your 3-day free trial and train smarter with an AI personal trainer that counts every rep and watches
-            your form.
+            Try the early-access build and train with an AI personal trainer that counts every rep and watches your
+            form. Kinetic Pro will be ${PRICE_MONTHLY}/month or ${PRICE_YEARLY}/year on Google Play after a 3-day free
+            trial.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <Button asChild className="bg-[#81c995] hover:bg-[#6db882] text-[#0a0a0a] font-medium" size="lg">
               <a href={APK_URL} className="flex items-center gap-2">
                 <Download className="h-4 w-4" />
-                Download APK
+                Download preview APK
               </a>
             </Button>
             <Button asChild className="border border-[#3c4043] bg-transparent text-[#e8eaed] hover:border-[#fdd663]/40 hover:bg-[#fdd663]/5" size="lg">

@@ -6,6 +6,22 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Activity, Sparkles, ArrowRight } from "lucide-react"
 
+/**
+ * HOLD: do not enable until the live Play AAB is verified to have a working proxy URL
+ * + paywall_enabled=true.
+ *
+ * Kinetic's public Play listing (com.aistudio.aicoach.vtzrkm) IS live, but the shipped
+ * build has a placeholder Cloud Function URL and a force-disabled paywall, so promoting
+ * installs would only earn permanent 1-star Play reviews. When it's verified, add
+ * `playUrl: KINETIC_PLAY_URL` to the Kinetic entry plus install-referrer attribution:
+ *   `${KINETIC_PLAY_URL}&referrer=utm_source%3Dagentlabs%26utm_medium%3Dproducts_index%26utm_campaign%3Dproduct_page`
+ */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const KINETIC_PLAY_URL = "https://play.google.com/store/apps/details?id=com.aistudio.aicoach.vtzrkm"
+
+// TODO: switch to Play URL when com.aistudio.mystictarot.qxrptl goes public — that
+// listing is still in closed testing (404), so this card intentionally has no Play CTA.
+
 const PRODUCTS = [
   {
     href: "/products/kinetic-ai-coach",
@@ -14,6 +30,7 @@ const PRODUCTS = [
     tagline: "AI personal trainer for Android",
     body: "Watches your form, counts your reps, and coaches you out loud using just your phone's camera. Live on-device pose detection, AI form correction, and personalized workout plans.",
     tags: ["Health & Fitness", "Pose detection", "Rep counter"],
+    status: "Early access · Kinetic Pro will be $7.49/month or $43.99/year on Google Play",
   },
   {
     href: "/products/mystic-tarot",
@@ -22,6 +39,7 @@ const PRODUCTS = [
     tagline: "AI tarot reading & card scanner",
     body: "Scan your real tarot cards with Gemini Vision AI or draw a digital deck for instant readings. Chat with your own AI Tarot Master, get daily guidance, and keep a private offline journal.",
     tags: ["Lifestyle", "AI card scanner", "Daily tarot"],
+    status: "Early access · not on Google Play yet (closed testing)",
   },
 ]
 
@@ -84,13 +102,14 @@ export default function ProductsIndexPage() {
                 <h2 className="font-semibold text-xl mb-1 text-[#e8eaed]">{p.name}</h2>
                 <p className="text-sm text-[#fdd663] mb-3">{p.tagline}</p>
                 <p className="text-sm text-[#9aa0a6] leading-relaxed mb-5">{p.body}</p>
-                <div className="flex flex-wrap gap-2 mb-6">
+                <div className="flex flex-wrap gap-2 mb-4">
                   {p.tags.map((t) => (
                     <span key={t} className="rounded-full bg-[#3c4043]/60 px-3 py-1 text-xs font-medium text-[#9aa0a6]">
                       {t}
                     </span>
                   ))}
                 </div>
+                <p className="text-xs text-[#9aa0a6] mb-6">{p.status}</p>
                 <div className="mt-auto">
                   <Button asChild className="bg-[#81c995] hover:bg-[#6db882] text-[#0a0a0a] font-medium w-full">
                     <Link href={p.href} className="flex items-center justify-center gap-2">
