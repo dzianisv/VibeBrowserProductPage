@@ -1,0 +1,24 @@
+# Issue #157 — Recovery-run content verification (curl SSR HTML)
+Date: 2026-07-21 (09:47–10:00 PDT). Server: next start -p 3157 (build FIKg3WJ7V1aLPgYWL7Elr), PID 73555 (started + stopped this run).
+
+## /mcp required strings (occurrences in server-rendered HTML)
+  relay.api.vibebrowser.app/mcp            4
+  X-Remote-Session                         4
+  Local stdio                              1
+  Direct remote HTTP                       2
+  AI Agent Control                         6
+  Remote (internet)                        7
+## /mcp negative checks (must be 0)
+  attach-token: 0
+  dead host relay.vibebrowser.app (no .api): 0
+  real uuid: 0
+
+## /cli required strings
+  Enable external AI agent control         2
+  Remote (internet)                        4
+  Relay access                             2
+  wss://relay.api.vibebrowser.app          6
+## /cli negative checks (must be 0)
+  real uuid: 0
+  dead host relay.vibebrowser.app (no .api): 0
+  placeholder <uuid> present (literal, not real): <uuid>

@@ -1,0 +1,202 @@
+VibeBrowser Co-Pilot
+for
+CLI Users
+Blog
+About Us
+Browser CLI + Relay
+Vibe Browser CLI for any agent runtime
+
+A small npx command surface for checking status, reading snapshots, and acting on your real logged-in Chrome through Vibe Browser relay.
+
+Install in Chrome
+OpenClaw Integration
+vibebrowser-mcp (GitHub)
+@vibebrowser/cli source
+VibeBrowser skill
+Real browser session
+
+Operate against the tabs, cookies, and logins that already exist in your daily browser profile.
+
+Local or relay mode
+
+Keep one command shape and switch between local and remote UUID routing as your deployment changes.
+
+CLI + MCP in one package
+
+Use npx -y @vibebrowser/cli@latest for shell flows and vibebrowser-mcp when orchestration grows.
+
+Direct DevTools mode
+
+Use --devtools to bypass the extension relay and drive Chrome directly over the DevTools Protocol — no extension required.
+
+HOW IT WORKS
+
+What --remote actually connects to
+
+Every command on this page needs a remote value. This is where it comes from, what forms it takes, and what it grants.
+
+Relay path
+  @vibebrowser/cli  (laptop, CI runner, or any host)
+        │
+        │  --remote "<uuid-or-full-relay-url>"
+        ▼
+  wss://relay.api.vibebrowser.app/<uuid>   ← hosted by Vibe, routes by UUID
+        │
+        ▼
+  Vibe extension in your real Chrome   ← set to "Remote (internet)"
+Local mode talks to the extension on your machine and never leaves it. Remote mode routes every command through Vibe's hosted relay over the internet — the two are different trust boundaries, not equivalent ones.
+Where the value comes from
+
+In the Vibe extension: Settings → AI Agent Control. Turn on Enable external AI agent control, select Remote (internet), then copy the UUID/relay URL from Relay access.
+
+Both accepted forms route to the same place:
+
+<uuid> — bare UUID
+wss://relay.api.vibebrowser.app/<uuid> — full relay URL
+Treat it like a password
+
+Either form is the sole credential that authorizes a relay connection to your browser — whoever holds it can read tabs, take screenshots, and act as you in that session.
+
+Never commit it, paste it into a public chat, or share it with anyone you don't want controlling your browser. If it ever leaks, regenerate it from the same Settings page.
+
+Values shown here are placeholders. Never paste a real UUID or relay URL into a shared doc, ticket, or chat.
+
+Set it once, reuse it
+
+Copy prompt
+# Bare UUID or full relay URL both work — set it once, reuse it:
+export VIBE_REMOTE_URL="<uuid-or-wss://relay.api.vibebrowser.app/<uuid>>"
+
+npx -y @vibebrowser/cli@latest --remote "$VIBE_REMOTE_URL" --json status --wait-for-extension --wait-timeout 20000
+
+QUICKSTART
+
+CLI commands that stay explicit
+
+Use the published package every time: npx -y @vibebrowser/cli@latest. Do not run a bare vibebrowser binary.
+
+Command surfaces
+
+Verify the relay
+
+Wait for the extension and confirm the browser is connected.
+
+npx -y @vibebrowser/cli@latest --remote "<my remote>" --json status --wait-for-extension --wait-timeout 20000
+
+Read the real page
+
+Capture an accessibility snapshot from the actual browser tab.
+
+npx -y @vibebrowser/cli@latest --remote "<my remote>" --json snapshot --format aria
+
+Open a URL
+
+Use an explicit CLI verb against your live session.
+
+npx -y @vibebrowser/cli@latest --remote "<my remote>" open https://example.com
+
+Click a snapshot ref
+
+Act only after a snapshot gives you a stable ref.
+
+npx -y @vibebrowser/cli@latest --remote "<my remote>" click A12
+OpenClaw bridge command
+
+For OpenClaw-style bridge routing, run:
+
+npx -y -p @vibebrowser/mcp@latest vibebrowser-mcp openclaw --remote "<my remote>"
+MCP escalation path
+
+Need richer tool orchestration? Use the same package via /mcp setup without changing the execution layer.
+
+AGENT SETUP
+
+One-shot install prompt
+
+Paste this block into your OpenClaw or Hermes agent. The button copies the full prompt so users do not have to select text manually.
+
+Agent install prompt
+
+Copy prompt
+You are setting yourself up to control my real Chrome through Vibe Browser. Work through the steps in order. Do not claim a step is done until you have proven it.
+
+1. Install the "vibebrowser" skill for your runtime, then confirm it is listed:
+   - OpenClaw:  npx -y skills add VibeTechnologies/vibe-mcp -s vibebrowser -a openclaw -g -y --copy --dangerously-accept-openclaw-risks
+                then run `openclaw skills list`. You may report the vibebrowser row only if you actually checked it.
+   - Hermes:    npx -y skills add VibeTechnologies/vibe-mcp -s vibebrowser -y
+                Do not treat `npx -y skills list` as proof that browser control works. A listed row is only a skill listing.
+
+2. Remember my remote so I only give it to you once. Save it to a file `vibebrowser-cli.md` in your persistent agent workspace root as a line `remote: <value>`; if your runtime can also write memory keys, additionally store it under `vibebrowser_remote`. On every later command — including the first message of a new conversation — load it back from that file and reuse it without asking me again.
+
+3. Record these standing rules so you route correctly later:
+   - Whenever I ask you to do anything in MY browser / MY Chrome / MY tabs / the page I'm on, use the vibebrowser skill to drive my REAL browser, not your built-in, headless, or in-pod browser, and not web-fetch.
+   - Never run `vibebrowser` directly. Always run `npx -y @vibebrowser/cli@latest` for direct CLI verification commands.
+
+4. Confirm you can control my Chrome, retrying on "Extension reconnecting" (wait 3s, up to 5x):
+   npx -y @vibebrowser/cli@latest --remote "<my remote>" --json status --wait-for-extension --wait-timeout 20000
+   npx -y @vibebrowser/cli@latest --remote "<my remote>" --json snapshot --format aria
+
+Then report the real proof: extensionConnected is true, and the snapshot returned real page content from my browser. For OpenClaw only, also report the skill listing if you checked it. Do not claim Hermes browser control works because a skill row exists.
+
+My remote: <PASTE YOUR UUID OR wss:// URL HERE>
+Open-source references
+
+vibebrowser-mcp
+
+GitHub repository for MCP server + relay commands.
+
+@vibebrowser/cli
+
+CLI entrypoint source in the public repo.
+
+VibeBrowser skill
+
+skills.sh listing for plug-and-play agent usage.
+
+VibeBrowser Co-Pilot
+
+The agentic browser that doesn't just answer — it operates the web for you.
+
+VibeBrowser Co-Pilot for
+Agent Infra
+Agents
+OpenClaw
+CLI Users
+Copilot Users
+Claude Users
+Gemini Users
+Codex Users
+ChatGPT Users
+Grok Users
+People
+Lawyers
+Recruiters
+Sales
+Researchers
+Developers
+Investors
+Crypto & DeFi
+Tax
+Amazon Sellers
+Everyone
+Resources
+MCP for Agents
+Platform Breakdown
+Browser CLI
+Ollama Integration
+Agentic Team
+Blog
+RSS Feed
+Developer Install
+Documentation
+Legal
+Privacy Policy
+Terms of Service
+Contact
+info@vibebrowser.app
+LinkedIn
+X (Twitter)
+Telegram Community
+About Us
+
+A product of AgentLabs · © 2026 VibeBrowser Co-Pilot. All rights reserved.

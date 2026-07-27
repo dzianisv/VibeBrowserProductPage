@@ -1,0 +1,586 @@
+VibeBrowser Co-Pilot
+for
+Agents
+Blog
+About Us
+Real Browser MCP
+Give Claude Code|
+a real browser
+
+Your real logged-in browser — connected directly to your AI agent. No Browserbase account. No stealth mode. No per-hour billing. Just your existing Chrome session, exposed as MCP.
+
+Install in Chrome
+Install in Claude Code
+CLI
+claude mcp add --transport stdio --scope user vibe -- npx -y -p @vibebrowser/mcp@latest vibebrowser-mcp
+Or add to project-level .mcp.json
+
+Requires Node.js and the Vibe Browser extension
+
+Published MCP binaries: vibebrowser-mcp and vibe-mcp. For OpenClaw-style CLI flows, see the separate OpenClaw page.
+
+25+ browser tools
+Multi-agent relay
+Internet-exposed relay
+No debug permissions
+Open source MCP package
+Free — no Browserbase account needed
+
+WORKS WITH ANY MCP-COMPATIBLE AGENT
+
+C
+Claude Code
+O
+OpenCode
+C
+Cursor
+C
+Claude Desktop
+V
+VS Code
+W
+Windsurf
+G
+Gemini CLI
+C
+Codex
+
+CAPABILITY SURFACES
+
+What agents can actually do through Vibe Browser MCP
+
+Package the browser, workspace, security, and coordination layers as explicit surfaces. That is the useful lesson from infrastructure products like Tavily, translated to a real-browser MCP.
+
+Browser control
+Snapshots
+Workspace
+Secrets + memory
+Coordination
+Browser control
+Drive the live browser session your operator already trusts
+
+Open tabs, navigate, click, fill, drag, type, and scroll inside the same logged-in browser profile instead of a disposable automation runtime.
+
+WHY TEAMS REACH FOR THIS SURFACE
+
+This is the right surface when your agent needs real UI state, installed extensions, existing cookies, and human-visible execution.
+
+Works on authenticated SaaS, portals, and internal tools
+Keeps the human in the same browser context as the agent
+Avoids extra browser launch flags or CDP ceremony
+
+REPRESENTATIVE TOOLS
+
+navigate_page
+click
+fill_form
+press_key
+drag
+
+PACKAGING THAT TECHNICAL BUYERS UNDERSTAND
+
+Tavily makes its product legible by naming a small set of surfaces clearly. The equivalent move for Vibe is not “search” or “crawl”; it is browser control, snapshots, workspace actions, secrets, and agent coordination.
+
+PROOF POINTS ALREADY PRESENT IN THIS ROUTE
+
+25+
+
+published tools across browser, workspace, security, and agent orchestration
+
+Local + remote
+
+relay paths for laptop agents and internet-reachable runners
+
+Multi-agent
+
+one real browser session can be shared by multiple cooperating agents
+
+Real sessions
+
+cookies, tabs, extensions, and authenticated apps stay intact
+
+How Vibe Browser MCP compares
+
+Vibe Browser MCP is the only browser MCP that uses your real browser with all your logged-in sessions — no debug ports, no separate browser instance.
+
+Feature	Vibe Browser MCP	Playwright MCP	DevTools MCP	Browser MCP
+Uses your logged-in browser
+
+Playwright supports this via its extension mode, but defaults to launching a separate browser instance
+
+	
+	
+	
+	
+
+No debug port required
+
+Playwright's default mode requires --remote-debugging-port; extension mode avoids this but adds token auth setup
+
+	
+	
+	
+	
+
+Multi-agent support
+
+Multiple AI agents control the same browser simultaneously via relay daemon
+
+	
+	
+	
+	
+
+Internet-exposed relay
+
+Expose your relay to the internet so remote agents can connect to your local browser from anywhere
+
+	
+	
+	
+	
+
+Google Workspace integration
+
+Gmail search/send/draft/thread/message plus Calendar view/create/delete — 8 native tools
+
+	
+	
+	
+	
+
+Credential vault
+
+Secure password manager that never exposes secrets to the LLM
+
+	
+	
+	
+	
+
+Sub-agent orchestration
+
+Spawn sub-agents with isolated context and parallel tool execution
+
+	
+	
+	
+	
+
+Standalone AI browser
+
+Also works as a standalone AI co-pilot directly in your browser
+
+	
+	
+	
+	
+
+Open source
+
+Vibe's npm package (@vibebrowser/mcp) ships vibebrowser-mcp and the vibe-mcp compatibility alias as open-source binaries; the browser extension is not. BrowserMCP is similar
+
+	
+	
+	
+	
+
+Telemetry to vendor
+
+Chrome DevTools MCP sends usage statistics and CrUX API calls to Google by default
+
+	
+	
+	
+	
+Playwright MCP (Microsoft)
+
+Launches a separate Playwright-managed browser. Requires CDP for existing browser connection. 27k GitHub stars.
+
+Chrome DevTools MCP (Google)
+
+Developer debugging tool using Puppeteer + CDP. Launches separate Chrome instance. Sends telemetry to Google by default. 25k GitHub stars.
+
+Browser MCP (Namu)
+
+Chrome extension-based like Vibe. Single agent only. Extension is closed-source. 5.8k GitHub stars.
+
+Two ways to connect: local or remote
+
+Run agents on your machine with the local relay, or connect any agent on the internet to your browser through our public relay server. Both support multiple agents simultaneously.
+
+Local mode
+— agents on your machine
+npx -y -p @vibebrowser/mcp@latest vibebrowser-mcp
+  Claude Code          Cursor           OpenCode
+       │                  │                 │
+       ▼                  ▼                 ▼
+   [vibebrowser-mcp]  [vibebrowser-mcp] [vibebrowser-mcp] ← stdio MCP bridges
+       │                  │                 │
+       └──────────────────┼─────────────────┘
+                          │
+                   ws://localhost:19888
+                          │
+                          ▼
+                 ┌──────────────────┐
+                 │   Local Relay    │  ← auto-spawned daemon
+                 │  (localhost only) │
+                 └──────────────────┘
+                          │
+                   ws://localhost:19889
+                          │
+                          ▼
+                 ┌──────────────────┐
+                 │  Vibe Extension  │  ← your real Chrome browser
+                 └──────────────────┘
+Remote mode
+New
+— agents anywhere on the internet
+npx -y -p @vibebrowser/mcp@latest vibebrowser-mcp --remote <uuid>
+  Cloud runner         Claude Code (laptop)     Cursor (office)
+       │                      │                       │
+       ▼                      ▼                       ▼
+   [vibebrowser-mcp      [vibebrowser-mcp      [vibebrowser-mcp
+    --remote <uuid>]         --remote <uuid>]         --remote <uuid>]
+       │                      │                       │
+       └──────────────────────┼───────────────────────┘
+                              │
+                    wss://relay.api.vibebrowser.app/<uuid>
+                              │
+                              ▼
+                 ┌────────────────────────────┐
+                 │    Public Relay Server      │  ← hosted by Vibe
+                 │  relay.api.vibebrowser.app  │     UUID-authenticated
+                 └────────────────────────────┘
+                              │
+                    wss://relay.api.vibebrowser.app
+                              │
+                              ▼
+                 ┌──────────────────┐
+                 │  Vibe Extension  │  ← your real Chrome browser
+                 │   (at home)      │     connects on "Remote" toggle
+                 └──────────────────┘
+Remote mode setup
+1.
+
+In the Vibe extension, go to Settings → AI Agent Control, turn on Enable external AI agent control, then select Remote (internet)
+
+This connects your browser to relay.api.vibebrowser.app and generates a unique UUID
+
+2.
+
+Copy the UUID/relay URL shown under Relay access
+
+3.
+
+Configure your agent with the --remote flag:
+
+CLI
+npx -y -p @vibebrowser/mcp@latest vibebrowser-mcp --remote YOUR_UUID
+
+Share your UUID with any MCP-compatible agent on the internet. They connect to your browser through the relay — no port forwarding, no VPN, no firewall changes needed.
+
+Multi-Agent
+
+Multiple agents connect simultaneously — local or remote, no conflicts
+
+Connect from Anywhere
+
+Any agent on the internet can control your browser — just share your UUID
+
+Authenticated
+
+UUID + secret authentication — only you control who connects
+
+25+ tools across 8 categories
+
+Navigation, interaction, Google Workspace, credential management, skills, sub-agents, and more — all exposed via MCP.
+
+Navigation
+2
+navigate_page
+Navigate to a URL or go back / forward / reload
+wait_for
+Wait for text to appear on the page
+Tab Management
+3
+list_pages
+List open browser pages/tabs
+new_page
+Open a new page with optional URL
+close_page
+Close a page by ID
+Index-Based Interaction
+5
+click
+Click by canonical ref like A7, M12, or 12
+fill
+Fill an input/select/contenteditable by canonical ref
+fill_form
+Fill multiple fields in one call
+scroll_page
+Scroll page up or down
+media_control
+Control video/audio playback
+Advanced Interaction
+4
+type_text
+Type into the focused field
+press_key
+Send keyboard keys and shortcuts
+hover
+Hover to trigger tooltips/menus
+drag
+Drag between elements or coordinates
+Utility
+4
+wait
+Wait N seconds
+subagent
+Spawn sub-agent with isolated context
+parallel
+Execute multiple tools in parallel
+web_fetch
+HTTP fetch + text extraction
+Inspection & State
+6
+take_snapshot
+Take indexed page snapshot (`type='markdown'` default or `type='a11y'`)
+take_html_snapshot
+Take a dedicated indexed HTML snapshot
+take_screenshot
+JPEG screenshot with resize, grayscale, quality controls
+evaluate_script
+Run JavaScript in the current page context
+list_network_requests
+List captured network requests
+get_network_request
+Inspect one captured request/response
+Google Workspace
+8
+gmail_search
+Search emails via Gmail API
+gmail_get_message
+Get full email content
+gmail_get_thread
+Get all messages in thread
+gmail_create_draft
+Create email draft
+gmail_send_message
+Send email
+calendar_view
+View upcoming events
+calendar_create
+Create calendar event
+calendar_delete
+Delete a calendar event
+Credential Management
+5
+secrets_manager
+List/read saved credentials
+typein_secret
+Fill form from vault (hidden from LLM)
+settings
+Read or update extension settings and skills
+settings_list
+List stored settings keys and skill entries
+memory_search
+Recall stored context before acting
+Skills Library
+
+Turn workflows into reusable skills and share them across agents or teams.
+
+Secrets Vault + Type-In
+
+Internal password vault with a fill tool that never exposes secrets to the LLM.
+
+Model & Agent Choice
+
+Works with Vibe AI, Anthropic Claude Max, GitHub Copilot, and BYOK providers.
+
+Set up in under 2 minutes
+1
+Install Extension
+
+Install the Vibe AI Browser extension and enable AI Agent Control in Settings.
+
+2
+Configure Your Agent
+
+Add the MCP server config to your AI agent. Pick your agent below — copy, paste, done.
+
+Configuration for every agent
+
+Click an agent to see the config. Copy, paste, done.
+
+Local mode defaults to relay port 19888 (no flag needed). The browser extension listens on 19889 — do not point the MCP server at the extension port.
+
+Claude Code
+OpenCode
+Cursor
+Claude Desktop
+VS Code
+Windsurf
+Gemini CLI
+Codex
+CLI
+claude mcp add --transport stdio --scope user vibe -- npx -y -p @vibebrowser/mcp@latest vibebrowser-mcp
+Or add to project-level .mcp.json
+No local install required
+Direct remote MCP endpoint (Streamable HTTP)
+
+This is an additional path, not a replacement for local stdio above. Skip the local vibebrowser-mcp bridge and Vibe Studio entirely — any MCP client that speaks HTTP JSON-RPC (the Streamable HTTP transport) calls our hosted relay directly and controls your logged-in browser from anywhere.
+
+Local stdio (default)
+Runs vibebrowser-mcp as a child process next to your agent
+Talks to the extension over localhost only — nothing leaves your machine
+Safest default when the agent and browser run on the same computer
+Direct remote HTTP
+No local process, no vibebrowser-mcp install, no Vibe Studio
+Agent calls https://relay.api.vibebrowser.app/mcp over HTTPS from anywhere
+Your UUID is a bearer credential for your real browser
+https://relay.api.vibebrowser.app/mcp
+  Any HTTP MCP client — cloud runner, CI, or laptop, no local bridge
+       │  POST /mcp   header: X-Remote-Session: <uuid>
+       ▼
+   https://relay.api.vibebrowser.app/mcp
+       │
+       ▼
+ ┌───────────────────────────┐
+ │     Public Relay Server    │  ← hosted by Vibe, HTTP JSON-RPC
+ │  relay.api.vibebrowser.app │     (Streamable HTTP), UUID-authenticated
+ └───────────────────────────┘
+       │
+       ▼
+ ┌──────────────────┐
+ │  Vibe Extension  │  ← your real Chrome browser
+ │   (at home)      │     Settings → AI Agent Control → Remote (internet)
+ └──────────────────┘        → Relay access
+Direct remote setup
+1.
+
+In the Vibe extension, open Settings → AI Agent Control → Remote (internet) → Relay access and copy your UUID
+
+This is the same relay access UUID used by --remote above — here it is sent as a header instead of a CLI flag, and no local process is involved.
+
+2.
+
+Point your agent at the endpoint with X-Remote-Session set to your UUID:
+
+Claude Code
+JSON (mcpServers)
+CLI
+claude mcp add --transport http --scope user vibe-remote https://relay.api.vibebrowser.app/mcp --header "X-Remote-Session: <uuid>"
+
+Security tradeoff: local stdio never leaves your machine. Direct remote HTTP sends a bearer credential (your UUID) over the internet on every request — whoever holds it can drive your real, logged-in browser. Keep the X-Remote-Session header out of shared chat logs, screenshots, and public repos, and prefer local stdio whenever your agent runs on the same machine as your browser.
+
+Markdown-indexed pages, not raw DOM
+
+Instead of dumping raw accessibility trees or DOM snapshots, Vibe extracts page content as clean markdown. Interactive elements get [index:score] labels that agents use to click, fill, and interact.
+
+Lower token usage
+
+Markdown is 3-5x smaller than raw DOM or accessibility trees
+
+Scored interactions
+
+Elements scored by relevance — agents focus on what matters
+
+Automatic delivery
+
+Page content sent before each agent turn — no tool call needed
+
+page content (auto)
+# @vibebrowser/mcp
+
+Browser automation MCP and CLI package.
+
+## Quick Start
+
+[1:0.9] Run vibebrowser-mcp
+[2:0.8] Run vibe-mcp
+[3:0.7] View documentation
+
+## Published binaries
+- vibebrowser-mcp
+- vibe-mcp (compatibility alias)
+
+## Features
+- Multi-agent relay
+- 25+ browser tools
+- Google Workspace integration
+
+[4:0.6] Sign in
+[5:0.5] Copy config
+[6:0.3] Enable remote mode
+Frequently asked questions
+How is Vibe Browser MCP different from Playwright MCP, Chrome DevTools MCP, and BrowserMCP?
+Can remote agents on the internet connect to my browser?
+Can multiple AI agents control the browser at the same time?
+Does Vibe Browser MCP require Chrome debug permissions?
+What AI agents work with Vibe Browser MCP?
+How does the credential vault work?
+Is Vibe Browser MCP open source?
+What are indexed markdown snapshots?
+Can Vibe Browser MCP also work as a standalone browser?
+Why does it matter that Vibe uses my real browser?
+Ready to connect your AI agent to your browser?
+
+Install the extension, add one config block, and start automating. Free, with an open source MCP package and browser CLI.
+
+Install in Chrome
+Configure Your Agent
+
+Questions? info@vibebrowser.app · GitHub · npm
+
+Personal automation
+Legal research automation
+LinkedIn recruiter automation
+Academic research automation
+VibeBrowser Co-Pilot
+
+The agentic browser that doesn't just answer — it operates the web for you.
+
+VibeBrowser Co-Pilot for
+Agent Infra
+Agents
+OpenClaw
+CLI Users
+Copilot Users
+Claude Users
+Gemini Users
+Codex Users
+ChatGPT Users
+Grok Users
+People
+Lawyers
+Recruiters
+Sales
+Researchers
+Developers
+Investors
+Crypto & DeFi
+Tax
+Amazon Sellers
+Everyone
+Resources
+MCP for Agents
+Platform Breakdown
+Browser CLI
+Ollama Integration
+Agentic Team
+Blog
+RSS Feed
+Developer Install
+Documentation
+Legal
+Privacy Policy
+Terms of Service
+Contact
+info@vibebrowser.app
+LinkedIn
+X (Twitter)
+Telegram Community
+About Us
+
+A product of AgentLabs · © 2026 VibeBrowser Co-Pilot. All rights reserved.
