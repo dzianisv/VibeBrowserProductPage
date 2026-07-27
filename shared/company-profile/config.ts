@@ -1,4 +1,5 @@
 import {
+  Activity,
   Bot,
   Briefcase,
   Code2,
@@ -355,9 +356,39 @@ agentlabsCompanyProfileConfig.products = agentlabsCompanyProfileConfig.products.
   return product
 })
 
-// Append a-test and Market Data at the bottom of the product list
+// Append Kinetic, a-test and Market Data at the bottom of the product list
 agentlabsCompanyProfileConfig.products = [
   ...agentlabsCompanyProfileConfig.products,
+  {
+    // Google Play is the only install channel for Kinetic — the old GitHub-release APK
+    // embeds a placeholder proxy host and has no working AI. `utm_medium=homepage`
+    // rides along as an install referrer so homepage-sourced installs are attributable.
+    title: "Kinetic AI Fitness Coach",
+    badge: "Android · Health & Fitness",
+    description:
+      "AI personal trainer that watches your form, counts your reps, and coaches you out loud using just your phone's camera. On-device pose detection draws a live skeleton overlay; a multimodal model reviews the annotated set for rep counting and form correction. Kinetic Pro is $7.49/month or $43.99/year after a 3-day free trial.",
+    tags: [
+      "Pose Detection",
+      "Rep Counter",
+      "AI Form Correction",
+      "On-Device ML",
+      "Workout Plans",
+      "Google Play",
+    ],
+    icon: Activity,
+    iconColor: "text-[#81c995]",
+    iconBg: "bg-[#81c995]/10",
+    borderHoverClass: "hover:border-[#81c995]/40",
+    actions: [
+      {
+        href: "https://play.google.com/store/apps/details?id=com.aistudio.aicoach.vtzrkm&referrer=utm_source%3Dagentlabs%26utm_medium%3Dhomepage%26utm_campaign%3Dproduct_page",
+        label: "Get it on Google Play",
+        colorClass: "text-[#81c995]",
+        external: true,
+      },
+      { href: "/products/kinetic-ai-coach", label: "Learn More", colorClass: "text-[#fdd663]" },
+    ],
+  },
   {
     title: "a-test",
     badge: "Mobile · Browser · CI",

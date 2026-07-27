@@ -1,10 +1,11 @@
 "use client"
 
-import React, { useState, useEffect } from "react"
+import React, { useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { track } from "@/lib/analytics"
+import { PlayTesterSignup, useEmailForm } from "@/components/play-tester-signup"
 import {
   Smartphone,
   KeyRound,
@@ -19,8 +20,6 @@ import {
   Lock,
   Wifi,
 } from "lucide-react"
-
-const PLAY_OPT_IN_URL = "https://play.google.com/apps/internaltest/4701574809387172305"
 
 const PROVIDERS = [
   "Azure OpenAI",
@@ -131,50 +130,8 @@ const FAQ = [
   },
 ]
 
-type FormState = "idle" | "loading" | "ok" | "error"
-
-function useEmailForm(endpoint: string, successEvent?: string) {
-  const [email, setEmail] = useState("")
-  const [state, setState] = useState<FormState>("idle")
-  const [message, setMessage] = useState<string>("")
-  const [optInUrl, setOptInUrl] = useState<string>("")
-
-  async function submit(e: React.FormEvent) {
-    e.preventDefault()
-    if (state === "loading") return
-    setState("loading")
-    setMessage("")
-    try {
-      const res = await fetch(endpoint, {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ email }),
-      })
-      const data = (await res.json().catch(() => ({}))) as {
-        ok?: boolean
-        error?: string
-        optInUrl?: string
-      }
-      if (res.ok && data.ok) {
-        setState("ok")
-        if (data.optInUrl) setOptInUrl(data.optInUrl)
-        if (successEvent) track(successEvent, { page: "/mobile" })
-      } else {
-        setState("error")
-        setMessage(data.error || "Something went wrong. Please try again.")
-      }
-    } catch {
-      setState("error")
-      setMessage("Network error. Please try again.")
-    }
-  }
-
-  return { email, setEmail, state, message, optInUrl, submit }
-}
-
 export default function AgentPodMobilePage() {
-  const waitlist = useEmailForm("/api/waitlist", "waitlist_submitted")
-  const tester = useEmailForm("/api/play-tester", "play_tester_submitted")
+  const waitlist = useEmailForm("/api/waitlist", "waitlist_submitted", "/mobile")
 
   useEffect(() => {
     track("mobile_pageview", { page: "/mobile" })
@@ -502,66 +459,8 @@ export default function AgentPodMobilePage() {
       {/* Waitlist + Early tester */}
       <section id="early-tester" className="py-16 md:py-24 bg-[#0a0a0a]">
         <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-6">
-          {/* Early tester */}
-          <Card className="border border-[#3c4043] bg-[#141414] shadow-none">
-            <CardContent className="pt-6">
-              <div className="flex items-center gap-2 mb-2">
-                <Smartphone size={16} className="text-[#fdd663]" />
-                <h3 className="font-semibold text-base text-[#e8eaed]">Become an early tester</h3>
-              </div>
-              <p className="text-sm text-[#9aa0a6] mb-5 leading-relaxed">
-                Join the Android internal test track. Enter your Google account email — we add you
-                to the tester list, then you finish installing from Google Play.
-              </p>
-              {tester.state === "ok" ? (
-                <div className="rounded-lg border border-[#81c995]/30 bg-[#81c995]/5 p-4">
-                  <div className="flex items-center gap-2 text-[#81c995] mb-2">
-                    <Check size={16} />
-                    <span className="text-sm font-medium">You&apos;re on the tester list.</span>
-                  </div>
-                  <p className="text-sm text-[#9aa0a6] mb-3">
-                    Final step: open the Play opt-in link on the same Google account to install.
-                  </p>
-                  <Button
-                    asChild
-                    className="bg-[#81c995] hover:bg-[#6db882] text-[#0a0a0a] font-medium w-full"
-                  >
-                    <a
-                      href={tester.optInUrl || PLAY_OPT_IN_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Open Google Play opt-in
-                    </a>
-                  </Button>
-                </div>
-              ) : (
-                <form onSubmit={tester.submit} className="space-y-3">
-                  <input
-                    type="email"
-                    required
-                    value={tester.email}
-                    onChange={(e) => tester.setEmail(e.target.value)}
-                    placeholder="you@gmail.com"
-                    className="w-full rounded-md border border-[#3c4043] bg-[#0d0d0d] px-3 py-2.5 text-sm text-[#e8eaed] placeholder:text-[#5f6368] focus:border-[#fdd663]/50 focus:outline-none focus:ring-1 focus:ring-[#fdd663]/30"
-                  />
-                  <Button
-                    type="submit"
-                    disabled={tester.state === "loading"}
-                    className="bg-[#fdd663] hover:bg-[#ffe28a] text-[#0a0a0a] font-medium w-full"
-                  >
-                    {tester.state === "loading" ? "Adding you…" : "Join the test track"}
-                  </Button>
-                  {tester.state === "error" && (
-                    <p className="text-sm text-[#f28b82]">{tester.message}</p>
-                  )}
-                  <p className="text-xs text-[#5f6368]">
-                    Use a Google account email — the Play test track is tied to your Google login.
-                  </p>
-                </form>
-              )}
-            </CardContent>
-          </Card>
+          {/* Early tester — shared enrollment funnel, also used on /products/mystic-tarot */}
+          <PlayTesterSignup page="/mobile" />
 
           {/* Waitlist */}
           <Card className="border border-[#3c4043] bg-[#141414] shadow-none">
