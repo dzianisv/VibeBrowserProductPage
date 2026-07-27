@@ -593,6 +593,49 @@ export default function Component() {
       </div>
     </section>
 
+    {/* See It In Action — real engineering demo, not a scripted reel */}
+    <section className="w-full py-14 md:py-20 bg-gradient-to-br from-slate-50 to-white border-y border-slate-100">
+      <div className="container max-w-5xl px-4 md:px-6 mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+          <div className="mx-auto w-full max-w-[280px] sm:max-w-xs">
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-200 bg-black" style={{ paddingBottom: '177.78%' }}>
+              <iframe
+                className="absolute inset-0 w-full h-full"
+                src="https://www.youtube-nocookie.com/embed/XEWpqHpsYGs"
+                title="Vibe Browser Co-Pilot — real engineering demo"
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </div>
+          </div>
+          <div className="flex flex-col gap-4 text-center lg:text-left">
+            <span className="inline-flex items-center gap-2 self-center lg:self-start rounded-full bg-red-50 px-3 py-1 text-xs font-semibold text-red-600 border border-red-100">
+              <Youtube className="w-4 h-4" /> Real engineering demo
+            </span>
+            <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+              See it in action — no script, no cuts
+            </h2>
+            <p className="text-muted-foreground leading-relaxed">
+              A real Vibe AI Browser Co-Pilot run, recorded end to end in a live browser session — the same agent you get after install, not a marketing mockup.
+            </p>
+            <div className="flex justify-center lg:justify-start">
+              <Button
+                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
+                onClick={() => {
+                  trackCTAClick('watch_engineering_demo', 'see_it_in_action')
+                  window.open('https://youtube.com/shorts/XEWpqHpsYGs', '_blank')
+                }}
+              >
+                <Youtube className="mr-2 h-4 w-4" />
+                Watch on YouTube
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     {/* Why Vibe */}
     <section className="w-full py-14 md:py-20 bg-white">
       <div className="container max-w-5xl px-4 md:px-6 mx-auto">
