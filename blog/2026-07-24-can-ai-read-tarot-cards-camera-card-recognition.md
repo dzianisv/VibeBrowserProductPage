@@ -89,7 +89,7 @@ The clean mental model: **AI reads the card, not the future.** The camera-based 
 
 ## Try it
 
-Curious to point your camera at a real card and watch the recognition-plus-interpretation pipeline run? That's what [Mystic Tarot](https://agentlabs.cc/products/mystic-tarot) does — scan a physical card or draw a virtual one, then chat with an AI Tarot Master about the reading. It's in closed testing on Google Play right now, so [join the tester list](https://agentlabs.cc/products/mystic-tarot#tester) to install it. It's one of the [apps we build at AgentLabs](https://agentlabs.cc/products).
+Curious to point your camera at a real card and watch the recognition-plus-interpretation pipeline run? That's what [Mystic Tarot](https://agentlabs.cc/products/mystic-tarot) does — scan a physical card or draw a virtual one, then chat with an AI Tarot Master about the reading. It's in closed testing on Google Play right now and not publicly available yet; the [product page](https://agentlabs.cc/products/mystic-tarot) carries the current status. It's one of the [apps we build at AgentLabs](https://agentlabs.cc/products).
 
 <script type="application/ld+json">
 {

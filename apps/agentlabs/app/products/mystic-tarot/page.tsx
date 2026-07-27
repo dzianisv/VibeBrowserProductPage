@@ -14,16 +14,22 @@ import {
   ArrowRight,
   Play,
 } from "lucide-react"
-import { PlayTesterSignup } from "@/components/play-tester-signup"
 
 // Mystic Tarot is still in CLOSED TESTING on Google Play — the public listing for
 // com.aistudio.mystictarot.qxrptl returns 404, so there is deliberately no Play store
 // link or Play badge on this page.
 //
 // There is also NO direct-APK link: the published GitHub-release APK bricks at sign-in
-// (no Firebase config baked in), so linking it only burns first impressions. The only
-// honest channel is the internal-test track — the shared /api/play-tester enrollment
-// funnel (Google Group + Brevo, then the Play opt-in link).
+// (no Firebase config baked in), so linking it only burns first impressions.
+//
+// DO NOT put an email-capture form on this page. A previous revision wired the
+// `PlayTesterSignup` card here, which POSTs to `/api/play-tester` — an endpoint that is
+// hard-coded to AgentPod Mobile's Brevo list (BREVO_AGENTPOD_LIST_ID) and AgentPod's
+// Play internal-test track. A tarot visitor submitting that form was silently added to
+// a different product's mailing list and pointed at a different product's test build.
+// Mystic Tarot has no tester funnel of its own yet — see the follow-up issue on
+// parameterizing /api/play-tester per product. Until that lands, this page states its
+// status and collects nothing.
 //
 // TODO: switch to a Play listing CTA when com.aistudio.mystictarot.qxrptl goes public
 // (https://play.google.com/store/apps/details?id=com.aistudio.mystictarot.qxrptl),
@@ -95,7 +101,7 @@ const FAQ = [
   },
   {
     q: "Is there a free tarot reading?",
-    a: "Yes. Mystic Tarot is currently in closed testing on Google Play — join the tester list and the test build is free, including readings and daily guidance, with no in-app purchases. A Mystic Premium tier with unlimited AI interpretations, unlimited scans, and the full Tarot Master chat is planned for the public Google Play release.",
+    a: "Yes — readings and daily guidance are free, with no in-app purchases. Mystic Tarot is still in closed testing on Google Play, so it is not publicly available to install yet. A Mystic Premium tier with unlimited AI interpretations, unlimited scans, and the full Tarot Master chat is planned for the public Google Play release.",
   },
   {
     q: "Are my readings saved and private?",
@@ -115,7 +121,6 @@ export default function TarotProductPage() {
     applicationCategory: "LifestyleApplication",
     operatingSystem: "Android",
     url: "https://agentlabs.cc/products/mystic-tarot",
-    installUrl: "https://agentlabs.cc/products/mystic-tarot#tester",
     description:
       "Mystic Tarot turns your phone into an AI-powered oracle. Scan your real tarot cards with AI, draw a digital deck for instant readings, and chat with your own AI Tarot Master.",
     featureList: FEATURES.map((f) => f.title),
@@ -177,9 +182,10 @@ export default function TarotProductPage() {
             <a href="#faq" className="hidden sm:inline text-sm text-[#9aa0a6] hover:text-[#e8eaed] transition-colors">
               FAQ
             </a>
-            <Button asChild className="bg-[#81c995] hover:bg-[#6db882] text-[#0a0a0a] text-sm font-medium" size="sm">
-              <a href="#tester">Join the tester list</a>
-            </Button>
+            {/* Status, not a CTA: there is nothing to install or sign up for yet. */}
+            <span className="rounded-full border border-[#3c4043] bg-[#141414] px-3 py-1.5 text-xs font-medium text-[#9aa0a6]">
+              Closed testing
+            </span>
           </div>
         </div>
       </header>
@@ -209,9 +215,9 @@ export default function TarotProductPage() {
           </p>
           <div className="flex flex-wrap gap-3 justify-center mb-6">
             <Button asChild className="bg-[#81c995] hover:bg-[#6db882] text-[#0a0a0a] font-medium" size="lg">
-              <a href="#tester" className="flex items-center gap-2">
-                <Play className="h-4 w-4" />
-                Join the tester list
+              <a href="#features" className="flex items-center gap-2">
+                See features
+                <ArrowRight className="h-4 w-4" />
               </a>
             </Button>
             <Button
@@ -219,9 +225,8 @@ export default function TarotProductPage() {
               className="border border-[#3c4043] bg-transparent text-[#e8eaed] hover:border-[#fdd663]/40 hover:bg-[#fdd663]/5"
               size="lg"
             >
-              <a href="#features" className="flex items-center gap-2">
-                See features
-                <ArrowRight className="h-4 w-4" />
+              <a href="#how" className="flex items-center gap-2">
+                How it works
               </a>
             </Button>
           </div>
@@ -229,13 +234,15 @@ export default function TarotProductPage() {
             AI card scanner, AI Tarot Master chat, daily guidance &amp; a private offline journal. Android.
           </p>
           {/* Honest status. Do NOT add a Play store link or badge: the public listing for
-              com.aistudio.mystictarot.qxrptl returns 404 (closed testing). */}
+              com.aistudio.mystictarot.qxrptl returns 404 (closed testing). Do NOT add an
+              email field here — see the note at the top of this file. */}
           <p className="inline-flex max-w-xl items-start gap-2 rounded-lg border border-[#3c4043] bg-[#141414] px-3 py-2 text-xs text-[#9aa0a6] text-left">
             <Play className="h-3 w-3 mt-0.5 shrink-0" />
             <span>
-              Mystic Tarot is in <span className="text-[#e8eaed] font-medium">closed testing</span> on Google Play, so
-              there is no public listing yet. Join the tester list with your Google account email and we add you to the
-              test track — you then install from Google Play like any other app.
+              Mystic Tarot is in <span className="text-[#e8eaed] font-medium">closed testing</span> on Google Play and{" "}
+              <span className="text-[#e8eaed] font-medium">is not publicly available yet</span> — there is no public
+              listing and no download. We are not taking sign-ups for it right now; this page is updated when the Play
+              listing goes live.
             </span>
           </p>
         </div>
@@ -310,20 +317,24 @@ export default function TarotProductPage() {
         </div>
       </section>
 
-      {/* Final CTA — internal-test enrollment (shared /api/play-tester funnel) */}
-      <section id="tester" className="py-16 md:py-24 bg-[#0a0a0a]">
+      {/* Availability status — static, no email capture. See the note at the top of this
+          file: /api/play-tester is AgentPod Mobile's funnel and must not be reused here. */}
+      <section id="status" className="py-16 md:py-24 bg-[#0a0a0a]">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold mb-4 text-[#e8eaed]">Your cards are waiting</h2>
-          <p className="text-[#9aa0a6] mb-8 max-w-xl mx-auto">
-            Mystic Tarot is in closed testing on Google Play. Add your Google account email to the tester list and
-            we&apos;ll enroll you in the test track — then you install from Google Play and start scanning.
-          </p>
-          <div className="max-w-md mx-auto text-left">
-            <PlayTesterSignup
-              page="/products/mystic-tarot"
-              title="Join the Mystic Tarot tester list"
-              blurb="Closed testing on Google Play. Enter your Google account email — we add you to the tester list, then you finish installing from Google Play."
-            />
+          <h2 className="text-2xl md:text-3xl font-bold mb-4 text-[#e8eaed]">Not available yet</h2>
+          <div className="max-w-xl mx-auto rounded-lg border border-[#3c4043] bg-[#141414] p-6 text-left">
+            <div className="flex items-center gap-2 mb-3">
+              <Play size={16} className="text-[#fdd663]" />
+              <h3 className="font-semibold text-base text-[#e8eaed]">Closed testing on Google Play</h3>
+            </div>
+            <p className="text-sm text-[#9aa0a6] leading-relaxed mb-3">
+              Mystic Tarot is being tested with a private group. There is no public Google Play listing and no download
+              yet, so you cannot install it today.
+            </p>
+            <p className="text-sm text-[#9aa0a6] leading-relaxed">
+              We are not collecting email addresses for Mystic Tarot. When the Play listing goes public, the install
+              link appears on this page.
+            </p>
           </div>
           <div className="flex flex-wrap gap-3 justify-center mt-8">
             <Button asChild className="border border-[#3c4043] bg-transparent text-[#e8eaed] hover:border-[#fdd663]/40 hover:bg-[#fdd663]/5" size="lg">

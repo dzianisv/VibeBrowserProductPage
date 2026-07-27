@@ -71,6 +71,12 @@ type PlayTesterSignupProps = {
  * Internal-test enrollment card: POST /api/play-tester adds the address to the
  * Google Group that backs the Play closed-test track (and to Brevo), then shows
  * the Play opt-in link as the final step.
+ *
+ * ⚠️ AGENTPOD MOBILE ONLY. `/api/play-tester` is hard-coded to AgentPod's Brevo
+ * list and AgentPod's internal-test track, so rendering this card on another
+ * product's page enrolls that product's visitors into AgentPod. Do not mount it
+ * outside /mobile until the route takes a product key. The `page` prop is an
+ * analytics label — it does NOT scope the enrollment.
  */
 export function PlayTesterSignup({
   page,
