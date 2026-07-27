@@ -16,7 +16,7 @@ published: true
 
 "AI rep counter" and "AI form check" sound like marketing until you try to build one. Then you hit the real question: how does a phone actually know you did eight reps, and how does it know rep six was sloppy? The answer is two different systems doing two different jobs — a fast, deterministic computer-vision layer that counts, and a slower, multimodal language model that critiques. Confusing the two is where most "AI fitness" apps go wrong.
 
-This is a technical walkthrough of how AI form correction actually works, grounded in how we built [Kinetic AI Fitness Coach](https://github.com/dzianisv/KineticAiCoach/releases/latest/download/kinetic-ai-coach.apk). No magic, no invented accuracy numbers — just the pipeline and its tradeoffs.
+This is a technical walkthrough of how AI form correction actually works, grounded in how we built [Kinetic AI Fitness Coach](https://agentlabs.cc/products/kinetic-ai-coach). No magic, no invented accuracy numbers — just the pipeline and its tradeoffs.
 
 ## The two-layer problem
 
@@ -108,7 +108,7 @@ None of this makes the approach less useful. It makes it *honest*. A live skelet
 
 ## Try it
 
-Want to see the pipeline running on your own reps — live pose detection, an automatic rep counter, and spoken AI form correction, all from your phone's camera? That's exactly what [Download Kinetic AI Coach](https://github.com/dzianisv/KineticAiCoach/releases/latest/download/kinetic-ai-coach.apk) does. It's one of the apps we build at AgentLabs.
+Want to see the pipeline running on your own reps — live pose detection, an automatic rep counter, and spoken AI form correction, all from your phone's camera? That's exactly what [Kinetic AI Coach](https://agentlabs.cc/products/kinetic-ai-coach) does — [get it on Google Play](https://play.google.com/store/apps/details?id=com.aistudio.aicoach.vtzrkm&referrer=utm_source%3Dagentlabs%26utm_medium%3Dblog%26utm_campaign%3Dproduct_page), or read the full [product page](https://agentlabs.cc/products/kinetic-ai-coach) first. It's one of the [apps we build at AgentLabs](https://agentlabs.cc/products).
 
 <script type="application/ld+json">
 {

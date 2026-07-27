@@ -4,25 +4,30 @@ import React from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Activity, Sparkles, ArrowRight } from "lucide-react"
+import { Activity, Sparkles, ArrowRight, Play } from "lucide-react"
 
-/**
- * HOLD: do not enable until the live Play AAB is verified to have a working proxy URL
- * + paywall_enabled=true.
- *
- * Kinetic's public Play listing (com.aistudio.aicoach.vtzrkm) IS live, but the shipped
- * build has a placeholder Cloud Function URL and a force-disabled paywall, so promoting
- * installs would only earn permanent 1-star Play reviews. When it's verified, add
- * `playUrl: KINETIC_PLAY_URL` to the Kinetic entry plus install-referrer attribution:
- *   `${KINETIC_PLAY_URL}&referrer=utm_source%3Dagentlabs%26utm_medium%3Dproducts_index%26utm_campaign%3Dproduct_page`
- */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// Kinetic is live on Google Play — that listing is the only correct install channel
+// (the old GitHub-release APK embeds a placeholder proxy host and has no working AI).
+// Install-referrer attribution tags this surface as `products_index`.
 const KINETIC_PLAY_URL = "https://play.google.com/store/apps/details?id=com.aistudio.aicoach.vtzrkm"
+const KINETIC_PLAY_CTA_URL = `${KINETIC_PLAY_URL}&referrer=utm_source%3Dagentlabs%26utm_medium%3Dproducts_index%26utm_campaign%3Dproduct_page`
 
-// TODO: switch to Play URL when com.aistudio.mystictarot.qxrptl goes public — that
-// listing is still in closed testing (404), so this card intentionally has no Play CTA.
+// Mystic Tarot is still in CLOSED TESTING — the public listing for
+// com.aistudio.mystictarot.qxrptl returns 404 — so this card has no Play CTA. The
+// product page carries the internal-test enrollment form instead.
 
-const PRODUCTS = [
+type Product = {
+  href: string
+  icon: typeof Activity
+  name: string
+  tagline: string
+  body: string
+  tags: string[]
+  status: string
+  playUrl?: string
+}
+
+const PRODUCTS: Product[] = [
   {
     href: "/products/kinetic-ai-coach",
     icon: Activity,
@@ -30,7 +35,8 @@ const PRODUCTS = [
     tagline: "AI personal trainer for Android",
     body: "Watches your form, counts your reps, and coaches you out loud using just your phone's camera. Live on-device pose detection, AI form correction, and personalized workout plans.",
     tags: ["Health & Fitness", "Pose detection", "Rep counter"],
-    status: "Early access · Kinetic Pro will be $7.49/month or $43.99/year on Google Play",
+    status: "Live on Google Play · Kinetic Pro is $7.49/month or $43.99/year after a 3-day free trial",
+    playUrl: KINETIC_PLAY_CTA_URL,
   },
   {
     href: "/products/mystic-tarot",
@@ -39,7 +45,7 @@ const PRODUCTS = [
     tagline: "AI tarot reading & card scanner",
     body: "Scan your real tarot cards with Gemini Vision AI or draw a digital deck for instant readings. Chat with your own AI Tarot Master, get daily guidance, and keep a private offline journal.",
     tags: ["Lifestyle", "AI card scanner", "Daily tarot"],
-    status: "Early access · not on Google Play yet (closed testing)",
+    status: "Closed testing on Google Play · join the tester list to install",
   },
 ]
 
@@ -110,8 +116,23 @@ export default function ProductsIndexPage() {
                   ))}
                 </div>
                 <p className="text-xs text-[#9aa0a6] mb-6">{p.status}</p>
-                <div className="mt-auto">
-                  <Button asChild className="bg-[#81c995] hover:bg-[#6db882] text-[#0a0a0a] font-medium w-full">
+                <div className="mt-auto space-y-2">
+                  {p.playUrl ? (
+                    <Button asChild className="bg-[#81c995] hover:bg-[#6db882] text-[#0a0a0a] font-medium w-full">
+                      <a href={p.playUrl} className="flex items-center justify-center gap-2">
+                        <Play className="h-4 w-4" />
+                        Get it on Google Play
+                      </a>
+                    </Button>
+                  ) : null}
+                  <Button
+                    asChild
+                    className={
+                      p.playUrl
+                        ? "border border-[#3c4043] bg-transparent text-[#e8eaed] hover:border-[#fdd663]/40 hover:bg-[#fdd663]/5 font-medium w-full"
+                        : "bg-[#81c995] hover:bg-[#6db882] text-[#0a0a0a] font-medium w-full"
+                    }
+                  >
                     <Link href={p.href} className="flex items-center justify-center gap-2">
                       Learn more
                       <ArrowRight className="h-4 w-4" />
