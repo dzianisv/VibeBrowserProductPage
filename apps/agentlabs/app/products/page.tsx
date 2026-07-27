@@ -45,7 +45,7 @@ const PRODUCTS: Product[] = [
     tagline: "AI tarot reading & card scanner",
     body: "Scan your real tarot cards with Gemini Vision AI or draw a digital deck for instant readings. Chat with your own AI Tarot Master, get daily guidance, and keep a private offline journal.",
     tags: ["Lifestyle", "AI card scanner", "Daily tarot"],
-    status: "Closed testing on Google Play · join the tester list to install",
+    status: "Closed testing on Google Play · not publicly available yet",
   },
 ]
 
