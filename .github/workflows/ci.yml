@@ -65,6 +65,10 @@ jobs:
       # no-numeric-rating / no-aggregateRating guarantees). Reads source only,
       # so it doesn't need the build.
       - run: node scripts/test-pricing-value-clarity.js
+      # Guards the title-keyed product dispatch in shared/company-profile/config.ts:
+      # renaming a product title without updating its `product.title === "..."`
+      # branch silently breaks the agentlabs.cc absolute-href rewrite. Source only.
+      - run: node scripts/test-company-profile-title-dispatch.cjs
       - run: npm run build
       # Regression guard for the shared /og/[key] image route
       # (app/og/[key]/route.tsx + lib/og-image-designs.tsx) introduced by the

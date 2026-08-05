@@ -120,7 +120,7 @@ const baseCompanyProfileConfig: CompanyProfileConfig = {
       ],
     },
     {
-      title: "Vibe Agentic Team",
+      title: "Agentic Ops Team",
       badge: "Multi-Agent",
       description:
         "A team of specialized AI agents that collaborate over Slack. Each agent has its own role, tools, and context window - solving the #1 problem with single-agent systems: context flooding. Fully configurable roles for any workflow.",
@@ -466,7 +466,7 @@ agentlabsCompanyProfileConfig.products = agentlabsCompanyProfileConfig.products.
       }),
     }
   }
-  if (product.title === "Vibe Agentic Team") {
+  if (product.title === "Agentic Ops Team") {
     return {
       ...product,
       actions: product.actions.map((action) => {
