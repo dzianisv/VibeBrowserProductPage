@@ -1,160 +1,90 @@
 "use client"
 
 import { useEffect, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 
-export interface ReferralData {
-  referral_source: string | null
-  utm_source: string | null
-  utm_medium: string | null
-  utm_campaign: string | null
-  utm_term: string | null
-  utm_content: string | null
-  landing_page: string | null
+import {
+  buildCurrentReferralData,
+  captureReferralData,
+  clearReferralData,
+  getReferralSource,
+  getStoredReferralData,
+  hasUtmParams,
+  mergeReferralData,
+  normalizeReferrer,
+  parseUtmParams,
+  REFERRAL_STORAGE_KEY,
+  UTM_KEYS,
+  type ReferralData,
+  type UtmKey,
+} from './referral-tracking-core'
+
+// The attribution scheme (first-touch landing + first non-empty UTM set) is
+// documented in ./referral-tracking-core.ts. This module is the client-side
+// entry point; the core is framework-free so it can be unit-tested.
+export {
+  buildCurrentReferralData,
+  captureReferralData,
+  clearReferralData,
+  getReferralSource,
+  getStoredReferralData,
+  hasUtmParams,
+  mergeReferralData,
+  normalizeReferrer,
+  parseUtmParams,
+  REFERRAL_STORAGE_KEY,
+  UTM_KEYS,
+}
+export type { ReferralData, UtmKey }
+
+/** Snapshot of the page currently being viewed, for the capture helpers. */
+function currentPageInput() {
+  return {
+    search: window.location.search,
+    pathname: window.location.pathname,
+    referrer: document.referrer,
+  }
 }
 
-// Map of known referrers to friendly names
-const REFERRER_MAPPINGS: Record<string, string> = {
-  'linkedin.com': 'linkedin',
-  'www.linkedin.com': 'linkedin',
-  'twitter.com': 'twitter',
-  'x.com': 'twitter',
-  'facebook.com': 'facebook',
-  'www.facebook.com': 'facebook',
-  'google.com': 'google',
-  'www.google.com': 'google',
-  'bing.com': 'bing',
-  'www.bing.com': 'bing',
-  'reddit.com': 'reddit',
-  'www.reddit.com': 'reddit',
-  'old.reddit.com': 'reddit',
-  'news.ycombinator.com': 'hackernews',
-  'youtube.com': 'youtube',
-  'www.youtube.com': 'youtube',
-  'github.com': 'github',
-  'producthunt.com': 'producthunt',
-  'www.producthunt.com': 'producthunt',
-}
-
-function getReferralSource(): string | null {
+/**
+ * Capture referral data for the current page.
+ *
+ * Despite the historical name this is safe to call on every navigation, not
+ * just the first load: first-touch landing page and referral source are kept,
+ * while a campaign UTM set arriving later in the session is still recorded.
+ * That later-UTM case is exactly what this function used to drop on the floor.
+ */
+export function captureReferralDataOnLoad(): ReferralData | null {
   if (typeof window === 'undefined') return null
-  
-  const referrer = document.referrer
-  if (!referrer) return null
-  
-  try {
-    const url = new URL(referrer)
-    const hostname = url.hostname.toLowerCase()
-    
-    // Check if it's our own domain (not a referral)
-    if (hostname.includes('vibebrowser.app')) return null
-    
-    // Check known mappings
-    if (REFERRER_MAPPINGS[hostname]) {
-      return REFERRER_MAPPINGS[hostname]
-    }
-    
-    // Return the hostname for unknown referrers
-    return hostname.replace('www.', '')
-  } catch {
-    return null
-  }
+  return captureReferralData(currentPageInput())
 }
 
-// Capture referral data immediately on page load
-// This must run ASAP because document.referrer gets cleared on navigation
-export function captureReferralDataOnLoad(): void {
-  if (typeof window === 'undefined') return
-  
-  // Only capture once per session - don't overwrite existing data
-  const existingData = sessionStorage.getItem('vibe_referral_data')
-  if (existingData) return
-  
-  const params = new URLSearchParams(window.location.search)
-  const referral_source = getReferralSource()
-  
-  const data: ReferralData = {
-    referral_source: referral_source || params.get('utm_source') || 'direct',
-    utm_source: params.get('utm_source'),
-    utm_medium: params.get('utm_medium'),
-    utm_campaign: params.get('utm_campaign'),
-    utm_term: params.get('utm_term'),
-    utm_content: params.get('utm_content'),
-    landing_page: window.location.pathname,
-  }
-  
-  sessionStorage.setItem('vibe_referral_data', JSON.stringify(data))
+/**
+ * Capture the current page, then return the merged session record.
+ *
+ * Used by the waitlist dialogs so that opening the form on a URL carrying UTMs
+ * records them even when the session started on a UTM-free page.
+ */
+export function captureAndGetReferralData(): ReferralData | null {
+  if (typeof window === 'undefined') return null
+  return captureReferralData(currentPageInput()) ?? getStoredReferralData()
 }
 
-export function useReferralTracking(): ReferralData {
-  const searchParams = useSearchParams()
-  const [referralData, setReferralData] = useState<ReferralData>({
-    referral_source: null,
-    utm_source: null,
-    utm_medium: null,
-    utm_campaign: null,
-    utm_term: null,
-    utm_content: null,
-    landing_page: null,
-  })
+/**
+ * React hook returning the session's referral data, refreshed on navigation.
+ *
+ * Keyed on `usePathname()` rather than `useSearchParams()` so it does not force
+ * a Suspense boundary on every consumer; the live query string is read inside
+ * the effect. The waitlist dialogs additionally call
+ * `captureAndGetReferralData()` on open, which covers query-only URL changes.
+ */
+export function useReferralTracking(): ReferralData | null {
+  const pathname = usePathname()
+  const [referralData, setReferralData] = useState<ReferralData | null>(null)
 
   useEffect(() => {
-    // Get UTM parameters from URL
-    const utm_source = searchParams.get('utm_source')
-    const utm_medium = searchParams.get('utm_medium')
-    const utm_campaign = searchParams.get('utm_campaign')
-    const utm_term = searchParams.get('utm_term')
-    const utm_content = searchParams.get('utm_content')
-    
-    // Get referral source from document.referrer
-    const referral_source = getReferralSource()
-    
-    // Get current landing page
-    const landing_page = typeof window !== 'undefined' ? window.location.pathname : null
-
-    const data: ReferralData = {
-      referral_source: referral_source || utm_source || null,
-      utm_source,
-      utm_medium,
-      utm_campaign,
-      utm_term,
-      utm_content,
-      landing_page,
-    }
-
-    // Store in session storage for persistence across dialog opens
-    if (typeof window !== 'undefined') {
-      const existingData = sessionStorage.getItem('vibe_referral_data')
-      if (!existingData) {
-        sessionStorage.setItem('vibe_referral_data', JSON.stringify(data))
-      }
-    }
-
-    setReferralData(data)
-  }, [searchParams])
+    setReferralData(captureReferralDataOnLoad())
+  }, [pathname])
 
   return referralData
-}
-
-// Function to get stored referral data (for use in server actions)
-export function getStoredReferralData(): ReferralData | null {
-  if (typeof window === 'undefined') return null
-  
-  try {
-    const stored = sessionStorage.getItem('vibe_referral_data')
-    if (stored) {
-      return JSON.parse(stored)
-    }
-  } catch {
-    // Ignore parse errors
-  }
-  
-  return null
-}
-
-// Clear referral data after successful signup
-export function clearReferralData(): void {
-  if (typeof window !== 'undefined') {
-    sessionStorage.removeItem('vibe_referral_data')
-  }
 }

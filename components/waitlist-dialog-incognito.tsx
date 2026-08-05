@@ -17,7 +17,7 @@ import { Label } from "@/components/ui/label"
 import { joinWaitlist } from "../actions/waitlist"
 import { CheckCircle, Loader2, Mail, Zap, Gift, EyeOff, Shield, Lock, Globe, Terminal } from "lucide-react"
 import { trackWaitlistSignup, trackDialogOpen } from "@/components/google-analytics"
-import { getStoredReferralData, clearReferralData, type ReferralData } from "@/lib/referral-tracking"
+import { captureAndGetReferralData, clearReferralData, type ReferralData } from "@/lib/referral-tracking"
 
 interface WaitlistDialogIncognitoProps {
   children: React.ReactNode
@@ -32,41 +32,19 @@ export function WaitlistDialogIncognito({ children, tier = "enterprise" }: Waitl
   const [error, setError] = useState("")
   const [referralData, setReferralData] = useState<ReferralData | null>(null)
 
-  // Load referral data when dialog opens
+  // Load referral data when dialog opens.
+  //
+  // This captures the CURRENT url before reading, rather than only reading
+  // whatever the session already had. A visitor can start on a UTM-free page
+  // and open this dialog on a campaign URL; reading alone would return the
+  // stale record and drop the campaign. captureAndGetReferralData() merges the
+  // two (first-touch landing page + first non-empty UTM set), so this path and
+  // <ReferralTracker /> can never disagree. See lib/referral-tracking-core.ts.
   useEffect(() => {
-    if (open) {
-      const stored = getStoredReferralData()
-      if (stored) {
-        setReferralData(stored)
-      } else {
-        const currentData: ReferralData = {
-          referral_source: 'direct',
-          utm_source: null,
-          utm_medium: null,
-          utm_campaign: null,
-          utm_term: null,
-          utm_content: null,
-          landing_page: typeof window !== 'undefined' ? window.location.pathname : null,
-        }
-        
-        if (typeof window !== 'undefined') {
-          const params = new URLSearchParams(window.location.search)
-          currentData.utm_source = params.get('utm_source')
-          currentData.utm_medium = params.get('utm_medium')
-          currentData.utm_campaign = params.get('utm_campaign')
-          currentData.utm_term = params.get('utm_term')
-          currentData.utm_content = params.get('utm_content')
-          
-          if (currentData.utm_source) {
-            currentData.referral_source = currentData.utm_source
-          }
-        }
-        
-        setReferralData(currentData)
-      }
-      
-      trackDialogOpen('waitlist_dialog_incognito')
-    }
+    if (!open) return
+
+    setReferralData(captureAndGetReferralData())
+    trackDialogOpen('waitlist_dialog_incognito')
   }, [open])
 
   const handleSubmit = async (e: React.FormEvent) => {
