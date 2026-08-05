@@ -116,6 +116,21 @@ jobs:
             --output "$RUNNER_TEMP/vibebrowser-home.html"
           grep -qi 'Vibe' "$RUNNER_TEMP/vibebrowser-home.html"
 
+      # Submits the live sitemap URLs to IndexNow (Bing/Yandex) for instant
+      # indexing. This runs AFTER the deploy + smoke test so we never announce
+      # a URL before it is actually reachable.
+      #
+      # This used to run as a `postbuild` hook inside `vercel build`, where
+      # INDEXNOW_KEY was never in scope — so every deploy silently logged
+      # "IndexNow: missing INDEXNOW_KEY, skipping" and nothing was ever
+      # submitted. INDEXNOW_REQUIRED=1 makes that failure loud instead.
+      - name: IndexNow ping
+        run: npm run indexnow:ping
+        env:
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
+          INDEXNOW_REQUIRED: '1'
+          VERCEL_ENV: production
+
   # agentlabs.cc is a SEPARATE Vercel project (rootDirectory apps/agentlabs) under
   # a different Vercel account/team than vibebrowser.app. It has its own token +
   # org/project secrets (AGENTLABS_*). See docs/deploy.md.

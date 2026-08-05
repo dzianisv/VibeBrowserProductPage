@@ -6,7 +6,6 @@
   "scripts": {
     "prebuild": "git lfs pull 2>/dev/null || true",
     "build": "next build --webpack",
-    "postbuild": "node scripts/indexnow-ping.js",
     "dev": "next dev",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "start": "next start",
