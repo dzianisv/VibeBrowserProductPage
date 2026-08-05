@@ -19,14 +19,13 @@ Use this file for quick verification before and after code changes.
 - Mobile screenshot helper: `node scripts/screenshot-mobile.cjs`.
 - Full manual checklist: `docs/testing.md`.
 
-## Waitlist And Supabase Checks
+## Waitlist Checks (Brevo)
 
-- Main waitlist action: `actions/waitlist-supabase.ts`.
-- Legacy Neon waitlist action: `actions/waitlist.ts`.
-- Test waitlist: `node scripts/test-waitlist.js`.
+- Waitlist action: `actions/waitlist.ts` (Brevo v3 API, no database).
+- List waitlist: `npm run waitlist`.
 - Waitlist stats: `npm run waitlist:stats`.
 - Export waitlist CSV: `npm run waitlist:csv`.
-- Supabase setup references: `SUPABASE_SETUP.md`, `SUPABASE_SETUP_GUIDE.md`, and SQL/scripts under `scripts/`.
+- Requires `BREVO_API_KEY` and `BREVO_LIST_ID` in `.env.local` (and in Vercel for production).
 
 ## Analytics Checks
 

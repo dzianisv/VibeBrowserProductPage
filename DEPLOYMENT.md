@@ -39,8 +39,11 @@ vercel --prod
 ### Environment Variables
 
 Ensure these are configured in Vercel dashboard:
-- `SUPABASE_PROJECT_URL`
-- `SUPABASE_API_KEY`
+- `BREVO_API_KEY` — Brevo v3 API key. Required: the waitlist and mailing-list
+  server actions in `actions/waitlist.ts` read it at request time. Without it
+  signups return "Brevo is not configured".
+- `BREVO_LIST_ID` — numeric id of the Brevo waitlist contact list.
+- `RESEND_API_KEY` (optional) — internal "new signup" notification email.
 - `GIT_LFS_ENABLED` (set to `1` so Vercel pulls LFS video assets)
 - Optional Honeycomb/OpenTelemetry:
   - `OTEL_SERVICE_NAME` (example: `vibebrowser-product-page`)
