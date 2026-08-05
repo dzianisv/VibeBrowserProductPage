@@ -31,6 +31,7 @@ const pageNames: Record<string, string> = {
 }
 
 const forPages = [
+  { href: '/integrations', label: 'Integrations' },
   { href: '/cloud', label: 'Agent Infra' },
   { href: '/mcp', label: 'Agents' },
   { href: '/openclaw', label: 'OpenClaw' },

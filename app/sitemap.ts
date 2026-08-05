@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next'
 import { getAllBlogPosts } from '@/lib/blog'
+import { INTEGRATIONS } from '@/lib/integrations'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://www.vibebrowser.app'
@@ -140,6 +141,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }))
 
+  const integrationPages: MetadataRoute.Sitemap = [
+    {
+      url: `${baseUrl}/integrations`,
+      lastModified: now,
+      changeFrequency: 'weekly' as const,
+      priority: 0.9,
+    },
+    ...INTEGRATIONS.map((integration) => ({
+      url: `${baseUrl}/integrations/${integration.slug}`,
+      lastModified: now,
+      changeFrequency: 'monthly' as const,
+      priority: integration.featured ? 0.85 : 0.7,
+    })),
+  ]
+
   const legalPages = [
     {
       url: `${baseUrl}/privacy`,
@@ -169,6 +185,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     ...staticPages,
     ...professionSitemap,
+    ...integrationPages,
     ...legalPages,
     ...blogPages,
   ]

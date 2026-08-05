@@ -249,6 +249,9 @@ export default function Component() {
           <Link href="/mcp" className="text-sm font-medium hover:text-purple-600 transition-colors">
             MCP
           </Link>
+          <Link href="/integrations" className="text-sm font-medium hover:text-purple-600 transition-colors">
+            Integrations
+          </Link>
           <Link href="/pricing" className="text-sm font-medium hover:text-purple-600 transition-colors">
             Pricing
           </Link>
@@ -266,6 +269,9 @@ export default function Component() {
         <nav className="flex md:hidden flex-wrap items-center justify-end gap-x-3 gap-y-1 text-[11px]">
           <Link href="/mcp" className="font-medium hover:text-purple-600 transition-colors whitespace-nowrap">
             MCP
+          </Link>
+          <Link href="/integrations" className="font-medium hover:text-purple-600 transition-colors whitespace-nowrap">
+            Integrations
           </Link>
           <Link href="/pricing" className="font-medium hover:text-purple-600 transition-colors whitespace-nowrap">
             Pricing
