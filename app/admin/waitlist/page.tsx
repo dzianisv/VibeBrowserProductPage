@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { getWaitlistSignups, getWaitlistStats, exportWaitlistToCSV } from "../../../actions/waitlist-supabase"
+import { getWaitlistSignups, getWaitlistStats, exportWaitlistToCSV } from "../../../actions/waitlist"
 import { Users, Calendar, TrendingUp, Download, Globe, Share2 } from "lucide-react"
 
 interface Signup {
@@ -45,6 +45,21 @@ const SOURCE_LABELS: Record<string, string> = {
 
 function getSourceLabel(source: string): string {
   return SOURCE_LABELS[source.toLowerCase()] || source
+}
+
+// Display labels for known tiers. Unknown tiers fall back to Title Case so a
+// newly-introduced tier still renders sensibly instead of being dropped.
+const TIER_LABELS: Record<string, string> = {
+  free: 'Free',
+  pro: 'Pro',
+  cloud: 'Cloud',
+  enterprise: 'Enterprise',
+  mobile: 'Mobile',
+  newsletter: 'Newsletter',
+}
+
+function getTierLabel(tier: string): string {
+  return TIER_LABELS[tier.toLowerCase()] || tier.charAt(0).toUpperCase() + tier.slice(1)
 }
 
 function getSourceColor(source: string): string {
@@ -119,6 +134,13 @@ export default function WaitlistAdmin() {
     ? Object.entries(stats.referralBreakdown).sort((a, b) => b[1] - a[1])
     : []
 
+  // Sort tier breakdown by count. Rendered dynamically over every tier the data
+  // actually contains — hardcoding "free"/"pro" silently dropped tiers such as
+  // cloud/enterprise/mobile/newsletter and stopped the card reconciling to Total.
+  const sortedTiers = stats.tierBreakdown
+    ? Object.entries(stats.tierBreakdown).sort((a, b) => b[1] - a[1])
+    : []
+
   return (
     <div className="container mx-auto p-6 space-y-6">
       <div className="flex items-center justify-between">
@@ -167,16 +189,18 @@ export default function WaitlistAdmin() {
             <Badge className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-sm space-y-1">
-              <div className="flex justify-between">
-                <span>Free:</span>
-                <span className="font-bold">{stats.tierBreakdown?.free || 0}</span>
+            {sortedTiers.length === 0 ? (
+              <p className="text-muted-foreground text-sm">No tier data yet</p>
+            ) : (
+              <div className="text-sm space-y-1">
+                {sortedTiers.map(([tier, count]) => (
+                  <div key={tier} className="flex justify-between">
+                    <span>{getTierLabel(tier)}:</span>
+                    <span className="font-bold">{count}</span>
+                  </div>
+                ))}
               </div>
-              <div className="flex justify-between">
-                <span>Pro:</span>
-                <span className="font-bold">{stats.tierBreakdown?.pro || 0}</span>
-              </div>
-            </div>
+            )}
           </CardContent>
         </Card>
       </div>
