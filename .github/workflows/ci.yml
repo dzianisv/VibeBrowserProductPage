@@ -21,9 +21,9 @@
 # deploy-opencode-mobile-site.yml also use `lfs: false`, because:
 #   - vibebrowser.app never serves local video (`.vercelignore` drops
 #     `public/*.mp4|webm`, and next.config.mjs 307s those requests to
-#     media.githubusercontent.com); and
+#     dl.agentlabs.cc); and
 #   - agentlabs.cc / opencode.agentlabs.cc, which DO serve their own bytes,
-#     fetch those four files from media.githubusercontent.com at build time via
+#     fetch those four files from dl.agentlabs.cc at build time via
 #     `scripts/media-assets.cjs fetch <app>`. That CDN serves the same LFS
 #     content but is not metered against the LFS bandwidth budget.
 #
