@@ -105,6 +105,72 @@ export function CompanyProfilePage({ config }: { config: CompanyProfileConfig })
           </div>
         </section>
 
+        {config.spotlightProduct ? (
+          <section className="w-full border-t border-[#1e1e1e] bg-[#111111] py-16 md:py-24">
+            <div className="container mx-auto max-w-5xl px-4 md:px-6">
+              <div className="grid items-center gap-10 md:grid-cols-[auto_1fr]">
+                <div
+                  className={`mx-auto flex h-20 w-20 items-center justify-center rounded-2xl md:mx-0 ${config.spotlightProduct.iconBg}`}
+                >
+                  <config.spotlightProduct.icon className={`h-10 w-10 ${config.spotlightProduct.iconColor}`} />
+                </div>
+                <div className="text-center md:text-left">
+                  <div
+                    className={`mb-4 inline-flex items-center gap-2 rounded-full border px-4 py-1.5 ${config.spotlightProduct.borderClassName} ${config.spotlightProduct.iconBg}`}
+                  >
+                    <span className={`text-sm ${config.spotlightProduct.iconColor}`}>
+                      {config.spotlightProduct.eyebrow}
+                    </span>
+                  </div>
+                  <h2 className="mb-4 text-3xl font-bold tracking-tight md:text-5xl">
+                    {config.spotlightProduct.headline}
+                  </h2>
+                  <p className="mx-auto mb-6 max-w-2xl text-lg text-[#9aa0a6] md:mx-0 md:text-xl">
+                    {config.spotlightProduct.description}
+                  </p>
+                  <div className="mb-8 flex flex-wrap justify-center gap-2 md:justify-start">
+                    {config.spotlightProduct.tags.map((tag) => (
+                      <span key={tag} className="rounded bg-[#2a2a2a] px-2 py-1 text-xs text-[#9aa0a6]">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="flex flex-col justify-center gap-4 sm:flex-row md:justify-start">
+                    <Link
+                      href={config.spotlightProduct.primaryAction.href}
+                      target={config.spotlightProduct.primaryAction.external ? "_blank" : undefined}
+                      rel={config.spotlightProduct.primaryAction.external ? "noopener noreferrer" : undefined}
+                    >
+                      <Button
+                        size="lg"
+                        className={`h-auto rounded-full px-8 py-6 font-medium text-[#0a0a0a] ${config.spotlightProduct.accentBgClass} hover:opacity-90`}
+                      >
+                        {config.spotlightProduct.primaryAction.label}
+                        <ArrowRight className="ml-2 h-5 w-5" />
+                      </Button>
+                    </Link>
+                    {config.spotlightProduct.secondaryAction ? (
+                      <Link
+                        href={config.spotlightProduct.secondaryAction.href}
+                        target={config.spotlightProduct.secondaryAction.external ? "_blank" : undefined}
+                        rel={config.spotlightProduct.secondaryAction.external ? "noopener noreferrer" : undefined}
+                      >
+                        <Button
+                          size="lg"
+                          variant="outline"
+                          className="h-auto rounded-full border-[#3c4043] bg-transparent px-8 py-6 font-medium text-[#e8eaed] hover:bg-[#1a1a1a]"
+                        >
+                          {config.spotlightProduct.secondaryAction.label}
+                        </Button>
+                      </Link>
+                    ) : null}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        ) : null}
+
         <section className="w-full border-t border-[#1e1e1e] py-16 md:py-24">
           <div className="container mx-auto max-w-4xl px-4 text-center md:px-6">
             <h2 className="mb-6 text-2xl font-bold md:text-3xl">Our Mission</h2>
