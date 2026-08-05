@@ -6,6 +6,19 @@ import { Badge } from "@/components/ui/badge"
 import { ArrowRight, CheckCircle, Sparkles, Star } from "lucide-react"
 import { trackCTAClick } from "@/components/google-analytics"
 
+// Purchase entry point. The portal reads `?plan=`, signs the visitor in
+// (OAuth or magic link — a cold visitor can create an account), then creates a
+// Stripe Checkout session and redirects. This MUST stay a plain top-level
+// navigation (anchor), never a fetch: marketing and portal are different
+// origins and cannot share a session.
+const PORTAL_AUTH_URL = 'https://portal.vibebrowser.app/auth.html'
+
+// utm_source mirrors the Install CTA above so paid-plan clicks are attributable
+// to the same surface.
+function planCheckoutUrl(plan: 'pro' | 'max') {
+  return `${PORTAL_AUTH_URL}?plan=${plan}&utm_source=pricing_section&utm_medium=cta&utm_campaign=plan_${plan}`
+}
+
 // Shared pricing content — used on the homepage (#pricing anchor section)
 // and on the standalone /pricing route. Keep this the single source of
 // truth for tier copy so both surfaces stay in sync.
@@ -128,6 +141,18 @@ export function PricingSection() {
                     <span>Priority support</span>
                   </li>
                 </ul>
+                <Button
+                  asChild
+                  className="w-full mt-6 bg-white text-purple-600 hover:bg-slate-100 font-bold shadow-lg"
+                >
+                  <a
+                    href={planCheckoutUrl('pro')}
+                    onClick={() => trackCTAClick('get_pro', 'pricing_section')}
+                  >
+                    Get Pro
+                    <ArrowRight className="ml-1 h-4 w-4" />
+                  </a>
+                </Button>
               </div>
 
               <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-left">
@@ -161,6 +186,18 @@ export function PricingSection() {
                     <span>DeepSeek-R1</span>
                   </li>
                 </ul>
+                <Button
+                  asChild
+                  className="w-full mt-6 bg-white/20 text-white border border-white/40 hover:bg-white/30 font-bold"
+                >
+                  <a
+                    href={planCheckoutUrl('max')}
+                    onClick={() => trackCTAClick('get_max', 'pricing_section')}
+                  >
+                    Get Max
+                    <ArrowRight className="ml-1 h-4 w-4" />
+                  </a>
+                </Button>
               </div>
             </div>
             <p className="text-xs opacity-75 text-center mt-6 max-w-3xl mx-auto">

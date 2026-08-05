@@ -45,7 +45,6 @@
   "exclude": [
     "node_modules",
     "apps/agentlabs",
-    "OpenCodeMobileSite",
-    "supabase/functions"
+    "OpenCodeMobileSite"
   ]
 }

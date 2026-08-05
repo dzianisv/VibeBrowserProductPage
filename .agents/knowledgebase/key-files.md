@@ -22,8 +22,7 @@
 - `components/waitlist-dialog.tsx`: primary waitlist modal.
 - `components/waitlist-dialog-incognito.tsx`: enterprise/dark-themed waitlist modal.
 - `components/mailing-list-subscribe.tsx`: footer/newsletter form.
-- `actions/waitlist-supabase.ts`: current Supabase waitlist CRUD, CSV export, Brevo sync, Resend notifications.
-- `actions/waitlist.ts`: legacy Neon waitlist path; avoid using unless intentionally reviving legacy behavior.
+- `actions/waitlist.ts`: Brevo-backed waitlist + mailing list (signup upsert, admin read, stats, CSV export, optional Resend notification). Brevo is the only store.
 - `components/google-analytics.tsx`: shared event tracking helper for GA4, PostHog, and telemetry route.
 - `components/referral-tracker.tsx`: UTM/referrer capture.
 - `lib/referral-tracking.ts`: referral storage and helper logic.

@@ -68,19 +68,17 @@ and the Tailwind `shared/` gotcha.
 
 ### 2. Environment Variables
 Required in Vercel dashboard:
-- `SUPABASE_PROJECT_URL` - Your Supabase project URL
-- `SUPABASE_API_KEY` - Supabase anon key
+- `BREVO_API_KEY` - Brevo v3 API key (waitlist + mailing list)
+- `BREVO_LIST_ID` - Numeric id of the Brevo waitlist contact list
 
-### 3. Database Setup
-Run in Supabase SQL editor:
-```bash
-node scripts/create-table-pg.js
-```
+### 3. Data Store
+No database. Brevo is the single source of truth for waitlist contacts;
+`actions/waitlist.ts` upserts and reads contacts through the Brevo v3 API.
 
 ### 4. Test Deployment
 ```bash
-# Test waitlist
-node scripts/test-waitlist.js
+# Read the live waitlist from Brevo
+npm run waitlist:stats
 
 # Validate layout with headless browser
 npm install puppeteer
@@ -140,7 +138,7 @@ vercel --prod && node scripts/test-layout.js
 /
 ├── app/              # Next.js app directory
 ├── components/       # React components
-├── actions/          # Server actions (waitlist-supabase.ts)
+├── actions/          # Server actions (waitlist.ts — Brevo-backed)
 ├── scripts/          # Setup & test scripts
 └── public/          # Static assets
 ```
@@ -192,8 +190,7 @@ Not routed by Next.js app router (legacy/standalone):
 - `landing-page.tsx` - Homepage content and sections (used by `app/page.tsx`).
 - `privacy-policy.tsx` - Privacy policy page component (used by `app/privacy/page.tsx`).
 - `terms-of-service.tsx` - Terms of service page component (used by `app/terms/page.tsx`).
-- `actions/waitlist-supabase.ts` - Supabase waitlist CRUD, CSV export, Brevo sync, Resend notifications.
-- `actions/waitlist.ts` - Legacy Neon-based waitlist (not used by current routes).
+- `actions/waitlist.ts` - Brevo-backed waitlist + mailing list: signup upsert, admin read, stats, CSV export, optional Resend notification. No database.
 - `lib/referral-tracking.ts` - UTM/referrer capture + helpers for waitlist attribution.
 
 ## Custom Components (components/)

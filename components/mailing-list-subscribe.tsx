@@ -4,7 +4,7 @@ import type React from "react"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { subscribeToMailingList } from "../actions/waitlist-supabase"
+import { subscribeToMailingList } from "../actions/waitlist"
 import { CheckCircle, Loader2, Mail } from "lucide-react"
 import { trackMailingListSignup } from "@/components/google-analytics"
 
