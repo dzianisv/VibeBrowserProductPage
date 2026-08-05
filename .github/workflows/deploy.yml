@@ -21,12 +21,25 @@ jobs:
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
-          # REQUIRED: this job ships public/ assets to real users, so it needs the
-          # actual video bytes, not LFS pointer files. package.json's `prebuild`
-          # (`git lfs pull || true`) fails OPEN, so dropping this would silently
-          # deploy 130-byte pointers instead of erroring. Do not set to false.
-          # See the LFS BUDGET GUARD in ci.yml for why CI jobs use lfs: false.
-          lfs: true
+          # vibebrowser.app serves NO local video bytes, so this checkout does
+          # not need the LFS objects (and pulling them exhausts the repo's
+          # 1 GB/month LFS bandwidth budget, which hard-fails every subsequent
+          # actions/checkout — see the LFS BUDGET GUARD in ci.yml).
+          #
+          # Two independent mechanisms keep local video out of the response path:
+          #   1. `.vercelignore` excludes `public/*.mp4` and `public/*.webm`, so
+          #      they are never uploaded to Vercel at all; and
+          #   2. `next.config.mjs` 307-redirects every `*.mp4`/`*.webm` request
+          #      to media.githubusercontent.com. Next evaluates redirects BEFORE
+          #      the filesystem route that would serve `public/`.
+          # Verified live: https://www.vibebrowser.app/linkedin-demo.mp4 → 307 →
+          # media.githubusercontent.com → 200, content-length 70653630.
+          #
+          # `prebuild` (`git lfs pull || true`) fails OPEN, so the "Prepare media
+          # assets" + "Media pointer guard" steps below make this safe rather
+          # than merely lucky: the former deletes the pointer files outright, the
+          # latter fails the build if any video pointer reaches the output.
+          lfs: false
 
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
@@ -35,6 +48,11 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      # Deletes the LFS pointer files left by `lfs: false`, so the build output
+      # is video-free BY DESIGN and the guard below is unambiguous.
+      - name: Prepare media assets
+        run: node scripts/media-assets.cjs fetch root
 
       - name: Pull Vercel project settings
         run: npx --yes vercel@56.1.0 pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
@@ -47,6 +65,13 @@ jobs:
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      # Fails the build if ANY .mp4/.webm in the prebuilt output is a Git LFS
+      # pointer or implausibly small. `prebuild`'s `git lfs pull || true` fails
+      # open, so without this a misconfigured checkout would silently ship
+      # 130-byte pointers to users instead of erroring.
+      - name: Media pointer guard
+        run: node scripts/media-assets.cjs verify root
 
       # Fail BEFORE any deploy/spend if the prebuilt output exceeds the Vercel
       # Hobby-plan 12-Serverless-Function limit. Reuses the .vercel/output from
@@ -102,12 +127,20 @@ jobs:
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
-          # REQUIRED: this job ships public/ assets to real users, so it needs the
-          # actual video bytes, not LFS pointer files. package.json's `prebuild`
-          # (`git lfs pull || true`) fails OPEN, so dropping this would silently
-          # deploy 130-byte pointers instead of erroring. Do not set to false.
-          # See the LFS BUDGET GUARD in ci.yml for why CI jobs use lfs: false.
-          lfs: true
+          # agentlabs.cc DOES serve its own video bytes (`/agentpod/demo-10x.mp4`
+          # — verified live: 200, content-type video/mp4, 499416 bytes). Unlike
+          # the root site it has no `.vercelignore` and no video redirect in
+          # apps/agentlabs/next.config.ts.
+          #
+          # It still checks out WITHOUT LFS, because pulling LFS here burns the
+          # repo's 1 GB/month LFS bandwidth budget and then every actions/checkout
+          # repo-wide hard-fails (see the LFS BUDGET GUARD in ci.yml). The two
+          # required assets are instead fetched from media.githubusercontent.com
+          # in "Prepare media assets" below — the same CDN the root site already
+          # redirects users to in production, and which is NOT metered against
+          # the LFS budget. "Media pointer guard" then refuses to deploy if a
+          # pointer file somehow reaches the output.
+          lfs: false
 
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
@@ -121,6 +154,11 @@ jobs:
       - name: Install root dependencies
         run: npm ci
 
+      # Downloads the real bytes for the videos agentlabs.cc serves itself.
+      # Fails loudly if the CDN does not return a plausible video.
+      - name: Prepare media assets
+        run: node scripts/media-assets.cjs fetch agentlabs
+
       - name: Pull Vercel project settings
         run: npx --yes vercel@56.1.0 pull --yes --environment=production --token=${{ secrets.AGENTLABS_VERCEL_TOKEN }}
         env:
@@ -132,6 +170,10 @@ jobs:
         env:
           VERCEL_ORG_ID: ${{ secrets.AGENTLABS_VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.AGENTLABS_VERCEL_PROJECT_ID }}
+
+      # Refuses to deploy if any video in the prebuilt output is an LFS pointer.
+      - name: Media pointer guard
+        run: node scripts/media-assets.cjs verify agentlabs
 
       - name: Deploy prebuilt
         id: deploy
