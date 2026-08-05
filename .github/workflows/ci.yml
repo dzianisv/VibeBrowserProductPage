@@ -16,12 +16,22 @@
 #     <video> element's playback state.
 # Therefore every checkout here is pinned to `lfs: false`.
 #
-# Only set `lfs: true` where a job genuinely needs the real video bytes — i.e.
-# the production deploy jobs in deploy.yml / deploy-opencode-mobile-site.yml,
-# which ship those assets to users. Note that package.json's
-# `"prebuild": "git lfs pull 2>/dev/null || true"` silently tolerates missing
-# LFS content: that is safe for CI, but means a deploy misconfigured to
-# `lfs: false` would ship broken pointer files instead of failing loudly.
+# Only set `lfs: true` where a job genuinely needs the real video bytes. As of
+# the fix for #203 that is NOWHERE — the deploy jobs in deploy.yml and
+# deploy-opencode-mobile-site.yml also use `lfs: false`, because:
+#   - vibebrowser.app never serves local video (`.vercelignore` drops
+#     `public/*.mp4|webm`, and next.config.mjs 307s those requests to
+#     media.githubusercontent.com); and
+#   - agentlabs.cc / opencode.agentlabs.cc, which DO serve their own bytes,
+#     fetch those four files from media.githubusercontent.com at build time via
+#     `scripts/media-assets.cjs fetch <app>`. That CDN serves the same LFS
+#     content but is not metered against the LFS bandwidth budget.
+#
+# Because package.json's `"prebuild": "git lfs pull 2>/dev/null || true"`
+# silently tolerates missing LFS content, every deploy job runs
+# `scripts/media-assets.cjs verify <app>` after its build. That guard fails the
+# deploy if any .mp4/.webm in the output is an LFS pointer or implausibly small,
+# so a future misconfiguration errors loudly instead of shipping broken video.
 name: Website CI
 
 on:
