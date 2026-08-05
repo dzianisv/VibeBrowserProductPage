@@ -46,3 +46,15 @@ tmp/
 
 # Local Supabase waitlist exports (contain PII — never commit)
 .agents/backups/
+
+# Demo video. Deliberately NOT in the repo — it lives in the `media-v1` GitHub
+# Release and is served via dl.agentlabs.cc (see workers/dl-agentlabs-cdn and
+# next.config.mjs). Keeping it out of Git is the whole point of #207: as LFS it
+# billed visitor egress to the repo owner and, once that quota blew, it took
+# production deploys down with it.
+#
+# For a local build/dev run, materialise the files an app serves itself with:
+#   node scripts/media-assets.cjs fetch agentlabs
+#   node scripts/media-assets.cjs fetch opencode-mobile
+*.mp4
+*.webm
