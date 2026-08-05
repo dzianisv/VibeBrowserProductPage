@@ -43,3 +43,6 @@ tmp/
 
 # Ephemeral scratch tree for scripts/check-vercel-function-budget.cjs self-test
 .vercel-budget-selftest-scratch/
+
+# Local Supabase waitlist exports (contain PII — never commit)
+.agents/backups/
