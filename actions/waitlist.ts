@@ -172,6 +172,20 @@ export async function joinWaitlist(
   }
 }
 
+/**
+ * Tier assigned to footer / dev mailing-list subscribers.
+ *
+ * These are NOT waitlist signups: they never picked a plan, they just handed us
+ * an address. Tagging them explicitly keeps them separable from genuine
+ * free-tier waitlist signups in the admin dashboard and the CSV export —
+ * previously they were sent with no TIER at all and `mapContact` silently
+ * relabelled them "free", inflating the free-tier count.
+ *
+ * Not exported: a "use server" module may only export async functions.
+ */
+const MAILING_LIST_TIER = "newsletter"
+const MAILING_LIST_SOURCE = "mailing_list"
+
 /** Subscribe to the dev mailing list (same Brevo list, different SOURCE tag). */
 export async function subscribeToMailingList(email: string) {
   if (!email || !email.includes("@")) {
@@ -182,7 +196,11 @@ export async function subscribeToMailingList(email: string) {
   if (!config) return NOT_CONFIGURED
 
   try {
-    const result = await upsertBrevoContact(email, { SOURCE: "mailing_list" }, config)
+    const result = await upsertBrevoContact(
+      email,
+      { TIER: MAILING_LIST_TIER, SOURCE: MAILING_LIST_SOURCE },
+      config,
+    )
     if (!result.ok) {
       return { success: false, message: "Failed to subscribe. Please try again." }
     }
@@ -223,12 +241,17 @@ function str(value: unknown): string | null {
 
 function mapContact(contact: BrevoContact): WaitlistSignup {
   const attributes = contact.attributes ?? {}
+  const source = str(attributes.SOURCE)
+  // Legacy contacts predate the explicit TIER on the mailing-list path, so fall
+  // back on SOURCE rather than defaulting every untagged contact to "free" —
+  // that default is what made footer subscribers masquerade as waitlist signups.
+  const defaultTier = source === MAILING_LIST_SOURCE ? MAILING_LIST_TIER : "free"
   return {
     id: String(contact.id ?? contact.email ?? ""),
     email: contact.email ?? "",
-    tier: str(attributes.TIER) ?? "free",
-    source: str(attributes.SOURCE) ?? "website",
-    referral_source: str(attributes.SOURCE),
+    tier: str(attributes.TIER) ?? defaultTier,
+    source: source ?? "website",
+    referral_source: source,
     utm_source: str(attributes.UTM_SOURCE),
     utm_medium: str(attributes.UTM_MEDIUM),
     utm_campaign: str(attributes.UTM_CAMPAIGN),
@@ -293,7 +316,10 @@ export async function getWaitlistStats() {
   const weekAgo = new Date()
   weekAgo.setDate(weekAgo.getDate() - 7)
 
-  const tierBreakdown: Record<string, number> = { free: 0, pro: 0 }
+  // Seeded empty on purpose: every tier present is discovered from the data and
+  // rendered dynamically, so we must not invent zero-count rows for tiers that
+  // nobody actually holds.
+  const tierBreakdown: Record<string, number> = {}
   const referralBreakdown: Record<string, number> = {}
   let today = 0
   let week = 0
@@ -303,7 +329,8 @@ export async function getWaitlistStats() {
     if (created >= startOfToday) today++
     if (created >= weekAgo) week++
 
-    const tier = signup.tier || "free"
+    // `mapContact` already resolved the tier (explicit TIER, else SOURCE-derived).
+    const tier = signup.tier
     tierBreakdown[tier] = (tierBreakdown[tier] || 0) + 1
 
     const source = signup.referral_source || signup.utm_source || "direct"
@@ -342,8 +369,10 @@ export async function exportWaitlistToCSV() {
 
   const rows = signups.map((signup) => [
     signup.email,
-    signup.tier || "free",
-    signup.source || "website",
+    // Already resolved by `mapContact` — re-defaulting here would relabel
+    // newsletter subscribers as "free" in the export.
+    signup.tier,
+    signup.source,
     signup.referral_source || "",
     signup.utm_source || "",
     signup.utm_medium || "",
