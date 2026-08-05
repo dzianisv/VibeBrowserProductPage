@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { joinWaitlist } from "../actions/waitlist-supabase"
+import { joinWaitlist } from "../actions/waitlist"
 import { CheckCircle, Loader2, Sparkles, Mail, Zap, Gift } from "lucide-react"
 import { trackWaitlistSignup, trackDialogOpen } from "@/components/google-analytics"
 import { getStoredReferralData, clearReferralData, type ReferralData } from "@/lib/referral-tracking"
