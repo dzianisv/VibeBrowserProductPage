@@ -30,10 +30,10 @@ jobs:
           #   1. `.vercelignore` excludes `public/*.mp4` and `public/*.webm`, so
           #      they are never uploaded to Vercel at all; and
           #   2. `next.config.mjs` 307-redirects every `*.mp4`/`*.webm` request
-          #      to media.githubusercontent.com. Next evaluates redirects BEFORE
+          #      to dl.agentlabs.cc. Next evaluates redirects BEFORE
           #      the filesystem route that would serve `public/`.
           # Verified live: https://www.vibebrowser.app/linkedin-demo.mp4 → 307 →
-          # media.githubusercontent.com → 200, content-length 70653630.
+          # dl.agentlabs.cc/media → 200, content-type video/mp4, length 5583900.
           #
           # `prebuild` (`git lfs pull || true`) fails OPEN, so the "Prepare media
           # assets" + "Media pointer guard" steps below make this safe rather
@@ -135,7 +135,7 @@ jobs:
           # It still checks out WITHOUT LFS, because pulling LFS here burns the
           # repo's 1 GB/month LFS bandwidth budget and then every actions/checkout
           # repo-wide hard-fails (see the LFS BUDGET GUARD in ci.yml). The two
-          # required assets are instead fetched from media.githubusercontent.com
+          # required assets are instead fetched from dl.agentlabs.cc
           # in "Prepare media assets" below — the same CDN the root site already
           # redirects users to in production, and which is NOT metered against
           # the LFS budget. "Media pointer guard" then refuses to deploy if a

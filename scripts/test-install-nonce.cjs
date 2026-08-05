@@ -524,7 +524,7 @@ async function runNonApexHostsScenario(browser) {
     const nonce = cookies.find((c) => c.name === 'vibe_ga_nonce')
     // A canonicalization redirect wrongly shadowing www would re-point to a DIFFERENT
     // vibebrowser.app host. Unrelated asset redirects (e.g. next.config's
-    // .mp4 -> media.githubusercontent.com) target other registrable domains and must
+    // .mp4 -> dl.agentlabs.cc) target other registrable domains and must
     // be ignored.
     const reqHost = new URL(TLS_WWW_BASE).host
     const crossHostRedirect = redirects.find((r) => {

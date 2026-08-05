@@ -18,11 +18,12 @@
  * user-visible breakage. Hence the two subcommands below.
  *
  *   fetch <app>    Materialise the real bytes for the assets an app genuinely
- *                  serves itself, downloading them from GitHub's media CDN
- *                  (media.githubusercontent.com) instead of the LFS API. That
- *                  CDN is not charged against the LFS bandwidth budget, which
- *                  is exactly why the root site already 307-redirects its own
- *                  videos there in production (see next.config.mjs).
+ *                  serves itself, downloading them from dl.agentlabs.cc — a
+ *                  Cloudflare Worker in front of this repo's `media-v1` GitHub
+ *                  Release (see workers/dl-agentlabs-cdn/worker.mjs).
+ *                  Release-asset egress is unmetered, unlike Git LFS
+ *                  bandwidth, which is billed to the repo owner and blocks
+ *                  checkout once exhausted. See #207.
  *
  *   verify <app>   POST-BUILD GUARD. Walks the built output and fails loudly if
  *                  any .mp4/.webm is an LFS pointer or implausibly small. An
@@ -39,9 +40,16 @@ const path = require('node:path')
 
 const REPO_ROOT = path.resolve(__dirname, '..')
 
-/** GitHub's media CDN mirror of the LFS objects, keyed off the deployed ref. */
-const MEDIA_BASE =
-  'https://media.githubusercontent.com/media/dzianisv/VibeBrowserProductPage'
+/**
+ * dl.agentlabs.cc fronts this repo's `media-v1` GitHub Release. Release assets
+ * are a FLAT namespace — there are no directories — so an asset is addressed by
+ * its basename, not by its repo-relative path. `assertUniqueBasenames` below
+ * enforces the invariant that makes this safe.
+ *
+ * The tag is immutable, which also replaces the old GITHUB_SHA pinning: a
+ * concurrent push to main can no longer swap the bytes under a running build.
+ */
+const MEDIA_BASE = 'https://dl.agentlabs.cc/media'
 
 /**
  * Smallest plausible real video. Every LFS pointer file this repo produces is
@@ -60,11 +68,11 @@ const APPS = {
    *   1. `.vercelignore` excludes `public/*.mp4` and `public/*.webm`, so the
    *      files are never uploaded to Vercel at all; and
    *   2. `next.config.mjs` 307-redirects every `*.mp4` / `*.webm` request to
-   *      media.githubusercontent.com, which is matched before the filesystem
+   *      dl.agentlabs.cc, which is matched before the filesystem
    *      route that would serve `public/`.
    *
    * Verified live: `https://www.vibebrowser.app/linkedin-demo.mp4` → 307 →
-   * media.githubusercontent.com → 200, content-length 70653630.
+   * dl.agentlabs.cc/media → 200, content-type video/mp4, content-length 5583900.
    *
    * `strip` therefore deletes the (pointer) files before the build so the
    * output is video-free by design and the post-build guard is unambiguous.
@@ -108,6 +116,29 @@ const APPS = {
 function fail(message) {
   console.error(`::error::${message}`)
   process.exitCode = 1
+}
+
+/**
+ * Release assets are a flat namespace, so two different declared paths that
+ * share a basename would silently resolve to the same upload — one app would
+ * ship the other's video. Catch that at startup rather than in production.
+ */
+function assertUniqueBasenames() {
+  const seen = new Map()
+  for (const [app, config] of Object.entries(APPS)) {
+    for (const relative of config.assets) {
+      const name = path.basename(relative)
+      const prior = seen.get(name)
+      if (prior && prior !== relative) {
+        throw new Error(
+          `asset basename collision: '${name}' is declared as both '${prior}' and ` +
+            `'${relative}' (in APPS['${app}']). Release assets are flat, so these ` +
+            `would resolve to the same file. Rename one before adding it.`,
+        )
+      }
+      seen.set(name, relative)
+    }
+  }
 }
 
 /** An LFS pointer file is a tiny text blob starting with a version URL. */
@@ -160,10 +191,6 @@ async function download(url, destination) {
 }
 
 async function commandFetch(app, config) {
-  // Pin to the exact commit being deployed so a concurrent push to main can
-  // never swap the bytes underneath this build.
-  const ref = process.env.GITHUB_SHA || 'main'
-
   for (const relative of config.strip) {
     const directory = path.join(REPO_ROOT, relative)
     for (const absolute of walkVideos(directory)) {
@@ -181,9 +208,9 @@ async function commandFetch(app, config) {
       continue
     }
 
-    const url = `${MEDIA_BASE}/${ref}/${relative}`
+    const url = `${MEDIA_BASE}/${path.basename(relative)}`
     const size = await download(url, destination)
-    console.log(`fetched   ${relative} (${size} bytes) from ${ref}`)
+    console.log(`fetched   ${relative} (${size} bytes) from ${url}`)
   }
 }
 
@@ -191,6 +218,12 @@ function commandVerify(app, config) {
   const declared = new Set(
     config.assets.map((relative) => path.basename(relative)),
   )
+  // Whether this app is SUPPOSED to ship video bytes. Making this explicit
+  // means "the output contains no video" is an asserted expectation rather than
+  // a vacuous pass: for `root` that is the required state, and for everyone else
+  // it is a failure. Without it, an app silently losing all of its assets and an
+  // app that legitimately has none are indistinguishable.
+  const expectsVideos = config.assets.length > 0
   let scanned = 0
   let checkedDirectories = 0
 
@@ -231,10 +264,23 @@ function commandVerify(app, config) {
   }
 
   // An app that declares assets but ships none of them has silently lost them.
-  if (declared.size > 0 && scanned === 0) {
+  if (expectsVideos && scanned === 0) {
     fail(
       `'${app}' declares ${declared.size} video asset(s) but the build output contains none. ` +
         `They were dropped somewhere between fetch and build.`,
+    )
+    return
+  }
+
+  // The inverse: `root` must ship ZERO video bytes. Its videos are served by the
+  // next.config.mjs redirect to dl.agentlabs.cc and excluded via .vercelignore.
+  // A video appearing in its output means one of those two mechanisms broke and
+  // we are about to upload megabytes that no request will ever be routed to.
+  if (!expectsVideos && scanned > 0) {
+    fail(
+      `'${app}' is expected to ship no video bytes, but the build output contains ` +
+        `${scanned}. Either .vercelignore stopped excluding them or the redirect in ` +
+        `next.config.mjs was removed — check both before deploying.`,
     )
     return
   }
@@ -245,13 +291,18 @@ function commandVerify(app, config) {
   }
 
   console.log(
-    `media guard: ${scanned} video file(s) in '${app}' output, all real (>= ${MIN_VIDEO_BYTES} bytes).`,
+    expectsVideos
+      ? `media guard: ${scanned} video file(s) in '${app}' output, all real (>= ${MIN_VIDEO_BYTES} bytes).`
+      : `media guard: '${app}' output contains no video, as required (video is served ` +
+          `by redirect to ${MEDIA_BASE}); build output was present and scanned.`,
   )
 }
 
 async function main() {
   const [command, app] = process.argv.slice(2)
   const config = APPS[app]
+
+  assertUniqueBasenames()
 
   if (!config || !['fetch', 'verify'].includes(command)) {
     console.error(
