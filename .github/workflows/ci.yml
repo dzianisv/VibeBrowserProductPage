@@ -1,3 +1,27 @@
+# LFS BUDGET GUARD — read before adding `lfs: true` to any checkout below.
+#
+# This repo stores ~180 MB of marketing demo videos in Git LFS (17 objects;
+# `public/linkedin-demo.mp4` alone is 71 MB). GitHub's free plan allows
+# 1 GB/month of LFS *bandwidth*, and that quota is consumed per-job, not
+# per-push. With 6 CI jobs at `lfs: true`, ONE push burns the entire monthly
+# budget (~1.08 GB) and every subsequent `actions/checkout` on every branch
+# hard-fails with:
+#   batch response: This repository exceeded its LFS budget
+#
+# None of the jobs in this file decode, serve, or assert on video bytes:
+#   - lint/typecheck/audit jobs read source only;
+#   - `next build` merely COPIES public/, so LFS pointer files are harmless;
+#   - the Puppeteer E2E specs (test-install-nonce.cjs, test-pricing-responsive.cjs)
+#     assert on DOM, cookies, layout overflow and pricing copy — never on a
+#     <video> element's playback state.
+# Therefore every checkout here is pinned to `lfs: false`.
+#
+# Only set `lfs: true` where a job genuinely needs the real video bytes — i.e.
+# the production deploy jobs in deploy.yml / deploy-opencode-mobile-site.yml,
+# which ship those assets to users. Note that package.json's
+# `"prebuild": "git lfs pull 2>/dev/null || true"` silently tolerates missing
+# LFS content: that is safe for CI, but means a deploy misconfigured to
+# `lfs: false` would ship broken pointer files instead of failing loudly.
 name: Website CI
 
 on:
@@ -17,7 +41,8 @@ jobs:
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
-          lfs: true
+          # See LFS BUDGET GUARD at top of file: no job here reads video bytes.
+          lfs: false
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: '22'
@@ -50,7 +75,8 @@ jobs:
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
-          lfs: true
+          # See LFS BUDGET GUARD at top of file: no job here reads video bytes.
+          lfs: false
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: '22'
@@ -72,7 +98,8 @@ jobs:
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
-          lfs: true
+          # See LFS BUDGET GUARD at top of file: no job here reads video bytes.
+          lfs: false
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: '22'
@@ -97,7 +124,8 @@ jobs:
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
-          lfs: true
+          # See LFS BUDGET GUARD at top of file: no job here reads video bytes.
+          lfs: false
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: '22'
@@ -116,7 +144,8 @@ jobs:
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
-          lfs: true
+          # See LFS BUDGET GUARD at top of file: no job here reads video bytes.
+          lfs: false
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: '22'
@@ -142,7 +171,8 @@ jobs:
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
-          lfs: true
+          # See LFS BUDGET GUARD at top of file: no job here reads video bytes.
+          lfs: false
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: '22'
