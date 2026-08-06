@@ -71,6 +71,67 @@ const commandSurfaces = [
   },
 ]
 
+/**
+ * Per-client setup cards. Each renders with a stable `id` so the extension's
+ * "Connect an AI agent" dialog (apps/chat4/.../McpConnectDialog.tsx) can
+ * deep-link straight to the right client, e.g. /cli#hermes.
+ *
+ * Snippets come from lib/integrations.ts, which is the source of truth.
+ */
+const clientSetups = [
+  {
+    id: 'claude-code',
+    name: 'Claude Code',
+    body: 'Register the Vibe MCP server once, then start a new session so the browser tools are picked up.',
+    command: 'claude mcp add vibe -- npx -y @vibebrowser/mcp',
+    docsHref: '/integrations/claude-code',
+  },
+  {
+    id: 'codex',
+    name: 'OpenAI Codex CLI',
+    body: 'Add the "vibe" MCP server to your Codex CLI configuration, then restart Codex.',
+    command: `{
+  "mcp": {
+    "vibe": {
+      "command": "npx",
+      "args": ["-y", "@vibebrowser/mcp"]
+    }
+  }
+}`,
+    docsHref: '/integrations/openai-codex-cli',
+  },
+  {
+    id: 'openclaw',
+    name: 'OpenClaw',
+    body: 'OpenClaw connects over HTTP MCP, so run the Vibe bridge on the machine with your browser and point OpenClaw at it. The bridge binds 127.0.0.1 and has no auth — do not expose it without a tunnel.',
+    command: MCP_OPENCLAW,
+    docsHref: null,
+  },
+  {
+    id: 'opencode',
+    name: 'OpenCode',
+    body: 'Register the "vibe" MCP server in .opencode/config.json and restart OpenCode.',
+    command: `{
+  "mcp": {
+    "servers": {
+      "vibe": {
+        "command": "npx",
+        "args": ["-y", "@vibebrowser/mcp"]
+      }
+    }
+  }
+}`,
+    docsHref: '/integrations/opencode',
+  },
+  {
+    id: 'hermes',
+    name: 'Hermes',
+    body: 'Hermes installs Vibe as a skill rather than an MCP config file, so there is no config block to paste. Install the skill, then use the one-shot prompt below to verify real browser control — a listed skill row alone is not proof.',
+    command: 'npx -y skills add VibeTechnologies/vibe-mcp -s vibebrowser -y',
+    docsHref: null,
+  },
+] as const
+
 export const metadata: Metadata = {
   title: 'Vibe Browser CLI for Any Agent Runtime | @vibebrowser/cli',
   description:
@@ -363,6 +424,49 @@ export default function CliPage() {
                   </CardContent>
                 </Card>
               </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="clients" className="border-b border-[rgba(136,146,176,0.15)] bg-[rgba(5,8,16,0.94)] py-16 md:py-24 scroll-mt-24">
+          <div className="container mx-auto max-w-6xl px-6">
+            <div className="mx-auto mb-12 max-w-3xl text-center">
+              <p className="text-xs uppercase tracking-[0.26em] text-[#7f8aa8]">Per-client setup</p>
+              <h2
+                className="mt-4 text-3xl font-normal text-[#f0f4ff]"
+                style={{ fontFamily: "'Clash Display', 'Satoshi', system-ui, sans-serif" }}
+              >
+                Connect your agent
+              </h2>
+              <p className="mt-4 text-[#c4cbe0]">
+                Your agent connection URL lives in the Vibe extension under Settings &rarr; AI Agent Control &rarr; Relay access. It grants live control of your browser, so treat it like a password.
+              </p>
+            </div>
+
+            <div className="mx-auto grid max-w-4xl gap-6">
+              {clientSetups.map((client) => (
+                <Card
+                  key={client.id}
+                  id={client.id}
+                  className="min-w-0 scroll-mt-24 border-[rgba(136,146,176,0.15)] bg-[rgba(10,15,29,0.92)]"
+                >
+                  <CardContent className="p-6">
+                    <h3 className="text-lg font-medium text-[#f0f4ff]">{client.name}</h3>
+                    <p className="mt-2 text-sm text-[#b7c0db]">{client.body}</p>
+                    <pre className="mt-4 overflow-x-auto rounded-lg border border-[rgba(136,146,176,0.15)] bg-[rgba(11,16,32,0.9)] p-4 text-sm text-[#b4b4ff]">
+                      <code>{client.command}</code>
+                    </pre>
+                    {client.docsHref && (
+                      <Link
+                        href={client.docsHref}
+                        className="mt-3 inline-block text-sm text-[#b4b4ff] hover:text-[#d8dcff] hover:underline"
+                      >
+                        Full {client.name} guide &rarr;
+                      </Link>
+                    )}
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           </div>
         </section>
