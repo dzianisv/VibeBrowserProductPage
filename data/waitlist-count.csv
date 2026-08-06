@@ -1,0 +1,9 @@
+# Daily size of the VibeBrowser waitlist (Brevo list 3), one row per UTC day.
+# Written by scripts/snapshot-waitlist-count.js via .github/workflows/waitlist-snapshot.yml.
+#
+# CAVEAT: this series is only honest from 2026-08-05 forward. The 402 contacts
+# migrated into Brevo on 2026-08-05 all carry that migration date rather than
+# their real signup date, so nothing before 2026-08-05 can be reconstructed and
+# the first row is a standing balance, not a day of growth.
+date,total_subscribers,blacklisted
+2026-08-06,407,0

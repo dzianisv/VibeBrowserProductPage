@@ -13,7 +13,8 @@
     "indexnow:ping": "node scripts/indexnow-ping.js",
     "waitlist": "node scripts/get-waitlist.js",
     "waitlist:stats": "node scripts/get-waitlist.js --stats",
-    "waitlist:csv": "node scripts/get-waitlist.js --csv"
+    "waitlist:csv": "node scripts/get-waitlist.js --csv",
+    "waitlist:snapshot": "node scripts/snapshot-waitlist-count.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",

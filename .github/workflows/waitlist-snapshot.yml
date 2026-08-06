@@ -1,0 +1,72 @@
+# Daily snapshot of the waitlist size, committed back to main so growth is chartable.
+#
+# Brevo is the only store for the waitlist and its per-contact `createdAt` is
+# unusable for history (the 402 contacts migrated on 2026-08-05 all carry that
+# migration date). The only way to get a real time series is to sample the list
+# size once a day going forward, which is what this job does.
+#
+# LFS BUDGET GUARD — see the same note at the top of ci.yml. This repo burned its
+# entire LFS bandwidth quota on `actions/checkout` pulling ~180 MB of demo video
+# per job. This job reads a Brevo count and writes a CSV; it never touches video
+# bytes, so the checkout is pinned to `lfs: false`. scripts/check-no-lfs.sh
+# enforces that LFS stays out of the repo.
+name: Waitlist Snapshot
+
+on:
+  schedule:
+    # 06:15 UTC daily. Off the hour on purpose: GitHub's scheduler queues heavily
+    # at :00 and can drop runs entirely under load.
+    - cron: '15 6 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: waitlist-snapshot
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      # Needed to push the updated CSV back to main.
+      contents: write
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          ref: main
+          # See LFS BUDGET GUARD above: this job never reads video bytes.
+          lfs: false
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      # `npm ci` would install the whole Next.js toolchain to run one fetch().
+      # The script's only non-builtin dependency is dotenv, which is a no-op in
+      # CI anyway (no .env file), so install just that.
+      - run: npm install --no-save --no-audit --no-fund dotenv
+
+      - name: Snapshot Brevo waitlist count
+        env:
+          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
+          # The list id is not a secret (it is 3, and it is in the script's
+          # default), but keeping it here makes the job's input explicit.
+          BREVO_LIST_ID: '3'
+        run: node scripts/snapshot-waitlist-count.js
+
+      - name: Commit updated snapshot
+        run: |
+          set -euo pipefail
+          # Scope the add to exactly one path. `git add -A` at the repo root is
+          # forbidden here: .agents/backups/ holds a gitignored CSV of real user
+          # emails and must never be staged, even by accident.
+          git add data/waitlist-count.csv
+          if git diff --cached --quiet; then
+            echo "No change in waitlist count today; nothing to commit."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore(waitlist): daily count snapshot [skip ci]"
+          git push origin HEAD:main
