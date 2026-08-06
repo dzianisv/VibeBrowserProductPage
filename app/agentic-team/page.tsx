@@ -803,16 +803,32 @@ export default function AgenticTeamPage() {
               </p>
             </div>
 
-            <SlackDemo
-              channelName="ops-production"
-              channelDescription="Production operations & health checks"
-              workspaceName="Vibe Team"
-              workspaceInitial="V"
-              workspaceColor="#8ab4f8"
-              agents={AGENTS}
-              conversation={SLACK_CONVERSATION}
-              channels={AGENTIC_CHANNELS}
-            />
+            <div className="rounded-xl overflow-hidden border border-[#2a2a2a] shadow-2xl bg-[#0a0a0a]">
+              <video
+                className="w-full h-auto"
+                controls
+                playsInline
+                preload="metadata"
+                aria-label="Agentic team cooperation demo"
+              >
+                <source src="/agentic-team-cooperation.webm" type="video/webm" />
+                <source src="/agentic-team-cooperation.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+
+            <div className="mt-8">
+              <SlackDemo
+                channelName="ops-production"
+                channelDescription="Production operations & health checks"
+                workspaceName="Vibe Team"
+                workspaceInitial="V"
+                workspaceColor="#8ab4f8"
+                agents={AGENTS}
+                conversation={SLACK_CONVERSATION}
+                channels={AGENTIC_CHANNELS}
+              />
+            </div>
 
             <p className="text-center text-xs text-[#5f6368] mt-4">
               Real conversation format from a live Agentic Team deployment on vibebrowser.app.
