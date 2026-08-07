@@ -61,6 +61,15 @@ jobs:
       - run: npm ci
       - run: npm audit --omit=dev --audit-level=high
       - run: npm run lint
+      # The `lib/__tests__/*.test.ts` unit suite. This step is NOT optional
+      # bookkeeping: `npm test` existed in package.json but was wired into no
+      # job, so `lib/__tests__/referral-tracking.test.ts` had been passing
+      # locally and running NOWHERE in CI. Every check on a PR could go green
+      # while that suite was red — the same false-green class of failure as
+      # VibeTechnologies/VibeWebAgent#1846. Any new `lib/__tests__/*.test.ts`
+      # file is picked up automatically by the glob, so keep unit tests there.
+      # Node's built-in runner strips the TypeScript, so no extra toolchain.
+      - run: npm test
       # Source-string regression guard for the pricing value-clarity copy
       # (per-tier cloud-AI usage caps, reset wording, CWS trust link, and the
       # no-numeric-rating / no-aggregateRating guarantees). Reads source only,
