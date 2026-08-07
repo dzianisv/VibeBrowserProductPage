@@ -10,7 +10,7 @@
 export type ConfigBlock = {
   /** Where the user pastes this (file path or UI location). */
   location: string
-  language: 'json' | 'bash' | 'toml'
+  language: 'json' | 'bash' | 'toml' | 'url'
   code: string
 }
 
@@ -129,6 +129,53 @@ const connectStep = {
   body:
     'Click the Vibe icon, open Settings, and enable "MCP External Control" until the status reads Connected. Then ask your agent to open a page and take a snapshot — it should return the content of your real tab.',
 }
+
+/**
+ * REMOTE-CONNECTOR PATH (relay, no local install).
+ *
+ * Everything above this line is the STDIO path: the client runs
+ * `npx @vibebrowser/mcp` on the user's machine. Hosted clients (Claude on the
+ * web / Cowork / mobile, ChatGPT connectors) cannot spawn a local process, so
+ * they connect to the public relay over HTTPS instead — the Chrome extension
+ * is the only thing installed locally.
+ *
+ * The relay accepts the extension UUID as a path segment
+ * (`/mcp/<uuid>`) precisely because those UIs take a bare URL and cannot send
+ * a custom header — see VibeTechnologies/platform#63. Do not "simplify" these
+ * pages back to a header-based snippet: it does not work in either product.
+ */
+const RELAY_MCP_URL = 'https://relay.api.vibebrowser.app/mcp/<your-extension-uuid>'
+
+const remoteUrlStep = {
+  title: 'Copy your agent connection URL',
+  body:
+    'Click the Vibe icon, open Settings, and find "Agent connection URL". It contains the UUID that routes an agent to your browser. Your connector URL is https://relay.api.vibebrowser.app/mcp/ followed by that UUID.',
+  config: {
+    location: 'Vibe extension → Settings → Agent connection URL',
+    language: 'url' as const,
+    code: RELAY_MCP_URL,
+  },
+}
+
+/** Shared FAQ entries for the two hosted-connector pages. */
+const REMOTE_CONNECTOR_FAQS: Faq[] = [
+  {
+    q: 'Do I still need to install anything?',
+    a: 'Only the Vibe Chrome extension. On the remote-connector path there is no npx command and no local MCP server — the hosted assistant talks to the Vibe relay over HTTPS, and the relay forwards to your extension.',
+  },
+  {
+    q: 'Is the UUID in the URL a secret?',
+    a: 'Yes. That UUID is the credential that routes an agent to your browser — anyone who has it can drive your logged-in session. Treat the connector URL like a password: never post it in a shared chat, screenshot, README, or issue. If it leaks, revoke it in the extension and generate a new one.',
+  },
+  {
+    q: 'What is the difference between this and the local MCP server?',
+    a: 'The local path (npx @vibebrowser/mcp) runs on your machine and suits desktop clients that can spawn a process — Claude Desktop, Cursor, VS Code, Codex CLI. The remote path suits hosted assistants that only accept a URL. Both end up driving the same Chrome tab through the same extension.',
+  },
+  {
+    q: 'Does my page content go through your servers on this path?',
+    a: 'Yes — unlike the local STDIO path, tool calls and their results traverse the Vibe relay, because the assistant is running in the vendor cloud and cannot reach your machine directly. If you need page content to never leave your machine, use the local MCP server with a desktop client instead.',
+  },
+]
 
 export const INTEGRATIONS: Integration[] = [
   {
@@ -392,6 +439,122 @@ export const INTEGRATIONS: Integration[] = [
       'chatgpt desktop browser automation',
       'add mcp server to chatgpt',
       'chatgpt chrome control mcp',
+    ],
+  },
+  {
+    slug: 'claude-connector',
+    name: 'Claude (web, Cowork & mobile)',
+    vendor: 'Anthropic',
+    featured: true,
+    title: 'Claude Custom Connector for Browser Control — Vibe',
+    description:
+      'Add Vibe as a custom connector in Claude and let Claude on the web, in Cowork, and on mobile drive your real Chrome — logged-in pages included. One URL, no local install.',
+    h1: 'Give Claude on the web control of your browser',
+    tagline:
+      'Settings → Connectors → Add custom connector. One URL — works in claude.ai chats, Cowork sessions, and the mobile apps.',
+    answerBlock:
+      'Claude supports custom connectors backed by a remote MCP server. Paste your Vibe relay URL under Settings → Connectors → Add custom connector, and Claude can navigate, click, type, scroll, screenshot, and read your real Chrome — including pages behind a login. Because the connector is brokered by your Claude account, it works in Cowork and on mobile, not just Claude Desktop.',
+    problem: [
+      'Claude Desktop can run a local MCP server; Claude on the web, in a Cowork session, or on your phone cannot — it has no way to spawn a process on your machine.',
+      'So the moment you leave the desktop app, Claude loses access to your browser and to everything behind your logins.',
+      'Web search is not a substitute: it sees the anonymous public internet, not your dashboards, your inbox, or your admin panels.',
+    ],
+    solution: [
+      'A custom connector is just a URL, so it works from every Claude surface at once — web, Cowork, desktop, mobile.',
+      'The Vibe relay bridges that URL to the Chrome extension on your machine, so Claude acts in the browser you are already signed into.',
+      'Nothing to install beyond the extension: no npx, no local server, no second browser profile.',
+      'Toggle it per conversation, so a chat only reaches your browser when you want it to.',
+    ],
+    steps: [
+      extensionStep,
+      remoteUrlStep,
+      {
+        title: 'Add it under Settings → Connectors',
+        body:
+          'In Claude, open Settings → Connectors, click Add custom connector, and paste the URL from the previous step. Save, then connect. In any chat — including a Cowork session — use the + button → Connectors and toggle Vibe on for that conversation. Custom connectors are a paid-plan feature; check your plan if the option is missing.',
+      },
+    ],
+    faqs: [
+      {
+        q: 'Can Claude control my browser from claude.ai, not just Claude Desktop?',
+        a: 'Yes, via a custom connector. Claude Desktop can launch a local MCP server, but claude.ai, Cowork, and mobile cannot — they need a remote MCP server reachable over the public internet. The Vibe relay is exactly that, so one connector URL covers every Claude surface.',
+      },
+      {
+        q: 'How do I add a custom connector in Claude?',
+        a: 'Open Settings → Connectors, click Add custom connector, paste the remote MCP server URL, and save. Then in a chat use the + button → Connectors and toggle it on for that conversation.',
+      },
+      {
+        q: 'Does this work in a Cowork session?',
+        a: 'Yes. A custom connector is brokered through your Claude account rather than tied to one machine, so a Cowork session reaches it the same way a Desktop chat does. A local Desktop Extension would not — that is scoped to the desktop app on that one computer.',
+      },
+      {
+        q: 'Why does the URL end in my extension UUID?',
+        a: 'The connector UI accepts a bare URL and cannot attach a custom request header, so the relay reads the routing UUID from the URL path instead. It is the same credential the CLI passes as wss://relay.api.vibebrowser.app/<uuid>.',
+      },
+      ...REMOTE_CONNECTOR_FAQS,
+    ],
+    keywords: [
+      'claude custom connector',
+      'claude browser control',
+      'claude remote mcp server',
+      'claude cowork connector',
+      'claude.ai control chrome',
+      'add custom connector claude',
+    ],
+  },
+  {
+    slug: 'chatgpt-connector',
+    name: 'ChatGPT connectors',
+    vendor: 'OpenAI',
+    featured: false,
+    title: 'ChatGPT Connector for Browser Control — Vibe',
+    description:
+      'Add Vibe as a ChatGPT connector and let ChatGPT drive your real Chrome from the web app — logged-in pages included. One remote MCP URL, no local install.',
+    h1: 'Give ChatGPT on the web control of your browser',
+    tagline:
+      'Settings → Connectors → developer mode. A remote MCP URL, so it works where a local server cannot.',
+    answerBlock:
+      'ChatGPT supports custom connectors backed by a remote MCP server, configured under Settings → Connectors in developer mode. Point one at your Vibe relay URL and ChatGPT can navigate, click, type, scroll, screenshot, and read your real Chrome, including pages behind a login — from the web app, with no local MCP server running.',
+    problem: [
+      'The ChatGPT desktop app can run a local MCP server; ChatGPT on the web cannot read local config or spawn a process, so it has no route to your browser.',
+      'The built-in browsing tool fetches public pages as an anonymous visitor — anything behind your account is invisible to it.',
+      'That leaves the most useful half of the web (your dashboards, tickets, admin panels) permanently out of reach.',
+    ],
+    solution: [
+      'A connector is a URL, so ChatGPT on the web can reach your browser without anything running locally besides the extension.',
+      'The Vibe relay forwards to the Chrome you are already signed into — same tabs, same cookies, same sessions.',
+      'Enable it per conversation, so a chat only touches your browser when you say so.',
+    ],
+    steps: [
+      extensionStep,
+      remoteUrlStep,
+      {
+        title: 'Add the connector in ChatGPT settings',
+        body:
+          'Open Settings → Connectors, enable developer mode under advanced settings, and create a connector pointing at the URL from the previous step. Then enable it for a conversation before asking ChatGPT to open a page. Connectors are a paid-plan feature and the developer-mode surface moves around — if you cannot find it, the desktop-app path below works today with no relay.',
+      },
+    ],
+    faqs: [
+      {
+        q: 'Can ChatGPT on the web control my browser?',
+        a: 'Yes, through a custom connector pointed at a remote MCP server. ChatGPT web cannot read local Codex config or run a local process, so the local STDIO path does not apply there — the Vibe relay URL does.',
+      },
+      {
+        q: 'Should I use this or the ChatGPT desktop app integration?',
+        a: 'Prefer the desktop app if you are on it: that path is local STDIO, so page content never leaves your machine. Use the connector when you are in ChatGPT on the web, where a local server is not an option.',
+      },
+      {
+        q: 'Does this work with Codex CLI?',
+        a: 'Codex CLI can use either path — it can spawn the local MCP server, and it can also point at a remote MCP URL with headers. The local path is simpler there; see the Codex CLI page.',
+      },
+      ...REMOTE_CONNECTOR_FAQS,
+    ],
+    keywords: [
+      'chatgpt connector mcp',
+      'chatgpt remote mcp server',
+      'chatgpt browser control',
+      'chatgpt custom connector',
+      'chatgpt web control chrome',
     ],
   },
   {
