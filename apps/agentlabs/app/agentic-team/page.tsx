@@ -1,3 +1,5 @@
-"use client"
+import { permanentRedirect } from "next/navigation"
 
-export { default } from "../../../../shared/agentic-team/page"
+export default function AgenticTeamPage() {
+  permanentRedirect("https://agentpod.agentlabs.cc/team")
+}

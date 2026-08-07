@@ -22,13 +22,13 @@ const baseCompanyProfileConfig: CompanyProfileConfig = {
   rotatingWords: ["write code", "design AI systems", "ship products", "create AI agents"],
   desktopNav: [
     { href: "/", label: "Browser Co-Pilot" },
-    { href: "https://agentlabs.cc/agentic-team", label: "Agentic Team" },
+    { href: "https://agentpod.agentlabs.cc/team", label: "Agentic Team" },
     { href: "/enterprise", label: "Enterprise" },
     { href: "/teams", label: "Team" },
   ],
   mobileNav: [
     { href: "/", label: "Co-Pilot" },
-    { href: "https://agentlabs.cc/agentic-team", label: "Agentic" },
+    { href: "https://agentpod.agentlabs.cc/team", label: "Agentic" },
     { href: "/enterprise", label: "Enterprise" },
   ],
   teamMembers: [
@@ -129,7 +129,7 @@ const baseCompanyProfileConfig: CompanyProfileConfig = {
       iconColor: "text-[#81c995]",
       iconBg: "bg-[#81c995]/10",
       borderHoverClass: "hover:border-[#81c995]/40",
-      actions: [{ href: "https://agentlabs.cc/agentic-team", label: "Learn More", colorClass: "text-[#81c995]", external: true }],
+      actions: [{ href: "https://agentpod.agentlabs.cc/team", label: "Learn More", colorClass: "text-[#81c995]", external: true }],
     },
     {
       title: "VibeBrowser Cloud",
@@ -443,14 +443,14 @@ agentlabsCompanyProfileConfig.products = [
 agentlabsCompanyProfileConfig.desktopNav = [
   { href: "/", label: "Home" },
   { href: "/products", label: "Products" },
-  { href: "https://agentlabs.cc/agentic-team", label: "Agentic Team" },
+  { href: "https://agentpod.agentlabs.cc/team", label: "Agentic Team" },
   { href: "https://vibebrowser.app/enterprise", label: "Enterprise" },
   { href: "https://vibebrowser.app/teams", label: "Team" },
 ]
 agentlabsCompanyProfileConfig.mobileNav = [
   { href: "/", label: "Home" },
   { href: "/products", label: "Products" },
-  { href: "https://agentlabs.cc/agentic-team", label: "Agentic" },
+  { href: "https://agentpod.agentlabs.cc/team", label: "Agentic" },
   { href: "https://vibebrowser.app/enterprise", label: "Enterprise" },
 ]
 
