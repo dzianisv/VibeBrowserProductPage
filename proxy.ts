@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import {
+  setAttributionCookie,
+} from './lib/install-attribution'
 
 // `/install` UTM attribution cookie. Preserves the exact server-side behaviour of
 // the old `app/install/route.ts` bare-redirect handler (PR #138): host-only on
@@ -8,9 +11,6 @@ import type { NextRequest } from 'next/server'
 // gtag.js welcome page (app/install/page.tsx), so this cookie is set here instead
 // of during a route-handler redirect. The paired `vibe_ga_nonce` cookie is NOT set
 // here — it needs a real client_id and is issued by app/api/install/nonce/route.ts.
-const ATTRIBUTION_COOKIE_NAME = 'vibe_attribution'
-const ATTRIBUTION_COOKIE_MAX_AGE = 60 * 60 * 24 * 30 // 30 days
-
 export function proxy(request: NextRequest) {
   const hostname = request.headers.get('host') || ''
   const pathname = request.nextUrl.pathname
@@ -42,31 +42,7 @@ export function proxy(request: NextRequest) {
 
   if (pathname === '/install') {
     const response = NextResponse.next()
-    const source = request.nextUrl.searchParams.get('utm_source')
-
-    if (source) {
-      const medium = request.nextUrl.searchParams.get('utm_medium')
-      const campaign = request.nextUrl.searchParams.get('utm_campaign')
-      const term = request.nextUrl.searchParams.get('utm_term')
-      const content = request.nextUrl.searchParams.get('utm_content')
-
-      const payload = {
-        source,
-        ...(medium ? { medium } : {}),
-        ...(campaign ? { campaign } : {}),
-        ...(term ? { term } : {}),
-        ...(content ? { content } : {}),
-        capturedAt: Date.now(),
-      }
-
-      response.cookies.set(ATTRIBUTION_COOKIE_NAME, JSON.stringify(payload), {
-        path: '/',
-        maxAge: ATTRIBUTION_COOKIE_MAX_AGE,
-        secure: true,
-        httpOnly: true,
-        sameSite: 'lax',
-      })
-    }
+    setAttributionCookie(response, request.nextUrl.searchParams)
 
     return response
   }
