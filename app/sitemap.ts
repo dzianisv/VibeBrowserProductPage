@@ -127,7 +127,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'tax',
     'researchers',
     'developers',
-    'agentic-team',
     'mobile',
     'mom',
     'multi-agent',

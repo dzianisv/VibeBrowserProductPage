@@ -22,13 +22,13 @@ const baseCompanyProfileConfig: CompanyProfileConfig = {
   rotatingWords: ["write code", "design AI systems", "ship products", "create AI agents"],
   desktopNav: [
     { href: "/", label: "Browser Co-Pilot" },
-    { href: "/agentic-team", label: "Agentic Team" },
+    { href: "https://agentlabs.cc/agentic-team", label: "Agentic Team" },
     { href: "/enterprise", label: "Enterprise" },
     { href: "/teams", label: "Team" },
   ],
   mobileNav: [
     { href: "/", label: "Co-Pilot" },
-    { href: "/agentic-team", label: "Agentic" },
+    { href: "https://agentlabs.cc/agentic-team", label: "Agentic" },
     { href: "/enterprise", label: "Enterprise" },
   ],
   teamMembers: [
@@ -129,7 +129,7 @@ const baseCompanyProfileConfig: CompanyProfileConfig = {
       iconColor: "text-[#81c995]",
       iconBg: "bg-[#81c995]/10",
       borderHoverClass: "hover:border-[#81c995]/40",
-      actions: [{ href: "/agentic-team", label: "Learn More", colorClass: "text-[#81c995]" }],
+      actions: [{ href: "https://agentlabs.cc/agentic-team", label: "Learn More", colorClass: "text-[#81c995]", external: true }],
     },
     {
       title: "VibeBrowser Cloud",
@@ -443,14 +443,14 @@ agentlabsCompanyProfileConfig.products = [
 agentlabsCompanyProfileConfig.desktopNav = [
   { href: "/", label: "Home" },
   { href: "/products", label: "Products" },
-  { href: "https://vibebrowser.app/agentic-team", label: "Agentic Team" },
+  { href: "https://agentlabs.cc/agentic-team", label: "Agentic Team" },
   { href: "https://vibebrowser.app/enterprise", label: "Enterprise" },
   { href: "https://vibebrowser.app/teams", label: "Team" },
 ]
 agentlabsCompanyProfileConfig.mobileNav = [
   { href: "/", label: "Home" },
   { href: "/products", label: "Products" },
-  { href: "https://vibebrowser.app/agentic-team", label: "Agentic" },
+  { href: "https://agentlabs.cc/agentic-team", label: "Agentic" },
   { href: "https://vibebrowser.app/enterprise", label: "Enterprise" },
 ]
 
@@ -462,15 +462,6 @@ agentlabsCompanyProfileConfig.products = agentlabsCompanyProfileConfig.products.
         if (action.href === "/teams") return { ...action, href: "https://vibebrowser.app/teams", external: true }
         if (action.href === "/enterprise") return { ...action, href: "https://vibebrowser.app/enterprise", external: true }
         if (action.href === "/") return { ...action, href: "https://vibebrowser.app/", external: true }
-        return action
-      }),
-    }
-  }
-  if (product.title === "Agentic Ops Team") {
-    return {
-      ...product,
-      actions: product.actions.map((action) => {
-        if (action.href === "/agentic-team") return { ...action, href: "https://vibebrowser.app/agentic-team", external: true }
         return action
       }),
     }

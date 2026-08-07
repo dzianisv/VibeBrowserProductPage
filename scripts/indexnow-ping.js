@@ -17,7 +17,6 @@ const defaultPaths = [
   "/mcp-stdio",
   "/enterprise",
   "/compare",
-  "/agentic-team",
   "/aboutus",
   "/privacy",
   "/terms",
