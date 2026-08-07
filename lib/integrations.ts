@@ -10,7 +10,7 @@
 export type ConfigBlock = {
   /** Where the user pastes this (file path or UI location). */
   location: string
-  language: 'json' | 'bash'
+  language: 'json' | 'bash' | 'toml'
   code: string
 }
 
@@ -59,6 +59,12 @@ const stdio = (location: string, code: string): ConfigBlock => ({
   code,
 })
 
+const toml = (location: string, code: string): ConfigBlock => ({
+  location,
+  language: 'toml',
+  code,
+})
+
 const CLAUDE_DESKTOP_JSON = `{
   "mcpServers": {
     "vibe": {
@@ -75,14 +81,18 @@ const CURSOR_JSON = `{
   }
 }`
 
-const CODEX_JSON = `{
-  "mcp": {
-    "vibe": {
-      "command": "npx",
-      "args": ["-y", "@vibebrowser/mcp"]
-    }
-  }
-}`
+/**
+ * Codex stores MCP servers in TOML, NOT JSON.
+ * Source: https://developers.openai.com/codex/extend/mcp — "Codex stores MCP
+ * configuration in config.toml ... Configure each MCP server with a
+ * [mcp_servers.<server-name>] table in the configuration file."
+ * Shared by the ChatGPT desktop app, Codex CLI, and the Codex IDE extension.
+ */
+const CODEX_TOML = `[mcp_servers.vibe]
+command = "npx"
+args = ["-y", "@vibebrowser/mcp"]`
+
+const CODEX_ADD_CMD = `codex mcp add vibe -- npx -y @vibebrowser/mcp`
 
 const COPILOT_JSON = `{
   "github.copilot.chat.mcpServers": {
@@ -274,17 +284,21 @@ export const INTEGRATIONS: Integration[] = [
     steps: [
       extensionStep,
       {
-        title: 'Add Vibe to your Codex configuration',
+        title: 'Add Vibe to ~/.codex/config.toml',
         body:
-          'Add the "vibe" MCP server to your Codex CLI configuration and restart Codex so it picks up the new tools.',
-        config: stdio('Codex CLI configuration', CODEX_JSON),
+          'Codex keeps MCP servers in TOML, not JSON. Append the block below to ~/.codex/config.toml (or a project-scoped .codex/config.toml), then restart Codex. Prefer one command? Run codex mcp add vibe -- npx -y @vibebrowser/mcp and Codex writes the same entry for you. Verify with codex mcp list, or type /mcp inside the TUI.',
+        config: toml('~/.codex/config.toml', CODEX_TOML),
       },
       connectStep,
     ],
     faqs: [
       {
         q: 'Does OpenAI Codex CLI support MCP servers?',
-        a: 'Yes. Codex CLI can load MCP servers from its configuration, which is how Vibe adds browser tools. Add the "vibe" entry with command npx and args ["-y", "@vibebrowser/mcp"], then restart Codex.',
+        a: 'Yes. Codex loads MCP servers from ~/.codex/config.toml, which is how Vibe adds browser tools. Add a [mcp_servers.vibe] table with command = "npx" and args = ["-y", "@vibebrowser/mcp"], then restart Codex. The config is TOML, not JSON.',
+      },
+      {
+        q: 'Where is the Codex MCP config file?',
+        a: 'Codex reads ~/.codex/config.toml by default. You can also scope servers to a single trusted project with .codex/config.toml in the repo root. The ChatGPT desktop app, Codex CLI, and the Codex IDE extension all share this same file.',
       },
       {
         q: 'Can Codex CLI control my real Chrome?',
@@ -305,6 +319,79 @@ export const INTEGRATIONS: Integration[] = [
       'codex browser automation',
       'codex cli chrome control',
       'codex mcp server browser',
+    ],
+  },
+  {
+    slug: 'chatgpt-desktop',
+    name: 'ChatGPT desktop app',
+    vendor: 'OpenAI',
+    featured: true,
+    title: 'ChatGPT Desktop App Browser Control — Vibe MCP',
+    description:
+      'Add an MCP server to the ChatGPT desktop app and let ChatGPT drive your real Chrome — click, type, and read pages you are already logged into. No headless browser.',
+    h1: 'Give the ChatGPT desktop app control of your browser',
+    tagline:
+      'Settings → MCP servers → Add server. ChatGPT works in the Chrome you are already signed into.',
+    answerBlock:
+      'The ChatGPT desktop app supports MCP servers. Add @vibebrowser/mcp as a STDIO server under Settings → MCP servers, and ChatGPT can navigate, click, type, scroll, screenshot, and extract content from your real Chrome — including pages behind a login. The desktop app, Codex CLI, and Codex IDE extension share one config at ~/.codex/config.toml.',
+    problem: [
+      'ChatGPT on the web cannot touch your browser: it cannot open your dashboard, read a page behind SSO, or finish a task on a site you are logged into.',
+      'The built-in browsing tool fetches public pages as an anonymous visitor, so anything gated behind your account is invisible to it.',
+      'Copy-pasting page content into the chat by hand defeats the point of an assistant.',
+    ],
+    solution: [
+      'One STDIO entry in Settings → MCP servers and ChatGPT drives the Chrome you already use, with your sessions intact.',
+      'Structured page snapshots keep the context small so ChatGPT acts on the right element instead of guessing.',
+      'Everything runs locally on your machine — the MCP server and relay never ship your pages to us.',
+      'Configure once and the same server is available in Codex CLI and the Codex IDE extension, because they share ~/.codex/config.toml.',
+    ],
+    steps: [
+      extensionStep,
+      {
+        title: 'Add Vibe under Settings → MCP servers',
+        body:
+          'In the ChatGPT desktop app open Settings, select MCP servers, then Add server. Name it "vibe", choose the STDIO transport, and set the command to npx -y @vibebrowser/mcp. Save, then select Restart. Prefer the terminal? Run the command below — the desktop app reads the same ~/.codex/config.toml file.',
+        config: {
+          location: 'Terminal (writes ~/.codex/config.toml, shared with the desktop app)',
+          language: 'bash',
+          code: CODEX_ADD_CMD,
+        },
+      },
+      connectStep,
+    ],
+    faqs: [
+      {
+        q: 'Does the ChatGPT desktop app support MCP servers?',
+        a: 'Yes. OpenAI documents that the ChatGPT desktop app, Codex CLI, and the Codex IDE extension all support MCP servers and share the same configuration. Add one under Settings → MCP servers → Add server, choosing STDIO or Streamable HTTP.',
+      },
+      {
+        q: 'How do I add an MCP server to the ChatGPT desktop app?',
+        a: 'Open Settings, select MCP servers, then Add server. Enter a name, choose STDIO, and provide the command — for Vibe that is npx with args -y @vibebrowser/mcp. Save the server and select Restart. Type /mcp in the composer to confirm it connected.',
+      },
+      {
+        q: 'Can ChatGPT control my real Chrome, with my logins?',
+        a: 'Yes. With the Vibe extension installed and MCP External Control enabled, ChatGPT drives your existing Chrome profile — same tabs, same cookies, same authenticated sessions. There is no second browser and no re-login.',
+      },
+      {
+        q: 'Does this work in ChatGPT on the web?',
+        a: 'No. OpenAI states that ChatGPT web does not read local Codex configuration files. Vibe is a local MCP server, so it works in the desktop app, Codex CLI, and the IDE extension — the surfaces that run on your machine.',
+      },
+      {
+        q: 'Where does the ChatGPT desktop app store MCP configuration?',
+        a: 'In ~/.codex/config.toml, as a [mcp_servers.vibe] TOML table. You can also scope a server to one trusted project with .codex/config.toml. Adding it through the Settings UI writes to the same file.',
+      },
+      {
+        q: 'Does my browsing data go to a server?',
+        a: 'No. The MCP server and relay run locally on your machine. Page content goes only to the agent you connected.',
+      },
+    ],
+    keywords: [
+      'chatgpt desktop app mcp',
+      'chatgpt desktop mcp server',
+      'chatgpt control browser',
+      'chatgpt desktop browser automation',
+      'add mcp server to chatgpt',
+      'chatgpt chrome control mcp',
     ],
   },
   {
