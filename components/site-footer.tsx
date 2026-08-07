@@ -85,7 +85,7 @@ export function SiteFooter() {
                 { href: '/section', label: 'Platform Breakdown' },
                 { href: '/cli', label: 'Browser CLI' },
                 { href: '/providers/ollama', label: 'Ollama Integration' },
-                { href: 'https://agentlabs.cc/agentic-team', label: 'Agentic Team' },
+                { href: 'https://agentpod.agentlabs.cc/team', label: 'Agentic Team' },
                 { href: '/blog', label: 'Blog' },
                 { href: '/rss.xml', label: 'RSS Feed' },
                 { href: 'https://docs.vibebrowser.app/getting-started/extension', label: 'Developer Install' },

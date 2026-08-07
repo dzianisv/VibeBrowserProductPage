@@ -14,7 +14,6 @@ const config: Config = {
     // rendered layout breaks. Scope to source subdirs (NOT shared/** — that
     // would crawl shared/node_modules and stall the build). Relative to apps/agentlabs.
     "../../shared/company-profile/**/*.{js,ts,jsx,tsx,mdx}",
-    "../../shared/agentic-team/**/*.{js,ts,jsx,tsx,mdx}",
     "../../shared/blog/**/*.{js,ts,jsx,tsx,mdx}"
   ],
   theme: {
