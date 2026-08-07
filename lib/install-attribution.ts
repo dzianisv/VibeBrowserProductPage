@@ -1,6 +1,9 @@
 export const ATTRIBUTION_COOKIE_NAME = 'vibe_attribution'
 export const ATTRIBUTION_COOKIE_MAX_AGE = 60 * 60 * 24 * 30 // 30 days
 export const ATTRIBUTION_UTM_MAX_LENGTH = 256
+// Chrome commonly caps one cookie at 4096 bytes. Keep the encoded value at 3500
+// so the cookie name and current/future attributes retain more than 500 bytes.
+export const ATTRIBUTION_COOKIE_VALUE_MAX_BYTES = 3500
 
 type AttributionPayload = {
   source: string
@@ -10,6 +13,8 @@ type AttributionPayload = {
   content?: string
   capturedAt: number
 }
+
+const OPTIONAL_FIELDS = ['content', 'term', 'campaign', 'medium'] as const
 
 type CookieResponse = {
   cookies: {
@@ -47,16 +52,34 @@ export function buildAttributionPayload(
   }
 }
 
+export function encodedAttributionValue(payload: AttributionPayload): string {
+  return encodeURIComponent(JSON.stringify(payload))
+}
+
+function fitAttributionPayload(payload: AttributionPayload): AttributionPayload | null {
+  for (const field of OPTIONAL_FIELDS) {
+    if (encodedAttributionValue(payload).length <= ATTRIBUTION_COOKIE_VALUE_MAX_BYTES) {
+      return payload
+    }
+    delete payload[field]
+  }
+
+  return encodedAttributionValue(payload).length <= ATTRIBUTION_COOKIE_VALUE_MAX_BYTES
+    ? payload
+    : null
+}
+
 export function setAttributionCookie(
   response: CookieResponse,
   searchParams: URLSearchParams,
   capturedAt = Date.now(),
 ): boolean {
-  const payload = buildAttributionPayload(searchParams, capturedAt)
+  const builtPayload = buildAttributionPayload(searchParams, capturedAt)
+  const payload = builtPayload ? fitAttributionPayload(builtPayload) : null
   if (!payload) return false
 
-  // NextResponse percent-encodes JSON into valid cookie octets. Chrome returns
-  // those octets unchanged, so readers must decodeURIComponent before JSON.parse.
+  // NextResponse percent-encodes JSON into valid cookie octets. Readers of the
+  // stored cookie value must decodeURIComponent before JSON.parse.
   response.cookies.set(ATTRIBUTION_COOKIE_NAME, JSON.stringify(payload), {
     path: '/',
     maxAge: ATTRIBUTION_COOKIE_MAX_AGE,
