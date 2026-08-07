@@ -8,8 +8,8 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.vibebrowser.app'),
-  title: 'Agentic Team - Autonomous AI Ops Team Powered by OpenClaw | Vibe',
+  metadataBase: new URL('https://agentlabs.cc'),
+  title: 'Agentic Team - Autonomous AI Ops Team Powered by OpenClaw',
   description: 'Deploy 5 specialized AI agents that coordinate autonomously over Slack to run your SaaS operations 24/7. Integrates with Google Workspace, MCP browser access, skills, and a secrets vault.',
   keywords: [
     // Primary keywords
@@ -74,16 +74,16 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://www.vibebrowser.app/agentic-team',
-    siteName: 'Vibe Co-Pilot',
+    url: 'https://agentlabs.cc/agentic-team',
+    siteName: 'Agent Labs',
     title: 'Agentic Team - Your Autonomous AI Ops Team',
     description: '5 specialized AI agents coordinate over Slack to run your SaaS operations autonomously, with Google Workspace, MCP browser access, skills, and a secrets vault.',
     images: [
       {
-        url: '/og/home',
-        width: 1200,
-        height: 630,
-        alt: 'Vibe Agentic Team - AI Operations Team',
+        url: '/vibebrowser-logo.png',
+        width: 512,
+        height: 512,
+        alt: 'Agentic Team - AI Operations Team',
       },
     ],
   },
@@ -91,7 +91,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Agentic Team - Autonomous AI Ops Team Powered by OpenClaw',
     description: '5 AI agents coordinate over Slack to run your SaaS with Google Workspace, MCP browser access, skills, and a secrets vault.',
-    images: ['/og/home'],
+    images: ['/vibebrowser-logo.png'],
     creator: '@vibebrowserapp',
   },
   robots: {
@@ -106,7 +106,7 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: 'https://www.vibebrowser.app/agentic-team',
+    canonical: 'https://agentlabs.cc/agentic-team',
   },
   category: 'technology',
   classification: 'AI Operations',
@@ -120,11 +120,11 @@ const jsonLd = {
   applicationCategory: 'BusinessApplication',
   operatingSystem: 'Kubernetes, Linux, macOS',
   description: 'A multi-agent AI system that deploys 5 specialized agents to autonomously run SaaS operations. Integrates with Google Workspace, MCP browser access, skills, and a secrets vault.',
-  url: 'https://www.vibebrowser.app/agentic-team',
+  url: 'https://agentlabs.cc/agentic-team',
   author: {
     '@type': 'Organization',
     name: 'Vibe Technologies',
-    url: 'https://www.vibebrowser.app',
+    url: 'https://agentlabs.cc',
   },
   offers: {
     '@type': 'Offer',
@@ -156,8 +156,8 @@ const organizationJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'Vibe Technologies',
-  url: 'https://www.vibebrowser.app',
-  logo: 'https://www.vibebrowser.app/vibebrowser-logo.png',
+  url: 'https://agentlabs.cc',
+  logo: 'https://agentlabs.cc/vibebrowser-logo.png',
   contactPoint: {
     '@type': 'ContactPoint',
     email: 'agenticteam@vibebrowser.app',
