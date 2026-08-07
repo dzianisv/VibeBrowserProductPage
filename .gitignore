@@ -33,6 +33,10 @@ next-env.d.ts
 .idea/
 .vscode/
 
+# Agent scratch roadmap/checklist written at the repo root by long-running
+# coding agents. Session bookkeeping, not project state — never ship it.
+status.md
+
 # backup data (contains PII)
 old-waitlist-backup.json
 tmp/
