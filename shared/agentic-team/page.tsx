@@ -846,7 +846,6 @@ export default function AgenticTeamPage() {
                 Real-world examples of our agents coordinating to solve complex problems.
               </p>
             </div>
-            
             <div className="grid gap-12">
               <div className="rounded-xl overflow-hidden border border-[#2a2a2a] shadow-2xl">
                 <img src="https://www.vibebrowser.app/vibeteam1.png" alt="Vibe Team Showcase 1" className="w-full h-auto" />
