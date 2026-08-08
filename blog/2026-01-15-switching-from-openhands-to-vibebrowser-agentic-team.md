@@ -1,6 +1,6 @@
 ---
 title: "Switching From OpenHands to VibeBrowser Agentic Team: Why OpenClaw Agents Won"
-description: "Why Vibe Technologies retired its custom OpenHands-based VibeTeam build and moved operations to vibebrowser.app/agentic-team — OpenClaw-based agents with native Slack integration that proved more productive in real incident response."
+description: "Why Vibe Technologies retired its custom OpenHands-based VibeTeam build and moved operations to AgentPod Team — OpenClaw-based agents with native Slack integration that proved more productive in real incident response."
 date: "2026-01-15"
 author: "Dzianis Vashchuk"
 authorUrl: "https://linkedin.com/in/dzianisv"
@@ -16,9 +16,9 @@ tags:
 published: true
 ---
 
-We switched from our custom OpenHands-based VibeTeam to a new agent stack built on OpenClaw and hosted at vibebrowser.app/agentic-team. Agent task failure dropped from 40% to under 10%. Each agent now has a named identity, a specific role, and a persistent Slack presence. This post explains what broke, what we built, and how seven named agents now run daily operations over Slack.
+We switched from our custom OpenHands-based VibeTeam to a new agent stack built on OpenClaw and hosted at [AgentPod Team](https://agentpod.agentlabs.cc/team). Agent task failure dropped from 40% to under 10%. Each agent now has a named identity, a specific role, and a persistent Slack presence. This post explains what broke, what we built, and how seven named agents now run daily operations over Slack.
 
-Two months ago I wrote about [VibeTeam](/blog/2025-11-20-vibeteam-openhand-ai-operations-agents) — our custom OpenHands build handling incidents, Slack messages, and customer triage. As of this week, VibeTeam is retired. Operations now run on [vibebrowser.app/agentic-team](https://vibebrowser.app/agentic-team), built on top of [OpenClaw](https://github.com/openclaw/openclaw) agents.
+Two months ago I wrote about [VibeTeam](/blog/2025-11-20-vibeteam-openhand-ai-operations-agents) — our custom OpenHands build handling incidents, Slack messages, and customer triage. As of this week, VibeTeam is retired. Operations now run on [AgentPod Team](https://agentpod.agentlabs.cc/team), built on top of [OpenClaw](https://github.com/openclaw/openclaw) agents.
 
 OpenHands agents failed ~40% of tasks. The main problem: no memory between sessions and no way to specialize by role. In practice, 40% failure meant roughly 4 in 10 overnight tasks produced no output, an error, or a stalled session. We had no way to know until we checked manually in the morning.
 
@@ -602,7 +602,7 @@ What changed is the shape of the platform. The job did not change.
 
 ## Try It
 
-[vibebrowser.app/agentic-team](https://vibebrowser.app/agentic-team) is the managed version of the setup above — same role catalog, same Slack provisioning, no manual config. If you would rather self-host, the OpenClaw repo is open and everything in this post — `src/team/catalog.ts`, `src/team/openclaw.ts`, `openclaw-rc.d/workspace/<role>/AGENTS.md`, and `.agents/skills/configure-slack-apps/SKILL.md` — is the real source of truth.
+[AgentPod Team](https://agentpod.agentlabs.cc/team) is the managed version of the setup above — same role catalog, same Slack provisioning, no manual config. If you would rather self-host, the OpenClaw repo is open and everything in this post — `src/team/catalog.ts`, `src/team/openclaw.ts`, `openclaw-rc.d/workspace/<role>/AGENTS.md`, and `.agents/skills/configure-slack-apps/SKILL.md` — is the real source of truth.
 
 Questions: [dzianisvv@gmail.com](mailto:dzianisvv@gmail.com)
 
