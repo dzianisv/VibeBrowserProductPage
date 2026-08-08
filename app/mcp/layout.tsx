@@ -42,6 +42,14 @@ export const metadata: Metadata = {
     'opencode remote mcp',
     'copilot cli mcp',
 
+    // Hosted-assistant connector keywords (see /integrations/*-connector)
+    'claude custom connector',
+    'claude connector setup',
+    'chatgpt connector setup',
+    'chatgpt developer mode mcp',
+    'chatgpt create app mcp',
+    'claude web browser control',
+
     // Feature keywords
     'multi agent browser control',
     'mcp browser tools',
@@ -271,6 +279,14 @@ const faqJsonLd = {
       acceptedAnswer: {
         '@type': 'Answer',
         text: 'Playwright MCP and Chrome DevTools MCP launch a fresh, separate browser by default with no sessions, cookies, or extensions. Vibe Browser MCP connects directly to the browser you are already using with zero configuration, so agents can interact with Gmail, Slack, GitHub, Jira, or any logged-in site without re-authenticating.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Can Claude or ChatGPT in the browser connect to this?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes, both — via a connector rather than the header-based config. Claude on the web: Settings → Connectors → Add → Add custom connector, then paste the URL. ChatGPT on the web: turn on Developer mode under Settings → Security and login, then Plugins → Create app. Neither requires domain verification, an allowlist, or OAuth. Those UIs accept only a bare URL and cannot send a custom header, so the routing UUID goes in the URL path: https://relay.api.vibebrowser.app/mcp/<your-routing-uuid>. Step-by-step guides are at vibebrowser.app/integrations/claude-connector and vibebrowser.app/integrations/chatgpt-connector.',
       },
     },
   ],

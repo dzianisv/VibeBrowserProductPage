@@ -127,6 +127,40 @@ export default function IntegrationsHubPage() {
           </p>
         </section>
 
+        {/* Hosted-assistant shortcut. Claude and ChatGPT in the browser are the
+            two highest-volume asks and they do NOT use the config-file path the
+            rest of this hub describes — they take a URL. Surface them up front
+            so a reader on the wrong path bails out early. */}
+        <section aria-labelledby="connectors" className="mt-12 rounded-2xl border border-emerald-400/30 bg-emerald-400/[0.05] p-6">
+          <SectionHeading id="connectors">Using Claude or ChatGPT in a browser tab?</SectionHeading>
+          <p className="mt-3 max-w-3xl text-[15px] leading-relaxed text-neutral-200">
+            Those cannot run a local MCP server, so skip the config files below — they take a single
+            connector URL instead. Both paths are set up and verified end to end, including the exact
+            click path, what &ldquo;connected&rdquo; looks like, and a prompt you can run to prove it
+            works. Neither needs domain verification, an allowlist, or OAuth.
+          </p>
+          <nav aria-label="Connector guides" className="mt-5 flex flex-wrap gap-3">
+            <Link
+              href="/integrations/claude-connector"
+              className="rounded-full border border-emerald-400/40 px-4 py-2 text-sm font-medium text-emerald-200 transition-colors hover:border-emerald-300 hover:text-emerald-100"
+            >
+              Claude connector setup →
+            </Link>
+            <Link
+              href="/integrations/chatgpt-connector"
+              className="rounded-full border border-emerald-400/40 px-4 py-2 text-sm font-medium text-emerald-200 transition-colors hover:border-emerald-300 hover:text-emerald-100"
+            >
+              ChatGPT connector setup →
+            </Link>
+            <Link
+              href="/mcp"
+              className="rounded-full border border-white/15 px-4 py-2 text-sm text-neutral-200 transition-colors hover:border-white/40 hover:text-white"
+            >
+              Hosted remote MCP (/mcp)
+            </Link>
+          </nav>
+        </section>
+
         <section aria-labelledby="clients" className="mt-14">
           <SectionHeading id="clients">Supported AI agents</SectionHeading>
           <p className="mt-3 max-w-3xl text-[15px] text-neutral-400">

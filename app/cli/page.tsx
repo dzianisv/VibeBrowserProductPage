@@ -421,6 +421,9 @@ export default function CliPage() {
                     <p className="text-sm text-[#b7c0db]">
                       Need richer tool orchestration? Use the same package via <Link href="/mcp-stdio" className="text-[#b4b4ff] hover:text-[#d8dcff] hover:underline">/mcp-stdio setup</Link> without changing the execution layer.
                     </p>
+                    <p className="mt-3 text-sm text-[#b7c0db]">
+                      No terminal at all? Claude and ChatGPT in a browser tab connect over a single URL — see the <Link href="/integrations/claude-connector" className="text-[#b4b4ff] hover:text-[#d8dcff] hover:underline">Claude connector setup</Link> or <Link href="/integrations/chatgpt-connector" className="text-[#b4b4ff] hover:text-[#d8dcff] hover:underline">ChatGPT connector setup</Link>.
+                    </p>
                   </CardContent>
                 </Card>
               </div>

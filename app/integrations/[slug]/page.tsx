@@ -83,12 +83,27 @@ export default async function IntegrationPage({
             '@type': 'HowTo',
             name: `How to give ${integration.name} control of your browser`,
             description: integration.answerBlock,
-            step: integration.steps.map((s, i) => ({
-              '@type': 'HowToStep',
-              position: i + 1,
-              name: s.title,
-              text: s.body,
-            })),
+            step: [
+              ...integration.steps.map((s, i) => ({
+                '@type': 'HowToStep',
+                position: i + 1,
+                name: s.title,
+                text: s.body,
+              })),
+              // The verification prompt is a real, ordered step: without it a
+              // reader has no way to tell a working connector from one that
+              // saved cleanly and routes nowhere.
+              ...(integration.verify
+                ? [
+                    {
+                      '@type': 'HowToStep',
+                      position: integration.steps.length + 1,
+                      name: 'Verify the connection',
+                      text: `Ask: "${integration.verify.prompt}" The expected answer is ${integration.verify.expect}, and your own browser should visibly navigate while the assistant works.`,
+                    },
+                  ]
+                : []),
+            ],
           },
         ]}
       />
@@ -110,7 +125,11 @@ export default async function IntegrationPage({
         <header className="mt-6">
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">{integration.h1}</h1>
           <p className="mt-5 text-lg leading-relaxed text-neutral-300">{integration.tagline}</p>
-          <p className="mt-3 text-sm text-neutral-500">Last updated: August 2026</p>
+          <p className="mt-3 text-sm text-neutral-500">
+            {integration.verifiedOn
+              ? `Click path walked end to end and verified: ${integration.verifiedOn}`
+              : 'Last updated: August 2026'}
+          </p>
         </header>
 
         <section aria-labelledby="answer" className="mt-10 rounded-2xl border border-white/10 bg-white/[0.03] p-6">
@@ -166,6 +185,97 @@ export default async function IntegrationPage({
           </ol>
           <p className="mt-6 text-sm leading-relaxed text-neutral-400">{RELAY_NOTE}</p>
         </section>
+
+        {integration.security ? (
+          <section aria-labelledby="security" className="mt-14">
+            <div className="rounded-2xl border border-amber-400/40 bg-amber-400/[0.07] p-6">
+              <h2 id="security" className="text-xl font-bold tracking-tight text-amber-200 sm:text-2xl">
+                {integration.security.heading}
+              </h2>
+              <p className="mt-3 text-[15px] leading-relaxed text-amber-50/90">
+                {integration.security.body}
+              </p>
+              <ul className="mt-5 space-y-3">
+                {integration.security.bullets.map((b) => (
+                  <li key={b} className="flex gap-3 text-[15px] leading-relaxed text-amber-50/80">
+                    <span aria-hidden className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-300" />
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        ) : null}
+
+        {integration.connectedLooksLike ? (
+          <section aria-labelledby="connected" className="mt-14">
+            <SectionHeading id="connected">What &ldquo;connected&rdquo; looks like</SectionHeading>
+            <ul className="mt-5 space-y-3">
+              {integration.connectedLooksLike.map((c) => (
+                <li key={c} className="flex gap-3 text-[15px] leading-relaxed text-neutral-300">
+                  <span aria-hidden className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400" />
+                  <span>{c}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
+
+        {integration.verify ? (
+          <section aria-labelledby="verify" className="mt-14">
+            <SectionHeading id="verify">Verify it actually works</SectionHeading>
+            <p className="mt-3 text-[15px] leading-relaxed text-neutral-300">
+              Do not trust a green checkmark. Run this prompt in a conversation with the connector
+              enabled and check the answer yourself.
+            </p>
+            <CodeBlock
+              config={{
+                location: `Ask ${integration.name}`,
+                language: 'bash',
+                code: integration.verify.prompt,
+              }}
+            />
+            <p className="mt-4 text-[15px] leading-relaxed text-neutral-200">
+              Expected answer:{' '}
+              <strong className="font-semibold text-emerald-300">{integration.verify.expect}</strong>
+            </p>
+            <p className="mt-3 text-[15px] leading-relaxed text-neutral-400">
+              {integration.verify.note}
+            </p>
+          </section>
+        ) : null}
+
+        {integration.troubleshooting ? (
+          <section aria-labelledby="troubleshooting" className="mt-14">
+            <SectionHeading id="troubleshooting">Troubleshooting</SectionHeading>
+            <div className="mt-6 overflow-x-auto rounded-xl border border-white/10">
+              <table className="w-full text-left text-sm">
+                <thead className="bg-white/5 text-neutral-300">
+                  <tr>
+                    <th scope="col" className="px-4 py-3 font-semibold">
+                      Symptom
+                    </th>
+                    <th scope="col" className="px-4 py-3 font-semibold">
+                      Likely cause
+                    </th>
+                    <th scope="col" className="px-4 py-3 font-semibold">
+                      Fix
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/5 text-neutral-300">
+                  {integration.troubleshooting.map((t) => (
+                    <tr key={t.symptom}>
+                      <td className="px-4 py-3 align-top">{t.symptom}</td>
+                      <td className="px-4 py-3 align-top text-neutral-400">{t.cause}</td>
+                      <td className="px-4 py-3 align-top">{t.fix}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        ) : null}
 
         <section aria-labelledby="tools" className="mt-14">
           <SectionHeading id="tools">Tools {integration.name} gets</SectionHeading>
