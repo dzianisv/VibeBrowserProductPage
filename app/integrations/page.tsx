@@ -241,6 +241,13 @@ export default function IntegrationsHubPage() {
         <section aria-labelledby="security" className="mt-14">
           <SectionHeading id="security">Security</SectionHeading>
           <p className="mt-4 max-w-3xl text-[15px] leading-relaxed text-neutral-300">{RELAY_NOTE}</p>
+          <p className="mt-3 max-w-3xl text-[15px] leading-relaxed text-neutral-300">
+            What the relay carries, what it logs, how long it keeps it, and how to revoke access is documented in our{' '}
+            <Link href="/privacy" className="underline decoration-white/40 underline-offset-4 hover:text-white">
+              Privacy Policy
+            </Link>
+            .
+          </p>
         </section>
 
         <section aria-labelledby="faq" className="mt-14">

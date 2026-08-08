@@ -676,6 +676,12 @@ export default function McpPage() {
                 <Link href="/mcp-stdio" className="text-[#81c995] hover:underline font-medium">
                   local stdio setup
                 </Link>
+                <span className="text-[#9aa0a6]">
+                  {" "}— or read exactly what the relay carries, logs and retains in the{" "}
+                </span>
+                <Link href="/privacy" className="text-[#81c995] hover:underline font-medium">
+                  Privacy Policy
+                </Link>
                 <span className="text-[#9aa0a6]">.</span>
               </p>
             </div>

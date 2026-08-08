@@ -859,7 +859,7 @@ export default function McpStdioPage() {
               </a>
             </div>
             <p className="text-xs text-[#9aa0a6] mt-8">
-              Questions? <a href="mailto:info@vibebrowser.app" className="text-[#8ab4f8] hover:underline">info@vibebrowser.app</a> · <Link href="https://github.com/VibeTechnologies/vibe-mcp" target="_blank" className="text-[#8ab4f8] hover:underline">GitHub</Link> · <Link href="https://www.npmjs.com/package/@vibebrowser/mcp" target="_blank" className="text-[#8ab4f8] hover:underline">npm</Link> · <Link href="/mcp" className="text-[#8ab4f8] hover:underline">Hosted remote MCP</Link>
+              Questions? <a href="mailto:info@vibebrowser.app" className="text-[#8ab4f8] hover:underline">info@vibebrowser.app</a> · <Link href="https://github.com/VibeTechnologies/vibe-mcp" target="_blank" className="text-[#8ab4f8] hover:underline">GitHub</Link> · <Link href="https://www.npmjs.com/package/@vibebrowser/mcp" target="_blank" className="text-[#8ab4f8] hover:underline">npm</Link> · <Link href="/mcp" className="text-[#8ab4f8] hover:underline">Hosted remote MCP</Link> · <Link href="/privacy" className="text-[#8ab4f8] hover:underline">Privacy Policy</Link>
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-3 text-xs">
               <Link href="/people" className="text-[#8ab4f8] hover:underline">
