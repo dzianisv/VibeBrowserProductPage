@@ -384,6 +384,14 @@ export default async function IntegrationPage({
               All integrations
             </Link>
           </div>
+          <p className="mt-5 text-sm text-neutral-400">
+            Connecting an agent to your logged-in browser has real privacy consequences. Read what is transmitted,
+            logged and retained in the{' '}
+            <Link href="/privacy" className="underline decoration-white/40 underline-offset-4 hover:text-white">
+              Privacy Policy
+            </Link>
+            .
+          </p>
         </section>
       </main>
 
