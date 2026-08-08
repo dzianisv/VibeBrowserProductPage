@@ -19,6 +19,33 @@ export type Faq = {
   a: string
 }
 
+/**
+ * Prominent credential warning. The connector URL embeds the routing UUID, and
+ * that UUID is a bearer capability over the user's logged-in browser — so this
+ * renders ABOVE the fold-adjacent install steps, never buried in the FAQ.
+ */
+export type SecurityCallout = {
+  heading: string
+  body: string
+  bullets: string[]
+}
+
+/**
+ * A self-service smoke test the reader can run to prove the connector actually
+ * reached their browser. Must have a deterministic, checkable answer.
+ */
+export type VerifyCheck = {
+  prompt: string
+  expect: string
+  note: string
+}
+
+export type Troubleshoot = {
+  symptom: string
+  cause: string
+  fix: string
+}
+
 export type Integration = {
   slug: string
   /** Product name exactly as the vendor writes it. */
@@ -46,6 +73,16 @@ export type Integration = {
   solution: string[]
   /** 3-step install. */
   steps: { title: string; body: string; config?: ConfigBlock }[]
+  /** Credential warning rendered as a callout directly under the steps. */
+  security?: SecurityCallout
+  /** What the client's UI shows once the connector is saved and working. */
+  connectedLooksLike?: string[]
+  /** Self-service smoke test with a deterministic expected answer. */
+  verify?: VerifyCheck
+  /** Symptom → cause → fix table. */
+  troubleshooting?: Troubleshoot[]
+  /** Human-readable date this click path was last walked end to end. */
+  verifiedOn?: string
   faqs: Faq[]
   keywords: string[]
 }
@@ -144,17 +181,43 @@ const connectStep = {
  * a custom header — see VibeTechnologies/platform#63. Do not "simplify" these
  * pages back to a header-based snippet: it does not work in either product.
  */
-const RELAY_MCP_URL = 'https://relay.api.vibebrowser.app/mcp/<your-extension-uuid>'
+const RELAY_MCP_URL = 'https://relay.api.vibebrowser.app/mcp/<your-routing-uuid>'
 
 const remoteUrlStep = {
-  title: 'Copy your agent connection URL',
+  title: 'Copy your agent connection URL from the extension',
   body:
-    'Click the Vibe icon, open Settings, and find "Agent connection URL". It contains the UUID that routes an agent to your browser. Your connector URL is https://relay.api.vibebrowser.app/mcp/ followed by that UUID.',
+    'Click the Vibe icon → Settings → turn on "Enable external AI agent control" → choose Remote (internet) → copy the Agent connection URL. The last path segment is your routing UUID. The connector URL is https://relay.api.vibebrowser.app/mcp/ followed by that UUID. Leave the extension running and remote control on — the connector talks to this browser, so if it is closed there is nothing on the other end.',
   config: {
     location: 'Vibe extension → Settings → Agent connection URL',
     language: 'url' as const,
     code: RELAY_MCP_URL,
   },
+}
+
+/**
+ * The connector URL is a bearer capability: possession alone grants live
+ * control of the user's logged-in browser. There is no second factor, no
+ * per-request signature, and no origin check — the relay routes on the UUID.
+ * This is why the warning is a first-class page section, not an FAQ row.
+ */
+const CONNECTOR_SECURITY: SecurityCallout = {
+  heading: 'Your connector URL is a password. Treat it like one.',
+  body:
+    'That URL is a bearer capability for your real, logged-in browser. There is no second factor: anyone who holds it can open your tabs, read the pages you are signed into, and act as you. Nothing else is needed to use it.',
+  bullets: [
+    'Never paste it into a shared chat, a ticket, a README, a screenshot, or a support thread. Redact the UUID before sharing anything.',
+    'Never commit it to a repo or write it into a config file that gets committed. Keep it out of shell history and CI logs.',
+    'If it leaks — or you are unsure — open the Vibe extension settings and regenerate the connection URL. The old UUID stops routing immediately, and you re-paste the new URL into the connector.',
+    'Turn "Enable external AI agent control" off when you are not using it. With it off, the URL routes nowhere.',
+  ],
+}
+
+/** Deterministic smoke test: the answer is a fact the agent must fetch. */
+const CONNECTOR_VERIFY: VerifyCheck = {
+  prompt: 'Go to duckduckgo.com and find out when the first GPT model was released.',
+  expect: '2018',
+  note:
+    'Pick this over "open google.com" because a wrong answer is unmistakable: the assistant cannot satisfy it from memory-free small talk, and you can watch the tab actually navigate. If the answer comes back as 2018 and you saw your browser move, the connector is wired end to end. If the assistant answers 2018 without your browser doing anything, it answered from its own knowledge — ask it again and require it to cite the page it opened.',
 }
 
 /** Shared FAQ entries for the two hosted-connector pages. */
@@ -164,8 +227,12 @@ const REMOTE_CONNECTOR_FAQS: Faq[] = [
     a: 'Only the Vibe Chrome extension. On the remote-connector path there is no npx command and no local MCP server — the hosted assistant talks to the Vibe relay over HTTPS, and the relay forwards to your extension.',
   },
   {
+    q: 'Do I need domain verification, an allowlist, or OAuth?',
+    a: 'No. Neither Claude nor ChatGPT requires domain verification, an allowlist entry, or an OAuth flow for this connector. You paste a URL and save. The routing UUID inside the URL is the only credential involved.',
+  },
+  {
     q: 'Is the UUID in the URL a secret?',
-    a: 'Yes. That UUID is the credential that routes an agent to your browser — anyone who has it can drive your logged-in session. Treat the connector URL like a password: never post it in a shared chat, screenshot, README, or issue. If it leaks, revoke it in the extension and generate a new one.',
+    a: 'Yes. That UUID is the credential that routes an agent to your browser — anyone who has it can drive your logged-in session. Treat the connector URL like a password: never post it in a shared chat, screenshot, README, or issue. If it leaks, regenerate it in the Vibe extension settings and paste the new URL into the connector.',
   },
   {
     q: 'What is the difference between this and the local MCP server?',
@@ -174,6 +241,30 @@ const REMOTE_CONNECTOR_FAQS: Faq[] = [
   {
     q: 'Does my page content go through your servers on this path?',
     a: 'Yes — unlike the local STDIO path, tool calls and their results traverse the Vibe relay, because the assistant is running in the vendor cloud and cannot reach your machine directly. If you need page content to never leave your machine, use the local MCP server with a desktop client instead.',
+  },
+]
+
+/** Symptom → cause → fix rows shared by both connector pages. */
+const CONNECTOR_TROUBLESHOOTING: Troubleshoot[] = [
+  {
+    symptom: 'The client rejects the URL with a 401, or tool calls fail with 401 Unauthorized.',
+    cause: 'The routing UUID in the URL is wrong, mistyped, or no longer valid — usually because it was regenerated in the extension after you pasted it.',
+    fix: 'Re-copy the Agent connection URL from the Vibe extension settings and re-paste the whole URL. Check you kept the /mcp/ path segment and did not drop or duplicate a character at either end.',
+  },
+  {
+    symptom: 'The connector saved fine and tools are listed, but every tool call errors or hangs.',
+    cause: 'Nothing is on the other end of the relay: the browser with the Vibe extension is closed, or external agent control is switched off, or the mode is set to Local instead of Remote (internet).',
+    fix: 'Open the browser that has the Vibe extension, click the Vibe icon → Settings, confirm "Enable external AI agent control" is on and the mode is Remote (internet). Then retry the prompt.',
+  },
+  {
+    symptom: 'No tools show up at all after saving the connector.',
+    cause: 'The URL points at the plain relay root rather than your routing path, so there is no session to enumerate tools for.',
+    fix: 'The URL must be https://relay.api.vibebrowser.app/mcp/<your-routing-uuid> — with the UUID as the last path segment. Remove the connector, re-add it with the full URL, and reload the page.',
+  },
+  {
+    symptom: 'The assistant answers the question but your browser never moved.',
+    cause: 'It answered from its own knowledge instead of calling a tool. This is a prompt problem, not a connection problem.',
+    fix: 'Re-ask and require evidence: "Use your browser tools to open duckduckgo.com, then tell me which page you read." If it still refuses, check the connector is toggled on for that specific conversation.',
   },
 ]
 
@@ -451,9 +542,9 @@ export const INTEGRATIONS: Integration[] = [
       'Add Vibe as a custom connector in Claude and let Claude on the web, in Cowork, and on mobile drive your real Chrome — logged-in pages included. One URL, no local install.',
     h1: 'Give Claude on the web control of your browser',
     tagline:
-      'Settings → Connectors → Add custom connector. One URL — works in claude.ai chats, Cowork sessions, and the mobile apps.',
+      'Settings → Connectors → Add → Add custom connector. One URL, 27 browser tools — works in claude.ai chats, Cowork sessions, and the mobile apps.',
     answerBlock:
-      'Claude supports custom connectors backed by a remote MCP server. Paste your Vibe relay URL under Settings → Connectors → Add custom connector, and Claude can navigate, click, type, scroll, screenshot, and read your real Chrome — including pages behind a login. Because the connector is brokered by your Claude account, it works in Cowork and on mobile, not just Claude Desktop.',
+      'Claude supports custom connectors backed by a remote MCP server. Open Settings → Connectors → Add → Add custom connector, paste your Vibe relay URL, and Claude can navigate, click, type, scroll, screenshot, and read your real Chrome — including pages behind a login. No domain verification, no allowlist, no OAuth. Because the connector is brokered by your Claude account, it works in Cowork and on mobile, not just Claude Desktop.',
     problem: [
       'Claude Desktop can run a local MCP server; Claude on the web, in a Cowork session, or on your phone cannot — it has no way to spawn a process on your machine.',
       'So the moment you leave the desktop app, Claude loses access to your browser and to everything behind your logins.',
@@ -469,11 +560,21 @@ export const INTEGRATIONS: Integration[] = [
       extensionStep,
       remoteUrlStep,
       {
-        title: 'Add it under Settings → Connectors',
+        title: 'Add it under Settings → Connectors → Add → Add custom connector',
         body:
-          'In Claude, open Settings → Connectors, click Add custom connector, and paste the URL from the previous step. Save, then connect. In any chat — including a Cowork session — use the + button → Connectors and toggle Vibe on for that conversation. Custom connectors are a paid-plan feature; check your plan if the option is missing.',
+          'In Claude on the web, open Settings → Connectors. Click Add, then Add custom connector. Give it a name (for example "Vibe Browser"), paste the URL from the previous step into the URL field, and click Add. Claude connects and discovers the tool list — 27 browser tools at the time of writing. There is no domain verification, no allowlist, and no OAuth step: the URL is the whole configuration. Custom connectors are a paid-plan feature; check your plan if the option is missing.',
       },
     ],
+    security: CONNECTOR_SECURITY,
+    connectedLooksLike: [
+      'The connector appears in the Settings → Connectors list with its name and a tool count — 27 tools on the current extension build.',
+      'Right after you add it, Claude shows "You are not connected to Vibe Browser yet". This is expected and does not mean the setup failed. Claude only marks a connector as connected once a chat has actually invoked one of its tools — send a prompt first, then re-check.',
+      'In a chat, the + button → Connectors lists Vibe with a toggle. Turn it on for that conversation.',
+      'On the first real request you will see Claude call tools such as New page and Take snapshot, and your own browser will visibly navigate.',
+    ],
+    verify: CONNECTOR_VERIFY,
+    troubleshooting: CONNECTOR_TROUBLESHOOTING,
+    verifiedOn: 'August 2026',
     faqs: [
       {
         q: 'Can Claude control my browser from claude.ai, not just Claude Desktop?',
@@ -481,15 +582,23 @@ export const INTEGRATIONS: Integration[] = [
       },
       {
         q: 'How do I add a custom connector in Claude?',
-        a: 'Open Settings → Connectors, click Add custom connector, paste the remote MCP server URL, and save. Then in a chat use the + button → Connectors and toggle it on for that conversation.',
+        a: 'Open Settings → Connectors, click Add, then Add custom connector. Give it a name, paste the remote MCP server URL, and click Add. Then in a chat use the + button → Connectors and toggle it on for that conversation.',
+      },
+      {
+        q: 'Claude says "You are not connected to Vibe Browser yet" — did it fail?',
+        a: 'No. Claude reports a custom connector as not connected until the first time a conversation actually calls one of its tools. Send a prompt that requires the browser — for example asking it to open a page — and the status resolves. If tool calls then fail, see the troubleshooting table.',
+      },
+      {
+        q: 'Do I need to verify a domain or get allowlisted?',
+        a: 'No. Adding a custom connector in Claude needs nothing but the URL — no domain verification, no allowlist request, and no OAuth configuration.',
       },
       {
         q: 'Does this work in a Cowork session?',
         a: 'Yes. A custom connector is brokered through your Claude account rather than tied to one machine, so a Cowork session reaches it the same way a Desktop chat does. A local Desktop Extension would not — that is scoped to the desktop app on that one computer.',
       },
       {
-        q: 'Why does the URL end in my extension UUID?',
-        a: 'The connector UI accepts a bare URL and cannot attach a custom request header, so the relay reads the routing UUID from the URL path instead. It is the same credential the CLI passes as wss://relay.api.vibebrowser.app/<uuid>.',
+        q: 'Why does the URL end in my routing UUID?',
+        a: 'The connector UI accepts a bare URL and cannot attach a custom request header, so the relay reads the routing UUID from the URL path instead. It is the same credential that CLI clients pass in the X-Remote-Session header.',
       },
       ...REMOTE_CONNECTOR_FAQS,
     ],
@@ -512,9 +621,9 @@ export const INTEGRATIONS: Integration[] = [
       'Add Vibe as a ChatGPT connector and let ChatGPT drive your real Chrome from the web app — logged-in pages included. One remote MCP URL, no local install.',
     h1: 'Give ChatGPT on the web control of your browser',
     tagline:
-      'Settings → Connectors → developer mode. A remote MCP URL, so it works where a local server cannot.',
+      'Settings → Security and login → Developer mode → Plugins → Create app. A remote MCP URL, so it works where a local server cannot.',
     answerBlock:
-      'ChatGPT supports custom connectors backed by a remote MCP server, configured under Settings → Connectors in developer mode. Point one at your Vibe relay URL and ChatGPT can navigate, click, type, scroll, screenshot, and read your real Chrome, including pages behind a login — from the web app, with no local MCP server running.',
+      'ChatGPT supports custom apps backed by a remote MCP server. Turn on Developer mode under Settings → Security and login, then go to Plugins → Create app and paste your Vibe relay URL. ChatGPT can then navigate, click, type, scroll, screenshot, and read your real Chrome, including pages behind a login — from the web app, with no local MCP server running and no domain verification or OAuth setup.',
     problem: [
       'The ChatGPT desktop app can run a local MCP server; ChatGPT on the web cannot read local config or spawn a process, so it has no route to your browser.',
       'The built-in browsing tool fetches public pages as an anonymous visitor — anything behind your account is invisible to it.',
@@ -529,15 +638,37 @@ export const INTEGRATIONS: Integration[] = [
       extensionStep,
       remoteUrlStep,
       {
-        title: 'Add the connector in ChatGPT settings',
+        title: 'Turn on Developer mode under Settings → Security and login',
         body:
-          'Open Settings → Connectors, enable developer mode under advanced settings, and create a connector pointing at the URL from the previous step. Then enable it for a conversation before asking ChatGPT to open a page. Connectors are a paid-plan feature and the developer-mode surface moves around — if you cannot find it, the desktop-app path below works today with no relay.',
+          'In ChatGPT on the web, open Settings → Security and login and switch Developer mode ON. This is the step people miss: the create-an-app surface does not appear anywhere until Developer mode is enabled, and it lives under Security and login rather than under Connectors.',
+      },
+      {
+        title: 'Plugins → Create app, then paste the URL',
+        body:
+          'Still in Settings, go to Plugins and click Create app. Give it a name, paste the connector URL from step 2 into the MCP server URL field, and create it. ChatGPT connects and discovers the actions. There is no domain verification, no allowlist, and no OAuth step. Then enable the app for a conversation before asking ChatGPT to open a page. Connectors and apps are a paid-plan feature, and the developer-mode surface moves around between releases — if you cannot find it, the ChatGPT desktop app path works today with no relay.',
       },
     ],
+    security: CONNECTOR_SECURITY,
+    connectedLooksLike: [
+      'The app appears in the Plugins list with its name, and opening it shows the discovered actions rather than an error.',
+      'In a conversation, the app is selectable from the tools/apps menu and can be toggled on for that chat.',
+      'On the first real request, ChatGPT shows a sequence of tool calls — expect several, including Navigate page — and your own browser visibly navigates while it works. Six tool calls for a simple lookup is normal, not a fault.',
+    ],
+    verify: CONNECTOR_VERIFY,
+    troubleshooting: CONNECTOR_TROUBLESHOOTING,
+    verifiedOn: 'August 2026',
     faqs: [
       {
         q: 'Can ChatGPT on the web control my browser?',
-        a: 'Yes, through a custom connector pointed at a remote MCP server. ChatGPT web cannot read local Codex config or run a local process, so the local STDIO path does not apply there — the Vibe relay URL does.',
+        a: 'Yes, through a custom app pointed at a remote MCP server. ChatGPT web cannot read local Codex config or run a local process, so the local STDIO path does not apply there — the Vibe relay URL does.',
+      },
+      {
+        q: 'Where is developer mode in ChatGPT?',
+        a: 'Settings → Security and login. Not under Connectors, which is where most guides send you. Switch Developer mode on there, and the Plugins → Create app surface becomes available.',
+      },
+      {
+        q: 'Do I need to verify a domain or set up OAuth?',
+        a: 'No. Creating the app needs nothing but the URL — no domain verification, no allowlist request, and no OAuth configuration.',
       },
       {
         q: 'Should I use this or the ChatGPT desktop app integration?',

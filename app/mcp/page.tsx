@@ -839,6 +839,92 @@ export default function McpPage() {
           </div>
         </section>
 
+        {/* Hosted assistants (Claude / ChatGPT connectors).
+            The agent selector above covers clients that can send an
+            X-Remote-Session header. Claude on the web and ChatGPT on the web
+            cannot: their connector UIs take a bare URL and nothing else, so
+            the routing UUID rides in the URL path instead. Different config,
+            same relay, same browser — hence a separate section rather than
+            another card in the grid above. */}
+        <section id="hosted-assistants" className="w-full py-16 md:py-24 border-t border-[#1e1e1e] scroll-mt-20">
+          <div className="container max-w-4xl px-4 md:px-6 mx-auto">
+            <div className="text-center mb-10">
+              <h2 className="text-2xl md:text-3xl font-normal text-[#e8eaed] mb-4">
+                Using Claude or ChatGPT in the browser? Set up a connector
+              </h2>
+              <p className="text-[#9aa0a6] max-w-2xl mx-auto">
+                Claude on the web (and Cowork, and mobile) and ChatGPT on the web cannot run a local
+                process or send a custom header — they accept one URL. Both are set up and verified.
+                Step-by-step guides, including where to click, what &ldquo;connected&rdquo; looks like,
+                and how to prove it works:
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Link
+                href="/integrations/claude-connector"
+                className="group rounded-lg border border-[#2a2a2a] bg-[#0a0a0a] p-5 hover:border-[#8ab4f8]/50 transition-colors flex flex-col gap-3"
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <div className="w-10 h-10 rounded-lg bg-[#1a1a1a] border border-[#2a2a2a] flex items-center justify-center flex-shrink-0">
+                    <Globe className="w-5 h-5 text-[#8ab4f8]" />
+                  </div>
+                  <Badge variant="secondary" className="bg-[#81c995]/10 text-[#81c995] border-[#81c995]/20 text-[10px]">
+                    Verified
+                  </Badge>
+                </div>
+                <div>
+                  <h3 className="font-medium text-[#e8eaed] text-base">Claude connector setup</h3>
+                  <p className="text-xs text-[#9aa0a6] mt-1">
+                    Settings → Connectors → Add → Add custom connector. Paste the URL, 27 tools appear.
+                    Works in claude.ai, Cowork, and mobile.
+                  </p>
+                </div>
+                <span className="text-sm text-[#8ab4f8] group-hover:underline mt-auto">
+                  Claude connector guide →
+                </span>
+              </Link>
+
+              <Link
+                href="/integrations/chatgpt-connector"
+                className="group rounded-lg border border-[#2a2a2a] bg-[#0a0a0a] p-5 hover:border-[#8ab4f8]/50 transition-colors flex flex-col gap-3"
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <div className="w-10 h-10 rounded-lg bg-[#1a1a1a] border border-[#2a2a2a] flex items-center justify-center flex-shrink-0">
+                    <Globe className="w-5 h-5 text-[#8ab4f8]" />
+                  </div>
+                  <Badge variant="secondary" className="bg-[#81c995]/10 text-[#81c995] border-[#81c995]/20 text-[10px]">
+                    Verified
+                  </Badge>
+                </div>
+                <div>
+                  <h3 className="font-medium text-[#e8eaed] text-base">ChatGPT connector setup</h3>
+                  <p className="text-xs text-[#9aa0a6] mt-1">
+                    Settings → Security and login → Developer mode, then Plugins → Create app. Paste
+                    the same URL.
+                  </p>
+                </div>
+                <span className="text-sm text-[#8ab4f8] group-hover:underline mt-auto">
+                  ChatGPT connector guide →
+                </span>
+              </Link>
+            </div>
+
+            <p className="text-sm text-[#9aa0a6] mt-6 text-center">
+              Neither needs domain verification, an allowlist, or OAuth. Both use{" "}
+              <code className="text-[#9aa0a6]">https://relay.api.vibebrowser.app/mcp/&lt;your-routing-uuid&gt;</code>{" "}
+              — the same routing UUID as above, in the URL path because those UIs cannot send a
+              header.{" "}
+              <strong className="text-[#e8eaed]">That URL is a bearer credential for your browser</strong>
+              : do not share it, and regenerate it in the extension if it leaks. See all{" "}
+              <Link href="/integrations" className="text-[#8ab4f8] hover:underline">
+                integrations
+              </Link>
+              .
+            </p>
+          </div>
+        </section>
+
         {/* Security / credential-handling callout */}
         <section className="w-full py-16 border-t border-[#1e1e1e]">
           <div className="container max-w-4xl px-4 md:px-6 mx-auto">
@@ -1223,6 +1309,15 @@ export default function McpPage() {
                 </AccordionTrigger>
                 <AccordionContent className="text-[#9aa0a6]">
                   Playwright MCP and Chrome DevTools MCP launch a fresh, separate browser instance by default. That means you start with no logged-in sessions, no cookies, no extensions, and no saved passwords. Playwright MCP can reuse an existing browser through its extension flow or by pointing it at an explicit <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">--cdp-endpoint</code>, but that still requires extra setup and it still lacks multi-agent support. Vibe Browser MCP connects directly to the browser you're already using with zero configuration — your agent can interact with Gmail, Slack, GitHub, Jira, or any site you're logged into without re-authenticating. This is critical for real-world automation workflows.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-11" className="border-[#2a2a2a] bg-[#0a0a0a] rounded-lg px-4">
+                <AccordionTrigger className="text-[#e8eaed] hover:no-underline">
+                  Can Claude or ChatGPT in the browser connect to this?
+                </AccordionTrigger>
+                <AccordionContent className="text-[#9aa0a6]">
+                  Yes, both — via a connector, not the header config above. Claude on the web takes it under Settings → Connectors → Add → Add custom connector; ChatGPT on the web needs Developer mode switched on under Settings → Security and login, then Plugins → Create app. Neither requires domain verification, an allowlist, or OAuth. Because those UIs only accept a bare URL and cannot send a header, the routing UUID goes in the URL path: <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">https://relay.api.vibebrowser.app/mcp/&lt;your-routing-uuid&gt;</code>. Full walkthroughs: <Link href="/integrations/claude-connector" className="text-[#8ab4f8] hover:underline">Claude connector setup</Link> and <Link href="/integrations/chatgpt-connector" className="text-[#8ab4f8] hover:underline">ChatGPT connector setup</Link>.
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
