@@ -73,6 +73,25 @@ export type AlternatePath = {
   bullets?: string[]
 }
 
+/**
+ * SINGLE SOURCE OF TRUTH for "what have we actually verified on this hosted
+ * connector". Card badges, hub copy and the /mcp section all read this instead
+ * of restating it in prose, because a hand-written "both are verified" is
+ * exactly the claim that goes stale silently.
+ *
+ * `oauthVerified` means: the CANONICAL, credential-free OAuth URL
+ * (https://relay.api.vibebrowser.app/mcp) was pasted into that product and
+ * driven end to end. It is NOT satisfied by the legacy per-user URL working.
+ */
+export type ConnectorStatus = {
+  /** Canonical OAuth URL walked end to end on this product? */
+  oauthVerified: boolean
+  /** Short card badge. Must not say "Verified" unqualified when oauthVerified is false. */
+  badge: string
+  /** One sentence stating precisely what is verified and what is not. */
+  summary: string
+}
+
 export type Integration = {
   slug: string
   /** Product name exactly as the vendor writes it. */
@@ -114,6 +133,8 @@ export type Integration = {
   troubleshooting?: Troubleshoot[]
   /** Human-readable date this click path was last walked end to end. */
   verifiedOn?: string
+  /** What we have and have not verified on this hosted connector. */
+  connectorStatus?: ConnectorStatus
   faqs: Faq[]
   keywords: string[]
 }
@@ -702,6 +723,12 @@ export const INTEGRATIONS: Integration[] = [
     verify: CONNECTOR_VERIFY,
     troubleshooting: CONNECTOR_TROUBLESHOOTING,
     verifiedOn: 'August 2026',
+    connectorStatus: {
+      oauthVerified: true,
+      badge: 'OAuth verified',
+      summary:
+        'Verified end to end on the canonical OAuth URL https://relay.api.vibebrowser.app/mcp: the consent screen appears, 27 tools are discovered, and live tool calls are labelled "Used vibebrowser oauth integration".',
+    },
     faqs: [
       {
         q: 'Can Claude control my browser from claude.ai, not just Claude Desktop?',
@@ -792,6 +819,12 @@ export const INTEGRATIONS: Integration[] = [
     verify: CONNECTOR_VERIFY,
     troubleshooting: CONNECTOR_TROUBLESHOOTING,
     verifiedOn: 'August 2026',
+    connectorStatus: {
+      oauthVerified: false,
+      badge: 'Verified on a paid plan',
+      summary:
+        'Verified end to end on ChatGPT using the legacy per-user connector URL, on a PAID plan. The canonical OAuth URL is unverified on ChatGPT: on a free account Settings → Security and login → Developer mode → Plugins → Create app silently no-ops, so no app is created and the OAuth flow can never be started. That is a plan gate, not an OAuth fault — it no-ops with No Auth too.',
+    },
     faqs: [
       {
         q: 'Can ChatGPT on the web control my browser?',
