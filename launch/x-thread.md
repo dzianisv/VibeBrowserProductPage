@@ -2,23 +2,25 @@
 
 **1/ — must stand alone**
 ```
-Claude and ChatGPT on the web can now drive your real Chrome.
+Claude on the web can now drive your real Chrome.
 
 Not a headless browser. The one you have open, with your cookies and your
-logged-in sessions. Add it as a custom connector — no domain verification,
-no allowlist, no OAuth.
+logged-in sessions. Add it as a custom connector — OAuth 2.1, one URL that
+holds no secret, two scopes you approve.
 
-Claude found 27 tools and did a live task first try.
+27 tools. Did a live task first try.
 ```
 
 **2/**
 ```
-Setup, both sides:
+Setup:
 
 Claude → Settings → Connectors → Add custom connector
-ChatGPT → Settings → Security and login → Developer mode → Plugins → Create app
 
-Paste the URL. That's it.
+Paste https://relay.api.vibebrowser.app/mcp — same URL for everyone, no
+credential in it. Approve browser:read + browser:control. Done.
+
+ChatGPT works too, via the older per-user URL, on a paid plan.
 
 https://www.vibebrowser.app/mcp
 ```
@@ -48,10 +50,12 @@ Our browser is its only route to an answer. No "2018", build goes red.
 ```
 The honest part:
 
-The connector URL is a bearer capability. Whoever holds it drives your browser
-as you. Not per-site scoped. Treat it like a password.
+OAuth gets you a revocable token and a URL with no secret in it. It does NOT
+get you per-site scoping — browser:control means any tab you're signed into.
 
-It needs a Chrome extension.
+The legacy per-user URL is still an unscoped password. Guard it.
+
+Needs a Chrome extension.
 
 Server is open source (Apache-2.0). The extension isn't.
 

@@ -16,12 +16,32 @@ already have open — your real profile, your real cookies, your real logged-in
 sessions. Not a headless browser, not a fresh throwaway profile. The agent
 clicks and types in the same window you do.
 
-New this week: it works as a custom connector inside Claude on the web and
-ChatGPT on the web, not just in local dev tools. Claude: Settings ->
-Connectors -> Add custom connector. ChatGPT: Settings -> Security and login ->
-Developer mode -> Plugins -> Create app. No domain verification, no allowlist,
-no OAuth dance. Claude discovered 27 tools and both answered a real live task
-correctly.
+New this week: OAuth. The connector URL is now
+https://relay.api.vibebrowser.app/mcp — the same string for every user, with no
+credential in it. It speaks OAuth 2.1 with Dynamic Client Registration, so the
+client registers itself, you approve a consent screen for two scopes
+(browser:read, browser:control), and you get a token you can revoke. Tokens and
+registered clients survive our deploys — we rolled the pods during a live
+session and nothing had to re-consent.
+
+You can check the handshake yourself without installing anything. An
+unauthenticated POST to that URL returns 401 with
+
+  WWW-Authenticate: Bearer resource_metadata="https://relay.api.vibebrowser.app/
+  .well-known/oauth-protected-resource", scope="browser:read browser:control"
+
+and both .well-known documents are public.
+
+Verified in Claude on the web: Settings -> Connectors -> Add custom connector,
+paste that URL, approve the consent screen, 27 tools appear. It then answered a
+live browsing task correctly — "June 2018" — with the tool calls labelled
+"Used vibebrowser oauth integration".
+
+ChatGPT, stated accurately: the older per-user connector URL works there. The
+OAuth URL we could not confirm, because ChatGPT's Settings -> Security and
+login -> Developer mode -> Plugins -> Create app silently does nothing on a
+free account. So read that as "ChatGPT works on a paid plan via the per-user
+URL", not as a solved OAuth path.
 
 It also works with Claude Code, Claude Desktop, Codex CLI, Cursor, VS Code
 Copilot, Windsurf, Gemini CLI and OpenCode:
@@ -35,35 +55,48 @@ your own browser window.
 That same task is our merge gate. There's a CI job that boots a real Chrome
 with the extension loaded, starts the relay, and runs the actual `opencode`
 CLI as the client with every one of its own tools turned off — bash, read,
-write, webfetch and websearch all set to false and denied. Its only way to
-answer is our browser. If the returned text doesn't contain "2018", the build
-goes red and the PR doesn't merge. Code:
-tests/relay-external-control-e2e.test.js.
+write, webfetch and websearch all set to false and additionally denied at the
+permission layer. Its only route to an answer is our browser. It runs headed
+under Xvfb, because DuckDuckGo serves a CAPTCHA to headless Chrome. If the
+returned text doesn't contain "2018", the build goes red and the PR doesn't
+merge. The file is tests/relay-external-control-e2e.test.js — fair warning, it
+lives in the extension repo, which is private, so you can't click through and
+read it today.
 
 Two things you should know before you try it.
 
-First, the security model. The connector URL is a bearer capability. Anyone
-holding that URL can drive your browser as you — read your email, act on your
-bank tab, whatever the session allows. It is not scoped per site and it is not
-an OAuth grant you can partially approve. Treat it exactly like a password.
-Rotate it if you paste it somewhere you shouldn't have. We think this is the
-honest shape of the problem rather than a bug: "let an agent use my real
-session" and "sandbox the agent from my real session" are the same knob.
+First, the security model. OAuth improves it. It does not make it safe by
+default. browser:control means the agent acts inside your live sessions — your
+email tab, your bank tab, anything you're signed into. The scopes split read
+from control, not site from site. What you gain over the old design is real: a
+URL that carries no secret, a consent screen you actually approve, and a token
+you can revoke. What you don't get yet is "allow github.com and nothing else".
+Per-origin scoping is the work we still owe you, and it's extension work, not
+a token exchange.
+
+The per-user URL, https://relay.api.vibebrowser.app/mcp/<uuid>, still works and
+is the right answer for headless and automation clients that can't show a
+consent screen. That one is a bearer capability with no scoping at all —
+whoever holds it drives your browser as you. Treat it exactly like a password,
+and regenerate it in the extension if you paste it somewhere you shouldn't
+have.
 
 Second, it needs a Chrome extension installed. There is no way to reach your
-existing profile without one. The extension is on the Chrome Web Store.
+existing profile without one. It's on the Chrome Web Store as "Vibe AI Browser
+Co-Pilot".
 
 What's open and what isn't: the MCP server is open source, Apache-2.0, at
 https://github.com/VibeTechnologies/vibe-mcp. It's on npm as
 @vibebrowser/mcp and in the official MCP registry as
 io.github.VibeTechnologies/vibe-mcp. The browser extension is closed source
-today. I'd rather say that plainly than let you find out.
+today, and so is the repo holding the CI test above. I'd rather say that
+plainly than let you find out.
 
 No numbers to brag about — no user count, no uptime figure, $0 MRR. It's new.
 
 Docs: https://www.vibebrowser.app/integrations/claude-connector and
-/chatgpt-connector
+https://www.vibebrowser.app/integrations/chatgpt-connector
 
-Happy to answer anything about the relay, the tool surface, or why we didn't
-do OAuth yet.
+Happy to answer anything about the relay, the tool surface, or why the scopes
+are still coarse.
 ```
