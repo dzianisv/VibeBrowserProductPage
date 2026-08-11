@@ -917,11 +917,16 @@ export default function McpPage() {
             </div>
 
             <p className="text-sm text-[#9aa0a6] mt-6 text-center">
-              Neither needs domain verification, an allowlist, or OAuth. Both use{" "}
+              Neither needs domain verification or an allowlist. Both take the canonical OAuth URL{" "}
+              <code className="text-[#9aa0a6]">https://relay.api.vibebrowser.app/mcp</code>{" "}
+              — it is identical for every user and contains no credential. You approve a consent
+              screen for the <code className="text-[#9aa0a6]">browser:read</code> and{" "}
+              <code className="text-[#9aa0a6]">browser:control</code> scopes once, and the grant
+              survives our deploys. The older per-user URL{" "}
               <code className="text-[#9aa0a6]">https://relay.api.vibebrowser.app/mcp/&lt;your-routing-uuid&gt;</code>{" "}
-              — the same routing UUID as above, in the URL path because those UIs cannot send a
-              header.{" "}
-              <strong className="text-[#e8eaed]">That URL is a bearer credential for your browser</strong>
+              still works and is the right choice for headless clients that cannot show a consent
+              screen.{" "}
+              <strong className="text-[#e8eaed]">That per-user URL is a bearer credential for your browser</strong>
               : do not share it, and regenerate it in the extension if it leaks. See all{" "}
               <Link href="/integrations" className="text-[#8ab4f8] hover:underline">
                 integrations
@@ -1323,7 +1328,7 @@ export default function McpPage() {
                   Can Claude or ChatGPT in the browser connect to this?
                 </AccordionTrigger>
                 <AccordionContent className="text-[#9aa0a6]">
-                  Yes, both — via a connector, not the header config above. Claude on the web takes it under Settings → Connectors → Add → Add custom connector; ChatGPT on the web needs Developer mode switched on under Settings → Security and login, then Plugins → Create app. Neither requires domain verification, an allowlist, or OAuth. Because those UIs only accept a bare URL and cannot send a header, the routing UUID goes in the URL path: <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">https://relay.api.vibebrowser.app/mcp/&lt;your-routing-uuid&gt;</code>. Full walkthroughs: <Link href="/integrations/claude-connector" className="text-[#8ab4f8] hover:underline">Claude connector setup</Link> and <Link href="/integrations/chatgpt-connector" className="text-[#8ab4f8] hover:underline">ChatGPT connector setup</Link>.
+                  Yes, both — via a connector, not the header config above. Claude on the web takes it under Settings → Connectors → Add → Add custom connector; ChatGPT on the web needs Developer mode switched on under Settings → Security and login, then Plugins → Create app. Neither requires domain verification or an allowlist. The recommended URL is the canonical OAuth endpoint <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">https://relay.api.vibebrowser.app/mcp</code>: it holds no secret, the client registers itself via OAuth 2.1 Dynamic Client Registration, and you approve <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">browser:read</code> and <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">browser:control</code> once. The older per-user URL <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">https://relay.api.vibebrowser.app/mcp/&lt;your-routing-uuid&gt;</code> still works for headless clients. Full walkthroughs: <Link href="/integrations/claude-connector" className="text-[#8ab4f8] hover:underline">Claude connector setup</Link> and <Link href="/integrations/chatgpt-connector" className="text-[#8ab4f8] hover:underline">ChatGPT connector setup</Link>.
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
