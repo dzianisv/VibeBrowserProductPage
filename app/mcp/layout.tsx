@@ -286,7 +286,7 @@ const faqJsonLd = {
       name: 'Can Claude or ChatGPT in the browser connect to this?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Yes, both — via a connector rather than the header-based config. Claude on the web: Settings → Connectors → Add → Add custom connector, then paste the URL. ChatGPT on the web: turn on Developer mode under Settings → Security and login, then Plugins → Create app. Neither requires domain verification, an allowlist, or OAuth. Those UIs accept only a bare URL and cannot send a custom header, so the routing UUID goes in the URL path: https://relay.api.vibebrowser.app/mcp/<your-routing-uuid>. Step-by-step guides are at vibebrowser.app/integrations/claude-connector and vibebrowser.app/integrations/chatgpt-connector.',
+        text: 'Yes, both — via a connector rather than the header-based config. Claude on the web: Settings → Connectors → Add → Add custom connector, then paste the URL. ChatGPT on the web: turn on Developer mode under Settings → Security and login, then Plugins → Create app. Neither requires domain verification or an allowlist. The recommended URL is the canonical OAuth endpoint https://relay.api.vibebrowser.app/mcp — it contains no credential, the client registers itself via OAuth 2.1 Dynamic Client Registration, and you approve the browser:read and browser:control scopes once. The older per-user URL https://relay.api.vibebrowser.app/mcp/<your-routing-uuid> still works and suits headless clients that cannot show a consent screen. Step-by-step guides are at vibebrowser.app/integrations/claude-connector and vibebrowser.app/integrations/chatgpt-connector.',
       },
     },
   ],
