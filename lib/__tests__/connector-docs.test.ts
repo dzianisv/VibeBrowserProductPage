@@ -1,7 +1,12 @@
 import { test, describe } from 'node:test'
 import assert from 'node:assert/strict'
+import { readFileSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
 
 import { INTEGRATIONS, getIntegration, type Integration } from '../integrations.ts'
+
+const repoFile = (rel: string) =>
+  readFileSync(fileURLToPath(new URL(`../../${rel}`, import.meta.url)), 'utf8')
 
 /**
  * Guards the two hosted-connector setup guides.
@@ -183,4 +188,93 @@ describe('hosted connector guides', () => {
     const uuid = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i
     assert.doesNotMatch(blob, uuid, 'a literal UUID leaked into the integration catalog')
   })
+})
+
+/**
+ * ChatGPT OAuth over-claim guard.
+ *
+ * What is actually true (Aug 2026):
+ *   - Claude: the canonical OAuth URL https://relay.api.vibebrowser.app/mcp is
+ *     verified end to end — consent screen, 27 tools, live tool calls.
+ *   - ChatGPT: only the LEGACY per-user URL is verified, and on a PAID plan.
+ *     The canonical OAuth URL is UNVERIFIED there because Settings → Security
+ *     and login → Developer mode → Plugins → Create app silently no-ops on a
+ *     free account (it no-ops with "No Auth" too, so it is a plan gate, not an
+ *     OAuth problem).
+ *
+ * A blanket "both are set up and verified" was live on /mcp and /integrations
+ * and contradicted the ChatGPT guide. These assertions fail if that class of
+ * claim comes back, in the same spirit as the "no OAuth" and literal-UUID
+ * guards above.
+ */
+describe('chatgpt oauth is never claimed as verified', () => {
+  test('the catalog records ChatGPT OAuth as unverified and Claude OAuth as verified', () => {
+    const claude = getIntegration('claude-connector')!
+    const chatgpt = getIntegration('chatgpt-connector')!
+
+    assert.ok(claude.connectorStatus, 'claude connector needs an explicit verification status')
+    assert.equal(claude.connectorStatus.oauthVerified, true)
+
+    assert.ok(chatgpt.connectorStatus, 'chatgpt connector needs an explicit verification status')
+    assert.equal(
+      chatgpt.connectorStatus.oauthVerified,
+      false,
+      'ChatGPT OAuth is NOT verified — Create app no-ops without a paid plan',
+    )
+
+    // The badge must not read as an unqualified "Verified" on a card.
+    assert.notEqual(chatgpt.connectorStatus.badge.trim().toLowerCase(), 'verified')
+    const summary = chatgpt.connectorStatus.summary.toLowerCase()
+    assert.match(summary, /paid/, 'the ChatGPT status must name the plan requirement')
+    assert.match(summary, /no-ops|does nothing|silently/)
+    assert.match(summary, /unverified|could not|not verified/)
+  })
+
+  test('ChatGPT must still be described as working via the per-user URL', () => {
+    // Do not overcorrect: the legacy path genuinely works on ChatGPT.
+    const chatgpt = getIntegration('chatgpt-connector')!
+    assert.ok(chatgpt.alternatePath, 'the working ChatGPT path must stay documented')
+    const blob = [
+      chatgpt.answerBlock,
+      chatgpt.connectorStatus!.summary,
+      ...chatgpt.faqs.map((f) => `${f.q} ${f.a}`),
+    ]
+      .join(' ')
+      .toLowerCase()
+    assert.match(blob, /per-user|direct url|direct per-user/)
+    assert.match(blob, /verified/)
+  })
+
+  const MARKETING_PAGES = [
+    'app/mcp/page.tsx',
+    'app/mcp/layout.tsx',
+    'app/integrations/page.tsx',
+  ]
+
+  for (const page of MARKETING_PAGES) {
+    test(`${page} carries no blanket "both are verified" claim`, () => {
+      const text = repoFile(page).replace(/\s+/g, ' ').toLowerCase()
+
+      assert.doesNotMatch(
+        text,
+        /both (are|paths are|connectors are)[^.]{0,60}verified/,
+        'a blanket "both are verified" claim came back — ChatGPT OAuth is not verified',
+      )
+      assert.doesNotMatch(
+        text,
+        /chatgpt[^.]{0,120}oauth[^.]{0,40}(is|was) verified/,
+        'this page claims ChatGPT OAuth is verified',
+      )
+
+      // Any page that pitches the canonical OAuth URL alongside ChatGPT must
+      // also carry the caveat, so a reader never leaves thinking it works there.
+      if (text.includes('chatgpt') && text.includes('relay.api.vibebrowser.app/mcp')) {
+        assert.match(
+          text,
+          /unverified|no-ops|paid plan/,
+          'the ChatGPT OAuth caveat is missing from a page that promotes the canonical URL',
+        )
+      }
+    })
+  }
 })

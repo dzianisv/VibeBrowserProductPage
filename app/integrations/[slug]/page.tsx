@@ -130,6 +130,18 @@ export default async function IntegrationPage({
               ? `Click path walked end to end and verified: ${integration.verifiedOn}`
               : 'Last updated: August 2026'}
           </p>
+          {integration.connectorStatus ? (
+            <p
+              className={`mt-4 rounded-xl border p-4 text-sm leading-relaxed ${
+                integration.connectorStatus.oauthVerified
+                  ? 'border-emerald-400/30 bg-emerald-400/[0.05] text-emerald-100'
+                  : 'border-amber-400/30 bg-amber-400/[0.05] text-amber-100'
+              }`}
+            >
+              <strong>{integration.connectorStatus.badge}.</strong>{' '}
+              {integration.connectorStatus.summary}
+            </p>
+          ) : null}
         </header>
 
         <section aria-labelledby="answer" className="mt-10 rounded-2xl border border-white/10 bg-white/[0.03] p-6">
