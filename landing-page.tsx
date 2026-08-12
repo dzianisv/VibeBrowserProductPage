@@ -49,6 +49,7 @@ RefreshCw,
   Cloud,
   Info,
 } from "lucide-react"
+import type { LucideIcon } from "lucide-react"
 import Link from "next/link"
 import { useState, useEffect, useRef } from "react"
 import { trackCTAClick } from "@/components/google-analytics"
@@ -78,7 +79,19 @@ export default function Component() {
     }
   }, [installDropdownOpen])
 
-  const demos = [
+  const demos: Array<{
+    id: string
+    title: string
+    subtitle: string
+    description: string
+    task: { label: string; description: string }
+    badges: string[]
+    videoSrc?: string
+    imageSrc?: string
+    icon: LucideIcon
+    iconColor: string
+    highlights: Array<{ icon: LucideIcon; title: string; description: string }>
+  }> = [
     {
       id: 'linkedin-warm-outreach',
       title: 'LinkedIn Warm Outreach',
@@ -115,6 +128,25 @@ export default function Component() {
         { icon: MessageSquare, title: 'Auto-Networking', description: 'Automated connection management' },
         { icon: Brain, title: 'Smart Engagement', description: 'AI-powered professional interactions' },
         { icon: Target, title: 'Task Completion', description: 'End-to-end workflow automation' }
+      ]
+    },
+    {
+      id: 'connect-ai-agent',
+      title: 'Connect Your AI Agent',
+      subtitle: 'Claude Code, Hermes, Cursor, Codex, OpenClaw',
+      description: 'Point any AI agent at your real browser with one relay URL. Nothing to install, no local server.',
+      task: {
+        label: 'Agent Setup:',
+        description: 'Copy the config from Settings and paste it into your agent.'
+      },
+      badges: ['MCP', 'Claude Code', 'Hermes', 'Remote Control'],
+      imageSrc: '/images/connect-ai-agent.webp',
+      icon: Code,
+      iconColor: 'text-slate-800',
+      highlights: [
+        { icon: Code, title: 'One Relay URL', description: 'MCP over HTTPS — no local server to run' },
+        { icon: Brain, title: 'Any Agent', description: 'Claude Code, Cursor, Codex, OpenClaw, Hermes' },
+        { icon: Target, title: 'Verify Built In', description: 'A prompt that proves the agent really drove your browser' }
       ]
     },
     {
@@ -418,6 +450,14 @@ export default function Component() {
             <div className="relative">
               <div className="relative rounded-3xl overflow-hidden shadow-2xl">
                 <div className="relative" style={{ paddingBottom: '62.5%' }}>
+                  {demos[currentDemo].imageSrc ? (
+                    <img
+                      key={currentDemo}
+                      className="absolute inset-0 w-full h-full object-cover"
+                      src={demos[currentDemo].imageSrc}
+                      alt={`Vibe AI browser automation — ${demos[currentDemo].title}`}
+                    />
+                  ) : (
                   <video
                     ref={videoRef}
                     key={currentDemo}
@@ -434,6 +474,7 @@ export default function Component() {
                   >
                     Your browser does not support the video tag.
                   </video>
+                  )}
 
                   <button
                     onClick={prevDemo}
