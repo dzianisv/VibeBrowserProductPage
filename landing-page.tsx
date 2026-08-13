@@ -112,6 +112,25 @@ export default function Component() {
       ]
     },
     {
+      id: 'notion-api-key',
+      title: 'Notion API Key in 34 Seconds',
+      subtitle: 'One prompt, zero clicks, a real API key',
+      description: 'Ask for a Notion API token and Vibe does the rest — opens Notion Developer Tools, switches to Personal access tokens, names the token, submits the form, and hands back a live key. No API wiring, no scraping, no separate automation tool.',
+      task: {
+        label: 'Developer Setup:',
+        description: 'Vibe AI Agent generates a Notion personal access token end to end.'
+      },
+      badges: ['API Keys', 'Notion', 'Developer Tools', 'Form Filling'],
+      videoSrc: '/notion-api-key-demo',
+      icon: Key,
+      iconColor: 'text-emerald-600',
+      highlights: [
+        { icon: Key, title: 'Credentials On Demand', description: 'Generates real API keys inside your own session' },
+        { icon: MousePointer, title: 'Zero Clicks After The Prompt', description: 'Navigates, clicks and fills forms on its own' },
+        { icon: Clock, title: 'Done In 34 Seconds', description: 'Multi-step developer setup, start to finish' }
+      ]
+    },
+    {
       id: 'linkedin-automation',
       title: 'LinkedIn Automation',
       subtitle: 'AI-powered LinkedIn task automation',
