@@ -133,7 +133,7 @@ export default async function IntegrationPage({
           {integration.connectorStatus ? (
             <p
               className={`mt-4 rounded-xl border p-4 text-sm leading-relaxed ${
-                integration.connectorStatus.oauthVerified
+                integration.connectorStatus.tone === 'ok'
                   ? 'border-emerald-400/30 bg-emerald-400/[0.05] text-emerald-100'
                   : 'border-amber-400/30 bg-amber-400/[0.05] text-amber-100'
               }`}
@@ -179,9 +179,7 @@ export default async function IntegrationPage({
 
         <section aria-labelledby="install" className="mt-14">
           <SectionHeading id="install">
-            {integration.oauth
-              ? `Set it up in ${integration.steps.length} steps (OAuth — recommended)`
-              : `Install in ${integration.steps.length} steps`}
+            {`Set it up in ${integration.steps.length} steps`}
           </SectionHeading>
           <ol className="mt-6 space-y-8">
             {integration.steps.map((step, i) => (
@@ -197,63 +195,8 @@ export default async function IntegrationPage({
               </li>
             ))}
           </ol>
-          {integration.oauth ? (
-            <p className="mt-6 text-sm leading-relaxed text-neutral-400">
-              This URL is the same for every user and carries no credential — the grant lives in the
-              token your assistant receives after you approve consent.
-            </p>
-          ) : (
-            <p className="mt-6 text-sm leading-relaxed text-neutral-400">{RELAY_NOTE}</p>
-          )}
+          <p className="mt-6 text-sm leading-relaxed text-neutral-400">{RELAY_NOTE}</p>
         </section>
-
-        {integration.oauth ? (
-          <section aria-labelledby="scopes" className="mt-14">
-            <SectionHeading id="scopes">What you are approving, and how to revoke it</SectionHeading>
-            <p className="mt-3 text-[15px] leading-relaxed text-neutral-300">
-              The consent screen asks for two scopes. Here is what each one actually grants.
-            </p>
-            <dl className="mt-6 space-y-4">
-              {integration.oauth.scopes.map((s) => (
-                <div key={s.name} className="rounded-2xl border border-white/10 bg-white/[0.02] p-6">
-                  <dt className="font-mono text-[13px] font-semibold text-emerald-200">{s.name}</dt>
-                  <dd className="mt-2 text-[15px] leading-relaxed text-neutral-300">{s.grants}</dd>
-                </div>
-              ))}
-            </dl>
-            <h3 className="mt-8 text-lg font-semibold text-white">Revoking access</h3>
-            <ul className="mt-4 space-y-3">
-              {integration.oauth.revoke.map((r) => (
-                <li key={r} className="flex gap-3 text-[15px] leading-relaxed text-neutral-300">
-                  <span aria-hidden className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400" />
-                  <span>{r}</span>
-                </li>
-              ))}
-            </ul>
-          </section>
-        ) : null}
-
-        {integration.alternatePath ? (
-          <section aria-labelledby="alternate" className="mt-14">
-            <SectionHeading id="alternate">{integration.alternatePath.heading}</SectionHeading>
-            <p className="mt-3 text-[15px] leading-relaxed text-neutral-300">
-              {integration.alternatePath.body}
-            </p>
-            {integration.alternatePath.config ? (
-              <CodeBlock config={integration.alternatePath.config} />
-            ) : null}
-            {integration.alternatePath.bullets ? (
-              <ul className="mt-5 space-y-3">
-                {integration.alternatePath.bullets.map((b) => (
-                  <li key={b} className="flex gap-3 text-[15px] leading-relaxed text-neutral-300">
-                    <span aria-hidden className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-400" />
-                    <span>{b}</span>
-                  </li>
-                ))}
-              </ul>
-            ) : null}
-          </section>
-        ) : null}
 
         {integration.security ? (
           <section aria-labelledby="security" className="mt-14">

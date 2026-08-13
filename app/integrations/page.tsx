@@ -137,17 +137,12 @@ export default function IntegrationsHubPage() {
             Those cannot run a local MCP server, so skip the config files below — they take a single
             connector URL instead. Both paths are documented end to end, including the exact
             click path, what &ldquo;connected&rdquo; looks like, and a prompt you can run to prove it
-            works. Neither needs domain verification or an allowlist. Both accept the canonical
-            OAuth URL{" "}
-            <code className="text-[#9aa0a6]">https://relay.api.vibebrowser.app/mcp</code> — paste it,
-            approve the <code className="text-[#9aa0a6]">browser:read</code> and{" "}
-            <code className="text-[#9aa0a6]">browser:control</code> consent screen, and nothing
-            secret ever goes into the chat UI. We have verified that OAuth flow on Claude. On ChatGPT
-            it is unverified: Plugins → Create app silently no-ops on a free account, so reaching the
-            URL field needs a paid plan, and the path verified there is the older per-user URL{" "}
+            works. Neither needs domain verification or an allowlist, and there is no consent screen:
+            you paste{" "}
             <code className="text-[#9aa0a6]">https://relay.api.vibebrowser.app/mcp/&lt;your-routing-uuid&gt;</code>{" "}
-            — which also remains the right choice for headless clients that cannot show a consent
-            screen.{" "}
+            — the URL you copy from the Vibe extension — and that is the whole setup. Verified on
+            Claude on the web. On ChatGPT it needs a paid plan, because Plugins → Create app silently
+            no-ops on a free account, so the URL field never appears.{" "}
             <strong className="text-[#e8eaed]">That URL is a bearer credential for your browser</strong>
             : do not share it, and regenerate it in the extension if it leaks.
           </p>

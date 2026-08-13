@@ -66,61 +66,61 @@ describe('hosted connector guides', () => {
         )
       })
 
-      test('leads with OAuth and never claims OAuth is unavailable', () => {
+      test('documents the direct /mcp/<uuid> connector URL in the numbered steps', () => {
+        const i = connector(slug)
+        assert.ok(
+          i.steps.some(
+            (s) => s.config?.code === 'https://relay.api.vibebrowser.app/mcp/<your-routing-uuid>',
+          ),
+          'the direct connector URL must appear in the numbered steps, not only in prose',
+        )
+      })
+
+      test('never instructs the reader through a relay OAuth flow', () => {
         const i = connector(slug)
         const blob = [
           i.tagline,
           i.answerBlock,
           ...i.solution,
           ...i.steps.map((s) => `${s.title} ${s.body}`),
+          ...(i.connectedLooksLike ?? []),
+          ...(i.troubleshooting ?? []).map((t) => `${t.symptom} ${t.cause} ${t.fix}`),
           ...i.faqs.map((f) => `${f.q} ${f.a}`),
+          i.connectorStatus?.summary ?? '',
+          i.security ? `${i.security.heading} ${i.security.body} ${i.security.bullets.join(' ')}` : '',
         ]
           .join(' ')
           .toLowerCase()
 
-        // OAuth 2.1 + DCR is live at the canonical endpoint. Any page that still
-        // tells a reader OAuth is not an option is factually wrong and blocks
-        // directory submission.
-        assert.match(blob, /oauth/)
+        // The relay's hosted contract is the direct URL. Consent screens, DCR,
+        // /oauth/authorize and browser:* scopes are not part of it — any of
+        // these coming back means the guide is telling readers to do something
+        // that does not exist.
+        // Negations ("there is no consent screen") are fine and desirable —
+        // only instructions to complete one are forbidden.
+        assert.doesNotMatch(blob, /(approve|complete|approving|completing)[^.]{0,40}consent/)
+        assert.doesNotMatch(blob, /consent screen (appears|naming|for the)/)
+        assert.doesNotMatch(blob, /dynamic client registration/)
+        assert.doesNotMatch(blob, /oauth 2\.1/)
+        assert.doesNotMatch(blob, /\/oauth\/authorize/)
+        assert.doesNotMatch(blob, /browser:read|browser:control/)
         assert.doesNotMatch(
           blob,
-          /(no|without|not?) (domain verification, an allowlist, or )?oauth (step|flow|configuration|setup)/,
-          'a stale "no OAuth" claim survived',
+          /canonical (oauth )?url/,
+          'the credential-free canonical OAuth URL is not a supported setup path',
         )
-        assert.doesNotMatch(blob, /no oauth\b/, 'a stale "no OAuth" claim survived')
-
-        // The canonical, credential-free URL must be the one we hand out.
-        assert.ok(i.oauth, 'connector guides must document the OAuth path')
-        assert.equal(i.oauth.url, 'https://relay.api.vibebrowser.app/mcp')
-        assert.ok(
-          i.steps.some((s) => s.config?.code === 'https://relay.api.vibebrowser.app/mcp'),
-          'the canonical OAuth URL must appear in the numbered steps, not only in prose',
+        // The bare /mcp endpoint must never be handed out as the thing to paste.
+        assert.doesNotMatch(
+          blob,
+          /relay\.api\.vibebrowser\.app\/mcp(?![/\w])/,
+          'the bare /mcp endpoint was presented as a connector URL',
         )
       })
 
-      test('explains both scopes concretely and how to revoke', () => {
-        const i = connector(slug)
-        assert.ok(i.oauth)
-        const names = i.oauth.scopes.map((s) => s.name)
-        assert.deepEqual(names, ['browser:read', 'browser:control'])
-        for (const s of i.oauth.scopes) {
-          assert.ok(s.grants.length > 80, `${s.name} needs a concrete explanation, not a label`)
-        }
-        assert.ok(i.oauth.revoke.length >= 2, 'a reader must be told how to withdraw access')
-      })
-
-      test('keeps the legacy per-UUID path as a labelled secondary section', () => {
-        const i = connector(slug)
-        assert.ok(i.alternatePath, 'the direct URL path still works and must stay documented')
-        assert.match(i.alternatePath.heading, /direct url/i)
-        assert.match(i.alternatePath.heading, /headless|automation/i)
-        assert.equal(
-          i.alternatePath.config?.code,
-          'https://relay.api.vibebrowser.app/mcp/<your-routing-uuid>',
-        )
-        const bullets = (i.alternatePath.bullets ?? []).join(' ').toLowerCase()
-        assert.match(bullets, /credential|bearer/)
-        assert.match(bullets, /regenerate/)
+      test('carries no OAuth schema on the integration record', () => {
+        const i = connector(slug) as Record<string, unknown>
+        assert.equal(i.oauth, undefined, 'the OAuth block must be gone, not merely unrendered')
+        assert.equal(i.alternatePath, undefined, 'the direct URL is the primary path, not an alternate')
       })
 
       test('states that no domain verification or allowlist is needed', () => {
@@ -191,49 +191,43 @@ describe('hosted connector guides', () => {
 })
 
 /**
- * ChatGPT OAuth over-claim guard.
+ * Hosted-connector contract guard.
  *
  * What is actually true (Aug 2026):
- *   - Claude: the canonical OAuth URL https://relay.api.vibebrowser.app/mcp is
- *     verified end to end — consent screen, 27 tools, live tool calls.
- *   - ChatGPT: only the LEGACY per-user URL is verified, and on a PAID plan.
- *     The canonical OAuth URL is UNVERIFIED there because Settings → Security
- *     and login → Developer mode → Plugins → Create app silently no-ops on a
- *     free account (it no-ops with "No Auth" too, so it is a plan gate, not an
- *     OAuth problem).
+ *   - The only hosted-connector contract is the direct Streamable HTTP URL
+ *     https://relay.api.vibebrowser.app/mcp/<your-routing-uuid>.
+ *   - Claude on the web is verified on it.
+ *   - ChatGPT is verified on it too, but only on a PAID plan: Settings →
+ *     Security and login → Developer mode → Plugins → Create app silently
+ *     no-ops on a free account, so the URL field never appears.
+ *   - There is no relay OAuth: no consent screen, no Dynamic Client
+ *     Registration, no browser:read / browser:control scopes.
  *
- * A blanket "both are set up and verified" was live on /mcp and /integrations
- * and contradicted the ChatGPT guide. These assertions fail if that class of
- * claim comes back, in the same spirit as the "no OAuth" and literal-UUID
- * guards above.
+ * These assertions fail if relay OAuth instructions come back, or if the
+ * ChatGPT plan gate is quietly dropped.
  */
-describe('chatgpt oauth is never claimed as verified', () => {
-  test('the catalog records ChatGPT OAuth as unverified and Claude OAuth as verified', () => {
+describe('hosted connectors document the direct URL contract only', () => {
+  test('the catalog records the connector status without an OAuth verdict', () => {
     const claude = getIntegration('claude-connector')!
     const chatgpt = getIntegration('chatgpt-connector')!
 
     assert.ok(claude.connectorStatus, 'claude connector needs an explicit verification status')
-    assert.equal(claude.connectorStatus.oauthVerified, true)
+    assert.equal(claude.connectorStatus.tone, 'ok')
+    assert.doesNotMatch(claude.connectorStatus.summary.toLowerCase(), /oauth/)
 
     assert.ok(chatgpt.connectorStatus, 'chatgpt connector needs an explicit verification status')
-    assert.equal(
-      chatgpt.connectorStatus.oauthVerified,
-      false,
-      'ChatGPT OAuth is NOT verified — Create app no-ops without a paid plan',
-    )
-
+    assert.equal(chatgpt.connectorStatus.tone, 'caveat')
     // The badge must not read as an unqualified "Verified" on a card.
     assert.notEqual(chatgpt.connectorStatus.badge.trim().toLowerCase(), 'verified')
     const summary = chatgpt.connectorStatus.summary.toLowerCase()
     assert.match(summary, /paid/, 'the ChatGPT status must name the plan requirement')
     assert.match(summary, /no-ops|does nothing|silently/)
-    assert.match(summary, /unverified|could not|not verified/)
+    assert.doesNotMatch(summary, /oauth/)
   })
 
-  test('ChatGPT must still be described as working via the per-user URL', () => {
-    // Do not overcorrect: the legacy path genuinely works on ChatGPT.
+  test('ChatGPT is still described as working via the direct per-user URL', () => {
+    // Do not overcorrect: the direct path genuinely works on ChatGPT.
     const chatgpt = getIntegration('chatgpt-connector')!
-    assert.ok(chatgpt.alternatePath, 'the working ChatGPT path must stay documented')
     const blob = [
       chatgpt.answerBlock,
       chatgpt.connectorStatus!.summary,
@@ -241,38 +235,50 @@ describe('chatgpt oauth is never claimed as verified', () => {
     ]
       .join(' ')
       .toLowerCase()
-    assert.match(blob, /per-user|direct url|direct per-user/)
+    assert.match(blob, /per-user|direct/)
     assert.match(blob, /verified/)
+  })
+
+  test('the catalog documents the codex --url form of the same direct contract', () => {
+    const codex = getIntegration('openai-codex-cli')!
+    const blob = [
+      ...codex.steps.map((s) => `${s.title} ${s.body} ${s.config?.code ?? ''}`),
+      ...codex.faqs.map((f) => `${f.q} ${f.a}`),
+    ].join(' ')
+    assert.match(
+      blob,
+      /codex mcp add vibe --url https:\/\/relay\.api\.vibebrowser\.app\/mcp\/<your-routing-uuid>/,
+    )
   })
 
   const MARKETING_PAGES = [
     'app/mcp/page.tsx',
     'app/mcp/layout.tsx',
     'app/integrations/page.tsx',
+    'app/integrations/[slug]/page.tsx',
   ]
 
   for (const page of MARKETING_PAGES) {
-    test(`${page} carries no blanket "both are verified" claim`, () => {
+    test(`${page} carries no relay OAuth setup instructions`, () => {
       const text = repoFile(page).replace(/\s+/g, ' ').toLowerCase()
 
+      assert.doesNotMatch(text, /canonical oauth url/)
+      assert.doesNotMatch(text, /oauth 2\.1/)
+      assert.doesNotMatch(text, /dynamic client registration/)
+      assert.doesNotMatch(text, /browser:read|browser:control/)
+      assert.doesNotMatch(text, /\/oauth\/authorize/)
       assert.doesNotMatch(
         text,
-        /both (are|paths are|connectors are)[^.]{0,60}verified/,
-        'a blanket "both are verified" claim came back — ChatGPT OAuth is not verified',
-      )
-      assert.doesNotMatch(
-        text,
-        /chatgpt[^.]{0,120}oauth[^.]{0,40}(is|was) verified/,
-        'this page claims ChatGPT OAuth is verified',
+        /approve the [^.]{0,40}consent screen/,
+        'a relay OAuth consent instruction came back',
       )
 
-      // Any page that pitches the canonical OAuth URL alongside ChatGPT must
-      // also carry the caveat, so a reader never leaves thinking it works there.
+      // Any page that names ChatGPT and the connector URL must keep the plan gate.
       if (text.includes('chatgpt') && text.includes('relay.api.vibebrowser.app/mcp')) {
         assert.match(
           text,
-          /unverified|no-ops|paid plan/,
-          'the ChatGPT OAuth caveat is missing from a page that promotes the canonical URL',
+          /paid plan|no-ops/,
+          'the ChatGPT paid-plan caveat is missing from a page that promotes the connector URL',
         )
       }
     })

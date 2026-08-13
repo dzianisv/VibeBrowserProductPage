@@ -47,48 +47,21 @@ export type Troubleshoot = {
 }
 
 /**
- * OAuth 2.1 + Dynamic Client Registration is the RECOMMENDED path for hosted
- * assistants. The client registers itself against the canonical endpoint, the
- * user approves a consent screen, and the assistant holds a scoped token —
- * no browser credential is ever pasted into a chat vendor's UI.
- */
-export type OAuthDetails = {
-  /** The canonical, user-agnostic MCP endpoint. Contains no secret. */
-  url: string
-  /** What each requested scope actually grants, in concrete terms. */
-  scopes: { name: string; grants: string }[]
-  /** How to withdraw access after granting it. */
-  revoke: string[]
-}
-
-/**
- * The legacy per-user URL path. Still supported, still correct for headless
- * callers that cannot complete an interactive consent flow — but it is no
- * longer the headline instruction, because the URL embeds a bearer credential.
- */
-export type AlternatePath = {
-  heading: string
-  body: string
-  config?: ConfigBlock
-  bullets?: string[]
-}
-
-/**
  * SINGLE SOURCE OF TRUTH for "what have we actually verified on this hosted
  * connector". Card badges, hub copy and the /mcp section all read this instead
- * of restating it in prose, because a hand-written "both are verified" is
- * exactly the claim that goes stale silently.
+ * of restating it in prose, because a hand-written "verified" is exactly the
+ * claim that goes stale silently.
  *
- * `oauthVerified` means: the CANONICAL, credential-free OAuth URL
- * (https://relay.api.vibebrowser.app/mcp) was pasted into that product and
- * driven end to end. It is NOT satisfied by the legacy per-user URL working.
+ * The only supported hosted-connector contract is the direct Streamable HTTP
+ * URL `https://relay.api.vibebrowser.app/mcp/<your-routing-uuid>`. There is no
+ * OAuth consent flow, no Dynamic Client Registration, and no relay scopes.
  */
 export type ConnectorStatus = {
-  /** Canonical OAuth URL walked end to end on this product? */
-  oauthVerified: boolean
-  /** Short card badge. Must not say "Verified" unqualified when oauthVerified is false. */
+  /** 'ok' = clean path. 'caveat' = works, but with a documented restriction. */
+  tone: 'ok' | 'caveat'
+  /** Short card badge. Must not read as an unqualified "Verified" when tone is 'caveat'. */
   badge: string
-  /** One sentence stating precisely what is verified and what is not. */
+  /** One sentence stating precisely what is verified and under what conditions. */
   summary: string
 }
 
@@ -119,10 +92,6 @@ export type Integration = {
   solution: string[]
   /** 3-step install. */
   steps: { title: string; body: string; config?: ConfigBlock }[]
-  /** OAuth consent details for the recommended hosted-connector path. */
-  oauth?: OAuthDetails
-  /** Legacy per-user URL, kept for headless/automation callers. */
-  alternatePath?: AlternatePath
   /** Credential warning rendered as a callout directly under the steps. */
   security?: SecurityCallout
   /** What the client's UI shows once the connector is saved and working. */
@@ -183,6 +152,13 @@ args = ["-y", "@vibebrowser/mcp"]`
 
 const CODEX_ADD_CMD = `codex mcp add vibe -- npx -y @vibebrowser/mcp`
 
+/**
+ * Hosted (Streamable HTTP) alternative for Codex CLI / Codex Desktop. The
+ * routing UUID rides in the URL path — this is the same direct connector
+ * contract the Claude custom connector uses.
+ */
+const CODEX_ADD_REMOTE_CMD = `codex mcp add vibe --url https://relay.api.vibebrowser.app/mcp/<your-routing-uuid>`
+
 const COPILOT_JSON = `{
   "github.copilot.chat.mcpServers": {
     "vibe": {
@@ -228,85 +204,15 @@ const connectStep = {
  * they connect to the public relay over HTTPS instead — the Chrome extension
  * is the only thing installed locally.
  *
- * The relay ALSO accepts the extension UUID as a path segment
- * (`/mcp/<uuid>`) — see VibeTechnologies/platform#63. That path still works and
- * must keep working: npm/MCPB and headless callers hand it out, and it needs no
- * interactive consent. It is documented below as a clearly-labelled secondary
- * option, not as the headline instruction.
- *
- * The RECOMMENDED path is now OAuth 2.1 with Dynamic Client Registration
- * against the canonical, secret-free endpoint `https://relay.api.vibebrowser.app/mcp`
- * (VibeTechnologies/platform#72, #73, #74 — tokens and registered clients
- * persist across relay restarts, so a rollout does not force re-consent).
+ * The relay routes on the extension UUID carried as a path segment:
+ * `https://relay.api.vibebrowser.app/mcp/<your-routing-uuid>`
+ * (VibeTechnologies/platform#63). That is the whole hosted-connector contract —
+ * paste the URL, nothing else to configure. There is no OAuth consent flow, no
+ * Dynamic Client Registration and no relay scopes to approve; do not document
+ * one. Because the UUID IS the credential, the security callout below is a
+ * first-class page section.
  */
-const OAUTH_MCP_URL = 'https://relay.api.vibebrowser.app/mcp'
-
 const RELAY_MCP_URL = 'https://relay.api.vibebrowser.app/mcp/<your-routing-uuid>'
-
-/**
- * Shared OAuth block. The scope strings are the ones the relay actually returns
- * in its `WWW-Authenticate` challenge: `browser:read browser:control`.
- */
-const CONNECTOR_OAUTH: OAuthDetails = {
-  url: OAUTH_MCP_URL,
-  scopes: [
-    {
-      name: 'browser:read',
-      grants:
-        'Read-only access to what is on screen: list your open tabs, read page text and HTML, take screenshots, and capture accessibility snapshots of the page you are on. It can see anything you are logged into, but it cannot change anything.',
-    },
-    {
-      name: 'browser:control',
-      grants:
-        'Act in the browser as you: navigate to URLs, click elements, type and fill forms, submit, scroll, use keyboard shortcuts, and open or close tabs. This is the scope that lets an assistant take real actions in your logged-in sessions — grant it only to assistants you trust.',
-    },
-  ],
-  revoke: [
-    'In the assistant: remove or disconnect the Vibe connector. That drops its stored token, and the next tool call fails until you re-approve.',
-    'In the Vibe extension: click the Vibe icon → Settings and turn "Enable external AI agent control" off. With it off, no approved client reaches this browser, regardless of token.',
-    'Revocation takes effect on the next request — there is no cached window to wait out.',
-  ],
-}
-
-/** Step 2 on the recommended path: paste a URL that contains no secret. */
-const oauthUrlStep = {
-  title: 'Use the canonical connector URL — no credential in it',
-  body:
-    'The connector URL is the same for everyone and contains nothing secret: https://relay.api.vibebrowser.app/mcp. There is no UUID to copy and nothing to redact before sharing a screenshot. Make sure the Vibe extension is running with "Enable external AI agent control" on and the mode set to Remote (internet) — the connector talks to that browser, so if it is closed there is nothing on the other end.',
-  config: {
-    location: 'Paste into your assistant’s connector / MCP server URL field',
-    language: 'url' as const,
-    code: OAUTH_MCP_URL,
-  },
-}
-
-/** Step 3 on the recommended path: the consent screen. */
-const oauthConsentStep = {
-  title: 'Approve the consent screen',
-  body:
-    'The relay answers an unauthenticated request with an OAuth 2.1 challenge, and the assistant registers itself automatically through Dynamic Client Registration — you do not create a client id or paste a secret anywhere. You are sent to a Vibe consent screen that names the assistant and the two scopes it is asking for, browser:read and browser:control. Approve it once. The grant survives relay restarts and deploys, so you are not asked to re-consent every time we ship.',
-}
-
-/**
- * Secondary, still-supported path. Deliberately framed for headless callers:
- * a script or CI job cannot click a consent screen, and the per-user URL is
- * the right answer there.
- */
-const CONNECTOR_ALTERNATE: AlternatePath = {
-  heading: 'Direct URL — for headless and automation clients',
-  body:
-    'The original per-user endpoint still works and is not deprecated: https://relay.api.vibebrowser.app/mcp/ followed by your routing UUID. Use it when the caller cannot complete an interactive consent flow — a script, a CI job, a self-hosted agent, or any client whose UI takes a bare URL and nothing else. Get it from the Vibe icon → Settings → "Enable external AI agent control" → Remote (internet) → copy the Agent connection URL; the last path segment is your routing UUID.',
-  config: {
-    location: 'Vibe extension → Settings → Agent connection URL',
-    language: 'url' as const,
-    code: RELAY_MCP_URL,
-  },
-  bullets: [
-    'Unlike the OAuth path, this URL is itself the credential — anyone holding it can drive your logged-in browser, with no consent screen in the way.',
-    'Prefer OAuth for anything interactive. Reach for this only when a consent screen is impossible.',
-    'If you paste this one somewhere by mistake, regenerate the connection URL in the extension immediately; the old UUID stops routing at once.',
-  ],
-}
 
 const remoteUrlStep = {
   title: 'Copy your agent connection URL from the extension',
@@ -326,9 +232,9 @@ const remoteUrlStep = {
  * This is why the warning is a first-class page section, not an FAQ row.
  */
 const CONNECTOR_SECURITY: SecurityCallout = {
-  heading: 'If you use the direct URL, that URL is a password. Treat it like one.',
+  heading: 'Your connector URL is a password. Treat it like one.',
   body:
-    'This applies to the direct /mcp/<your-routing-uuid> path above — not to the OAuth path, where the URL you paste holds no secret. That per-user URL is a bearer capability for your real, logged-in browser. There is no second factor: anyone who holds it can open your tabs, read the pages you are signed into, and act as you. Nothing else is needed to use it.',
+    'The /mcp/<your-routing-uuid> URL above is a bearer capability for your real, logged-in browser. There is no second factor: anyone who holds it can open your tabs, read the pages you are signed into, and act as you. Nothing else is needed to use it.',
   bullets: [
     'Never paste it into a shared chat, a ticket, a README, a screenshot, or a support thread. Redact the UUID before sharing anything.',
     'Never commit it to a repo or write it into a config file that gets committed. Keep it out of shell history and CI logs.',
@@ -352,24 +258,20 @@ const REMOTE_CONNECTOR_FAQS: Faq[] = [
     a: 'Only the Vibe Chrome extension. On the remote-connector path there is no npx command and no local MCP server — the hosted assistant talks to the Vibe relay over HTTPS, and the relay forwards to your extension.',
   },
   {
-    q: 'Does Vibe support OAuth?',
-    a: 'Yes. The relay implements OAuth 2.1 with Dynamic Client Registration at https://relay.api.vibebrowser.app/mcp, and that is the recommended way to connect a hosted assistant. The assistant registers itself, you approve a consent screen naming the browser:read and browser:control scopes, and nothing secret is ever pasted into the chat UI. Approved clients and their tokens persist across relay restarts, so a deploy does not force you to re-consent.',
+    q: 'What exactly do I paste into the connector?',
+    a: 'One URL: https://relay.api.vibebrowser.app/mcp/ followed by your routing UUID, which you copy from the Vibe extension → Settings → Agent connection URL. There is no consent screen, no client id, no secret field and no scopes to approve — the URL is the whole configuration.',
   },
   {
-    q: 'What do the browser:read and browser:control scopes let an assistant do?',
-    a: 'browser:read is look-only: list tabs, read page text and HTML, take screenshots and accessibility snapshots — including pages you are logged into. browser:control is act-as-you: navigate, click, type and fill forms, submit, scroll, use keyboard shortcuts, and open or close tabs. Both are requested together because a browser agent that can read but not click is not useful; grant them only to an assistant you trust with your logged-in sessions.',
+    q: 'Is the UUID in the connector URL a secret?',
+    a: 'Yes. That UUID is the credential that routes an agent to your browser — anyone who has it can drive your logged-in session. Treat the URL like a password: never post it in a shared chat, screenshot, README, or issue. If it leaks, regenerate it in the Vibe extension settings and the old UUID stops routing immediately.',
   },
   {
     q: 'How do I revoke access?',
-    a: 'Two ways, either is enough. Remove or disconnect the Vibe connector inside the assistant, which drops its token. Or open the Vibe extension → Settings and turn "Enable external AI agent control" off, which cuts every client off from this browser at once. Revocation applies on the next request.',
+    a: 'Two ways, either is enough. Remove the Vibe connector inside the assistant. Or open the Vibe extension → Settings and turn "Enable external AI agent control" off, which cuts every client off from this browser at once. To invalidate the URL itself, regenerate the connection URL in the extension.',
   },
   {
-    q: 'Do I still have to paste a URL containing my session id?',
-    a: 'No — not on the recommended path. The OAuth URL https://relay.api.vibebrowser.app/mcp is identical for every user and contains no credential. The older per-user /mcp/<your-routing-uuid> URL still works and is documented as the direct path, which is the right choice for headless callers that cannot click a consent screen.',
-  },
-  {
-    q: 'Is the UUID in the direct URL a secret?',
-    a: 'Yes. On the direct path that UUID is the credential that routes an agent to your browser — anyone who has it can drive your logged-in session. Treat that URL like a password: never post it in a shared chat, screenshot, README, or issue. If it leaks, regenerate it in the Vibe extension settings. The OAuth path avoids this problem entirely, which is why it is the default recommendation.',
+    q: 'What can an assistant do once it is connected?',
+    a: 'Everything the extension exposes: list and switch tabs, read page text and HTML, take screenshots and accessibility snapshots, navigate, click, type and fill forms, scroll, use keyboard shortcuts, and open or close tabs — inside the sessions you are already logged into. Connect it only to an assistant you trust with those sessions.',
   },
   {
     q: 'What is the difference between this and the local MCP server?',
@@ -386,8 +288,8 @@ const CONNECTOR_TROUBLESHOOTING: Troubleshoot[] = [
   {
     symptom: 'The client rejects the URL with a 401, or tool calls fail with 401 Unauthorized.',
     cause:
-      'On the OAuth path, consent was never completed or the grant was revoked — a 401 with a WWW-Authenticate: Bearer challenge is the relay asking you to authorize. On the direct path, the routing UUID in the URL is wrong, mistyped, or was regenerated in the extension after you pasted it.',
-    fix: 'On the OAuth path, remove and re-add the connector so the client restarts the authorization flow, then approve the consent screen. On the direct path, re-copy the Agent connection URL from the Vibe extension settings and re-paste the whole URL, keeping the /mcp/ path segment intact.',
+      'The routing UUID in the URL is wrong, mistyped, truncated, or was regenerated in the extension after you pasted it — so the relay has nothing to route to.',
+    fix: 'Re-copy the Agent connection URL from the Vibe extension settings and re-paste the whole URL, keeping the /mcp/ path segment and the full UUID intact.',
   },
   {
     symptom: 'The connector saved fine and tools are listed, but every tool call errors or hangs.',
@@ -397,8 +299,8 @@ const CONNECTOR_TROUBLESHOOTING: Troubleshoot[] = [
   {
     symptom: 'No tools show up at all after saving the connector.',
     cause:
-      'On the OAuth path, the connector was saved but consent was never approved, so the client has no token to enumerate tools with. On the direct path, the URL points at the plain relay root rather than your routing path, so there is no session to enumerate tools for.',
-    fix: 'On the OAuth path, use exactly https://relay.api.vibebrowser.app/mcp and complete the consent screen when the assistant opens it. On the direct path, the URL must be https://relay.api.vibebrowser.app/mcp/<your-routing-uuid> with the UUID as the last path segment — remove the connector, re-add it with the full URL, and reload the page.',
+      'The URL points at the plain relay root rather than your routing path, so there is no session to enumerate tools for.',
+    fix: 'The URL must be https://relay.api.vibebrowser.app/mcp/<your-routing-uuid> with your UUID as the last path segment — remove the connector, re-add it with the full URL, and reload the page.',
   },
   {
     symptom: 'The assistant answers the question but your browser never moved.',
@@ -566,9 +468,23 @@ export const INTEGRATIONS: Integration[] = [
           'Codex keeps MCP servers in TOML, not JSON. Append the block below to ~/.codex/config.toml (or a project-scoped .codex/config.toml), then restart Codex. Prefer one command? Run codex mcp add vibe -- npx -y @vibebrowser/mcp and Codex writes the same entry for you. Verify with codex mcp list, or type /mcp inside the TUI.',
         config: toml('~/.codex/config.toml', CODEX_TOML),
       },
+      {
+        title: 'Or point Codex at the hosted connector URL instead',
+        body:
+          'Codex CLI and Codex Desktop can also talk to the relay over Streamable HTTP, with no local process. Copy your Agent connection URL from the Vibe icon → Settings → "Enable external AI agent control" → Remote (internet), then register it as a remote server. That URL contains your routing UUID and is a credential — keep it out of committed files and screenshots.',
+        config: {
+          location: 'terminal',
+          language: 'bash' as const,
+          code: CODEX_ADD_REMOTE_CMD,
+        },
+      },
       connectStep,
     ],
     faqs: [
+      {
+        q: 'Can Codex use the hosted relay instead of a local server?',
+        a: 'Yes. Run codex mcp add vibe --url https://relay.api.vibebrowser.app/mcp/<your-routing-uuid> with the routing UUID from the Vibe extension. Codex Desktop uses the same command and the same URL. Nothing else to configure — there is no consent screen and no client registration.',
+      },
       {
         q: 'Does OpenAI Codex CLI support MCP servers?',
         a: 'Yes. Codex loads MCP servers from ~/.codex/config.toml, which is how Vibe adds browser tools. Add a [mcp_servers.vibe] table with command = "npx" and args = ["-y", "@vibebrowser/mcp"], then restart Codex. The config is TOML, not JSON.',
@@ -681,9 +597,9 @@ export const INTEGRATIONS: Integration[] = [
       'Add Vibe as a custom connector in Claude and let Claude on the web, in Cowork, and on mobile drive your real Chrome — logged-in pages included. One URL, no local install.',
     h1: 'Give Claude on the web control of your browser',
     tagline:
-      'Settings → Connectors → Add → Add custom connector. Paste https://relay.api.vibebrowser.app/mcp, approve the consent screen, and Claude drives your real Chrome — web, Cowork and mobile.',
+      'Settings → Connectors → Add → Add custom connector. Paste your https://relay.api.vibebrowser.app/mcp/<your-routing-uuid> URL and Claude drives your real Chrome — web, Cowork and mobile.',
     answerBlock:
-      'Claude supports custom connectors backed by a remote MCP server. Open Settings → Connectors → Add → Add custom connector, paste the canonical Vibe URL https://relay.api.vibebrowser.app/mcp, and approve the OAuth consent screen for the browser:read and browser:control scopes. Claude can then navigate, click, type, scroll, screenshot, and read your real Chrome — including pages behind a login. Because the connector is brokered by your Claude account, it works in Cowork and on mobile, not just Claude Desktop.',
+      'Claude supports custom connectors backed by a remote MCP server. Open Settings → Connectors → Add → Add custom connector and paste your Vibe connector URL, https://relay.api.vibebrowser.app/mcp/ followed by the routing UUID from the extension. Claude can then navigate, click, type, scroll, screenshot, and read your real Chrome — including pages behind a login. Because the connector is brokered by your Claude account, it works in Cowork and on mobile, not just Claude Desktop.',
     problem: [
       'Claude Desktop can run a local MCP server; Claude on the web, in a Cowork session, or on your phone cannot — it has no way to spawn a process on your machine.',
       'So the moment you leave the desktop app, Claude loses access to your browser and to everything behind your logins.',
@@ -691,7 +607,7 @@ export const INTEGRATIONS: Integration[] = [
     ],
     solution: [
       'A custom connector is just a URL, so it works from every Claude surface at once — web, Cowork, desktop, mobile.',
-      'OAuth 2.1 with Dynamic Client Registration means the URL you paste is the same for everyone and holds no secret; Claude registers itself and you approve a scoped consent screen.',
+      'Setup is one paste: no client id, no secret, no consent screen, nothing to configure beyond the URL itself.',
       'The Vibe relay bridges that connection to the Chrome extension on your machine, so Claude acts in the browser you are already signed into.',
       'Nothing to install beyond the extension: no npx, no local server, no second browser profile.',
       'Toggle it per conversation, so a chat only reaches your browser when you want it to.',
@@ -699,35 +615,32 @@ export const INTEGRATIONS: Integration[] = [
     steps: [
       extensionStep,
       {
-        ...oauthUrlStep,
+        ...remoteUrlStep,
         title: 'Add the connector under Settings → Connectors → Add → Add custom connector',
         body:
-          'In Claude on the web, open Settings → Connectors. Click Add, then Add custom connector. Give it a name (for example "Vibe Browser") and paste the canonical URL https://relay.api.vibebrowser.app/mcp — the same URL for every user, with no routing UUID and nothing to redact. Custom connectors are a paid-plan feature; check your plan if the option is missing.',
+          'First copy your connector URL: click the Vibe icon → Settings → turn on "Enable external AI agent control" → choose Remote (internet) → copy the Agent connection URL. It is https://relay.api.vibebrowser.app/mcp/ followed by your routing UUID. Then in Claude on the web open Settings → Connectors, click Add, then Add custom connector, give it a name (for example "Vibe Browser") and paste that whole URL. Custom connectors are a paid-plan feature; check your plan if the option is missing. Redact the UUID before sharing any screenshot of this screen.',
       },
-      oauthConsentStep,
       {
         title: 'Enable it in a chat and make sure your browser is reachable',
         body:
           'In a conversation, use the + button → Connectors and toggle Vibe on for that chat. Claude then discovers the tool list — 27 browser tools at the time of writing. Keep the browser open with the Vibe extension running, "Enable external AI agent control" on, and the mode set to Remote (internet); the connector talks to that browser, so if it is closed there is nothing on the other end.',
       },
     ],
-    oauth: CONNECTOR_OAUTH,
-    alternatePath: CONNECTOR_ALTERNATE,
     security: CONNECTOR_SECURITY,
     connectedLooksLike: [
       'The connector appears in the Settings → Connectors list with its name and a tool count — 27 tools on the current extension build.',
       'Right after you add it, Claude shows "You are not connected to Vibe Browser yet". This is expected and does not mean the setup failed. Claude only marks a connector as connected once a chat has actually invoked one of its tools — send a prompt first, then re-check.',
       'In a chat, the + button → Connectors lists Vibe with a toggle. Turn it on for that conversation.',
-      'On the first real request you will see Claude call tools such as New page and Take snapshot, and your own browser will visibly navigate. On the OAuth path those calls are labelled "Used vibebrowser oauth integration".',
+      'On the first real request you will see Claude call tools such as New page and Take snapshot, and your own browser will visibly navigate.',
     ],
     verify: CONNECTOR_VERIFY,
     troubleshooting: CONNECTOR_TROUBLESHOOTING,
     verifiedOn: 'August 2026',
     connectorStatus: {
-      oauthVerified: true,
-      badge: 'OAuth verified',
+      tone: 'ok',
+      badge: 'Connector verified',
       summary:
-        'Verified end to end on the canonical OAuth URL https://relay.api.vibebrowser.app/mcp: the consent screen appears, 27 tools are discovered, and live tool calls are labelled "Used vibebrowser oauth integration".',
+        'Verified end to end in Claude on the web with the direct connector URL https://relay.api.vibebrowser.app/mcp/<your-routing-uuid>: the connector saves, 27 tools are discovered, and live tool calls drive the real browser.',
     },
     faqs: [
       {
@@ -736,7 +649,7 @@ export const INTEGRATIONS: Integration[] = [
       },
       {
         q: 'How do I add a custom connector in Claude?',
-        a: 'Open Settings → Connectors, click Add, then Add custom connector. Give it a name, paste https://relay.api.vibebrowser.app/mcp, and click Add. Claude starts the OAuth flow and shows a Vibe consent screen; approve it. Then in a chat use the + button → Connectors and toggle it on for that conversation.',
+        a: 'Open Settings → Connectors, click Add, then Add custom connector. Give it a name, paste https://relay.api.vibebrowser.app/mcp/ followed by your routing UUID, and click Add. Then in a chat use the + button → Connectors and toggle it on for that conversation.',
       },
       {
         q: 'Claude says "You are not connected to Vibe Browser yet" — did it fail?',
@@ -744,15 +657,11 @@ export const INTEGRATIONS: Integration[] = [
       },
       {
         q: 'Do I need to verify a domain or get allowlisted?',
-        a: 'No. Claude needs no domain verification and no allowlist request for a custom connector. It does use OAuth: paste the canonical URL and approve the consent screen once.',
+        a: 'No. Claude needs no domain verification and no allowlist request for a custom connector, and there is no consent screen to approve — you paste the connector URL and that is the whole setup.',
       },
       {
         q: 'Does this work in a Cowork session?',
         a: 'Yes. A custom connector is brokered through your Claude account rather than tied to one machine, so a Cowork session reaches it the same way a Desktop chat does. A local Desktop Extension would not — that is scoped to the desktop app on that one computer.',
-      },
-      {
-        q: 'Will a Vibe deploy make me re-approve the connector?',
-        a: 'No. Registered clients and issued tokens are stored durably rather than in relay memory, so they survive pod restarts and rollouts. This was verified across a real production rollout with zero re-consent prompts.',
       },
       ...REMOTE_CONNECTOR_FAQS,
     ],
@@ -777,7 +686,7 @@ export const INTEGRATIONS: Integration[] = [
     tagline:
       'Settings → Security and login → Developer mode → Plugins → Create app. A remote MCP URL, so it works where a local server cannot. Requires a paid plan — see the caveat below.',
     answerBlock:
-      'ChatGPT supports custom apps backed by a remote MCP server. Turn on Developer mode under Settings → Security and login, then go to Plugins → Create app and paste a Vibe relay URL. ChatGPT can then navigate, click, type, scroll, screenshot, and read your real Chrome, including pages behind a login, with no local MCP server running. Vibe supports OAuth 2.1 at https://relay.api.vibebrowser.app/mcp, but we could not complete that path on a free ChatGPT account, where Create app silently does nothing — the direct per-user URL is the path we have verified end to end here.',
+      'ChatGPT supports custom apps backed by a remote MCP server. Turn on Developer mode under Settings → Security and login, then go to Plugins → Create app and paste your Vibe connector URL, https://relay.api.vibebrowser.app/mcp/ followed by the routing UUID from the extension. ChatGPT can then navigate, click, type, scroll, screenshot, and read your real Chrome, including pages behind a login, with no local MCP server running. This is the direct per-user URL, and it is the path we verified end to end here — on a paid plan.',
     problem: [
       'The ChatGPT desktop app can run a local MCP server; ChatGPT on the web cannot read local config or spawn a process, so it has no route to your browser.',
       'The built-in browsing tool fetches public pages as an anonymous visitor — anything behind your account is invisible to it.',
@@ -785,7 +694,7 @@ export const INTEGRATIONS: Integration[] = [
     ],
     solution: [
       'A connector is a URL, so ChatGPT on the web can reach your browser without anything running locally besides the extension.',
-      'Vibe exposes an OAuth 2.1 endpoint with Dynamic Client Registration, so on a plan where Create app works you paste a URL that holds no secret and approve a scoped consent screen.',
+      'Setup is one paste: no client id, no secret, no consent screen — the connector URL is the whole configuration.',
       'The Vibe relay forwards to the Chrome you are already signed into — same tabs, same cookies, same sessions.',
       'Enable it per conversation, so a chat only touches your browser when you say so.',
     ],
@@ -797,19 +706,17 @@ export const INTEGRATIONS: Integration[] = [
           'In ChatGPT on the web, open Settings → Security and login and switch Developer mode ON. This is the step people miss: the create-an-app surface does not appear anywhere until Developer mode is enabled, and it lives under Security and login rather than under Connectors.',
       },
       {
-        ...oauthUrlStep,
-        title: 'Plugins → Create app, then paste the canonical OAuth URL',
+        ...remoteUrlStep,
+        title: 'Plugins → Create app, then paste your connector URL',
         body:
-          'Still in Settings, go to Plugins and click Create app. Give it a name and paste https://relay.api.vibebrowser.app/mcp into the MCP server URL field. That URL is the same for every user and contains no credential; ChatGPT should start the OAuth flow and show a Vibe consent screen for the browser:read and browser:control scopes. Then enable the app for a conversation before asking ChatGPT to open a page. Read the plan caveat below before you start.',
+          'Copy your connector URL from the Vibe icon → Settings → "Enable external AI agent control" → Remote (internet) → Agent connection URL; it is https://relay.api.vibebrowser.app/mcp/ followed by your routing UUID. Still in ChatGPT Settings, go to Plugins and click Create app, give it a name, and paste that URL into the MCP server URL field. Then enable the app for a conversation before asking ChatGPT to open a page. That URL is a credential — redact it before sharing a screenshot. Read the plan caveat below before you start.',
       },
       {
         title: 'Known limitation on a free ChatGPT account',
         body:
-          'We could not complete this OAuth path on a FREE ChatGPT account: clicking Create app no-ops — no app is created and no error is shown — so the canonical URL can never be entered. Connectors and apps are a paid-plan feature and the developer-mode surface moves between releases. What we have verified working on ChatGPT is the direct per-user connector URL documented below. If Create app does nothing for you, that is the plan gate, not a Vibe fault: use the direct URL, or use the ChatGPT desktop app path, which runs the local MCP server with no relay at all.',
+          'On a FREE ChatGPT account, clicking Create app no-ops — no app is created and no error is shown — so there is nowhere to paste the URL at all. Connectors and custom apps are a paid-plan feature and the developer-mode surface moves between releases. If Create app does nothing for you, that is the plan gate, not a Vibe fault: either upgrade, or use the ChatGPT desktop app path, which runs the local MCP server with no relay at all.',
       },
     ],
-    oauth: CONNECTOR_OAUTH,
-    alternatePath: CONNECTOR_ALTERNATE,
     security: CONNECTOR_SECURITY,
     connectedLooksLike: [
       'The app appears in the Plugins list with its name, and opening it shows the discovered actions rather than an error.',
@@ -820,10 +727,10 @@ export const INTEGRATIONS: Integration[] = [
     troubleshooting: CONNECTOR_TROUBLESHOOTING,
     verifiedOn: 'August 2026',
     connectorStatus: {
-      oauthVerified: false,
+      tone: 'caveat',
       badge: 'Verified on a paid plan',
       summary:
-        'Verified end to end on ChatGPT using the legacy per-user connector URL, on a PAID plan. The canonical OAuth URL is unverified on ChatGPT: on a free account Settings → Security and login → Developer mode → Plugins → Create app silently no-ops, so no app is created and the OAuth flow can never be started. That is a plan gate, not an OAuth fault — it no-ops with No Auth too.',
+        'Verified end to end on ChatGPT with the direct per-user connector URL, on a PAID plan. On a free account Settings → Security and login → Developer mode → Plugins → Create app silently no-ops, so no app is created and the URL can never be entered. That is a plan gate, not a Vibe fault — it no-ops with No Auth too.',
     },
     faqs: [
       {
@@ -835,12 +742,12 @@ export const INTEGRATIONS: Integration[] = [
         a: 'Settings → Security and login. Not under Connectors, which is where most guides send you. Switch Developer mode on there, and the Plugins → Create app surface becomes available.',
       },
       {
-        q: 'Do I need to verify a domain or set up OAuth?',
-        a: 'No domain verification and no allowlist request. OAuth is supported and recommended — the relay implements OAuth 2.1 with Dynamic Client Registration, so there is nothing to configure by hand: you paste the canonical URL and approve a consent screen. On a free ChatGPT account Create app no-ops, so that flow cannot be started there; use the direct per-user URL instead.',
+        q: 'Do I need to verify a domain or set anything else up?',
+        a: 'No domain verification, no allowlist request, and no consent screen: you paste the connector URL and that is the whole setup. The only gate is the ChatGPT plan — on a free account Create app no-ops, so the URL field never appears.',
       },
       {
         q: 'Create app does nothing when I click it — what is wrong?',
-        a: 'You are almost certainly on a free plan. On a free ChatGPT account the Create app button silently no-ops: no app appears and no error is shown. Connectors and custom apps are a paid-plan feature. Either upgrade, use the direct per-user connector URL, or use the ChatGPT desktop app with the local MCP server.',
+        a: 'You are almost certainly on a free plan. On a free ChatGPT account the Create app button silently no-ops: no app appears and no error is shown. Connectors and custom apps are a paid-plan feature. Either upgrade, or use the ChatGPT desktop app with the local MCP server.',
       },
       {
         q: 'Should I use this or the ChatGPT desktop app integration?',
@@ -848,7 +755,7 @@ export const INTEGRATIONS: Integration[] = [
       },
       {
         q: 'Does this work with Codex CLI?',
-        a: 'Codex CLI can use either path — it can spawn the local MCP server, and it can also point at a remote MCP URL with headers. The local path is simpler there; see the Codex CLI page.',
+        a: 'Yes, and with Codex Desktop. Codex can spawn the local MCP server, and it can also point at the direct connector URL with codex mcp add vibe --url https://relay.api.vibebrowser.app/mcp/<your-routing-uuid>. See the Codex CLI page.',
       },
       ...REMOTE_CONNECTOR_FAQS,
     ],
