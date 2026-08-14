@@ -256,6 +256,11 @@ describe('hosted connectors document the direct URL contract only', () => {
     'app/mcp/layout.tsx',
     'app/integrations/page.tsx',
     'app/integrations/[slug]/page.tsx',
+    // The privacy policy is a rendered page that also described the relay's
+    // OAuth scopes. Unrelated OAuth there (the `identity` Chrome permission,
+    // provider OAuth tokens in the credential vault) is deliberately untouched
+    // and does not trip these patterns.
+    'privacy-policy.tsx',
   ]
 
   for (const page of MARKETING_PAGES) {

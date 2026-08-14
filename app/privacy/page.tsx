@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
-  description: 'How Vibe handles your data across the browser extension, the local MCP server, and the hosted relay connector — what transits, what is logged, retention, OAuth scopes, and how to revoke access.',
+  description: 'How Vibe handles your data across the browser extension, the local MCP server, and the hosted relay connector — what transits, what is logged, retention, and how to revoke access.',
   alternates: {
     canonical: 'https://www.vibebrowser.app/privacy',
   },

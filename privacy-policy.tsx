@@ -161,7 +161,7 @@ export default function PrivacyPolicy() {
               </div>
             </section>
 
-            {/* Credentials, OAuth, revocation */}
+            {/* Credentials and revocation */}
             <section className="bg-gradient-to-br from-amber-50 to-white rounded-xl p-6 shadow-sm border border-amber-200">
               <div className="flex items-start gap-4">
                 <div className="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -175,20 +175,6 @@ export default function PrivacyPolicy() {
                     Treat it exactly like a password. Never commit it, paste it into a shared chat or issue, or include it in a
                     screenshot. It can also be supplied as an <code>X-Remote-Session</code> or <code>Authorization: Bearer</code>
                     header, which keeps it out of URLs, proxy logs and browser history — prefer that whenever your client can send headers.
-                  </p>
-
-                  <h3 className="font-semibold text-base mb-2">OAuth</h3>
-                  <p className="text-muted-foreground mb-2">
-                    Clients that support it can connect via OAuth 2.1 with PKCE instead. Two scopes exist:
-                  </p>
-                  <ul className="list-disc pl-5 space-y-1 text-muted-foreground mb-4">
-                    <li><code>browser:read</code> — read page content and browser state.</li>
-                    <li><code>browser:control</code> — act in the browser (click, type, navigate). Implies <code>browser:read</code>.</li>
-                  </ul>
-                  <p className="text-muted-foreground mb-4">
-                    Any method the relay does not recognise requires <code>browser:control</code> — it fails closed.
-                    Authorization codes expire after 1 minute, access tokens after 1 hour, refresh tokens after 30 days,
-                    and idle dynamic client registrations after 30 days.
                   </p>
 
                   <h3 className="font-semibold text-base mb-2">How to revoke</h3>
@@ -323,7 +309,6 @@ export default function PrivacyPolicy() {
                   <ul className="list-disc pl-5 space-y-1 text-muted-foreground mb-4">
                     <li>All relay and API communications use HTTPS / WSS</li>
                     <li>Model provider calls use HTTPS</li>
-                    <li>OAuth uses PKCE and short-lived access tokens</li>
                   </ul>
 
                   <h3 className="font-semibold text-base mb-2">Your Responsibility</h3>
