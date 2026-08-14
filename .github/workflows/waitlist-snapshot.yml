@@ -88,3 +88,33 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "chore(waitlist): daily count snapshot [skip ci]"
           git push origin HEAD:main
+
+      # DEAD-CRON GUARD for the hourly mailto reconciler (AGE-61).
+      #
+      # The reconciler is the only thing standing between a mailto-fallback
+      # signup and the bin. If its schedule silently stops firing — GitHub
+      # disables cron on inactive repos, a bad edit can unregister the workflow,
+      # a stuck run can wedge the concurrency group — nothing else would notice,
+      # and we would be back to losing signups with no symptom. This job already
+      # runs daily, so it is the cheapest place to assert the reconciler is alive.
+      #
+      # Deliberately checks "a run COMPLETED in the last 24h", not "a run exists":
+      # a workflow that only ever ran once, when a human dispatched it, is dead.
+      - name: Assert the mailto reconciler is still running
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          latest=$(gh api \
+            "repos/${{ github.repository }}/actions/workflows/waitlist-mailto-reconcile.yml/runs?event=schedule&status=completed&per_page=1" \
+            --jq '.workflow_runs[0].updated_at // ""')
+          if [ -z "$latest" ]; then
+            echo "::error::No COMPLETED SCHEDULED run of waitlist-mailto-reconcile.yml exists. The hourly cron is not firing — mailto waitlist signups are being lost again (AGE-61)."
+            exit 1
+          fi
+          age=$(( ( $(date -u +%s) - $(date -u -d "$latest" +%s) ) / 3600 ))
+          echo "Last scheduled reconciler run: $latest (${age}h ago)."
+          if [ "$age" -gt 24 ]; then
+            echo "::error::waitlist-mailto-reconcile has not completed a scheduled run in ${age}h (expected hourly). Mailto waitlist signups may be piling up unsynced — see AGE-61."
+            exit 1
+          fi
