@@ -88,6 +88,14 @@ jobs:
             echo
             echo "Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           } > alert-issue.md
-          gh issue create \
-            --title "Waitlist mailto fallback recovered ${{ steps.reconcile.outputs.synced_count }} signup(s)" \
-            --body-file alert-issue.md
+          # The title is what a human actually reads in the issue list, so the
+          # verdict belongs there. `stamped_count` > 0 means a build carrying the
+          # AGE-87 retry queue still fell back to mailto — a live defect, not the
+          # known unreachable pre-v0.4.8 sideload cohort (AGE-100).
+          SYNCED='${{ steps.reconcile.outputs.synced_count }}'
+          STAMPED='${{ steps.reconcile.outputs.stamped_count }}'
+          TITLE="Waitlist mailto fallback recovered ${SYNCED} signup(s)"
+          if [ -n "$STAMPED" ] && [ "$STAMPED" != "0" ]; then
+            TITLE="REGRESSION: ${STAMPED}/${SYNCED} mailto signup(s) came from builds that ship the retry queue"
+          fi
+          gh issue create --title "$TITLE" --body-file alert-issue.md
