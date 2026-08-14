@@ -50,6 +50,23 @@ const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
  */
 const bodyEmailPattern = /^\s*Email:\s*<?([^\s<>,;]+@[^\s<>,;]+)>?\s*$/im
 
+/**
+ * From OpenCode Mobile v0.4.13 the mailto body carries `App: OpenCode Mobile
+ * v<version>` (opencode-mobile `src/lib/waitlist.ts:buildWaitlistMailtoUrl`,
+ * shipped as Play versionCode 149 on 2026-08-14).
+ *
+ * That line is the ONLY thing that separates the two populations, which have
+ * opposite verdicts and produced byte-identical mail before the stamp:
+ *
+ * - absent  -> build older than v0.4.13. Overwhelmingly the ~436-device
+ *              pre-v0.4.8 sideload cohort, which has no in-app signup API at
+ *              all and can never be reached by shipping code. Expected, benign.
+ * - present -> a build that HAS the retry queue still fell through to mailto.
+ *              That is a live defect (AGE-100) and must be surfaced, not
+ *              silently healed.
+ */
+const bodyAppVersionPattern = /^\s*App:\s*OpenCode Mobile\s*v([0-9][0-9A-Za-z.+-]*)\s*$/im
+
 export interface ChatwootConversation {
   id: number
   inbox_id?: number
@@ -70,7 +87,14 @@ export interface ChatwootMessage {
 }
 
 export type ReconcilePlan =
-  | { conversationId: number; action: 'sync'; email: string; origin: 'body' | 'sender' }
+  | {
+      conversationId: number
+      action: 'sync'
+      email: string
+      origin: 'body' | 'sender'
+      /** Stamped build that sent the mail, or null for pre-v0.4.13 builds. */
+      appVersion: string | null
+    }
   | { conversationId: number; action: 'skip'; reason: 'already-synced' | 'not-waitlist' | 'no-email' }
 
 /** Trim/lowercase like the server does; null when the server would 400. */
@@ -121,6 +145,27 @@ export function extractSignupEmail(
   return senderEmail ? { email: senderEmail, origin: 'sender' } : null
 }
 
+/**
+ * Pull the `App: OpenCode Mobile v<version>` stamp out of the first customer
+ * message that carries one. Same message filter as extractSignupEmail: our own
+ * replies quote the customer's mail, so an outgoing/private message must never
+ * be able to attribute a build.
+ *
+ * Returns null when no incoming message carries the line, which means
+ * "pre-v0.4.13 build" — NOT "unknown". Absence is itself the measurement.
+ */
+export function extractAppVersion(messages: ChatwootMessage[]): string | null {
+  const incoming = messages
+    .filter((m) => m.message_type === 0 && m.private !== true)
+    .sort((a, b) => (a.id ?? 0) - (b.id ?? 0))
+
+  for (const message of incoming) {
+    const match = bodyAppVersionPattern.exec(message.content ?? '')
+    if (match) return match[1]
+  }
+  return null
+}
+
 export function planConversation(
   conv: ChatwootConversation,
   messages: ChatwootMessage[],
@@ -133,7 +178,13 @@ export function planConversation(
   }
   const found = extractSignupEmail(conv, messages)
   if (!found) return { conversationId: conv.id, action: 'skip', reason: 'no-email' }
-  return { conversationId: conv.id, action: 'sync', email: found.email, origin: found.origin }
+  return {
+    conversationId: conv.id,
+    action: 'sync',
+    email: found.email,
+    origin: found.origin,
+    appVersion: extractAppVersion(messages),
+  }
 }
 
 /** Body for the deployed beta-signup route. `source` becomes the SOURCE attribute. */
@@ -141,19 +192,53 @@ export function buildSignupBody(email: string): { email: string; source: string 
   return { email, source: MAILTO_SOURCE }
 }
 
-export function buildSyncNote(email: string, origin: 'body' | 'sender'): string {
+export function buildSyncNote(
+  email: string,
+  origin: 'body' | 'sender',
+  appVersion: string | null = null,
+): string {
+  const build = appVersion
+    ? `Sent by OpenCode Mobile v${appVersion}, which ships the retry queue — the fallback should not have fired, so this one is a DEFECT (AGE-100), not the known stale-build cohort.`
+    : `No \`App:\` line, so the sender runs a build older than v0.4.13 — the known stale-install cohort that no shipped code can reach.`
   return [
     `Internal (automated): this signup arrived through the app's mailto fallback and has been`,
     `replayed into the waitlist store as \`${email}\` (address taken from the message ${origin}),`,
     `tagged \`SOURCE=${MAILTO_SOURCE}\`. Labelled \`${SYNCED_LABEL}\` so it is not re-sent.`,
+    build,
   ].join(' ')
 }
 
 export interface ReconcileSummary {
-  synced: { conversationId: number; email: string; origin: string }[]
+  synced: { conversationId: number; email: string; origin: string; appVersion?: string | null }[]
   failed: { conversationId: number; email: string; error: string }[]
   skipped: number
   scanned: number
+}
+
+/**
+ * The AGE-100 after-number, computed instead of eyeballed: how many recovered
+ * signups came from builds that predate the stamp (expected) versus builds that
+ * carry the retry queue and fell back anyway (a defect).
+ */
+export function splitByAppVersion(summary: ReconcileSummary): {
+  unstamped: number
+  stamped: number
+  versions: { version: string; count: number }[]
+} {
+  const counts = new Map<string, number>()
+  let unstamped = 0
+  for (const item of summary.synced) {
+    const version = item.appVersion ?? null
+    if (!version) {
+      unstamped += 1
+      continue
+    }
+    counts.set(version, (counts.get(version) ?? 0) + 1)
+  }
+  const versions = [...counts.entries()]
+    .map(([version, count]) => ({ version, count }))
+    .sort((a, b) => b.count - a.count || a.version.localeCompare(b.version))
+  return { unstamped, stamped: versions.reduce((sum, v) => sum + v.count, 0), versions }
 }
 
 /**
@@ -169,12 +254,30 @@ export function formatAlert(summary: ReconcileSummary): string {
       `(Brevo list 4, \`SOURCE=${MAILTO_SOURCE}\`).`,
   )
   lines.push('')
-  lines.push('| Chatwoot conversation | Email | Address from |')
-  lines.push('| --- | --- | --- |')
+  lines.push('| Chatwoot conversation | Email | Address from | App build |')
+  lines.push('| --- | --- | --- | --- |')
   for (const item of summary.synced) {
+    const build = item.appVersion ? `v${item.appVersion} — **defect**` : 'pre-v0.4.13 (unstamped)'
     lines.push(
       `| [#${item.conversationId}](https://support.agentlabs.cc/app/accounts/1/conversations/${item.conversationId}) ` +
-        `| \`${item.email}\` | ${item.origin} |`,
+        `| \`${item.email}\` | ${item.origin} | ${build} |`,
+    )
+  }
+
+  const split = splitByAppVersion(summary)
+  lines.push('')
+  lines.push(
+    `Build split: **${split.unstamped}** from pre-v0.4.13 builds (expected — the stale-install ` +
+      `cohort), **${split.stamped}** from builds that carry the retry queue.`,
+  )
+  if (split.stamped > 0) {
+    lines.push('')
+    lines.push(
+      `> **Regression:** ${split.versions
+        .map((v) => `v${v.version} (${v.count})`)
+        .join(', ')} reached the mailto fallback despite shipping the AGE-87 retry queue. ` +
+        'That is a live defect, not the known cohort — open a bug with these conversations as ' +
+        'evidence instead of treating this run as routine healing.',
     )
   }
   if (summary.failed.length > 0) {
@@ -188,7 +291,8 @@ export function formatAlert(summary: ReconcileSummary): string {
   lines.push(
     'Why it matters: the fallback only fires on pre-v0.4.8 builds or when the signup API is ' +
       'unreachable. A steady trickle here means installs in the wild still have no working ' +
-      'signup path — see AGE-61.',
+      'signup path — see AGE-61. The build split above is what separates that unreachable ' +
+      'cohort from a live regression (AGE-100).',
   )
   return lines.join('\n')
 }

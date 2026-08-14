@@ -5,6 +5,8 @@ import {
   MAILTO_SOURCE,
   SYNCED_LABEL,
   buildSignupBody,
+  buildSyncNote,
+  extractAppVersion,
   extractSignupEmail,
   formatAlert,
   isSynced,
@@ -12,6 +14,7 @@ import {
   mergeLabels,
   normalizeEmail,
   planConversation,
+  splitByAppVersion,
   type ChatwootConversation,
   type ChatwootMessage,
 } from '../waitlist-mailto-reconcile.ts'
@@ -98,6 +101,7 @@ test('planConversation syncs a fresh waitlist mail and skips everything else', (
     action: 'sync',
     email: 'ricardo.ventura@gmail.com',
     origin: 'body',
+    appVersion: null,
   })
   assert.deepEqual(
     planConversation(conversation({ additional_attributes: { mail_subject: 'Bug report' } }), [realIncoming]),
@@ -132,4 +136,105 @@ test('the alert names every recovered signup and every failure', () => {
   assert.match(alert, /conversations\/277/)
   assert.match(alert, /c@d\.com/)
   assert.match(alert, /HTTP 502/)
+})
+
+/**
+ * Body shape from OpenCode Mobile v0.4.13+ (Play versionCode 149), which stamps
+ * the build into the mail so AGE-100 can tell a stale sideload apart from a
+ * current build that leaked past the retry queue.
+ */
+const stampedIncoming: ChatwootMessage = {
+  id: 2001,
+  message_type: 0,
+  private: false,
+  content: 'Sign me up!\n\nEmail: leak@example.com\n\nApp: OpenCode Mobile v0.4.13\n',
+  sender: { email: 'leak@example.com' },
+}
+
+test('the App: stamp is read off the body, and its absence means a pre-v0.4.13 build', () => {
+  assert.equal(extractAppVersion([stampedIncoming]), '0.4.13')
+  // Absence is the measurement, not an error: no stamp => older than v0.4.13.
+  assert.equal(extractAppVersion([realIncoming]), null)
+  assert.equal(extractAppVersion([]), null)
+  // Signature noise after the stamp must not swallow it.
+  assert.equal(
+    extractAppVersion([
+      { id: 1, message_type: 0, content: 'Sign me up!\n\nEmail: a@b.com\n\nApp: OpenCode Mobile v1.2.3-rc.1\n\n--\nSent from my phone' },
+    ]),
+    '1.2.3-rc.1',
+  )
+})
+
+test('our own replies cannot attribute a build (they quote the customer mail)', () => {
+  const quotedByUs: ChatwootMessage = {
+    id: 3001,
+    message_type: 1,
+    private: false,
+    content: 'Thanks! You wrote:\n\nApp: OpenCode Mobile v0.4.13\n',
+  }
+  const privateNote: ChatwootMessage = {
+    id: 3002,
+    message_type: 0,
+    private: true,
+    content: 'App: OpenCode Mobile v9.9.9\n',
+  }
+  assert.equal(extractAppVersion([quotedByUs, privateNote]), null)
+})
+
+test('planConversation carries the build through to the sync plan', () => {
+  assert.deepEqual(planConversation(conversation(), [stampedIncoming]), {
+    conversationId: 277,
+    action: 'sync',
+    email: 'leak@example.com',
+    origin: 'body',
+    appVersion: '0.4.13',
+  })
+})
+
+test('splitByAppVersion separates the unreachable cohort from a real regression', () => {
+  const split = splitByAppVersion({
+    synced: [
+      { conversationId: 1, email: 'a@b.com', origin: 'body', appVersion: null },
+      { conversationId: 2, email: 'c@d.com', origin: 'sender' }, // legacy row, no field
+      { conversationId: 3, email: 'e@f.com', origin: 'body', appVersion: '0.4.13' },
+      { conversationId: 4, email: 'g@h.com', origin: 'body', appVersion: '0.4.13' },
+      { conversationId: 5, email: 'i@j.com', origin: 'body', appVersion: '0.5.0' },
+    ],
+    failed: [],
+    skipped: 0,
+    scanned: 5,
+  })
+  assert.deepEqual(split, {
+    unstamped: 2,
+    stamped: 3,
+    versions: [
+      { version: '0.4.13', count: 2 },
+      { version: '0.5.0', count: 1 },
+    ],
+  })
+})
+
+test('a stamped signup is called a regression in the alert, an unstamped one is not', () => {
+  const clean = formatAlert({
+    synced: [{ conversationId: 277, email: 'a@b.com', origin: 'body', appVersion: null }],
+    failed: [],
+    skipped: 0,
+    scanned: 1,
+  })
+  assert.match(clean, /pre-v0\.4\.13 \(unstamped\)/)
+  assert.doesNotMatch(clean, /Regression/)
+
+  const leaking = formatAlert({
+    synced: [{ conversationId: 900, email: 'leak@example.com', origin: 'body', appVersion: '0.4.13' }],
+    failed: [],
+    skipped: 0,
+    scanned: 1,
+  })
+  assert.match(leaking, /Regression/)
+  assert.match(leaking, /v0\.4\.13 \(1\)/)
+})
+
+test('the internal note tells a human which of the two cases they are looking at', () => {
+  assert.match(buildSyncNote('a@b.com', 'body', null), /older than v0\.4\.13/)
+  assert.match(buildSyncNote('a@b.com', 'body', '0.4.13'), /DEFECT/)
 })

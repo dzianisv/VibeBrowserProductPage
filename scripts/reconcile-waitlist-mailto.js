@@ -47,6 +47,7 @@ import {
   isWaitlistConversation,
   mergeLabels,
   planConversation,
+  splitByAppVersion,
 } from '../lib/waitlist-mailto-reconcile.ts'
 
 const args = process.argv.slice(2)
@@ -122,7 +123,7 @@ async function submitSignup(email) {
   return true
 }
 
-async function markSynced(conv, email, origin) {
+async function markSynced(conv, email, origin, appVersion) {
   // Chatwoot REPLACES the label set on write, so merge with what is there.
   await chatwoot(`/conversations/${conv.id}/labels`, {
     method: 'POST',
@@ -131,7 +132,7 @@ async function markSynced(conv, email, origin) {
   await chatwoot(`/conversations/${conv.id}/messages`, {
     method: 'POST',
     body: JSON.stringify({
-      content: buildSyncNote(email, origin),
+      content: buildSyncNote(email, origin, appVersion),
       message_type: 'outgoing',
       private: true, // internal note — never delivered to the customer
     }),
@@ -159,26 +160,46 @@ for (const conv of candidates) {
     continue
   }
 
+  const build = plan.appVersion ? `v${plan.appVersion}` : 'pre-v0.4.13'
+
   if (dryRun) {
-    console.log(`[dry-run] would sync conversation ${conv.id} -> ${plan.email} (${plan.origin})`)
-    summary.synced.push({ conversationId: conv.id, email: plan.email, origin: plan.origin })
+    console.log(`[dry-run] would sync conversation ${conv.id} -> ${plan.email} (${plan.origin}, ${build})`)
+    summary.synced.push({
+      conversationId: conv.id,
+      email: plan.email,
+      origin: plan.origin,
+      appVersion: plan.appVersion,
+    })
     continue
   }
 
   try {
     await submitSignup(plan.email)
-    await markSynced(conv, plan.email, plan.origin)
-    summary.synced.push({ conversationId: conv.id, email: plan.email, origin: plan.origin })
-    console.log(`synced conversation ${conv.id} -> ${plan.email} (${plan.origin})`)
+    await markSynced(conv, plan.email, plan.origin, plan.appVersion)
+    summary.synced.push({
+      conversationId: conv.id,
+      email: plan.email,
+      origin: plan.origin,
+      appVersion: plan.appVersion,
+    })
+    console.log(`synced conversation ${conv.id} -> ${plan.email} (${plan.origin}, ${build})`)
   } catch (error) {
     summary.failed.push({ conversationId: conv.id, email: plan.email, error: String(error?.message || error) })
     console.error(`FAILED conversation ${conv.id} (${plan.email}): ${error?.message || error}`)
   }
 }
 
+// One grep-able line per run. `stamped=` is the AGE-100 after-number: signups
+// recovered from builds that DO carry the retry queue, i.e. real leaks, as
+// opposed to `unstamped=` which is the unreachable pre-v0.4.13 install base.
+const split = splitByAppVersion(summary)
 console.log(
   `scanned=${summary.scanned} synced=${summary.synced.length} ` +
-    `skipped=${summary.skipped} failed=${summary.failed.length}`,
+    `skipped=${summary.skipped} failed=${summary.failed.length} ` +
+    `unstamped=${split.unstamped} stamped=${split.stamped}` +
+    (split.versions.length > 0
+      ? ` builds=${split.versions.map((v) => `v${v.version}:${v.count}`).join(',')}`
+      : ''),
 )
 
 if (asJson) console.log(JSON.stringify(summary))
@@ -187,7 +208,8 @@ if (asJson) console.log(JSON.stringify(summary))
 if (process.env.GITHUB_OUTPUT) {
   fs.appendFileSync(
     process.env.GITHUB_OUTPUT,
-    `synced_count=${summary.synced.length}\nfailed_count=${summary.failed.length}\n`,
+    `synced_count=${summary.synced.length}\nfailed_count=${summary.failed.length}\n` +
+      `unstamped_count=${split.unstamped}\nstamped_count=${split.stamped}\n`,
   )
 }
 if (summary.synced.length > 0 || summary.failed.length > 0) {
@@ -197,7 +219,13 @@ if (process.env.GITHUB_STEP_SUMMARY) {
   fs.appendFileSync(
     process.env.GITHUB_STEP_SUMMARY,
     `### Waitlist mailto reconcile\n\nscanned ${summary.scanned}, synced ${summary.synced.length}, ` +
-      `skipped ${summary.skipped}, failed ${summary.failed.length}\n`,
+      `skipped ${summary.skipped}, failed ${summary.failed.length}\n\n` +
+      `Build split of the synced signups: ${split.unstamped} pre-v0.4.13 (expected stale-install ` +
+      `cohort), ${split.stamped} from builds carrying the retry queue` +
+      (split.stamped > 0
+        ? ` — **regression (AGE-100)**: ${split.versions.map((v) => `v${v.version} x${v.count}`).join(', ')}`
+        : '') +
+      `\n`,
   )
 }
 
