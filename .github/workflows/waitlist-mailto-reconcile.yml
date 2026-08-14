@@ -1,0 +1,93 @@
+# Hourly reconcile of waitlist signups that arrived through the app's mailto
+# fallback (support@agentlabs.cc / Chatwoot inbox 2) back into the waitlist
+# store (Brevo list 4, via the deployed beta-signup route).
+#
+# WHY: OpenCode Mobile builds older than v0.4.8 have no signup API at all — they
+# only open a mailto. Those signups landed in a human inbox and nowhere else:
+# 20 of 21 between 2026-08-03 and 2026-08-13 never reached the store and sat for
+# 11 days before a human noticed (AGE-61). This job closes that loop, and pages
+# a human every time it has to.
+#
+# NO BREVO KEY HERE: Brevo pins API keys to an IP allowlist and GitHub runners
+# change egress IP every run (401 "unrecognised IP", see waitlist-snapshot.yml).
+# The script replays each signup through the production route on Vercel, whose
+# egress Brevo already trusts.
+#
+# LFS BUDGET GUARD — see the same note in ci.yml/waitlist-snapshot.yml. This job
+# reads an inbox and posts JSON; it never touches video bytes, so checkout is
+# pinned to `lfs: false`.
+name: Waitlist Mailto Reconcile
+
+on:
+  schedule:
+    # Hourly at :35. Off the hour on purpose: GitHub's scheduler queues heavily
+    # at :00 and drops runs under load.
+    - cron: '35 * * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Report what would be synced without writing anything'
+        type: boolean
+        default: false
+
+concurrency:
+  group: waitlist-mailto-reconcile
+  cancel-in-progress: false
+
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      # Needed to open the alert issue when a signup had to be recovered.
+      issues: write
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          lfs: false
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22'
+
+      - name: Verify credentials are present
+        env:
+          CHATWOOT_TOKEN: ${{ secrets.CHATWOOT_TOKEN }}
+        run: |
+          set -euo pipefail
+          # Fail closed and loudly: a missing token must never degrade into a
+          # silent "0 signups found", which reads exactly like a healthy run.
+          : "${CHATWOOT_TOKEN:?CHATWOOT_TOKEN secret is not set}"
+
+      - name: Reconcile mailto signups into the waitlist store
+        id: reconcile
+        env:
+          CHATWOOT_TOKEN: ${{ secrets.CHATWOOT_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            node scripts/reconcile-waitlist-mailto.js --dry-run
+          else
+            node scripts/reconcile-waitlist-mailto.js
+          fi
+
+      # Ask 3 of AGE-61: a signup that reaches a human inbox instead of the
+      # store must page someone, not sit for 11 days. The @mention is what makes
+      # this an actual notification rather than a row in a list.
+      - name: Alert on recovered signups
+        if: always() && steps.reconcile.outputs.synced_count != '0' && steps.reconcile.outputs.synced_count != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          {
+            echo "@dzianisv — automated alert from \`waitlist-mailto-reconcile\`."
+            echo
+            cat waitlist-mailto-alert.md
+            echo
+            echo "Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          } > alert-issue.md
+          gh issue create \
+            --title "Waitlist mailto fallback recovered ${{ steps.reconcile.outputs.synced_count }} signup(s)" \
+            --body-file alert-issue.md
