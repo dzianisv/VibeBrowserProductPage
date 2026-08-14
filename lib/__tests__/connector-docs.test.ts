@@ -1,9 +1,14 @@
 import { test, describe } from 'node:test'
 import assert from 'node:assert/strict'
-import { readFileSync } from 'node:fs'
+import { readFileSync, readdirSync, statSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 
-import { INTEGRATIONS, getIntegration, type Integration } from '../integrations.ts'
+import {
+  INTEGRATIONS,
+  getIntegration,
+  CODEX_ADD_REMOTE_CMD,
+  type Integration,
+} from '../integrations.ts'
 
 const repoFile = (rel: string) =>
   readFileSync(fileURLToPath(new URL(`../../${rel}`, import.meta.url)), 'utf8')
@@ -109,12 +114,23 @@ describe('hosted connector guides', () => {
           /canonical (oauth )?url/,
           'the credential-free canonical OAuth URL is not a supported setup path',
         )
-        // The bare /mcp endpoint must never be handed out as the thing to paste.
+        // The bare /mcp endpoint must never be handed out as the thing to paste
+        // into a connector field. Naming it while explaining the HEADER form is
+        // fine and is exactly what the boundary FAQ does.
         assert.doesNotMatch(
           blob,
-          /relay\.api\.vibebrowser\.app\/mcp(?![/\w])/,
-          'the bare /mcp endpoint was presented as a connector URL',
+          /(paste|add|enter)[^.]{0,60}relay\.api\.vibebrowser\.app\/mcp(?![/\w])/,
+          'the bare /mcp endpoint was presented as a connector URL to paste',
         )
+        // Whenever the bare endpoint IS named, the header form must be named in
+        // the same breath, so nobody reads it as a URL-only option.
+        if (/relay\.api\.vibebrowser\.app\/mcp(?![/\w])/.test(blob)) {
+          assert.match(
+            blob,
+            /x-remote-session/,
+            'the bare /mcp endpoint was named without the header it requires',
+          )
+        }
       })
 
       test('carries no OAuth schema on the integration record', () => {
@@ -288,4 +304,213 @@ describe('hosted connectors document the direct URL contract only', () => {
       }
     })
   }
+})
+
+/** Repo root, resolved from this test file. */
+const REPO_ROOT = fileURLToPath(new URL('../../', import.meta.url))
+
+/** The one hosted-connector URL readers are ever told to paste. */
+const DIRECT_CONNECTOR_URL = 'https://relay.api.vibebrowser.app/mcp/<your-routing-uuid>'
+
+/**
+ * Relay-OAuth markers. Every one of these describes a mechanism the relay does
+ * not expose as an onboarding path, so any of them appearing in reader-facing
+ * content means the docs are teaching a dead flow again.
+ */
+const RELAY_OAUTH_PATTERNS: { name: string; re: RegExp }[] = [
+  { name: 'OAuth 2.1 / OAuth2 branding', re: /oauth\s*2(\.1|\.0)?\b/ },
+  { name: 'PKCE', re: /\bpkce\b/ },
+  { name: 'Dynamic Client Registration', re: /dynamic client registration|\bdcr\b/ },
+  { name: 'relay scopes', re: /browser:read|browser:control/ },
+  { name: 'authorize endpoint', re: /\/oauth\/authorize|\/oauth\/register|\/oauth\/token/ },
+  { name: 'OAuth discovery documents', re: /\.well-known\/oauth/ },
+  { name: 'consent instruction', re: /(approve|approving|complete|completing)[^.]{0,40}consent/ },
+  // "canonical URL" alone is ordinary SEO vocabulary; only the relay-OAuth
+  // sense is forbidden.
+  { name: 'canonical credential-free URL', re: /canonical oauth url|canonical,? (credential|secret)-free/ },
+]
+
+/**
+ * Unrelated OAuth that MUST survive. These are other products' auth (Google,
+ * Gmail, Salesforce, Okta), the extension's own `identity` permission, the
+ * credential vault, OpenCode's client-side `"oauth": false` switch, and demo
+ * terminal copy. The scan skips a LINE when it matches one of these, so a file
+ * is never blanket-exempted — only the specific unrelated sentence is.
+ */
+const UNRELATED_OAUTH_ALLOWLIST: RegExp[] = [
+  /google|gmail|drive|docs|sheets|calendar|workspace/,
+  /salesforce|okta|saml|sso|edgar|stripe|hubspot/,
+  /credential vault|api keys and oauth tokens|oauth tokens:/,
+  /"oauth": false|oauth: false|disabling oauth|pre-registered/,
+  /identity<\/p>|oauth authentication/,
+  // demo terminal transcripts on the /claude and /codex product pages
+  /oauth\.test\.ts|feat\/oauth-fix|add oauth flow|oauth flow ready to merge|fix the oauth test/,
+  // analytics consent, which has nothing to do with MCP auth
+  /analytics|telemetry|cookie/,
+]
+
+function walk(dir: string, out: string[] = []): string[] {
+  for (const entry of readdirSync(dir)) {
+    if (entry === 'node_modules' || entry === '.next' || entry.startsWith('.')) continue
+    const full = `${dir}/${entry}`
+    if (statSync(full).isDirectory()) walk(full, out)
+    else if (/\.(tsx?|md)$/.test(entry)) out.push(full)
+  }
+  return out
+}
+
+/**
+ * ACTIVE, READER-FACING CONTENT.
+ *
+ * Everything a reader can actually reach: the routed app, shared components,
+ * the integration catalog, the standalone policy pages, and the published blog.
+ * `launch/` is excluded here because those drafts are unrendered and carry a
+ * SUPERSEDED banner instead — asserted separately below.
+ */
+function activeContentFiles(): string[] {
+  const files = [
+    ...walk(`${REPO_ROOT}app`),
+    ...walk(`${REPO_ROOT}components`),
+    ...walk(`${REPO_ROOT}blog`),
+    `${REPO_ROOT}lib/integrations.ts`,
+    `${REPO_ROOT}privacy-policy.tsx`,
+    `${REPO_ROOT}terms-of-service.tsx`,
+    `${REPO_ROOT}landing-page.tsx`,
+  ]
+  return files.filter((f) => !f.includes('/__tests__/'))
+}
+
+describe('active content teaches only the direct connector contract', () => {
+  test('no active, reader-facing file teaches relay OAuth', () => {
+    const offences: string[] = []
+
+    for (const file of activeContentFiles()) {
+      const rel = file.slice(REPO_ROOT.length)
+      const lines = readFileSync(file, 'utf8').split('\n')
+
+      lines.forEach((raw, i) => {
+        const line = raw.toLowerCase()
+        // Negations ("there is no consent screen", "no scopes to approve") are
+        // the correction, not the regression.
+        if (/\bno\b[^.]{0,30}(consent|scope|oauth)/.test(line)) return
+        if (UNRELATED_OAUTH_ALLOWLIST.some((re) => re.test(line))) return
+
+        for (const { name, re } of RELAY_OAUTH_PATTERNS) {
+          if (re.test(line)) offences.push(`${rel}:${i + 1} [${name}] ${raw.trim().slice(0, 120)}`)
+        }
+      })
+    }
+
+    assert.deepEqual(offences, [], `relay OAuth content is live again:\n${offences.join('\n')}`)
+  })
+
+  test('the catalog hands out an HTTPS /mcp/<uuid> URL and never a wss:// MCP URL', () => {
+    const blob = JSON.stringify(INTEGRATIONS)
+    assert.ok(
+      blob.includes(DIRECT_CONNECTOR_URL),
+      'the direct HTTPS connector URL must be present in the catalog',
+    )
+    assert.doesNotMatch(
+      blob,
+      /"code":"wss:|"url":"wss:|wss:\/\/[^"']*\/mcp/i,
+      'a wss:// address was presented as the MCP endpoint — the connector is Streamable HTTP',
+    )
+    // Every connector URL we print must be https, never http.
+    assert.doesNotMatch(blob, /http:\/\/relay\.api\.vibebrowser\.app/)
+  })
+
+  test('the verified Codex command is shared from one constant, not retyped', () => {
+    assert.equal(
+      CODEX_ADD_REMOTE_CMD,
+      `codex mcp add vibe --url ${DIRECT_CONNECTOR_URL}`,
+      'the Codex command must match the form verified against `codex mcp add --help`',
+    )
+    const codex = getIntegration('openai-codex-cli')!
+    const rendered = [
+      ...codex.steps.map((s) => `${s.title} ${s.body} ${s.config?.code ?? ''}`),
+      ...codex.faqs.map((f) => `${f.q} ${f.a}`),
+    ].join(' ')
+    assert.ok(
+      rendered.includes(CODEX_ADD_REMOTE_CMD),
+      'the Codex page must render the shared command constant',
+    )
+    // Codex has no hosted connector menu we have driven — the shared TOML file
+    // is the integration surface, and saying otherwise invents a click path.
+    assert.doesNotMatch(rendered.toLowerCase(), /codex[^.]{0,40}connectors (menu|tab|panel)/)
+    assert.match(rendered, /~\/\.codex\/config\.toml/)
+  })
+
+  test('the header form and the path form are distinguished for the reader', () => {
+    for (const slug of CONNECTOR_SLUGS) {
+      const blob = connector(slug)
+        .faqs.map((f) => `${f.q} ${f.a}`)
+        .join(' ')
+        .toLowerCase()
+      assert.match(blob, /x-remote-session/, `${slug} must explain the header form exists`)
+      assert.match(
+        blob,
+        /(one text field|no header editor|cannot send|only accept a url|takes a bare url)/,
+        `${slug} must say WHY a hosted connector UI needs the path form`,
+      )
+    }
+  })
+
+  test('every connector guide tells an OAuth-era user how to migrate', () => {
+    for (const slug of CONNECTOR_SLUGS) {
+      const blob = connector(slug)
+        .faqs.map((f) => `${f.q} ${f.a}`)
+        .join(' ')
+        .toLowerCase()
+      assert.match(blob, /consent screen/, `${slug} must acknowledge the old consent-screen setup`)
+      assert.match(
+        blob,
+        /(remove|delete)[^.]{0,60}(connector|app|entry)/,
+        `${slug} must tell the reader to remove the old connector`,
+      )
+      assert.match(blob, /(re-?add|add it again|create app)/, `${slug} must tell them to re-add it`)
+    }
+  })
+
+  test('unrendered launch drafts are clearly marked superseded', () => {
+    const drafts = readdirSync(`${REPO_ROOT}launch`).filter((f) => f.endsWith('.md'))
+    assert.ok(drafts.length >= 4, 'expected the launch drafts to still be present')
+    for (const draft of drafts) {
+      const text = readFileSync(`${REPO_ROOT}launch/${draft}`, 'utf8')
+      assert.match(text, /SUPERSEDED/, `${draft} still reads as postable`)
+      assert.match(text, /do not post as written/i, `${draft} needs an explicit do-not-post`)
+      assert.ok(
+        text.includes(DIRECT_CONNECTOR_URL),
+        `${draft} must name the URL that actually works`,
+      )
+      // The banner has to appear before the stale body, or a skimmer misses it.
+      // Measure the stale copy in the BODY (after the banner's closing rule),
+      // so this cannot be satisfied by the banner quoting OAuth itself.
+      const bannerEnd = text.indexOf('> ---')
+      assert.ok(bannerEnd > -1, `${draft}: the banner must end with a rule`)
+      const body = text.slice(bannerEnd)
+      assert.match(
+        body,
+        /OAuth 2\.1|browser:read|consent screen/i,
+        `${draft}: expected the historical copy to be preserved verbatim below the banner`,
+      )
+      assert.ok(text.indexOf('SUPERSEDED') < bannerEnd, `${draft}: banner must come first`)
+    }
+  })
+
+  test('published blog posts never hand out a bare /mcp connector URL to paste', () => {
+    for (const file of walk(`${REPO_ROOT}blog`)) {
+      const text = readFileSync(file, 'utf8').toLowerCase()
+      if (!text.includes('relay.api.vibebrowser.app')) continue
+      const rel = file.slice(REPO_ROOT.length)
+      // A post may use the bare endpoint ONLY with the header form, which is
+      // the supported shape for header-capable MCP clients.
+      if (/relay\.api\.vibebrowser\.app\/mcp(?![/\w<])/.test(text)) {
+        assert.match(
+          text,
+          /x-remote-session/,
+          `${rel} names the bare /mcp endpoint without the required header`,
+        )
+      }
+    }
+  })
 })

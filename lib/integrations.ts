@@ -123,6 +123,9 @@ const toml = (location: string, code: string): ConfigBlock => ({
   code,
 })
 
+/** The one hosted-connector URL shape. Single literal so nothing drifts. */
+const RELAY_MCP_URL_PLACEHOLDER = 'https://relay.api.vibebrowser.app/mcp/<your-routing-uuid>'
+
 const CLAUDE_DESKTOP_JSON = `{
   "mcpServers": {
     "vibe": {
@@ -153,11 +156,21 @@ args = ["-y", "@vibebrowser/mcp"]`
 const CODEX_ADD_CMD = `codex mcp add vibe -- npx -y @vibebrowser/mcp`
 
 /**
- * Hosted (Streamable HTTP) alternative for Codex CLI / Codex Desktop. The
- * routing UUID rides in the URL path — this is the same direct connector
- * contract the Claude custom connector uses.
+ * Hosted (Streamable HTTP) form for Codex CLI / Codex Desktop / the ChatGPT
+ * desktop app. Exported so every surface renders the SAME string — a command
+ * that drifts between the page, the FAQ and the blog is how readers end up
+ * pasting something that does not parse.
+ *
+ * VERIFIED (Aug 2026), not inferred:
+ *   $ codex mcp add --help
+ *     --url <URL>   URL for a streamable HTTP MCP server
+ *   $ CODEX_HOME=$tmp codex mcp add vibe --url <url>
+ *     writes  [mcp_servers.vibe]\n url = "<url>"  into $CODEX_HOME/config.toml
+ * Codex has no separate hosted "Connectors" menu we have driven, so do not
+ * describe one — the shared ~/.codex/config.toml IS the integration surface,
+ * per developers.openai.com/codex/extend/mcp.
  */
-const CODEX_ADD_REMOTE_CMD = `codex mcp add vibe --url https://relay.api.vibebrowser.app/mcp/<your-routing-uuid>`
+export const CODEX_ADD_REMOTE_CMD = `codex mcp add vibe --url ${RELAY_MCP_URL_PLACEHOLDER}`
 
 const COPILOT_JSON = `{
   "github.copilot.chat.mcpServers": {
@@ -212,7 +225,7 @@ const connectStep = {
  * one. Because the UUID IS the credential, the security callout below is a
  * first-class page section.
  */
-const RELAY_MCP_URL = 'https://relay.api.vibebrowser.app/mcp/<your-routing-uuid>'
+const RELAY_MCP_URL = RELAY_MCP_URL_PLACEHOLDER
 
 const remoteUrlStep = {
   title: 'Copy your agent connection URL from the extension',
@@ -260,6 +273,14 @@ const REMOTE_CONNECTOR_FAQS: Faq[] = [
   {
     q: 'What exactly do I paste into the connector?',
     a: 'One URL: https://relay.api.vibebrowser.app/mcp/ followed by your routing UUID, which you copy from the Vibe extension → Settings → Agent connection URL. There is no consent screen, no client id, no secret field and no scopes to approve — the URL is the whole configuration.',
+  },
+  {
+    q: 'Why does this use a URL path when the /mcp docs use an X-Remote-Session header?',
+    a: 'Because of what the client can send, not because they are different products. A full MCP client (Claude Code, Cursor, VS Code, Codex, OpenCode, Copilot CLI) lets you set request headers, so it can point at https://relay.api.vibebrowser.app/mcp and pass the routing UUID as an X-Remote-Session header — which keeps the credential out of URLs, proxy logs and browser history. A hosted connector UI (Claude on the web, ChatGPT apps) gives you one text field and no header editor, so the only place the UUID can ride is the URL path: https://relay.api.vibebrowser.app/mcp/<your-routing-uuid>. Same relay, same browser, same tools. If your client can send headers, prefer the header form.',
+  },
+  {
+    q: 'I set this up earlier with a consent screen — what do I do now?',
+    a: 'Remove the old connector and add it again with the direct URL. In Claude: Settings → Connectors, delete the Vibe entry, then Add → Add custom connector and paste https://relay.api.vibebrowser.app/mcp/ followed by your routing UUID. In ChatGPT: Settings → Security and login → Developer mode → Plugins, delete the old app, then Create app with the same URL. Editing the URL in place is unreliable because clients cache what they discovered the first time. Once re-added, no approval step appears — the connector just starts listing tools.',
   },
   {
     q: 'Is the UUID in the connector URL a secret?',
@@ -458,7 +479,7 @@ export const INTEGRATIONS: Integration[] = [
     solution: [
       'One MCP entry and Codex can drive the Chrome you already use, with your logins intact.',
       'Structured page snapshots keep Codex context small and its actions targeted.',
-      'Runs locally — the automation never leaves your machine.',
+      'Two transports, and you pick per machine: the local STDIO server keeps every byte on your machine, or the hosted URL skips the local process entirely. Only one of them is local — see the note on each step.',
     ],
     steps: [
       extensionStep,
@@ -469,9 +490,9 @@ export const INTEGRATIONS: Integration[] = [
         config: toml('~/.codex/config.toml', CODEX_TOML),
       },
       {
-        title: 'Or point Codex at the hosted connector URL instead',
+        title: 'Or point Codex at the hosted connector URL instead (not local)',
         body:
-          'Codex CLI and Codex Desktop can also talk to the relay over Streamable HTTP, with no local process. Copy your Agent connection URL from the Vibe icon → Settings → "Enable external AI agent control" → Remote (internet), then register it as a remote server. That URL contains your routing UUID and is a credential — keep it out of committed files and screenshots.',
+          'Codex reads MCP servers from ~/.codex/config.toml, and the ChatGPT desktop app and the Codex IDE extension read that same file — so registering the server once covers all three surfaces. Copy your Agent connection URL from the Vibe icon → Settings → "Enable external AI agent control" → Remote (internet), then run the command below; it writes a [mcp_servers.vibe] table with a url key. Be clear-eyed about the trade: unlike the STDIO step above, this transport is NOT local — tool calls and page content travel through the Vibe relay. The URL contains your routing UUID and is a credential, so keep it out of committed files and screenshots.',
         config: {
           location: 'terminal',
           language: 'bash' as const,
@@ -483,7 +504,7 @@ export const INTEGRATIONS: Integration[] = [
     faqs: [
       {
         q: 'Can Codex use the hosted relay instead of a local server?',
-        a: 'Yes. Run codex mcp add vibe --url https://relay.api.vibebrowser.app/mcp/<your-routing-uuid> with the routing UUID from the Vibe extension. Codex Desktop uses the same command and the same URL. Nothing else to configure — there is no consent screen and no client registration.',
+        a: `Yes. Run ${CODEX_ADD_REMOTE_CMD} with the routing UUID from the Vibe extension; Codex writes a [mcp_servers.vibe] table with a url key into ~/.codex/config.toml. Because Codex CLI, Codex Desktop and the Codex IDE extension all read that one file, registering it once covers all three — there is no separate in-app connector menu to visit. Note the trade-off: this transport routes through the Vibe relay, so it is not the local path.`,
       },
       {
         q: 'Does OpenAI Codex CLI support MCP servers?',
