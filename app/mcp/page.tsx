@@ -867,9 +867,9 @@ export default function McpPage() {
               </h2>
               <p className="text-[#9aa0a6] max-w-2xl mx-auto">
                 Claude on the web (and Cowork, and mobile) and ChatGPT on the web cannot run a local
-                process or send a custom header — they accept one URL. Both work, but not on the same
-                path: Claude is verified on the canonical OAuth URL, while on ChatGPT only the
-                per-user connector URL is verified, on a paid plan.
+                process or send a custom header — they accept one URL, so the routing UUID rides in
+                the URL path instead. Both work: Claude on the web is verified, and on ChatGPT the
+                same per-user connector URL is verified on a paid plan.
                 Step-by-step guides, including where to click, what &ldquo;connected&rdquo; looks like,
                 and how to prove it works:
               </p>
@@ -885,13 +885,13 @@ export default function McpPage() {
                     <Globe className="w-5 h-5 text-[#8ab4f8]" />
                   </div>
                   <Badge variant="secondary" className="bg-[#81c995]/10 text-[#81c995] border-[#81c995]/20 text-[10px]">
-                    {CLAUDE_STATUS?.badge ?? "OAuth verified"}
+                    {CLAUDE_STATUS?.badge ?? "Connector verified"}
                   </Badge>
                 </div>
                 <div>
                   <h3 className="font-medium text-[#e8eaed] text-base">Claude connector setup</h3>
                   <p className="text-xs text-[#9aa0a6] mt-1">
-                    Settings → Connectors → Add → Add custom connector. Paste the canonical OAuth URL,
+                    Settings → Connectors → Add → Add custom connector. Paste your connector URL,
                     27 tools appear. Works in claude.ai, Cowork, and mobile.
                   </p>
                 </div>
@@ -916,8 +916,8 @@ export default function McpPage() {
                   <h3 className="font-medium text-[#e8eaed] text-base">ChatGPT connector setup</h3>
                   <p className="text-xs text-[#9aa0a6] mt-1">
                     Settings → Security and login → Developer mode, then Plugins → Create app. Needs a
-                    paid plan — on a free account Create app silently no-ops. The per-user connector
-                    URL is the path verified here; the canonical OAuth URL is unverified on ChatGPT.
+                    paid plan — on a free account Create app silently no-ops, so the URL field never
+                    appears. The per-user connector URL is the path verified here.
                   </p>
                 </div>
                 <span className="text-sm text-[#8ab4f8] group-hover:underline mt-auto">
@@ -927,17 +927,12 @@ export default function McpPage() {
             </div>
 
             <p className="text-sm text-[#9aa0a6] mt-6 text-center">
-              Neither needs domain verification or an allowlist. Both accept the canonical OAuth URL{" "}
-              <code className="text-[#9aa0a6]">https://relay.api.vibebrowser.app/mcp</code>{" "}
-              — it is identical for every user and contains no credential. You approve a consent
-              screen for the <code className="text-[#9aa0a6]">browser:read</code> and{" "}
-              <code className="text-[#9aa0a6]">browser:control</code> scopes once, and the grant
-              survives our deploys. That flow is verified on Claude. On ChatGPT it is not: reaching
-              the URL field requires a paid plan, because Plugins → Create app silently no-ops on a
-              free account. The older per-user URL{" "}
+              Neither needs domain verification, an allowlist, or a consent screen. Both take the
+              same direct connector URL{" "}
               <code className="text-[#9aa0a6]">https://relay.api.vibebrowser.app/mcp/&lt;your-routing-uuid&gt;</code>{" "}
-              still works and is the right choice for headless clients that cannot show a consent
-              screen.{" "}
+              — copy it from the Vibe extension, paste it, done. That is verified on Claude on the
+              web. On ChatGPT it needs a paid plan: Plugins → Create app silently no-ops on a free
+              account, so the URL field never appears.{" "}
               <strong className="text-[#e8eaed]">That per-user URL is a bearer credential for your browser</strong>
               : do not share it, and regenerate it in the extension if it leaks. See all{" "}
               <Link href="/integrations" className="text-[#8ab4f8] hover:underline">
@@ -1340,7 +1335,7 @@ export default function McpPage() {
                   Can Claude or ChatGPT in the browser connect to this?
                 </AccordionTrigger>
                 <AccordionContent className="text-[#9aa0a6]">
-                  Yes, both — via a connector, not the header config above. Claude on the web takes it under Settings → Connectors → Add → Add custom connector; ChatGPT on the web needs Developer mode switched on under Settings → Security and login, then Plugins → Create app, which requires a paid plan. Neither requires domain verification or an allowlist. The recommended URL is the canonical OAuth endpoint <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">https://relay.api.vibebrowser.app/mcp</code>: it holds no secret, the client registers itself via OAuth 2.1 Dynamic Client Registration, and you approve <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">browser:read</code> and <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">browser:control</code> once. We have verified that OAuth path on Claude. On ChatGPT it is unverified — Create app no-ops on a free account, so what we have verified there is the older per-user URL <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">https://relay.api.vibebrowser.app/mcp/&lt;your-routing-uuid&gt;</code>, which also remains the right choice for headless clients. Full walkthroughs: <Link href="/integrations/claude-connector" className="text-[#8ab4f8] hover:underline">Claude connector setup</Link> and <Link href="/integrations/chatgpt-connector" className="text-[#8ab4f8] hover:underline">ChatGPT connector setup</Link>.
+                  Yes, both — via a connector, not the header config above. Claude on the web takes it under Settings → Connectors → Add → Add custom connector; ChatGPT on the web needs Developer mode switched on under Settings → Security and login, then Plugins → Create app, which requires a paid plan. Neither requires domain verification, an allowlist, or a consent screen. The URL you paste is the direct connector URL <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">https://relay.api.vibebrowser.app/mcp/&lt;your-routing-uuid&gt;</code>, copied from the Vibe extension — it is a bearer credential for your browser, so keep it private and regenerate it if it leaks. Verified on Claude on the web; on ChatGPT verified on a paid plan, because Create app no-ops on a free account. Full walkthroughs: <Link href="/integrations/claude-connector" className="text-[#8ab4f8] hover:underline">Claude connector setup</Link> and <Link href="/integrations/chatgpt-connector" className="text-[#8ab4f8] hover:underline">ChatGPT connector setup</Link>.
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
