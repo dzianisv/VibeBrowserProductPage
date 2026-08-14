@@ -47,3 +47,26 @@ After adding the secrets, the GitHub Action will automatically:
 - Deploy to production when you push to `main` or `master` branch
 - Create preview deployments for pull requests
 - Comment the deployment URLs on commits and PRs
+## Waitlist Snapshot secrets (`.github/workflows/waitlist-snapshot.yml`)
+
+The daily snapshot no longer calls Brevo from the runner — Brevo pins API keys to
+an IP allowlist and GitHub-hosted runners change egress IP every run. It calls
+the deployed, token-authenticated route instead.
+
+Generate one dedicated token and set it in BOTH places (same value):
+
+```bash
+TOKEN="$(openssl rand -hex 32)"
+
+# 1) Vercel (production runtime that holds BREVO_API_KEY)
+vercel env add WAITLIST_SNAPSHOT_TOKEN production   # paste $TOKEN
+
+# 2) GitHub Actions
+gh secret set WAITLIST_SNAPSHOT_TOKEN --body "$TOKEN"
+gh secret set WAITLIST_COUNT_URL --body "https://www.vibebrowser.app/api/waitlist/count"
+```
+
+Notes:
+- `BREVO_API_KEY` must NOT be set on the snapshot workflow; a test asserts it isn't.
+- If `WAITLIST_SNAPSHOT_TOKEN` is unset on Vercel the route returns 503 (disabled),
+  never open. Rotate by updating both places together.
