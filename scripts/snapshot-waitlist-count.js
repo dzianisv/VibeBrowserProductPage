@@ -12,9 +12,23 @@
  * one request, no pagination over 400+ contacts, and no contact emails ever
  * enter this process.
  *
+ * TWO SOURCES, SAME NUMBER
+ * ------------------------
+ * Brevo pins API keys to an IP allowlist, and GitHub-hosted runners change
+ * egress IP every run (401 "unrecognised IP address"). So in CI this script
+ * reads the count through the deployed, token-authenticated proxy route
+ * `/api/waitlist/count` on Vercel — whose egress Brevo already trusts because
+ * live signups go through it. Locally (fixed, allowlisted IP) it still calls
+ * Brevo directly. Either way the number is the live Brevo list size; there is
+ * no cache or fallback constant.
+ *
  * Env:
- *   BREVO_API_KEY   Brevo v3 API key (required)
- *   BREVO_LIST_ID   Numeric id of the waitlist contact list (default: 3)
+ *   Proxy mode (preferred, used by CI) — both required together:
+ *     WAITLIST_COUNT_URL        https://www.vibebrowser.app/api/waitlist/count
+ *     WAITLIST_SNAPSHOT_TOKEN   Bearer token shared with the deployed route
+ *   Direct mode (local dev, allowlisted IP):
+ *     BREVO_API_KEY   Brevo v3 API key
+ *     BREVO_LIST_ID   Numeric id of the waitlist contact list (default: 3)
  *
  * Usage:
  *   node scripts/snapshot-waitlist-count.js            # append/refresh today's row
@@ -47,16 +61,77 @@ of adding a duplicate, so the job is safe to retry.
 }
 
 const BREVO_API = 'https://api.brevo.com/v3';
-const apiKey = process.env.BREVO_API_KEY;
-const listId = Number.parseInt(process.env.BREVO_LIST_ID ?? '3', 10);
 
-if (!apiKey) {
-  console.error('❌ Error: BREVO_API_KEY is not set.');
-  process.exit(1);
+/**
+ * Decide which source to read, purely from env. Exported for tests.
+ * Proxy wins when fully configured; direct Brevo is the local-dev path.
+ *
+ * @param {Record<string, string | undefined>} [env]
+ * @returns {{kind: 'proxy', url: string, token: string} | {kind: 'brevo', apiKey: string, listId: number}}
+ */
+export function resolveSource(env = process.env) {
+  const url = (env.WAITLIST_COUNT_URL ?? '').trim();
+  const token = (env.WAITLIST_SNAPSHOT_TOKEN ?? '').trim();
+
+  if (url || token) {
+    if (!url || !token) {
+      throw new Error(
+        'WAITLIST_COUNT_URL and WAITLIST_SNAPSHOT_TOKEN must be set together (proxy mode).'
+      );
+    }
+    if (!url.startsWith('https://')) {
+      throw new Error('WAITLIST_COUNT_URL must be an https:// URL; refusing to send the token.');
+    }
+    return { kind: 'proxy', url, token };
+  }
+
+  const apiKey = env.BREVO_API_KEY;
+  if (!apiKey) {
+    throw new Error(
+      'No count source configured: set WAITLIST_COUNT_URL + WAITLIST_SNAPSHOT_TOKEN, or BREVO_API_KEY.'
+    );
+  }
+  const listId = Number.parseInt(env.BREVO_LIST_ID ?? '3', 10);
+  if (!Number.isInteger(listId) || listId < 1) {
+    throw new Error(`BREVO_LIST_ID is not a valid list id: ${env.BREVO_LIST_ID}`);
+  }
+  return { kind: 'brevo', apiKey, listId };
 }
-if (!Number.isInteger(listId) || listId < 1) {
-  console.error(`❌ Error: BREVO_LIST_ID is not a valid list id: ${process.env.BREVO_LIST_ID}`);
-  process.exit(1);
+
+/**
+ * Normalize either source's JSON body into {total, blacklisted}. Exported for tests.
+ *
+ * @param {{totalSubscribers?: unknown, totalBlacklisted?: unknown, blacklisted?: unknown} | null | undefined} body
+ * @returns {{total: number, blacklisted: number}}
+ */
+export function parseCounts(body) {
+  const total = Number(body?.totalSubscribers);
+  if (!Number.isFinite(total)) {
+    throw new Error('Response contained no usable totalSubscribers');
+  }
+  return { total, blacklisted: Number(body?.totalBlacklisted ?? body?.blacklisted) || 0 };
+}
+
+/**
+ * @param {ReturnType<typeof resolveSource>} source
+ * @param {typeof fetch} [fetchImpl]
+ * @returns {Promise<{total: number, blacklisted: number}>}
+ */
+export async function fetchCounts(source, fetchImpl = fetch) {
+  /** @type {[string, Record<string, string>]} */
+  const [url, headers] =
+    source.kind === 'proxy'
+      ? [source.url, { accept: 'application/json', authorization: `Bearer ${source.token}` }]
+      : [
+          `${BREVO_API}/contacts/lists/${source.listId}`,
+          { accept: 'application/json', 'api-key': source.apiKey },
+        ];
+
+  const res = await fetchImpl(url, { headers });
+  if (!res.ok) {
+    throw new Error(`${source.kind} count request failed: ${res.status} ${await res.text()}`);
+  }
+  return parseCounts(await res.json());
 }
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -80,24 +155,6 @@ function todayUtc() {
   return new Date().toISOString().slice(0, 10);
 }
 
-async function fetchListCounts() {
-  const res = await fetch(`${BREVO_API}/contacts/lists/${listId}`, {
-    headers: { accept: 'application/json', 'api-key': apiKey },
-  });
-
-  if (!res.ok) {
-    throw new Error(`Brevo API error: ${res.status} ${await res.text()}`);
-  }
-
-  const body = await res.json();
-  const total = Number(body.totalSubscribers);
-  if (!Number.isFinite(total)) {
-    throw new Error(`Brevo returned no usable totalSubscribers for list ${listId}`);
-  }
-
-  return { total, blacklisted: Number(body.totalBlacklisted) || 0 };
-}
-
 /** Split the existing file into its comment/header preamble and data rows. */
 function readExisting() {
   if (!fs.existsSync(csvPath)) return [];
@@ -113,7 +170,7 @@ function render(rows) {
 }
 
 async function main() {
-  const { total, blacklisted } = await fetchListCounts();
+  const { total, blacklisted } = await fetchCounts(resolveSource());
   const date = todayUtc();
   const row = `${date},${total},${blacklisted}`;
 
@@ -143,7 +200,10 @@ async function main() {
   console.log(`✅ ${action}: ${row} -> data/waitlist-count.csv`);
 }
 
-main().catch((error) => {
-  console.error('❌ Error:', error.message);
-  process.exit(1);
-});
+// Only run when executed directly; importing this file (tests) must be side-effect free.
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch((error) => {
+    console.error('❌ Error:', error.message);
+    process.exit(1);
+  });
+}

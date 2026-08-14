@@ -47,12 +47,30 @@ jobs:
       # CI anyway (no .env file), so install just that.
       - run: npm install --no-save --no-audit --no-fund dotenv
 
-      - name: Snapshot Brevo waitlist count
+      # WHY NOT CALL BREVO DIRECTLY: Brevo pins API keys to an IP allowlist and
+      # GitHub-hosted runners get a new egress IP every run (401 "unrecognised IP
+      # address", run 31679376529). We read the live count through the deployed,
+      # token-authenticated production route instead, whose Vercel egress Brevo
+      # already trusts. The Brevo key never reaches this runner.
+      - name: Verify snapshot credentials are present
         env:
-          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
-          # The list id is not a secret (it is 3, and it is in the script's
-          # default), but keeping it here makes the job's input explicit.
-          BREVO_LIST_ID: '3'
+          WAITLIST_COUNT_URL: ${{ secrets.WAITLIST_COUNT_URL }}
+          WAITLIST_SNAPSHOT_TOKEN: ${{ secrets.WAITLIST_SNAPSHOT_TOKEN }}
+        run: |
+          set -euo pipefail
+          # Fail closed and loudly: a missing secret must never degrade into a
+          # skipped snapshot or a stale/mocked number.
+          : "${WAITLIST_COUNT_URL:?WAITLIST_COUNT_URL secret is not set}"
+          : "${WAITLIST_SNAPSHOT_TOKEN:?WAITLIST_SNAPSHOT_TOKEN secret is not set}"
+          case "$WAITLIST_COUNT_URL" in
+            https://*) ;;
+            *) echo "WAITLIST_COUNT_URL must be https://"; exit 1 ;;
+          esac
+
+      - name: Snapshot waitlist count via production endpoint
+        env:
+          WAITLIST_COUNT_URL: ${{ secrets.WAITLIST_COUNT_URL }}
+          WAITLIST_SNAPSHOT_TOKEN: ${{ secrets.WAITLIST_SNAPSHOT_TOKEN }}
         run: node scripts/snapshot-waitlist-count.js
 
       - name: Commit updated snapshot
