@@ -1,10 +1,7 @@
 import type { Metadata } from 'next'
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
-import Script from 'next/script'
 import './globals.css'
-
-const GA_ID = 'G-EYZHHTHR57'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://agentlabs.cc'),
@@ -104,15 +101,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
-      <head>
-        <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-          strategy="afterInteractive"
-        />
-        <Script id="ga-init" strategy="afterInteractive">
-          {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}');`}
-        </Script>
-      </head>
       <body>
         <script
           type="application/ld+json"
