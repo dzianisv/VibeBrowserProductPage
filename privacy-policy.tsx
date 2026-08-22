@@ -261,10 +261,14 @@ export default function PrivacyPolicy() {
                       store full card details. We receive subscription status and customer identifiers.</li>
                   </ul>
 
-                  <h3 className="font-semibold text-base mb-2">To Langfuse (optional LLM tracing — off by default):</h3>
+                  <h3 className="font-semibold text-base mb-2">To Langfuse (LLM tracing — currently on by default in the version live on the Chrome Web Store):</h3>
                   <ul className="list-disc pl-5 space-y-1 text-muted-foreground mb-4">
-                    <li>Disabled unless you supply your own Langfuse credentials. If you enable it, your prompts, model
-                      inputs/outputs and page content captured in traces are sent to <strong>your</strong> Langfuse project.</li>
+                    <li>The Chrome Web Store-served build (v1.1.34) ships Vibe&apos;s own Langfuse write key and traces
+                      client-side by default to Vibe&apos;s self-hosted <code>langfuse.vibebrowser.app</code> instance:
+                      your prompts, model inputs/outputs, and page content captured in traces are sent there. A merged
+                      fix removes this client-side initialization entirely (a permanent no-op, not a user-configurable
+                      toggle); this will read &quot;disabled&quot; once a Chrome Web Store release containing that fix is
+                      confirmed live. See the <a href="/subprocessors" className="text-purple-600 hover:underline">subprocessor list</a> for current status.</li>
                   </ul>
 
                   <h3 className="font-semibold text-base mb-2">To Supabase (account/auth backend):</h3>
@@ -366,7 +370,7 @@ export default function PrivacyPolicy() {
                     <li><strong>Sentry</strong> — error tracking (<a href="https://sentry.io/privacy/" className="text-purple-600 hover:underline">policy</a>)</li>
                     <li><strong>Google Analytics 4</strong> — product analytics (<a href="https://policies.google.com/privacy" className="text-purple-600 hover:underline">policy</a>)</li>
                     <li><strong>Stripe</strong> — payments (<a href="https://stripe.com/privacy" className="text-purple-600 hover:underline">policy</a>)</li>
-                    <li><strong>Langfuse</strong> — optional, self-configured LLM tracing (<a href="https://langfuse.com/privacy" className="text-purple-600 hover:underline">policy</a>)</li>
+                    <li><strong>Langfuse</strong> — LLM tracing, currently active by default in the live extension build; self-hosted at <code>langfuse.vibebrowser.app</code> (<a href="/subprocessors" className="text-purple-600 hover:underline">current status</a>, <a href="https://langfuse.com/privacy" className="text-purple-600 hover:underline">Langfuse policy</a>)</li>
                     <li><strong>Supabase</strong> — account/auth backend and waitlist database (<a href="https://supabase.com/privacy" className="text-purple-600 hover:underline">policy</a>)</li>
                     <li><strong>Chatwoot</strong> — self-hosted customer support desk (no third-party data processor beyond our own infrastructure)</li>
                     <li><strong>Cloudflare</strong> — CDN, DNS, and the support-email Worker (<a href="https://www.cloudflare.com/privacypolicy/" className="text-purple-600 hover:underline">policy</a>)</li>

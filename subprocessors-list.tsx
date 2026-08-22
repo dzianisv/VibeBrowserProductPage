@@ -52,8 +52,8 @@ const subprocessors: Subprocessor[] = [
     name: "Langfuse",
     purpose: "LLM tracing/observability",
     dataShared: "Prompts, model inputs/outputs, page content captured in traces",
-    region: "Vibe's own Langfuse project (cloud.langfuse.com), United States",
-    status: "Fixed in code as of commit 33aa36416 (AGE-1026): the extension now refuses to initialize Langfuse with a write-capable key inside the extension runtime, so client-side tracing is disabled by design going forward. That fix is NOT yet in the build currently served on the Chrome Web Store (v1.1.34): the live, publicly installed extension still ships Vibe's own Langfuse write key and traces client-side by default. This entry will be corrected to \"self-configured / off by default\" once a CWS release containing the fix is confirmed live — do not treat this as already resolved for the version end users actually run today.",
+    region: "Vibe-operated, self-hosted instance at langfuse.vibebrowser.app (confirmed from the configured client's baseUrl in the currently served build; hosting region unverified). Not cloud.langfuse.com — that hostname appears only as the Langfuse SDK's generic fallback default, never as the configured destination.",
+    status: "The live, publicly installed extension (Chrome Web Store v1.1.34) still ships Vibe's own Langfuse write key and traces client-side to langfuse.vibebrowser.app by default. A merged fix disables extension-side Langfuse initialization entirely going forward (permanent no-op, not a self-configured/off-by-default toggle). This entry will be updated to reflect client-side tracing fully disabled once a CWS release containing that fix is confirmed live — do not treat this as already resolved for the version end users run today.",
   },
   {
     name: "Sentry",
