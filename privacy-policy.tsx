@@ -406,7 +406,8 @@ export default function PrivacyPolicy() {
                   <ul className="list-disc pl-5 space-y-1 text-muted-foreground mb-4">
                     <li><strong>Analytics:</strong> consent setting in the Extension — see the{" "}
                       <Link href="/telemetry" className="text-purple-600 hover:underline">Telemetry &amp; Support page</Link> for exactly what this controls and how the opt-out is enforced.</li>
-                    <li><strong>Error tracking:</strong> Extension settings</li>
+                    <li><strong>Error tracking:</strong> no separate opt-out exists today; disabling the Extension stops reports. See the{" "}
+                      <Link href="/telemetry" className="text-purple-600 hover:underline">Telemetry &amp; Support page</Link>.</li>
                     <li><strong>Model providers:</strong> you choose which ones to configure</li>
                   </ul>
 
@@ -518,13 +519,13 @@ export default function PrivacyPolicy() {
                     </tr>
                     <tr className="border-b">
                       <td className="py-2 px-3">Health information</td>
-                      <td className="py-2 px-3 text-red-600 font-medium">NO</td>
-                      <td className="py-2 px-3 text-muted-foreground">Not collected</td>
+                      <td className="py-2 px-3 text-amber-600 font-medium">POSSIBLE IN TASK CONTENT</td>
+                      <td className="py-2 px-3 text-muted-foreground">Not requested as a separate category, but health-related page content may be processed if you direct the agent to such a page</td>
                     </tr>
                     <tr className="border-b">
                       <td className="py-2 px-3">Financial information</td>
-                      <td className="py-2 px-3 text-red-600 font-medium">NO</td>
-                      <td className="py-2 px-3 text-muted-foreground">Payments handled by Stripe; we do not receive or store card details</td>
+                      <td className="py-2 px-3 text-amber-600 font-medium">POSSIBLE IN TASK CONTENT</td>
+                      <td className="py-2 px-3 text-muted-foreground">Payments are handled by Stripe and we do not receive card details, but financial page content may be processed if you direct the agent to such a page</td>
                     </tr>
                     <tr className="border-b">
                       <td className="py-2 px-3">Authentication information</td>
@@ -533,8 +534,8 @@ export default function PrivacyPolicy() {
                     </tr>
                     <tr className="border-b">
                       <td className="py-2 px-3">Personal communications</td>
-                      <td className="py-2 px-3 text-amber-600 font-medium">TRANSIT ONLY</td>
-                      <td className="py-2 px-3 text-muted-foreground">The agent may read page content, including messages, during a task; it transits the relay but is not stored by us</td>
+                      <td className="py-2 px-3 text-amber-600 font-medium">PROCESSED DURING TASKS</td>
+                      <td className="py-2 px-3 text-muted-foreground">The agent may read messages during a task and send them to your selected model provider. The live v1.1.34 build may also retain them in Vibe-hosted Langfuse traces; the replacement build disables client tracing</td>
                     </tr>
                     <tr className="border-b">
                       <td className="py-2 px-3">Location</td>
@@ -553,8 +554,8 @@ export default function PrivacyPolicy() {
                     </tr>
                     <tr>
                       <td className="py-2 px-3">Website content</td>
-                      <td className="py-2 px-3 text-amber-600 font-medium">TRANSIT ONLY</td>
-                      <td className="py-2 px-3 text-muted-foreground">Extracted during task execution, sent to your model provider, and relayed if you use a remote connector — not stored by us</td>
+                      <td className="py-2 px-3 text-amber-600 font-medium">PROCESSED DURING TASKS</td>
+                      <td className="py-2 px-3 text-muted-foreground">Extracted during task execution, sent to your selected model provider, and relayed if you use a remote connector. The live v1.1.34 build may also retain it in Vibe-hosted Langfuse traces; the replacement build disables client tracing</td>
                     </tr>
                   </tbody>
                 </table>
