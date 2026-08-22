@@ -39,7 +39,7 @@ const subprocessors: Subprocessor[] = [
     purpose: "AI model provider (when you configure DeepSeek as your model)",
     dataShared: "Prompts, page text/DOM, screenshots when the task needs them, tool call context",
     region: "People's Republic of China. This is a materially different jurisdiction for data protection and government-access law than the other model providers on this list — evaluate this before selecting DeepSeek for sensitive tasks.",
-    status: "Active — only when you select this provider. A separate delisting review is tracked internally (AGE-715); until that ships, DeepSeek remains selectable.",
+    status: "Active — only when you select this provider.",
   },
   {
     name: "OpenRouter",
@@ -50,17 +50,17 @@ const subprocessors: Subprocessor[] = [
   },
   {
     name: "Langfuse",
-    purpose: "Optional LLM tracing, self-configured",
+    purpose: "LLM tracing/observability",
     dataShared: "Prompts, model inputs/outputs, page content captured in traces",
-    region: "Whichever Langfuse project region you supply — this is your own account, not ours",
-    status: "Off by default. Active only if you supply your own Langfuse credentials.",
+    region: "Vibe's own Langfuse project (cloud.langfuse.com), United States",
+    status: "Fixed in code as of commit 33aa36416 (AGE-1026): the extension now refuses to initialize Langfuse with a write-capable key inside the extension runtime, so client-side tracing is disabled by design going forward. That fix is NOT yet in the build currently served on the Chrome Web Store (v1.1.34): the live, publicly installed extension still ships Vibe's own Langfuse write key and traces client-side by default. This entry will be corrected to \"self-configured / off by default\" once a CWS release containing the fix is confirmed live — do not treat this as already resolved for the version end users actually run today.",
   },
   {
     name: "Sentry",
     purpose: "Error tracking and crash diagnostics",
     dataShared: "Error messages, stack traces, browser/extension version, sanitized error context. Session replay is disabled. Cookies and request headers are stripped before sending.",
     region: "United States (Sentry.io)",
-    status: "Active by default; opt-out in Extension settings.",
+    status: "Active whenever a Sentry DSN is configured in the build (lib/sentry-config.js). There is currently no separate opt-out toggle for error reporting — this is a disclosed gap, not a described control.",
   },
   {
     name: "Google Analytics 4",

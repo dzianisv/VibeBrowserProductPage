@@ -78,8 +78,12 @@ export default function TelemetrySupportPolicy() {
                     stating that plainly rather than implying otherwise.
                   </p>
                   <p className="text-muted-foreground">
-                    Error reporting is a separate toggle in the same Settings page. Both toggles are respected
-                    immediately — no restart required.
+                    Error reporting (Sentry) does not currently have its own opt-out toggle. <code>lib/sentry-config.js</code>
+                    initializes Sentry whenever a DSN is configured in the build, independent of the analytics toggle above.
+                    We are disclosing this as the current, unflattering fact rather than describing a control that does not
+                    exist. A dedicated error-reporting opt-out is tracked as follow-up work; until it ships, the only way
+                    to stop error reports is to disable the Extension itself. If this matters for your use case, email{" "}
+                    <a href="mailto:privacy@vibebrowser.app" className="text-purple-600 hover:underline">privacy@vibebrowser.app</a>.
                   </p>
                 </div>
               </div>
