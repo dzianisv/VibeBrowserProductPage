@@ -101,6 +101,26 @@ export default function TermsOfService() {
               </div>
             </section>
 
+            {/* Billing, Subscriptions and Refunds */}
+            <section className="bg-white rounded-xl p-6 shadow-sm border">
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <Zap className="w-5 h-5 text-purple-600" />
+                </div>
+                <div className="w-full">
+                  <h2 className="text-xl font-semibold mb-3">Billing, Subscriptions and Refunds</h2>
+                  <p className="text-muted-foreground mb-4">
+                    Paid plans (Pro, Max) are recurring monthly subscriptions billed through Stripe and renew
+                    automatically until cancelled. You can cancel at any time; cancellation takes effect at the end of
+                    the current billing period, with no cancellation fee. Full billing, cancellation and refund terms
+                    &mdash; including how to report a billing error and how EU/UK statutory withdrawal rights apply
+                    &mdash; are in our{" "}
+                    <Link href="/refund" className="text-purple-600 hover:underline">Refund &amp; Cancellation Policy</Link>, which is part of this Agreement.
+                  </p>
+                </div>
+              </div>
+            </section>
+
             {/* Limited Liability Disclaimer */}
             <section className="bg-gradient-to-br from-red-50 to-white rounded-xl p-6 shadow-sm border border-red-200">
               <div className="flex items-start gap-4">
