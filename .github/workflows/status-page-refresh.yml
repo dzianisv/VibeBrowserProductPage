@@ -1,10 +1,13 @@
 name: Status Page Refresh
 
-# Regenerates public/status.json from the same endpoint set checked by the
-# VibeWebAgent oncall-engineer health sweep's "Domain TLS + availability"
-# section (see scripts/generate-status.mjs header for the exact mapping) and
-# commits it so the next Vercel deploy (triggered by this push) serves fresh
-# data at https://vibebrowser.app/status. This is the "publish" half of
+# Regenerates public/status.json from the SAME four deterministic probes the
+# VibeWebAgent oncall-engineer health sweep cron (oncall-health-sweep.yml)
+# actually executes on every run -- db_probe (api_health_readiness) and
+# tee_relay_docs_probe (tee_attestation, relay_health, docs_portal), both
+# driven by that repo's scripts/status/endpoints.json (see
+# scripts/generate-status.mjs header here for the byte-for-byte mapping) --
+# and commits it so the next Vercel deploy (triggered by this push) serves
+# fresh data at https://vibebrowser.app/status. This is the "publish" half of
 # AGE-1095; status-page-freshness-check.yml is the "assert it isn't stale"
 # half.
 

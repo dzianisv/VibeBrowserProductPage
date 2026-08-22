@@ -1,46 +1,32 @@
 {
-  "generatedAt": "2026-08-22T20:47:36.155Z",
+  "generatedAt": "2026-08-22T21:04:31.854Z",
   "overall": "degraded",
   "services": [
     {
-      "id": "landing",
-      "label": "vibebrowser.app (landing)",
-      "url": "https://vibebrowser.app",
+      "id": "api_health_readiness",
+      "label": "API (DB readiness)",
+      "url": "https://api.vibebrowser.app/health/readiness",
       "state": "up",
       "httpStatus": 200
     },
     {
-      "id": "api",
-      "label": "api.vibebrowser.app",
-      "url": "https://api.vibebrowser.app/health",
+      "id": "tee_attestation",
+      "label": "TEE Attestation",
+      "url": "https://tee.vibebrowser.app/attestation",
       "state": "down",
-      "httpStatus": 401
+      "httpStatus": 530
     },
     {
-      "id": "portal",
-      "label": "portal.vibebrowser.app",
-      "url": "https://portal.vibebrowser.app",
-      "state": "up",
-      "httpStatus": 200
-    },
-    {
-      "id": "docs",
-      "label": "docs.vibebrowser.app",
-      "url": "https://docs.vibebrowser.app",
-      "state": "up",
-      "httpStatus": 200
-    },
-    {
-      "id": "langfuse",
-      "label": "langfuse.vibebrowser.app",
-      "url": "https://langfuse.vibebrowser.app",
-      "state": "up",
-      "httpStatus": 200
-    },
-    {
-      "id": "relay",
-      "label": "relay.api.vibebrowser.app",
+      "id": "relay_health",
+      "label": "MCP/WS Relay",
       "url": "https://relay.api.vibebrowser.app/health",
+      "state": "up",
+      "httpStatus": 200
+    },
+    {
+      "id": "docs_portal",
+      "label": "Docs Portal",
+      "url": "https://docs.vibebrowser.app",
       "state": "up",
       "httpStatus": 200
     }

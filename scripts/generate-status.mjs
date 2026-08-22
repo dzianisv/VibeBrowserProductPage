@@ -2,52 +2,55 @@
 /**
  * Generates public/status.json for the Vibe Browser public status page.
  *
- * Endpoint set is the SAME set checked by the oncall-engineer health sweep's
- * "Domain TLS + availability" section
- * (VibeWebAgent .agents/skills/oncall-engineer/SKILL.md, invoked on a
- * schedule by .github/workflows/oncall-health-sweep.yml). Do not add or
- * remove services here without updating that section too — the status page
- * exists to make the sweep's own findings public, not to introduce a second,
- * independently drifting registry. AGE-1051 owns adding tee/relay/docs
- * enumeration upstream in the sweep; when that lands, mirror it here.
+ * AGE-1095: this endpoint set is a DELIBERATE, literal mirror of the
+ * deterministic (LLM-independent) probes the VibeWebAgent repo's
+ * `.github/workflows/oncall-health-sweep.yml` cron actually executes on
+ * every run — `db_probe` (api_health_readiness) and `tee_relay_docs_probe`
+ * (tee_attestation, relay_health, docs_portal) — both of which are in turn
+ * driven by the single canonical registry at
+ * `VibeWebAgent/scripts/status/endpoints.json`. That JSON is not fetchable
+ * from here at build/runtime (VibeWebAgent is a private repo, and adding a
+ * cross-repo read credential to this public site would violate the
+ * zero-new-credential constraint on this issue), so the ids/urls/checks
+ * below are copied verbatim instead. If you change the endpoint list or a
+ * check in either `scripts/status/endpoints.json` (VibeWebAgent) or here,
+ * update the other file in the same change — these four ids/urls/checks
+ * must stay byte-for-byte identical between the two repos:
+ *   - api_health_readiness -> https://api.vibebrowser.app/health/readiness (body matches "db":"connected")
+ *   - tee_attestation      -> https://tee.vibebrowser.app/attestation (body matches "tee_verified":true)
+ *   - relay_health         -> https://relay.api.vibebrowser.app/health (body contains "ok", case-insensitive)
+ *   - docs_portal          -> https://docs.vibebrowser.app (HTTP 2xx)
+ *
+ * Do NOT add extra services (landing page, portal, langfuse, etc.) here —
+ * that would recreate the "second, independently drifting health registry"
+ * this issue exists to avoid. Anything not deterministically probed by the
+ * sweep does not belong on this page.
  */
 
 const SERVICES = [
   {
-    id: 'landing',
-    label: 'vibebrowser.app (landing)',
-    url: 'https://vibebrowser.app',
-    check: (res) => res.ok,
+    id: 'api_health_readiness',
+    label: 'API (DB readiness)',
+    url: 'https://api.vibebrowser.app/health/readiness',
+    check: (res, body) => res.ok && /"db"\s*:\s*"connected"/.test(body),
   },
   {
-    id: 'api',
-    label: 'api.vibebrowser.app',
-    url: 'https://api.vibebrowser.app/health',
-    check: (res, body) => res.ok && /ok/i.test(body),
+    id: 'tee_attestation',
+    label: 'TEE Attestation',
+    url: 'https://tee.vibebrowser.app/attestation',
+    check: (res, body) => res.ok && /"tee_verified"\s*:\s*true/.test(body),
   },
   {
-    id: 'portal',
-    label: 'portal.vibebrowser.app',
-    url: 'https://portal.vibebrowser.app',
-    check: (res) => res.ok,
-  },
-  {
-    id: 'docs',
-    label: 'docs.vibebrowser.app',
-    url: 'https://docs.vibebrowser.app',
-    check: (res) => res.ok,
-  },
-  {
-    id: 'langfuse',
-    label: 'langfuse.vibebrowser.app',
-    url: 'https://langfuse.vibebrowser.app',
-    check: (res) => res.ok,
-  },
-  {
-    id: 'relay',
-    label: 'relay.api.vibebrowser.app',
+    id: 'relay_health',
+    label: 'MCP/WS Relay',
     url: 'https://relay.api.vibebrowser.app/health',
     check: (res, body) => res.ok && /ok/i.test(body),
+  },
+  {
+    id: 'docs_portal',
+    label: 'Docs Portal',
+    url: 'https://docs.vibebrowser.app',
+    check: (res) => res.ok,
   },
 ]
 
