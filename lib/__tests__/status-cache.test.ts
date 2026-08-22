@@ -24,14 +24,18 @@ const originalFetch = globalThis.fetch
 
 function stubFetch() {
   fetchCallCount = 0
-  // @ts-expect-error -- test stub, narrower signature than the real fetch
-  globalThis.fetch = async () => {
+  // Cast through `unknown`: the stub intentionally has a narrower signature
+  // than the real `fetch`, and whether that mismatch is flagged by TS varies
+  // across Next.js's bundled fetch/DOM lib typings, so this avoids depending
+  // on a `@ts-expect-error` that a version bump can make "unused" (itself a
+  // TS error under this repo's strict config).
+  globalThis.fetch = (async () => {
     fetchCallCount += 1
     return {
       status: 200,
       text: async () => 'ok',
     } as Response
-  }
+  }) as unknown as typeof fetch
 }
 
 beforeEach(async () => {
