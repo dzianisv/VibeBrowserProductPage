@@ -1,0 +1,56 @@
+name: Status Page Freshness Check
+
+# Scheduled backstop for AGE-1095: fails loudly (non-zero exit -> GitHub
+# Actions email/notification to the repo, same zero-vendor alert path as
+# other scheduled workflows in this org) if the PUBLISHED status page is
+# unreachable, malformed, or serving stale data. This is independent from
+# status-page-refresh.yml so a broken refresh cron cannot silently go
+# unnoticed while the public page keeps serving old data.
+
+on:
+  schedule:
+    - cron: '7,22,37,52 * * * *'
+  workflow_dispatch: {}
+
+concurrency:
+  group: status-page-freshness-check
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Fetch published status.json and assert freshness
+        run: |
+          set -euo pipefail
+          URL="https://www.vibebrowser.app/status.json"
+          HTTP_CODE=$(curl -fsS -o /tmp/status.json -w '%{http_code}' "$URL" || echo "000")
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "::error::Status page unreachable: $URL returned HTTP $HTTP_CODE"
+            exit 1
+          fi
+
+          GENERATED_AT=$(node -e "console.log(JSON.parse(require('fs').readFileSync('/tmp/status.json','utf-8')).generatedAt)" 2>/dev/null || true)
+          if [ -z "$GENERATED_AT" ] || [ "$GENERATED_AT" = "undefined" ]; then
+            echo "::error::Status page response has no generatedAt timestamp — malformed payload"
+            exit 1
+          fi
+
+          GENERATED_EPOCH=$(date -d "$GENERATED_AT" +%s 2>/dev/null || date -j -f "%Y-%m-%dT%H:%M:%S" "${GENERATED_AT%%.*}" +%s)
+          NOW_EPOCH=$(date -u +%s)
+          AGE_MIN=$(( (NOW_EPOCH - GENERATED_EPOCH) / 60 ))
+          echo "Published status.json is ${AGE_MIN} minutes old."
+
+          # Matches STALE_AFTER_MINUTES in app/status/page.tsx: the page
+          # itself already forces "Unknown" past this threshold, but a
+          # freshness assertion that never fails is not an assertion.
+          if [ "$AGE_MIN" -gt 30 ]; then
+            echo "::error::Status page data is stale (${AGE_MIN} min old, threshold 30 min) — status-page-refresh.yml may be broken"
+            exit 1
+          fi
+
+          echo "OK: status page reachable and fresh (${AGE_MIN} min old)."

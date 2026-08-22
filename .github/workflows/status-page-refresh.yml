@@ -1,0 +1,50 @@
+name: Status Page Refresh
+
+# Regenerates public/status.json from the same endpoint set checked by the
+# VibeWebAgent oncall-engineer health sweep's "Domain TLS + availability"
+# section (see scripts/generate-status.mjs header for the exact mapping) and
+# commits it so the next Vercel deploy (triggered by this push) serves fresh
+# data at https://vibebrowser.app/status. This is the "publish" half of
+# AGE-1095; status-page-freshness-check.yml is the "assert it isn't stale"
+# half.
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch: {}
+
+concurrency:
+  group: status-page-refresh
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Generate status.json
+        run: node scripts/generate-status.mjs
+
+      - name: Commit status.json if changed
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- public/status.json; then
+            echo "No change in status.json — skipping commit."
+            exit 0
+          fi
+          git config user.name "vibe-status-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add public/status.json
+          git commit -m "chore(status): refresh public status snapshot [skip ci]"
+          git push

@@ -128,9 +128,14 @@ export default function TelemetrySupportPolicy() {
                     operating target, not a contractual SLA — we do not currently offer paid-tier guaranteed response
                     times or an enterprise support contract. If you need one, email us and we will discuss it as a
                     custom agreement.</p>
-                  <p className="text-muted-foreground">
+                  <p className="text-muted-foreground mb-2">
                     For account, billing, or refund requests, see the{" "}
                     <Link href="/refund" className="text-purple-600 hover:underline">Refund &amp; Cancellation Policy</Link>.
+                  </p>
+                  <p className="text-muted-foreground">
+                    Wondering if something is down? Check{" "}
+                    <Link href="/status" className="text-purple-600 hover:underline">live service status</Link>{" "}
+                    before reaching out — it is generated from the same automated health sweep our team is paged from.
                   </p>
                 </div>
               </div>

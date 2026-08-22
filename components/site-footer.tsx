@@ -121,6 +121,9 @@ export function SiteFooter() {
               <Link href="/telemetry" className={`text-sm transition-colors ${isOpenClaw ? 'text-[#b7c0db] hover:text-[#f0f4ff]' : isDark ? 'text-[#9aa0a6] hover:text-[#e8eaed]' : 'text-muted-foreground hover:text-purple-600'}`}>
                 Telemetry &amp; Support
               </Link>
+              <Link href="/status" className={`text-sm transition-colors ${isOpenClaw ? 'text-[#b7c0db] hover:text-[#f0f4ff]' : isDark ? 'text-[#9aa0a6] hover:text-[#e8eaed]' : 'text-muted-foreground hover:text-purple-600'}`}>
+                Service Status
+              </Link>
             </nav>
           </div>
 

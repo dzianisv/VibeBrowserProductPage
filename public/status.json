@@ -1,0 +1,48 @@
+{
+  "generatedAt": "2026-08-22T20:47:36.155Z",
+  "overall": "degraded",
+  "services": [
+    {
+      "id": "landing",
+      "label": "vibebrowser.app (landing)",
+      "url": "https://vibebrowser.app",
+      "state": "up",
+      "httpStatus": 200
+    },
+    {
+      "id": "api",
+      "label": "api.vibebrowser.app",
+      "url": "https://api.vibebrowser.app/health",
+      "state": "down",
+      "httpStatus": 401
+    },
+    {
+      "id": "portal",
+      "label": "portal.vibebrowser.app",
+      "url": "https://portal.vibebrowser.app",
+      "state": "up",
+      "httpStatus": 200
+    },
+    {
+      "id": "docs",
+      "label": "docs.vibebrowser.app",
+      "url": "https://docs.vibebrowser.app",
+      "state": "up",
+      "httpStatus": 200
+    },
+    {
+      "id": "langfuse",
+      "label": "langfuse.vibebrowser.app",
+      "url": "https://langfuse.vibebrowser.app",
+      "state": "up",
+      "httpStatus": 200
+    },
+    {
+      "id": "relay",
+      "label": "relay.api.vibebrowser.app",
+      "url": "https://relay.api.vibebrowser.app/health",
+      "state": "up",
+      "httpStatus": 200
+    }
+  ]
+}
