@@ -92,4 +92,103 @@ describe('scripts/generate-status.mjs', () => {
       await stopFixtureServer(server)
     }
   })
+
+  /**
+   * AGE-1095 review fix: "unknown" fail-closed floor. A network error
+   * (unreachable host, timeout, abort) means we could not determine health
+   * at all -- this must render as "unknown", never "down" (which implies a
+   * confirmed incident on the probed service) and never "up" (which would
+   * mask a real outage). Mirrors VibeWebAgent/scripts/status/generate-status.mjs.
+   */
+  test('a connection error (unreachable host) is "unknown", never "down" or "up"', async () => {
+    const { generateStatusPayload } = await import(`file://${GENERATOR_PATH}`)
+    // Bind and immediately close a server to get a guaranteed-closed local
+    // port -- ECONNREFUSED, fast and deterministic, no real network egress.
+    const { server, base } = await startFixtureServer({})
+    await stopFixtureServer(server)
+
+    const payload = await generateStatusPayload({
+      endpoints: [{ id: 'docs_portal', name: 'Docs', url: `${base}/unreachable`, check: { type: 'http_2xx' } }],
+    })
+    assert.equal(payload.services[0].state, 'unknown')
+    assert.equal(payload.services[0].httpStatus, null)
+    assert.ok(payload.services[0].error, 'unknown state should carry a diagnostic error message')
+    assert.equal(payload.overall, 'unknown')
+  })
+
+  test('a request exceeding the timeout is "unknown" (fail-closed on timeout, production-safe bounded wait)', async () => {
+    const { generateStatusPayload } = await import(`file://${GENERATOR_PATH}`)
+    const { server, base } = await startFixtureServer({
+      '/slow': (_req, res) => {
+        // Deliberately never respond within the test's short timeout.
+        setTimeout(() => res.writeHead(200).end('ok'), 5_000).unref()
+      },
+    })
+    try {
+      const payload = await generateStatusPayload(
+        { endpoints: [{ id: 'relay_health', name: 'Relay', url: `${base}/slow`, check: { type: 'http_2xx' } }] },
+        { timeoutMs: 100 }
+      )
+      assert.equal(payload.services[0].state, 'unknown')
+      assert.match(payload.services[0].error ?? '', /timed out/)
+    } finally {
+      await stopFixtureServer(server)
+    }
+  })
+
+  test('an unsupported check type is "unknown", not "down" (fail-closed on unrecognized check)', async () => {
+    const { generateStatusPayload } = await import(`file://${GENERATOR_PATH}`)
+    const { server, base } = await startFixtureServer({
+      '/ok': (_req, res) => res.writeHead(200).end('ok'),
+    })
+    try {
+      const payload = await generateStatusPayload({
+        endpoints: [{ id: 'docs_portal', name: 'Docs', url: `${base}/ok`, check: { type: 'some_future_check' } }],
+      })
+      assert.equal(payload.services[0].state, 'unknown')
+      assert.equal(payload.overall, 'unknown')
+    } finally {
+      await stopFixtureServer(server)
+    }
+  })
+
+  test('overall is "unknown" (never "operational") when one endpoint is up and another cannot be reached', async () => {
+    const { generateStatusPayload } = await import(`file://${GENERATOR_PATH}`)
+    const { server, base } = await startFixtureServer({
+      '/ok': (_req, res) => res.writeHead(200).end('ok'),
+    })
+    const { server: deadServer, base: deadBase } = await startFixtureServer({})
+    await stopFixtureServer(deadServer)
+    try {
+      const payload = await generateStatusPayload({
+        endpoints: [
+          { id: 'docs_portal', name: 'Docs', url: `${base}/ok`, check: { type: 'http_2xx' } },
+          { id: 'relay_health', name: 'Relay', url: `${deadBase}/unreachable`, check: { type: 'http_2xx' } },
+        ],
+      })
+      assert.equal(payload.overall, 'unknown', 'a mix of up + unknown (no down) must not be masked as operational')
+    } finally {
+      await stopFixtureServer(server)
+    }
+  })
+
+  test('overall is "degraded" when one endpoint is down and another is unknown (down outranks unknown)', async () => {
+    const { generateStatusPayload } = await import(`file://${GENERATOR_PATH}`)
+    const { server, base } = await startFixtureServer({
+      '/broken': (_req, res) => res.writeHead(500).end('error'),
+    })
+    const { server: deadServer, base: deadBase } = await startFixtureServer({})
+    await stopFixtureServer(deadServer)
+    try {
+      const payload = await generateStatusPayload({
+        endpoints: [
+          { id: 'api_health_readiness', name: 'API', url: `${base}/broken`, check: { type: 'http_2xx' } },
+          { id: 'relay_health', name: 'Relay', url: `${deadBase}/unreachable`, check: { type: 'http_2xx' } },
+        ],
+      })
+      assert.equal(payload.overall, 'degraded')
+    } finally {
+      await stopFixtureServer(server)
+    }
+  })
 })

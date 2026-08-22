@@ -3,9 +3,14 @@ name: Status Page Freshness Check
 # Scheduled backstop for AGE-1095: fails loudly (non-zero exit -> GitHub
 # Actions email/notification to the repo, same zero-vendor alert path as
 # other scheduled workflows in this org) if the PUBLISHED status page is
-# unreachable, malformed, or serving stale data. This is independent from
-# status-page-refresh.yml so a broken refresh cron cannot silently go
-# unnoticed while the public page keeps serving old data.
+# unreachable, malformed, or serving stale data.
+#
+# /status.json is served dynamically (app/status.json/route.ts), generated
+# in-process from lib/status-cache.ts with a 60s TTL cache -- there is no
+# commit-triggered refresh cron to go silently broken. This workflow is the
+# independent, out-of-band check that the deployed function itself is still
+# reachable and actually regenerating (generatedAt advances) rather than
+# serving a frozen/erroring response.
 
 on:
   schedule:
@@ -49,7 +54,7 @@ jobs:
           # itself already forces "Unknown" past this threshold, but a
           # freshness assertion that never fails is not an assertion.
           if [ "$AGE_MIN" -gt 30 ]; then
-            echo "::error::Status page data is stale (${AGE_MIN} min old, threshold 30 min) — status-page-refresh.yml may be broken"
+            echo "::error::Status page data is stale (${AGE_MIN} min old, threshold 30 min) — the deployed /status.json function may be erroring or its TTL cache stuck"
             exit 1
           fi
 

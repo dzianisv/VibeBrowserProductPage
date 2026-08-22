@@ -69,4 +69,47 @@ describe('computeDisplayStatus', () => {
     const result = computeDisplayStatus(payload, NOW)
     assert.equal(result.isStale, false)
   })
+
+  /**
+   * AGE-1095 review fix: fail-closed floor at the display layer, not just
+   * the generator. A service the generator could not reach (network error
+   * -> "unknown") must never be averaged away into an "up" overall banner
+   * just because no service was confirmed "down". Mirrors
+   * VibeWebAgent/scripts/status/generate-status.mjs's fail > unknown > ok
+   * worst-of ranking.
+   */
+  test('a fresh payload mixing "up" and "unknown" (no "down") renders overall "unknown", never "up"', () => {
+    const payload = payloadAt(1, [
+      { id: 'docs', label: 'docs.vibebrowser.app', url: 'https://docs.vibebrowser.app', state: 'up', httpStatus: 200 },
+      {
+        id: 'relay',
+        label: 'relay.api.vibebrowser.app',
+        url: 'https://relay.api.vibebrowser.app/health',
+        state: 'unknown',
+        httpStatus: null,
+        error: 'timed out after 6000ms',
+      },
+    ])
+    const result = computeDisplayStatus(payload, NOW)
+    assert.equal(result.isStale, false)
+    assert.equal(result.overallState, 'unknown', 'one unreachable service must withhold "up", not be masked by the other healthy one')
+    assert.equal(result.services.find((s) => s.id === 'relay')?.state, 'unknown')
+    assert.equal(result.services.find((s) => s.id === 'docs')?.state, 'up', 'a genuinely healthy service still renders "up", not downgraded')
+  })
+
+  test('a fresh payload mixing "down" and "unknown" renders overall "down" ("down" outranks "unknown")', () => {
+    const payload = payloadAt(1, [
+      { id: 'api', label: 'api.vibebrowser.app', url: 'https://api.vibebrowser.app', state: 'down', httpStatus: 500 },
+      {
+        id: 'relay',
+        label: 'relay.api.vibebrowser.app',
+        url: 'https://relay.api.vibebrowser.app/health',
+        state: 'unknown',
+        httpStatus: null,
+        error: 'timed out after 6000ms',
+      },
+    ])
+    const result = computeDisplayStatus(payload, NOW)
+    assert.equal(result.overallState, 'down')
+  })
 })

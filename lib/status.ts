@@ -12,7 +12,10 @@ export type ServiceResult = {
   id: string
   label: string
   url: string
-  state: 'up' | 'down'
+  // "unknown" covers network errors/timeouts talking to the probed
+  // endpoint itself (as opposed to a determinate 2xx/predicate failure,
+  // which is "down") -- see scripts/generate-status.mjs.
+  state: 'up' | 'down' | 'unknown'
   httpStatus: number | null
   error?: string
 }
@@ -67,13 +70,20 @@ export function computeDisplayStatus(
       httpStatus: s.httpStatus,
     })) ?? []
 
+  // Worst-of ranking (AGE-1095 review fix): "down" always outranks
+  // "unknown", which always outranks "up" -- mirrors
+  // VibeWebAgent/scripts/status/generate-status.mjs's fail > unknown > ok
+  // ordering. Previously this only checked for "down" and defaulted to
+  // "up" otherwise, which meant a service the generator could not reach
+  // (network error -> "unknown") rendered the whole banner as healthy
+  // instead of unknown -- exactly the fail-closed floor this page exists
+  // to guarantee.
+  const RANK: Record<ServiceState, number> = { up: 0, unknown: 1, down: 2 }
   const overallState: ServiceState = isStale
     ? 'unknown'
-    : services.some((s) => s.state === 'down')
-      ? 'down'
-      : services.length > 0
-        ? 'up'
-        : 'unknown'
+    : services.length === 0
+      ? 'unknown'
+      : services.reduce<ServiceState>((worst, s) => (RANK[s.state] > RANK[worst] ? s.state : worst), 'up')
 
   return { isStale, ageMinutes, overallState, services }
 }

@@ -1,6 +1,5 @@
-import { promises as fs } from 'node:fs'
-import path from 'node:path'
 import { computeDisplayStatus, STALE_AFTER_MINUTES, type ServiceState, type StatusPayload } from '@/lib/status'
+import { getCachedStatusPayload } from '@/lib/status-cache'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -12,9 +11,11 @@ export const metadata = {
 
 async function readStatus(): Promise<StatusPayload | null> {
   try {
-    const filePath = path.join(process.cwd(), 'public', 'status.json')
-    const raw = await fs.readFile(filePath, 'utf-8')
-    return JSON.parse(raw) as StatusPayload
+    // Same in-process, TTL-cached generator that backs /status.json -- one
+    // code path, so the page and the machine-readable artifact can never
+    // disagree (AGE-1095 review fix: no more static public/status.json
+    // committed by a 15-minute cron).
+    return await getCachedStatusPayload()
   } catch {
     return null
   }
