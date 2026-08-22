@@ -53,7 +53,7 @@ const subprocessors: Subprocessor[] = [
     purpose: "LLM tracing/observability",
     dataShared: "Prompts, model inputs/outputs, page content captured in traces",
     region: "Vibe-operated, self-hosted instance at langfuse.vibebrowser.app (confirmed from the configured client's baseUrl in the currently served build; hosting region unverified). Not cloud.langfuse.com — that hostname appears only as the Langfuse SDK's generic fallback default, never as the configured destination.",
-    status: "The live, publicly installed extension (Chrome Web Store v1.1.34) still ships Vibe's own Langfuse write key and traces client-side to langfuse.vibebrowser.app by default. A merged fix disables extension-side Langfuse initialization entirely going forward (permanent no-op, not a self-configured/off-by-default toggle). This entry will be updated to reflect client-side tracing fully disabled once a CWS release containing that fix is confirmed live — do not treat this as already resolved for the version end users run today.",
+    status: "At the last served-artifact check on August 22, 2026, Google's Chrome Web Store build still contained Vibe's Langfuse client configuration and attempted client-side tracing to langfuse.vibebrowser.app. While the embedded credential remains valid, trace content may be sent there. A merged fix disables extension-side Langfuse initialization entirely. Release verification tracks provider-side key revocation and confirmation that Google serves the clean artifact.",
   },
   {
     name: "Sentry",
