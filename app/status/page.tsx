@@ -28,6 +28,11 @@ function badge(state: ServiceState) {
 
 export default async function StatusPage() {
   const payload = await readStatus()
+  // This is a dynamic (force-dynamic, revalidate=0) server component whose
+  // whole purpose is to report the current wall-clock freshness of the
+  // published data on every request; there is no cached/pure render to
+  // violate by reading the clock here.
+  // eslint-disable-next-line react-hooks/purity
   const now = Date.now()
 
   // Fail-closed: if the underlying data is missing or stale, every service
