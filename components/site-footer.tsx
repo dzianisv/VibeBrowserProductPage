@@ -112,6 +112,15 @@ export function SiteFooter() {
               <Link href="/terms" className={`text-sm transition-colors ${isOpenClaw ? 'text-[#b7c0db] hover:text-[#f0f4ff]' : isDark ? 'text-[#9aa0a6] hover:text-[#e8eaed]' : 'text-muted-foreground hover:text-purple-600'}`}>
                 Terms of Service
               </Link>
+              <Link href="/subprocessors" className={`text-sm transition-colors ${isOpenClaw ? 'text-[#b7c0db] hover:text-[#f0f4ff]' : isDark ? 'text-[#9aa0a6] hover:text-[#e8eaed]' : 'text-muted-foreground hover:text-purple-600'}`}>
+                Subprocessors
+              </Link>
+              <Link href="/refund" className={`text-sm transition-colors ${isOpenClaw ? 'text-[#b7c0db] hover:text-[#f0f4ff]' : isDark ? 'text-[#9aa0a6] hover:text-[#e8eaed]' : 'text-muted-foreground hover:text-purple-600'}`}>
+                Refund Policy
+              </Link>
+              <Link href="/telemetry" className={`text-sm transition-colors ${isOpenClaw ? 'text-[#b7c0db] hover:text-[#f0f4ff]' : isDark ? 'text-[#9aa0a6] hover:text-[#e8eaed]' : 'text-muted-foreground hover:text-purple-600'}`}>
+                Telemetry &amp; Support
+              </Link>
             </nav>
           </div>
 

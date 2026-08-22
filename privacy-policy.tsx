@@ -220,7 +220,12 @@ export default function PrivacyPolicy() {
                 <div className="w-full">
                   <h2 className="text-xl font-semibold mb-3">Information Transmitted to Third Parties</h2>
 
-                  <h3 className="font-semibold text-base mt-4 mb-2">To AI model providers (OpenAI, Anthropic, Google, OpenRouter, and any provider you configure):</h3>
+                  <p className="text-muted-foreground mb-4 text-sm">
+                    Full detail on every recipient below — including region and status — is in the{" "}
+                    <Link href="/subprocessors" className="text-purple-600 hover:underline">Subprocessors list</Link>.
+                  </p>
+
+                  <h3 className="font-semibold text-base mt-4 mb-2">To AI model providers (OpenAI, Anthropic, Google, DeepSeek, OpenRouter, and any provider you configure):</h3>
                   <ul className="list-disc pl-5 space-y-1 text-muted-foreground mb-4">
                     <li>Your prompts and queries</li>
                     <li>Page content and DOM structure, including screenshots when the task needs them</li>
@@ -256,10 +261,34 @@ export default function PrivacyPolicy() {
                       store full card details. We receive subscription status and customer identifiers.</li>
                   </ul>
 
-                  <h3 className="font-semibold text-base mb-2">To Langfuse (optional LLM tracing — off by default):</h3>
+                  <h3 className="font-semibold text-base mb-2">To Langfuse (LLM tracing — currently on by default in the version live on the Chrome Web Store):</h3>
+                  <ul className="list-disc pl-5 space-y-1 text-muted-foreground mb-4">
+                    <li>The Chrome Web Store-served build (v1.1.34) ships Vibe&apos;s own Langfuse write key and traces
+                      client-side by default to Vibe&apos;s self-hosted <code>langfuse.vibebrowser.app</code> instance:
+                      your prompts, model inputs/outputs, and page content captured in traces are sent there. A merged
+                      fix removes this client-side initialization entirely (a permanent no-op, not a user-configurable
+                      toggle); this will read &quot;disabled&quot; once a Chrome Web Store release containing that fix is
+                      confirmed live. See the <a href="/subprocessors" className="text-purple-600 hover:underline">subprocessor list</a> for current status.</li>
+                  </ul>
+
+                  <h3 className="font-semibold text-base mb-2">To Supabase (account/auth backend):</h3>
+                  <ul className="list-disc pl-5 space-y-1 text-muted-foreground mb-4">
+                    <li>If you sign in to the extension&apos;s portal, or sign up for the product waitlist: your account
+                      email, OAuth identity, subscription/plan status, and (for the waitlist) UTM/referral metadata.</li>
+                  </ul>
+
+                  <h3 className="font-semibold text-base mb-2">To Chatwoot, self-hosted (customer support):</h3>
+                  <ul className="list-disc pl-5 space-y-1 text-muted-foreground mb-4">
+                    <li>Only if you email <code>support@vibebrowser.app</code> or file an in-app report: the content of
+                      your message and your email address, routed through a Cloudflare Email Worker into our
+                      self-hosted Chatwoot support desk.</li>
+                  </ul>
+
+                  <h3 className="font-semibold text-base mb-2">To Cloudflare (CDN, DNS, Workers) and Oracle Cloud Infrastructure (hosting):</h3>
                   <ul className="list-disc pl-5 space-y-1 text-muted-foreground">
-                    <li>Disabled unless you supply your own Langfuse credentials. If you enable it, your prompts, model
-                      inputs/outputs and page content captured in traces are sent to <strong>your</strong> Langfuse project.</li>
+                    <li>Standard request metadata for traffic these providers route or host on our behalf (IP, headers,
+                      the data described elsewhere in this policy at rest). Neither makes independent use of your data
+                      beyond providing infrastructure to us.</li>
                   </ul>
                 </div>
               </div>
@@ -341,8 +370,15 @@ export default function PrivacyPolicy() {
                     <li><strong>Sentry</strong> — error tracking (<a href="https://sentry.io/privacy/" className="text-purple-600 hover:underline">policy</a>)</li>
                     <li><strong>Google Analytics 4</strong> — product analytics (<a href="https://policies.google.com/privacy" className="text-purple-600 hover:underline">policy</a>)</li>
                     <li><strong>Stripe</strong> — payments (<a href="https://stripe.com/privacy" className="text-purple-600 hover:underline">policy</a>)</li>
-                    <li><strong>Langfuse</strong> — optional, self-configured LLM tracing (<a href="https://langfuse.com/privacy" className="text-purple-600 hover:underline">policy</a>)</li>
+                    <li><strong>Langfuse</strong> — LLM tracing, currently active by default in the live extension build; self-hosted at <code>langfuse.vibebrowser.app</code> (<a href="/subprocessors" className="text-purple-600 hover:underline">current status</a>, <a href="https://langfuse.com/privacy" className="text-purple-600 hover:underline">Langfuse policy</a>)</li>
+                    <li><strong>Supabase</strong> — account/auth backend and waitlist database (<a href="https://supabase.com/privacy" className="text-purple-600 hover:underline">policy</a>)</li>
+                    <li><strong>Chatwoot</strong> — self-hosted customer support desk (no third-party data processor beyond our own infrastructure)</li>
+                    <li><strong>Cloudflare</strong> — CDN, DNS, and the support-email Worker (<a href="https://www.cloudflare.com/privacypolicy/" className="text-purple-600 hover:underline">policy</a>)</li>
+                    <li><strong>Oracle Cloud Infrastructure</strong> — backend hosting (<a href="https://www.oracle.com/legal/privacy/" className="text-purple-600 hover:underline">policy</a>)</li>
                   </ul>
+                  <p className="text-sm text-muted-foreground mt-3">
+                    Full list with data categories, purpose and region: <Link href="/subprocessors" className="text-purple-600 hover:underline">Subprocessors</Link>.
+                  </p>
                 </div>
               </div>
               <p className="text-sm text-muted-foreground mt-4">We are not responsible for third-party privacy practices.</p>
@@ -368,7 +404,8 @@ export default function PrivacyPolicy() {
 
                   <h3 className="font-semibold text-base mb-2">Opt-outs</h3>
                   <ul className="list-disc pl-5 space-y-1 text-muted-foreground mb-4">
-                    <li><strong>Analytics:</strong> consent setting in the Extension</li>
+                    <li><strong>Analytics:</strong> consent setting in the Extension — see the{" "}
+                      <Link href="/telemetry" className="text-purple-600 hover:underline">Telemetry &amp; Support page</Link> for exactly what this controls and how the opt-out is enforced.</li>
                     <li><strong>Error tracking:</strong> Extension settings</li>
                     <li><strong>Model providers:</strong> you choose which ones to configure</li>
                   </ul>
@@ -540,6 +577,7 @@ export default function PrivacyPolicy() {
                     <li>519 S Henderson St, Seattle, WA 98108-4522, United States</li>
                     <li>Email: <a href="mailto:privacy@vibebrowser.app" className="text-purple-600 hover:underline">privacy@vibebrowser.app</a></li>
                     <li>Website: <a href="https://vibebrowser.app" className="text-purple-600 hover:underline">https://vibebrowser.app</a></li>
+                    <li>Support, refunds and telemetry detail: <Link href="/telemetry" className="text-purple-600 hover:underline">Telemetry &amp; Support</Link> · <Link href="/refund" className="text-purple-600 hover:underline">Refund Policy</Link> · <Link href="/subprocessors" className="text-purple-600 hover:underline">Subprocessors</Link></li>
                   </ul>
                 </div>
               </div>
