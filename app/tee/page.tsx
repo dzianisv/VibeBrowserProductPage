@@ -40,43 +40,46 @@ export default function TeePage() {
       </header>
 
       <main className="flex-1">
+        {/* Status Banner — AGE-1053: explicit unavailability notice, first thing under the nav */}
+        <section
+          className="w-full py-8 md:py-10 bg-[#3c1e1e] border-b-2 border-[#f28b82]"
+          aria-label="Availability status"
+        >
+          <div className="container max-w-4xl px-4 md:px-6 mx-auto text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#f28b82]/20 text-[#f28b82] text-xs font-semibold uppercase tracking-wide mb-4">
+              <Lock className="w-3.5 h-3.5" aria-hidden="true" />
+              Status: Unavailable
+            </div>
+            <h1 className="text-2xl md:text-3xl font-medium text-[#e8eaed] mb-3">
+              Confidential Mode / TEE inference is not available today
+            </h1>
+            <p className="max-w-2xl mx-auto text-[#f2c2be] leading-relaxed">
+              The backend behind this research (<code className="text-[#e8eaed]">tee.vibebrowser.app</code>) is offline.
+              There is no live deployment, no purchase path, and no trial available for TEE/Confidential Mode inference
+              right now — it is not offered in the extension, in pricing, or anywhere else in the product. Everything
+              below this notice is an open-source research archive, not a description of a current Vibe feature.
+            </p>
+          </div>
+        </section>
+
         {/* Hero Section */}
         <section className="w-full py-12 md:py-16" aria-label="TEE whitepaper overview">
           <div className="container max-w-5xl px-4 md:px-6 mx-auto">
             <div className="text-center mb-8">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#3c4043] text-[#81c995] text-sm font-medium mb-6">
-                <Shield className="w-4 h-4" aria-hidden="true" />
-                Security Whitepaper
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#3c4043] text-[#9aa0a6] text-sm font-medium mb-6">
+                <FileText className="w-4 h-4" aria-hidden="true" />
+                Research Archive — Not a Live Product
               </div>
               
-              <h1 className="text-3xl font-normal tracking-tight sm:text-4xl md:text-5xl mb-4 text-[#e8eaed]">
+              <h2 className="text-3xl font-normal tracking-tight sm:text-4xl md:text-5xl mb-4 text-[#e8eaed]">
                 Privacy-Preserving LLM Inference with
                 <span className="text-[#8ab4f8]"> Hardware-Attested TEEs</span>
-              </h1>
+              </h2>
               
-              <p className="max-w-3xl mx-auto text-lg text-[#9aa0a6] mb-6">
+              <p className="max-w-3xl mx-auto text-lg text-[#9aa0a6] mb-8">
                 Our research on deploying Large Language Model inference within Trusted Execution Environments 
                 with cryptographic remote attestation. Running DeepSeek models on Azure Confidential VMs with Intel TDX.
               </p>
-
-              <p className="max-w-3xl mx-auto text-sm text-[#f28b82] mb-6" role="note">
-                Research reference only — this TEE infrastructure is not currently offered as a live or purchasable Vibe product.
-              </p>
-              
-              <div className="flex flex-wrap gap-6 justify-center mb-8" role="list" aria-label="Key features">
-                <div className="flex items-center gap-2 text-sm text-[#9aa0a6]" role="listitem">
-                  <Lock className="w-4 h-4 text-[#81c995]" aria-hidden="true" />
-                  <span>Hardware-enforced encryption</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-[#9aa0a6]" role="listitem">
-                  <Shield className="w-4 h-4 text-[#8ab4f8]" aria-hidden="true" />
-                  <span>Remote attestation API</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-[#9aa0a6]" role="listitem">
-                  <FileText className="w-4 h-4 text-[#f28b82]" aria-hidden="true" />
-                  <span>Open-source infrastructure</span>
-                </div>
-              </div>
               
               <div className="flex flex-wrap gap-4 justify-center">
                 <Button 
@@ -144,7 +147,7 @@ export default function TeePage() {
               </p>
               <p className="text-[#9aa0a6] leading-relaxed mb-4">
                 We introduce a remote attestation API that enables clients to cryptographically verify TEE 
-                execution before submitting sensitive prompts. Our production deployment demonstrates practical 
+                execution before submitting sensitive prompts. Our research deployment demonstrated practical 
                 feasibility with <strong className="text-[#e8eaed]">12 tokens/second on CPU TEE</strong> and projects <strong className="text-[#e8eaed]">150+ tokens/second 
                 on GPU TEE</strong> with NVIDIA H100 Confidential Computing.
               </p>
@@ -170,7 +173,7 @@ export default function TeePage() {
                     <Server className="w-5 h-5 text-[#81c995]" />
                   </div>
                   <div>
-                    <h4 className="font-medium text-[#e8eaed] mb-1">Production TEE-LLM Infrastructure</h4>
+                    <h4 className="font-medium text-[#e8eaed] mb-1">Prototype TEE-LLM Infrastructure</h4>
                     <p className="text-sm text-[#9aa0a6]">
                       End-to-end LLM inference on Azure Confidential VMs with Intel TDX
                     </p>
@@ -224,9 +227,10 @@ export default function TeePage() {
         </section>
 
         {/* Why TEE Section */}
-        <section className="w-full py-12 md:py-16 border-t border-[#3c4043]" aria-label="Benefits of Trusted Execution Environments">
+        <section className="w-full py-12 md:py-16 border-t border-[#3c4043]" aria-label="Technical background on Trusted Execution Environments">
           <div className="container max-w-4xl px-4 md:px-6 mx-auto">
-            <h2 className="text-2xl font-normal text-[#e8eaed] mb-6">Why Trusted Execution Environments?</h2>
+            <h2 className="text-2xl font-normal text-[#e8eaed] mb-2">How TEE Isolation Works</h2>
+            <p className="text-sm text-[#9aa0a6] mb-6">Technical background from the research — not a description of a currently available Vibe feature.</p>
             
             <div className="space-y-4">
               <div className="flex items-start gap-4 p-4 bg-[#292a2d] rounded-lg border border-[#3c4043]">
@@ -254,7 +258,7 @@ export default function TeePage() {
                 <div>
                   <h4 className="font-medium text-[#e8eaed] mb-1">Stronger Privacy Controls</h4>
                   <p className="text-sm text-[#9aa0a6]">
-                    Teams can combine TEE infrastructure with their own legal, privacy, and compliance review processes for sensitive AI workloads.
+                    In the research design, TEE infrastructure was intended to combine with an organization's own legal, privacy, and compliance review processes for sensitive AI workloads.
                   </p>
                 </div>
               </div>
@@ -276,10 +280,12 @@ export default function TeePage() {
         <section className="w-full py-16 border-t border-[#3c4043] bg-[#292a2d]" aria-label="Call to action">
           <div className="container max-w-3xl px-4 md:px-6 mx-auto text-center">
             <h2 className="text-2xl font-normal text-[#e8eaed] mb-4">
-              Interested in privacy-preserving AI research?
+              Looking for a currently available privacy option?
             </h2>
             <p className="text-[#9aa0a6] mb-8">
-              This is an open-source research project. It is not currently offered as a live Vibe product or paid deployment — explore the code and reach out with questions.
+              TEE/Confidential Mode is not available today (see status notice above). For privacy-focused deployment
+              that works right now, see local AI and self-hosted models. This whitepaper and its source code remain
+              available purely as an open-source research reference.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/enterprise">

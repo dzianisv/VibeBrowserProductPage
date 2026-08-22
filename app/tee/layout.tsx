@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'TEE Security Whitepaper — Privacy-Preserving LLM Inference with Intel TDX',
+  title: 'TEE Research Archive — Privacy-Preserving LLM Inference (Not Currently Available)',
   description:
-    'Open-source research on deploying LLM inference within Trusted Execution Environments (TEEs) with Intel TDX and cryptographic remote attestation. 12 tok/s CPU TEE, 150+ tok/s GPU TEE projected.',
+    'Archived open-source research on deploying LLM inference within Trusted Execution Environments (TEEs) with Intel TDX and cryptographic remote attestation. This infrastructure is not currently available as a Vibe product or service.',
   keywords: [
     'trusted execution environment',
     'TEE',
@@ -29,12 +29,13 @@ export const metadata: Metadata = {
     index: false,
     follow: false,
     // Noindexing TEE whitepaper as it attracts tangential backend/inference impressions
-    // that do not align with the core AI Browser/MCP product wedge.
+    // that do not align with the core AI Browser/MCP product wedge. Also unavailable today
+    // (AGE-1053): the backend behind this research is offline and there is no purchase path.
   },
   openGraph: {
-    title: 'TEE Security Whitepaper — Privacy-Preserving LLM Inference',
+    title: 'TEE Research Archive — Not Currently Available',
     description:
-      'Open-source infrastructure for deploying LLM inference in hardware-attested TEEs with Intel TDX and cryptographic remote attestation.',
+      'Archived open-source research on hardware-attested TEE inference with Intel TDX and remote attestation. Not a live or purchasable Vibe product today.',
     url: 'https://www.vibebrowser.app/tee',
     siteName: 'Vibe Co-Pilot',
     locale: 'en_US',
@@ -44,15 +45,15 @@ export const metadata: Metadata = {
         url: '/og/home',
         width: 1200,
         height: 630,
-        alt: 'Privacy-Preserving LLM Inference with Hardware-Attested TEEs — Vibe Technologies Whitepaper',
+        alt: 'Privacy-Preserving LLM Inference with Hardware-Attested TEEs — Vibe Technologies Research Archive',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'TEE Security Whitepaper — Privacy-Preserving LLM Inference',
+    title: 'TEE Research Archive — Not Currently Available',
     description:
-      'Open-source infrastructure for LLM inference in Intel TDX TEEs with remote attestation. 12 tok/s CPU, 150+ tok/s GPU projected.',
+      'Archived open-source research on LLM inference in Intel TDX TEEs with remote attestation. Not a live or purchasable Vibe product today.',
     images: ['/og/home'],
     creator: '@vibebrowserapp',
   },

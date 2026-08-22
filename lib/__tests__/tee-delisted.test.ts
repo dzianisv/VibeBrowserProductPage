@@ -55,9 +55,21 @@ test('shared company profile no longer sells TEE as an enterprise deployment pat
   assert.doesNotMatch(content, /TEE enclaves/)
 })
 
-test('the /tee whitepaper page carries a not-currently-offered disclaimer and a research-only CTA', () => {
+test('the /tee page leads with an explicit, dominant unavailable-status banner', () => {
   const content = read('app/tee/page.tsx')
-  assert.match(content, /not currently offered as a live or purchasable Vibe product/)
+  assert.match(content, /Status: Unavailable/)
+  assert.match(content, /Confidential Mode \/ TEE inference is not available today/)
+  assert.match(content, /tee\.vibebrowser\.app/)
+  assert.match(content, /no live deployment, no purchase path, and no trial available/)
+  assert.doesNotMatch(content, /Production TEE-LLM Infrastructure/)
+  assert.doesNotMatch(content, /Our production deployment demonstrates/)
   assert.doesNotMatch(content, /Ready to deploy privacy-preserving AI/)
   assert.doesNotMatch(content, /Contact us about enterprise TEE deployment/)
+})
+
+test('/tee layout metadata reflects unavailability, not an active whitepaper pitch', () => {
+  const content = read('app/tee/layout.tsx')
+  assert.match(content, /Not Currently Available/)
+  assert.match(content, /not currently available as a Vibe product or service/)
+  assert.doesNotMatch(content, /TEE Security Whitepaper — Privacy-Preserving LLM Inference with Intel TDX/)
 })
