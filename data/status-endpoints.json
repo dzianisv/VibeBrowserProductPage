@@ -1,0 +1,23 @@
+{
+  "$comment": "AGE-1095. Verbatim mirror of VibeWebAgent/scripts/status/endpoints.json (private repo) -- the single canonical endpoint registry both the oncall-health-sweep.yml cron and this public status page consume. scripts/generate-status.mjs in THIS repo reads this file directly (not a separate hardcoded list), and VibeWebAgent's CI runs a parity check (tests/unit/issue-1095-status-page-parity.test.js) that fetches this exact file over the public unauthenticated GitHub raw URL and fails if it drifts from the private registry -- so this can never silently go stale. tee_attestation is deliberately absent: AGE-1053 delisted TEE/Confidential Mode from the shipped product.",
+  "endpoints": [
+    {
+      "id": "api_health_readiness",
+      "name": "API (DB readiness)",
+      "url": "https://api.vibebrowser.app/health/readiness",
+      "check": { "type": "regex", "pattern": "\"db\"\\s*:\\s*\"connected\"" }
+    },
+    {
+      "id": "relay_health",
+      "name": "MCP/WS Relay",
+      "url": "https://relay.api.vibebrowser.app/health",
+      "check": { "type": "body_contains_ci", "needle": "ok" }
+    },
+    {
+      "id": "docs_portal",
+      "name": "Docs Portal",
+      "url": "https://docs.vibebrowser.app",
+      "check": { "type": "http_2xx" }
+    }
+  ]
+}
