@@ -36,7 +36,7 @@ const lawyersConfig: ProfessionConfig = {
   faqs: [
     { question: 'Can using AI waive attorney-client privilege?', answer: 'After the Heppner ruling, yes—consumer AI tools that train on your inputs or have broad privacy policies can compromise privilege. Vibe\'s local and self-hosted options avoid this by keeping all data in your environment.' },
     { question: 'How does Vibe protect privilege differently than consumer AI?', answer: 'Consumer AI (free ChatGPT, Claude) trains on inputs and has broad privacy policies. Vebe runs entirely locally or on your servers—so there\'s no third party, no data sharing, and no privilege risk.' },
-    { question: 'What deployment options are available?', answer: 'Run locally on your Mac/PC, self-host on your infrastructure, or use TEE-oriented cloud deployments. All keep client data under your control.' },
+    { question: 'What deployment options are available?', answer: 'Run locally on your Mac/PC or self-host on your infrastructure. All keep client data under your control.' },
     { question: 'Can Vibe work with our existing legal software?', answer: 'Yes. Integrates with Clio, NetDocuments, iManage, and custom systems.' },
   ],
 }

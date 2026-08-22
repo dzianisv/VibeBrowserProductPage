@@ -58,6 +58,10 @@ export default function TeePage() {
                 Our research on deploying Large Language Model inference within Trusted Execution Environments 
                 with cryptographic remote attestation. Running DeepSeek models on Azure Confidential VMs with Intel TDX.
               </p>
+
+              <p className="max-w-3xl mx-auto text-sm text-[#f28b82] mb-6" role="note">
+                Research reference only — this TEE infrastructure is not currently offered as a live or purchasable Vibe product.
+              </p>
               
               <div className="flex flex-wrap gap-6 justify-center mb-8" role="list" aria-label="Key features">
                 <div className="flex items-center gap-2 text-sm text-[#9aa0a6]" role="listitem">
@@ -272,10 +276,10 @@ export default function TeePage() {
         <section className="w-full py-16 border-t border-[#3c4043] bg-[#292a2d]" aria-label="Call to action">
           <div className="container max-w-3xl px-4 md:px-6 mx-auto text-center">
             <h2 className="text-2xl font-normal text-[#e8eaed] mb-4">
-              Ready to deploy privacy-preserving AI?
+              Interested in privacy-preserving AI research?
             </h2>
             <p className="text-[#9aa0a6] mb-8">
-              Contact us about enterprise TEE deployment for your organization.
+              This is an open-source research project. It is not currently offered as a live Vibe product or paid deployment — explore the code and reach out with questions.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/enterprise">

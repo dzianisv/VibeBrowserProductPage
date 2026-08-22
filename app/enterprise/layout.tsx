@@ -10,7 +10,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.vibebrowser.app'),
   title: 'Vibe AI Browser · Private Enterprise | Secure AI for Financial Professionals',
-  description: 'Private AI browser automation for financial professionals. Supports local, self-hosted, and TEE-ready deployment paths with Google Workspace tools, MCP access, reusable skills, and a secrets vault.',
+  description: 'Private AI browser automation for financial professionals. Supports local and self-hosted deployment paths with Google Workspace tools, MCP access, reusable skills, and a secrets vault.',
   keywords: [
     // Primary keywords - Financial AI
     'private AI for finance',
@@ -29,7 +29,6 @@ export const metadata: Metadata = {
     // Deployment keywords
     'on-premise AI',
     'self-hosted AI',
-    'TEE AI inference',
     'private LLM deployment',
     'air-gapped AI',
     
@@ -77,7 +76,7 @@ export const metadata: Metadata = {
     url: 'https://www.vibebrowser.app/enterprise',
     siteName: 'Vibe Co-Pilot',
     title: 'Private AI for Financial Professionals | Vibe AI Browser',
-    description: 'Private AI browser automation with local, self-hosted, and TEE-ready deployment paths plus Google Workspace tools, MCP access, reusable skills, and a secrets vault.',
+    description: 'Private AI browser automation with local and self-hosted deployment paths plus Google Workspace tools, MCP access, reusable skills, and a secrets vault.',
     images: [
       {
         url: '/og/home',
@@ -90,7 +89,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Private AI for Financial Professionals | Vibe AI Browser',
-    description: 'Private AI browser automation with local, self-hosted, and TEE-ready deployment paths plus Google Workspace tools, MCP access, reusable skills, and a secrets vault.',
+    description: 'Private AI browser automation with local and self-hosted deployment paths plus Google Workspace tools, MCP access, reusable skills, and a secrets vault.',
     images: ['/og/home'],
     creator: '@vibebrowserapp',
   },
@@ -119,7 +118,7 @@ const jsonLd = {
   name: 'Vibe AI Browser · Private Enterprise',
   applicationCategory: 'BusinessApplication',
   operatingSystem: 'Chrome',
-  description: 'Private AI browser automation for financial professionals with local, self-hosted, and TEE-ready deployment paths plus Google Workspace, MCP access, skills, and a secrets vault.',
+  description: 'Private AI browser automation for financial professionals with local and self-hosted deployment paths plus Google Workspace, MCP access, skills, and a secrets vault.',
   url: 'https://www.vibebrowser.app/enterprise',
   author: {
     '@type': 'Organization',
@@ -156,7 +155,6 @@ const jsonLd = {
   featureList: [
     
     'On-Premise Deployment',
-    'TEE-Protected Inference',
     'Zero Data Retention',
     
     
@@ -211,18 +209,10 @@ const faqJsonLd = {
     },
     {
       '@type': 'Question',
-      name: 'How does TEE protect my data?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Trusted Execution Environments (TEE) use hardware-level isolation to protect code and data in memory. Vibe supports TEE-oriented deployment paths for teams that need stronger infrastructure controls.',
-      },
-    },
-    {
-      '@type': 'Question',
       name: 'Can this be used in regulated industries?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Yes. Teams can use local, self-hosted, or TEE-oriented deployment paths and pair them with audit logs and approval workflows that support their own compliance programs.',
+        text: 'Yes. Teams can use local or self-hosted deployment paths and pair them with audit logs and approval workflows that support their own compliance programs.',
       },
     },
     {

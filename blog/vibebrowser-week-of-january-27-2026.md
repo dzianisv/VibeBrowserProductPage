@@ -18,6 +18,8 @@ slug: vibebrowser-week-of-january-27-2026
 
 Privacy-first AI inference, a better settings experience, and a smoother start for new users — here is what shipped this week.
 
+> **Update (AGE-1053): TEE/Confidential Mode is currently delisted.** The `tee.vibebrowser.app` backend described below is unreachable and has been removed from VibeBrowser's model list, settings, and pricing while it's being restored or permanently retired. Non-TEE providers (local AI, cloud API, self-hosted) are unaffected. This historical post is kept as-is for reference.
+
 ## Confidential AI with Trusted Execution Environments
 
 VibeBrowser now supports **TEE (Trusted Execution Environment) inference** — a hardware-level privacy guarantee that even the model provider cannot see your data.

@@ -23,7 +23,7 @@ const researchersConfig: ProfessionConfig = {
     { icon: 'Users', title: 'Subagents', description: 'Deploy multiple AI agents to cover different angles of your research question.' },
     { icon: 'FileText', title: 'Smart Summarization', description: 'Get AI summaries of papers, articles, and reports.' },
     { icon: 'Bookmark', title: 'Citation Management', description: 'Extract citations in APA, MLA, Chicago, or BibTeX.' },
-    { icon: 'Shield', title: 'Privacy Options', description: 'TEE and on-premise for sensitive research.' },
+    { icon: 'Shield', title: 'Privacy Options', description: 'Local AI and on-premise deployment for sensitive research.' },
     { icon: 'Database', title: 'Database Integration', description: 'Connect to any academic or market database.' },
     { icon: 'Library', title: 'Literature Review', description: 'Automate finding and synthesizing relevant papers.' },
   ],
@@ -39,7 +39,7 @@ const researchersConfig: ProfessionConfig = {
   faqs: [
     { question: 'What databases does Vibe support?', answer: 'arXiv, PubMed, Google Scholar, SSRN, and any authenticated database.' },
     { question: 'Can Vibe help with literature reviews?', answer: 'Yes. Describe your research question and Vibe finds papers, extracts themes, and drafts outlines.' },
-    { question: 'Is Vibe suitable for sensitive research?', answer: 'Yes. TEE and on-premise deployments available.' },
+    { question: 'Is Vibe suitable for sensitive research?', answer: 'Yes. Local AI and on-premise deployments available.' },
   ],
 }
 

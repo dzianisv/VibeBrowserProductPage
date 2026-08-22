@@ -176,7 +176,7 @@ export function WaitlistDialogIncognito({ children, tier = "enterprise" }: Waitl
                     </div>
                     <div>
                       <p className="text-sm font-medium text-[#e8eaed]">Privacy-First AI</p>
-                      <p className="text-xs text-[#9aa0a6]">Local AI, self-hosted, or TEE-protected</p>
+                      <p className="text-xs text-[#9aa0a6]">Local AI or self-hosted</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
