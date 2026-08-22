@@ -1,13 +1,11 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Vibe Co-Pilot for Lawyers | AI Legal Research with TEE Privacy',
-  description: 'Automate legal research while keeping client data secure. Vibe Co-Pilot runs in TEE or on-premise and includes Google Workspace tools, MCP agent access, skills, and a secrets vault.',
+  title: 'Vibe Co-Pilot for Lawyers | AI Legal Research with On-Premise Privacy',
+  description: 'Automate legal research while keeping client data secure. Vibe Co-Pilot runs on-premise or self-hosted and includes Google Workspace tools, MCP agent access, skills, and a secrets vault.',
   keywords: [
     'AI for lawyers',
     'legal research automation',
-    'TEE legal',
-    'trusted execution environment law',
     'attorney AI assistant',
     'legal tech privacy',
     'on-premise legal AI',

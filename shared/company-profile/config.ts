@@ -70,7 +70,7 @@ const baseCompanyProfileConfig: CompanyProfileConfig = {
       title: "Vibe Co-Pilot",
       badge: "Personal - Teams - Enterprise",
       description:
-        "AI-powered browser automation for everyone. Available as a Chrome extension or standalone browser. Tell it what you need in plain English - it navigates sites, fills forms, drafts messages, and researches across dozens of tabs. Supports any LLM including fully local AI via Gemini Nano. Teams get shared workflows and admin controls. Enterprises get TEE-oriented deployment paths, SSO, and dedicated onboarding support.",
+        "AI-powered browser automation for everyone. Available as a Chrome extension or standalone browser. Tell it what you need in plain English - it navigates sites, fills forms, drafts messages, and researches across dozens of tabs. Supports any LLM including fully local AI via Gemini Nano. Teams get shared workflows and admin controls. Enterprises get self-hosted deployment paths, SSO, and dedicated onboarding support.",
       tags: [
         "Chrome Extension",
         "Chromium Fork",
@@ -79,7 +79,7 @@ const baseCompanyProfileConfig: CompanyProfileConfig = {
         "Any LLM",
         "Local AI",
         "SSO",
-        "TEE Security",
+        "Self-Hosted",
         "Audit Logs",
       ],
       icon: Globe,
@@ -251,7 +251,7 @@ const baseCompanyProfileConfig: CompanyProfileConfig = {
     {
       title: "Privacy First",
       description:
-        "Local AI, TEE enclaves, and zero-knowledge architectures. Your data stays yours. We build for trust, not lock-in.",
+        "Local AI, self-hosted models, and zero-knowledge architectures. Your data stays yours. We build for trust, not lock-in.",
       icon: Shield,
       iconClassName: "text-[#8ab4f8]",
     },

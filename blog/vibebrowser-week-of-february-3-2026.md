@@ -18,6 +18,8 @@ slug: vibebrowser-week-of-february-3-2026
 
 This week focused on giving you access to stronger models and making sure the subscription system works flawlessly.
 
+> **Update (AGE-1053): TEE/Confidential Mode is currently delisted.** The TEE attestation UI described below referenced the `tee.vibebrowser.app` backend, which is unreachable; TEE/Confidential Mode has been removed from VibeBrowser's model list and settings while it's being restored or permanently retired. This historical post is kept as-is for reference.
+
 ## GPT-5.2 Codex is live
 
 **GPT-5.2 Codex** is now deployed and available in VibeBrowser. This is OpenAI's latest code-focused model, and it excels at complex browser automation tasks — especially those involving forms, multi-step workflows, and data extraction.

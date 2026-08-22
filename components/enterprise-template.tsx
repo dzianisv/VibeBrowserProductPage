@@ -249,10 +249,6 @@ export default function EnterpriseTemplate({ config }: EnterpriseTemplateProps) 
                   On-Premise Ready
                 </span>
                 <span className="flex items-center gap-2">
-                  <Lock className="w-4 h-4" />
-                  TEE-Ready
-                </span>
-                <span className="flex items-center gap-2">
                   <FileCheck className="w-4 h-4" />
                   Human approvals
                 </span>
@@ -487,14 +483,14 @@ export default function EnterpriseTemplate({ config }: EnterpriseTemplateProps) 
             <div className="container max-w-5xl px-4 md:px-6 mx-auto">
               <div className="text-center mb-12">
                 <h2 className="text-2xl md:text-3xl font-normal text-[#e8eaed] mb-4">
-                  Four ways to run AI
+                  Three ways to run AI
                 </h2>
                 <p className="text-[#9aa0a6]">
                   Choose the deployment model that matches your privacy and governance requirements
                 </p>
               </div>
 
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <Card className="bg-[#292a2d] border-[#3c4043]">
                   <CardContent className="p-6">
                     <div className="flex items-center justify-between mb-4">
@@ -580,40 +576,6 @@ export default function EnterpriseTemplate({ config }: EnterpriseTemplateProps) 
                   </CardContent>
                 </Card>
 
-                <Card className="bg-[#292a2d] border-[#3c4043]">
-                  <CardContent className="p-6">
-                    <div className="flex items-center justify-between mb-4">
-                      <Shield className="w-6 h-6 text-[#9aa0a6]" />
-                      <span className="text-xs px-2 py-1 rounded bg-[#3c4043] text-[#9aa0a6]">Enterprise</span>
-                    </div>
-                    <h3 className="text-lg font-medium text-[#e8eaed] mb-2">TEE Deployment Path</h3>
-                    <p className="text-sm text-[#9aa0a6] mb-4">
-                      Run using our API with a variety of models.
-                    </p>
-                    <ul className="space-y-2 text-sm text-[#9aa0a6]">
-                      <li className="flex items-center gap-2">
-                        <CheckCircle className="w-4 h-4 text-[#81c995]" />
-                        DeepSeek, Llama, Qwen, Mistral
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <CheckCircle className="w-4 h-4 text-[#81c995]" />
-                        Minimax-m2.5, Kimi-k2.5
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <CheckCircle className="w-4 h-4 text-[#81c995]" />
-                        TEE-oriented deployment path
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <CheckCircle className="w-4 h-4 text-[#81c995]" />
-                        Intel TDX / AMD SEV
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <CheckCircle className="w-4 h-4 text-[#81c995]" />
-                        Remote attestation API
-                      </li>
-                    </ul>
-                  </CardContent>
-                </Card>
               </div>
 
               <div className="mt-8 text-center">
