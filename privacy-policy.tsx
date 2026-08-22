@@ -261,14 +261,15 @@ export default function PrivacyPolicy() {
                       store full card details. We receive subscription status and customer identifiers.</li>
                   </ul>
 
-                  <h3 className="font-semibold text-base mb-2">To Langfuse (LLM tracing — currently on by default in the version live on the Chrome Web Store):</h3>
+                  <h3 className="font-semibold text-base mb-2">To Langfuse (LLM tracing — served-artifact status):</h3>
                   <ul className="list-disc pl-5 space-y-1 text-muted-foreground mb-4">
-                    <li>The Chrome Web Store-served build (v1.1.34) ships Vibe&apos;s own Langfuse write key and traces
-                      client-side by default to Vibe&apos;s self-hosted <code>langfuse.vibebrowser.app</code> instance:
-                      your prompts, model inputs/outputs, and page content captured in traces are sent there. A merged
-                      fix removes this client-side initialization entirely (a permanent no-op, not a user-configurable
-                      toggle); this will read &quot;disabled&quot; once a Chrome Web Store release containing that fix is
-                      confirmed live. See the <a href="/subprocessors" className="text-purple-600 hover:underline">subprocessor list</a> for current status.</li>
+                    <li>At the last served-artifact check on August 22, 2026, Google&apos;s Chrome Web Store build still
+                      contained Vibe&apos;s Langfuse client configuration and attempted client-side tracing to
+                      Vibe&apos;s self-hosted <code>langfuse.vibebrowser.app</code> instance. While its embedded
+                      credential remains valid, prompts, model inputs/outputs, and page content captured in traces may
+                      be sent there. A merged fix removes this initialization entirely. Release verification tracks
+                      provider-side key revocation and confirmation that Google serves the clean artifact. See the
+                      <a href="/subprocessors" className="text-purple-600 hover:underline"> subprocessor list</a> for current status.</li>
                   </ul>
 
                   <h3 className="font-semibold text-base mb-2">To Supabase (account/auth backend):</h3>
@@ -535,7 +536,7 @@ export default function PrivacyPolicy() {
                     <tr className="border-b">
                       <td className="py-2 px-3">Personal communications</td>
                       <td className="py-2 px-3 text-amber-600 font-medium">PROCESSED DURING TASKS</td>
-                      <td className="py-2 px-3 text-muted-foreground">The agent may read messages during a task and send them to your selected model provider. The live v1.1.34 build may also retain them in Vibe-hosted Langfuse traces; the replacement build disables client tracing</td>
+                      <td className="py-2 px-3 text-muted-foreground">The agent may read messages during a task and send them to your selected model provider. The pre-remediation artifact last verified August 22, 2026 may also send them to Vibe-hosted Langfuse while its embedded credential remains valid; the replacement disables client tracing</td>
                     </tr>
                     <tr className="border-b">
                       <td className="py-2 px-3">Location</td>
@@ -555,7 +556,7 @@ export default function PrivacyPolicy() {
                     <tr>
                       <td className="py-2 px-3">Website content</td>
                       <td className="py-2 px-3 text-amber-600 font-medium">PROCESSED DURING TASKS</td>
-                      <td className="py-2 px-3 text-muted-foreground">Extracted during task execution, sent to your selected model provider, and relayed if you use a remote connector. The live v1.1.34 build may also retain it in Vibe-hosted Langfuse traces; the replacement build disables client tracing</td>
+                      <td className="py-2 px-3 text-muted-foreground">Extracted during task execution, sent to your selected model provider, and relayed if you use a remote connector. The pre-remediation artifact last verified August 22, 2026 may also send it to Vibe-hosted Langfuse while its embedded credential remains valid; the replacement disables client tracing</td>
                     </tr>
                   </tbody>
                 </table>
