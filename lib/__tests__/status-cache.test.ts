@@ -80,9 +80,9 @@ describe('getCachedStatusPayload', () => {
     const now = Date.now()
 
     const [a, b] = await Promise.all([getCachedStatusPayload(now), getCachedStatusPayload(now)])
-    // 3 endpoints in data/status-endpoints.json; a coalesced miss probes
+    // 5 endpoints in data/status-endpoints.json; a coalesced miss probes
     // each exactly once, not once per caller.
-    assert.equal(fetchCallCount, 3, 'concurrent callers during a cache miss must share one probe run')
+    assert.equal(fetchCallCount, 5, 'concurrent callers during a cache miss must share one probe run')
     assert.equal(a.generatedAt, b.generatedAt, 'concurrent callers must resolve to the same payload')
   })
 })
