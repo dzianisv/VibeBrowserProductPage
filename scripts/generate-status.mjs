@@ -22,11 +22,17 @@
  * can never be silently rendered as "down" (a real incident) OR "up" (masks
  * an outage) -- it must render as "unknown".
  *
- * Do NOT add extra services (landing page, portal, langfuse, etc.) here —
- * that would recreate the "second, independently drifting health registry"
- * this issue exists to avoid. Anything not deterministically probed by the
- * sweep does not belong on this page. tee_attestation is deliberately
- * absent: AGE-1053 delisted TEE/Confidential Mode from the shipped product.
+ * Do NOT add extra services (landing page, langfuse, etc.) here — that
+ * would recreate the "second, independently drifting health registry" this
+ * issue exists to avoid. Anything not deterministically probed by the sweep
+ * does not belong on this page. tee_attestation is deliberately absent:
+ * AGE-1053 delisted TEE/Confidential Mode from the shipped product.
+ * PH-5 note: user_portal (portal.vibebrowser.app/health) and
+ * subscription_api (api.vibebrowser.app/api/health) ARE on this page now
+ * precisely because they were added to the sweep's deterministic probes in
+ * the same change set (oncall-health-sweep.yml `portal_api_probe`, whose
+ * severity is folded into the consolidated sweep status) — the rule above
+ * is "nothing the sweep does not probe", not "never grow the registry".
  *
  * AGE-1095 review fix: this file is imported by lib/status-cache.ts (which
  * backs both the /status page and the /status.json route -- both bounded by
@@ -38,7 +44,7 @@
  * There is no code path left in this repo that writes public/status.json.
  *
  * Per-endpoint timeout is intentionally short (production-safe): this
- * function backs a live Serverless Function response, and 3 endpoints are
+ * function backs a live Serverless Function response, and all endpoints are
  * probed in parallel, so the worst case wall-clock time is ~1 timeout, not
  * the sum -- kept well under typical platform function-duration limits.
  */

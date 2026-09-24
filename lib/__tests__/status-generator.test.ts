@@ -39,11 +39,134 @@ function stopFixtureServer(server: http.Server) {
 }
 
 describe('scripts/generate-status.mjs', () => {
-  test('data/status-endpoints.json does not list tee_attestation (AGE-1053 delisted TEE)', () => {
+  test('data/status-endpoints.json lists the full probed set and no tee_attestation (AGE-1053 delisted TEE; PH-5 added portal + subscription API)', () => {
     const config = JSON.parse(fs.readFileSync(ENDPOINTS_PATH, 'utf8'))
     const ids = config.endpoints.map((e: { id: string }) => e.id)
     assert.ok(!ids.includes('tee_attestation'))
-    assert.deepEqual([...ids].sort(), ['api_health_readiness', 'docs_portal', 'relay_health'].sort())
+    assert.deepEqual(
+      [...ids].sort(),
+      ['api_health_readiness', 'docs_portal', 'relay_health', 'subscription_api', 'user_portal'].sort()
+    )
+    const byId = Object.fromEntries(config.endpoints.map((e: { id: string }) => [e.id, e])) as Record<string, { name: string; url: string; check: { type: string } }>
+    // PH-5: the card requires the page to show api / relay / portal /
+    // litellm as distinguishable things. api.vibebrowser.app/health/readiness
+    // IS litellm's own readiness endpoint (its body carries litellm_version),
+    // so it must be NAMED for litellm; the stripe-service billing API gets
+    // its own separate entry rather than being conflated with it.
+    assert.match(byId.api_health_readiness.name, /LiteLLM/i)
+    assert.equal(byId.user_portal.url, 'https://portal.vibebrowser.app/health')
+    assert.equal(byId.subscription_api.url, 'https://api.vibebrowser.app/api/health')
+    // A 200 carrying a failure body must read as down -> body-level checks.
+    assert.notEqual(byId.user_portal.check.type, 'http_2xx')
+    assert.notEqual(byId.subscription_api.check.type, 'http_2xx')
+  })
+
+  /**
+   * PH-5: both new endpoints must be exercised UP and DOWN against the local
+   * fixture server, using each entry's REAL check from the registry (not a
+   * hand-copied one) -- so a check that silently stops discriminating cannot
+   * pass this suite.
+   */
+  function registryEntry(id: string) {
+    const config = JSON.parse(fs.readFileSync(ENDPOINTS_PATH, 'utf8'))
+    const ep = config.endpoints.find((e: { id: string }) => e.id === id)
+    assert.ok(ep, `registry must contain ${id}`)
+    return ep as { id: string; name: string; url: string; check: unknown }
+  }
+
+  test('user_portal: a 200 whose body says status ok is "up"', async () => {
+    const { generateStatusPayload } = await import(`file://${GENERATOR_PATH}`)
+    const ep = registryEntry('user_portal')
+    const { server, base } = await startFixtureServer({
+      '/health': (_req, res) =>
+        res.writeHead(200, { 'content-type': 'application/json' }).end('{"status":"ok","service":"user-portal"}'),
+    })
+    try {
+      const payload = await generateStatusPayload({ endpoints: [{ ...ep, url: `${base}/health` }] })
+      assert.equal(payload.services[0].state, 'up')
+      assert.equal(payload.overall, 'operational')
+    } finally {
+      await stopFixtureServer(server)
+    }
+  })
+
+  test('user_portal: a 200 whose body reports a FAILING portal is "down" (not merely 2xx)', async () => {
+    const { generateStatusPayload } = await import(`file://${GENERATOR_PATH}`)
+    const ep = registryEntry('user_portal')
+    const { server, base } = await startFixtureServer({
+      '/health': (_req, res) =>
+        res
+          .writeHead(200, { 'content-type': 'application/json' })
+          .end('{"status":"error","service":"user-portal","detail":"supabase unreachable"}'),
+    })
+    try {
+      const payload = await generateStatusPayload({ endpoints: [{ ...ep, url: `${base}/health` }] })
+      assert.equal(payload.services[0].state, 'down', 'a 200 with a failure body must not read as up')
+      assert.equal(payload.overall, 'degraded')
+    } finally {
+      await stopFixtureServer(server)
+    }
+  })
+
+  test('user_portal: an HTTP 503 whose body still says ok is "down" (status gates the result)', async () => {
+    const { generateStatusPayload } = await import(`file://${GENERATOR_PATH}`)
+    const ep = registryEntry('user_portal')
+    const { server, base } = await startFixtureServer({
+      '/health': (_req, res) =>
+        res.writeHead(503, { 'content-type': 'application/json' }).end('{"status":"ok","service":"user-portal"}'),
+    })
+    try {
+      const payload = await generateStatusPayload({ endpoints: [{ ...ep, url: `${base}/health` }] })
+      assert.equal(payload.services[0].state, 'down')
+    } finally {
+      await stopFixtureServer(server)
+    }
+  })
+
+  test('subscription_api: a 200 aggregate body with stripe-service ok is "up"', async () => {
+    const { generateStatusPayload } = await import(`file://${GENERATOR_PATH}`)
+    const ep = registryEntry('subscription_api')
+    const { server, base } = await startFixtureServer({
+      '/api/health': (_req, res) =>
+        res.writeHead(200, { 'content-type': 'application/json' }).end(
+          '{"status":"ok","timestamp":"2026-09-24T21:36:28.912Z","services":{"stripe-service":{"status":"ok"},"litellm":{"status":"ok"}}}'
+        ),
+    })
+    try {
+      const payload = await generateStatusPayload({ endpoints: [{ ...ep, url: `${base}/api/health` }] })
+      assert.equal(payload.services[0].state, 'up')
+      assert.equal(payload.overall, 'operational')
+    } finally {
+      await stopFixtureServer(server)
+    }
+  })
+
+  test('subscription_api: a 200 whose aggregate body reports stripe-service NOT ok is "down"', async () => {
+    const { generateStatusPayload } = await import(`file://${GENERATOR_PATH}`)
+    const ep = registryEntry('subscription_api')
+    const { server, base } = await startFixtureServer({
+      '/api/health': (_req, res) =>
+        res.writeHead(200, { 'content-type': 'application/json' }).end(
+          '{"status":"degraded","services":{"stripe-service":{"status":"error","detail":"stripe api 500"},"litellm":{"status":"ok"}}}'
+        ),
+    })
+    try {
+      const payload = await generateStatusPayload({ endpoints: [{ ...ep, url: `${base}/api/health` }] })
+      assert.equal(payload.services[0].state, 'down', 'a 200 that reports the billing API broken must not read as up')
+      assert.equal(payload.overall, 'degraded')
+    } finally {
+      await stopFixtureServer(server)
+    }
+  })
+
+  test('subscription_api: an unreachable host is "unknown", never "up"', async () => {
+    const { generateStatusPayload } = await import(`file://${GENERATOR_PATH}`)
+    const ep = registryEntry('subscription_api')
+    const { server, base } = await startFixtureServer({})
+    await stopFixtureServer(server)
+    const payload = await generateStatusPayload({ endpoints: [{ ...ep, url: `${base}/api/health` }] })
+    assert.equal(payload.services[0].state, 'unknown')
+    assert.equal(payload.overall, 'unknown')
   })
 
   test('a 2xx response with a matching body is "up"', async () => {

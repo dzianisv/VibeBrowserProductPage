@@ -1,11 +1,23 @@
 {
-  "$comment": "AGE-1095. Verbatim mirror of VibeWebAgent/scripts/status/endpoints.json (private repo) -- the single canonical endpoint registry both the oncall-health-sweep.yml cron and this public status page consume. scripts/generate-status.mjs in THIS repo reads this file directly (not a separate hardcoded list), and VibeWebAgent's CI runs a parity check (tests/unit/issue-1095-status-page-parity.test.js) that fetches this exact file over the public unauthenticated GitHub raw URL and fails if it drifts from the private registry -- so this can never silently go stale. tee_attestation is deliberately absent: AGE-1053 delisted TEE/Confidential Mode from the shipped product.",
+  "$comment": "AGE-1095. Verbatim mirror of VibeWebAgent/scripts/status/endpoints.json (private repo) -- the single canonical endpoint registry both the oncall-health-sweep.yml cron and this public status page consume. scripts/generate-status.mjs in THIS repo reads this file directly (not a separate hardcoded list), and VibeWebAgent's CI runs a parity check (tests/unit/issue-1095-status-page-parity.test.js) that fetches this exact file over the public unauthenticated GitHub raw URL and fails if it drifts from the private registry -- so this can never silently go stale. tee_attestation is deliberately absent: AGE-1053 delisted TEE/Confidential Mode from the shipped product. PH-5: user_portal and subscription_api were added on BOTH sides in companion PRs (this repo's PR must merge FIRST -- the parity guard in the private repo fetches this file's raw URL on main), and the api_health_readiness entry was renamed (name only; its id is unchanged so the cron's jq selectors keep working) to \"LiteLLM Gateway (readiness)\" because that URL is LiteLLM's own readiness endpoint -- labelling it \"API\" left a reader unable to tell whether the LLM gateway was up. The parity check compares id/url/check, so this header text may differ from the private registry's header; the endpoints array must not.",
   "endpoints": [
     {
       "id": "api_health_readiness",
-      "name": "API (DB readiness)",
+      "name": "LiteLLM Gateway (readiness)",
       "url": "https://api.vibebrowser.app/health/readiness",
       "check": { "type": "regex", "pattern": "\"db\"\\s*:\\s*\"connected\"" }
+    },
+    {
+      "id": "subscription_api",
+      "name": "Subscription API (Stripe)",
+      "url": "https://api.vibebrowser.app/api/health",
+      "check": { "type": "regex", "pattern": "\"stripe-service\"\\s*:\\s*\\{\\s*\"status\"\\s*:\\s*\"ok\"\\s*\\}" }
+    },
+    {
+      "id": "user_portal",
+      "name": "User Portal",
+      "url": "https://portal.vibebrowser.app/health",
+      "check": { "type": "regex", "pattern": "\"status\"\\s*:\\s*\"ok\"" }
     },
     {
       "id": "relay_health",
