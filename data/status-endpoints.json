@@ -18,6 +18,18 @@
       "name": "Docs Portal",
       "url": "https://docs.vibebrowser.app",
       "check": { "type": "http_2xx" }
+    },
+    {
+      "id": "langfuse",
+      "name": "Langfuse (Azure App Service)",
+      "url": "https://langfuse.vibebrowser.app/api/public/health",
+      "check": { "type": "regex", "pattern": "\"status\"\\s*:\\s*\"OK\"" }
+    },
+    {
+      "id": "chatwoot",
+      "name": "Chatwoot (support.agentlabs.cc, shared infra)",
+      "url": "https://support.agentlabs.cc/api",
+      "check": { "type": "regex", "pattern": "\"data_services\"\\s*:\\s*\"ok\"" }
     }
   ]
 }
