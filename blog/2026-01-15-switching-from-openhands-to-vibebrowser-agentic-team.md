@@ -604,7 +604,7 @@ What changed is the shape of the platform. The job did not change.
 
 [AgentPod Team](https://agentpod.agentlabs.cc/team) is the managed version of the setup above — same role catalog, same Slack provisioning, no manual config. If you would rather self-host, the OpenClaw repo is open and everything in this post — `src/team/catalog.ts`, `src/team/openclaw.ts`, `openclaw-rc.d/workspace/<role>/AGENTS.md`, and `.agents/skills/configure-slack-apps/SKILL.md` — is the real source of truth.
 
-Questions: [dzianisvv@gmail.com](mailto:dzianisvv@gmail.com)
+Questions: [support@vibebrowser.app](mailto:support@vibebrowser.app)
 
 ---
 

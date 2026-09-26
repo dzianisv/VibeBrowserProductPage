@@ -94,4 +94,4 @@ This is the first post in the `#ainativecompany` series. Follow-up posts cover t
 - [Vibe Engineering: From Claude Code to OpenCode](/blog/2025-11-10-vibe-engineering-stack-claude-code-to-opencode) — the coding agent setup, orchestrator model, and how code ships without me at the keyboard
 - [VibeTeam: AI Agents for Operations](/blog/2025-11-20-vibeteam-openhand-ai-operations-agents) — the OpenHands-based agent team handling incidents, Slack, and customer communication
 
-Questions or building something similar: [dzianisvv@gmail.com](mailto:dzianisvv@gmail.com)
+Questions or building something similar: [support@vibebrowser.app](mailto:support@vibebrowser.app)

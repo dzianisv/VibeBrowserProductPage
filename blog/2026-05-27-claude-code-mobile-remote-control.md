@@ -124,4 +124,4 @@ The full `#ainativecompany` series:
 
 ---
 
-Questions or running a similar setup: [dzianisvv@gmail.com](mailto:dzianisvv@gmail.com)
+Questions or running a similar setup: [support@vibebrowser.app](mailto:support@vibebrowser.app)

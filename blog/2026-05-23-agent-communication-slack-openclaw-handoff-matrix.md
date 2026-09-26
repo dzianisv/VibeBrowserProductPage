@@ -160,7 +160,7 @@ The full `#ainativecompany` series:
 - [OpenCode in Server Mode: Tailscale Access and AI Session Supervision](/blog/2026-05-26-opencode-server-tailscale-agent-supervision)
 - [Claude Code Remote Control: Managing Coding Sessions from Mobile](/blog/2026-05-27-claude-code-mobile-remote-control) — per-PR YAML eval queue plus Claw's Langfuse-backed team evaluation
 
-Questions or running a similar setup: [dzianisvv@gmail.com](mailto:dzianisvv@gmail.com)
+Questions or running a similar setup: [support@vibebrowser.app](mailto:support@vibebrowser.app)
 
 *Previous in series: [Linear Customer Support Pipeline →](/blog/2026-05-22-linear-customer-support-pipeline-supportengineer-vibebrowser-copilot)*
 

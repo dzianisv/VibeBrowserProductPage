@@ -127,7 +127,7 @@ The model override in OpenClaw config looks like this:
 
 Release reference: [api-docs.deepseek.com/news/news260424](https://api-docs.deepseek.com/news/news260424)
 
-Questions or running a similar setup: [dzianisvv@gmail.com](mailto:dzianisvv@gmail.com)
+Questions or running a similar setup: [support@vibebrowser.app](mailto:support@vibebrowser.app)
 
 ## What Does Not Work Yet
 

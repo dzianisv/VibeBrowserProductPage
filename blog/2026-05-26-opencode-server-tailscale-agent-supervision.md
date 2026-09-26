@@ -109,7 +109,7 @@ The full `#ainativecompany` series:
 - **You are here** — OpenCode in Server Mode: Tailscale Access and AI Session Supervision
 - [Claude Code Remote Control: Managing Coding Sessions from Mobile](/blog/2026-05-27-claude-code-mobile-remote-control)
 
-Questions or running a similar setup: [dzianisvv@gmail.com](mailto:dzianisvv@gmail.com)
+Questions or running a similar setup: [support@vibebrowser.app](mailto:support@vibebrowser.app)
 
 *Previous in series: [Two Layers of Agent Evaluation: Deployment Checks and Team Trace Review →](/blog/2026-05-25-openclaw-eval-queue-yaml-based-agent-testing)*
 

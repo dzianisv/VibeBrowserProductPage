@@ -27,9 +27,6 @@ At VibeBrowser, we track this space continuously because our product is built fo
 
 OpenAI publicly introduced Operator as a browser-using agent, then expanded its computer-use tooling and agentic surface area in the OpenAI stack ([1], [2]). In OpenAI's own launch post, the example tasks include filling out forms, ordering groceries, and creating memes, with explicit user takeovers for sensitive steps like login, payment, and CAPTCHAs ([1]).
 
-![OpenAI Operator product page with browser task examples](/images/blog/openai-operator-page.png)
-*What to verify: OpenAI's own page explicitly frames Operator as a browser-acting agent and lists concrete task examples (forms, shopping, and assisted handoffs for sensitive steps).*
-
 Public OpenAI examples from the launch post:
 - Filling out repetitive web forms
 - Ordering groceries
@@ -40,27 +37,15 @@ Public OpenAI examples from the launch post:
 
 Perplexity announced Comet worldwide availability and positions it as an AI-native browser experience ([4]). In the same first-party launch post, Perplexity frames Comet Assistant examples around research, meetings, code, and e-commerce tasks while users browse ([4]). Their docs are explicit about install requirements and extension compatibility details ([5], [6]).
 
-![Perplexity Comet public launch post](/images/blog/perplexity-comet-announcement.png)
-*What to verify: Perplexity's first-party launch post positioning Comet as an AI-native browser with assistant use cases while browsing.*
-
 Public Perplexity examples from the launch post:
 - In-tab assistant while researching
 - Help with meetings and summaries
 - Code and development assistance
 - E-commerce help while browsing
 
-![Perplexity Comet product landing page](/images/blog/perplexity-comet-landing-page.png)
-*What to verify: the product landing page provides product-level framing and public availability context beyond a generic brand logo.*
-
-![Perplexity Comet installation requirements](/images/blog/perplexity-comet-install-requirements.png)
-*What to verify: first-party install requirements and platform constraints from Perplexity docs, useful for real adoption evaluation.*
-
 ### Composite: workflow autopilot for GTM teams
 
 Composite positions itself around autopilot workflows and GTM execution, with external coverage focused on CRM/sales acceleration rather than general-purpose browser operation ([7], [8]).
-
-![Composite homepage](/images/blog/composite-homepage.png)
-*What to verify: Composite's public positioning centers on workflow autopilot and GTM execution rather than a general-purpose browser operations layer.*
 
 ## Where the friction appears in practice
 
@@ -70,29 +55,17 @@ No serious team evaluates this category only on launch videos. They evaluate on 
 
 Brave published a concrete write-up showing indirect prompt injection risks in Perplexity Comet, including scenarios where malicious page content influences agent behavior ([9]).
 
-![Brave analysis of Comet prompt injection risk](/images/blog/brave-comet-prompt-injection.png)
-*What to verify: Brave documents concrete indirect prompt-injection scenarios where untrusted page content can influence agent behavior.*
-
 This does not mean Comet is uniquely insecure. It means all browser agents need stronger policy boundaries, content trust handling, and operator review checkpoints.
 
 ### 2) Community sentiment: strong excitement, equally strong skepticism
 
 Public threads around Comet and Atlas show the same pattern: users are excited by capability but worried about reliability, control, and data boundaries ([10], [11], [12], [13]).
 
-![Hacker News discussion on Comet security concerns](/images/blog/hn-comet-prompt-injection-discussion.png)
-*What to verify: community feedback includes explicit security and reliability concerns alongside excitement about capability.*
-
-![Reddit discussion on Perplexity ad tracking concerns](/images/blog/reddit-comet-ad-tracking-discussion.png)
-*What to verify: user trust discussions include ad-tracking and data-boundary concerns, not only feature hype.*
-
 Community posts are directional signals, not controlled benchmarks. But when the same concerns repeat across channels, product teams should pay attention.
 
 ### 3) Product scope mismatch: demo magic vs operational control
 
 Composite's value is clear for sales workflows, and that focus is a strength for GTM teams ([7], [8]). The tradeoff is scope: a workflow-first GTM product is not automatically a universal browser operations layer across research, legal, finance, and cross-domain automations.
-
-![Composite autopilot product page](/images/blog/composite-autopilot-product.png)
-*What to verify: Composite's product UX and copy emphasize sales workflow acceleration and autopilot execution for GTM teams.*
 
 ## Why Vibe is taking a different architecture path
 
@@ -109,12 +82,6 @@ When an automation step fails, users need to inspect what happened and continue 
 ### 3) MCP-native integration
 
 Vibe is designed to work as a browser capability inside broader agent toolchains. That is core to how we think about production operations, not an add-on.
-
-![Vibe compare page with source mapping](/images/blog/vibe-compare-page-sources.png)
-*What to verify: Vibe's comparison surface maps claims to sources so operators can inspect evidence instead of trusting black-box assertions.*
-
-![Vibe MCP feature page](/images/blog/vibe-mcp-feature-page.png)
-*What to verify: Vibe presents MCP as a core interoperability layer for plugging browser actions into broader agent toolchains.*
 
 ## Bottom line
 
