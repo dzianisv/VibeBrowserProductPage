@@ -1,0 +1,13 @@
+# agentlabs.cc serves its own demo videos from public/agentpod/*.mp4 (verified
+# live, see .github/workflows/deploy.yml deploy-agentlabs). Without a
+# .vercelignore of its own, Vercel falls back to the repo-root .vercelignore
+# ("If there is no .vercelignore to be found at the project level, Vercel
+# will use the .vercelignore at the root level" —
+# https://vercel.com/docs/deployments/vercel-ignore). That root file excludes
+# `public/*.mp4` / `public/*.webm` for vibebrowser.app, which serves no local
+# video and redirects to dl.agentlabs.cc instead. Applied to this project's
+# own rootDirectory (apps/agentlabs), the same glob silently stripped its
+# real demo videos from every deploy — the "Media pointer guard" step then
+# failed because the build output legitimately contained none. This file
+# exists purely to opt agentlabs OUT of inheriting that rule; keep it empty
+# (or add agentlabs-specific ignores here, never the video globs).
