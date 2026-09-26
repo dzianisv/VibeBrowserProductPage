@@ -20,7 +20,7 @@ Most AI apps on your phone are thin clients. You type a prompt, it goes to someo
 
 We wanted the opposite: a real agent that runs on the phone itself, talks straight to the model provider with **your** API key, and keeps no server in the middle. This is how we built OpenClaw for Android, and the one bug that ate a week.
 
-![OpenClaw running a real BYOK chat on Android — the reply comes straight from the provider](/agentpod/chat-real.png)
+![OpenClaw running a real BYOK chat on Android — the reply comes straight from the provider](https://agentlabs.cc/agentpod/chat-real.png)
 
 ## The problem with thin clients
 

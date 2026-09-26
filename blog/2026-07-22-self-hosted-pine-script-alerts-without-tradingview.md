@@ -37,7 +37,7 @@ npx -y github:dzianisv/mkt-alerts try
 
 No signup, no API key, no manual clone. It downloads the underlying `mkt` engine, runs a live price check against a real, key-free quote (Coinbase for crypto, Yahoo Finance for stocks), and fires a demo alert on localhost so you can see the whole loop — define condition, evaluate against a live price, get notified — end to end before you write a single config file.
 
-![mkt-alerts one-command trial: npx github:dzianisv/mkt-alerts try fires a live BTC-USD alert](/images/mkt-alerts-demo.gif)
+![mkt-alerts one-command trial: npx github:dzianisv/mkt-alerts try fires a live BTC-USD alert](https://agentlabs.cc/images/mkt-alerts-demo.gif)
 
 *One command, no signup, fires a live alert in seconds.*
 
@@ -126,4 +126,4 @@ Worth being blunt about, since the honest answer is more useful than a vague one
 npx -y github:dzianisv/mkt-alerts try
 ```
 
-That's the whole trial — no signup, no key, and it fires a real alert against a live quote. From there: every command runs straight from GitHub via `npx -y github:dzianisv/mkt-alerts …` (npm publish is pending, so skip `npm install` for now), the [GitHub repo](https://github.com/dzianisv/mkt-alerts) for source, deploy scripts, and the Pine Script skill docs, or the [product page](/agentsdata) for the MCP config and API reference in one place.
+That's the whole trial — no signup, no key, and it fires a real alert against a live quote. From there: every command runs straight from GitHub via `npx -y github:dzianisv/mkt-alerts …` (npm publish is pending, so skip `npm install` for now), the [GitHub repo](https://github.com/dzianisv/mkt-alerts) for source, deploy scripts, and the Pine Script skill docs, or the [product page](https://agentlabs.cc/agentsdata) for the MCP config and API reference in one place.

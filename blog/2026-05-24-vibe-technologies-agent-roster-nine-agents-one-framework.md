@@ -237,7 +237,7 @@ The full `#ainativecompany` series:
 - [OpenCode in Server Mode: Tailscale Access and AI Session Supervision](/blog/2026-05-26-opencode-server-tailscale-agent-supervision)
 - [Claude Code Remote Control: Managing Coding Sessions from Mobile](/blog/2026-05-27-claude-code-mobile-remote-control)
 
-Questions or running a similar setup: [dzianisvv@gmail.com](mailto:dzianisvv@gmail.com)
+Questions or running a similar setup: [support@vibebrowser.app](mailto:support@vibebrowser.app)
 
 *Previous in series: [Agent Communication: Slack Apps, OpenClaw Channels, AGENTS.md Handoff Matrix →](/blog/2026-05-23-agent-communication-slack-openclaw-handoff-matrix)*
 

@@ -181,7 +181,7 @@ The full `#ainativecompany` series:
 - [OpenCode in Server Mode: Tailscale Access and AI Session Supervision](/blog/2026-05-26-opencode-server-tailscale-agent-supervision)
 - [Claude Code Remote Control: Managing Coding Sessions from Mobile](/blog/2026-05-27-claude-code-mobile-remote-control)
 
-Questions or running a similar setup: [dzianisvv@gmail.com](mailto:dzianisvv@gmail.com)
+Questions or running a similar setup: [support@vibebrowser.app](mailto:support@vibebrowser.app)
 
 *Previous in series: [Meet the Vibe Technologies Team: 10 AI Agents, One Human, One Framework →](/blog/2026-05-24-vibe-technologies-agent-roster-nine-agents-one-framework)*
 
