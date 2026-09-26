@@ -180,6 +180,20 @@ jobs:
           VERCEL_ORG_ID: ${{ secrets.AGENTLABS_VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.AGENTLABS_VERCEL_PROJECT_ID }}
 
+      # The bison-s-projects/agentlabs Vercel project's dashboard "Root
+      # Directory" setting has drifted off apps/agentlabs at least once
+      # already (2026-09-26), which silently makes `vercel build` build the
+      # REPO ROOT instead — producing a build with none of agentlabs' pages
+      # or declared video assets, and Media pointer guard correctly failing.
+      # `vercel pull` writes the dashboard's current value into
+      # .vercel/project.json; rather than depend on that dashboard setting
+      # staying correct, force the value this workflow requires and fail
+      # loudly if the pulled project ever stops being nexjs/apps/agentlabs
+      # shaped, so a future drift is a clear diff in this log instead of a
+      # silent wrong-app build.
+      - name: Enforce agentlabs rootDirectory
+        run: node scripts/enforce-vercel-root-directory.cjs apps/agentlabs
+
       - name: Build
         run: npx --yes vercel@56.1.0 build --prod --token=${{ secrets.AGENTLABS_VERCEL_TOKEN }}
         env:
