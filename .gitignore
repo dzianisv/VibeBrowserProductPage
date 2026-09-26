@@ -51,6 +51,13 @@ tmp/
 # Local Supabase waitlist exports (contain PII — never commit)
 .agents/backups/
 
+# Terraform local state and provider cache — never commit
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+
 # Demo video. Deliberately NOT in the repo — it lives in the `media-v1` GitHub
 # Release and is served via dl.agentlabs.cc (see workers/dl-agentlabs-cdn and
 # next.config.mjs). Keeping it out of Git is the whole point of #207: as LFS it

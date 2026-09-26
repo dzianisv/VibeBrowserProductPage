@@ -3,6 +3,7 @@ import type { NextRequest } from 'next/server'
 import {
   setAttributionCookie,
 } from './lib/install-attribution'
+import { statusHostRewritePath } from './lib/status-host'
 
 // `/install` UTM attribution cookie. Preserves the exact server-side behaviour of
 // the old `app/install/route.ts` bare-redirect handler (PR #138): host-only on
@@ -73,6 +74,17 @@ export function proxy(request: NextRequest) {
     if (pathname === '/privacy' || pathname === '/terms') {
       return NextResponse.next()
     }
+  }
+
+  // status.vibebrowser.app is an alias on this same Vercel project, not a
+  // second app. `/` rewrites to the existing /status page. `/status` and
+  // `/status.json` are not rewritten: `/status.json` never reaches this
+  // proxy (matcher skips paths with a dot) and is served by
+  // app/status.json/route.ts on every host, including www.vibebrowser.app,
+  // which the freshness-check workflow already calls.
+  const statusRewrite = statusHostRewritePath(hostname, pathname)
+  if (statusRewrite) {
+    return NextResponse.rewrite(new URL(statusRewrite, request.url))
   }
 
   return NextResponse.next()

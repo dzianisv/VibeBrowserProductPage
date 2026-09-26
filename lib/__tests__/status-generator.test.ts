@@ -43,7 +43,7 @@ describe('scripts/generate-status.mjs', () => {
     const config = JSON.parse(fs.readFileSync(ENDPOINTS_PATH, 'utf8'))
     const ids = config.endpoints.map((e: { id: string }) => e.id)
     assert.ok(!ids.includes('tee_attestation'))
-    assert.deepEqual([...ids].sort(), ['api_health_readiness', 'docs_portal', 'relay_health'].sort())
+    assert.deepEqual([...ids].sort(), ['api_health_readiness', 'chatwoot', 'docs_portal', 'langfuse', 'relay_health'].sort())
   })
 
   test('a 2xx response with a matching body is "up"', async () => {
