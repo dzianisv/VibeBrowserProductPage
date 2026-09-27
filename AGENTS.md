@@ -36,8 +36,11 @@ states, no matter how the work reads in a summary:
 **Completion requires all of the following:**
 
 1. The change is merged to `main`.
-2. The GitHub Actions deploy workflow (`.github/workflows/deploy.yml`) has run and
-   succeeded for every affected site (`vibebrowser.app` and/or `agentlabs.cc`).
+2. The GitHub Actions deploy workflow has run and succeeded for every affected
+   site this repo still ships: `vibebrowser.app` (`.github/workflows/deploy.yml`)
+   and, when that site changed, `opencode.agentlabs.cc`
+   (`.github/workflows/deploy-opencode-mobile-site.yml`). `agentlabs.cc` is not
+   deployed from this repo.
 3. The change has been verified **live on the actual production URL** — a real
    HTTPS/browser check against production (not localhost, not a preview
    deployment, not "should work") confirming the requested behavior is visible
@@ -54,14 +57,22 @@ to any completion claim, even outside the `.tasks/` workflow.
 ### 1. Deploy to Vercel
 
 **Deploys run via GitHub Actions on push to `main`** (`.github/workflows/deploy.yml`).
-There is no Vercel native Git integration. This repo ships **two** sites to **two**
-separate Vercel projects/accounts:
+There is no Vercel native Git integration. That workflow ships **one** site:
 
 - **vibebrowser.app** — repo root, `dzianisvs-projects` account, `VERCEL_*` secrets.
-- **agentlabs.cc** — `apps/agentlabs`, `bison-s-projects` account, `AGENTLABS_VERCEL_*` secrets.
 
-The local `vercel` CLI (logged in as `dzianisv`) **cannot** deploy agentlabs.cc —
-it lives under a different account. To ship either site: **push to `main`**.
+**agentlabs.cc is not deployed from this repo.** VibeTechnologies/AgentPod-Web is
+the sole deployer (signed `v*` tags). `apps/agentlabs` source remains here, but
+do not re-add a deploy job — `scripts/check-agentlabs-deploy-guard.sh` fails CI
+if one comes back.
+
+**opencode.agentlabs.cc** is still deployed from this repo by
+`.github/workflows/deploy-opencode-mobile-site.yml` (bison team token
+`AGENTLABS_VERCEL_TOKEN` / `AGENTLABS_VERCEL_ORG_ID`, different project
+`vars.OPENCODE_VERCEL_PROJECT_ID`).
+
+To ship vibebrowser.app: **push to `main`**. The local `vercel` CLI (logged in as
+`dzianisv`) cannot reach the bison team.
 
 See **[docs/deploy.md](docs/deploy.md)** for full details, secrets, token rotation,
 and the Tailwind `shared/` gotcha.

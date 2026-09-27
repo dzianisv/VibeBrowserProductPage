@@ -231,3 +231,16 @@ jobs:
       # `filter=lfs` .gitattributes entry, any committed LFS pointer, or any
       # tracked blob over 5 MB.
       - run: ./scripts/check-no-lfs.sh
+
+  agentlabs-deploy-guard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          lfs: false
+      # agentlabs.cc apex is deployed only from VibeTechnologies/AgentPod-Web.
+      # Fails if a workflow in this repo targets that Vercel project again.
+      - run: ./scripts/check-agentlabs-deploy-guard.sh
