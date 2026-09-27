@@ -86,7 +86,6 @@ const CWS_HREF_SELECTOR =
   'a[href*="chromewebstore.google.com/detail/vibe-ai-browser-co-pilot"]'
 
 const BUDGET_CAP_LINES = [
-  'Cloud AI usage cap: $1/day',
   'Cloud AI usage cap: $25/mo',
   'Cloud AI usage cap: $99/mo',
 ]

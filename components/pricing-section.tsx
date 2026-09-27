@@ -86,7 +86,7 @@ export function PricingSection() {
               <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-left">
                 <h4 className="text-xl font-bold mb-2">Free</h4>
                 <p className="text-sm opacity-90 mb-1">Perfect for getting started</p>
-                <p className="text-xs opacity-75 mb-4">Cloud AI usage cap: $1/day (resets daily at midnight UTC)</p>
+                <p className="text-xs opacity-75 mb-4">Free, no card required</p>
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
