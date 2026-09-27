@@ -1,18 +1,26 @@
 # Deployment
 
-This repo deploys **two separate sites** to **two separate Vercel projects**, both
-driven by `.github/workflows/deploy.yml` on every push to `main`
-(plus manual `workflow_dispatch`). There is **no Vercel native Git integration** —
-all deploys go through GitHub Actions, so secrets are the only source of truth.
+`.github/workflows/deploy.yml` deploys **one site** — https://www.vibebrowser.app —
+on every push to `main` (plus manual `workflow_dispatch`). There is **no Vercel
+native Git integration**. Secrets are the source of truth for that deploy.
 
-| Site | Vercel project | Vercel account/team | Root dir | CI job | Secrets prefix |
-|------|----------------|---------------------|----------|--------|----------------|
+**https://agentlabs.cc is not deployed from this repo.** It is deployed
+exclusively from [VibeTechnologies/AgentPod-Web](https://github.com/VibeTechnologies/AgentPod-Web)
+(signed `v*` tags). `apps/agentlabs` source remains in this repo (the `agentlabs`
+CI job still lints and builds it) but a push here does **not** ship the apex.
+Do not add a deploy job for it. `scripts/check-agentlabs-deploy-guard.sh`
+(CI job `agentlabs-deploy-guard`) fails if a workflow references the apex
+project-id secret, the apex project id, a `deploy-agentlabs` job, or the apex
+hostname in a `vercel ... --prod` deploy / alias command.
+
+This repo **does** still deploy https://opencode.agentlabs.cc. That is a
+different Vercel project, from `.github/workflows/deploy-opencode-mobile-site.yml`,
+not from `deploy.yml`.
+
+| Site | Vercel project | Vercel account/team | Root dir | CI job | Secrets |
+|------|----------------|---------------------|----------|--------|---------|
 | https://www.vibebrowser.app | `vibebrowser.app` | `dzianisvs-projects` | repo root | `deploy-production` | `VERCEL_*` |
-| https://agentlabs.cc | `agentlabs` | `bison-s-projects` (`team_b6V25Bg4KWMiEIfaa5s3nmFX`) | `apps/agentlabs` | `deploy-agentlabs` | `AGENTLABS_VERCEL_*` |
-
-> ⚠️ The two projects live under **different Vercel accounts**. A token for one
-> cannot deploy the other. `agentlabs` is under the `bison` account; the local
-> `vercel` CLI (logged in as `dzianisv`) **cannot** reach it — deploy only via CI.
+| https://opencode.agentlabs.cc | OpenCode mobile site (`vars.OPENCODE_VERCEL_PROJECT_ID`) | `bison-s-projects` (`team_b6V25Bg4KWMiEIfaa5s3nmFX`) | `OpenCodeMobileSite` | `deploy` in `deploy-opencode-mobile-site.yml` | `AGENTLABS_VERCEL_TOKEN`, `AGENTLABS_VERCEL_ORG_ID` |
 
 ## Accounts & where credentials live (read this first)
 
@@ -21,21 +29,19 @@ Things that are non-obvious and have caused repeated confusion:
 - **Two Vercel accounts are involved.**
   - `vibebrowser.app` → Vercel team **`dzianisvs-projects`** (login `dzianisv`). The
     local `vercel` CLI on the dev machine is logged into this account.
-  - `agentlabs.cc` → Vercel team **`bison-s-projects`** /
-    `team_b6V25Bg4KWMiEIfaa5s3nmFX`, dashboard
-    https://vercel.com/bison-s-projects/agentlabs. This is the **bison** account
-    (`vibeteaichnologies@gmail.com`), a Hobby plan. **`dzianisv` is NOT a member**,
-    so `vercel --prod` from the CLI fails with "scope does not exist" /
-    "Could not retrieve Project Settings". Deploy it **only via CI**.
+  - `opencode.agentlabs.cc` (and the apex project this repo must not deploy) →
+    Vercel team **`bison-s-projects`** / `team_b6V25Bg4KWMiEIfaa5s3nmFX`. This is
+    the **bison** account (`vibeteaichnologies@gmail.com`), a Hobby plan.
+    **`dzianisv` is NOT a member**, so `vercel --prod` from the local CLI fails
+    with "scope does not exist" / "Could not retrieve Project Settings".
+    opencode.agentlabs.cc ships **only via its CI workflow**. agentlabs.cc ships
+    **only from AgentPod-Web**, not from this CLI and not from this repo's CI.
   - The browser (Chrome on the dev machine) IS logged into the bison Vercel
     account — that's how the `AGENTLABS_VERCEL_TOKEN` was minted (Account →
     Settings → Tokens).
 - **Secrets of record:** GitHub Actions repo secrets (`gh secret list`). Backup
   copy in Bitwarden (account `vibeteaichnologies@gmail.com`, item
   `agentlabs-vercel-token`).
-- **`agentlabs` is the project at the repo root `.vercel/`** (projectName
-  `agentlabs`, projectId `prj_aupLFb5NjTy7tomL9DYmHjlTt84T`). Don't be fooled —
-  that link is to the bison project the CLI can't reach.
 
 ## GitHub secrets
 
@@ -43,11 +49,16 @@ Set on the repo (`gh secret list`):
 
 - `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID` — vibebrowser.app project.
 - `AGENTLABS_VERCEL_TOKEN` — no-expiration token from the **bison** Vercel account
-  (Account → Settings → Tokens).
-- `AGENTLABS_VERCEL_ORG_ID` = `team_b6V25Bg4KWMiEIfaa5s3nmFX`
-- `AGENTLABS_VERCEL_PROJECT_ID` = `prj_aupLFb5NjTy7tomL9DYmHjlTt84T`
+  (Account → Settings → Tokens). Still required: opencode.agentlabs.cc deploys
+  with this token.
+- `AGENTLABS_VERCEL_ORG_ID` = `team_b6V25Bg4KWMiEIfaa5s3nmFX` — still required by
+  the opencode.agentlabs.cc deploy (same team, different project).
+- `AGENTLABS_VERCEL_PROJECT_ID` (`prj_aupLFb5NjTy7tomL9DYmHjlTt84T`) is the apex
+  `agentlabs` project. **CI no longer uses it.** Do not reference it from a
+  workflow. The guard script fails the build if you do. opencode uses
+  `vars.OPENCODE_VERCEL_PROJECT_ID` instead.
 
-To rotate the agentlabs token:
+To rotate the bison team token (opencode.agentlabs.cc):
 
 ```bash
 # create a new token in the bison Vercel account, then:
@@ -56,7 +67,7 @@ printf '%s' '<new-token>' | gh secret set AGENTLABS_VERCEL_TOKEN --repo dzianisv
 
 ## How a deploy works
 
-Each CI job runs the Vercel prebuilt flow with its own project's env:
+vibebrowser.app (`deploy-production`) runs the Vercel prebuilt flow:
 
 ```bash
 npx vercel pull  --yes --environment=production --token=$TOKEN   # fetch project settings (incl. rootDirectory)
@@ -64,20 +75,22 @@ npx vercel build --prod --token=$TOKEN                           # build the pro
 npx vercel deploy --prebuilt --prod --archive=tgz --token=$TOKEN # upload prebuilt output
 ```
 
-`agentlabs` builds `apps/agentlabs`, which imports shared page components from
-`shared/` (enabled by `externalDir: true` + `outputFileTracingRoot: ../..` in
-`apps/agentlabs/next.config.ts`).
+opencode.agentlabs.cc uses the same prebuilt flow with `AGENTLABS_VERCEL_TOKEN`,
+`AGENTLABS_VERCEL_ORG_ID`, and `vars.OPENCODE_VERCEL_PROJECT_ID`. It does not use
+`AGENTLABS_VERCEL_PROJECT_ID`.
 
-**The agentlabs job runs `npm ci` at the repo root before `vercel build`.** The
-`shared/` code imports npm packages (`marked`, `lucide-react`, …) but `shared`
-has no `node_modules` of its own — Node resolves them from the **repo-root**
-`node_modules`. `vercel build` only installs `apps/agentlabs`'s own deps (into
-`apps/agentlabs/node_modules`, which is NOT on `shared/`'s resolution path), so
-without the root install the build fails with `Module not found: 'marked'` in
-`shared/blog/repository.ts`. Any new npm dep used by `shared/` must be added to
-the **root** `package.json`.
+## apps/agentlabs source (not deployed from here)
 
-## Tailwind + shared components (gotcha)
+`apps/agentlabs` still lives in this repo and is still built by the CI `agentlabs`
+job. It is **not** uploaded to the apex Vercel project from here.
+
+It imports shared page components from `shared/` (`externalDir: true` +
+`outputFileTracingRoot: ../..` in `apps/agentlabs/next.config.ts`). `shared/`
+imports npm packages (`marked`, `lucide-react`, …) that resolve from the
+**repo-root** `node_modules`, not from `apps/agentlabs/node_modules`. Any new npm
+dep used by `shared/` must be added to the **root** `package.json`.
+
+### Tailwind + shared components (gotcha)
 
 `apps/agentlabs` renders the same company-profile / blog pages as the main site
 via `shared/`. Tailwind only generates classes it finds in files matched by its
@@ -99,6 +112,9 @@ layout breaks (tiny hero, crammed nav, squished spacing) while the build still
 
 ## Manual deploy (rarely needed)
 
-agentlabs.cc can only be deployed by someone logged into the **bison** Vercel
-account, or via the CI flow above with `AGENTLABS_VERCEL_TOKEN`. The normal way
-to ship is: **push to `main`**.
+vibebrowser.app ships by pushing to `main`. opencode.agentlabs.cc ships when
+`OpenCodeMobileSite/**` changes, or via `workflow_dispatch` on
+`deploy-opencode-mobile-site.yml`.
+
+Do not deploy agentlabs.cc from this repo. That apex is owned by
+VibeTechnologies/AgentPod-Web.
