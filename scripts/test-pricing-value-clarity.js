@@ -37,9 +37,9 @@ function assert(name, condition) {
 
 // a. Free tier budget line
 assert(
-  'Free tier shows $1/day cloud AI usage cap that resets daily at midnight UTC',
-  pricingSection.includes('$1/day') &&
-    pricingSection.includes('Cloud AI usage cap: $1/day (resets daily at midnight UTC)')
+  'Free tier shows no dollar amount and reads Free, no card required',
+  !pricingSection.includes('$1/day') &&
+    pricingSection.includes('Free, no card required')
 )
 
 // b. Pro tier budget line (distinct from the $25 price line)
