@@ -87,11 +87,32 @@ export default function Component() {
     task: { label: string; description: string }
     badges: string[]
     videoSrc?: string
+    posterSrc?: string
     imageSrc?: string
     icon: LucideIcon
     iconColor: string
     highlights: Array<{ icon: LucideIcon; title: string; description: string }>
   }> = [
+    {
+      id: 'product-demo',
+      title: 'Vibe Browser in 16 Seconds',
+      subtitle: 'An AI agent that works inside your real browser',
+      description: 'Describe the task in plain English and Vibe drives your existing logged-in browser — navigating, reading, clicking, and filling forms — while you watch every step.',
+      task: {
+        label: 'Product Demo:',
+        description: 'Vibe AI Agent completes a real web task end to end.'
+      },
+      badges: ['AI Agent', 'Browser Automation', 'Chrome Extension'],
+      videoSrc: '/ph-demo-1.1.39',
+      posterSrc: '/images/ph-demo-1.1.39-poster.jpg',
+      icon: Zap,
+      iconColor: 'text-purple-600',
+      highlights: [
+        { icon: Zap, title: 'One Prompt', description: 'Plain-English tasks, no scripting' },
+        { icon: Brain, title: 'Real Browser', description: 'Uses your existing logged-in session' },
+        { icon: Target, title: 'Visible Steps', description: 'Watch the agent work in real time' }
+      ]
+    },
     {
       id: 'linkedin-warm-outreach',
       title: 'LinkedIn Warm Outreach',
@@ -488,6 +509,7 @@ export default function Component() {
                     preload="auto"
                     title={`Vibe AI browser automation — ${demos[currentDemo].title}`}
                     src={`${demos[currentDemo].videoSrc}.mp4`}
+                    poster={demos[currentDemo].posterSrc}
                     onPlay={() => setIsPlaying(true)}
                     onPause={() => setIsPlaying(false)}
                   >
