@@ -126,4 +126,4 @@ Worth being blunt about, since the honest answer is more useful than a vague one
 npx -y github:dzianisv/mkt-alerts try
 ```
 
-That's the whole trial — no signup, no key, and it fires a real alert against a live quote. From there: every command runs straight from GitHub via `npx -y github:dzianisv/mkt-alerts …` (npm publish is pending, so skip `npm install` for now), the [GitHub repo](https://github.com/dzianisv/mkt-alerts) for source, deploy scripts, and the Pine Script skill docs, or the [product page](https://agentlabs.cc/agentsdata) for the MCP config and API reference in one place.
+That's the whole trial — no signup, no key, and it fires a real alert against a live quote. From there: every command runs straight from GitHub via `npx -y github:dzianisv/mkt-alerts …` (npm publish is pending, so skip `npm install` for now), the [GitHub repo](https://github.com/dzianisv/mkt-alerts) for source, deploy scripts, and the Pine Script skill docs, or the [product page](https://agentlabs.cc/) for the MCP config and API reference in one place.
