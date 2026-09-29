@@ -858,6 +858,23 @@ export default function Component() {
 
 
 
+    {/* Decision-model fast mode */}
+    <section className="w-full py-12 md:py-16 bg-white">
+      <div className="container max-w-3xl px-4 md:px-6 mx-auto text-center">
+        <div className="inline-flex items-center gap-2 rounded-full border border-purple-200 bg-purple-50 px-4 py-1.5 text-sm text-purple-700 mb-6">
+          <Zap className="w-3.5 h-3.5 text-purple-600" />
+          Coming soon
+        </div>
+        <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
+          Decision-model fast mode
+        </h2>
+        <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
+          A lightweight decision-model fast mode is being explored for routine actions like clicks and navigation, aimed at lower cost.
+          You keep control over consequential actions, with no change to the confirmation flow.
+        </p>
+      </div>
+    </section>
+
     {/* Integrations & Agent Ecosystem */}
     <section className="w-full py-12 md:py-16 bg-slate-50">
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
