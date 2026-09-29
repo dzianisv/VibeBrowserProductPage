@@ -17,7 +17,7 @@ published: true
 
 I spend a lot of time away from my desk. The AI coding agents keep running. I needed a way to supervise them — review what they're doing, approve tool calls, redirect a stuck session — without being glued to a laptop.
 
-[OpenCode Mobile](https://agentlabs.cc/opencode) is what we built for that.
+[OpenCode Mobile](https://agentlabs.cc/) is what we built for that.
 
 ## What it does
 
