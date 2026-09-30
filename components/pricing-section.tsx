@@ -114,7 +114,7 @@ export function PricingSection() {
                 </div>
                 <p className="text-sm opacity-90 mb-1"><span className="text-2xl font-bold">$25</span>/month</p>
                 <p className="text-xs opacity-75 mb-1">Advanced AI models</p>
-                <p className="text-xs opacity-75 mb-4">Cloud AI usage cap: $7/mo (resets on the 1st of each month, UTC)</p>
+                <p className="text-xs opacity-75 mb-4">Cloud AI usage cap: $7/mo (resets each billing period)</p>
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
@@ -159,7 +159,7 @@ export function PricingSection() {
                 <h4 className="text-xl font-bold mb-2">Max</h4>
                 <p className="text-sm opacity-90 mb-1"><span className="text-2xl font-bold">$99</span>/month</p>
                 <p className="text-xs opacity-75 mb-1">Premium AI with reasoning</p>
-                <p className="text-xs opacity-75 mb-4">Cloud AI usage cap: $28/mo (resets on the 1st of each month, UTC)</p>
+                <p className="text-xs opacity-75 mb-4">Cloud AI usage cap: $28/mo (resets each billing period)</p>
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
@@ -201,7 +201,7 @@ export function PricingSection() {
               </div>
             </div>
             <p className="text-xs opacity-75 text-center mt-6 max-w-3xl mx-auto">
-              Cloud AI usage caps cover metered calls to hosted models (OpenAI, xAI, DeepSeek, etc.) and are a separate spend limit from your subscription price. They reset at a fixed UTC clock time — daily at midnight for Free, on the 1st of the month for Pro and Max — not on a rolling window from your signup or billing date. On-device AI (Gemini Nano) usage is unlimited on every tier and never counts against your cap.
+              Cloud AI usage caps cover metered calls to hosted models (OpenAI, xAI, DeepSeek, etc.) and are a separate spend limit from your subscription price. Free resets every 24 hours. Pro and Max reset on your own billing date, each time your subscription renews, not on the 1st of the month. On-device AI (Gemini Nano) usage is unlimited on every tier and never counts against your cap.
             </p>
             <p className="text-xs opacity-75 text-center mt-2 max-w-3xl mx-auto">
               Cancel anytime. See our <a href="/refund" className="underline">Refund &amp; Cancellation Policy</a> before you subscribe.
