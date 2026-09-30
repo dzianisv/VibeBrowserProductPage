@@ -114,7 +114,7 @@ export function PricingSection() {
                 </div>
                 <p className="text-sm opacity-90 mb-1"><span className="text-2xl font-bold">$25</span>/month</p>
                 <p className="text-xs opacity-75 mb-1">Advanced AI models</p>
-                <p className="text-xs opacity-75 mb-4">Cloud AI usage cap: $25/mo (resets on the 1st of each month, UTC)</p>
+                <p className="text-xs opacity-75 mb-4">Cloud AI usage cap: $7/mo (resets on the 1st of each month, UTC)</p>
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
@@ -159,7 +159,7 @@ export function PricingSection() {
                 <h4 className="text-xl font-bold mb-2">Max</h4>
                 <p className="text-sm opacity-90 mb-1"><span className="text-2xl font-bold">$99</span>/month</p>
                 <p className="text-xs opacity-75 mb-1">Premium AI with reasoning</p>
-                <p className="text-xs opacity-75 mb-4">Cloud AI usage cap: $99/mo (resets on the 1st of each month, UTC)</p>
+                <p className="text-xs opacity-75 mb-4">Cloud AI usage cap: $28/mo (resets on the 1st of each month, UTC)</p>
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
