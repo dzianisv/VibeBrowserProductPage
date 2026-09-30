@@ -13,8 +13,8 @@
  *      have a non-zero bounding box, AND are reachable by scrolling into view.
  *   3. The Chrome Web Store trust link is present, visible, and its href
  *      contains the real extension id (djodpgokbmobeclicaicnnidccoinado).
- *   4. The footnote's distinctive "not on a rolling window from your signup
- *      or billing date" copy is present and visible.
+ *   4. The footnote's distinctive "reset on your own billing date, each time
+ *      your subscription renews" copy is present and visible.
  *
  * TEST-INTEGRITY HARDENING (why this file looks the way it does)
  * --------------------------------------------------------------
@@ -86,11 +86,11 @@ const CWS_HREF_SELECTOR =
   'a[href*="chromewebstore.google.com/detail/vibe-ai-browser-co-pilot"]'
 
 const BUDGET_CAP_LINES = [
-  'Cloud AI usage cap: $25/mo',
-  'Cloud AI usage cap: $99/mo',
+  'Cloud AI usage cap: $7/mo',
+  'Cloud AI usage cap: $28/mo',
 ]
 
-const FOOTNOTE_SUBSTRING = 'not on a rolling window from your signup or billing date'
+const FOOTNOTE_SUBSTRING = 'reset on your own billing date, each time your subscription renews'
 
 const VIEWPORTS = [
   { label: 'mobile', width: 375, height: 667, isMobile: true, hasTouch: true },
