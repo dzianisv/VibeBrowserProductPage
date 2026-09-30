@@ -44,20 +44,20 @@ assert(
 
 // b. Pro tier budget line (distinct from the $25 price line)
 assert(
-  'Pro tier shows $25/mo cloud AI usage cap resetting on the 1st of each month (UTC)',
-  pricingSection.includes('Cloud AI usage cap: $25/mo (resets on the 1st of each month, UTC)')
+  'Pro tier shows $7/mo cloud AI usage cap resetting each billing period',
+  pricingSection.includes('Cloud AI usage cap: $7/mo (resets each billing period)')
 )
 
 // c. Max tier budget line
 assert(
-  'Max tier shows $99/mo cloud AI usage cap resetting on the 1st of each month (UTC)',
-  pricingSection.includes('Cloud AI usage cap: $99/mo (resets on the 1st of each month, UTC)')
+  'Max tier shows $28/mo cloud AI usage cap resetting each billing period',
+  pricingSection.includes('Cloud AI usage cap: $28/mo (resets each billing period)')
 )
 
-// c2. "resets on the 1st of each month" appears exactly twice (Pro + Max)
+// c2. "resets each billing period" appears exactly twice (Pro + Max)
 assert(
-  '"resets on the 1st of each month" appears twice (Pro and Max)',
-  (pricingSection.match(/resets on the 1st of each month/g) || []).length === 2
+  '"resets each billing period" appears twice (Pro and Max)',
+  (pricingSection.match(/resets each billing period/g) || []).length === 2
 )
 
 // d. On-device/local-AI footnote
@@ -67,10 +67,10 @@ assert(
     pricingSection.includes('Gemini Nano')
 )
 
-// d2. Footnote makes the fixed-clock (not rolling window) reset explicit
+// d2. Footnote states paid caps reset on the subscriber's own billing date (Stripe period anchored)
 assert(
-  'Footnote states caps reset on a fixed clock, not a rolling window from signup/billing',
-  pricingSection.includes('not on a rolling window from your signup or billing date')
+  'Footnote states paid caps reset on the billing date, not the 1st of the month',
+  pricingSection.includes('reset on your own billing date, each time your subscription renews, not on the 1st of the month')
 )
 
 // d3. Footnote separates usage cap from subscription price
