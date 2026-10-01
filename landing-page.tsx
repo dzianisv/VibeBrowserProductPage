@@ -421,7 +421,7 @@ export default function Component() {
               )}
             </div>
             <Button asChild variant="outline" size="sm" className="border bg-white hover:bg-slate-50 text-gray-900">
-              <a href="https://youtu.be/n6ygNknkeRc" target="_blank" rel="noopener noreferrer">
+              <a href="https://youtu.be/Cz6Qkskhpxk" target="_blank" rel="noopener noreferrer">
                 <Play className="mr-2 h-4 w-4" />
                 Watch 58s demo
               </a>
@@ -452,7 +452,7 @@ export default function Component() {
             <div className="relative w-full overflow-hidden rounded-xl shadow-2xl border border-slate-200 bg-black" style={{ paddingBottom: '56.25%' }}>
               <iframe
                 className="absolute inset-0 h-full w-full"
-                src="https://www.youtube-nocookie.com/embed/n6ygNknkeRc"
+                src="https://www.youtube-nocookie.com/embed/Cz6Qkskhpxk"
                 title="Vibe Browser — 58 second demo"
                 loading="lazy"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
