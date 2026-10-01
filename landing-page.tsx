@@ -280,13 +280,13 @@ export default function Component() {
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-slate-50 to-white overflow-x-hidden">
       {/* Header */}
       <header className="relative w-full px-4 lg:px-6 h-16 flex items-center justify-between border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-        <Link href="/" className="flex items-center gap-2 min-w-0 shrink-0 md:shrink">
-          <img src="/vibebrowser-logo.png" alt="VibeBrowser Co-Pilot" className="w-10 h-10 object-contain shrink-0 md:shrink" />
+        <Link href="/" className="flex items-center gap-2 min-w-0 shrink-0 lg:shrink">
+          <img src="/vibebrowser-logo.png" alt="VibeBrowser Co-Pilot" className="w-10 h-10 object-contain shrink-0 lg:shrink" />
           <div className="hidden sm:flex flex-col leading-tight min-w-0">
-            <span className="text-lg font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent truncate">
+            <span className="text-lg font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent whitespace-nowrap">
               VibeBrowser Co-Pilot
             </span>
-            <span className="text-xs font-semibold text-slate-600 truncate">
+            <span className="text-xs font-semibold text-slate-600 whitespace-nowrap">
               for Everyone!
             </span>
           </div>
@@ -299,30 +299,30 @@ export default function Component() {
             </span>
           </div>
         </Link>
-        <nav className="hidden md:flex gap-6">
-          <Link href="/mcp" className="text-sm font-medium hover:text-purple-600 transition-colors">
+        <nav className="hidden lg:flex gap-6">
+          <Link href="/mcp" className="text-sm font-medium hover:text-purple-600 transition-colors whitespace-nowrap">
             MCP
           </Link>
-          <Link href="/integrations" className="text-sm font-medium hover:text-purple-600 transition-colors">
+          <Link href="/integrations" className="text-sm font-medium hover:text-purple-600 transition-colors whitespace-nowrap">
             Integrations
           </Link>
-          <Link href="/pricing" className="text-sm font-medium hover:text-purple-600 transition-colors">
+          <Link href="/pricing" className="text-sm font-medium hover:text-purple-600 transition-colors whitespace-nowrap">
             Pricing
           </Link>
-          <Link href="https://docs.vibebrowser.app" className="text-sm font-medium hover:text-purple-600 transition-colors">
+          <Link href="https://docs.vibebrowser.app" className="text-sm font-medium hover:text-purple-600 transition-colors whitespace-nowrap">
             Docs
           </Link>
-          <Link href="/blog" className="text-sm font-medium hover:text-purple-600 transition-colors">
+          <Link href="/blog" className="text-sm font-medium hover:text-purple-600 transition-colors whitespace-nowrap">
             Blog
           </Link>
-          <Link href="/aboutus" className="text-sm font-medium hover:text-purple-600 transition-colors">
+          <Link href="/aboutus" className="text-sm font-medium hover:text-purple-600 transition-colors whitespace-nowrap">
             About Us
           </Link>
         </nav>
         <div className="flex items-center shrink-0">
           <button
             type="button"
-            className="md:hidden inline-flex items-center justify-center rounded-md p-2 text-slate-700 hover:bg-slate-100"
+            className="lg:hidden inline-flex items-center justify-center rounded-md p-2 text-slate-700 hover:bg-slate-100"
             aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-header-nav"
@@ -349,7 +349,7 @@ export default function Component() {
         <nav
           id="mobile-header-nav"
           hidden={!mobileMenuOpen}
-          className="md:hidden absolute top-full left-0 right-0 w-full bg-white border-b shadow-md"
+          className="lg:hidden absolute top-full left-0 right-0 w-full bg-white border-b shadow-md"
           aria-label="Mobile navigation"
         >
             <div className="flex flex-col px-4 py-2">
