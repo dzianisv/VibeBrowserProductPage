@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { SiteFooter } from '@/components/site-footer'
-import { TypewriterEffect } from "@/components/typewriter-effect"
 import {
 Chrome,
 Zap,
@@ -16,7 +15,6 @@ FileText,
 Youtube,
 Download,
   CheckCircle,
-  Shield,
   Lock,
   Play,
 Clock,
@@ -168,25 +166,6 @@ export default function Component() {
         { icon: MessageSquare, title: 'Auto-Networking', description: 'Automated connection management' },
         { icon: Brain, title: 'Smart Engagement', description: 'AI-powered professional interactions' },
         { icon: Target, title: 'Task Completion', description: 'End-to-end workflow automation' }
-      ]
-    },
-    {
-      id: 'connect-ai-agent',
-      title: 'Connect Your AI Agent',
-      subtitle: 'Claude Code, Hermes, Cursor, Codex, OpenClaw',
-      description: 'Point any AI agent at your real browser with one relay URL. Nothing to install, no local server.',
-      task: {
-        label: 'Agent Setup:',
-        description: 'Copy the config from Settings and paste it into your agent.'
-      },
-      badges: ['MCP', 'Claude Code', 'Hermes', 'Remote Control'],
-      imageSrc: '/images/connect-ai-agent.webp',
-      icon: Code,
-      iconColor: 'text-slate-800',
-      highlights: [
-        { icon: Code, title: 'One Relay URL', description: 'MCP over HTTPS — no local server to run' },
-        { icon: Brain, title: 'Any Agent', description: 'Claude Code, Cursor, Codex, OpenClaw, Hermes' },
-        { icon: Target, title: 'Verify Built In', description: 'A prompt that proves the agent really drove your browser' }
       ]
     },
     {
@@ -379,26 +358,11 @@ export default function Component() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
           <div className="flex flex-col gap-5 text-center lg:text-left">
           <h1 className="text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl">
-            AI Browser Co-Pilot that
-            <span className="mt-1 block bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent min-h-[1.2em]">
-              <span className="inline-flex w-full lg:justify-start justify-center whitespace-nowrap">
-                <TypewriterEffect
-                  words={[
-                    "automates web tasks",
-                    "works in your browser",
-                    "saves you hours daily",
-                  ]}
-                  typingSpeed={90}
-                  deletingSpeed={50}
-                  pauseDuration={1900}
-                  className="inline-block w-full px-2 lg:px-0 text-center lg:text-left"
-                />
-              </span>
-            </span>
+            Your AI assistant for repetitive browser work
           </h1>
 
           <p className="text-lg text-muted-foreground md:text-xl leading-relaxed">
-            Runs inside your existing logged-in browser session and turns repetitive website, Gmail, and Calendar work into reusable workflows with guardrails.
+            For founders and solo operators: Vibe works through your inbox, CRM and web forms in your own Chrome, with your logins, while you watch.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 items-center lg:items-start justify-center lg:justify-start">
@@ -456,12 +420,12 @@ export default function Component() {
                 </div>
               )}
             </div>
-            <Link href="/mcp">
-              <Button variant="outline" size="sm" className="border bg-white hover:bg-slate-50 text-gray-900">
-                See MCP Setup
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
+            <Button asChild variant="outline" size="sm" className="border bg-white hover:bg-slate-50 text-gray-900">
+              <a href="https://youtu.be/n6ygNknkeRc" target="_blank" rel="noopener noreferrer">
+                <Play className="mr-2 h-4 w-4" />
+                Watch 58s demo
+              </a>
+            </Button>
           </div>
 
           <p className="text-xs text-muted-foreground justify-center lg:justify-start flex gap-3">
@@ -474,7 +438,6 @@ export default function Component() {
             {[
               "Works in your logged-in session",
               "Gmail + Calendar built in",
-              "MCP relay for remote agents",
               "BYOK or use our cloud API",
             ].map((item, i, arr) => (
               <span key={item} className="flex items-center gap-2">
@@ -485,8 +448,21 @@ export default function Component() {
           </div>
           </div>
 
-          {/* Demo Carousel */}
           <div className="w-full">
+            <div className="relative w-full overflow-hidden rounded-xl shadow-2xl border border-slate-200 bg-black" style={{ paddingBottom: '56.25%' }}>
+              <iframe
+                className="absolute inset-0 h-full w-full"
+                src="https://www.youtube-nocookie.com/embed/n6ygNknkeRc"
+                title="Vibe Browser — 58 second demo"
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </div>
+          </div>
+
+          {/* Demo Carousel */}
+          <div className="w-full lg:col-span-2">
             <div className="relative">
               <div className="relative rounded-3xl overflow-hidden shadow-2xl">
                 <div className="relative" style={{ paddingBottom: '62.5%' }}>
@@ -662,12 +638,6 @@ export default function Component() {
                 </Link>
               </div>
               <div className="mt-4 grid gap-2 sm:grid-cols-2">
-                <Link href="/blog/2026-05-28-why-opencode-not-claude-code" className="rounded-lg border border-purple-100 bg-white/90 px-3 py-2 text-sm text-slate-700 hover:border-purple-200 hover:text-purple-700">
-                  Why OpenCode, not Claude Code
-                </Link>
-                <Link href="/blog/2026-05-27-claude-code-mobile-remote-control" className="rounded-lg border border-purple-100 bg-white/90 px-3 py-2 text-sm text-slate-700 hover:border-purple-200 hover:text-purple-700">
-                  Claude Code Mobile Remote Control
-                </Link>
                 <Link href="/blog/2026-05-24-vibe-technologies-agent-roster-nine-agents-one-framework" className="rounded-lg border border-purple-100 bg-white/90 px-3 py-2 text-sm text-slate-700 hover:border-purple-200 hover:text-purple-700">
                   Nine Agents, One Framework
                 </Link>
@@ -677,6 +647,55 @@ export default function Component() {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    {/* Your data and your control */}
+    <section className="w-full py-14 md:py-20 bg-white border-y border-slate-100">
+      <div className="container max-w-6xl px-4 md:px-6 mx-auto">
+        <div className="text-center mb-10">
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+            Your data and your control
+          </h2>
+        </div>
+        <div className="grid gap-6 md:grid-cols-3">
+          <Card className="border border-slate-200 shadow-sm">
+            <CardContent className="p-6">
+              <div className="w-10 h-10 rounded-lg bg-purple-50 flex items-center justify-center mb-4">
+                <Lock className="w-5 h-5 text-purple-600" />
+              </div>
+              <h3 className="text-lg font-bold mb-3">Stays in your browser</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+                The agent runs as a Chrome extension in your own browser and acts in your tabs, with your existing sessions.
+              </p>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Saved passwords are filled from an encrypted local vault straight into the form — the AI model never sees them.
+              </p>
+            </CardContent>
+          </Card>
+          <Card className="border border-slate-200 shadow-sm">
+            <CardContent className="p-6">
+              <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center mb-4">
+                <Globe className="w-5 h-5 text-blue-600" />
+              </div>
+              <h3 className="text-lg font-bold mb-3">Sent to the model you choose</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Your prompt and the page content the agent reads (text, page structure, screenshots when vision is used) go to the model provider you picked: Vibe cloud, your own API key, or a local model via Ollama, in which case nothing leaves your machine.
+              </p>
+            </CardContent>
+          </Card>
+          <Card className="border border-slate-200 shadow-sm">
+            <CardContent className="p-6">
+              <div className="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center mb-4">
+                <MousePointer className="w-5 h-5 text-amber-600" />
+              </div>
+              <h3 className="text-lg font-bold mb-3">You stay in control</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Vibe acts on your behalf without asking before each click, so start with low-risk tasks. Watch it work in the side panel and press Stop at any time. It pauses and hands back to you on CAPTCHAs. Don&apos;t give it tasks you wouldn&apos;t let an assistant do unsupervised, like payments.
+              </p>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </section>
@@ -779,117 +798,34 @@ export default function Component() {
       </div>
     </section>
 
-    {/* Backed by Research */}
-    <section className="w-full py-12 md:py-16 bg-slate-50">
-      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
-        <div className="text-center mb-10">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
-            Backed by Research
-          </h2>
-          <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
-            Vibe&apos;s architecture is validated by 2025-2026 academic research and industry standards from Google and Microsoft.
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-12">
-          <Card className="bg-white border-slate-200 shadow-sm hover:shadow-md transition-shadow">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-2 mb-3">
-                <Shield className="w-5 h-5 text-purple-600" />
-                <h3 className="font-bold">Privacy &amp; Security</h3>
-              </div>
-              <p className="text-sm text-muted-foreground mb-4">
-                &quot;Agent-to-agent communications in context-rich enterprise environments markedly increase privacy risk.&quot;
-              </p>
-              <div className="text-xs text-slate-500 font-medium bg-slate-100 px-3 py-2 rounded-lg inline-block">
-                Microsoft Research: Privacy Risks (2024)
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-white border-slate-200 shadow-sm hover:shadow-md transition-shadow">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-2 mb-3">
-                <Zap className="w-5 h-5 text-purple-600" />
-                <h3 className="font-bold">Reliability Failure</h3>
-              </div>
-              <p className="text-sm text-muted-foreground mb-4">
-                Cloud swarms fail due to &quot;inter-agent misalignment.&quot; Hybrid agents (API + Browsing) increase success by 24%.
-              </p>
-              <div className="text-xs text-slate-500 font-medium bg-slate-100 px-3 py-2 rounded-lg inline-block">
-                arXiv:2503.23350 &amp; ACL 2025
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-white border-slate-200 shadow-sm hover:shadow-md transition-shadow">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-2 mb-3">
-                <ListTodo className="w-5 h-5 text-purple-600" />
-                <h3 className="font-bold">Agentic Skills</h3>
-              </div>
-              <p className="text-sm text-muted-foreground mb-4">
-                Research confirms that reusable &quot;agentic skills&quot; (procedural capabilities) are the key to reliable LLM agents.
-              </p>
-              <div className="text-xs text-slate-500 font-medium bg-slate-100 px-3 py-2 rounded-lg inline-block">
-                arXiv:2602.20867 (SoK: Agentic Skills)
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-16">
-          <Card className="bg-slate-50 border-slate-200 shadow-sm">
-            <CardContent className="p-5 flex items-start gap-4">
-              <div className="bg-white p-2 rounded-lg border border-slate-100 shadow-sm">
-                <Globe className="w-6 h-6 text-blue-600" />
-              </div>
-              <div>
-                <h4 className="font-bold text-sm mb-1">Google Chrome Team (Sept 2025)</h4>
-                <p className="text-xs text-muted-foreground mb-2">
-                  <strong>&quot;Chrome DevTools (MCP) for your AI agent&quot;</strong> by Mathias Bynens &amp; Michael Hablich. Validates that AI agents need direct, local access to the browser&apos;s DOM and Network layers.
-                </p>
-                <Link href="https://developer.chrome.com/blog/chrome-devtools-mcp" target="_blank" className="text-[10px] text-blue-600 hover:underline">
-                  Read Announcement →
-                </Link>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-slate-50 border-slate-200 shadow-sm">
-            <CardContent className="p-5 flex items-start gap-4">
-              <div className="bg-white p-2 rounded-lg border border-slate-100 shadow-sm">
-                <Code className="w-6 h-6 text-blue-600" />
-              </div>
-              <div>
-                <h4 className="font-bold text-sm mb-1">Microsoft Playwright Team</h4>
-                <p className="text-xs text-muted-foreground mb-2">
-                  <strong>&quot;How to Integrate Playwright MCP&quot;</strong> confirms that semantic, accessibility-tree automation is superior to brittle vision-based cloud agents for reliability.
-                </p>
-                <Link href="https://techcommunity.microsoft.com/blog/azuredevcommunityblog/how-to-integrate-playwright-mcp-for-ai-driven-test-automation/4470372" target="_blank" className="text-[10px] text-blue-600 hover:underline">
-                  Read Article →
-                </Link>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    </section>
-
-
-
-
-
     {/* Integrations & Agent Ecosystem */}
     <section className="w-full py-12 md:py-16 bg-slate-50">
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
-            Integrations & Agent Ecosystem
+            For builders: MCP, skills and agent integrations
           </h2>
           <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
             Gmail + Calendar automation, MCP interoperability, reusable skills, and OpenClaw-inspired self-improving agents.
           </p>
+          <div className="mt-5 flex flex-wrap justify-center gap-2">
+            {["MCP", "Claude Code", "Hermes", "Remote Control", "Skills", "Self-modifying"].map((badge) => (
+              <span key={badge} className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-700">
+                {badge}
+              </span>
+            ))}
+          </div>
+          <p className="max-w-2xl mx-auto mt-4 text-sm text-muted-foreground">
+            Point Claude Code, Hermes, Cursor, Codex, or OpenClaw at your real browser with one relay URL. MCP relay for remote agents — nothing to install, no local server.
+          </p>
+          <div className="mt-4 grid gap-2 sm:grid-cols-2 max-w-2xl mx-auto text-left">
+            <Link href="/blog/2026-05-28-why-opencode-not-claude-code" className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 hover:border-purple-200 hover:text-purple-700">
+              Why OpenCode, not Claude Code
+            </Link>
+            <Link href="/blog/2026-05-27-claude-code-mobile-remote-control" className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 hover:border-purple-200 hover:text-purple-700">
+              Claude Code Mobile Remote Control
+            </Link>
+          </div>
         </div>
 
         <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">

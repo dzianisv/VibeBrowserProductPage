@@ -200,6 +200,17 @@ export function PricingSection() {
                 </Button>
               </div>
             </div>
+            <div className="mt-8 mx-auto max-w-3xl rounded-xl bg-white p-5 text-left text-slate-800 shadow-lg">
+              <h4 className="text-base font-bold text-slate-900 mb-3">How the cloud AI allowance works</h4>
+              <ul className="text-sm space-y-1.5 mb-3">
+                <li><span className="font-semibold">Free:</span> $0 — $0.25 of cloud AI usage per 24 hours.</li>
+                <li><span className="font-semibold">Pro:</span> $25/mo — includes $7/mo of cloud AI usage.</li>
+                <li><span className="font-semibold">Max:</span> $99/mo — includes $28/mo of cloud AI usage.</li>
+              </ul>
+              <p className="text-sm leading-relaxed text-slate-700">
+                When the allowance runs out, Vibe&apos;s cloud models stop for the rest of the period and the extension tells you so. Free resets after 24 hours; Pro and Max reset each billing period. You can upgrade, or keep working right away with your own API key (OpenAI, Anthropic, Google, and others) or a local model via Ollama — those don&apos;t count against the allowance.
+              </p>
+            </div>
             <p className="text-xs opacity-75 text-center mt-6 max-w-3xl mx-auto">
               Cloud AI usage caps cover metered calls to hosted models (OpenAI, xAI, DeepSeek, etc.) and are a separate spend limit from your subscription price. Free resets every 24 hours. Pro and Max reset on your own billing date, each time your subscription renews, not on the 1st of the month. On-device AI (Gemini Nano) usage is unlimited on every tier and never counts against your cap.
             </p>
