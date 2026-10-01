@@ -681,7 +681,7 @@ export default function Component() {
               </div>
               <h3 className="text-lg font-bold mb-3">Sent to the model you choose</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Your prompt and the page content the agent reads (text, page structure, screenshots when vision is used) go to the model provider you picked: Vibe cloud, your own API key, or a local model via Ollama, in which case nothing leaves your machine.
+                Your prompt and the page content the agent reads (text, page structure, screenshots when vision is used) go to the model provider you picked: Vibe cloud, your own API key, or a local model via Ollama. With a local Ollama model on its default localhost endpoint, model prompts and page content stay on your machine; error reports may still be sent.
               </p>
             </CardContent>
           </Card>
@@ -692,7 +692,7 @@ export default function Component() {
               </div>
               <h3 className="text-lg font-bold mb-3">You stay in control</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Vibe acts on your behalf without asking before each click, so start with low-risk tasks. Watch it work in the side panel and press Stop at any time. It pauses and hands back to you on CAPTCHAs. Don&apos;t give it tasks you wouldn&apos;t let an assistant do unsupervised, like payments.
+                Vibe acts on your behalf without asking before each click, so start with low-risk tasks. Watch it work in the side panel and press Stop at any time. If it hits a CAPTCHA it tries another route, and stops the task if it stays blocked. Don&apos;t give it tasks you wouldn&apos;t let an assistant do unsupervised, like payments.
               </p>
             </CardContent>
           </Card>
