@@ -280,8 +280,8 @@ export default function Component() {
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-slate-50 to-white overflow-x-hidden">
       {/* Header */}
       <header className="relative w-full px-4 lg:px-6 h-16 flex items-center justify-between border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-        <Link href="/" className="flex items-center gap-2 min-w-0 shrink-0">
-          <img src="/vibebrowser-logo.png" alt="VibeBrowser Co-Pilot" className="w-10 h-10 object-contain shrink-0" />
+        <Link href="/" className="flex items-center gap-2 min-w-0 shrink-0 md:shrink">
+          <img src="/vibebrowser-logo.png" alt="VibeBrowser Co-Pilot" className="w-10 h-10 object-contain shrink-0 md:shrink" />
           <div className="hidden sm:flex flex-col leading-tight min-w-0">
             <span className="text-lg font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent truncate">
               VibeBrowser Co-Pilot
@@ -346,12 +346,12 @@ export default function Component() {
           </Button>
         </a>
         </div>
-        {mobileMenuOpen && (
-          <nav
-            id="mobile-header-nav"
-            className="md:hidden absolute top-full left-0 right-0 w-full bg-white border-b shadow-md"
-            aria-label="Mobile navigation"
-          >
+        <nav
+          id="mobile-header-nav"
+          hidden={!mobileMenuOpen}
+          className="md:hidden absolute top-full left-0 right-0 w-full bg-white border-b shadow-md"
+          aria-label="Mobile navigation"
+        >
             <div className="flex flex-col px-4 py-2">
               <Link href="/mcp" className="py-2 text-sm font-medium hover:text-purple-600 transition-colors" onClick={() => setMobileMenuOpen(false)}>
                 MCP
@@ -371,9 +371,8 @@ export default function Component() {
               <Link href="/aboutus" className="py-2 text-sm font-medium hover:text-purple-600 transition-colors" onClick={() => setMobileMenuOpen(false)}>
                 About Us
               </Link>
-            </div>
-          </nav>
-        )}
+          </div>
+        </nav>
       </header>
 
   <main className="flex-1">
