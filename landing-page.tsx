@@ -50,34 +50,15 @@ RefreshCw,
 } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 import Link from "next/link"
-import { useState, useEffect, useRef } from "react"
+import { useState } from "react"
 import { trackCTAClick } from "@/components/google-analytics"
 import { PricingSection } from "@/components/pricing-section"
 
 export default function Component() {
   const [currentDemo, setCurrentDemo] = useState(0)
   const [isPlaying, setIsPlaying] = useState(true)
-  const [installDropdownOpen, setInstallDropdownOpen] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const videoRef = React.useRef<HTMLVideoElement>(null)
-  const dropdownRef = useRef<HTMLDivElement>(null)
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setInstallDropdownOpen(false)
-      }
-    }
-    
-    if (installDropdownOpen) {
-      document.addEventListener('mousedown', handleClickOutside)
-    }
-    
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [installDropdownOpen])
 
   const demos: Array<{
     id: string
@@ -286,7 +267,7 @@ export default function Component() {
               VibeBrowser Co-Pilot
             </span>
             <span className="text-xs font-semibold text-slate-600 whitespace-nowrap">
-              for Everyone!
+              for founders & operators
             </span>
           </div>
           <div className="sm:hidden flex flex-col leading-tight shrink-0">
@@ -294,7 +275,7 @@ export default function Component() {
               VibeBrowser
             </span>
             <span className="text-[10px] font-semibold text-slate-600 whitespace-nowrap">
-              for Everyone!
+              for founders & operators
             </span>
           </div>
         </Link>
@@ -388,74 +369,41 @@ export default function Component() {
             For founders and solo operators: Vibe works through your inbox, CRM and web forms in your own Chrome, with your logins, while you watch.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 items-center lg:items-start justify-center lg:justify-start">
-            <div className="relative" ref={dropdownRef}>
-              <div className="flex">
-                <Button
-                  size="sm"
-                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-r-none"
-                  onClick={() => {
-                    trackCTAClick('install_extension', 'hero_primary')
-                    window.open('/install?utm_source=homepage_hero_primary', '_blank')
-                  }}
-                >
-                  <Chrome className="mr-2 h-4 w-4" />
-                  Install Extension
-                </Button>
-                <Button
-                  size="sm"
-                  className="bg-gradient-to-r from-pink-600 to-pink-700 hover:from-pink-700 hover:to-pink-800 text-white px-2 rounded-l-none border-l border-white/20"
-                  onClick={() => setInstallDropdownOpen(!installDropdownOpen)}
-                >
-                  <ChevronDown className={`h-5 w-5 transition-transform ${installDropdownOpen ? 'rotate-180' : ''}`} />
-                </Button>
-              </div>
-              {installDropdownOpen && (
-                <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-xl border border-gray-200 overflow-hidden z-50">
-                  <button
-                    className="w-full px-4 py-3 text-left text-sm hover:bg-gray-50 flex items-center gap-3 border-b border-gray-100"
-                    onClick={() => {
-                      trackCTAClick('install_extension_chrome_web_store', 'hero_dropdown')
-                      window.open('/install?utm_source=homepage_hero_dropdown', '_blank')
-                      setInstallDropdownOpen(false)
-                    }}
-                  >
-                    <Chrome className="h-4 w-4 text-purple-600" />
-                    <div>
-                      <div className="font-medium text-gray-900">Chrome Web Store</div>
-                      <div className="text-xs text-gray-500">Stable release</div>
-                    </div>
-                  </button>
-                  <button
-                    className="w-full px-4 py-3 text-left text-sm hover:bg-gray-50 flex items-center gap-3"
-                    onClick={() => {
-                      trackCTAClick('install_extension_developer_version', 'hero_dropdown')
-                      window.open('https://vibeextensioncdn.blob.core.windows.net/extensions/vibe-ai-copilot-latest.zip', '_blank')
-                      setInstallDropdownOpen(false)
-                    }}
-                  >
-                    <Code className="h-4 w-4 text-orange-600" />
-                    <div>
-                      <div className="font-medium text-gray-900">Developer Version</div>
-                      <div className="text-xs text-gray-500">Latest features, manual install</div>
-                    </div>
-                  </button>
-                </div>
-              )}
-            </div>
+          <div className="flex flex-col items-center lg:items-start gap-2">
+            <Button
+              size="sm"
+              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
+              onClick={() => {
+                trackCTAClick('install_extension', 'hero_primary')
+                window.open('/install?utm_source=homepage_hero_primary', '_blank')
+              }}
+            >
+              <Chrome className="mr-2 h-4 w-4" />
+              Install Extension
+            </Button>
+            <button
+              type="button"
+              className="text-xs text-muted-foreground underline hover:text-purple-600"
+              onClick={() => {
+                trackCTAClick('install_extension_developer_version', 'hero_secondary')
+                window.open('https://vibeextensioncdn.blob.core.windows.net/extensions/vibe-ai-copilot-latest.zip', '_blank')
+              }}
+            >
+              Developer version (manual install)
+            </button>
           </div>
 
-          <p className="text-xs text-muted-foreground justify-center lg:justify-start flex gap-3">
+          <div className="text-xs text-muted-foreground flex flex-col sm:flex-row items-center lg:items-start sm:justify-center lg:justify-start gap-1 sm:gap-3">
             <span className="flex items-center gap-1"><CheckCircle className="w-3 h-3 text-green-500" /> No credit card required</span>
             <span className="flex items-center gap-1"><CheckCircle className="w-3 h-3 text-green-500" /> Installs in 60 seconds</span>
             <span className="flex items-center gap-1"><CheckCircle className="w-3 h-3 text-green-500" /> Free tier included</span>
-          </p>
+          </div>
 
           <div className="flex flex-wrap gap-x-4 gap-y-2 justify-center lg:justify-start items-center text-sm text-muted-foreground">
             {[
               "Works in your logged-in session",
               "Gmail + Calendar built in",
-              "BYOK or use our cloud API",
+              "Use your own API key or our cloud",
             ].map((item, i, arr) => (
               <span key={item} className="flex items-center gap-2">
                 {item}
