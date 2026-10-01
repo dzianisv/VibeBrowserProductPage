@@ -46,6 +46,8 @@ RefreshCw,
   Palette,
   Cloud,
   Info,
+  Menu,
+  X,
 } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 import Link from "next/link"
@@ -57,6 +59,7 @@ export default function Component() {
   const [currentDemo, setCurrentDemo] = useState(0)
   const [isPlaying, setIsPlaying] = useState(true)
   const [installDropdownOpen, setInstallDropdownOpen] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const videoRef = React.useRef<HTMLVideoElement>(null)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
@@ -276,9 +279,9 @@ export default function Component() {
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-slate-50 to-white overflow-x-hidden">
       {/* Header */}
-      <header className="w-full px-4 lg:px-6 h-16 flex items-center justify-between border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-        <Link href="/" className="flex items-center gap-2 min-w-0">
-          <img src="/vibebrowser-logo.png" alt="VibeBrowser Co-Pilot" className="w-10 h-10 object-contain" />
+      <header className="relative w-full px-4 lg:px-6 h-16 flex items-center justify-between border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
+        <Link href="/" className="flex items-center gap-2 min-w-0 shrink-0 md:shrink">
+          <img src="/vibebrowser-logo.png" alt="VibeBrowser Co-Pilot" className="w-10 h-10 object-contain shrink-0 md:shrink" />
           <div className="hidden sm:flex flex-col leading-tight min-w-0">
             <span className="text-lg font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent truncate">
               VibeBrowser Co-Pilot
@@ -287,11 +290,11 @@ export default function Component() {
               for Everyone!
             </span>
           </div>
-          <div className="sm:hidden flex flex-col leading-tight min-w-0">
-            <span className="text-sm font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent truncate">
+          <div className="sm:hidden flex flex-col leading-tight shrink-0">
+            <span className="text-sm font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent whitespace-nowrap">
               VibeBrowser
             </span>
-            <span className="text-[10px] font-semibold text-slate-600 truncate">
+            <span className="text-[10px] font-semibold text-slate-600 whitespace-nowrap">
               for Everyone!
             </span>
           </div>
@@ -316,24 +319,17 @@ export default function Component() {
             About Us
           </Link>
         </nav>
-        {/* Mobile navigation */}
-        <nav className="flex md:hidden flex-wrap items-center justify-end gap-x-3 gap-y-1 text-[11px]">
-          <Link href="/mcp" className="font-medium hover:text-purple-600 transition-colors whitespace-nowrap">
-            MCP
-          </Link>
-          <Link href="/integrations" className="font-medium hover:text-purple-600 transition-colors whitespace-nowrap">
-            Integrations
-          </Link>
-          <Link href="/pricing" className="font-medium hover:text-purple-600 transition-colors whitespace-nowrap">
-            Pricing
-          </Link>
-          <Link href="/blog" className="font-medium hover:text-purple-600 transition-colors whitespace-nowrap">
-            Blog
-          </Link>
-          <Link href="/aboutus" className="font-medium hover:text-purple-600 transition-colors whitespace-nowrap">
-            About Us
-          </Link>
-        </nav>
+        <div className="flex items-center shrink-0">
+          <button
+            type="button"
+            className="md:hidden inline-flex items-center justify-center rounded-md p-2 text-slate-700 hover:bg-slate-100"
+            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-header-nav"
+            onClick={() => setMobileMenuOpen((open) => !open)}
+          >
+            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
         {/* Install CTA */}
         <a
           href="/install?utm_source=homepage_sticky_header"
@@ -349,6 +345,34 @@ export default function Component() {
             <span className="hidden md:inline">Install Free</span>
           </Button>
         </a>
+        </div>
+        <nav
+          id="mobile-header-nav"
+          hidden={!mobileMenuOpen}
+          className="md:hidden absolute top-full left-0 right-0 w-full bg-white border-b shadow-md"
+          aria-label="Mobile navigation"
+        >
+            <div className="flex flex-col px-4 py-2">
+              <Link href="/mcp" className="py-2 text-sm font-medium hover:text-purple-600 transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                MCP
+              </Link>
+              <Link href="/integrations" className="py-2 text-sm font-medium hover:text-purple-600 transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                Integrations
+              </Link>
+              <Link href="/pricing" className="py-2 text-sm font-medium hover:text-purple-600 transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                Pricing
+              </Link>
+              <Link href="https://docs.vibebrowser.app" className="py-2 text-sm font-medium hover:text-purple-600 transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                Docs
+              </Link>
+              <Link href="/blog" className="py-2 text-sm font-medium hover:text-purple-600 transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                Blog
+              </Link>
+              <Link href="/aboutus" className="py-2 text-sm font-medium hover:text-purple-600 transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                About Us
+              </Link>
+          </div>
+        </nav>
       </header>
 
   <main className="flex-1">
