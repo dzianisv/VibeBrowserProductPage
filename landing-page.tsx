@@ -16,7 +16,6 @@ Youtube,
 Download,
   CheckCircle,
   Lock,
-  Play,
 Clock,
 ShoppingCart,
 Calendar,
@@ -444,12 +443,6 @@ export default function Component() {
                 </div>
               )}
             </div>
-            <Button asChild variant="outline" size="sm" className="border bg-white hover:bg-slate-50 text-gray-900">
-              <a href="https://youtu.be/Cz6Qkskhpxk" target="_blank" rel="noopener noreferrer">
-                <Play className="mr-2 h-4 w-4" />
-                Watch 58s demo
-              </a>
-            </Button>
           </div>
 
           <p className="text-xs text-muted-foreground justify-center lg:justify-start flex gap-3">
