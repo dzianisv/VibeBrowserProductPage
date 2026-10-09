@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -83,11 +83,7 @@ export default function WaitlistAdmin() {
   const [stats, setStats] = useState<Stats>({ total: 0, today: 0, week: 0 })
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    loadData()
-  }, [])
-
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     setLoading(true)
     try {
       const [signupsResult, statsResult] = await Promise.all([getWaitlistSignups(), getWaitlistStats()])
@@ -104,7 +100,11 @@ export default function WaitlistAdmin() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [])
+
+  useEffect(() => {
+    loadData()
+  }, [loadData])
 
   const exportToCSV = async () => {
     const result = await exportWaitlistToCSV()
