@@ -140,10 +140,18 @@ const faqJsonLd = {
     },
     {
       '@type': 'Question',
-      name: 'What makes Vibe different from OpenAI Atlas and other AI browsers?',
+      name: 'How is Vibe different from Claude for Chrome?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'OpenAI Atlas locks you to GPT models. Perplexity Comet locks you to their stack. Vibe gives you real model freedom — run Grok 4, GPT-5, Claude, DeepSeek, Kimi, or any local model. Switch instantly without re-platforming. Vibe also runs inside your existing Chrome session, so your logins and context are always available.',
+        text: 'Both are Chrome extensions with a side panel that act on the page you are already signed in to — Anthropic describes Claude in Chrome as reading the page and then clicking, typing and filling forms for you. The difference is who runs the model. Claude in Chrome runs Claude. Vibe lets you bring your own model or key, and from 1.1.42 it can run Gemma 4 fully on your device on WebGPU-capable computers — free, no account needed. Vibe also exposes an MCP relay so Claude Code, Cursor, Codex or Hermes can drive your browser through one URL, and a Secrets Vault that types your passwords into the page without them reaching the model. Source: https://claude.com/claude-in-chrome',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'How is Vibe different from other AI browsers?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: "Most of them ask you to switch browsers. Perplexity Comet is a separate browser from Perplexity for Mac, Windows, iOS and Android. Opera Neon is a separate agentic browser that Opera describes as a premium, subscription-based product requiring an Opera account, running on Opera's model-agnostic engine. Dia is a separate browser from The Browser Company. OpenAI's ChatGPT Atlas was a browser with ChatGPT built in; OpenAI's own announcement page now states Atlas has since been deprecated. Vibe is an extension for the Chrome you already use — your profile, logins and tabs stay where they are — and you pick the model: your own API key, a cloud model, or Gemma 4 running on your device from 1.1.42 on WebGPU-capable computers. Sources: https://www.perplexity.ai/comet, https://www.opera.com/neon, https://help.opera.com/en/neon-ai-faq, https://www.diabrowser.com/, https://openai.com/index/introducing-chatgpt-atlas/",
       },
     },
     {

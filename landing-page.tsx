@@ -812,6 +812,37 @@ export default function Component() {
                 </Link>
               </AccordionContent>
             </AccordionItem>
+
+            <AccordionItem value="item-6">
+              <AccordionTrigger className="text-left">
+                How is Vibe different from Claude for Chrome?
+              </AccordionTrigger>
+              <AccordionContent>
+                <p className="mb-2 text-sm text-muted-foreground">
+                  Both are Chrome extensions with a side panel that act on the page you are already signed in to — Anthropic describes Claude in Chrome as reading the page and then clicking, typing and filling forms for you. The difference is who runs the model. Claude in Chrome runs Claude. Vibe lets you bring your own model or key, and from 1.1.42 it can run Gemma 4 fully on your device on WebGPU-capable computers — free, no account needed. Vibe also exposes an MCP relay, so Claude Code, Cursor, Codex or Hermes can drive your browser through one URL, and a Secrets Vault that types your passwords into the page without them reaching the model.
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Source: <a href="https://claude.com/claude-in-chrome" className="underline" rel="nofollow noopener" target="_blank">claude.com/claude-in-chrome</a>
+                </p>
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-7">
+              <AccordionTrigger className="text-left">
+                How is Vibe different from other AI browsers?
+              </AccordionTrigger>
+              <AccordionContent>
+                <p className="mb-2 text-sm text-muted-foreground">
+                  Most of them ask you to switch browsers. Perplexity Comet is a separate browser from Perplexity for Mac, Windows, iOS and Android. Opera Neon is a separate agentic browser that Opera describes as a premium, subscription-based product requiring an Opera account, running on Opera&apos;s model-agnostic engine. Dia is a separate browser from The Browser Company. OpenAI&apos;s ChatGPT Atlas was a browser with ChatGPT built in; OpenAI&apos;s own announcement page now states Atlas has since been deprecated.
+                </p>
+                <p className="mb-2 text-sm text-muted-foreground">
+                  Vibe is an extension for the Chrome you already use — your profile, logins and tabs stay where they are. You pick the model: your own API key, a cloud model, or Gemma 4 running on your device from 1.1.42 on WebGPU-capable computers, free and with no account. And the MCP relay lets your existing coding agents drive the same browser.
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Sources: <a href="https://www.perplexity.ai/comet" className="underline" rel="nofollow noopener" target="_blank">perplexity.ai/comet</a>, <a href="https://www.opera.com/neon" className="underline" rel="nofollow noopener" target="_blank">opera.com/neon</a>, <a href="https://help.opera.com/en/neon-ai-faq" className="underline" rel="nofollow noopener" target="_blank">help.opera.com/en/neon-ai-faq</a>, <a href="https://www.diabrowser.com/" className="underline" rel="nofollow noopener" target="_blank">diabrowser.com</a>, <a href="https://openai.com/index/introducing-chatgpt-atlas/" className="underline" rel="nofollow noopener" target="_blank">openai.com — Introducing ChatGPT Atlas</a>
+                </p>
+              </AccordionContent>
+            </AccordionItem>
            </Accordion>
         </div>
       </div>
