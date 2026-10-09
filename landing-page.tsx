@@ -1,263 +1,35 @@
 "use client"
 
-import React from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { SiteFooter } from '@/components/site-footer'
 import {
-Chrome,
-Zap,
-MessageSquare,
-Plane,
-CreditCard,
-FileText,
-Youtube,
-Download,
+  Chrome,
+  CreditCard,
   CheckCircle,
   Lock,
-Clock,
-ShoppingCart,
-Calendar,
-Search,
-Globe,
-MapPin,
-Camera,
-Code,
-MousePointer,
-Edit,
-Key,
-Brain,
-Database,
-ListTodo,
-Home,
-Puzzle,
-Settings,
-Store,
-ArrowRight,
-RefreshCw,
-  Target,
-  ChevronLeft,
-  ChevronRight,
+  Calendar,
+  Globe,
+  MousePointer,
+  Key,
+  ListTodo,
+  Puzzle,
+  ArrowRight,
   ChevronDown,
-  TrendingUp,
-  Moon,
-  Palette,
   Cloud,
   Cpu,
   WifiOff,
-  Info,
   Menu,
   X,
 } from "lucide-react"
-import type { LucideIcon } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
 import { trackCTAClick } from "@/components/google-analytics"
-import { PricingSection } from "@/components/pricing-section"
 
 export default function Component() {
-  const [currentDemo, setCurrentDemo] = useState(0)
-  const [isPlaying, setIsPlaying] = useState(true)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const videoRef = React.useRef<HTMLVideoElement>(null)
 
-  const demos: Array<{
-    id: string
-    title: string
-    subtitle: string
-    description: string
-    task: { label: string; description: string }
-    badges: string[]
-    videoSrc?: string
-    posterSrc?: string
-    imageSrc?: string
-    icon: LucideIcon
-    iconColor: string
-    highlights: Array<{ icon: LucideIcon; title: string; description: string }>
-  }> = [
-    {
-      id: 'product-demo',
-      title: 'Vibe Browser in 16 Seconds',
-      subtitle: 'An AI agent that works inside your real browser',
-      description: 'Describe the task in plain English and Vibe drives your existing logged-in browser — navigating, reading, clicking, and filling forms — while you watch every step.',
-      task: {
-        label: 'Product Demo:',
-        description: 'Vibe AI Agent completes a real web task end to end.'
-      },
-      badges: ['AI Agent', 'Browser Automation', 'Chrome Extension'],
-      videoSrc: '/ph-demo-1.1.39',
-      posterSrc: '/images/ph-demo-1.1.39-poster.jpg',
-      icon: Zap,
-      iconColor: 'text-purple-600',
-      highlights: [
-        { icon: Zap, title: 'One Prompt', description: 'Plain-English tasks, no scripting' },
-        { icon: Brain, title: 'Real Browser', description: 'Uses your existing logged-in session' },
-        { icon: Target, title: 'Visible Steps', description: 'Watch the agent work in real time' }
-      ]
-    },
-    {
-      id: 'linkedin-warm-outreach',
-      title: 'LinkedIn Warm Outreach',
-      subtitle: 'AI-powered personalized outreach automation',
-      description: 'Vibe Browser finds leads, reads profiles, and drafts personalized outreach — across the real web, not APIs. Works on LinkedIn, Twitter, Reddit, Gmail. Tell it who to reach. It handles the rest.',
-      task: {
-        label: 'Warm Outreach:',
-        description: 'Vibe AI Agent analyzes profiles and sends personalized connection messages.'
-      },
-      badges: ['LinkedIn Outreach', 'Personalization', 'AI Networking', 'Sales Automation'],
-      videoSrc: '/linkedin-warm-outreach-demo',
-      icon: MessageSquare,
-      iconColor: 'text-blue-600',
-      highlights: [
-        { icon: MessageSquare, title: 'Personalized Messages', description: 'AI crafts tailored outreach messages' },
-        { icon: Brain, title: 'Profile Analysis', description: 'Understands context before reaching out' },
-        { icon: Target, title: 'Higher Response Rates', description: 'Warm, relevant connection requests' }
-      ]
-    },
-    {
-      id: 'notion-api-key',
-      title: 'Notion API Key in 34 Seconds',
-      subtitle: 'One prompt, zero clicks, a real API key',
-      description: 'Ask for a Notion API token and Vibe does the rest — opens Notion Developer Tools, switches to Personal access tokens, names the token, submits the form, and hands back a live key. No API wiring, no scraping, no separate automation tool.',
-      task: {
-        label: 'Developer Setup:',
-        description: 'Vibe AI Agent generates a Notion personal access token end to end.'
-      },
-      badges: ['API Keys', 'Notion', 'Developer Tools', 'Form Filling'],
-      videoSrc: '/notion-api-key-demo',
-      icon: Key,
-      iconColor: 'text-emerald-600',
-      highlights: [
-        { icon: Key, title: 'Credentials On Demand', description: 'Generates real API keys inside your own session' },
-        { icon: MousePointer, title: 'Zero Clicks After The Prompt', description: 'Navigates, clicks and fills forms on its own' },
-        { icon: Clock, title: 'Done In 34 Seconds', description: 'Multi-step developer setup, start to finish' }
-      ]
-    },
-    {
-      id: 'linkedin-automation',
-      title: 'LinkedIn Automation',
-      subtitle: 'AI-powered LinkedIn task automation',
-      description: 'Watch Vibe AI Agent autonomously handle LinkedIn tasks',
-      task: {
-        label: 'LinkedIn Automation:',
-        description: 'Vibe AI Agent autonomously manages LinkedIn interactions.'
-      },
-      badges: ['LinkedIn Automation', 'Professional Networking', 'AI Assistant', 'Workflow Automation'],
-      videoSrc: '/linkedin-demo',
-      icon: MessageSquare,
-      iconColor: 'text-blue-600',
-      highlights: [
-        { icon: MessageSquare, title: 'Auto-Networking', description: 'Automated connection management' },
-        { icon: Brain, title: 'Smart Engagement', description: 'AI-powered professional interactions' },
-        { icon: Target, title: 'Task Completion', description: 'End-to-end workflow automation' }
-      ]
-    },
-    {
-      id: 'google-calendar',
-      title: 'Google Calendar Integration',
-      subtitle: 'Vibe AI works seamlessly with Google Calendar',
-      description: 'Watch our AI agent interact with Google Calendar to manage your schedule',
-      task: {
-        label: 'Calendar Management:',
-        description: 'Vibe AI works with Google Calendar.'
-      },
-      badges: ['Calendar Management', 'Google Integration', 'Smart Scheduling', 'AI Assistant'],
-      videoSrc: '/google-calendar-demo',
-      icon: Calendar,
-      iconColor: 'text-purple-600',
-      highlights: [
-        { icon: Calendar, title: 'Calendar Integration', description: 'Seamlessly manage your schedule' },
-        { icon: Brain, title: 'Smart Scheduling', description: 'AI-powered calendar management' },
-        { icon: Target, title: 'Event Organization', description: 'Automatically organize and track events' }
-      ]
-    },
-    {
-      id: 'gmail-inbox',
-      title: 'Gmail Inbox Summary',
-      subtitle: 'AI-powered email analysis and summarization',
-      description: 'Watch Vibe AI Agent work with your Gmail inbox to prepare short summaries',
-      task: {
-        label: 'Email Analysis:',
-        description: 'Vibe AI Agent works with Google inbox, preparing a short summary for you.'
-      },
-      badges: ['Email Analysis', 'Smart Summarization', 'Inbox Management', 'AI Assistant'],
-      videoSrc: '/gmail-inbox-summary-demo',
-      icon: MessageSquare,
-      iconColor: 'text-red-600',
-      highlights: [
-        { icon: MessageSquare, title: 'Email Processing', description: 'Analyze and summarize email content' },
-        { icon: FileText, title: 'Smart Summaries', description: 'Get concise overviews of your inbox' },
-        { icon: Target, title: 'Priority Detection', description: 'Identify important messages instantly' }
-      ]
-    },
-    {
-      id: 'github-issue-creation',
-      title: 'GitHub Issue Creation',
-      subtitle: 'AI-powered form filling and issue creation',
-      description: 'Watch Vibe Co-Pilot assist with filling out a GitHub issue form — navigating fields, adding context, and submitting automatically.',
-      task: {
-        label: 'Form Filling:',
-        description: 'Vibe Co-Pilot fills out the GitHub issue form and submits it for you.'
-      },
-      badges: ['Form Filling', 'GitHub', 'Issue Tracking', 'Developer Workflow'],
-      videoSrc: '/github-ticket-demo',
-      icon: Code,
-      iconColor: 'text-gray-800',
-      highlights: [
-        { icon: Edit, title: 'Smart Form Filling', description: 'Automatically fills fields with context' },
-        { icon: Code, title: 'GitHub Integration', description: 'Works directly on github.com' },
-        { icon: Target, title: 'End-to-End Automation', description: 'From description to submitted issue' }
-      ]
-    },
-    {
-      id: 'market-research',
-      title: 'Value Investing Research',
-      subtitle: 'AI-powered market research and analysis',
-      description: 'Watch Vibe AI Agent perform comprehensive market research for value investing',
-      task: {
-        label: 'Research Task:',
-        description: 'Vibe AI Agent is doing a market research for you.'
-      },
-      badges: ['Market Research', 'Value Investing', 'Financial Analysis', 'AI Research'],
-      videoSrc: '/value-investing-research-demo',
-      icon: TrendingUp,
-      iconColor: 'text-green-600',
-      highlights: [
-        { icon: TrendingUp, title: 'Market Analysis', description: 'Comprehensive market research and analysis' },
-        { icon: Brain, title: 'Investment Insights', description: 'AI-powered value investing research' },
-        { icon: Target, title: 'Data-Driven Decisions', description: 'Make informed investment choices' }
-      ]
-    }
-  ]
-
-  const nextDemo = () => {
-    setCurrentDemo((prev) => (prev + 1) % demos.length)
-  }
-
-  const prevDemo = () => {
-    setCurrentDemo((prev) => (prev - 1 + demos.length) % demos.length)
-  }
-
-  const togglePlayPause = () => {
-    if (videoRef.current) {
-      if (isPlaying) {
-        videoRef.current.pause()
-      } else {
-        videoRef.current.play()
-      }
-      setIsPlaying(!isPlaying)
-    }
-  }
-
-  const restartVideo = () => {
-    if (videoRef.current) {
-      videoRef.current.currentTime = 0
-      videoRef.current.play()
-      setIsPlaying(true)
-    }
-  }
-  
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-slate-50 to-white overflow-x-hidden">
       {/* Header */}
@@ -434,85 +206,17 @@ export default function Component() {
                 allowFullScreen
               />
             </div>
-          </div>
-
-          {/* Demo Carousel */}
-          <div className="w-full lg:col-span-2">
-            <div className="relative">
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-                <div className="relative" style={{ paddingBottom: '62.5%' }}>
-                  {demos[currentDemo].imageSrc ? (
-                    <img
-                      key={currentDemo}
-                      className="absolute inset-0 w-full h-full object-cover"
-                      src={demos[currentDemo].imageSrc}
-                      alt={`Vibe AI browser automation — ${demos[currentDemo].title}`}
-                    />
-                  ) : (
-                  <video
-                    ref={videoRef}
-                    key={currentDemo}
-                    className="absolute inset-0 w-full h-full object-cover"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    preload="auto"
-                    title={`Vibe AI browser automation — ${demos[currentDemo].title}`}
-                    src={`${demos[currentDemo].videoSrc}.mp4`}
-                    poster={demos[currentDemo].posterSrc}
-                    onPlay={() => setIsPlaying(true)}
-                    onPause={() => setIsPlaying(false)}
-                  >
-                    Your browser does not support the video tag.
-                  </video>
-                  )}
-
-                  <button
-                    onClick={prevDemo}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all z-20"
-                    aria-label="Previous demo"
-                  >
-                    <ChevronLeft className="w-5 h-5 text-gray-800" />
-                  </button>
-                  <button
-                    onClick={nextDemo}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all z-20"
-                    aria-label="Next demo"
-                  >
-                    <ChevronRight className="w-5 h-5 text-gray-800" />
-                  </button>
-                </div>
-              </div>
-
-              <div className="flex flex-wrap justify-center gap-2 mt-8">
-                {demos.map((demo, index) => (
-                  <button
-                    key={demo.id}
-                    onClick={() => setCurrentDemo(index)}
-                    className={`px-4 py-2 rounded-full transition-all text-sm font-medium ${
-                      currentDemo === index
-                        ? 'bg-purple-600 text-white shadow-lg'
-                        : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
-                    }`}
-                  >
-                    {demo.title}
-                  </button>
-                ))}
-              </div>
-
-              <div className="flex justify-center gap-2 mt-6">
-                {demos.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentDemo(index)}
-                    className={`h-1.5 rounded-full transition-all ${
-                      currentDemo === index ? 'w-8 bg-purple-600' : 'w-1.5 bg-gray-300'
-                    }`}
-                    aria-label={`Go to demo ${index + 1}`}
-                  />
-                ))}
-              </div>
+            <div className="mt-3 flex justify-center">
+              <a
+                href="https://youtube.com/shorts/XEWpqHpsYGs"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-sm font-medium text-purple-700 underline-offset-4 hover:text-purple-800 hover:underline"
+                onClick={() => trackCTAClick('watch_engineering_demo', 'hero')}
+              >
+                Watch the full demo
+                <ArrowRight className="h-4 w-4" />
+              </a>
             </div>
           </div>
 
@@ -759,49 +463,6 @@ export default function Component() {
       </div>
     </section>
 
-    {/* See It In Action — real engineering demo, not a scripted reel */}
-    <section className="w-full py-14 md:py-20 bg-gradient-to-br from-slate-50 to-white border-y border-slate-100">
-      <div className="container max-w-5xl px-4 md:px-6 mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          <div className="mx-auto w-full max-w-[280px] sm:max-w-xs">
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-200 bg-black" style={{ paddingBottom: '177.78%' }}>
-              <iframe
-                className="absolute inset-0 w-full h-full"
-                src="https://www.youtube-nocookie.com/embed/XEWpqHpsYGs"
-                title="Vibe Browser Co-Pilot — real engineering demo"
-                loading="lazy"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-              />
-            </div>
-          </div>
-          <div className="flex flex-col gap-4 text-center lg:text-left">
-            <span className="inline-flex items-center gap-2 self-center lg:self-start rounded-full bg-red-50 px-3 py-1 text-xs font-semibold text-red-600 border border-red-100">
-              <Youtube className="w-4 h-4" /> Real engineering demo
-            </span>
-            <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
-              See it in action — no script, no cuts
-            </h2>
-            <p className="text-muted-foreground leading-relaxed">
-              A real Vibe AI Browser Co-Pilot run, recorded end to end in a live browser session — the same agent you get after install, not a marketing mockup.
-            </p>
-            <div className="flex justify-center lg:justify-start">
-              <Button
-                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
-                onClick={() => {
-                  trackCTAClick('watch_engineering_demo', 'see_it_in_action')
-                  window.open('https://youtube.com/shorts/XEWpqHpsYGs', '_blank')
-                }}
-              >
-                <Youtube className="mr-2 h-4 w-4" />
-                Watch on YouTube
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
     {/* Why Vibe */}
     <section className="w-full py-14 md:py-20 bg-white">
       <div className="container max-w-5xl px-4 md:px-6 mx-auto">
@@ -857,34 +518,16 @@ export default function Component() {
       </div>
     </section>
 
-    {/* Integrations & Agent Ecosystem */}
+    {/* What Vibe does for you — end-user features */}
     <section className="w-full py-12 md:py-16 bg-slate-50">
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
-            For builders: MCP, skills and agent integrations
+            What Vibe does for you
           </h2>
           <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
-            Gmail + Calendar automation, MCP interoperability, reusable skills, and OpenClaw-inspired self-improving agents.
+            Gmail, Calendar and Drive built in, a password vault, reusable skills, and an offline model that runs on your own computer.
           </p>
-          <div className="mt-5 flex flex-wrap justify-center gap-2">
-            {["MCP", "Claude Code", "Hermes", "Remote Control", "Skills", "Self-modifying"].map((badge) => (
-              <span key={badge} className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-700">
-                {badge}
-              </span>
-            ))}
-          </div>
-          <p className="max-w-2xl mx-auto mt-4 text-sm text-muted-foreground">
-            Point Claude Code, Hermes, Cursor, Codex, or OpenClaw at your real browser with one relay URL. MCP relay for remote agents — nothing to install, no local server.
-          </p>
-          <div className="mt-4 grid gap-2 sm:grid-cols-2 max-w-2xl mx-auto text-left">
-            <Link href="/blog/2026-05-28-why-opencode-not-claude-code" className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 hover:border-purple-200 hover:text-purple-700">
-              Why OpenCode, not Claude Code
-            </Link>
-            <Link href="/blog/2026-05-27-claude-code-mobile-remote-control" className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 hover:border-purple-200 hover:text-purple-700">
-              Claude Code Mobile Remote Control
-            </Link>
-          </div>
         </div>
 
         <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
@@ -895,43 +538,7 @@ export default function Component() {
               </div>
               <h3 className="text-xl font-bold mb-2">Google Workspace Native</h3>
               <p className="text-sm text-muted-foreground">
-                Built-in Gmail and Calendar actions for search, draft, send, and event creation.
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="border-0 shadow-lg bg-white">
-            <CardContent className="p-6">
-              <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
-                <Puzzle className="w-6 h-6 text-purple-600" />
-              </div>
-              <h3 className="text-xl font-bold mb-2">MCP Server for Agents</h3>
-              <p className="text-sm text-muted-foreground">
-                Use MCP tools inside Vibe agents, then expose Vibe browser sessions as MCP for other agents.
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="border-0 shadow-lg bg-white">
-            <CardContent className="p-6">
-              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
-                <RefreshCw className="w-6 h-6 text-blue-600" />
-              </div>
-              <h3 className="text-xl font-bold mb-2">Self-Modifying Agent</h3>
-              <p className="text-sm text-muted-foreground">
-                OpenClaw-inspired execution loop where the agent can update its own workflow logic and skills.
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="border-0 shadow-lg bg-white">
-            <CardContent className="p-6">
-              <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mb-4">
-                <ListTodo className="w-6 h-6 text-emerald-600" />
-              </div>
-              <h3 className="text-xl font-bold mb-2">Skills Library</h3>
-              <p className="text-sm text-muted-foreground">
-                Build reusable automation skills and let agents create new skills from successful runs.
+                Built-in Gmail and Calendar actions for search, draft, send, and event creation, plus read access to your Google Drive files.
               </p>
             </CardContent>
           </Card>
@@ -943,7 +550,19 @@ export default function Component() {
               </div>
               <h3 className="text-xl font-bold mb-2">Secrets Vault + Type-In</h3>
               <p className="text-sm text-muted-foreground">
-                Internal password vault with a fill tool that never exposes secrets to the LLM.
+                Save passwords in the extension&apos;s own vault. A dedicated tool types them into the page, so they are not sent to the AI model.
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 shadow-lg bg-white">
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mb-4">
+                <ListTodo className="w-6 h-6 text-emerald-600" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Skills Library</h3>
+              <p className="text-sm text-muted-foreground">
+                Save a task once and reuse it. Write a skill in Settings → Skills and Vibe loads it whenever a task matches.
               </p>
             </CardContent>
           </Card>
@@ -960,6 +579,60 @@ export default function Component() {
               </p>
             </CardContent>
           </Card>
+
+          <Card className="border-0 shadow-lg bg-white">
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
+                <Cpu className="w-6 h-6 text-purple-600" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Gemma 4 offline</h3>
+              <p className="text-sm text-muted-foreground">
+                Coming in 1.1.42: Gemma 4 runs on your device via WebGPU after a one-time 3.13 GB download. No account and no API key. Anonymous usage stats are still sent.
+                <a href="#on-device" className="text-purple-700 hover:text-purple-800 font-medium"> How it works →</a>
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </section>
+
+    {/* For developers — MCP relay */}
+    <section className="w-full py-10 md:py-12 bg-white">
+      <div className="container max-w-3xl px-4 md:px-6 mx-auto">
+        <div className="text-center mb-6">
+          <h2 className="text-2xl font-bold tracking-tight sm:text-3xl mb-3">
+            For developers
+          </h2>
+          <div className="flex flex-wrap justify-center gap-2">
+            {["MCP", "Claude Code", "Hermes", "Remote Control", "Skills"].map((badge) => (
+              <span key={badge} className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-700">
+                {badge}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <Card className="border border-slate-200 shadow-sm bg-white">
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center shrink-0">
+                <Puzzle className="w-5 h-5 text-purple-600" />
+              </div>
+              <h3 className="text-lg font-bold">MCP server / relay</h3>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              Point Claude Code, Cursor, Codex, Hermes, or OpenClaw at your real browser with one relay URL. Nothing to install, no local server.
+            </p>
+          </CardContent>
+        </Card>
+
+        <div className="mt-4 grid gap-2 sm:grid-cols-2 text-left">
+          <Link href="/blog/2026-05-28-why-opencode-not-claude-code" className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 hover:border-purple-200 hover:text-purple-700">
+            Why OpenCode, not Claude Code
+          </Link>
+          <Link href="/blog/2026-05-27-claude-code-mobile-remote-control" className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 hover:border-purple-200 hover:text-purple-700">
+            Claude Code Mobile Remote Control
+          </Link>
         </div>
       </div>
     </section>
@@ -1144,8 +817,20 @@ export default function Component() {
       </div>
     </section>
 
-    {/* Final CTA / Pricing — shared with the standalone /pricing route */}
-    <PricingSection />
+    {/* Pricing — one line; full plans live on /pricing */}
+    <section className="w-full py-10 bg-slate-50 border-t border-slate-100">
+      <div className="container max-w-4xl px-4 md:px-6 mx-auto flex flex-col sm:flex-row items-center justify-center gap-4 text-center">
+        <p className="text-base font-medium text-slate-800">
+          Free with Gemma 4 on your device. Pro and Max for cloud models.
+        </p>
+        <Link href="/pricing" onClick={() => trackCTAClick('view_pricing', 'landing_pricing_line')}>
+          <Button variant="outline" className="border-purple-200 text-purple-700 hover:bg-purple-50">
+            See pricing
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+        </Link>
+      </div>
+    </section>
   </main>
 
   {/* Shared Footer */}

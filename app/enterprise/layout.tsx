@@ -131,7 +131,7 @@ const jsonLd = {
       name: 'Starter',
       price: '0',
       priceCurrency: 'USD',
-      description: 'Local AI only with Gemini Nano',
+      description: 'On-device AI with Gemma 4 (coming in 1.1.42; WebGPU, one-time 3.13 GB download)',
     },
     {
       '@type': 'Offer',
@@ -196,7 +196,7 @@ const faqJsonLd = {
       name: 'How does local AI work without sending data to the cloud?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Vibe uses Gemini Nano, a small language model that runs entirely in your Chrome browser. The model weights are downloaded once and all inference happens on your device. No prompts, documents, or responses ever leave your machine.',
+        text: 'Starting with version 1.1.42, Vibe runs Google\'s Gemma 4 on your own computer via WebGPU. The model is downloaded once (Gemma 4 E2B, 3.13 GB; the larger E4B, 4.92 GB, is an explicit choice in Settings) and inference happens on your device, so your chats and page content stay on this device. Anonymous usage stats are still sent.',
       },
     },
     {

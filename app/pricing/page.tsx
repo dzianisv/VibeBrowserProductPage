@@ -6,7 +6,7 @@ import { PricingSection } from '@/components/pricing-section'
 export const metadata: Metadata = {
   title: 'Pricing — VibeBrowser Co-Pilot | Free, Pro $25/mo, Max $99/mo',
   description:
-    'Simple VibeBrowser Co-Pilot pricing. Free tier with unlimited local AI and quick cloud models. Pro at $25/mo for advanced models. Max at $99/mo for premium reasoning models. No credit card required to start.',
+    'Simple VibeBrowser Co-Pilot pricing. Free tier with unlimited on-device AI (Gemma 4) and quick cloud models. Pro at $25/mo for advanced models. Max at $99/mo for premium reasoning models. No credit card required to start.',
   keywords: [
     'VibeBrowser pricing',
     'AI browser extension pricing',
