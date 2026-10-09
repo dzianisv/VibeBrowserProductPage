@@ -99,7 +99,7 @@ const BUDGET_CAP_LINES = [
 const FOOTNOTE_SUBSTRING = 'reset on your own billing date, each time your subscription renews'
 
 // Landing page: the full widget was replaced by this single line + /pricing link.
-const LANDING_PRICING_LINE = 'Free with Gemma 4 on your device. Pro and Max for cloud models.'
+const LANDING_PRICING_LINE = 'Free with Gemma 4 on your device from 1.1.42. Pro and Max for cloud models.'
 
 const VIEWPORTS = [
   { label: 'mobile', width: 375, height: 667, isMobile: true, hasTouch: true },

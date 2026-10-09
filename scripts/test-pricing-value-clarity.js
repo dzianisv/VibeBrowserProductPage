@@ -137,7 +137,7 @@ assert(
 // k. Landing page shows the one-line pricing summary linking to /pricing
 assert(
   'landing-page.tsx shows the compact Free/Pro/Max line',
-  landingPage.includes('Free with Gemma 4 on your device. Pro and Max for cloud models.')
+  landingPage.includes('Free with Gemma 4 on your device from 1.1.42. Pro and Max for cloud models.')
 )
 const pricingLinks = landingPage.match(/<Link href="\/pricing"/g) || []
 assert(

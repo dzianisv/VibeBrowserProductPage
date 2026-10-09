@@ -821,7 +821,7 @@ export default function Component() {
     <section className="w-full py-10 bg-slate-50 border-t border-slate-100">
       <div className="container max-w-4xl px-4 md:px-6 mx-auto flex flex-col sm:flex-row items-center justify-center gap-4 text-center">
         <p className="text-base font-medium text-slate-800">
-          Free with Gemma 4 on your device. Pro and Max for cloud models.
+          Free with Gemma 4 on your device from 1.1.42. Pro and Max for cloud models.
         </p>
         <Link href="/pricing" onClick={() => trackCTAClick('view_pricing', 'landing_pricing_line')}>
           <Button variant="outline" className="border-purple-200 text-purple-700 hover:bg-purple-50">
