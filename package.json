@@ -47,7 +47,6 @@
     "@radix-ui/react-toggle-group": "latest",
     "@radix-ui/react-tooltip": "latest",
     "@vercel/otel": "^2.1.1",
-    "autoprefixer": "^10.4.20",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "latest",
@@ -70,7 +69,6 @@
     "resend": "^6.9.2",
     "sonner": "latest",
     "tailwind-merge": "^2.5.5",
-    "tailwindcss-animate": "^1.0.7",
     "vaul": "latest",
     "zod": "^3.24.1"
   },
@@ -79,17 +77,23 @@
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "autoprefixer": "^10.4.20",
     "eslint": "^9.20.1",
     "eslint-config-next": "^16.3.2",
     "postcss": "^8.5.26",
     "puppeteer": "^25.8.0",
     "tailwindcss": "^3.4.17",
+    "tailwindcss-animate": "^1.0.7",
     "typescript": "^5"
   },
   "overrides": {
     "dompurify": "^3.4.14",
-    "next": { "postcss": "^8.5.10" },
+    "next": {
+      "postcss": "^8.5.10"
+    },
     "sharp": "^0.35.3",
-    "sucrase": { "glob": "^11.1.0" }
+    "sucrase": {
+      "glob": "^11.1.0"
+    }
   }
 }
