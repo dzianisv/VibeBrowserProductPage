@@ -15,6 +15,12 @@
  *      contains the real extension id (djodpgokbmobeclicaicnnidccoinado).
  *   4. The footnote's distinctive "reset on your own billing date, each time
  *      your subscription renews" copy is present and visible.
+ * and that the landing page (/) — which no longer embeds the pricing widget —
+ * at the same viewports:
+ *   5. Shows the one-line pricing summary, visible and scrollable into view,
+ *      with a visible link to /pricing next to it.
+ *   6. Does NOT render the full widget (no "Cloud AI usage cap:" tier lines).
+ *   7. Has no horizontal overflow.
  *
  * TEST-INTEGRITY HARDENING (why this file looks the way it does)
  * --------------------------------------------------------------
@@ -91,6 +97,9 @@ const BUDGET_CAP_LINES = [
 ]
 
 const FOOTNOTE_SUBSTRING = 'reset on your own billing date, each time your subscription renews'
+
+// Landing page: the full widget was replaced by this single line + /pricing link.
+const LANDING_PRICING_LINE = 'Free with Gemma 4 on your device from 1.1.42. Pro and Max for cloud models.'
 
 const VIEWPORTS = [
   { label: 'mobile', width: 375, height: 667, isMobile: true, hasTouch: true },
@@ -428,6 +437,81 @@ async function runViewport(browser, pricingUrl, vp) {
   }
 }
 
+// On the landing page, find the compact pricing line and the /pricing link that
+// sits in the same row (the nav also links to /pricing, so we scope to the row).
+function inspectLandingPricingRow(lineText) {
+  const p = Array.from(document.querySelectorAll('main p')).find(
+    (el) => el.textContent && el.textContent.trim() === lineText
+  )
+  if (!p) return { found: false }
+  p.scrollIntoView({ block: 'center', inline: 'nearest' })
+  const row = p.parentElement
+  const link = row ? row.querySelector('a[href="/pricing"]') : null
+  const vis = (el) => {
+    const cs = getComputedStyle(el)
+    const r = el.getBoundingClientRect()
+    return (
+      cs.display !== 'none' &&
+      cs.visibility !== 'hidden' &&
+      r.width > 0 &&
+      r.height > 0 &&
+      r.bottom > 0 &&
+      r.top < window.innerHeight &&
+      r.right > 0 &&
+      r.left < window.innerWidth
+    )
+  }
+  return {
+    found: true,
+    lineVisible: vis(p),
+    linkFound: !!link,
+    linkVisible: link ? vis(link) : false,
+  }
+}
+
+async function runLandingViewport(browser, landingUrl, vp) {
+  console.log(`\n=== Landing page viewport: ${vp.label} (${vp.width}x${vp.height}) ===`)
+  const context = await browser.createBrowserContext()
+  const page = await context.newPage()
+  try {
+    await page.setViewport({
+      width: vp.width,
+      height: vp.height,
+      isMobile: !!vp.isMobile,
+      hasTouch: !!vp.hasTouch,
+    })
+    await page.goto(landingUrl, { waitUntil: 'networkidle2', timeout: 60000 })
+
+    const ov = await page.evaluate(detectOverflow)
+    check(
+      `[landing ${vp.label}] no horizontal overflow (documentElement + body)`,
+      ov.docScrollWidth <= ov.innerWidth && ov.bodyScrollWidth <= ov.innerWidth,
+      `doc=${ov.docScrollWidth} body=${ov.bodyScrollWidth} innerWidth=${ov.innerWidth}`
+    )
+
+    const row = await page.evaluate(inspectLandingPricingRow, LANDING_PRICING_LINE)
+    check(
+      `[landing ${vp.label}] compact pricing line visible: "${LANDING_PRICING_LINE}"`,
+      row.found && row.lineVisible,
+      row.found ? `visible=${row.lineVisible}` : 'not found'
+    )
+    check(
+      `[landing ${vp.label}] /pricing link in the same row is visible`,
+      row.found && row.linkFound && row.linkVisible,
+      row.found ? `linkFound=${row.linkFound} linkVisible=${row.linkVisible}` : 'row not found'
+    )
+
+    const widgetText = await page.evaluate(() => document.body.innerText)
+    check(
+      `[landing ${vp.label}] full pricing widget NOT rendered (no "${READINESS_MARKER}")`,
+      widgetText.length > 0 && !widgetText.includes(READINESS_MARKER),
+      `bodyTextLen=${widgetText.length}`
+    )
+  } finally {
+    await context.close().catch(() => {})
+  }
+}
+
 async function runSelfTest() {
   console.log('\n=== Self-test: stale-server false-pass prevention ===')
   const decoyPort = DEFAULT_BASE_PORT
@@ -510,6 +594,9 @@ async function runSelfTest() {
 
     for (const vp of VIEWPORTS) {
       await runViewport(browser, main.pricingUrl, vp)
+    }
+    for (const vp of VIEWPORTS) {
+      await runLandingViewport(browser, `${main.base}/`, vp)
     }
   } catch (err) {
     console.error('FATAL:', err && err.stack ? err.stack : err)

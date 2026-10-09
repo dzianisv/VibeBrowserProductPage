@@ -499,12 +499,12 @@ export default function EnterpriseTemplate({ config }: EnterpriseTemplateProps) 
                     </div>
                     <h3 className="text-lg font-medium text-[#e8eaed] mb-2">Local AI</h3>
                     <p className="text-sm text-[#9aa0a6] mb-4">
-                      Gemini Nano runs entirely in your browser. Zero network requests.
+                      Coming in 1.1.42: Gemma 4 runs on your device via WebGPU after a one-time 3.13 GB download. Chats and page content stay on this device; anonymous usage stats are still sent.
                     </p>
                     <ul className="space-y-2 text-sm text-[#9aa0a6]">
                       <li className="flex items-center gap-2">
                         <CheckCircle className="w-4 h-4 text-[#81c995]" />
-                        100% on-device processing
+                        On-device model inference
                       </li>
                       <li className="flex items-center gap-2">
                         <CheckCircle className="w-4 h-4 text-[#81c995]" />
@@ -712,7 +712,7 @@ export default function EnterpriseTemplate({ config }: EnterpriseTemplateProps) 
                     <ul className="space-y-2 text-sm text-[#9aa0a6] mb-6">
                       <li className="flex items-center gap-2">
                         <CheckCircle className="w-4 h-4 text-[#81c995]" />
-                        Gemini Nano (on-device)
+                        Gemma 4 (on-device)
                       </li>
                       <li className="flex items-center gap-2">
                         <CheckCircle className="w-4 h-4 text-[#81c995]" />

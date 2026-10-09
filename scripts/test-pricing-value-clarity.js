@@ -2,10 +2,12 @@
 /**
  * Regression guard for the pricing value-clarity change.
  *
- * Verifies that components/pricing-section.tsx exposes the concrete cloud AI
+ * Verifies that components/pricing-section.tsx (rendered on /pricing) exposes the concrete cloud AI
  * usage budgets per tier, the on-device-AI clarifying footnote, and the
  * non-numeric Chrome Web Store trust link wired to analytics — and that no
  * numeric rating claim or aggregateRating/Review JSON-LD was introduced.
+ * Also verifies the landing page shows only a one-line pricing summary that
+ * links to /pricing instead of embedding the full widget.
  *
  * Plain Node, no dependencies. Mirrors the repo's scripts/test-*.js convention.
  */
@@ -18,9 +20,11 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const repoRoot = path.join(__dirname, '..')
 const pricingSectionPath = path.join(repoRoot, 'components', 'pricing-section.tsx')
 const pricingPagePath = path.join(repoRoot, 'app', 'pricing', 'page.tsx')
+const landingPagePath = path.join(repoRoot, 'landing-page.tsx')
 
 const pricingSection = fs.readFileSync(pricingSectionPath, 'utf8')
 const pricingPage = fs.readFileSync(pricingPagePath, 'utf8')
+const landingPage = fs.readFileSync(landingPagePath, 'utf8')
 
 let passed = 0
 let failed = 0
@@ -64,7 +68,8 @@ assert(
 assert(
   'Footnote clarifies on-device AI never counts against your cap',
   pricingSection.includes('never counts against your cap') &&
-    pricingSection.includes('Gemini Nano')
+    pricingSection.includes('On-device AI (Gemma 4)') &&
+    !pricingSection.includes('Gemini Nano')
 )
 
 // d2. Footnote states paid caps reset on the subscriber's own billing date (Stripe period anchored)
@@ -115,7 +120,29 @@ assert(
   pricingSection.includes('$25') &&
     pricingSection.includes('$99') &&
     pricingSection.includes('Free') &&
-    pricingSection.includes('Unlimited local AI (Gemini Nano or BYOM)')
+    pricingSection.includes('Unlimited local AI (Gemma 4 on your device or BYOM)')
+)
+
+// j. The full pricing widget lives on /pricing, not on the landing page
+assert(
+  'app/pricing/page.tsx renders the full <PricingSection />',
+  pricingPage.includes("import { PricingSection } from '@/components/pricing-section'") &&
+    pricingPage.includes('<PricingSection />')
+)
+assert(
+  'landing-page.tsx no longer imports or renders PricingSection',
+  !landingPage.includes('pricing-section') && !landingPage.includes('<PricingSection')
+)
+
+// k. Landing page shows the one-line pricing summary linking to /pricing
+assert(
+  'landing-page.tsx shows the compact Free/Pro/Max line',
+  landingPage.includes('Free with Gemma 4 on your device from 1.1.42. Pro and Max for cloud models.')
+)
+const pricingLinks = landingPage.match(/<Link href="\/pricing"/g) || []
+assert(
+  'landing-page.tsx links to /pricing from the compact line plus desktop and mobile nav (3 links)',
+  pricingLinks.length === 3
 )
 
 const total = passed + failed

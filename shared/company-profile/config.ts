@@ -70,7 +70,7 @@ const baseCompanyProfileConfig: CompanyProfileConfig = {
       title: "Vibe Co-Pilot",
       badge: "Personal - Teams - Enterprise",
       description:
-        "AI-powered browser automation for everyone. Available as a Chrome extension or standalone browser. Tell it what you need in plain English - it navigates sites, fills forms, drafts messages, and researches across dozens of tabs. Supports any LLM including fully local AI via Gemini Nano. Teams get shared workflows and admin controls. Enterprises get self-hosted deployment paths, SSO, and dedicated onboarding support.",
+        "AI-powered browser automation for everyone. Available as a Chrome extension or standalone browser. Tell it what you need in plain English - it navigates sites, fills forms, drafts messages, and researches across dozens of tabs. Supports any LLM, and from version 1.1.42 runs Google's Gemma 4 on your own device via WebGPU after a one-time download. Teams get shared workflows and admin controls. Enterprises get self-hosted deployment paths, SSO, and dedicated onboarding support.",
       tags: [
         "Chrome Extension",
         "Chromium Fork",

@@ -41,7 +41,7 @@ const momConfig: ProfessionConfig = {
     {
       icon: 'DollarSign',
       title: 'Actually Free',
-      description: 'The free tier uses AI built into Chrome. No API key. No credit card. No account required. Unlimited use. If you want premium AI models, that\'s $25/mo -- but you don\'t need them to start.',
+      description: 'The free tier runs Google\'s Gemma 4 on your own computer. No API key. No credit card. No account required. Unlimited use. If you want premium AI models, that\'s $25/mo -- but you don\'t need them to start.',
     },
     {
       icon: 'RefreshCw',
@@ -77,7 +77,7 @@ const momConfig: ProfessionConfig = {
     },
     {
       question: 'Is it really free?',
-      answer: 'Yes. The free tier uses AI built into Chrome (Gemini Nano) that runs entirely on your device. No credit card, no account needed. If you want more powerful AI models like ChatGPT or Claude, that\'s $25/month -- but the free version is fully functional.',
+      answer: 'Yes. Starting with version 1.1.42, the free tier runs Google\'s Gemma 4 on your own computer after a one-time 3.13 GB download, so your chats and page content stay on your device. No credit card, no account needed. If you want more powerful AI models like ChatGPT or Claude, that\'s $25/month -- but the free version is fully functional.',
     },
     {
       question: 'Is it safe? Can it see my passwords?',
