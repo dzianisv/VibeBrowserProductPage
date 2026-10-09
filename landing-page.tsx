@@ -679,15 +679,31 @@ export default function Component() {
           </div>
           <div className="mx-auto w-full">
             <div className="rounded-2xl overflow-hidden border border-slate-200 shadow-2xl bg-slate-900">
-              <img
-                src="/images/gemma4-on-device-1.1.42.jpg"
-                alt="Vibe settings showing Gemma 4 E2B (3.13 GB) and E4B (4.92 GB) on-device models, with the side panel downloading Gemma 4 at 52%"
-                className="w-full h-auto"
-                loading="lazy"
-              />
+              {/* Owner screen recording of the 1.1.42 first-run card. preload="none" plus the
+                  poster keeps this off the critical path: nothing but the JPEG is fetched
+                  until Chrome starts the (muted, offscreen-deferred) autoplay. */}
+              <video
+                className="w-full h-auto block"
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="none"
+                poster="/images/gemma4-on-device-demo-poster.jpg"
+                aria-label="Vibe side panel offering to run Gemma 4 on this device as a 3.13 GB one-time download, then starting the download"
+              >
+                <source src="/gemma4-on-device-demo.webm" type="video/webm" />
+                <source src="/gemma4-on-device-demo.mp4" type="video/mp4" />
+                <img
+                  src="/images/gemma4-on-device-1.1.42.jpg"
+                  alt="Vibe settings showing Gemma 4 E2B (3.13 GB) and E4B (4.92 GB) on-device models, with the side panel downloading Gemma 4 at 52%"
+                  className="w-full h-auto"
+                  loading="lazy"
+                />
+              </video>
             </div>
             <p className="mt-3 text-xs text-muted-foreground text-center">
-              On-device models in Settings, and the side panel one-time download — from the 1.1.42 build.
+              The side panel one-time download, recorded on the 1.1.42 build.
             </p>
           </div>
         </div>
