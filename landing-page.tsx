@@ -44,6 +44,8 @@ RefreshCw,
   Moon,
   Palette,
   Cloud,
+  Cpu,
+  WifiOff,
   Info,
   Menu,
   X,
@@ -361,6 +363,14 @@ export default function Component() {
       <div className="container max-w-7xl px-4 md:px-6 mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
           <div className="flex flex-col gap-5 text-center lg:text-left">
+          <a
+            href="#on-device"
+            className="inline-flex items-center gap-2 self-center lg:self-start rounded-full border border-purple-200 bg-purple-50 px-3 py-1 text-xs font-semibold text-purple-700 hover:bg-purple-100 transition-colors"
+          >
+            <Cpu className="w-3.5 h-3.5" />
+            Coming in 1.1.42: runs offline with Gemma 4 — private, free, no account
+          </a>
+
           <h1 className="text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl">
             Your AI assistant for repetitive browser work
           </h1>
@@ -611,6 +621,74 @@ export default function Component() {
                 </Link>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* Runs offline with Gemma 4 */}
+    <section id="on-device" className="w-full py-14 md:py-20 bg-gradient-to-br from-purple-50 via-white to-white border-y border-slate-100">
+      <div className="container max-w-6xl px-4 md:px-6 mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+          <div className="flex flex-col gap-5 text-center lg:text-left">
+            <span className="inline-flex items-center gap-2 self-center lg:self-start rounded-full bg-purple-100 px-3 py-1 text-xs font-semibold text-purple-700 border border-purple-200">
+              <Cpu className="w-4 h-4" /> Coming in 1.1.42
+            </span>
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+              Runs offline with Gemma 4: private, free, no account
+            </h2>
+            <p className="text-muted-foreground text-lg leading-relaxed">
+              Install the extension, open the side panel, and start without signing in. On WebGPU-capable
+              computers Vibe downloads Google&apos;s Gemma 4 E2B once (3.13 GB) and runs it on your own
+              hardware. Your chats and page content stay on this device. Anonymous usage stats are still sent.
+            </p>
+            <div className="grid gap-4 sm:grid-cols-3 text-left">
+              <div>
+                <div className="w-9 h-9 rounded-lg bg-white border border-purple-100 flex items-center justify-center mb-2">
+                  <Lock className="w-4 h-4 text-purple-600" />
+                </div>
+                <h3 className="text-sm font-bold mb-1">Private by default</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Signed out, the model runs in your browser — no chat content goes to our cloud.
+                </p>
+              </div>
+              <div>
+                <div className="w-9 h-9 rounded-lg bg-white border border-purple-100 flex items-center justify-center mb-2">
+                  <CreditCard className="w-4 h-4 text-green-600" />
+                </div>
+                <h3 className="text-sm font-bold mb-1">Free, no account needed</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  No sign-up, no API key, no card. One download and the model is yours.
+                </p>
+              </div>
+              <div>
+                <div className="w-9 h-9 rounded-lg bg-white border border-purple-100 flex items-center justify-center mb-2">
+                  <WifiOff className="w-4 h-4 text-blue-600" />
+                </div>
+                <h3 className="text-sm font-bold mb-1">Works on your device</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Gemma 4 E2B for Auto, or pick the larger E4B (4.92 GB) yourself in Settings.
+                </p>
+              </div>
+            </div>
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              Available on WebGPU-capable computers. If your device can&apos;t run the model, Vibe asks you to
+              sign in and use a cloud model instead. Signed-in users keep today&apos;s cloud routing unless they
+              turn on Private mode.
+            </p>
+          </div>
+          <div className="mx-auto w-full">
+            <div className="rounded-2xl overflow-hidden border border-slate-200 shadow-2xl bg-slate-900">
+              <img
+                src="/images/gemma4-on-device-1.1.42.jpg"
+                alt="Vibe settings showing Gemma 4 E2B (3.13 GB) and E4B (4.92 GB) on-device models, with the side panel downloading Gemma 4 at 52%"
+                className="w-full h-auto"
+                loading="lazy"
+              />
+            </div>
+            <p className="mt-3 text-xs text-muted-foreground text-center">
+              On-device models in Settings, and the side panel one-time download — from the 1.1.42 build.
+            </p>
           </div>
         </div>
       </div>
