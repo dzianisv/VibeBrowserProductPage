@@ -171,15 +171,22 @@ describe('hosted connector guides', () => {
     assert.match(connected, /27 tools/)
   })
 
-  test('chatgpt guide documents developer mode under Security and login, then Plugins → Create app', () => {
+  test('chatgpt guide documents the plugins-page create flow, with developer mode kept as the legacy fallback', () => {
     const i = connector('chatgpt-connector')
     const steps = i.steps.map((s) => `${s.title} ${s.body}`).join(' ')
-    // The commonly-published path (Settings → Connectors → advanced) is wrong;
-    // developer mode lives under Security and login.
-    assert.match(steps, /Security and login/)
-    assert.match(steps, /Developer mode/)
+    // Current flow (OpenAI, October 2026): the Developer mode toggle was
+    // removed; custom MCP apps are created at chatgpt.com/plugins via
+    // Add → Create MCP App. The guide must lead with that, and must set
+    // Authentication to No Auth or the form defaults away from the direct URL.
+    assert.match(steps, /chatgpt\.com\/plugins/)
+    assert.match(steps, /Create MCP App/)
     assert.match(steps, /Plugins/)
     assert.match(steps, /Create app/)
+    assert.match(steps, /No Auth/)
+    // Accounts on the older build still go through Developer mode under
+    // Security and login — dropping the legacy path strands those readers.
+    assert.match(steps, /Security and login/)
+    assert.match(steps, /Developer mode/)
     assert.ok(i.connectedLooksLike)
     assert.match(i.connectedLooksLike.join(' '), /Navigate page/)
   })
@@ -213,8 +220,10 @@ describe('hosted connector guides', () => {
  *   - The only hosted-connector contract is the direct Streamable HTTP URL
  *     https://relay.api.vibebrowser.app/mcp/<your-routing-uuid>.
  *   - Claude on the web is verified on it.
- *   - ChatGPT is verified on it too, but only on a PAID plan: Settings →
- *     Security and login → Developer mode → Plugins → Create app silently
+ *   - ChatGPT is verified on it too, but only on a PAID plan: the create
+ *     flow (chatgpt.com/plugins → Add → Create MCP App since OpenAI removed
+ *     the Developer mode toggle in October 2026; previously Settings →
+ *     Security and login → Developer mode → Plugins → Create app) silently
  *     no-ops on a free account, so the URL field never appears.
  *   - There is no relay OAuth: no consent screen, no Dynamic Client
  *     Registration, no browser:read / browser:control scopes.
