@@ -38,6 +38,21 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: '/OpenClaw',
+        destination: '/integrations/openclaw',
+        permanent: true,
+      },
+      {
+        source: '/Hermes',
+        destination: '/integrations/hermes',
+        permanent: true,
+      },
+      {
+        source: '/hermes',
+        destination: '/integrations/hermes',
+        permanent: true,
+      },
+      {
         source: '/BrowserUseModelsBenchmark',
         destination: '/blog/BrowserUseModelsBenchmark',
         permanent: true,

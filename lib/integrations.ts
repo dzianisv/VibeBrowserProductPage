@@ -38,6 +38,8 @@ export type VerifyCheck = {
   prompt: string
   expect: string
   note: string
+  /** Optional proof screenshot (a real run of this check). */
+  image?: { src: string; alt: string }
 }
 
 export type Troubleshoot = {
@@ -91,7 +93,13 @@ export type Integration = {
   /** What changes once Vibe MCP is wired in. */
   solution: string[]
   /** 3-step install. */
-  steps: { title: string; body: string; config?: ConfigBlock }[]
+  steps: {
+    title: string
+    body: string
+    config?: ConfigBlock
+    /** Screenshot for this step (agent-guide pages render steps image-first). */
+    image?: { src: string; alt: string }
+  }[]
   /** Credential warning rendered as a callout directly under the steps. */
   security?: SecurityCallout
   /** What the client's UI shows once the connector is saved and working. */
@@ -236,6 +244,10 @@ const remoteUrlStep = {
     language: 'url' as const,
     code: RELAY_MCP_URL,
   },
+  image: {
+    src: '/images/connectors/vibe-settings.png',
+    alt: 'Vibe extension Settings, AI Agent Control section, with the masked Agent connection URL and its Copy button',
+  },
 }
 
 /**
@@ -280,7 +292,7 @@ const REMOTE_CONNECTOR_FAQS: Faq[] = [
   },
   {
     q: 'I set this up earlier with a consent screen — what do I do now?',
-    a: 'Remove the old connector and add it again with the direct URL. In Claude: Settings → Connectors, delete the Vibe entry, then Add → Add custom connector and paste https://relay.api.vibebrowser.app/mcp/ followed by your routing UUID. In ChatGPT: go to chatgpt.com/plugins, delete the old app, then create app anew via Add → Create MCP App with the same URL. Editing the URL in place is unreliable because clients cache what they discovered the first time. Once re-added, no approval step appears — the connector just starts listing tools.',
+    a: 'Remove the old connector and add it again with the direct URL. In Claude: Settings → Connectors, delete the Vibe entry, then Add → Add custom connector and paste https://relay.api.vibebrowser.app/mcp/ followed by your routing UUID. In ChatGPT: go to chatgpt.com/plugins, delete the old app, then create it anew via Add → Add custom MCP server with the same URL. Editing the URL in place is unreliable because clients cache what they discovered the first time. Once re-added, no approval step appears — the connector just starts listing tools.',
   },
   {
     q: 'Is the UUID in the connector URL a secret?',
@@ -637,14 +649,22 @@ export const INTEGRATIONS: Integration[] = [
       extensionStep,
       {
         ...remoteUrlStep,
-        title: 'Add the connector under Settings → Connectors → Add → Add custom connector',
+        title: 'Add the connector in Claude: Settings → Connectors → Add',
         body:
-          'First copy your connector URL: click the Vibe icon → Settings → turn on "Enable external AI agent control" → choose Remote (internet) → copy the Agent connection URL. It is https://relay.api.vibebrowser.app/mcp/ followed by your routing UUID. Then in Claude on the web open Settings → Connectors, click Add, then Add custom connector, give it a name (for example "Vibe Browser") and paste that whole URL. Custom connectors are a paid-plan feature; check your plan if the option is missing. Redact the UUID before sharing any screenshot of this screen.',
+          'Copy your URL first (step 2). Then in Claude open Settings → Connectors, click Add → Add custom connector, name it "Vibe Browser", paste your URL, and click Add. Custom connectors need a paid Claude plan.',
+        image: {
+          src: '/images/connectors/claude-directory.png',
+          alt: 'Claude, Customize, Connectors — the Add button that starts a custom connector',
+        },
       },
       {
-        title: 'Enable it in a chat and make sure your browser is reachable',
+        title: 'Turn it on in a chat',
         body:
-          'In a conversation, use the + button → Connectors and toggle Vibe on for that chat. Claude then discovers the tool list — 27 browser tools at the time of writing. Keep the browser open with the Vibe extension running, "Enable external AI agent control" on, and the mode set to Remote (internet); the connector talks to that browser, so if it is closed there is nothing on the other end.',
+          'In a chat, tap + → Connectors and turn Vibe on. Keep Chrome open with the extension running. Then ask Claude to open a page — your browser does the work.',
+        image: {
+          src: '/images/connectors/claude-hero.png',
+          alt: 'Claude using the vibebrowser connector in a chat — it called List Pages and answered with the real open Chrome tabs',
+        },
       },
     ],
     security: CONNECTOR_SECURITY,
@@ -656,12 +676,12 @@ export const INTEGRATIONS: Integration[] = [
     ],
     verify: CONNECTOR_VERIFY,
     troubleshooting: CONNECTOR_TROUBLESHOOTING,
-    verifiedOn: 'August 2026',
+    verifiedOn: 'October 19, 2026',
     connectorStatus: {
       tone: 'ok',
       badge: 'Connector verified',
       summary:
-        'Verified end to end in Claude on the web with the direct connector URL https://relay.api.vibebrowser.app/mcp/<your-routing-uuid>: the connector saves, 27 tools are discovered, and live tool calls drive the real browser.',
+        'Verified end to end in a real Claude account on October 19, 2026 with the direct connector URL https://relay.api.vibebrowser.app/mcp/<your-routing-uuid>: the connector is saved under Customize → Connectors, and a live prompt made Claude call List Pages and return the real open Chrome tabs.',
     },
     faqs: [
       {
@@ -705,9 +725,9 @@ export const INTEGRATIONS: Integration[] = [
       'Add Vibe as a ChatGPT connector and let ChatGPT drive your real Chrome from the web app — logged-in pages included. One remote MCP URL, no local install.',
     h1: 'Give ChatGPT on the web control of your browser',
     tagline:
-      'chatgpt.com/plugins → Add → Create MCP App. A remote MCP URL, so it works where a local server cannot. Requires a paid plan — see the caveat below.',
+      'chatgpt.com/plugins → Add → Add custom MCP server. Paste one URL, set Authentication to No Auth. Requires a paid plan — see the caveat below.',
     answerBlock:
-      'ChatGPT supports custom apps backed by a remote MCP server. Go to chatgpt.com/plugins, click Add, then Create MCP App, and paste your Vibe connector URL, https://relay.api.vibebrowser.app/mcp/ followed by the routing UUID from the extension. Set Authentication to No Auth — the URL itself is the credential. ChatGPT can then navigate, click, type, scroll, screenshot, and read your real Chrome, including pages behind a login, with no local MCP server running. This is the direct per-user URL, and it is the path we verified end to end here — on a paid plan.',
+      'ChatGPT supports custom apps backed by a remote MCP server. Go to chatgpt.com/plugins, click Add, then Add custom MCP server, and paste your Vibe connector URL, https://relay.api.vibebrowser.app/mcp/ followed by the routing UUID from the extension. Set Authentication to No Auth — the URL itself is the credential. ChatGPT can then navigate, click, type, scroll, screenshot, and read your real Chrome, including pages behind a login, with no local MCP server running. This is the direct per-user URL, and it is the path we verified end to end here — on a paid plan.',
     problem: [
       'The ChatGPT desktop app can run a local MCP server; ChatGPT on the web cannot read local config or spawn a process, so it has no route to your browser.',
       'The built-in browsing tool fetches public pages as an anonymous visitor — anything behind your account is invisible to it.',
@@ -722,20 +742,28 @@ export const INTEGRATIONS: Integration[] = [
     steps: [
       extensionStep,
       {
-        title: 'Open chatgpt.com/plugins and start a new MCP app',
+        title: 'Open chatgpt.com/plugins and click Add → Add custom MCP server',
         body:
-          'In ChatGPT on the web, go to chatgpt.com/plugins, click Add, then Create MCP App (OpenAI is renaming this to "Create custom MCP server"). There is no mode to switch on first: OpenAI removed the Developer mode toggle in October 2026, so the create surface is simply there for eligible plans. Legacy note: if your account still shows Developer mode under Settings → Security and login, that is the older build of this same flow — switch Developer mode ON there, then use Plugins → Create app; every other step below is identical.',
+          'In ChatGPT on the web, go to chatgpt.com/plugins (the Plugins page), click Add, then "Add custom MCP server". Nothing to switch on first on current builds — OpenAI removed the Developer mode toggle. Older build? If your account shows Developer mode under Settings → Security and login, turn it ON, then use Plugins → Create app (Create MCP App) — it opens the same form.',
+        image: {
+          src: '/images/connectors/chatgpt-directory.png',
+          alt: 'chatgpt.com/plugins with the Add button that opens the custom MCP server form',
+        },
       },
       {
         ...remoteUrlStep,
-        title: 'Create app, paste your connector URL, set Authentication to No Auth',
+        title: 'Fill the form: name, your URL, No Auth',
         body:
-          'Copy your connector URL from the Vibe icon → Settings → "Enable external AI agent control" → Remote (internet) → Agent connection URL; it is https://relay.api.vibebrowser.app/mcp/ followed by your routing UUID. In the Create MCP App form, give it a name and paste that URL into the MCP server URL field. Then set Authentication to No Auth — the form does not start on that setting, and the URL itself is the credential, so there is nothing else to enter. Then enable the app for a conversation before asking ChatGPT to open a page. That URL is a credential — redact it before sharing a screenshot. Read the plan caveat below before you start.',
+          'First copy your URL: Vibe icon → Settings → AI Agent Control → Remote (internet) → Copy. Then fill the form: name it "Vibe Browser", paste the URL into Server URL, and set Authentication to "No authentication" (No Auth). The URL itself is the key — there is nothing else to enter.',
+        image: {
+          src: '/images/connectors/chatgpt-form.png',
+          alt: 'The Add custom MCP server form filled in — name Vibe Browser, the connector URL in the Server URL field, Authentication below it',
+        },
       },
       {
-        title: 'Known limitation on a free ChatGPT account',
+        title: 'Free plan? Read this first',
         body:
-          'On a FREE ChatGPT account, the create flow no-ops — Create app silently does nothing, no app is created and no error is shown — so there is nowhere to paste the URL at all. Custom MCP apps are a paid-plan feature. If Create app does nothing for you, that is the plan gate, not a Vibe fault: either upgrade, or use the ChatGPT desktop app path, which runs the local MCP server with no relay at all.',
+          'On a free ChatGPT account this flow no-ops: you click Add and nothing happens — no form opens and no error shows. Custom MCP servers are a paid-plan feature (Plus, Pro, Business, Enterprise, Edu). That is the plan gate, not a Vibe fault.',
       },
     ],
     security: CONNECTOR_SECURITY,
@@ -746,12 +774,12 @@ export const INTEGRATIONS: Integration[] = [
     ],
     verify: CONNECTOR_VERIFY,
     troubleshooting: CONNECTOR_TROUBLESHOOTING,
-    verifiedOn: 'August 2026 (create flow updated October 2026 per OpenAI\'s plugins change; account re-walk pending)',
+    verifiedOn: 'October 19, 2026',
     connectorStatus: {
       tone: 'caveat',
       badge: 'Verified on a paid plan',
       summary:
-        'Verified end to end on ChatGPT with the direct per-user connector URL, on a PAID plan. On a free account the chatgpt.com/plugins → Add → Create MCP App flow silently no-ops, so no app is created and the URL can never be entered. That is a plan gate, not a Vibe fault — it no-ops with No Auth too.',
+        'Checked in a live ChatGPT account on October 19, 2026: chatgpt.com/plugins → Add → Add custom MCP server opens the form and takes the direct per-user connector URL with No Auth. Needs a PAID plan — on a free account the flow silently no-ops and no form opens. That is a plan gate, not a Vibe fault.',
     },
     faqs: [
       {
@@ -760,7 +788,7 @@ export const INTEGRATIONS: Integration[] = [
       },
       {
         q: 'Where do I create a custom MCP app in ChatGPT?',
-        a: 'At chatgpt.com/plugins: click Add, then Create MCP App (being renamed "Create custom MCP server"). There is no Developer mode toggle anymore — OpenAI removed it in October 2026. If your account still shows Developer mode under Settings → Security and login, that is the older build of the same flow: switch it on there, then Plugins → Create app.',
+        a: 'At chatgpt.com/plugins: click Add, then Add custom MCP server (older builds call it Create MCP App). There is no Developer mode toggle anymore — OpenAI removed it in October 2026. If your account still shows Developer mode under Settings → Security and login, that is the older build of the same flow: switch it on there, then Plugins → Create app.',
       },
       {
         q: 'Do I need to verify a domain or set anything else up?',
@@ -1046,6 +1074,15 @@ export const INTEGRATIONS: Integration[] = [
         body:
           'Go to grok.com/connectors. Click New Connector, then Custom. Name it "Vibe Browser" and paste your whole connector URL. Save it, then open a chat and ask Grok to open a page for you. We wrote these steps from xAI\'s own connector docs. One honest note: if Grok asks you for a token or a key during setup, stop — that part is not confirmed yet, and we are finishing the live test now.',
       },
+      {
+        title: 'Grok Bot (the desktop app) needs a paid plan first',
+        body:
+          'Grok Bot is a separate desktop app from xAI and Cursor — not the grok.com web page above. The app itself is free to open, but it will not run until you add Cursor Pro or link a SuperGrok plan. This is the screen it shows until then. Once your plan is active, bots in the app use connectors the same way: give the bot your Vibe URL and it can work in your browser.',
+        image: {
+          src: '/images/connectors/grokbot-app.png',
+          alt: 'The Grok Bot desktop app asking for a Cursor Pro or SuperGrok plan before it can run',
+        },
+      },
     ],
     security: CONNECTOR_SECURITY,
     connectorStatus: {
@@ -1086,56 +1123,60 @@ export const INTEGRATIONS: Integration[] = [
     name: 'Dots',
     vendor: 'OpenAI',
     featured: false,
-    title: 'Connect Dots to Your Browser — Vibe Status & Guide',
+    title: 'Connect Dots to Your Browser — Vibe Guide',
     description:
-      'Dots is a new agent product from OpenAI. What we know about connecting Vibe, what is not confirmed yet, and the one setup that works today.',
+      'Dots are OpenAI\'s always-on agents in ChatGPT. They use the apps you connect in ChatGPT — so connect Vibe once in ChatGPT and your dot can use your browser.',
     h1: 'Connect Dots to your browser',
     tagline:
-      'Short version: Dots is very new, and we are checking it now. The ChatGPT setup below works today.',
+      'There is no separate Dots setup. Dots use your ChatGPT apps — connect Vibe in ChatGPT once, and your dot can use it.',
     answerBlock:
-      'Dots is a new agent product from OpenAI. Reports say Dots uses the same apps as ChatGPT, but OpenAI has not published connector docs for Dots yet, and we have not tested it ourselves. What works today: add Vibe in ChatGPT as a custom MCP app with one URL. If the reports are right, the same app will work in Dots. This page updates as soon as our check is done.',
+      'Dots are always-on agents inside ChatGPT, launched by OpenAI on September 29, 2026. A dot runs on its own cloud computer and uses the same apps and connectors you add in ChatGPT — there is no separate Dots connector setup. So the whole setup is the ChatGPT one: add Vibe at chatgpt.com/plugins as a custom MCP server with your connector URL, and your dot can open, read, and act on pages in your real Chrome. Dots need a ChatGPT Pro or Business Premium plan.',
     problem: [
-      'Dots is new, and there is no official page that explains how it connects to tools.',
-      'Many sites guess. A wrong guess with your browser login is not a small mistake, so we do not guess here.',
+      'People look for a Dots settings page or a Dots connector form. There is none — and most "Dots setup" posts are guesses.',
+      'A dot works on its own, in the cloud. Without a connected app it cannot touch your real browser or your logged-in pages.',
     ],
     solution: [
-      'Vibe already connects to ChatGPT with one URL — the guide on this site is tested end to end on a paid plan.',
-      'If Dots uses ChatGPT apps, you need no new setup at all.',
-      'This page tracks the Dots check. When it is confirmed, the exact Dots steps land here in plain words.',
+      'Dots use the apps connected to your ChatGPT account. Connect Vibe in ChatGPT once — no second setup for Dots.',
+      'After that, ask your dot to do the task. It calls the same Vibe tools and works in your real Chrome.',
+      'You stay in control: remove the app in ChatGPT, or turn off external control in the extension, and every dot loses browser access at once.',
     ],
     steps: [
       extensionStep,
       remoteUrlStep,
       {
-        title: 'Add Vibe in ChatGPT — this works today',
+        title: 'Add Vibe in ChatGPT — this is the whole setup',
         body:
-          'Go to chatgpt.com/plugins, click Add, then Create MCP App. Paste your connector URL and set Authentication to No Auth. The full walk-through is in the ChatGPT connector guide on this site. This is the setup Dots is reported to reuse.',
+          'Go to chatgpt.com/plugins, click Add → Add custom MCP server. Name it "Vibe Browser", paste your connector URL, and set Authentication to No Auth. Full screenshots are in the ChatGPT guide on this site. There is nothing else to set up in Dots.',
+        image: {
+          src: '/images/connectors/chatgpt-form.png',
+          alt: 'The ChatGPT Add custom MCP server form — the one setup Dots reuses',
+        },
       },
       {
-        title: 'Dots itself: check back here',
+        title: 'Ask your dot to do a task',
         body:
-          'We are verifying Dots now — what it is, and how it really connects. When we know, this step becomes the exact Dots click path. Until then, anyone who shows you "Dots steps" is guessing.',
+          'Open chatgpt.com/dots and pick your dot (or make one). Ask it to open a page or check a site for you. It uses the Vibe app you just connected, and your Chrome does the work. Keep Chrome open with the extension running.',
       },
     ],
     security: CONNECTOR_SECURITY,
     connectorStatus: {
       tone: 'caveat',
-      badge: 'Not verified yet',
+      badge: 'Works through ChatGPT',
       summary:
-        'We have not tested Dots yet, and OpenAI has not published connector docs for it. Reports say it reuses ChatGPT apps; the ChatGPT path on this site is verified on a paid plan. This page changes when the check is done.',
+        'Dots launched September 29, 2026 and reuse the apps connected in ChatGPT — that is the connection path, confirmed from OpenAI\'s launch material and hands-on reports. The ChatGPT setup itself is checked on this site. We have not yet run a dot against Vibe end to end. Dots need ChatGPT Pro or Business Premium.',
     },
     faqs: [
       {
         q: 'What is Dots?',
-        a: 'Dots is a new agent product from OpenAI. Public detail is thin so far, and reports link it to the ChatGPT app system. We link only to what we can check, and we mark the rest as not confirmed.',
+        a: 'Dots are always-on personal agents inside ChatGPT, launched by OpenAI on September 29, 2026. Each dot has its own cloud computer and browser, keeps working between chats, and uses the apps and connectors on your ChatGPT account.',
       },
       {
-        q: 'Can I connect Vibe to Dots today?',
-        a: 'Not in a way we can stand behind yet. The setup that works today is the ChatGPT one: one URL, added as a custom MCP app. If Dots takes ChatGPT apps, that same setup carries over.',
+        q: 'How do I connect Vibe to Dots?',
+        a: 'You do not connect it in Dots — you connect it in ChatGPT. Add Vibe at chatgpt.com/plugins as a custom MCP server (one URL, Authentication: No Auth), and your dots can use it right away. The ChatGPT guide on this site has the screenshots.',
       },
       {
-        q: 'When will the real Dots steps be here?',
-        a: 'As soon as our check is done — we need a real Dots surface in front of us, not a screenshot from a blog. This page is the place that will change first.',
+        q: 'Which plan do I need for Dots?',
+        a: 'Dots are a ChatGPT Pro and Business Premium feature at launch. The Vibe connection itself also needs a paid ChatGPT plan — on a free account the custom MCP server form never opens.',
       },
     ],
     keywords: [
@@ -1173,12 +1214,25 @@ export const INTEGRATIONS: Integration[] = [
       {
         title: 'Copy only your session ID from the extension',
         body:
-          'Click the Vibe icon → Settings → AI Agent Control → turn on external AI agent control → choose Remote (internet). Your Agent connection URL ends with your session ID — the part after /mcp/. Copy only that ID. The full URL is a password for your browser: never paste it into a chat, a post, or a screenshot.',
+          'Click the Vibe icon → Settings → AI Agent Control → turn on external AI agent control → choose Remote (internet). Copy only your session ID — the part after /mcp/ in the Agent connection URL. The full URL is a password: never paste it into a chat.',
+        image: {
+          src: '/images/connectors/vibe-settings.png',
+          alt: 'Vibe extension Settings, AI Agent Control — the Agent connection URL ends with your session ID',
+        },
       },
       {
         title: 'Send Muse one message',
         body:
-          'In Muse, send this message: "Set up a custom connector for Vibe Browser. The MCP server is at https://relay.api.vibebrowser.app/mcp and it uses my session ID in a custom header named X-Remote-Session. Ask me for the session ID on the secure credential card — do not ask me to paste it in chat. Name the connector Vibe Browser. When it is connected, list my open browser tabs to check it, and do not click or change anything yet." Muse shows you a secure card for the ID, builds the connector, and checks it by listing your tabs.',
+          'Open Muse and send the message below. Muse builds the connector, asks for your session ID on a secure card (not in the chat), and checks the connection by listing your tabs.',
+        config: {
+          location: 'Paste into a Muse chat',
+          language: 'bash',
+          code: 'Set up a custom connector for Vibe Browser. The MCP server is at https://relay.api.vibebrowser.app/mcp and it uses my session ID in a custom header named X-Remote-Session. Ask me for the session ID on the secure credential card — do not ask me to paste it in chat. Name the connector Vibe Browser. When it is connected, list my open browser tabs to check it, and do not click or change anything yet.',
+        },
+        image: {
+          src: '/images/connectors/muse-prompt.png',
+          alt: 'The one setup message to send Muse — there is no settings page to fill in',
+        },
       },
     ],
     security: CONNECTOR_SECURITY,
@@ -1210,6 +1264,164 @@ export const INTEGRATIONS: Integration[] = [
       'muse ai browser control',
     ],
   },
+  {
+    slug: 'openclaw',
+    name: 'OpenClaw',
+    vendor: 'OpenClaw',
+    featured: false,
+    title: 'Connect OpenClaw to Your Browser — Vibe Guide',
+    description:
+      'Add Vibe to OpenClaw as an MCP server in openclaw.json — one URL — and your OpenClaw agent can open, read, and act on pages in your real Chrome.',
+    h1: 'Give OpenClaw control of your browser',
+    tagline:
+      'One block in ~/.openclaw/openclaw.json. Paste your Vibe URL under mcpServers, restart, done.',
+    answerBlock:
+      'OpenClaw connects to MCP servers from its config file. Add a "vibe" entry under mcpServers in ~/.openclaw/openclaw.json with your Vibe connector URL — https://relay.api.vibebrowser.app/mcp/ plus your routing UUID from the extension — and restart OpenClaw. Its browser tools load on startup, and your agent can open, read, click, and type in your real Chrome, logged-in pages included.',
+    problem: [
+      'OpenClaw can plan and chat, but on its own it cannot act inside the browser you are logged into.',
+      'Most browser tools hand the agent a fresh, empty browser — no logins, no tabs, no sessions.',
+    ],
+    solution: [
+      'Vibe is one MCP server entry: a single URL in the config you already have.',
+      'The extension is the bridge — OpenClaw calls the relay, the relay drives your real Chrome.',
+      'Your agent gets your open tabs and your logins, not a blank browser.',
+    ],
+    steps: [
+      extensionStep,
+      remoteUrlStep,
+      {
+        title: 'Add Vibe to ~/.openclaw/openclaw.json and restart',
+        body:
+          'Open ~/.openclaw/openclaw.json and add the "vibe" entry below under mcpServers (keep your other servers — just add this one). Restart OpenClaw. The Vibe tools load on startup.',
+        config: {
+          location: '~/.openclaw/openclaw.json',
+          language: 'json',
+          code: '{\n  "mcpServers": {\n    "vibe": {\n      "url": "https://relay.api.vibebrowser.app/mcp/<your-routing-uuid>"\n    }\n  }\n}',
+        },
+      },
+    ],
+    security: CONNECTOR_SECURITY,
+    verify: {
+      prompt: 'List the tabs I have open in my browser right now.',
+      expect: 'your real open Chrome tabs',
+      note:
+        'Ask it in any OpenClaw chat after the restart. OpenClaw cannot know your tabs on its own, so a correct list proves the connector works. You can also watch the startup log — MCP servers list their tools as OpenClaw boots.',
+    },
+    connectorStatus: {
+      tone: 'caveat',
+      badge: 'Guide — from OpenClaw docs',
+      summary:
+        'These steps follow OpenClaw\'s public MCP config docs: remote servers are mcpServers entries with a url in ~/.openclaw/openclaw.json. We have not live-tested this exact pairing yet, so treat it as a guide.',
+    },
+    faqs: [
+      {
+        q: 'Where does the config go?',
+        a: 'In ~/.openclaw/openclaw.json, inside the mcpServers block. If the file already has servers, add "vibe" next to them — do not replace the block.',
+      },
+      {
+        q: 'Do I need to install a local MCP server?',
+        a: 'No. Vibe is a remote MCP server — OpenClaw connects to the URL directly. The only thing you install is the Vibe Chrome extension.',
+      },
+      {
+        q: 'The tools did not load — what now?',
+        a: 'Check three things: the URL ends with your full routing UUID, Chrome is open with the extension running, and external AI agent control is on with Remote (internet) mode. Then restart OpenClaw again.',
+      },
+    ],
+    keywords: [
+      'openclaw mcp',
+      'openclaw browser control',
+      'openclaw mcpservers',
+      'connect openclaw to browser',
+      'openclaw vibe',
+    ],
+  },
+  {
+    slug: 'hermes',
+    name: 'Hermes',
+    vendor: 'Hermes Agent',
+    featured: false,
+    title: 'Connect Hermes to Your Browser — Vibe Guide',
+    description:
+      'Add Vibe to Hermes as an MCP server in ~/.hermes/config.yaml — one URL — and Hermes can open, read, and act on pages in your real Chrome.',
+    h1: 'Give Hermes control of your browser',
+    tagline:
+      'One block in ~/.hermes/config.yaml. Paste your Vibe URL under mcp_servers, restart, done.',
+    answerBlock:
+      'Hermes connects to MCP servers from ~/.hermes/config.yaml. Add a "vibe" entry under mcp_servers with your Vibe connector URL — https://relay.api.vibebrowser.app/mcp/ plus your routing UUID from the extension — then restart Hermes (or run /reload-mcp in chat). Check it with "hermes mcp test vibe". Hermes can then open, read, click, and type in your real Chrome, logged-in pages included.',
+    problem: [
+      'Hermes can plan and chat, but on its own it cannot act inside the browser you are logged into.',
+      'Most browser tools hand the agent a fresh, empty browser — no logins, no tabs, no sessions.',
+    ],
+    solution: [
+      'Vibe is one MCP server entry: a single URL in the config you already have.',
+      'The extension is the bridge — Hermes calls the relay, the relay drives your real Chrome.',
+      'Your agent gets your open tabs and your logins, not a blank browser.',
+    ],
+    steps: [
+      extensionStep,
+      remoteUrlStep,
+      {
+        title: 'Add Vibe to ~/.hermes/config.yaml and restart',
+        body:
+          'Open ~/.hermes/config.yaml and add the block below (keep your other servers — just add this one). Then restart Hermes, or type /reload-mcp in the chat. Test it with: hermes mcp test vibe',
+        config: {
+          location: '~/.hermes/config.yaml',
+          language: 'bash',
+          code: 'mcp_servers:\n  vibe:\n    url: "https://relay.api.vibebrowser.app/mcp/<your-routing-uuid>"',
+        },
+      },
+    ],
+    security: CONNECTOR_SECURITY,
+    verify: {
+      prompt: 'List the tabs I have open in my browser right now.',
+      expect: 'your real open Chrome tabs',
+      note:
+        'Ask Hermes in chat after the restart — or run "hermes mcp test vibe" in a terminal to see the Vibe tool list. Hermes cannot know your tabs on its own, so a correct list proves the connector works.',
+    },
+    connectorStatus: {
+      tone: 'caveat',
+      badge: 'Guide — from Hermes docs',
+      summary:
+        'These steps follow the public Hermes MCP config pattern: remote servers are mcp_servers entries with a url in ~/.hermes/config.yaml, checked with hermes mcp test. We have not live-tested this exact pairing yet, so treat it as a guide.',
+    },
+    faqs: [
+      {
+        q: 'Where does the config go?',
+        a: 'In ~/.hermes/config.yaml, inside the mcp_servers block. If the file already has servers, add "vibe" next to them — do not replace the block.',
+      },
+      {
+        q: 'How do I check the connection?',
+        a: 'Run "hermes mcp test vibe" in a terminal. It connects to the server and lists the tools it found. In chat, /reload-mcp refreshes the tools without a restart.',
+      },
+      {
+        q: 'Do I need to install a local MCP server?',
+        a: 'No. Vibe is a remote MCP server — Hermes connects to the URL directly. The only thing you install is the Vibe Chrome extension.',
+      },
+    ],
+    keywords: [
+      'hermes mcp',
+      'hermes agent browser',
+      'hermes mcp_servers config',
+      'connect hermes to browser',
+      'hermes vibe',
+    ],
+  },
+]
+
+/**
+ * The agent-setup guides. These pages render the SIMPLE layout (switcher,
+ * steps with screenshots, one check, FAQ) instead of the full integration
+ * template: a reader should know what to do in under a minute. The switcher
+ * at the top of each page links all seven.
+ */
+export const AGENT_GUIDES: { slug: string; label: string }[] = [
+  { slug: 'claude-connector', label: 'Claude' },
+  { slug: 'chatgpt-connector', label: 'ChatGPT' },
+  { slug: 'muse-connector', label: 'Muse' },
+  { slug: 'dots', label: 'Dots' },
+  { slug: 'grokbots', label: 'Grok Bots' },
+  { slug: 'openclaw', label: 'OpenClaw' },
+  { slug: 'hermes', label: 'Hermes' },
 ]
 
 export const FEATURED_INTEGRATIONS = INTEGRATIONS.filter((i) => i.featured)
