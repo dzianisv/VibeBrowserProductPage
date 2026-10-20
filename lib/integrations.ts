@@ -651,7 +651,7 @@ export const INTEGRATIONS: Integration[] = [
         ...remoteUrlStep,
         title: 'Add the connector in Claude: Settings → Connectors → Add',
         body:
-          'Copy your URL first (step 2). Then in Claude open Settings → Connectors, click Add → Add custom connector, name it "Vibe Browser", paste your URL, and click Add. Custom connectors need a paid Claude plan.',
+          'Copy your URL first: Vibe icon → Settings → AI Agent Control → Remote (internet) → copy the Agent connection URL. Then in Claude open Settings → Connectors, click Add → Add custom connector, name it "Vibe Browser", paste the URL, and click Add. Custom connectors need a paid Claude plan.',
         image: {
           src: '/images/connectors/claude-directory.png',
           alt: 'Claude, Customize, Connectors — the Add button that starts a custom connector',
