@@ -350,6 +350,9 @@ export default function Component() {
           <Link href="/integrations/chatgpt-connector" className="rounded-full border border-purple-200 bg-purple-50 px-4 py-2 text-sm font-medium text-purple-800 hover:border-purple-300 hover:text-purple-900">
             Connect ChatGPT →
           </Link>
+          <Link href="/muse" className="rounded-full border border-purple-200 bg-purple-50 px-4 py-2 text-sm font-medium text-purple-800 hover:border-purple-300 hover:text-purple-900">
+            Connect Muse →
+          </Link>
         </div>
       </div>
     </section>
