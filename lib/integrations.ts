@@ -1236,11 +1236,11 @@ export const INTEGRATIONS: Integration[] = [
       {
         title: 'Send Muse this prompt',
         body:
-          'Open Muse and send the prompt below, with your MCP connector URL pasted in where shown. Muse creates the connector and checks it by listing your tabs.',
+          'Open Muse and send the prompt below, with your MCP connector URL pasted in where shown. The prompt tells Muse everything it needs \u2014 you never handle the key or the settings yourself. Muse shows you one secure card: paste the session ID there (the end of the URL, after /mcp/).',
         config: {
           location: 'Paste into a Muse chat',
           language: 'bash',
-          code: 'Add a custom connector named "Vibe Browser" for this MCP server \u2014 store the full URL exactly as the connector address: [paste your MCP connector URL here]. When it is connected, list my open browser tabs to check it works, and do not click or change anything yet.',
+          code: 'Add a custom connector named "Vibe Browser" for this MCP server: [paste your MCP connector URL here]. The session ID at the end of the URL (the part after /mcp/) is the key \u2014 register it for relay.api.vibebrowser.app, sent in the X-Remote-Session header. When the secure card appears, I will paste that same session ID. Once it is connected, list my open browser tabs to check it works, and do not click or change anything yet.',
         },
       },
       {
