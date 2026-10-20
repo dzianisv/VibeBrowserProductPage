@@ -1194,44 +1194,62 @@ export const INTEGRATIONS: Integration[] = [
     featured: false,
     title: 'Connect Muse (Meta AI) to Your Browser — Vibe',
     description:
-      'Muse has no connectors settings page — you set Vibe up by asking Muse in chat. One message, a secure card for your key, and Muse uses your real Chrome.',
+      'Connect Muse to your real Chrome with Vibe Browser: copy your MCP URL from the extension, send Muse one prompt, and find the connector in Settings → Connectors → Custom connectors.',
     h1: 'Give Muse control of your browser',
     tagline:
-      'No settings page. You ask Muse in chat, it builds the connector, and you approve the key on a secure card.',
+      'Copy your MCP URL from the Vibe extension, send Muse one prompt, and Muse can use your real Chrome.',
     answerBlock:
-      'Muse by Meta has no connectors settings page. You set Vibe up by asking Muse in chat: it builds a custom connector to the Vibe relay and asks for your session ID on a secure card, so the ID never goes into the chat text. Muse can then open, read, and act on pages in your real Chrome.',
+      'You connect Vibe Browser to Muse from chat: copy your MCP connector URL from the Vibe extension, send Muse one prompt with that URL, and Muse adds it as a custom connector. It then lives in the Muse app under Settings → Connectors → Custom connectors, and Muse can open, read, and act on pages in your real Chrome.',
     problem: [
       'Muse can chat, but it cannot open your pages or act on the web for you.',
-      'There is no page in Muse where you can paste a connector URL — setup works a different way, and most people never find it.',
+      'Muse lists connectors in Settings, but there is no add form — the connector is created from chat, and most people never find the way in.',
     ],
     solution: [
-      'You send Muse one message. Muse builds the connector for you.',
-      'Your session ID stays out of the chat: Muse asks for it on a secure card and stores it in its vault.',
+      'You copy one URL from the extension and send Muse one prompt — Muse builds the connector for you.',
+      'The connector appears in Settings → Connectors → Custom connectors, where you can view and manage it.',
       'After that, Muse works inside the Chrome you are already logged into.',
     ],
     steps: [
-      extensionStep,
       {
-        title: 'Copy only your session ID from the extension',
+        title: 'Install the Vibe Browser extension',
         body:
-          'Click the Vibe icon → Settings → AI Agent Control → turn on external AI agent control → choose Remote (internet). Copy only your session ID — the part after /mcp/ in the Agent connection URL. The full URL is a password: never paste it into a chat.',
+          'Add Vibe Browser to Chrome from the Chrome Web Store — the "Add Vibe to Chrome" button on this page opens the listing. Then click the Vibe icon in the Chrome toolbar once so the extension is active.',
+      },
+      {
+        title: 'Open AI Agent Control in the extension settings',
+        body:
+          'Click the Vibe icon \u2192 Settings \u2192 AI Agent Control. Turn on "Enable external AI agent control" and set Connection mode to Remote (internet).',
         image: {
-          src: '/images/connectors/vibe-settings.png',
-          alt: 'Vibe extension Settings, AI Agent Control — the Agent connection URL ends with your session ID',
+          src: '/images/connectors/vibe-settings-full.png',
+          alt: 'Vibe extension settings — AI Agent Control in the left menu, external agent control on, connection mode set to Remote',
         },
       },
       {
-        title: 'Send Muse one message',
+        title: 'Copy your MCP connector URL',
         body:
-          'Open Muse and send the message below. Muse builds the connector, asks for your session ID on a secure card (not in the chat), and checks the connection by listing your tabs.',
+          'In the Relay access box, click Copy next to "MCP connector URL (HTTPS)". That copies the full URL — https://relay.api.vibebrowser.app/mcp/\u2026 with your session ID at the end. The whole URL is your key, and you paste it once, in the next step.',
+        image: {
+          src: '/images/connectors/vibe-settings.png',
+          alt: 'Relay access in the Vibe extension settings — the MCP connector URL field and its Copy button',
+        },
+      },
+      {
+        title: 'Send Muse this prompt',
+        body:
+          'Open Muse and send the prompt below, with your MCP connector URL pasted in where shown. Muse creates the connector and checks it by listing your tabs.',
         config: {
           location: 'Paste into a Muse chat',
           language: 'bash',
-          code: 'Set up a custom connector for Vibe Browser. The MCP server is at https://relay.api.vibebrowser.app/mcp and it uses my session ID in a custom header named X-Remote-Session. Ask me for the session ID on the secure credential card — do not ask me to paste it in chat. Name the connector Vibe Browser. When it is connected, list my open browser tabs to check it, and do not click or change anything yet.',
+          code: 'Add a custom connector named "Vibe Browser" for this MCP server \u2014 store the full URL exactly as the connector address: [paste your MCP connector URL here]. When it is connected, list my open browser tabs to check it works, and do not click or change anything yet.',
         },
+      },
+      {
+        title: 'Find it in your connectors',
+        body:
+          'In the Muse app, open Settings \u2192 Connectors and scroll to Custom \u2192 Custom connectors. Once Muse has added it, Vibe Browser is listed there — that is where you view and manage it.',
         image: {
-          src: '/images/connectors/muse-prompt.png',
-          alt: 'The one setup message to send Muse — there is no settings page to fill in',
+          src: '/images/connectors/muse-app-connectors-custom.png',
+          alt: 'The Muse app Connectors screen, scrolled to the Custom section with Custom connectors',
         },
       },
     ],
@@ -1240,16 +1258,16 @@ export const INTEGRATIONS: Integration[] = [
       tone: 'caveat',
       badge: 'Guide — verification pending',
       summary:
-        'The setup flow on this page is how Muse builds custom connectors: one chat message, a secure card for the credential, then a read-only tab check. A full end-to-end verification with a live Muse account is still pending, so treat this page as a guide, not a finished check.',
+        'The steps follow the Muse app as it works today: the connector is added from chat with one prompt and then listed under Settings → Connectors → Custom connectors — the app screenshots on this page are from the real app. A full end-to-end run with a live Muse account is still being verified, so treat this page as a guide.',
     },
     faqs: [
       {
-        q: 'Why is there no Muse connectors page?',
-        a: 'Muse works by chat. You describe the connector you want, and Muse creates it and stores the key in its secure vault. There is no form to fill in — the message in step 3 is the whole setup.',
+        q: 'Where does the connector live in Muse?',
+        a: 'In the Muse app: Settings → Connectors → Custom connectors. There is no add form in Settings — the prompt in step 4 creates the connector, and it appears in that list, where you can view and manage it.',
       },
       {
-        q: 'Is it safe to give Muse my session ID?',
-        a: 'Only on the secure card Muse shows you — never as plain chat text. The ID is a key to your browser. If it ever leaks, open the Vibe extension settings, regenerate the session, and ask Muse to update the connector with the new ID.',
+        q: 'Is the MCP connector URL a secret?',
+        a: 'Yes — the session ID at the end of the URL is a key to your browser, so treat the full URL like a password and only paste it into your own Muse. If it ever leaks, open the Vibe extension settings → AI Agent Control, click Regenerate session, and send Muse the prompt again with the new URL.',
       },
       {
         q: 'What can Muse do once it is connected?',
