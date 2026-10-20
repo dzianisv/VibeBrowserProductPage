@@ -172,6 +172,12 @@ export default function IntegrationsHubPage() {
               Dots status &amp; guide →
             </Link>
             <Link
+              href="/integrations/muse-connector"
+              className="rounded-full border border-emerald-400/40 px-4 py-2 text-sm font-medium text-emerald-200 transition-colors hover:border-emerald-300 hover:text-emerald-100"
+            >
+              Muse by Meta setup →
+            </Link>
+            <Link
               href="/mcp"
               className="rounded-full border border-white/15 px-4 py-2 text-sm text-neutral-200 transition-colors hover:border-white/40 hover:text-white"
             >

@@ -33,6 +33,11 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: '/muse',
+        destination: '/integrations/muse-connector',
+        permanent: true,
+      },
+      {
         source: '/BrowserUseModelsBenchmark',
         destination: '/blog/BrowserUseModelsBenchmark',
         permanent: true,

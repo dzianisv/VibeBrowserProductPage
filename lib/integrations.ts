@@ -1146,6 +1146,70 @@ export const INTEGRATIONS: Integration[] = [
       'dots custom connector',
     ],
   },
+  {
+    slug: 'muse-connector',
+    name: 'Muse by Meta',
+    vendor: 'Meta',
+    featured: false,
+    title: 'Connect Muse (Meta AI) to Your Browser — Vibe',
+    description:
+      'Muse has no connectors settings page — you set Vibe up by asking Muse in chat. One message, a secure card for your key, and Muse uses your real Chrome.',
+    h1: 'Give Muse control of your browser',
+    tagline:
+      'No settings page. You ask Muse in chat, it builds the connector, and you approve the key on a secure card.',
+    answerBlock:
+      'Muse by Meta has no connectors settings page. You set Vibe up by asking Muse in chat: it builds a custom connector to the Vibe relay and asks for your session ID on a secure card, so the ID never goes into the chat text. Muse can then open, read, and act on pages in your real Chrome.',
+    problem: [
+      'Muse can chat, but it cannot open your pages or act on the web for you.',
+      'There is no page in Muse where you can paste a connector URL — setup works a different way, and most people never find it.',
+    ],
+    solution: [
+      'You send Muse one message. Muse builds the connector for you.',
+      'Your session ID stays out of the chat: Muse asks for it on a secure card and stores it in its vault.',
+      'After that, Muse works inside the Chrome you are already logged into.',
+    ],
+    steps: [
+      extensionStep,
+      {
+        title: 'Copy only your session ID from the extension',
+        body:
+          'Click the Vibe icon → Settings → AI Agent Control → turn on external AI agent control → choose Remote (internet). Your Agent connection URL ends with your session ID — the part after /mcp/. Copy only that ID. The full URL is a password for your browser: never paste it into a chat, a post, or a screenshot.',
+      },
+      {
+        title: 'Send Muse one message',
+        body:
+          'In Muse, send this message: "Set up a custom connector for Vibe Browser. The MCP server is at https://relay.api.vibebrowser.app/mcp and it uses my session ID in a custom header named X-Remote-Session. Ask me for the session ID on the secure credential card — do not ask me to paste it in chat. Name the connector Vibe Browser. When it is connected, list my open browser tabs to check it, and do not click or change anything yet." Muse shows you a secure card for the ID, builds the connector, and checks it by listing your tabs.',
+      },
+    ],
+    security: CONNECTOR_SECURITY,
+    connectorStatus: {
+      tone: 'caveat',
+      badge: 'Guide — verification pending',
+      summary:
+        'The setup flow on this page is how Muse builds custom connectors: one chat message, a secure card for the credential, then a read-only tab check. A full end-to-end verification with a live Muse account is still pending, so treat this page as a guide, not a finished check.',
+    },
+    faqs: [
+      {
+        q: 'Why is there no Muse connectors page?',
+        a: 'Muse works by chat. You describe the connector you want, and Muse creates it and stores the key in its secure vault. There is no form to fill in — the message in step 3 is the whole setup.',
+      },
+      {
+        q: 'Is it safe to give Muse my session ID?',
+        a: 'Only on the secure card Muse shows you — never as plain chat text. The ID is a key to your browser. If it ever leaks, open the Vibe extension settings, regenerate the session, and ask Muse to update the connector with the new ID.',
+      },
+      {
+        q: 'What can Muse do once it is connected?',
+        a: 'List your tabs, open and read pages, click, type, fill forms, and take screenshots — in your real Chrome, including pages where you are logged in. A good first task is a read-only one: ask Muse to summarize the page you have open.',
+      },
+    ],
+    keywords: [
+      'muse mcp connector',
+      'meta muse browser',
+      'connect muse to browser',
+      'muse custom connector',
+      'muse ai browser control',
+    ],
+  },
 ]
 
 export const FEATURED_INTEGRATIONS = INTEGRATIONS.filter((i) => i.featured)
