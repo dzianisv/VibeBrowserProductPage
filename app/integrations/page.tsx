@@ -169,13 +169,25 @@ export default function IntegrationsHubPage() {
               href="/integrations/dots"
               className="rounded-full border border-emerald-400/40 px-4 py-2 text-sm font-medium text-emerald-200 transition-colors hover:border-emerald-300 hover:text-emerald-100"
             >
-              Dots status &amp; guide →
+              Dots setup →
             </Link>
             <Link
               href="/integrations/muse-connector"
               className="rounded-full border border-emerald-400/40 px-4 py-2 text-sm font-medium text-emerald-200 transition-colors hover:border-emerald-300 hover:text-emerald-100"
             >
               Muse by Meta setup →
+            </Link>
+            <Link
+              href="/integrations/openclaw"
+              className="rounded-full border border-emerald-400/40 px-4 py-2 text-sm font-medium text-emerald-200 transition-colors hover:border-emerald-300 hover:text-emerald-100"
+            >
+              OpenClaw setup →
+            </Link>
+            <Link
+              href="/integrations/hermes"
+              className="rounded-full border border-emerald-400/40 px-4 py-2 text-sm font-medium text-emerald-200 transition-colors hover:border-emerald-300 hover:text-emerald-100"
+            >
+              Hermes setup →
             </Link>
             <Link
               href="/mcp"

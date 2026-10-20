@@ -12,7 +12,7 @@ import {
   faqPageLd,
   softwareApplicationLd,
 } from '@/components/integration-ui'
-import { COMPARISON, INTEGRATIONS, MCP_TOOLS, RELAY_NOTE, getIntegration } from '@/lib/integrations'
+import { AGENT_GUIDES, COMPARISON, INTEGRATIONS, MCP_TOOLS, RELAY_NOTE, getIntegration } from '@/lib/integrations'
 
 const BASE = 'https://www.vibebrowser.app'
 
@@ -62,11 +62,9 @@ export default async function IntegrationPage({
 
   const url = `${BASE}/integrations/${integration.slug}`
   const others = INTEGRATIONS.filter((i) => i.slug !== integration.slug).slice(0, 6)
+  const isAgentGuide = AGENT_GUIDES.some((g) => g.slug === integration.slug)
 
-  return (
-    <div className="min-h-screen bg-neutral-950 text-white">
-      <JsonLd
-        data={[
+  const jsonLd = [
           softwareApplicationLd({
             name: `Vibe MCP for ${integration.name}`,
             description: integration.description,
@@ -105,8 +103,157 @@ export default async function IntegrationPage({
                 : []),
             ],
           },
-        ]}
-      />
+  ]
+
+  if (isAgentGuide) {
+    return (
+      <div className="min-h-screen bg-neutral-950 text-white">
+        <JsonLd data={jsonLd} />
+        <SiteNav />
+
+        <main className="mx-auto max-w-3xl px-6 pb-24 pt-10">
+          <p className="text-sm font-semibold uppercase tracking-wide text-neutral-400">
+            Vibe Browser for
+          </p>
+          <nav aria-label="Choose your agent" className="mt-3 flex flex-wrap gap-2">
+            {AGENT_GUIDES.map((g) => (
+              <Link
+                key={g.slug}
+                href={`/integrations/${g.slug}`}
+                aria-current={g.slug === integration.slug ? 'page' : undefined}
+                className={
+                  g.slug === integration.slug
+                    ? 'rounded-full bg-white px-4 py-2 text-sm font-semibold text-black'
+                    : 'rounded-full border border-white/20 px-4 py-2 text-sm text-neutral-200 transition-colors hover:border-white/50 hover:text-white'
+                }
+              >
+                {g.label}
+              </Link>
+            ))}
+          </nav>
+
+          <header className="mt-8">
+            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">{integration.h1}</h1>
+            <p className="mt-4 text-lg leading-relaxed text-neutral-300">{integration.tagline}</p>
+            {integration.connectorStatus || integration.verifiedOn ? (
+              <div className="mt-5 flex flex-wrap items-center gap-3">
+                {integration.connectorStatus ? (
+                  <span
+                    className={`rounded-full border px-3 py-1 text-xs font-semibold ${
+                      integration.connectorStatus.tone === 'ok'
+                        ? 'border-emerald-400/40 text-emerald-300'
+                        : 'border-amber-400/40 text-amber-300'
+                    }`}
+                  >
+                    {integration.connectorStatus.badge}
+                  </span>
+                ) : null}
+                {integration.verifiedOn ? (
+                  <span className="text-sm text-neutral-500">Checked {integration.verifiedOn}</span>
+                ) : null}
+              </div>
+            ) : null}
+            {integration.connectorStatus ? (
+              <p className="mt-3 text-sm leading-relaxed text-neutral-400">
+                {integration.connectorStatus.summary}
+              </p>
+            ) : null}
+          </header>
+
+          <section aria-labelledby="steps" className="mt-10">
+            <h2 id="steps" className="sr-only">
+              Setup steps
+            </h2>
+            <ol className="space-y-6">
+              {integration.steps.map((step, i) => (
+                <li
+                  key={step.title}
+                  className="rounded-2xl border border-white/10 bg-white/[0.02] p-6"
+                >
+                  <h3 className="text-lg font-semibold text-white">
+                    <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-emerald-400/20 text-sm text-emerald-300">
+                      {i + 1}
+                    </span>
+                    {step.title}
+                  </h3>
+                  <p className="mt-3 text-[15px] leading-relaxed text-neutral-300">{step.body}</p>
+                  {step.config ? <CodeBlock config={step.config} /> : null}
+                  {step.image ? (
+                    <img
+                      src={step.image.src}
+                      alt={step.image.alt}
+                      loading="lazy"
+                      className="mt-4 w-full rounded-xl border border-white/10"
+                    />
+                  ) : null}
+                </li>
+              ))}
+            </ol>
+            <p className="mt-6 rounded-xl border border-amber-400/30 bg-amber-400/[0.05] p-4 text-sm leading-relaxed text-amber-100">
+              {RELAY_NOTE}
+            </p>
+          </section>
+
+          {integration.verify ? (
+            <section aria-labelledby="verify" className="mt-12">
+              <SectionHeading id="verify">Check it works</SectionHeading>
+              <CodeBlock
+                config={{
+                  location: `Ask ${integration.name}`,
+                  language: 'bash',
+                  code: integration.verify.prompt,
+                }}
+              />
+              <p className="mt-4 text-[15px] leading-relaxed text-neutral-200">
+                Expected answer:{' '}
+                <strong className="font-semibold text-emerald-300">{integration.verify.expect}</strong>
+              </p>
+              <p className="mt-3 text-[15px] leading-relaxed text-neutral-400">
+                {integration.verify.note}
+              </p>
+              {integration.verify.image ? (
+                <img
+                  src={integration.verify.image.src}
+                  alt={integration.verify.image.alt}
+                  loading="lazy"
+                  className="mt-4 w-full rounded-xl border border-white/10"
+                />
+              ) : null}
+            </section>
+          ) : null}
+
+          <section aria-labelledby="faq" className="mt-12">
+            <SectionHeading id="faq">Quick answers</SectionHeading>
+            <FaqList faqs={integration.faqs.slice(0, 4)} />
+          </section>
+
+          <section className="mt-12 rounded-2xl border border-white/10 bg-white/[0.03] p-8">
+            <h2 className="text-2xl font-bold">Ready to connect {integration.name}?</h2>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Link
+                href="/install"
+                className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-black hover:bg-neutral-200"
+              >
+                Install the extension
+              </Link>
+              <Link
+                href="/integrations"
+                className="rounded-full border border-white/20 px-5 py-2.5 text-sm font-semibold text-white hover:border-white/50"
+              >
+                All integrations
+              </Link>
+            </div>
+          </section>
+        </main>
+
+        <SiteFooter />
+      </div>
+    )
+  }
+
+  return (
+    <div className="min-h-screen bg-neutral-950 text-white">
+      <JsonLd data={jsonLd} />
       <SiteNav />
 
       <main className="mx-auto max-w-4xl px-6 pb-24 pt-14">
@@ -125,11 +272,11 @@ export default async function IntegrationPage({
         <header className="mt-6">
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">{integration.h1}</h1>
           <p className="mt-5 text-lg leading-relaxed text-neutral-300">{integration.tagline}</p>
-          <p className="mt-3 text-sm text-neutral-500">
-            {integration.verifiedOn
-              ? `Click path walked end to end and verified: ${integration.verifiedOn}`
-              : 'Last updated: August 2026'}
-          </p>
+          {integration.verifiedOn ? (
+            <p className="mt-3 text-sm text-neutral-500">
+              {`Click path walked end to end and verified: ${integration.verifiedOn}`}
+            </p>
+          ) : null}
           {integration.connectorStatus ? (
             <p
               className={`mt-4 rounded-xl border p-4 text-sm leading-relaxed ${
