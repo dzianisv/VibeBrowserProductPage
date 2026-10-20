@@ -1197,15 +1197,15 @@ export const INTEGRATIONS: Integration[] = [
       'Connect Muse to your real Chrome with Vibe Browser: send Muse one prompt, paste your session ID on the secure card, and find the connector in Settings → Connectors → Custom connectors.',
     h1: 'Give Muse control of your browser',
     tagline:
-      'Copy your MCP URL from the Vibe extension, send Muse one prompt, and Muse can use your real Chrome.',
+      'Turn on Remote in the Vibe extension, send Muse one prompt, paste your session ID on the secure card — and Muse can use your real Chrome.',
     answerBlock:
-      'You connect Vibe Browser to Muse from chat: copy your MCP connector URL from the Vibe extension, send Muse one prompt with that URL, and Muse adds it as a custom connector. It then lives in the Muse app under Settings → Connectors → Custom connectors, and Muse can open, read, and act on pages in your real Chrome.',
+      'You connect Vibe Browser to Muse from chat: send Muse the prompt on this page — it contains no secret — then paste your session ID, the part at the end of the MCP connector URL in the extension, on the secure card Muse shows you. Muse adds Vibe Browser as a custom connector. It then lives in the Muse app under Settings → Connectors → Custom connectors, and Muse can open, read, and act on pages in your real Chrome.',
     problem: [
       'Muse can chat, but it cannot open your pages or act on the web for you.',
       'Muse lists connectors in Settings, but there is no add form — the connector is created from chat, and most people never find the way in.',
     ],
     solution: [
-      'You copy one URL from the extension and send Muse one prompt — Muse builds the connector for you.',
+      'You send Muse one prompt and paste the session ID once, on the secure card — Muse builds the connector for you.',
       'The connector appears in Settings → Connectors → Custom connectors, where you can view and manage it.',
       'After that, Muse works inside the Chrome you are already logged into.',
     ],
@@ -1225,9 +1225,9 @@ export const INTEGRATIONS: Integration[] = [
         },
       },
       {
-        title: 'Copy your MCP connector URL',
+        title: 'Find your session ID in the extension',
         body:
-          'In the Relay access box, click Copy next to "MCP connector URL (HTTPS)" and look at the end of the URL: your session ID is the part after /mcp/. That ID is the key to your browser. You paste it once, on the secure card in the next step \u2014 never into a chat.',
+          'In the Relay access box, find "MCP connector URL (HTTPS)". Your session ID is the part at the end of that URL, after /mcp/. Keep this settings page open — in step 5 you paste that ID once, on Muse\u2019s secure card. Never paste it into a chat.',
         image: {
           src: '/images/connectors/vibe-settings.png',
           alt: 'Relay access in the Vibe extension settings — the MCP connector URL field and its Copy button',
@@ -1236,7 +1236,7 @@ export const INTEGRATIONS: Integration[] = [
       {
         title: 'Send Muse this prompt',
         body:
-          'Open Muse and send the prompt below. It contains no secret \u2014 Muse asks for your session ID on a secure credential card, and you paste it there: the part of your MCP connector URL after /mcp/, from step 3. Muse then checks the connection by listing your tabs.',
+          'Open Muse and send the prompt below. It contains no secret. Muse replies with a secure credential card for the key — that card is the next step. Once the connector is added, Muse checks it by listing your tabs.',
         config: {
           location: 'Paste into a Muse chat',
           language: 'bash',
@@ -1244,9 +1244,18 @@ export const INTEGRATIONS: Integration[] = [
         },
       },
       {
+        title: 'Paste the session ID on the card',
+        body:
+          'Muse shows an "Add custom connector" card for Vibebrowser with a single API key field. Paste only the session ID from step 3 — not the full URL — and tap Add. The name and host are already set from the prompt; the relay takes the bare ID in that field.',
+        image: {
+          src: '/images/connectors/muse-add-connector-card.png',
+          alt: 'Muse\u2019s Add custom connector card for Vibebrowser — a single API key field and an Add button',
+        },
+      },
+      {
         title: 'Find it in your connectors',
         body:
-          'In the Muse app, open Settings \u2192 Connectors and scroll to Custom \u2192 Custom connectors. Once Muse has added it, Vibe Browser is listed there — that is where you view and manage it.',
+          'When Muse confirms the connection and lists your tabs, open Settings → Connectors in the Muse app and scroll to Custom → Custom connectors. Vibe Browser is listed there — that is where you view and manage it.',
         image: {
           src: '/images/connectors/muse-app-connectors-custom.png',
           alt: 'The Muse app Connectors screen, scrolled to the Custom section with Custom connectors',
@@ -1258,7 +1267,7 @@ export const INTEGRATIONS: Integration[] = [
       tone: 'caveat',
       badge: 'Guide — verification pending',
       summary:
-        'The steps follow the Muse app as it works today: the connector is added from chat with one prompt and then listed under Settings → Connectors → Custom connectors — the app screenshots on this page are from the real app. A full end-to-end run with a live Muse account is still being verified, so treat this page as a guide.',
+        'The steps follow the Muse app as it works today: one prompt in chat, the session ID pasted on the secure Add custom connector card, then the connector listed under Settings → Connectors → Custom connectors. The screenshots on this page are from the real app and the real extension settings. A full end-to-end run with a live Muse account is still being verified, so treat this page as a guide.',
     },
     faqs: [
       {
