@@ -11,6 +11,7 @@ const primaryPages = [
   { label: 'Connect ChatGPT on the web to Vibe — custom MCP app setup guide (paid plan)', url: `${siteUrl}/integrations/chatgpt-connector` },
   { label: 'Connect Grok and Grok-powered bots to Vibe — custom connector guide from xAI docs', url: `${siteUrl}/integrations/grokbots` },
   { label: 'Connect OpenAI Dots to Vibe — status page: not verified yet, ChatGPT setup works today', url: `${siteUrl}/integrations/dots` },
+  { label: 'Connect Muse by Meta to Vibe — chat-based custom connector setup guide (one message, secure credential card)', url: `${siteUrl}/integrations/muse-connector` },
   { label: 'Vibe Browser for Agents — local stdio MCP page', url: `${siteUrl}/mcp-stdio` },
   { label: 'Vibe Browser for OpenClaw CLI page', url: `${siteUrl}/openclaw` },
   { label: 'Teams page', url: `${siteUrl}/teams` },
