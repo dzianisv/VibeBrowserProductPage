@@ -1194,7 +1194,7 @@ export const INTEGRATIONS: Integration[] = [
     featured: false,
     title: 'Connect Muse (Meta AI) to Your Browser — Vibe',
     description:
-      'Connect Muse to your real Chrome with Vibe Browser: copy your MCP URL from the extension, send Muse one prompt, and find the connector in Settings → Connectors → Custom connectors.',
+      'Connect Muse to your real Chrome with Vibe Browser: send Muse one prompt, paste your session ID on the secure card, and find the connector in Settings → Connectors → Custom connectors.',
     h1: 'Give Muse control of your browser',
     tagline:
       'Copy your MCP URL from the Vibe extension, send Muse one prompt, and Muse can use your real Chrome.',
@@ -1227,7 +1227,7 @@ export const INTEGRATIONS: Integration[] = [
       {
         title: 'Copy your MCP connector URL',
         body:
-          'In the Relay access box, click Copy next to "MCP connector URL (HTTPS)". That copies the full URL — https://relay.api.vibebrowser.app/mcp/\u2026 with your session ID at the end. The whole URL is your key, and you paste it once, in the next step.',
+          'In the Relay access box, click Copy next to "MCP connector URL (HTTPS)" and look at the end of the URL: your session ID is the part after /mcp/. That ID is the key to your browser. You paste it once, on the secure card in the next step \u2014 never into a chat.',
         image: {
           src: '/images/connectors/vibe-settings.png',
           alt: 'Relay access in the Vibe extension settings — the MCP connector URL field and its Copy button',
@@ -1236,11 +1236,11 @@ export const INTEGRATIONS: Integration[] = [
       {
         title: 'Send Muse this prompt',
         body:
-          'Open Muse and send the prompt below, with your MCP connector URL pasted in where shown. The prompt tells Muse everything it needs \u2014 you never handle the key or the settings yourself. Muse shows you one secure card: paste the session ID there (the end of the URL, after /mcp/).',
+          'Open Muse and send the prompt below. It contains no secret \u2014 Muse asks for your session ID on a secure credential card, and you paste it there: the part of your MCP connector URL after /mcp/, from step 3. Muse then checks the connection by listing your tabs.',
         config: {
           location: 'Paste into a Muse chat',
           language: 'bash',
-          code: 'Add a custom connector named "Vibe Browser" for this MCP server: [paste your MCP connector URL here]. The session ID at the end of the URL (the part after /mcp/) is the key \u2014 register it for relay.api.vibebrowser.app, sent in the X-Remote-Session header. When the secure card appears, I will paste that same session ID. Once it is connected, list my open browser tabs to check it works, and do not click or change anything yet.',
+          code: 'Add a custom connector named "Vibe Browser" for the Vibe Browser MCP server. The server host is relay.api.vibebrowser.app, and my session ID is sent in the X-Remote-Session header \u2014 ask me for the session ID on the secure credential card, and I will paste it there. Once it is connected, list my open browser tabs to check it works, and do not click or change anything yet.',
         },
       },
       {
@@ -1267,7 +1267,7 @@ export const INTEGRATIONS: Integration[] = [
       },
       {
         q: 'Is the MCP connector URL a secret?',
-        a: 'Yes — the session ID at the end of the URL is a key to your browser, so treat the full URL like a password and only paste it into your own Muse. If it ever leaks, open the Vibe extension settings → AI Agent Control, click Regenerate session, and send Muse the prompt again with the new URL.',
+        a: 'Yes — the session ID is a key to your browser, so it only ever goes on Muse’s secure credential card, never into a chat. That is why the prompt on this page contains no URL and no key. If the ID ever leaks, open the Vibe extension settings → AI Agent Control, click Regenerate session, and send Muse the prompt again.',
       },
       {
         q: 'What can Muse do once it is connected?',
