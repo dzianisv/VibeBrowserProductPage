@@ -330,6 +330,30 @@ export default function Component() {
       </div>
     </section>
 
+    {/* Connect your agent */}
+    <section className="w-full py-10 border-y border-slate-100 bg-white">
+      <div className="container max-w-6xl px-4 md:px-6 mx-auto text-center">
+        <h2 className="text-xl font-bold tracking-tight text-slate-900">Already use an AI agent? Give it your browser.</h2>
+        <p className="mt-2 text-sm text-slate-600 max-w-2xl mx-auto">
+          One URL connects your agent to the Chrome you are logged into. Pick your agent — each guide is short and in plain words.
+        </p>
+        <div className="mt-5 flex flex-wrap justify-center gap-2">
+          <Link href="/Claude" className="rounded-full border border-purple-200 bg-purple-50 px-4 py-2 text-sm font-medium text-purple-800 hover:border-purple-300 hover:text-purple-900">
+            Connect Claude →
+          </Link>
+          <Link href="/Dots" className="rounded-full border border-purple-200 bg-purple-50 px-4 py-2 text-sm font-medium text-purple-800 hover:border-purple-300 hover:text-purple-900">
+            Connect Dots →
+          </Link>
+          <Link href="/GrokBots" className="rounded-full border border-purple-200 bg-purple-50 px-4 py-2 text-sm font-medium text-purple-800 hover:border-purple-300 hover:text-purple-900">
+            Connect Grok &amp; Grok Bots →
+          </Link>
+          <Link href="/integrations/chatgpt-connector" className="rounded-full border border-purple-200 bg-purple-50 px-4 py-2 text-sm font-medium text-purple-800 hover:border-purple-300 hover:text-purple-900">
+            Connect ChatGPT →
+          </Link>
+        </div>
+      </div>
+    </section>
+
     {/* Runs offline with Gemma 4 */}
     <section id="on-device" className="w-full py-14 md:py-20 bg-gradient-to-br from-purple-50 via-white to-white border-y border-slate-100">
       <div className="container max-w-6xl px-4 md:px-6 mx-auto">

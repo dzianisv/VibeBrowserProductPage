@@ -1016,6 +1016,136 @@ export const INTEGRATIONS: Integration[] = [
     ],
     keywords: ['opencode browser mcp', 'opencode browser automation', 'opencode mcp chrome'],
   },
+  {
+    slug: 'grokbots',
+    name: 'Grok & Grok Bots',
+    vendor: 'xAI',
+    featured: false,
+    title: 'Connect Grok to Your Browser — Vibe Guide',
+    description:
+      'Add Vibe to Grok as a custom connector and let Grok use your real Chrome. One URL, plain steps, no code. For Grok on the web and Grok-powered bots.',
+    h1: 'Give Grok control of your browser',
+    tagline:
+      'grok.com/connectors → New Connector → Custom. Paste one URL. Done.',
+    answerBlock:
+      'Grok can connect to outside tools with custom connectors. Open grok.com/connectors, choose New Connector, then Custom, and paste your Vibe URL: https://relay.api.vibebrowser.app/mcp/ plus your routing UUID from the Vibe extension. Grok can then open pages, click, type, and read your real Chrome — even on sites where you are logged in.',
+    problem: [
+      'Grok can chat about the web, but it cannot open your pages or act on them.',
+      'Anything behind a login — your mail, your dashboards, your admin pages — is out of reach for Grok on its own.',
+    ],
+    solution: [
+      'A custom connector is one URL, so setup takes about a minute.',
+      'The Vibe extension is the bridge: Grok talks to the relay, the relay talks to your Chrome.',
+      'Your logins stay in your browser. Grok gets tools, not your passwords.',
+    ],
+    steps: [
+      extensionStep,
+      remoteUrlStep,
+      {
+        title: 'Add Vibe in Grok: Connectors → New Connector → Custom',
+        body:
+          'Go to grok.com/connectors. Click New Connector, then Custom. Name it "Vibe Browser" and paste your whole connector URL. Save it, then open a chat and ask Grok to open a page for you. We wrote these steps from xAI\'s own connector docs. One honest note: if Grok asks you for a token or a key during setup, stop — that part is not confirmed yet, and we are finishing the live test now.',
+      },
+    ],
+    security: CONNECTOR_SECURITY,
+    connectorStatus: {
+      tone: 'caveat',
+      badge: 'Guide — live test in progress',
+      summary:
+        'These steps come from xAI\'s official connector docs for grok.com/connectors. A full end-to-end test in a live Grok account is still in progress, so treat this page as a clear guide, not a finished check.',
+    },
+    faqs: [
+      {
+        q: 'Does Grok need my browser password?',
+        a: 'No. Grok never sees your passwords. It sends tool calls to the Vibe relay, and the extension acts inside the Chrome you are already signed into. The connector URL itself is a secret — treat it like a password and regenerate it in the extension if it leaks.',
+      },
+      {
+        q: 'What can Grok do once it is connected?',
+        a: 'Open and read pages, click, type, fill forms, scroll, and take screenshots — in your real browser, with your sessions. Ask it to check a page you are logged into and watch your own tab move.',
+      },
+      {
+        q: 'What if Grok asks for a token or a key?',
+        a: 'Stop there. The confirmed setup is URL-only. A token prompt means that screen is not covered by our test yet — tell us what you saw and we will update this page.',
+      },
+      {
+        q: 'Does this work for Grok bots too?',
+        a: 'Bots built on Grok use the same connector idea: a tool server the bot can call. If your bot setup accepts a custom connector URL, the same Vibe URL works. Bot platforms differ, so check what yours accepts before you paste it anywhere.',
+      },
+    ],
+    keywords: [
+      'grok mcp connector',
+      'grok custom connector',
+      'grok browser control',
+      'grok bots browser',
+      'xai grok mcp',
+      'connect grok to browser',
+    ],
+  },
+  {
+    slug: 'dots',
+    name: 'Dots',
+    vendor: 'OpenAI',
+    featured: false,
+    title: 'Connect Dots to Your Browser — Vibe Status & Guide',
+    description:
+      'Dots is a new agent product from OpenAI. What we know about connecting Vibe, what is not confirmed yet, and the one setup that works today.',
+    h1: 'Connect Dots to your browser',
+    tagline:
+      'Short version: Dots is very new, and we are checking it now. The ChatGPT setup below works today.',
+    answerBlock:
+      'Dots is a new agent product from OpenAI. Reports say Dots uses the same apps as ChatGPT, but OpenAI has not published connector docs for Dots yet, and we have not tested it ourselves. What works today: add Vibe in ChatGPT as a custom MCP app with one URL. If the reports are right, the same app will work in Dots. This page updates as soon as our check is done.',
+    problem: [
+      'Dots is new, and there is no official page that explains how it connects to tools.',
+      'Many sites guess. A wrong guess with your browser login is not a small mistake, so we do not guess here.',
+    ],
+    solution: [
+      'Vibe already connects to ChatGPT with one URL — the guide on this site is tested end to end on a paid plan.',
+      'If Dots uses ChatGPT apps, you need no new setup at all.',
+      'This page tracks the Dots check. When it is confirmed, the exact Dots steps land here in plain words.',
+    ],
+    steps: [
+      extensionStep,
+      remoteUrlStep,
+      {
+        title: 'Add Vibe in ChatGPT — this works today',
+        body:
+          'Go to chatgpt.com/plugins, click Add, then Create MCP App. Paste your connector URL and set Authentication to No Auth. The full walk-through is in the ChatGPT connector guide on this site. This is the setup Dots is reported to reuse.',
+      },
+      {
+        title: 'Dots itself: check back here',
+        body:
+          'We are verifying Dots now — what it is, and how it really connects. When we know, this step becomes the exact Dots click path. Until then, anyone who shows you "Dots steps" is guessing.',
+      },
+    ],
+    security: CONNECTOR_SECURITY,
+    connectorStatus: {
+      tone: 'caveat',
+      badge: 'Not verified yet',
+      summary:
+        'We have not tested Dots yet, and OpenAI has not published connector docs for it. Reports say it reuses ChatGPT apps; the ChatGPT path on this site is verified on a paid plan. This page changes when the check is done.',
+    },
+    faqs: [
+      {
+        q: 'What is Dots?',
+        a: 'Dots is a new agent product from OpenAI. Public detail is thin so far, and reports link it to the ChatGPT app system. We link only to what we can check, and we mark the rest as not confirmed.',
+      },
+      {
+        q: 'Can I connect Vibe to Dots today?',
+        a: 'Not in a way we can stand behind yet. The setup that works today is the ChatGPT one: one URL, added as a custom MCP app. If Dots takes ChatGPT apps, that same setup carries over.',
+      },
+      {
+        q: 'When will the real Dots steps be here?',
+        a: 'As soon as our check is done — we need a real Dots surface in front of us, not a screenshot from a blog. This page is the place that will change first.',
+      },
+    ],
+    keywords: [
+      'openai dots',
+      'dots agent browser',
+      'connect dots to browser',
+      'dots mcp',
+      'dots custom connector',
+    ],
+  },
 ]
 
 export const FEATURED_INTEGRATIONS = INTEGRATIONS.filter((i) => i.featured)

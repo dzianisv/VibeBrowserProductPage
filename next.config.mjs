@@ -15,6 +15,23 @@ const nextConfig = {
     // explicitly unmetered. See #203 / #207.
     const MEDIA = 'https://dl.agentlabs.cc/media'
     return [
+      // Short, memorable agent-setup URLs. The canonical instructions live in
+      // the integration catalog; these are the links we put in posts and docs.
+      {
+        source: '/Claude',
+        destination: '/integrations/claude-connector',
+        permanent: true,
+      },
+      {
+        source: '/Dots',
+        destination: '/integrations/dots',
+        permanent: true,
+      },
+      {
+        source: '/GrokBots',
+        destination: '/integrations/grokbots',
+        permanent: true,
+      },
       {
         source: '/BrowserUseModelsBenchmark',
         destination: '/blog/BrowserUseModelsBenchmark',
