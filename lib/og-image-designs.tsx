@@ -3,6 +3,61 @@ import { renderBlogIndexSocialImage } from '@/lib/blog-social-image'
 
 type OgImageDesign = () => ReactElement
 
+/** Shared social card for the agent setup guides (/integrations/<slug>). */
+function agentGuideImage(agent: string, shortPath: string): ReactElement {
+  return (
+    <div
+      style={{
+        background:
+          'radial-gradient(circle at 18% 20%, rgba(138, 180, 248, 0.20), transparent 28%), radial-gradient(circle at 82% 16%, rgba(158, 158, 255, 0.18), transparent 30%), linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%)',
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '60px 80px',
+        position: 'relative',
+      }}
+    >
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          background: 'rgba(138, 180, 248, 0.1)',
+          border: '1px solid rgba(138, 180, 248, 0.2)',
+          borderRadius: '20px',
+          padding: '8px 20px',
+          marginBottom: '32px',
+        }}
+      >
+        <span style={{ color: '#8ab4f8', fontSize: '18px', fontWeight: 600 }}>
+          Vibe Browser for Agents
+        </span>
+      </div>
+      <span
+        style={{
+          color: '#ffffff',
+          fontSize: '58px',
+          fontWeight: 700,
+          textAlign: 'center',
+          lineHeight: 1.15,
+        }}
+      >
+        {`Give ${agent} control of your browser`}
+      </span>
+      <span
+        style={{ color: '#b7c0db', fontSize: '26px', marginTop: '24px', textAlign: 'center' }}
+      >
+        Connect in a few steps — screenshots inside
+      </span>
+      <span style={{ color: '#8ab4f8', fontSize: '20px', marginTop: '48px' }}>
+        {`vibebrowser.app${shortPath}`}
+      </span>
+    </div>
+  )
+}
+
 export const ogImageDesigns: Record<string, OgImageDesign> = {
   home: () => (
     <div
@@ -1022,4 +1077,11 @@ export const ogImageDesigns: Record<string, OgImageDesign> = {
     </div>
   ),
   blog: () => renderBlogIndexSocialImage(),
+  'claude-connector': () => agentGuideImage('Claude', '/Claude'),
+  'chatgpt-connector': () => agentGuideImage('ChatGPT', '/integrations/chatgpt-connector'),
+  'muse-connector': () => agentGuideImage('Muse', '/muse'),
+  dots: () => agentGuideImage('Dots', '/Dots'),
+  grokbots: () => agentGuideImage('Grok', '/GrokBots'),
+  'openclaw-mcp': () => agentGuideImage('OpenClaw', '/OpenClaw'),
+  hermes: () => agentGuideImage('Hermes', '/hermes'),
 }
