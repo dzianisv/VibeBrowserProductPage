@@ -30,6 +30,20 @@ export async function generateMetadata({
   if (!integration) return {}
 
   const url = `${BASE}/integrations/${integration.slug}`
+  // Agent guides get a dedicated social card (/og/<key> designs in
+  // lib/og-image-designs.tsx). 'openclaw' maps to 'openclaw-mcp' because
+  // /og/openclaw already belongs to the OpenClaw CLI page.
+  const AGENT_OG_KEYS: Record<string, string> = {
+    'claude-connector': 'claude-connector',
+    'chatgpt-connector': 'chatgpt-connector',
+    'muse-connector': 'muse-connector',
+    dots: 'dots',
+    grokbots: 'grokbots',
+    openclaw: 'openclaw-mcp',
+    hermes: 'hermes',
+  }
+  const ogKey = AGENT_OG_KEYS[integration.slug]
+  const images = ogKey ? [`/og/${ogKey}`] : undefined
   return {
     metadataBase: new URL(BASE),
     title: integration.title,
@@ -42,11 +56,13 @@ export async function generateMetadata({
       title: integration.title,
       description: integration.description,
       siteName: 'Vibe Browser',
+      images,
     },
     twitter: {
       card: 'summary_large_image',
       title: integration.title,
       description: integration.description,
+      images,
     },
   }
 }
