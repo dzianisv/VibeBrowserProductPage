@@ -915,9 +915,9 @@ export default function McpPage() {
                 <div>
                   <h3 className="font-medium text-[#e8eaed] text-base">ChatGPT connector setup</h3>
                   <p className="text-xs text-[#9aa0a6] mt-1">
-                    Settings → Security and login → Developer mode, then Plugins → Create app. Needs a
-                    paid plan — on a free account Create app silently no-ops, so the URL field never
-                    appears. The per-user connector URL is the path verified here.
+                    chatgpt.com/plugins → Add → Create MCP App, with Authentication set to No Auth.
+                    Needs a paid plan — on a free account the create flow silently no-ops, so the URL
+                    field never appears. The per-user connector URL is the path verified here.
                   </p>
                 </div>
                 <span className="text-sm text-[#8ab4f8] group-hover:underline mt-auto">
@@ -1335,7 +1335,7 @@ export default function McpPage() {
                   Can Claude or ChatGPT in the browser connect to this?
                 </AccordionTrigger>
                 <AccordionContent className="text-[#9aa0a6]">
-                  Yes, both — via a connector, not the header config above. Claude on the web takes it under Settings → Connectors → Add → Add custom connector; ChatGPT on the web needs Developer mode switched on under Settings → Security and login, then Plugins → Create app, which requires a paid plan. Neither requires domain verification, an allowlist, or a consent screen. The URL you paste is the direct connector URL <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">https://relay.api.vibebrowser.app/mcp/&lt;your-routing-uuid&gt;</code>, copied from the Vibe extension — it is a bearer credential for your browser, so keep it private and regenerate it if it leaks. Verified on Claude on the web; on ChatGPT verified on a paid plan, because Create app no-ops on a free account. Full walkthroughs: <Link href="/integrations/claude-connector" className="text-[#8ab4f8] hover:underline">Claude connector setup</Link> and <Link href="/integrations/chatgpt-connector" className="text-[#8ab4f8] hover:underline">ChatGPT connector setup</Link>.
+                  Yes, both — via a connector, not the header config above. Claude on the web takes it under Settings → Connectors → Add → Add custom connector; ChatGPT on the web takes it at chatgpt.com/plugins → Add → Create MCP App (Authentication: No Auth), which requires a paid plan. Neither requires domain verification, an allowlist, or a consent screen. The URL you paste is the direct connector URL <code className="text-[#8ab4f8] bg-[#8ab4f8]/5 px-1 rounded">https://relay.api.vibebrowser.app/mcp/&lt;your-routing-uuid&gt;</code>, copied from the Vibe extension — it is a bearer credential for your browser, so keep it private and regenerate it if it leaks. Verified on Claude on the web; on ChatGPT verified on a paid plan, because the create flow no-ops on a free account. Full walkthroughs: <Link href="/integrations/claude-connector" className="text-[#8ab4f8] hover:underline">Claude connector setup</Link> and <Link href="/integrations/chatgpt-connector" className="text-[#8ab4f8] hover:underline">ChatGPT connector setup</Link>.
                 </AccordionContent>
               </AccordionItem>
             </Accordion>

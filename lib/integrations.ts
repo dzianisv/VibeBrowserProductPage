@@ -280,7 +280,7 @@ const REMOTE_CONNECTOR_FAQS: Faq[] = [
   },
   {
     q: 'I set this up earlier with a consent screen — what do I do now?',
-    a: 'Remove the old connector and add it again with the direct URL. In Claude: Settings → Connectors, delete the Vibe entry, then Add → Add custom connector and paste https://relay.api.vibebrowser.app/mcp/ followed by your routing UUID. In ChatGPT: Settings → Security and login → Developer mode → Plugins, delete the old app, then Create app with the same URL. Editing the URL in place is unreliable because clients cache what they discovered the first time. Once re-added, no approval step appears — the connector just starts listing tools.',
+    a: 'Remove the old connector and add it again with the direct URL. In Claude: Settings → Connectors, delete the Vibe entry, then Add → Add custom connector and paste https://relay.api.vibebrowser.app/mcp/ followed by your routing UUID. In ChatGPT: go to chatgpt.com/plugins, delete the old app, then create app anew via Add → Create MCP App with the same URL. Editing the URL in place is unreliable because clients cache what they discovered the first time. Once re-added, no approval step appears — the connector just starts listing tools.',
   },
   {
     q: 'Is the UUID in the connector URL a secret?',
@@ -705,9 +705,9 @@ export const INTEGRATIONS: Integration[] = [
       'Add Vibe as a ChatGPT connector and let ChatGPT drive your real Chrome from the web app — logged-in pages included. One remote MCP URL, no local install.',
     h1: 'Give ChatGPT on the web control of your browser',
     tagline:
-      'Settings → Security and login → Developer mode → Plugins → Create app. A remote MCP URL, so it works where a local server cannot. Requires a paid plan — see the caveat below.',
+      'chatgpt.com/plugins → Add → Create MCP App. A remote MCP URL, so it works where a local server cannot. Requires a paid plan — see the caveat below.',
     answerBlock:
-      'ChatGPT supports custom apps backed by a remote MCP server. Turn on Developer mode under Settings → Security and login, then go to Plugins → Create app and paste your Vibe connector URL, https://relay.api.vibebrowser.app/mcp/ followed by the routing UUID from the extension. ChatGPT can then navigate, click, type, scroll, screenshot, and read your real Chrome, including pages behind a login, with no local MCP server running. This is the direct per-user URL, and it is the path we verified end to end here — on a paid plan.',
+      'ChatGPT supports custom apps backed by a remote MCP server. Go to chatgpt.com/plugins, click Add, then Create MCP App, and paste your Vibe connector URL, https://relay.api.vibebrowser.app/mcp/ followed by the routing UUID from the extension. Set Authentication to No Auth — the URL itself is the credential. ChatGPT can then navigate, click, type, scroll, screenshot, and read your real Chrome, including pages behind a login, with no local MCP server running. This is the direct per-user URL, and it is the path we verified end to end here — on a paid plan.',
     problem: [
       'The ChatGPT desktop app can run a local MCP server; ChatGPT on the web cannot read local config or spawn a process, so it has no route to your browser.',
       'The built-in browsing tool fetches public pages as an anonymous visitor — anything behind your account is invisible to it.',
@@ -722,20 +722,20 @@ export const INTEGRATIONS: Integration[] = [
     steps: [
       extensionStep,
       {
-        title: 'Turn on Developer mode under Settings → Security and login',
+        title: 'Open chatgpt.com/plugins and start a new MCP app',
         body:
-          'In ChatGPT on the web, open Settings → Security and login and switch Developer mode ON. This is the step people miss: the create-an-app surface does not appear anywhere until Developer mode is enabled, and it lives under Security and login rather than under Connectors.',
+          'In ChatGPT on the web, go to chatgpt.com/plugins, click Add, then Create MCP App (OpenAI is renaming this to "Create custom MCP server"). There is no mode to switch on first: OpenAI removed the Developer mode toggle in October 2026, so the create surface is simply there for eligible plans. Legacy note: if your account still shows Developer mode under Settings → Security and login, that is the older build of this same flow — switch Developer mode ON there, then use Plugins → Create app; every other step below is identical.',
       },
       {
         ...remoteUrlStep,
-        title: 'Plugins → Create app, then paste your connector URL',
+        title: 'Create app, paste your connector URL, set Authentication to No Auth',
         body:
-          'Copy your connector URL from the Vibe icon → Settings → "Enable external AI agent control" → Remote (internet) → Agent connection URL; it is https://relay.api.vibebrowser.app/mcp/ followed by your routing UUID. Still in ChatGPT Settings, go to Plugins and click Create app, give it a name, and paste that URL into the MCP server URL field. Then enable the app for a conversation before asking ChatGPT to open a page. That URL is a credential — redact it before sharing a screenshot. Read the plan caveat below before you start.',
+          'Copy your connector URL from the Vibe icon → Settings → "Enable external AI agent control" → Remote (internet) → Agent connection URL; it is https://relay.api.vibebrowser.app/mcp/ followed by your routing UUID. In the Create MCP App form, give it a name and paste that URL into the MCP server URL field. Then set Authentication to No Auth — the form does not start on that setting, and the URL itself is the credential, so there is nothing else to enter. Then enable the app for a conversation before asking ChatGPT to open a page. That URL is a credential — redact it before sharing a screenshot. Read the plan caveat below before you start.',
       },
       {
         title: 'Known limitation on a free ChatGPT account',
         body:
-          'On a FREE ChatGPT account, clicking Create app no-ops — no app is created and no error is shown — so there is nowhere to paste the URL at all. Connectors and custom apps are a paid-plan feature and the developer-mode surface moves between releases. If Create app does nothing for you, that is the plan gate, not a Vibe fault: either upgrade, or use the ChatGPT desktop app path, which runs the local MCP server with no relay at all.',
+          'On a FREE ChatGPT account, the create flow no-ops — Create app silently does nothing, no app is created and no error is shown — so there is nowhere to paste the URL at all. Custom MCP apps are a paid-plan feature. If Create app does nothing for you, that is the plan gate, not a Vibe fault: either upgrade, or use the ChatGPT desktop app path, which runs the local MCP server with no relay at all.',
       },
     ],
     security: CONNECTOR_SECURITY,
@@ -746,12 +746,12 @@ export const INTEGRATIONS: Integration[] = [
     ],
     verify: CONNECTOR_VERIFY,
     troubleshooting: CONNECTOR_TROUBLESHOOTING,
-    verifiedOn: 'August 2026',
+    verifiedOn: 'August 2026 (create flow updated October 2026 per OpenAI\'s plugins change; account re-walk pending)',
     connectorStatus: {
       tone: 'caveat',
       badge: 'Verified on a paid plan',
       summary:
-        'Verified end to end on ChatGPT with the direct per-user connector URL, on a PAID plan. On a free account Settings → Security and login → Developer mode → Plugins → Create app silently no-ops, so no app is created and the URL can never be entered. That is a plan gate, not a Vibe fault — it no-ops with No Auth too.',
+        'Verified end to end on ChatGPT with the direct per-user connector URL, on a PAID plan. On a free account the chatgpt.com/plugins → Add → Create MCP App flow silently no-ops, so no app is created and the URL can never be entered. That is a plan gate, not a Vibe fault — it no-ops with No Auth too.',
     },
     faqs: [
       {
@@ -759,8 +759,8 @@ export const INTEGRATIONS: Integration[] = [
         a: 'Yes, through a custom app pointed at a remote MCP server. ChatGPT web cannot read local Codex config or run a local process, so the local STDIO path does not apply there — the Vibe relay URL does.',
       },
       {
-        q: 'Where is developer mode in ChatGPT?',
-        a: 'Settings → Security and login. Not under Connectors, which is where most guides send you. Switch Developer mode on there, and the Plugins → Create app surface becomes available.',
+        q: 'Where do I create a custom MCP app in ChatGPT?',
+        a: 'At chatgpt.com/plugins: click Add, then Create MCP App (being renamed "Create custom MCP server"). There is no Developer mode toggle anymore — OpenAI removed it in October 2026. If your account still shows Developer mode under Settings → Security and login, that is the older build of the same flow: switch it on there, then Plugins → Create app.',
       },
       {
         q: 'Do I need to verify a domain or set anything else up?',
