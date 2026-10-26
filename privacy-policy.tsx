@@ -572,8 +572,8 @@ export default function PrivacyPolicy() {
                     </tr>
                     <tr className="border-b">
                       <td className="py-2 px-3">Web history</td>
-                      <td className="py-2 px-3 text-amber-600 font-medium">LOCAL ONLY</td>
-                      <td className="py-2 px-3 text-muted-foreground">Read locally for context; not stored on our servers</td>
+                      <td className="py-2 px-3 text-amber-600 font-medium">PROCESSED DURING TASKS</td>
+                      <td className="py-2 px-3 text-muted-foreground">Read automatically on home-page load (last 7 days, up to 20 entries); up to 10 history titles/URLs are injected into the prompt sent to your selected model provider. Not stored on our servers.</td>
                     </tr>
                     <tr className="border-b">
                       <td className="py-2 px-3">User activity</td>
