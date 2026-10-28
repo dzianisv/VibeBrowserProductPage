@@ -38,6 +38,12 @@ Dots is new, and we will be honest: we have not tested it yet, and OpenAI has no
 
 Status page: [vibebrowser.app/Dots](https://vibebrowser.app/Dots)
 
+## Muse (Meta AI)
+
+Open Muse, send it one prompt, and paste your session ID on the secure card — Muse adds Vibe as a custom connector itself. After that it lives in Settings \u2192 Connectors \u2192 Custom connectors, and Muse can use your real Chrome.
+
+Guide: [vibebrowser.app/integrations/muse-connector](https://www.vibebrowser.app/integrations/muse-connector)
+
 ## One rule for all of them
 
 Your Vibe URL is a password for your browser. Anyone who has it can drive your logged-in Chrome. Do not post it, do not send it in a chat, and do not put it in a screenshot. If it leaks, open the extension settings and make a new one — the old one stops working at once.

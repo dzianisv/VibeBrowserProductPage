@@ -1192,9 +1192,9 @@ export const INTEGRATIONS: Integration[] = [
     name: 'Muse by Meta',
     vendor: 'Meta',
     featured: false,
-    title: 'Connect Muse (Meta AI) to Your Browser — Vibe',
+    title: 'VibeBrowser MCP for Muse — Connect Muse (Meta AI) to Your Browser',
     description:
-      'Connect Muse to your real Chrome with Vibe Browser: send Muse one prompt, paste your session ID on the secure card, and find the connector in Settings → Connectors → Custom connectors.',
+      'Connect Muse to your real Chrome with the VibeBrowser MCP connector: send Muse one prompt, paste your session ID on the secure card, and find the connector in Settings → Connectors → Custom connectors.',
     h1: 'Give Muse control of your browser',
     tagline:
       'Turn on Remote in the Vibe extension, send Muse one prompt, paste your session ID on the secure card — and Muse can use your real Chrome.',
