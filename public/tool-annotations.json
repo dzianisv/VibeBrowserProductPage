@@ -1,0 +1,421 @@
+{
+  "schema": "vibe.tool-permissions/v1",
+  "published": "2026-10-29",
+  "source_spec": "Vibe Browser MCP tool annotations v1 (Oct 18, 2026) \u2014 canonical copy in the connectors execution pack; verified against prod tools/list (27 tools) + 10 appendix tools",
+  "server": "io.github.VibeTechnologies/vibe-mcp",
+  "definitions": {
+    "read": "Retrieves information without changing data, account state, or permissions.",
+    "write": "Creates, changes, or deletes data, or acts on the user's behalf in the browser.",
+    "sensitive_write": "Write with irreversible or consequential side effects (sends email, deletes data, runs arbitrary code, or can activate purchase/submit controls). Requires approval on every use in Muse."
+  },
+  "tools": [
+    {
+      "name": "navigate_page",
+      "title": "Navigate page",
+      "access": "write",
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": true,
+        "destructiveHint": false,
+        "idempotentHint": false
+      },
+      "note": "Changes the browser location and history."
+    },
+    {
+      "name": "list_pages",
+      "title": "List open tabs",
+      "access": "read",
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false
+      },
+      "note": "Lists open tabs; local browser state only."
+    },
+    {
+      "name": "new_page",
+      "title": "Open new tab",
+      "access": "write",
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": true,
+        "destructiveHint": false,
+        "idempotentHint": false
+      },
+      "note": "Opens a new tab."
+    },
+    {
+      "name": "close_page",
+      "title": "Close tab",
+      "access": "sensitive_write",
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true
+      },
+      "note": "Can discard unsaved page state when closing a tab."
+    },
+    {
+      "name": "click",
+      "title": "Click element",
+      "access": "sensitive_write",
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": true,
+        "destructiveHint": true,
+        "idempotentHint": false
+      },
+      "note": "Worst-case classification: a click can activate submit, delete, or purchase controls."
+    },
+    {
+      "name": "fill",
+      "title": "Fill field",
+      "access": "write",
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true
+      },
+      "note": "Edits a single field; does not submit."
+    },
+    {
+      "name": "fill_form",
+      "title": "Fill form fields",
+      "access": "write",
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true
+      },
+      "note": "Edits multiple fields; does not submit."
+    },
+    {
+      "name": "type_text",
+      "title": "Type text",
+      "access": "write",
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": true,
+        "destructiveHint": false,
+        "idempotentHint": false
+      },
+      "note": "Types into the focused field; does not submit."
+    },
+    {
+      "name": "scroll_page",
+      "title": "Scroll page",
+      "access": "read",
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": true
+      },
+      "note": "Moves the viewport only."
+    },
+    {
+      "name": "media_control",
+      "title": "Control media playback",
+      "access": "write",
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": true,
+        "destructiveHint": false,
+        "idempotentHint": false
+      },
+      "note": "Changes playback state (play/pause/mute) on the page."
+    },
+    {
+      "name": "press_key",
+      "title": "Press key",
+      "access": "sensitive_write",
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": true,
+        "destructiveHint": true,
+        "idempotentHint": false
+      },
+      "note": "Worst-case classification: keys can submit forms (Enter) or delete content."
+    },
+    {
+      "name": "hover",
+      "title": "Hover element",
+      "access": "read",
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": true
+      },
+      "note": "Reveals tooltips/menus; no persistent change."
+    },
+    {
+      "name": "drag",
+      "title": "Drag element",
+      "access": "write",
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": true,
+        "destructiveHint": false,
+        "idempotentHint": false
+      },
+      "note": "Moves page elements; outcome depends on the drop target."
+    },
+    {
+      "name": "take_snapshot",
+      "title": "Take page snapshot",
+      "access": "read",
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": true
+      },
+      "note": "Reads the page content (accessibility snapshot)."
+    },
+    {
+      "name": "take_html_snapshot",
+      "title": "Take HTML snapshot",
+      "access": "read",
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": true
+      },
+      "note": "Reads the page HTML."
+    },
+    {
+      "name": "take_screenshot",
+      "title": "Take screenshot",
+      "access": "read",
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": true
+      },
+      "note": "Captures a page screenshot."
+    },
+    {
+      "name": "evaluate_script",
+      "title": "Run page JavaScript",
+      "access": "sensitive_write",
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": true,
+        "destructiveHint": true,
+        "idempotentHint": false
+      },
+      "note": "Runs arbitrary JavaScript in the page context \u2014 highest reviewer-risk tool."
+    },
+    {
+      "name": "list_network_requests",
+      "title": "List network requests",
+      "access": "read",
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false
+      },
+      "note": "Reads the local network capture buffer."
+    },
+    {
+      "name": "get_network_request",
+      "title": "Get network request details",
+      "access": "read",
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false
+      },
+      "note": "Reads the local network capture buffer."
+    },
+    {
+      "name": "wait",
+      "title": "Wait",
+      "access": "read",
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false
+      },
+      "note": "Pauses; changes nothing."
+    },
+    {
+      "name": "gmail_search",
+      "title": "Search Gmail",
+      "access": "read",
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": true
+      },
+      "note": "Searches Gmail; read-only."
+    },
+    {
+      "name": "gmail_get_message",
+      "title": "Read email message",
+      "access": "read",
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": true
+      },
+      "note": "Reads an email message."
+    },
+    {
+      "name": "gmail_get_thread",
+      "title": "Read email thread",
+      "access": "read",
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": true
+      },
+      "note": "Reads an email thread."
+    },
+    {
+      "name": "gmail_create_draft",
+      "title": "Create email draft",
+      "access": "write",
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": true,
+        "destructiveHint": false,
+        "idempotentHint": false
+      },
+      "note": "Creates an editable draft; nothing is sent."
+    },
+    {
+      "name": "gmail_send_message",
+      "title": "Send email",
+      "access": "sensitive_write",
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": true,
+        "destructiveHint": false,
+        "idempotentHint": false
+      },
+      "note": "Irreversible external side effect: sends email to recipients."
+    },
+    {
+      "name": "calendar_view",
+      "title": "View calendar events",
+      "access": "read",
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": true
+      },
+      "note": "Reads events via the Calendar API."
+    },
+    {
+      "name": "calendar_create",
+      "title": "Create calendar event",
+      "access": "write",
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": true,
+        "destructiveHint": false,
+        "idempotentHint": false
+      },
+      "note": "Creates a new calendar event on each call."
+    },
+    {
+      "name": "wait_for",
+      "title": "Wait for page text",
+      "access": "read",
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": true
+      },
+      "note": "Waits for text to appear; read-only."
+    },
+    {
+      "name": "subagent",
+      "title": "Spawn sub-agent",
+      "access": "sensitive_write",
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": true,
+        "destructiveHint": true,
+        "idempotentHint": false
+      },
+      "note": "Spawns a sub-agent that can use any of the user's tools."
+    },
+    {
+      "name": "parallel",
+      "title": "Run tools in parallel",
+      "access": "sensitive_write",
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": true,
+        "destructiveHint": true,
+        "idempotentHint": false
+      },
+      "note": "Meta-tool: inherits the worst-case effect of the bundled calls."
+    },
+    {
+      "name": "web_fetch",
+      "title": "Fetch web page",
+      "access": "read",
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": true
+      },
+      "note": "HTTP fetch with text extraction."
+    },
+    {
+      "name": "calendar_delete",
+      "title": "Delete calendar event",
+      "access": "sensitive_write",
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": true,
+        "destructiveHint": true,
+        "idempotentHint": true
+      },
+      "note": "Deletes calendar events (destructive)."
+    },
+    {
+      "name": "secrets_manager",
+      "title": "List saved credentials",
+      "access": "read",
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false
+      },
+      "note": "Lists vault entries by name; secret values are never returned."
+    },
+    {
+      "name": "typein_secret",
+      "title": "Type saved credential into form",
+      "access": "write",
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true
+      },
+      "note": "Types a saved credential into a form; the secret value is never exposed to the model."
+    },
+    {
+      "name": "settings",
+      "title": "Read or update settings",
+      "access": "sensitive_write",
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false
+      },
+      "note": "Mixed read/write tool; the update path is destructive. Split recommended."
+    },
+    {
+      "name": "settings_list",
+      "title": "List settings & skills",
+      "access": "read",
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false
+      },
+      "note": "Lists stored settings and skill entries."
+    },
+    {
+      "name": "memory_search",
+      "title": "Search stored memories",
+      "access": "read",
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false
+      },
+      "note": "Searches the extension's stored context."
+    }
+  ]
+}
