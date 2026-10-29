@@ -40,6 +40,24 @@ import {
   Chrome,
 } from "lucide-react"
 import { getIntegration } from "@/lib/integrations"
+import toolPermissions from "../../public/tool-annotations.json"
+
+const ACCESS_META: Record<string, { label: string; color: string; dot: string; rank: number }> = {
+  sensitive_write: { label: "Sensitive write", color: "text-[#f28b82]", dot: "bg-[#f28b82]", rank: 0 },
+  write: { label: "Write", color: "text-[#8ab4f8]", dot: "bg-[#8ab4f8]", rank: 1 },
+  read: { label: "Read", color: "text-[#81c995]", dot: "bg-[#81c995]", rank: 2 },
+}
+const PERMISSION_ROWS = (
+  toolPermissions.tools as Array<{ name: string; title: string; access: string; note: string }>
+)
+  .map((t) => ({ ...t, ...ACCESS_META[t.access] }))
+  .sort((a, b) => a.rank - b.rank || a.name.localeCompare(b.name))
+const ACCESS_GROUPS = ["sensitive_write", "write", "read"].map((key) => ({
+  key,
+  label: `${ACCESS_META[key].label}s`,
+  dot: ACCESS_META[key].dot,
+  count: PERMISSION_ROWS.filter((t) => t.access === key).length,
+}))
 
 // Verification status for the two hosted connectors, read from the integration
 // catalog so the badges and the prose here can never drift from the guides at
@@ -1150,6 +1168,60 @@ export default function McpPage() {
                   <p className="text-xs text-[#9aa0a6]">
                     Works with Vibe AI, Anthropic Claude Max, GitHub Copilot, and BYOK providers.
                   </p>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Tool permissions — read/write classification for connector reviewers */}
+            <div id="tool-permissions" className="mt-14 scroll-mt-24">
+              <div className="text-center mb-8">
+                <h3 className="text-xl md:text-2xl font-normal text-[#e8eaed] mb-3">
+                  Tool permissions
+                </h3>
+                <p className="text-[#9aa0a6] max-w-2xl mx-auto text-sm">
+                  Every tool is classified as <span className="text-[#e8eaed]">Read</span>,{" "}
+                  <span className="text-[#e8eaed]">Write</span>, or{" "}
+                  <span className="text-[#e8eaed]">Sensitive write</span> — the same classification
+                  the MCP server declares for each tool in its tools/list annotations. Sensitive
+                  writes always need your approval, one use at a time. Machine-readable spec:{" "}
+                  <a href="/tool-annotations.json" className="text-[#8ab4f8] hover:underline">tool-annotations.json</a>
+                </p>
+                <div className="flex items-center justify-center gap-3 mt-5 flex-wrap">
+                  {ACCESS_GROUPS.map((g) => (
+                    <Badge key={g.key} variant="secondary" className="bg-[#1a1a1a] text-[#9aa0a6] border-[#2a2a2a]">
+                      <span className={`inline-block w-2 h-2 rounded-full mr-1.5 ${g.dot}`} />
+                      {g.count} {g.label}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+              <Card className="bg-[#0a0a0a] border-[#2a2a2a] overflow-hidden">
+                <CardContent className="p-0 overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b border-[#2a2a2a] text-left">
+                        <th className="px-4 py-3 text-xs uppercase tracking-[0.15em] text-[#9aa0a6] font-normal">Tool</th>
+                        <th className="px-4 py-3 text-xs uppercase tracking-[0.15em] text-[#9aa0a6] font-normal">Access</th>
+                        <th className="px-4 py-3 text-xs uppercase tracking-[0.15em] text-[#9aa0a6] font-normal">Notes</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {PERMISSION_ROWS.map((t) => (
+                        <tr key={t.name} className="border-b border-[#1e1e1e] last:border-0">
+                          <td className="px-4 py-2.5">
+                            <code className="text-xs text-[#8ab4f8] font-mono">{t.name}</code>
+                          </td>
+                          <td className="px-4 py-2.5 whitespace-nowrap">
+                            <span className={`inline-flex items-center text-xs ${t.color}`}>
+                              <span className={`inline-block w-2 h-2 rounded-full mr-1.5 ${t.dot}`} />
+                              {t.label}
+                            </span>
+                          </td>
+                          <td className="px-4 py-2.5 text-xs text-[#9aa0a6]">{t.note}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </CardContent>
               </Card>
             </div>
