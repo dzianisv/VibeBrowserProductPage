@@ -482,6 +482,13 @@ export default function ClaudeConnectorPage() {
                   <p className="mt-2 text-sm text-[#b7c0db]">
                     In Claude open Settings → Connectors → Add → Add custom connector, name it &ldquo;Vibe Browser&rdquo;, paste your connector URL, and click Add. Then in a chat tap + → Connectors and turn Vibe on for that conversation. Custom connectors need a paid Claude plan.
                   </p>
+                  <p className="mt-2 text-sm text-[#b7c0db]">
+                    Prefer one click? Paste your URL into the install-link generator on{" "}
+                    <Link href="/mcp#hosted-assistants" className="text-[#f0f4ff] underline hover:no-underline">
+                      /mcp
+                    </Link>{" "}
+                    — it builds the prefilled claude.ai link in your browser and never shows or stores your URL.
+                  </p>
                   <pre className="mt-4 overflow-x-auto rounded-lg border border-[rgba(136,146,176,0.15)] bg-[rgba(11,16,32,0.9)] p-4 text-sm text-[#b4b4ff]">
                     <code>{CONNECTOR_URL}</code>
                   </pre>
