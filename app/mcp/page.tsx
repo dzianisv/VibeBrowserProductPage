@@ -569,6 +569,118 @@ function CopyButton({ text }: { text: string }) {
   )
 }
 
+// ----- Claude install link -----
+// Builds Anthropic's prefilled "Add custom connector" link locally in the
+// browser from the user's own connector URL — nothing is sent or stored.
+// The raw URL is never rendered: the input is password-masked and the
+// generated link is only ever an href / clipboard payload, never text.
+// Encoding matches connectors/make_claude_install_link.py (URLSearchParams
+// produces the same application/x-www-form-urlencoded output).
+const CLAUDE_CONNECTOR_URL_PREFIX = "https://relay.api.vibebrowser.app/mcp/"
+
+function isValidConnectorUrl(value: string): boolean {
+  const url = value.trim()
+  return url.startsWith(CLAUDE_CONNECTOR_URL_PREFIX) && url.length > CLAUDE_CONNECTOR_URL_PREFIX.length
+}
+
+function buildClaudeInstallLink(connectorUrl: string): string {
+  const params = new URLSearchParams({
+    modal: "add-custom-connector",
+    connectorName: "Vibe Browser",
+    connectorUrl: connectorUrl.trim(),
+  })
+  return `https://claude.ai/?${params.toString()}`
+}
+
+function ClaudeInstallLink() {
+  const [connectorUrl, setConnectorUrl] = useState("")
+  const [copyStatus, setCopyStatus] = useState<"idle" | "copied" | "error">("idle")
+  const valid = isValidConnectorUrl(connectorUrl)
+  const showError = connectorUrl.trim() !== "" && !valid
+  const installLink = valid ? buildClaudeInstallLink(connectorUrl) : ""
+
+  async function handleCopy() {
+    if (!valid) return
+    try {
+      await navigator.clipboard.writeText(installLink)
+      setCopyStatus("copied")
+      window.setTimeout(() => setCopyStatus("idle"), 2000)
+    } catch {
+      setCopyStatus("error")
+      window.setTimeout(() => setCopyStatus("idle"), 2500)
+    }
+  }
+
+  return (
+    <div className="mt-6 rounded-lg border border-[#2a2a2a] bg-[#0a0a0a] p-5">
+      <h3 className="font-medium text-[#e8eaed] text-base">Connect to Claude in one click</h3>
+      <p className="text-xs text-[#9aa0a6] mt-1">
+        Paste your connector URL below — the install link is built right here in your browser,
+        nothing is sent or stored. It opens claude.ai with the Vibe Browser connector name and
+        URL already filled in, so you skip the manual Settings → Connectors steps.
+      </p>
+      <div className="mt-4 flex flex-col sm:flex-row gap-2">
+        <label htmlFor="claude-install-url" className="sr-only">
+          Your Vibe connector URL
+        </label>
+        <input
+          id="claude-install-url"
+          type="password"
+          autoComplete="off"
+          spellCheck={false}
+          value={connectorUrl}
+          onChange={(e) => setConnectorUrl(e.target.value)}
+          placeholder="https://relay.api.vibebrowser.app/mcp/<your-session-id>"
+          className="flex-1 min-w-0 rounded-md border border-[#2a2a2a] bg-[#111111] px-3 py-2 text-sm text-[#e8eaed] placeholder:text-[#5f6368] focus:outline-none focus:border-[#8ab4f8]"
+        />
+        <div className="flex gap-2">
+          <a
+            href={valid ? installLink : undefined}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-disabled={!valid}
+            onClick={(e) => {
+              if (!valid) e.preventDefault()
+            }}
+            className={`inline-flex items-center justify-center gap-1.5 rounded-md px-4 py-2 text-sm font-medium whitespace-nowrap transition-colors ${
+              valid
+                ? "bg-[#8ab4f8] text-[#202124] hover:bg-[#aecbfa]"
+                : "bg-[#8ab4f8]/40 text-[#202124]/60 cursor-not-allowed"
+            }`}
+          >
+            Open in Claude
+            <ArrowRight className="w-4 h-4" />
+          </a>
+          <button
+            onClick={handleCopy}
+            disabled={!valid}
+            className="inline-flex items-center justify-center gap-1.5 rounded-md border border-[#2a2a2a] px-4 py-2 text-sm text-[#e8eaed] hover:bg-[#1a1a1a] transition-colors whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {copyStatus === "copied" ? (
+              <Check className="w-4 h-4 text-[#81c995]" />
+            ) : copyStatus === "error" ? (
+              <AlertCircle className="w-4 h-4 text-[#f28b82]" />
+            ) : (
+              <Copy className="w-4 h-4" />
+            )}
+            {copyStatus === "copied" ? "Copied" : copyStatus === "error" ? "Copy failed" : "Copy link"}
+          </button>
+        </div>
+      </div>
+      {showError && (
+        <p className="text-xs text-[#f28b82] mt-2">
+          That doesn&apos;t look like a Vibe connector URL — it should start with{" "}
+          <code>https://relay.api.vibebrowser.app/mcp/</code>. Copy it from the Vibe extension:
+          Settings → AI Agent Control → Remote (internet).
+        </p>
+      )}
+      <p className="text-xs text-[#9aa0a6] mt-3">
+        This link contains your credential. Treat it like a password — don&apos;t share it.
+      </p>
+    </div>
+  )
+}
+
 function AgentIcon({ icon }: { icon: string }) {
   // Simple text-based icons since we don't have logos
   const labels: Record<string, string> = {
@@ -943,6 +1055,8 @@ export default function McpPage() {
                 </span>
               </Link>
             </div>
+
+            <ClaudeInstallLink />
 
             <p className="text-sm text-[#9aa0a6] mt-6 text-center">
               Neither needs domain verification, an allowlist, or a consent screen. Both take the
