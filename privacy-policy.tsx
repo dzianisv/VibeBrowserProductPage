@@ -463,7 +463,7 @@ export default function PrivacyPolicy() {
                     </div>
                     <div className="border-l-4 border-purple-500 pl-4">
                       <p className="font-medium">audioCapture</p>
-                      <p className="text-sm text-muted-foreground">Enable voice input for hands-free browser automation</p>
+                      <p className="text-sm text-muted-foreground">Trigger Chrome&apos;s microphone prompt for voice input; live microphone audio is streamed to the browser&apos;s speech-recognition service and the resulting transcript is sent to your selected model provider</p>
                     </div>
                     <div className="border-l-4 border-purple-500 pl-4">
                       <p className="font-medium">cookies</p>
@@ -475,7 +475,7 @@ export default function PrivacyPolicy() {
                     </div>
                     <div className="border-l-4 border-purple-500 pl-4">
                       <p className="font-medium">history</p>
-                      <p className="text-sm text-muted-foreground">Access history for context</p>
+                      <p className="text-sm text-muted-foreground">Read recent browsing history to generate personalized suggestions</p>
                     </div>
                     <div className="border-l-4 border-purple-500 pl-4">
                       <p className="font-medium">identity</p>
@@ -515,7 +515,7 @@ export default function PrivacyPolicy() {
                     </div>
                     <div className="border-l-4 border-purple-500 pl-4">
                       <p className="font-medium">webRequest</p>
-                      <p className="text-sm text-muted-foreground">Observe network requests during agent tasks to diagnose failures</p>
+                      <p className="text-sm text-muted-foreground">Observe network requests and response headers while an agent task runs or an MCP client is connected</p>
                     </div>
                     <div className="border-l-4 border-purple-500 pl-4">
                       <p className="font-medium">Host Permissions (&lt;all_urls&gt;)</p>
