@@ -61,3 +61,52 @@ test('neither privacy-policy.tsx nor terms-of-service.tsx claims bookmarks', () 
   assert.equal(PRIVACY_POLICY.includes('bookmarks'), false, 'bookmarks found in privacy-policy.tsx')
   assert.equal(TERMS_OF_SERVICE.includes('bookmarks'), false, 'bookmarks found in terms-of-service.tsx')
 })
+
+// Extract permission descriptions into a map: name -> description (HTML-decoded)
+function extractDescriptions(section: string): Map<string, string> {
+  const descriptions = new Map<string, string>()
+  // Match entry divs containing font-medium name + text-sm description
+  const entryRe = /<div className="border-l-4 border-purple-500 pl-4">\s*<p className="font-medium">([^<]+)<\/p>\s*<p className="text-sm text-muted-foreground">([^<]*(?:&apos;[^<]*)*)<\/p>\s*<\/div>/g
+  let match
+  while ((match = entryRe.exec(section)) !== null) {
+    const name = match[1]
+    const rawDesc = match[2]
+    // Decode &apos; to real apostrophe for comparison
+    const decodedDesc = rawDesc.replace(/&apos;/g, "'")
+    descriptions.set(name, decodedDesc)
+  }
+  return descriptions
+}
+
+test('audioCapture description must contain the full code-true disclosure', () => {
+  const section = browserPermissionsSection(PRIVACY_POLICY)
+  const descriptions = extractDescriptions(section)
+  const actual = descriptions.get('audioCapture')
+  const expected = "Trigger Chrome's microphone prompt for voice input; live microphone audio is streamed to the browser's speech-recognition service and the resulting transcript is sent to your selected model provider"
+  assert.equal(actual, expected, 'audioCapture description mismatch')
+})
+
+test('audioCapture description must mention microphone AND transcript', () => {
+  const section = browserPermissionsSection(PRIVACY_POLICY)
+  const descriptions = extractDescriptions(section)
+  const actual = descriptions.get('audioCapture')
+  assert.ok(actual, 'audioCapture description not found')
+  assert.ok(actual!.toLowerCase().includes('microphone'), 'audioCapture description missing "microphone"')
+  assert.ok(actual!.toLowerCase().includes('transcript'), 'audioCapture description missing "transcript"')
+})
+
+test('history description must match PR #2306 canonical wording', () => {
+  const section = browserPermissionsSection(PRIVACY_POLICY)
+  const descriptions = extractDescriptions(section)
+  const actual = descriptions.get('history')
+  const expected = 'Read recent browsing history to generate personalized suggestions'
+  assert.equal(actual, expected, 'history description mismatch')
+})
+
+test('webRequest description must match PR #2306 canonical wording', () => {
+  const section = browserPermissionsSection(PRIVACY_POLICY)
+  const descriptions = extractDescriptions(section)
+  const actual = descriptions.get('webRequest')
+  const expected = 'Observe network requests and response headers while an agent task runs or an MCP client is connected'
+  assert.equal(actual, expected, 'webRequest description mismatch')
+})
