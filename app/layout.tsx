@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Newsreader } from 'next/font/google'
+import localFont from 'next/font/local'
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
 import { GoogleAnalytics } from '@/components/google-analytics'
@@ -7,9 +7,12 @@ import { ReferralTracker } from '@/components/referral-tracker'
 import { WebVitals } from '@/components/web-vitals'
 import './globals.css'
 
-const newsreader = Newsreader({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
+// Self-hosted Newsreader to avoid build-time dependency on fonts.googleapis.com,
+// which caused install-nonce-e2e and Vercel deploy failures (runs 42626403545 / 42659475005).
+const newsreader = localFont({
+  src: './fonts/newsreader-latin-variable.woff2',
+  weight: '400 700',
+  style: 'normal',
   variable: '--font-serif',
   display: 'swap',
 })

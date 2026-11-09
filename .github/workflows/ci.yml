@@ -59,7 +59,6 @@ jobs:
           node-version: '22'
           cache: 'npm'
       - run: npm ci
-      - run: npm audit --omit=dev --audit-level=high
       - run: npm run lint
       # The `lib/__tests__/*.test.ts` unit suite. This step is NOT optional
       # bookkeeping: `npm test` existed in package.json but was wired into no
@@ -79,6 +78,11 @@ jobs:
       # renaming a product title without updating its `product.title === "..."`
       # branch silently breaks the agentlabs.cc absolute-href rewrite. Source only.
       - run: node scripts/test-company-profile-title-dispatch.cjs
+      # The build must not fetch fonts at build time; install-nonce-e2e and the
+      # Vercel deploy both failed on a Google Fonts hiccup (runs 42626403545 / 42659475005).
+      - run: ./scripts/check-no-remote-fonts.sh
+      # Audit runs after source guards so a vulnerability doesn't mask a unit-test failure.
+      - run: npm audit --omit=dev --audit-level=high
       - run: npm run build
       # Regression guard for the shared /og/[key] image route
       # (app/og/[key]/route.tsx + lib/og-image-designs.tsx) introduced by the
@@ -110,8 +114,9 @@ jobs:
             apps/agentlabs/package-lock.json
       - run: npm ci
       - run: npm ci --prefix apps/agentlabs
-      - run: npm audit --omit=dev --audit-level=high --prefix apps/agentlabs
       - run: npm run lint --prefix apps/agentlabs
+      # Audit runs after source guards so a vulnerability doesn't mask a lint failure.
+      - run: npm audit --omit=dev --audit-level=high --prefix apps/agentlabs
       - run: npm run build --prefix apps/agentlabs
 
   install-nonce-e2e:
@@ -156,8 +161,9 @@ jobs:
           cache: 'npm'
           cache-dependency-path: OpenCodeMobileSite/package-lock.json
       - run: npm ci --prefix OpenCodeMobileSite
-      - run: npm audit --omit=dev --audit-level=high --prefix OpenCodeMobileSite
       - run: npm run lint --prefix OpenCodeMobileSite
+      # Audit runs after source guards so a vulnerability doesn't mask a lint failure.
+      - run: npm audit --omit=dev --audit-level=high --prefix OpenCodeMobileSite
       - run: npm run build --prefix OpenCodeMobileSite
 
   pricing-responsive-e2e:
