@@ -225,7 +225,7 @@ export default function TermsOfService() {
                     <li>Filling forms</li>
                     <li>Navigating pages</li>
                     <li>Reading page content</li>
-                    <li>Accessing browser history and bookmarks</li>
+                    <li>Accessing browser history</li>
                   </ul>
                   <p className="text-muted-foreground mb-4">You acknowledge that:</p>
                   <ul className="list-disc pl-5 space-y-2 text-muted-foreground">

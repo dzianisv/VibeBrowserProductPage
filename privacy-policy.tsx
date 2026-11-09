@@ -204,8 +204,7 @@ export default function PrivacyPolicy() {
                     <li><strong>API Keys:</strong> Third-party AI service API keys (OpenAI, Anthropic, Google Gemini, OpenRouter)</li>
                     <li><strong>User Settings:</strong> Extension configuration preferences (model selection, feature toggles)</li>
                     <li><strong>OAuth Tokens:</strong> Authentication tokens for supported OAuth providers</li>
-                    <li><strong>Browser Data:</strong> Tab URLs, page content, browsing history, bookmarks — read on demand and
-                      processed for the task you asked for</li>
+                    <li><strong>Browser Data:</strong> Tab URLs, page content, and browsing history — read on demand, and the last 7 days of history read automatically on home-page load for personalized suggestions — processed for the task you asked for</li>
                   </ul>
                 </div>
               </div>
@@ -459,36 +458,64 @@ export default function PrivacyPolicy() {
                       <p className="text-sm text-muted-foreground">Access current tab for automation</p>
                     </div>
                     <div className="border-l-4 border-purple-500 pl-4">
-                      <p className="font-medium">storage</p>
-                      <p className="text-sm text-muted-foreground">Store settings and API keys locally</p>
+                      <p className="font-medium">alarms</p>
+                      <p className="text-sm text-muted-foreground">Keep the service worker alive during long-running agent tasks</p>
+                    </div>
+                    <div className="border-l-4 border-purple-500 pl-4">
+                      <p className="font-medium">audioCapture</p>
+                      <p className="text-sm text-muted-foreground">Enable voice input for hands-free browser automation</p>
+                    </div>
+                    <div className="border-l-4 border-purple-500 pl-4">
+                      <p className="font-medium">cookies</p>
+                      <p className="text-sm text-muted-foreground">Read and remove one-time first-party install-attribution cookies</p>
+                    </div>
+                    <div className="border-l-4 border-purple-500 pl-4">
+                      <p className="font-medium">debugger</p>
+                      <p className="text-sm text-muted-foreground">Advanced browser control and accessibility inspection</p>
+                    </div>
+                    <div className="border-l-4 border-purple-500 pl-4">
+                      <p className="font-medium">history</p>
+                      <p className="text-sm text-muted-foreground">Access history for context</p>
+                    </div>
+                    <div className="border-l-4 border-purple-500 pl-4">
+                      <p className="font-medium">identity</p>
+                      <p className="text-sm text-muted-foreground">OAuth authentication</p>
+                    </div>
+                    <div className="border-l-4 border-purple-500 pl-4">
+                      <p className="font-medium">offscreen</p>
+                      <p className="text-sm text-muted-foreground">Run the on-device model in a background document</p>
                     </div>
                     <div className="border-l-4 border-purple-500 pl-4">
                       <p className="font-medium">scripting</p>
                       <p className="text-sm text-muted-foreground">Execute scripts for automation</p>
                     </div>
                     <div className="border-l-4 border-purple-500 pl-4">
+                      <p className="font-medium">sidePanel</p>
+                      <p className="text-sm text-muted-foreground">Display side panel interface</p>
+                    </div>
+                    <div className="border-l-4 border-purple-500 pl-4">
+                      <p className="font-medium">storage</p>
+                      <p className="text-sm text-muted-foreground">Store settings and API keys locally</p>
+                    </div>
+                    <div className="border-l-4 border-purple-500 pl-4">
+                      <p className="font-medium">tabGroups</p>
+                      <p className="text-sm text-muted-foreground">Organize tabs</p>
+                    </div>
+                    <div className="border-l-4 border-purple-500 pl-4">
                       <p className="font-medium">tabs</p>
-                      <p className="text-sm text-muted-foreground">Manage browser tabs and identify active pages</p>
+                      <p className="text-sm text-muted-foreground">Manage browser tabs</p>
+                    </div>
+                    <div className="border-l-4 border-purple-500 pl-4">
+                      <p className="font-medium">unlimitedStorage</p>
+                      <p className="text-sm text-muted-foreground">Keep the on-device model cache from being evicted</p>
                     </div>
                     <div className="border-l-4 border-purple-500 pl-4">
                       <p className="font-medium">webNavigation</p>
-                      <p className="text-sm text-muted-foreground">Monitor page navigation and detect page loads</p>
+                      <p className="text-sm text-muted-foreground">Monitor page navigation</p>
                     </div>
                     <div className="border-l-4 border-purple-500 pl-4">
-                      <p className="font-medium">history</p>
-                      <p className="text-sm text-muted-foreground">Access history for context and suggestions</p>
-                    </div>
-                    <div className="border-l-4 border-purple-500 pl-4">
-                      <p className="font-medium">bookmarks</p>
-                      <p className="text-sm text-muted-foreground">Access bookmarks for organization and AI analysis</p>
-                    </div>
-                    <div className="border-l-4 border-purple-500 pl-4">
-                      <p className="font-medium">sidePanel</p>
-                      <p className="text-sm text-muted-foreground">Display the extension&apos;s side panel interface</p>
-                    </div>
-                    <div className="border-l-4 border-purple-500 pl-4">
-                      <p className="font-medium">identity</p>
-                      <p className="text-sm text-muted-foreground">OAuth authentication</p>
+                      <p className="font-medium">webRequest</p>
+                      <p className="text-sm text-muted-foreground">Observe network requests during agent tasks to diagnose failures</p>
                     </div>
                     <div className="border-l-4 border-purple-500 pl-4">
                       <p className="font-medium">Host Permissions (&lt;all_urls&gt;)</p>
@@ -545,8 +572,8 @@ export default function PrivacyPolicy() {
                     </tr>
                     <tr className="border-b">
                       <td className="py-2 px-3">Web history</td>
-                      <td className="py-2 px-3 text-amber-600 font-medium">LOCAL ONLY</td>
-                      <td className="py-2 px-3 text-muted-foreground">Read locally for context; not stored on our servers</td>
+                      <td className="py-2 px-3 text-amber-600 font-medium">PROCESSED DURING TASKS</td>
+                      <td className="py-2 px-3 text-muted-foreground">Read automatically on home-page load (last 7 days, up to 20 entries); up to 10 history titles/URLs are injected into the prompt sent to your selected model provider. Not stored on our servers.</td>
                     </tr>
                     <tr className="border-b">
                       <td className="py-2 px-3">User activity</td>
