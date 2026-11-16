@@ -3,9 +3,9 @@ import ProfessionTemplate, { ProfessionConfig } from '@/components/profession-te
 import type { Step } from '@/components/cli-demo'
 
 export const metadata: Metadata = {
-  title: 'VibeBrowser for Codex CLI — Give OpenAI Codex a Real Cloud Browser',
+  title: 'VibeBrowser for Codex CLI — Give OpenAI Codex Your Real Chrome',
   description:
-    'Connect OpenAI Codex CLI to a real, pre-authenticated browser via MCP. Navigate, click, fill forms, and get markdown snapshots — not 400 KB of raw HTML. $9/mo cloud or free local.',
+    'Connect OpenAI Codex CLI to your real, logged-in Chrome via MCP. Navigate, click, fill forms, and get markdown snapshots — not raw HTML. Free $0, Pro $25/mo, Max $99/mo.',
   keywords: [
     'Codex CLI browser MCP',
     'OpenAI Codex browser automation',
@@ -13,14 +13,14 @@ export const metadata: Metadata = {
     'Codex CLI browser control',
     'OpenAI Codex browser extension',
     'Codex authenticated browser',
-    'Codex cloud browser',
+    'Codex real Chrome browser',
     'vibebrowser Codex',
   ],
   alternates: { canonical: 'https://www.vibebrowser.app/codex' },
   openGraph: {
-    title: 'VibeBrowser for Codex CLI — Give OpenAI Codex a Real Cloud Browser',
+    title: 'VibeBrowser for Codex CLI — Give OpenAI Codex Your Real Chrome',
     description:
-      'Connect Codex CLI to a pre-authenticated cloud browser in one command. Markdown snapshots, not raw HTML. $9/mo.',
+      'Connect Codex CLI to your real, logged-in Chrome in one command. Markdown snapshots, not raw HTML. Free $0, Pro $25/mo, Max $99/mo.',
     url: 'https://www.vibebrowser.app/codex',
   },
 }
@@ -29,7 +29,7 @@ const config: ProfessionConfig = {
   slug: 'codex',
   name: 'Codex CLI Users',
   title: 'Give Codex a Real Browser',
-  subtitle: 'Codex CLI + cloud browser = agent that ships end-to-end',
+  subtitle: 'Codex CLI + your real Chrome = agent that ships end-to-end',
   gradient: 'from-emerald-950 via-teal-900 to-emerald-950',
   gradientFrom: 'from-emerald-950',
   gradientVia: 'via-teal-900',
@@ -47,7 +47,7 @@ const config: ProfessionConfig = {
     'Changelog Drafts',
   ],
   description:
-    'Codex CLI can write and run code — but the moment it needs to log into GitHub, read an internal dashboard, or navigate a staging environment, it\'s stuck. VibeBrowser connects Codex to a pre-authenticated cloud browser over MCP. One command. No CDP plumbing. Markdown output that keeps context small.',
+    'Codex CLI can write and run code — but the moment it needs to log into GitHub, read an internal dashboard, or navigate a staging environment, it\'s stuck. VibeBrowser connects Codex to your real, logged-in Chrome over MCP — the extension runs in your Chrome, and the relay connects Codex to it. One command. No CDP plumbing. Markdown output that keeps context small.',
   showDownloadButtons: true,
   features: [
     {
@@ -66,19 +66,19 @@ const config: ProfessionConfig = {
       icon: 'Globe',
       title: 'Pre-authenticated sessions',
       description:
-        'Transfer your logins once. Codex reaches GitHub, your CI dashboard, staging environments, and internal tooling — no re-auth, no CAPTCHA interruptions.',
+        'Codex works with the logins already in your Chrome. It reaches GitHub, your CI dashboard, staging environments, and internal tooling — no re-auth, no CAPTCHA interruptions.',
     },
     {
       icon: 'FileText',
       title: 'Markdown snapshots, not raw HTML',
       description:
-        'Codex gets clean structured content (~1–2 KB) instead of raw HTML (200–400 KB). Faster agent loops, lower token cost, no context overflow on multi-step tasks.',
+        'Codex gets clean structured markdown instead of raw HTML. Faster agent loops, less context spent on markup, no context overflow on multi-step tasks.',
     },
     {
-      icon: 'Cloud',
-      title: 'Cloud browser, always on',
+      icon: 'Chrome',
+      title: 'Your real, logged-in Chrome',
       description:
-        'The cloud browser runs 24/7. Codex can monitor builds, watch for failing tests, and check deploys overnight — no laptop required.',
+        'The extension runs in the Chrome you already use, and the relay connects Codex to it — your tabs, your logins, your machine.',
     },
     {
       icon: 'Lock',
@@ -108,11 +108,11 @@ const config: ProfessionConfig = {
         { kind: 'type', text: 'codex "open the failing CI run and tell me what broke"' },
         { kind: 'output', text: '⟡ Using vibebrowser tools...' },
         { kind: 'pause', ms: 400 },
-        { kind: 'output', text: 'Connecting to VibeBrowser Cloud...', lineKind: 'info' },
-        { kind: 'output', text: '✓ Session f8a2-91cd · IP 45.91.12.34 (us-east-1)\n✓ Navigated to github.com/alice/api/actions/runs/12847' },
+        { kind: 'output', text: 'Connecting to your Chrome via the VibeBrowser relay...', lineKind: 'info' },
+        { kind: 'output', text: '✓ Connected to your real Chrome\n✓ Navigated to github.com/alice/api/actions/runs/12847' },
         { kind: 'pause', ms: 400 },
         { kind: 'output', lineKind: 'md', text: '# GitHub Actions — Run #12847 ❌\n\n**test-suite** · failed after 3m 42s\n\n```\nFAIL src/auth/oauth.test.ts\n  ✕ should refresh expired token (48ms)\n    Expected: 200\n    Received: 401\n    at src/auth/oauth.test.ts:47\n```\n\n**2 passed** · **1 failed** · 0 skipped' },
-        { kind: 'output', text: '→ 520 B markdown (raw HTML was 195 KB — 99.7% smaller)', lineKind: 'info' },
+        { kind: 'output', text: '→ 520 B markdown (raw HTML was 195 KB)', lineKind: 'info' },
         { kind: 'pause', ms: 2800 },
       ] as Step[],
       Use: [
@@ -146,12 +146,12 @@ const config: ProfessionConfig = {
     {
       question: 'Can Codex use this to test a local dev server?',
       answer:
-        'Yes for local mode (free tier). Run npx @vibebrowser/mcp without --remote and VibeBrowser connects to your local Chrome, which can reach localhost. Cloud mode uses a cloud IP, so it can\'t reach your local dev server directly.',
+        'Yes. Run npx @vibebrowser/mcp without --remote and VibeBrowser connects to your local Chrome, which can reach localhost.',
     },
     {
       question: 'Why not just use Playwright with Codex?',
       answer:
-        'Playwright needs page-specific selectors, handles authentication separately, and returns full DOM/HTML. VibeBrowser is model-first: pre-authenticated, markdown output, zero selector boilerplate. Codex describes what it wants to see — VibeBrowser handles the rest.',
+        'Playwright needs page-specific selectors, handles authentication separately, and returns full DOM/HTML. VibeBrowser is model-first: it works in your logged-in Chrome, returns markdown output, zero selector boilerplate. Codex describes what it wants to see — VibeBrowser handles the rest.',
     },
     {
       question: 'Does it work with GPT-4o and other OpenAI models via API?',

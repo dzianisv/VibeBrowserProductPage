@@ -3,9 +3,9 @@ import ProfessionTemplate, { ProfessionConfig } from '@/components/profession-te
 import type { Step } from '@/components/cli-demo'
 
 export const metadata: Metadata = {
-  title: 'VibeBrowser for ChatGPT — Give ChatGPT a Real Cloud Browser',
+  title: 'VibeBrowser for ChatGPT — Give ChatGPT Your Real Chrome',
   description:
-    'Connect ChatGPT or OpenAI agents to a real, pre-authenticated browser via MCP. Navigate, click, fill forms, and get markdown snapshots — not 400 KB of raw HTML. $9/mo cloud or free local.',
+    'Connect ChatGPT or OpenAI agents to your real, logged-in Chrome via MCP. Navigate, click, fill forms, and get markdown snapshots — not raw HTML. Free $0, Pro $25/mo, Max $99/mo.',
   keywords: [
     'ChatGPT browser extension',
     'ChatGPT browser agent',
@@ -20,9 +20,9 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: 'https://www.vibebrowser.app/chatgpt' },
   openGraph: {
-    title: 'VibeBrowser for ChatGPT — Give ChatGPT a Real Cloud Browser',
+    title: 'VibeBrowser for ChatGPT — Give ChatGPT Your Real Chrome',
     description:
-      'Connect ChatGPT or OpenAI agents to a pre-authenticated cloud browser in one command. Markdown snapshots, not raw HTML. $9/mo.',
+      'Connect ChatGPT or OpenAI agents to your real, logged-in Chrome in one command. Markdown snapshots, not raw HTML. Free $0, Pro $25/mo, Max $99/mo.',
     url: 'https://www.vibebrowser.app/chatgpt',
   },
 }
@@ -31,7 +31,7 @@ const config: ProfessionConfig = {
   slug: 'chatgpt',
   name: 'ChatGPT Users',
   title: 'Give ChatGPT a Real Browser',
-  subtitle: 'ChatGPT + cloud browser = agent that operates your web workflows end-to-end',
+  subtitle: 'ChatGPT + your real Chrome = agent that operates your web workflows end-to-end',
   gradient: 'from-green-950 via-emerald-900 to-green-950',
   gradientFrom: 'from-green-950',
   gradientVia: 'via-emerald-900',
@@ -49,7 +49,7 @@ const config: ProfessionConfig = {
     'Dashboard Checks',
   ],
   description:
-    'ChatGPT reasons well — but it hits a wall the moment it needs to log into a site, fill a form, or navigate a real SaaS dashboard. VibeBrowser connects ChatGPT or any OpenAI-powered agent to a pre-authenticated cloud browser over MCP. One command, zero Playwright boilerplate, markdown output that keeps context lean.',
+    'ChatGPT reasons well — but it hits a wall the moment it needs to log into a site, fill a form, or navigate a real SaaS dashboard. VibeBrowser connects ChatGPT or any OpenAI-powered agent to your real, logged-in Chrome over MCP — the extension runs in your Chrome, and the relay connects the agent to it. One command, zero Playwright boilerplate, markdown output that keeps context lean.',
   showDownloadButtons: true,
   features: [
     {
@@ -62,19 +62,19 @@ const config: ProfessionConfig = {
       icon: 'Globe',
       title: 'Pre-authenticated sessions',
       description:
-        'Transfer your logins once. ChatGPT reaches Gmail, LinkedIn, Salesforce, HubSpot, and any site you\'re already signed into — without re-auth or CAPTCHA interruptions.',
+        'ChatGPT works with the logins already in your Chrome. It reaches Gmail, LinkedIn, Salesforce, HubSpot, and any site you\'re already signed into — without re-auth or CAPTCHA interruptions.',
     },
     {
       icon: 'FileText',
       title: 'Markdown snapshots, not raw HTML',
       description:
-        'Every page snapshot returns clean markdown (~1–2 KB) instead of raw HTML (200–400 KB). ChatGPT\'s context window stays focused on reasoning; token costs drop by 99%+.',
+        'Every page snapshot returns clean markdown instead of raw HTML. ChatGPT\'s context window stays focused on reasoning, not markup.',
     },
     {
-      icon: 'Cloud',
-      title: 'Cloud browser, always on',
+      icon: 'Chrome',
+      title: 'Your real, logged-in Chrome',
       description:
-        'Sessions run in the cloud 24/7. ChatGPT workflows keep running overnight, on a schedule, or while your machine is off — without needing your laptop open.',
+        'The extension runs in the Chrome you already use, and the relay connects ChatGPT to it — your tabs, your logins, your machine.',
     },
     {
       icon: 'Code',
@@ -110,11 +110,11 @@ const config: ProfessionConfig = {
         { kind: 'type', text: '# agent prompt: "summarize my unread Gmail and draft replies"' },
         { kind: 'output', text: '⟡ Using vibebrowser tools...' },
         { kind: 'pause', ms: 400 },
-        { kind: 'output', text: 'Connecting to VibeBrowser Cloud...', lineKind: 'info' },
-        { kind: 'output', text: '✓ Session f8a2-91cd · IP 45.91.12.34 (us-east-1)\n✓ Navigated to mail.google.com · logged in as alice@example.com' },
+        { kind: 'output', text: 'Connecting to your Chrome via the VibeBrowser relay...', lineKind: 'info' },
+        { kind: 'output', text: '✓ Connected to your real Chrome\n✓ Navigated to mail.google.com · logged in as alice@example.com' },
         { kind: 'pause', ms: 400 },
         { kind: 'output', lineKind: 'md', text: '# Gmail — Inbox\n\n**6 unread messages**\n\n- **Acme Corp** · Proposal feedback — ready to discuss · 11:30am\n- **GitHub** · PR #42 approved · 10:15am\n- **Stripe** · Invoice #3091 paid ($1,200) · 9:02am\n\n[Compose] [Inbox 6] [Sent]' },
-        { kind: 'output', text: '→ 940 B markdown (raw HTML was 355 KB — 99.7% smaller)', lineKind: 'info' },
+        { kind: 'output', text: '→ 940 B markdown (raw HTML was 355 KB)', lineKind: 'info' },
         { kind: 'pause', ms: 2800 },
       ] as Step[],
       Use: [
@@ -142,7 +142,7 @@ const config: ProfessionConfig = {
     {
       question: 'How is this different from ChatGPT\'s built-in browsing?',
       answer:
-        'ChatGPT\'s built-in web browsing fetches public pages — it can\'t log into your Gmail, navigate your Salesforce account, or fill forms on your behalf. VibeBrowser adds real, pre-authenticated browser control over your personal accounts and SaaS tools.',
+        'ChatGPT\'s built-in web browsing fetches public pages — it can\'t log into your Gmail, navigate your Salesforce account, or fill forms on your behalf. VibeBrowser adds real browser control in your logged-in Chrome, over your personal accounts and SaaS tools.',
     },
     {
       question: 'Will ChatGPT / OpenAI see my passwords?',
