@@ -19,12 +19,12 @@ const nextConfig = {
       // the integration catalog; these are the links we put in posts and docs.
       {
         source: '/Claude',
-        destination: '/integrations/claude-connector',
+        destination: '/claude',
         permanent: true,
       },
       {
         source: '/Dots',
-        destination: '/integrations/dots',
+        destination: '/dots',
         permanent: true,
       },
       {
@@ -39,7 +39,7 @@ const nextConfig = {
       },
       {
         source: '/OpenClaw',
-        destination: '/integrations/openclaw',
+        destination: '/openclaw',
         permanent: true,
       },
       {
