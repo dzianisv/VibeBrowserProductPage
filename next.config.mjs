@@ -18,16 +18,6 @@ const nextConfig = {
       // Short, memorable agent-setup URLs. The canonical instructions live in
       // the integration catalog; these are the links we put in posts and docs.
       {
-        source: '/Claude',
-        destination: '/claude',
-        permanent: true,
-      },
-      {
-        source: '/Dots',
-        destination: '/dots',
-        permanent: true,
-      },
-      {
         source: '/GrokBots',
         destination: '/integrations/grokbots',
         permanent: true,
@@ -35,11 +25,6 @@ const nextConfig = {
       {
         source: '/integrations/muse-connector',
         destination: '/muse',
-        permanent: true,
-      },
-      {
-        source: '/OpenClaw',
-        destination: '/openclaw',
         permanent: true,
       },
       {
@@ -71,6 +56,18 @@ const nextConfig = {
   },
   async rewrites() {
     return [
+      {
+        source: '/Claude',
+        destination: '/claude',
+      },
+      {
+        source: '/Dots',
+        destination: '/dots',
+      },
+      {
+        source: '/OpenClaw',
+        destination: '/openclaw',
+      },
       {
         source: '/ingest/static/:path*',
         destination: 'https://us-assets.i.posthog.com/static/:path*',
