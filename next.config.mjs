@@ -33,8 +33,8 @@ const nextConfig = {
         permanent: true,
       },
       {
-        source: '/muse',
-        destination: '/integrations/muse-connector',
+        source: '/integrations/muse-connector',
+        destination: '/muse',
         permanent: true,
       },
       {
