@@ -1194,20 +1194,20 @@ export const INTEGRATIONS: Integration[] = [
     featured: false,
     title: 'VibeBrowser MCP for Muse — Connect Muse (Meta AI) to Your Browser',
     description:
-      'Connect Muse to your real Chrome with the VibeBrowser MCP connector: send Muse one prompt, paste your session ID on the secure card, and find the connector in Settings → Connectors → Custom connectors.',
+      'Connect Muse (Meta AI) to your real Chrome with the VibeBrowser MCP connector: one message with your full connector URL — no API key, no authorization header, no second secret. Muse for Chrome is Meta’s agent in a side panel; VibeBrowser is the browser any agent can drive — Muse, Claude, ChatGPT, Codex — in your real logged-in Chrome.',
     h1: 'Give Muse control of your browser',
     tagline:
-      'Turn on Remote in the Vibe extension, send Muse one prompt, paste your session ID on the secure card — and Muse can use your real Chrome.',
+      'Turn on Remote in the Vibe extension, copy your full MCP connector URL, send Muse one message — and Muse can use your real Chrome. The URL is the whole credential: no API key, no header, no second secret.',
     answerBlock:
-      'You connect Vibe Browser to Muse from chat: send Muse the prompt on this page — it contains no secret — then paste your session ID, the part at the end of the MCP connector URL in the extension, on the secure card Muse shows you. Muse adds Vibe Browser as a custom connector. It then lives in the Muse app under Settings → Connectors → Custom connectors, and Muse can open, read, and act on pages in your real Chrome.',
+      'Claude for Chrome, ChatGPT for Chrome and Muse for Chrome each put one vendor’s agent in your browser. VibeBrowser is different: it is one browser that any agent can drive. Connect Muse to it from chat — copy your full MCP connector URL from the Vibe extension (Settings → AI Agent Control, Connection mode Remote) and send Muse the message on this page with your URL in it. The session ID is already in the URL path, so the connector needs no API key, no authorization header and no other secret. Muse adds Vibe Browser as a custom connector; it then lives in the Muse app under Settings → Connectors → Custom connectors, and Muse can open, read, and act on pages in your real Chrome. The same browser also connects to Claude, ChatGPT, Codex and other MCP agents, runs local on-device models, and never locks you to one AI vendor.',
     problem: [
       'Muse can chat, but it cannot open your pages or act on the web for you.',
       'Muse lists connectors in Settings, but there is no add form — the connector is created from chat, and most people never find the way in.',
     ],
     solution: [
-      'You send Muse one prompt and paste the session ID once, on the secure card — Muse builds the connector for you.',
+      'One message is the whole setup: your full connector URL is in it, and Muse builds the connector for you — no API key, no authorization header, no second secret.',
       'The connector appears in Settings → Connectors → Custom connectors, where you can view and manage it.',
-      'After that, Muse works inside the Chrome you are already logged into.',
+      'After that, Muse works inside the Chrome you are already logged into — and the same browser stays open to Claude, ChatGPT, Codex and local models, not just one vendor’s agent.',
     ],
     steps: [
       {
@@ -1225,31 +1225,22 @@ export const INTEGRATIONS: Integration[] = [
         },
       },
       {
-        title: 'Find your session ID in the extension',
+        title: 'Copy your full MCP connector URL',
         body:
-          'In the Relay access box, find "MCP connector URL (HTTPS)". Your session ID is the part at the end of that URL, after /mcp/. Keep this settings page open — in step 5 you paste that ID once, on Muse\u2019s secure card. Never paste it into a chat.',
+          'In the Relay access box, find "MCP connector URL (HTTPS)" and copy the whole URL — it ends with your session ID, the segment after /mcp/. In the next step you paste it into the message: replace <session-id> with that segment, or paste the whole URL over the template URL. The URL is the whole credential — anyone who holds it can control your browser — which is why the extension masks it and offers Regenerate session.',
         image: {
           src: '/images/connectors/vibe-settings.png',
           alt: 'Relay access in the Vibe extension settings — the MCP connector URL field and its Copy button',
         },
       },
       {
-        title: 'Send Muse this prompt',
+        title: 'Send Muse one message',
         body:
-          'Open Muse and send the prompt below. It contains no secret. Muse replies with a secure credential card for the key — that card is the next step. Once the connector is added, Muse checks it by listing your tabs.',
+          'Open Muse and send the message below with your session ID filled in. That one message is the whole setup: the session ID is already in the URL path, so Muse needs no API key, no authorization header and no other secret — and it will not ask you for one. Once the connector is added, Muse checks it by listing your tabs.',
         config: {
           location: 'Paste into a Muse chat',
           language: 'bash',
-          code: 'Add a custom connector named "Vibe Browser" for the Vibe Browser MCP server. The server host is relay.api.vibebrowser.app, and my session ID is sent in the X-Remote-Session header \u2014 ask me for the session ID on the secure credential card, and I will paste it there. Once it is connected, list my open browser tabs to check it works, and do not click or change anything yet.',
-        },
-      },
-      {
-        title: 'Paste the session ID on the card',
-        body:
-          'Muse shows an "Add custom connector" card for Vibebrowser with a single API key field. Paste only the session ID from step 3 — not the full URL — and tap Add. The name and host are already set from the prompt; the relay takes the bare ID in that field.',
-        image: {
-          src: '/images/connectors/muse-add-connector-card.png',
-          alt: 'Muse\u2019s Add custom connector card for Vibebrowser — a single API key field and an Add button',
+          code: 'Add a custom connector named "Vibe Browser" using this MCP server URL: https://relay.api.vibebrowser.app/mcp/<session-id> — the session ID is already in the URL path, so this connector needs no API key, no authorization header, and no other secret. Do not ask me for a credential. Once it is connected, list my open browser tabs to check it works, and do not click or change anything yet.',
         },
       },
       {
@@ -1267,20 +1258,24 @@ export const INTEGRATIONS: Integration[] = [
       tone: 'caveat',
       badge: 'Guide — verification pending',
       summary:
-        'The steps follow the Muse app as it works today: one prompt in chat, the session ID pasted on the secure Add custom connector card, then the connector listed under Settings → Connectors → Custom connectors. The screenshots on this page are from the real app and the real extension settings. A full end-to-end run with a live Muse account is still being verified, so treat this page as a guide.',
+        'The steps follow the Muse app as it works today: one message in chat carrying your full connector URL, then the connector listed under Settings → Connectors → Custom connectors. The screenshots on this page are from the real app and the real extension settings. A full end-to-end run with a live Muse account is still being verified, so treat this page as a guide.',
     },
     faqs: [
       {
         q: 'Where does the connector live in Muse?',
-        a: 'In the Muse app: Settings → Connectors → Custom connectors. There is no add form in Settings — the prompt in step 4 creates the connector, and it appears in that list, where you can view and manage it.',
+        a: 'In the Muse app: Settings → Connectors → Custom connectors. There is no add form in Settings — the message in step 4 creates the connector, and it appears in that list, where you can view and manage it.',
       },
       {
         q: 'Is the MCP connector URL a secret?',
-        a: 'Yes — the session ID is a key to your browser, so it only ever goes on Muse’s secure credential card, never into a chat. That is why the prompt on this page contains no URL and no key. If the ID ever leaks, open the Vibe extension settings → AI Agent Control, click Regenerate session, and send Muse the prompt again.',
+        a: 'Yes — the URL is the whole credential: anyone who holds it can control your browser, and there is no second secret, API key or header on top of it. That is why the extension masks the URL, and why you send it only to your own Muse. If the URL ever leaks, open the Vibe extension settings → AI Agent Control, click Regenerate session — the old URL stops working — and send Muse the message again with the new URL.',
       },
       {
         q: 'What can Muse do once it is connected?',
         a: 'List your tabs, open and read pages, click, type, fill forms, and take screenshots — in your real Chrome, including pages where you are logged in. A good first task is a read-only one: ask Muse to summarize the page you have open.',
+      },
+      {
+        q: 'How is VibeBrowser different from Claude for Chrome, ChatGPT for Chrome, or Muse for Chrome?',
+        a: 'Each of those is one vendor’s agent in your browser: Claude for Chrome is Anthropic’s Claude in a Chrome side panel, ChatGPT for Chrome lets OpenAI’s ChatGPT use your browser to complete tasks, and Muse for Chrome is Meta’s personal agent in a side panel. VibeBrowser is not another agent — it is the browser itself, exposed over MCP, so any agent can drive it: Muse, Claude, ChatGPT, Codex and more, in the Chrome you are already logged into. It also runs local on-device models and lets you choose your model and provider, so you are never locked to one AI vendor.',
       },
     ],
     keywords: [
@@ -1289,6 +1284,12 @@ export const INTEGRATIONS: Integration[] = [
       'connect muse to browser',
       'muse custom connector',
       'muse ai browser control',
+      'claude for chrome alternative',
+      'chatgpt for chrome alternative',
+      'muse for chrome alternative',
+      'ai browser agent',
+      'mcp browser',
+      'browser mcp server',
     ],
   },
   {
