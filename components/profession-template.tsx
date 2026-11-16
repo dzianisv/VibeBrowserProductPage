@@ -271,7 +271,7 @@ export default function ProfessionTemplate({ config }: ProfessionTemplateProps) 
                 Get Started in 30 Seconds
               </h2>
               <p className="text-slate-600 max-w-xl mx-auto">
-                One command wires up a cloud browser to your AI tool — then hand it any browser task.
+                One command connects your AI tool to your real, logged-in Chrome — then hand it any browser task.
               </p>
             </div>
             <div className="max-w-4xl mx-auto">
