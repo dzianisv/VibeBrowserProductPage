@@ -82,6 +82,14 @@ jobs:
       - name: Build (OpenNext → Cloudflare Worker)
         run: npx opennextjs-cloudflare build
 
+      # Fails the build if ANY fetched .mp4/.webm is a Git LFS pointer or
+      # implausibly small. The media fetch fails open in some paths, so
+      # without this guard a bad fetch would silently ship 130-byte pointer
+      # files to users instead of erroring. Runs before the deploy so a bad
+      # build never reaches production. (Same guard the Vercel flow ran.)
+      - name: Media pointer guard
+        run: node scripts/media-assets.cjs verify root
+
       - name: Deploy Worker
         run: npx wrangler deploy
         env:
@@ -103,15 +111,16 @@ jobs:
           echo "Production homepage did not serve expected content"
           exit 1
 
-      # Notify IndexNow (Bing/Yandex/etc.) that the sitemap changed.
-      # Non-fatal: indexing notification must never fail a deploy.
-      - name: Ping IndexNow
-        continue-on-error: true
+      # Submits the live sitemap URLs to IndexNow (Bing/Yandex) for instant
+      # indexing. Runs AFTER the deploy + smoke test so we never announce a
+      # URL before it is actually reachable. INDEXNOW_REQUIRED=1 makes a
+      # missing key or a failed submission fail the run loudly (this step
+      # once silently no-opped for months when the key was out of scope).
+      # The script's production gate reads VERCEL_ENV or, failing that,
+      # NODE_ENV=production — the latter is what this workflow passes.
+      - name: IndexNow ping
+        run: npm run indexnow:ping
         env:
           INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
-        run: |
-          if [ -z "$INDEXNOW_KEY" ]; then echo "INDEXNOW_KEY not set, skipping"; exit 0; fi
-          curl -sS -X POST "https://api.indexnow.org/indexnow" \
-            -H "Content-Type: application/json; charset=utf-8" \
-            -d "{\"host\":\"www.vibebrowser.app\",\"key\":\"$INDEXNOW_KEY\",\"keyLocation\":\"https://www.vibebrowser.app/$INDEXNOW_KEY.txt\",\"urlList\":[\"https://www.vibebrowser.app/sitemap.xml\"]}" \
-            -w "\nIndexNow HTTP %{http_code}\n" || true
+          INDEXNOW_REQUIRED: '1'
+          NODE_ENV: production
