@@ -92,6 +92,7 @@ rm -rf node_modules/sharp node_modules/@img   # native binaries break the OpenNe
 node scripts/media-assets.cjs fetch root      # demo videos/posters from the public CDN repo into public/
 node scripts/generate-blog-content.mjs        # regenerate shared/blog/posts.generated.ts (Workers has no fs)
 npx opennextjs-cloudflare build               # Next build + OpenNext bundle -> .open-next/
+node scripts/media-assets.cjs verify root     # pointer guard over .open-next/assets (fails the run on LFS pointers)
 npx wrangler deploy                           # upload Worker + assets, using wrangler.jsonc
 # then: production smoke test (homepage) + IndexNow ping
 ```
