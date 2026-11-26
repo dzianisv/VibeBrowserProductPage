@@ -80,7 +80,10 @@ const APPS = {
   root: {
     strip: ['public'],
     assets: [],
-    outputDirs: ['.vercel/output'],
+    // Build output of the root app. Since the 2026-11-26 Cloudflare
+    // migration this is the OpenNext bundle's static-assets dir
+    // (was .vercel/output under the retired Vercel build).
+    outputDirs: ['.open-next/assets'],
   },
 
   /**
