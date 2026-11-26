@@ -1,114 +1,66 @@
 # Deployment Configuration
 
+**Canonical deploy doc: [docs/deploy.md](docs/deploy.md).** This file is the
+short version.
+
 ## Automatic Deployment with GitHub Actions
 
-This project automatically deploys to Vercel production on every push to the `main` branch.
+This project deploys to a **Cloudflare Worker** (`vibebrowser-web`) on every
+push to the `main` branch, via `.github/workflows/deploy.yml`
+("Deploy to Cloudflare"). Vercel was retired for this site on 2026-11-26
+(Hobby tier paused the commercial deployment, HTTP 402
+`DEPLOYMENT_DISABLED`).
 
 ### Required GitHub Secrets
 
-Add these secrets to your GitHub repository (Settings → Secrets and variables → Actions):
-
-1. **VERCEL_TOKEN**
-   - Get from: https://vercel.com/account/tokens
-   - Create a new token with full access
-
-2. **VERCEL_ORG_ID**
-   - Value: `team_vF4d4Phgfv1IqW1MEZw7mBre`
-   - Found in `.vercel/project.json`
-
-3. **VERCEL_PROJECT_ID**
-   - Value: `prj_bzU6UmuJD6pyGq0stlYgtcU2zn91`
-   - Found in `.vercel/project.json`
+1. **CLOUDFLARE_API_TOKEN** — Cloudflare API token with Workers/DNS access.
+   Backup copy: Bitwarden Secrets Manager, project `shared_infra`.
+2. **CLOUDFLARE_ACCOUNT_ID** — `c52033a95d560a9a183b016ceb1c107a`.
 
 ### How It Works
 
-1. Push code to `main` branch
-2. GitHub Actions workflow triggers automatically
-3. Builds the project with Vercel CLI
-4. Deploys to production environment
-5. Creates deployment status in GitHub
+1. Push code to `main`
+2. GitHub Actions: `npm ci`, drop `sharp` (unbundleable native module),
+   fetch media assets from the CDN repo, regenerate the bundled blog
+   content, `opennextjs-cloudflare build`, `wrangler deploy`
+3. Smoke test against https://www.vibebrowser.app + IndexNow ping
+
+### Runtime Environment (on the Worker, not GitHub)
+
+Set with `wrangler secret put` / `wrangler.jsonc` vars:
+
+- `BREVO_API_KEY` (secret) — Brevo v3 API key. Required: the waitlist and
+  mailing-list server actions in `actions/waitlist.ts` read it at request
+  time. Without it signups return "Brevo is not configured".
+- `BREVO_LIST_ID` (var, `3`) — numeric id of the Brevo waitlist contact list.
+- `WAITLIST_SNAPSHOT_TOKEN` (secret) — auth for `/api/waitlist/count`.
+  Same value as the GitHub secret of the same name; backup in Bitwarden
+  Secrets Manager (`shared_infra`, `VIBEBROWSER_WAITLIST_SNAPSHOT_TOKEN`).
+- `RESEND_API_KEY` (optional, currently unset) — internal "new signup"
+  notification email.
+- `NEXT_PRIVATE_MINIMAL_MODE=1` (var) — required by the OpenNext adapter;
+  see the gotchas in docs/deploy.md before touching it.
+- Optional Honeycomb/OpenTelemetry: `OTEL_SERVICE_NAME`,
+  `OTEL_EXPORTER_OTLP_PROTOCOL` (`http/protobuf`),
+  `OTEL_EXPORTER_OTLP_ENDPOINT` (e.g. `https://api.honeycomb.io`),
+  `OTEL_EXPORTER_OTLP_HEADERS`. Telemetry routes return `202` when enabled;
+  instrumentation loads the exporter lazily (see docs/deploy.md).
 
 ### Manual Deployment
 
-If needed, you can still deploy manually:
-
 ```bash
-vercel --prod
+export CLOUDFLARE_API_TOKEN=... CLOUDFLARE_ACCOUNT_ID=c52033a95d560a9a183b016ceb1c107a
+npm ci && rm -rf node_modules/sharp node_modules/@img
+node scripts/media-assets.cjs fetch root
+node scripts/generate-blog-content.mjs
+npx opennextjs-cloudflare build && npx wrangler deploy
 ```
 
-### Environment Variables
-
-Ensure these are configured in Vercel dashboard:
-- `BREVO_API_KEY` — Brevo v3 API key. Required: the waitlist and mailing-list
-  server actions in `actions/waitlist.ts` read it at request time. Without it
-  signups return "Brevo is not configured".
-- `BREVO_LIST_ID` — numeric id of the Brevo waitlist contact list.
-- `RESEND_API_KEY` (optional) — internal "new signup" notification email.
-- `GIT_LFS_ENABLED` (set to `1` so Vercel pulls LFS video assets)
-- Optional Honeycomb/OpenTelemetry:
-  - `OTEL_SERVICE_NAME` (example: `vibebrowser-product-page`)
-  - `OTEL_EXPORTER_OTLP_PROTOCOL` (recommended: `http/protobuf`)
-  - `OTEL_EXPORTER_OTLP_ENDPOINT` (example: `https://api.honeycomb.io`)
-  - `OTEL_EXPORTER_OTLP_HEADERS` (Honeycomb Environments example: `x-honeycomb-team=YOUR_API_KEY`)
-
-For Honeycomb in the US region, these Vercel CLI commands are enough:
-
-```bash
-printf 'vibebrowser-product-page' | vercel env add OTEL_SERVICE_NAME production
-printf 'http/protobuf' | vercel env add OTEL_EXPORTER_OTLP_PROTOCOL production
-printf 'https://api.honeycomb.io' | vercel env add OTEL_EXPORTER_OTLP_ENDPOINT production
-printf 'x-honeycomb-team=YOUR_API_KEY' | vercel env add OTEL_EXPORTER_OTLP_HEADERS production
-```
-
-If you use Honeycomb EU, replace the endpoint with `https://api.eu1.honeycomb.io`.
-If you still use Honeycomb Classic, append `,x-honeycomb-dataset=YOUR_DATASET` to `OTEL_EXPORTER_OTLP_HEADERS`.
-
-Telemetry emitted by this app is intentionally narrow:
-- Web vitals (`CLS`, `FCP`, `FID`, `INP`, `LCP`, `TTFB`)
-- Product page events (`dialog_open`, `cta_click`, `generate_lead`)
-- Path-only URLs; query strings, form contents, and raw user-agent are not sent to Honeycomb
-
-Store production secrets in the Vercel dashboard or ignored local files such as `.env.local`. Do not commit `.env.prod` or other secret-bearing env files to Git.
-
-### Verifying Honeycomb Telemetry
-
-After adding the env vars, redeploy so the server picks them up:
-
-```bash
-vercel --prod
-```
-
-Then confirm the telemetry routes are active:
-
-```bash
-curl -i -X POST https://www.vibebrowser.app/api/telemetry/web-vitals \
-  -H 'Content-Type: application/json' \
-  --data '{"id":"verify","name":"LCP","delta":123,"value":123,"rating":"good","navigationType":"navigate","pathname":"/","href":"https://www.vibebrowser.app/"}'
-
-curl -i -X POST https://www.vibebrowser.app/api/telemetry/events \
-  -H 'Content-Type: application/json' \
-  --data '{"eventName":"dialog_open","pathname":"/","properties":{"dialog_name":"waitlist_dialog"}}'
-```
-
-Both routes should return `202` when Honeycomb is enabled.
-
-### Git LFS Video Assets
-
-If video demos are not loading in production, Vercel may be serving Git LFS pointer files instead of real binaries.
-
-**Fix:**
-- Ensure `GIT_LFS_ENABLED=1` is set for Production/Preview/Development and redeploy (clear build cache).
-- For GitHub Actions deployments, make sure the checkout step pulls LFS objects (`lfs: true`).
-- For CLI/manual deployments, run `git lfs pull` before `vercel build`.
-
-**Verify (body check):**
-```bash
-curl -s https://vibebrowser.app/linkedin-demo.mp4 | head -n 2
-# Should NOT show: version https://git-lfs.github.com/spec/v1
-```
+Run wrangler from the repo root — it reads `wrangler.jsonc` from the
+current directory.
 
 ### Monitoring Deployments
 
-- Check Actions tab in GitHub for deployment status
-- View deployment history in Vercel dashboard
+- GitHub Actions tab ("Deploy to Cloudflare" runs)
+- Cloudflare dashboard → Workers → `vibebrowser-web`
 - Production URL: https://www.vibebrowser.app

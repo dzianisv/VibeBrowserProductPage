@@ -73,6 +73,7 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
+    "@opennextjs/cloudflare": "^1.20.19",
     "@tailwindcss/typography": "^0.5.19",
     "@types/node": "^22",
     "@types/react": "^19",
@@ -84,7 +85,8 @@
     "puppeteer": "^25.8.0",
     "tailwindcss": "^3.4.17",
     "tailwindcss-animate": "^1.0.7",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "^4.168.0"
   },
   "overrides": {
     "dompurify": "^3.4.17",

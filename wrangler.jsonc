@@ -1,0 +1,35 @@
+{
+  // VibeBrowser marketing site (vibebrowser.app) — Next.js app deployed as a
+  // Cloudflare Worker via OpenNext (@opennextjs/cloudflare). Replaced the
+  // Vercel deployment 2026-11-26 (Vercel Hobby disabled the project:
+  // HTTP 402 DEPLOYMENT_DISABLED). See DEPLOYMENT.md.
+  "name": "vibebrowser-web",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2025-11-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "images": {
+    "binding": "IMAGES"
+  },
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    "BREVO_LIST_ID": "3",
+    // OpenNext runs proxy.ts as its external middleware bundle; the Next
+    // server must then run in minimal mode and consume the middleware's
+    // matched-path headers instead of loading middleware-manifest.json
+    // itself — that dynamic require() does not exist on Workers and 500s
+    // every route (opennextjs-cloudflare issue #1232).
+    "NEXT_PRIVATE_MINIMAL_MODE": "1"
+  },
+  // Custom domains are attached per-host at deploy time (see DEPLOYMENT.md):
+  // vibebrowser.app, www, enterprise, teams, status, incognito.
+  // They are managed as Worker custom domains via the Cloudflare API /
+  // dashboard so this file stays identical across environments.
+  "env": {}
+}

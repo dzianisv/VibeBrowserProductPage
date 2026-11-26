@@ -23,10 +23,9 @@
  * remains as the external, out-of-band fail-closed check.
  */
 
-import { readFileSync } from 'node:fs'
-import path from 'node:path'
 import { generateStatusPayload } from '../scripts/generate-status.mjs'
 import type { StatusPayload } from './status'
+import endpointsConfigJson from '../data/status-endpoints.json' with { type: 'json' }
 
 const CACHE_TTL_MS = 60_000
 
@@ -34,8 +33,11 @@ let cached: { payload: StatusPayload; expiresAt: number } | null = null
 let inflight: Promise<StatusPayload> | null = null
 
 function loadEndpointsConfig() {
-  const endpointsPath = path.join(process.cwd(), 'data', 'status-endpoints.json')
-  return JSON.parse(readFileSync(endpointsPath, 'utf8'))
+  // Static import (bundled at build time) instead of a runtime fs read of
+  // process.cwd()/data/status-endpoints.json: the Cloudflare Workers runtime
+  // has no filesystem, so the old readFileSync path threw there. The CLI entry
+  // in scripts/generate-status.mjs keeps its own fs read for standalone use.
+  return endpointsConfigJson
 }
 
 export async function getCachedStatusPayload(nowMs: number = Date.now()): Promise<StatusPayload> {

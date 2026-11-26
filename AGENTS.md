@@ -6,7 +6,7 @@
 
 ## Git Identity
 
-Before making any commits, configure git to use the repository owner's identity so that Vercel deployment checks pass (Vercel rejects commits from unrecognized emails):
+Before making any commits, configure git to use the repository owner's identity:
 
 ```bash
 git config user.name "Den"
@@ -54,12 +54,15 @@ to any completion claim, even outside the `.tasks/` workflow.
 
 ## Quick Deploy & Test
 
-### 1. Deploy to Vercel
+### 1. Deploy to Cloudflare
 
-**Deploys run via GitHub Actions on push to `main`** (`.github/workflows/deploy.yml`).
-There is no Vercel native Git integration. That workflow ships **one** site:
+**Deploys run via GitHub Actions on push to `main`** (`.github/workflows/deploy.yml`,
+"Deploy to Cloudflare"). That workflow ships **one** site:
 
-- **vibebrowser.app** — repo root, `dzianisvs-projects` account, `VERCEL_*` secrets.
+- **vibebrowser.app** — repo root, built with the OpenNext adapter and deployed
+  as the Cloudflare Worker `vibebrowser-web`, `CLOUDFLARE_*` secrets.
+  Vercel was retired for this site on 2026-11-26 (Hobby tier paused the
+  commercial deployment with HTTP 402 `DEPLOYMENT_DISABLED`).
 
 **agentlabs.cc is not deployed from this repo.** VibeTechnologies/AgentPod-Web is
 the sole deployer (signed `v*` tags). `apps/agentlabs` source remains here, but
@@ -71,16 +74,16 @@ if one comes back.
 `AGENTLABS_VERCEL_TOKEN` / `AGENTLABS_VERCEL_ORG_ID`, different project
 `vars.OPENCODE_VERCEL_PROJECT_ID`).
 
-To ship vibebrowser.app: **push to `main`**. The local `vercel` CLI (logged in as
-`dzianisv`) cannot reach the bison team.
+To ship vibebrowser.app: **push to `main`**. (The local `vercel` CLI is only
+relevant to the bison-team sites, which `dzianisv` cannot reach anyway.)
 
 See **[docs/deploy.md](docs/deploy.md)** for full details, secrets, token rotation,
 and the Tailwind `shared/` gotcha.
 
 ### 2. Environment Variables
-Required in Vercel dashboard:
+Required on the Cloudflare Worker (`wrangler secret put` / `wrangler.jsonc` vars):
 - `BREVO_API_KEY` - Brevo v3 API key (waitlist + mailing list)
-- `BREVO_LIST_ID` - Numeric id of the Brevo waitlist contact list
+- `BREVO_LIST_ID` - Numeric id of the Brevo waitlist contact list (= 3)
 
 ### 3. Data Store
 No database. Brevo is the single source of truth for waitlist contacts;
@@ -140,8 +143,8 @@ npm run dev
 # Build check
 npm run build
 
-# Deploy & test
-vercel --prod && node scripts/test-layout.js
+# Deploy & test (manual; normally just push to main)
+npx opennextjs-cloudflare build && npx wrangler deploy && node scripts/test-layout.js
 ```
 
 ## Project Structure
@@ -253,8 +256,8 @@ Create `app/[slug]/opengraph-image.tsx` and `app/[slug]/twitter-image.tsx` for s
 ## Troubleshooting
 
 ### Waitlist not working?
-1. Check env vars: `vercel env ls`
-2. Check logs: `vercel logs`
+1. Check Worker secrets/vars: `wrangler secret list` (from the repo root)
+2. Check logs: `wrangler tail vibebrowser-web`
 3. Test database: `node scripts/test-waitlist.js`
 
 ### Layout broken?
