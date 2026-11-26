@@ -1,47 +1,56 @@
-name: Deploy to Vercel
+name: Deploy to Cloudflare
+
+# Production deploy of https://www.vibebrowser.app (plus the apex,
+# enterprise, teams, status and incognito hostnames, all attached to the
+# same Worker as custom domains).
+#
+# The site is a Next.js app with real server features (proxy.ts host
+# routing, API routes, dynamic /status.json), so it ships as a Cloudflare
+# Worker built with the OpenNext adapter (@opennextjs/cloudflare) — see
+# wrangler.jsonc and docs/deploy.md. Vercel was retired for this site on
+# 2026-11-26 (its Hobby tier paused the commercial deployment with
+# HTTP 402 DEPLOYMENT_DISABLED).
+#
+# Secrets of record (GitHub Actions repo secrets):
+#   CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID — wrangler deploy auth.
+#     The token value is backed up in Bitwarden Secrets Manager
+#     (shared_infra project, CLOUDFLARE_API_TOKEN).
+#   INDEXNOW_KEY — IndexNow ping after deploy.
+#   The Worker's own runtime secrets (BREVO_API_KEY, WAITLIST_SNAPSHOT_TOKEN)
+#   are set on the Worker itself via `wrangler secret put`, NOT here.
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
     paths-ignore:
       - 'OpenCodeMobileSite/**'
   workflow_dispatch:
 
+# Serialize production deploys: two pushes in quick succession must not race
+# (the second would upload while the first is mid-deploy). Queue, don't cancel.
 concurrency:
-  group: deploy-sites-${{ github.ref }}
+  group: deploy-cloudflare-production
   cancel-in-progress: false
+
+permissions:
+  contents: read
 
 jobs:
   deploy-production:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    permissions:
-      contents: read
+    environment: production
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
-          # vibebrowser.app serves NO local video bytes, so this checkout does
-          # not need the LFS objects (and pulling them exhausts the repo's
-          # 1 GB/month LFS bandwidth budget, which hard-fails every subsequent
-          # actions/checkout — see the LFS BUDGET GUARD in ci.yml).
-          #
-          # Two independent mechanisms keep local video out of the response path:
-          #   1. `.vercelignore` excludes `public/*.mp4` and `public/*.webm`, so
-          #      they are never uploaded to Vercel at all; and
-          #   2. `next.config.mjs` 307-redirects every `*.mp4`/`*.webm` request
-          #      to dl.agentlabs.cc. Next evaluates redirects BEFORE
-          #      the filesystem route that would serve `public/`.
-          # Verified live: https://www.vibebrowser.app/linkedin-demo.mp4 → 307 →
-          # dl.agentlabs.cc/media → 200, content-type video/mp4, length 5583900.
-          #
-          # `prebuild` (`git lfs pull || true`) fails OPEN, so the "Prepare media
-          # assets" + "Media pointer guard" steps below make this safe rather
-          # than merely lucky: the former deletes the pointer files outright, the
-          # latter fails the build if any video pointer reaches the output.
+          # LFS BUDGET GUARD (see ci.yml): the deploy never reads video bytes —
+          # root-site media is fetched from the release CDN in the step below,
+          # and this site serves no repo-tracked video.
           lfs: false
 
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+      - name: Setup Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: '22'
           cache: 'npm'
@@ -49,88 +58,60 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # Deletes the LFS pointer files left by `lfs: false`, so the build output
-      # is video-free BY DESIGN and the guard below is unambiguous.
-      - name: Prepare media assets
+      # sharp is an optionalDependency of next. Its native .node binaries
+      # cannot be bundled by the OpenNext/esbuild step ("No loader is
+      # configured for .node files") and fail the build. Next runs fine
+      # without it, and on Cloudflare the IMAGES binding (wrangler.jsonc)
+      # performs the image optimization instead.
+      - name: Remove sharp (unbundleable native module)
+        run: rm -rf node_modules/sharp node_modules/@img
+
+      # Root-site media (demo videos, og video poster) is served from the
+      # public CDN repo, not from git — fetch it into public/ before building
+      # so the pages' same-origin /videos/... URLs resolve. Same step the
+      # Vercel workflow ran. Fail-loud if the release is missing.
+      - name: Fetch root-site media assets
         run: node scripts/media-assets.cjs fetch root
 
-      - name: Pull Vercel project settings
-        run: npx --yes vercel@56.1.0 pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+      # The blog repository falls back to a build-time bundled copy of
+      # blog/*.md on runtimes without a filesystem (Workers). Regenerate it
+      # so a post merged in this push ships in this deploy.
+      - name: Generate bundled blog content
+        run: node scripts/generate-blog-content.mjs
+
+      - name: Build (OpenNext → Cloudflare Worker)
+        run: npx opennextjs-cloudflare build
+
+      - name: Deploy Worker
+        run: npx wrangler deploy
         env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
-      - name: Build
-        run: npx --yes vercel@56.1.0 build --prod --token=${{ secrets.VERCEL_TOKEN }}
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-
-      # Fails the build if ANY .mp4/.webm in the prebuilt output is a Git LFS
-      # pointer or implausibly small. `prebuild`'s `git lfs pull || true` fails
-      # open, so without this a misconfigured checkout would silently ship
-      # 130-byte pointers to users instead of erroring.
-      - name: Media pointer guard
-        run: node scripts/media-assets.cjs verify root
-
-      # Fail BEFORE any deploy/spend if the prebuilt output exceeds the Vercel
-      # Hobby-plan 12-Serverless-Function limit. Reuses the .vercel/output from
-      # the preceding Build step (--skip-build) instead of rebuilding, counting
-      # the real (non-symlink) *.func bundles. This ordering is deliberate: a
-      # future dedup regression must fail here, not surface as an opaque deploy.
-      - name: Check Vercel function budget
-        run: node scripts/check-vercel-function-budget.cjs --skip-build
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-
-      - name: Deploy prebuilt
-        id: deploy
+      # Post-deploy smoke test: fail the run (and surface it) if production is
+      # not actually serving the marketing homepage after the deploy.
+      - name: Smoke test production homepage
         run: |
-          set -euo pipefail
-          LOG="$RUNNER_TEMP/vercel-deploy.log"
-          npx --yes vercel@56.1.0 deploy --prebuilt --prod --archive=tgz \
-            --token=${{ secrets.VERCEL_TOKEN }} \
-            2>&1 | tee "$LOG"; EXIT=${PIPESTATUS[0]}
-          if [ "$EXIT" -ne 0 ]; then
-            echo "::error::vercel deploy failed with exit code $EXIT"
-            exit "$EXIT"
-          fi
-          URL=$(grep -Eo 'https://[[:alnum:].-]+\.vercel\.app' "$LOG" | tail -1)
-          if [ -z "$URL" ]; then
-            echo "::error::Vercel did not return a deployment URL"
-            exit 1
-          fi
-          echo "deployment_url=$URL" >> "$GITHUB_OUTPUT"
-          echo "Deployed: $URL"
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          for i in 1 2 3 4 5 6; do
+            if curl -fsS https://www.vibebrowser.app/ | grep -qi 'Vibe'; then
+              echo "Production homepage OK"
+              exit 0
+            fi
+            echo "Attempt $i failed, retrying in 10s..."
+            sleep 10
+          done
+          echo "Production homepage did not serve expected content"
+          exit 1
 
-      - name: Smoke test production
-        run: |
-          set -euo pipefail
-          curl --fail --location --show-error --silent \
-            --retry 5 --retry-delay 2 --retry-all-errors \
-            https://www.vibebrowser.app/ \
-            --output "$RUNNER_TEMP/vibebrowser-home.html"
-          grep -qi 'Vibe' "$RUNNER_TEMP/vibebrowser-home.html"
-
-      # Submits the live sitemap URLs to IndexNow (Bing/Yandex) for instant
-      # indexing. This runs AFTER the deploy + smoke test so we never announce
-      # a URL before it is actually reachable.
-      #
-      # This used to run as a `postbuild` hook inside `vercel build`, where
-      # INDEXNOW_KEY was never in scope — so every deploy silently logged
-      # "IndexNow: missing INDEXNOW_KEY, skipping" and nothing was ever
-      # submitted. INDEXNOW_REQUIRED=1 makes that failure loud instead.
-      - name: IndexNow ping
-        run: npm run indexnow:ping
+      # Notify IndexNow (Bing/Yandex/etc.) that the sitemap changed.
+      # Non-fatal: indexing notification must never fail a deploy.
+      - name: Ping IndexNow
+        continue-on-error: true
         env:
           INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
-          INDEXNOW_REQUIRED: '1'
-          VERCEL_ENV: production
-
-  # agentlabs.cc is deployed exclusively from VibeTechnologies/AgentPod-Web.
-  # Adding a deploy job here will be rejected by the CI guard
-  # scripts/check-agentlabs-deploy-guard.sh.
+        run: |
+          if [ -z "$INDEXNOW_KEY" ]; then echo "INDEXNOW_KEY not set, skipping"; exit 0; fi
+          curl -sS -X POST "https://api.indexnow.org/indexnow" \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -d "{\"host\":\"www.vibebrowser.app\",\"key\":\"$INDEXNOW_KEY\",\"keyLocation\":\"https://www.vibebrowser.app/$INDEXNOW_KEY.txt\",\"urlList\":[\"https://www.vibebrowser.app/sitemap.xml\"]}" \
+            -w "\nIndexNow HTTP %{http_code}\n" || true

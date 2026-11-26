@@ -1,8 +1,19 @@
 # Deployment
 
-`.github/workflows/deploy.yml` deploys **one site** — https://www.vibebrowser.app —
-on every push to `main` (plus manual `workflow_dispatch`). There is **no Vercel
-native Git integration**. Secrets are the source of truth for that deploy.
+`.github/workflows/deploy.yml` ("Deploy to Cloudflare") deploys **one site** —
+https://www.vibebrowser.app — on every push to `main` (plus manual
+`workflow_dispatch`). The site runs as a **Cloudflare Worker** named
+`vibebrowser-web`, built from this repo's Next.js app with the OpenNext
+adapter (`@opennextjs/cloudflare`). The apex `vibebrowser.app` plus the
+`enterprise`, `teams`, `status` and `incognito` subdomains are attached to
+the same Worker as custom domains (the app routes by hostname in
+`proxy.ts`, exactly as it did when one Vercel project served them all).
+
+**Vercel is retired for vibebrowser.app** (2026-11-26): Vercel's Hobby tier
+paused the commercial deployment with `HTTP 402 DEPLOYMENT_DISABLED`, and
+the site moved to Cloudflare (free for commercial use; DNS was already on
+Cloudflare). The old Vercel project still exists but serves nothing — no
+DNS record points at it. Do not re-add a Vercel deploy for this site.
 
 **https://agentlabs.cc is not deployed from this repo.** It is deployed
 exclusively from [VibeTechnologies/AgentPod-Web](https://github.com/VibeTechnologies/AgentPod-Web)
@@ -15,39 +26,45 @@ hostname in a `vercel ... --prod` deploy / alias command.
 
 This repo **does** still deploy https://opencode.agentlabs.cc. That is a
 different Vercel project, from `.github/workflows/deploy-opencode-mobile-site.yml`,
-not from `deploy.yml`.
+not from `deploy.yml`. It was not part of the vibebrowser.app migration.
 
-| Site | Vercel project | Vercel account/team | Root dir | CI job | Secrets |
-|------|----------------|---------------------|----------|--------|---------|
-| https://www.vibebrowser.app | `vibebrowser.app` | `dzianisvs-projects` | repo root | `deploy-production` | `VERCEL_*` |
-| https://opencode.agentlabs.cc | OpenCode mobile site (`vars.OPENCODE_VERCEL_PROJECT_ID`) | `bison-s-projects` (`team_b6V25Bg4KWMiEIfaa5s3nmFX`) | `OpenCodeMobileSite` | `deploy` in `deploy-opencode-mobile-site.yml` | `AGENTLABS_VERCEL_TOKEN`, `AGENTLABS_VERCEL_ORG_ID` |
+| Site | Host | Root dir | CI job | Secrets |
+|------|------|----------|--------|---------|
+| https://www.vibebrowser.app (+ apex, enterprise, teams, status, incognito) | Cloudflare Worker `vibebrowser-web` (account `c52033a95d560a9a183b016ceb1c107a`) | repo root | `deploy-production` in `deploy.yml` | `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID` |
+| https://opencode.agentlabs.cc | Vercel project (`vars.OPENCODE_VERCEL_PROJECT_ID`), team `bison-s-projects` (`team_b6V25Bg4KWMiEIfaa5s3nmFX`) | `OpenCodeMobileSite` | `deploy` in `deploy-opencode-mobile-site.yml` | `AGENTLABS_VERCEL_TOKEN`, `AGENTLABS_VERCEL_ORG_ID` |
 
 ## Accounts & where credentials live (read this first)
 
-Things that are non-obvious and have caused repeated confusion:
-
-- **Two Vercel accounts are involved.**
-  - `vibebrowser.app` → Vercel team **`dzianisvs-projects`** (login `dzianisv`). The
-    local `vercel` CLI on the dev machine is logged into this account.
-  - `opencode.agentlabs.cc` (and the apex project this repo must not deploy) →
-    Vercel team **`bison-s-projects`** / `team_b6V25Bg4KWMiEIfaa5s3nmFX`. This is
-    the **bison** account (`vibeteaichnologies@gmail.com`), a Hobby plan.
-    **`dzianisv` is NOT a member**, so `vercel --prod` from the local CLI fails
-    with "scope does not exist" / "Could not retrieve Project Settings".
-    opencode.agentlabs.cc ships **only via its CI workflow**. agentlabs.cc ships
-    **only from AgentPod-Web**, not from this CLI and not from this repo's CI.
-  - The browser (Chrome on the dev machine) IS logged into the bison Vercel
-    account — that's how the `AGENTLABS_VERCEL_TOKEN` was minted (Account →
-    Settings → Tokens).
-- **Secrets of record:** GitHub Actions repo secrets (`gh secret list`). Backup
-  copy in Bitwarden (account `vibeteaichnologies@gmail.com`, item
-  `agentlabs-vercel-token`).
+- **Cloudflare** (vibebrowser.app): one account, `c52033a95d560a9a183b016ceb1c107a`;
+  zone `vibebrowser.app` = `9f10b94c3422f57d10cc11c8539c0e6b`. The API token of
+  record is the GitHub Actions secret `CLOUDFLARE_API_TOKEN`; its backup copy
+  lives in Bitwarden Secrets Manager, project `shared_infra`, key
+  `CLOUDFLARE_API_TOKEN`. Note: that token can deploy Workers and edit DNS,
+  but the account-level Workers Domains API rejects it — attach custom
+  domains via the **zone-level** endpoint
+  (`PUT /zones/{zone_id}/workers/domains`) or the dashboard.
+- **Worker runtime secrets** are set on the Worker itself, not in GitHub:
+  `BREVO_API_KEY` and `WAITLIST_SNAPSHOT_TOKEN` (`wrangler secret put`).
+  `BREVO_LIST_ID=3` is a plain var in `wrangler.jsonc`. The snapshot token's
+  backup is in Bitwarden Secrets Manager (`shared_infra`,
+  `VIBEBROWSER_WAITLIST_SNAPSHOT_TOKEN`) and the same value is the GitHub
+  secret `WAITLIST_SNAPSHOT_TOKEN` used by the daily snapshot workflow —
+  rotate all three together.
+- **Vercel** (opencode.agentlabs.cc only): team **`bison-s-projects`** /
+  `team_b6V25Bg4KWMiEIfaa5s3nmFX`, the **bison** account
+  (`vibeteaichnologies@gmail.com`), a Hobby plan. `dzianisv` is NOT a member,
+  so that site ships **only via its CI workflow**. The retired vibebrowser.app
+  Vercel project lived in team `dzianisvs-projects`; its `VERCEL_*` GitHub
+  secrets are unused by any workflow now and can be deleted.
 
 ## GitHub secrets
 
 Set on the repo (`gh secret list`):
 
-- `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID` — vibebrowser.app project.
+- `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID` — vibebrowser.app Worker deploy.
+- `INDEXNOW_KEY` — post-deploy IndexNow ping (also used by the snapshot workflow).
+- `WAITLIST_SNAPSHOT_TOKEN` — auth for `/api/waitlist/count` (snapshot workflow).
+- `BREVO_API_KEY` — used by the waitlist snapshot/stats scripts.
 - `AGENTLABS_VERCEL_TOKEN` — no-expiration token from the **bison** Vercel account
   (Account → Settings → Tokens). Still required: opencode.agentlabs.cc deploys
   with this token.
@@ -67,17 +84,44 @@ printf '%s' '<new-token>' | gh secret set AGENTLABS_VERCEL_TOKEN --repo dzianisv
 
 ## How a deploy works
 
-vibebrowser.app (`deploy-production`) runs the Vercel prebuilt flow:
+vibebrowser.app (`deploy-production`) runs:
 
 ```bash
-npx vercel pull  --yes --environment=production --token=$TOKEN   # fetch project settings (incl. rootDirectory)
-npx vercel build --prod --token=$TOKEN                           # build the project's rootDirectory
-npx vercel deploy --prebuilt --prod --archive=tgz --token=$TOKEN # upload prebuilt output
+npm ci
+rm -rf node_modules/sharp node_modules/@img   # native binaries break the OpenNext/esbuild bundle; the IMAGES binding replaces sharp
+node scripts/media-assets.cjs fetch root      # demo videos/posters from the public CDN repo into public/
+node scripts/generate-blog-content.mjs        # regenerate shared/blog/posts.generated.ts (Workers has no fs)
+npx opennextjs-cloudflare build               # Next build + OpenNext bundle -> .open-next/
+npx wrangler deploy                           # upload Worker + assets, using wrangler.jsonc
+# then: production smoke test (homepage) + IndexNow ping
 ```
 
-opencode.agentlabs.cc uses the same prebuilt flow with `AGENTLABS_VERCEL_TOKEN`,
+opencode.agentlabs.cc uses the Vercel prebuilt flow with `AGENTLABS_VERCEL_TOKEN`,
 `AGENTLABS_VERCEL_ORG_ID`, and `vars.OPENCODE_VERCEL_PROJECT_ID`. It does not use
 `AGENTLABS_VERCEL_PROJECT_ID`.
+
+### Cloudflare build gotchas (each one cost a failed deploy — keep them)
+
+- **`NEXT_PRIVATE_MINIMAL_MODE=1` must stay set** (var in `wrangler.jsonc`).
+  OpenNext serves `proxy.ts` as an external middleware bundle; without
+  minimal mode the Next server tries to load the middleware manifest from
+  the bundle and every route 500s ("Dynamic require of
+  /.next/server/middleware-manifest.json is not supported" —
+  opennextjs-cloudflare issue #1232).
+- **No runtime filesystem.** Anything that read files at request time was
+  changed to bundle at build time: `lib/status-cache.ts` imports
+  `data/status-endpoints.json` statically, and the blog repository
+  (`shared/blog/repository.ts`) falls back to `shared/blog/posts.generated.ts`
+  when the `blog/` directory is not readable. If you add a new runtime file
+  read, bundle it the same way or it will silently return empty on Workers.
+- **`instrumentation.ts` lazy-loads `@vercel/otel`** (despite the name it is
+  just the OTEL SDK exporter): its static import chain requires
+  `node:perf_hooks`, which does not exist in Workers and crashed every
+  route. Keep the lazy import; telemetry stays off unless OTEL env is set.
+- **Image optimization** uses the `IMAGES` binding in `wrangler.jsonc`
+  (the one `next/image` page is `/opencode`). In `wrangler dev` the local
+  images simulation can 500 — production works; verify images on the real
+  deployment, not locally.
 
 ## apps/agentlabs source (not deployed from here)
 
@@ -112,9 +156,19 @@ layout breaks (tiny hero, crammed nav, squished spacing) while the build still
 
 ## Manual deploy (rarely needed)
 
-vibebrowser.app ships by pushing to `main`. opencode.agentlabs.cc ships when
-`OpenCodeMobileSite/**` changes, or via `workflow_dispatch` on
-`deploy-opencode-mobile-site.yml`.
+vibebrowser.app ships by pushing to `main`. For a manual deploy, from the
+repo root (run wrangler from the directory holding `wrangler.jsonc`):
+
+```bash
+export CLOUDFLARE_API_TOKEN=... CLOUDFLARE_ACCOUNT_ID=c52033a95d560a9a183b016ceb1c107a
+npm ci && rm -rf node_modules/sharp node_modules/@img
+node scripts/media-assets.cjs fetch root
+node scripts/generate-blog-content.mjs
+npx opennextjs-cloudflare build && npx wrangler deploy
+```
+
+opencode.agentlabs.cc ships when `OpenCodeMobileSite/**` changes, or via
+`workflow_dispatch` on `deploy-opencode-mobile-site.yml`.
 
 Do not deploy agentlabs.cc from this repo. That apex is owned by
 VibeTechnologies/AgentPod-Web.

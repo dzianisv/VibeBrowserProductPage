@@ -69,3 +69,7 @@ crash.*.log
 #   node scripts/media-assets.cjs fetch opencode-mobile
 *.mp4
 *.webm
+
+# Cloudflare / OpenNext build output
+.open-next/
+.wrangler/
